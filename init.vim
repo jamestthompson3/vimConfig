@@ -41,11 +41,13 @@ set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
+" removes whitespace
+autocmd BufWritePre * %s/\s\+$//e
 " matchup settings
 let g:matchup_transmute_enabled = 1
 let g:matchup_motion_enabled = 0
 " completion
-let g:deoplete#enable_at_startup = 1
+let g:asyncomplete_remove_duplicates = 1
 " Faster leader/f
 let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 " Org tools

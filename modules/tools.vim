@@ -22,7 +22,7 @@ let g:vimfiler_ignore_pattern = get(g:, 'vimfiler_ignore_pattern', [
 
 call vimfiler#custom#profile('custom', 'context', {
       \ 'explorer' : 1,
-      \ 'winwidth' : 30, 
+      \ 'winwidth' : 30,
       \ 'winminwidth' : 30,
       \ 'toggle' : 1,
       \ 'auto_expand': 1,
@@ -35,3 +35,24 @@ call vimfiler#custom#profile('custom', 'context', {
       \ 'no_quit' : 1,
       \ 'force_hide' : 0,
       \ })
+" Completion tools
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ }))
+
+"     \ 'whitelist': ['javascript'],
+"     \ 'completor': function('asyncomplete#sources#flow#completor'),
+"     \ 'config': {
+"     \    'prefer_local': 1,
+"     \    'flowbin_path': expand('~/bin/flow'),
+"     \    'show_typeinfo': 1
+"     \  },
+"     \ }))
+call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
+    \ 'name': 'tscompletejob',
+    \ 'whitelist': ['typescript', 'javascript'],
+    \ 'completor': function('asyncomplete#sources#tscompletejob#completor'),
+    \ }))

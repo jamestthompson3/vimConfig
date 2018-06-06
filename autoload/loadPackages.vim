@@ -11,7 +11,7 @@ let s:full_path = join(['\\.cache', 'vimfiles', 'repos', 'github.com', 'Shougo',
 let s:state_path = join(['\\.cache','dein'], s:file_separator)
 exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
  call dein#begin($HOME.s:state_path)
- call dein#load_dict({ 
+ call dein#load_dict({
   \ 'Quramy/vim-js-pretty-template': { 'on_ft': 'javascript' },
   \ 'Quramy/Tsuquyomi': {},
   \ 'mattn/emmet-vim': {},
@@ -38,9 +38,14 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'vim-airline/vim-airline': {},
   \ 'vim-airline/vim-airline-themes': {},
   \ 'Shougo/unite.vim': {},
-  \ 'Shougo/deoplete.nvim': {'on_cmd': 'InsertEnter', 'loadconf': 1 },
+  \ 'prabirshrestha/asyncomplete.vim': { 'lazy':0, 'on_path': '.*'},
+  \ 'prabirshrestha/asyncomplete-flow.vim': { 'lazy': 0, 'on_ft': 'javascript' },
+  \ 'prabirshrestha/async.vim': {},
+  \ 'prabirshrestha/asyncomplete-buffer.vim': { 'lazy': 0, 'on_path': '.*'},
+  \ 'runoshun/tscompletejob': { 'lazy': 0, 'on_path': '.*', 'on_ft': ['typescript', 'javscript' ] },
+  \ 'prabirshrestha/asyncomplete-tscompletejob.vim': { 'on_path': '.*', 'on_ft': [ 'typescript', 'javascript' ] },
+  \ 'elzr/vim-json': { 'on_ft' : ['javascript','json']}
 \ })
-
  call dein#end()
  call dein#save_state()
 
