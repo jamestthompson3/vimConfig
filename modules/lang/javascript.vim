@@ -2,6 +2,9 @@
 " Syntax Highlighting
 let g:jsx_ext_required = 0
 let g:vim_jsx_pretty_colorful_config = 1
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_plugin_flow = 1
 " TSS info
 let g:tsuquyomi_disable_quickfix = 1
 let g:tsuquyomi_shortest_import_path = 1

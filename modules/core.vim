@@ -1,0 +1,48 @@
+syntax enable
+filetype plugin indent on
+set autoindent
+" Automatically read a file changed outside of vim
+set autoread
+set undolevels=1000
+set wildmode=list:longest,full " gives tab completion lists in ex command area
+set shiftwidth=2 " indent code with two spaces
+set tabstop=2 " tabs take two spaces
+set softtabstop=2 " tabs take two spaces
+set expandtab " replace tabs with spaces
+set smarttab " pressing tab key in insert mode insert spaces
+set shiftround " round indent to multiples of shiftwidth
+set linebreak " do not break words.
+set backspace=indent,eol,start
+let g:data_dir = $HOME . '/.cache/Vim/'
+let g:backup_dir = g:data_dir . 'backup'
+let g:swap_dir = g:data_dir . 'swap'
+let g:undo_dir = g:data_dir . 'undofile'
+let g:conf_dir = g:data_dir . 'conf'
+if finddir(g:data_dir) ==# ''
+  silent call mkdir(g:data_dir, 'p', 0700)
+endif
+if finddir(g:backup_dir) ==# ''
+  silent call mkdir(g:backup_dir, 'p', 0700)
+endif
+if finddir(g:swap_dir) ==# ''
+  silent call mkdir(g:swap_dir, 'p', 0700)
+endif
+if finddir(g:undo_dir) ==# ''
+  silent call mkdir(g:undo_dir, 'p', 0700)
+endif
+if finddir(g:conf_dir) ==# ''
+  silent call mkdir(g:conf_dir, 'p', 0700)
+endif
+unlet g:data_dir
+unlet g:backup_dir
+unlet g:swap_dir
+unlet g:undo_dir
+unlet g:conf_dir
+set undodir=$HOME/.cache/Vim/undofile
+set backupdir=$HOME/.cache/Vim/backup
+set directory=$HOME/.cache/Vim/swap
+set noeb vb t_vb=
+au GUIEnter * set vb t_vb=
+" removes whitespace
+autocmd BufWritePre * %s/\s\+$//e
+

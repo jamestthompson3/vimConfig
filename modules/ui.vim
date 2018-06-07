@@ -1,14 +1,14 @@
+set rop=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1
-set guifont=Fira_Code_Retina:h10:cANSI:qDRAFT
+
+set guifont=Iosevka:h10:cANSI:qDRAFT
 " set vb t_vb=
-let g:Lf_StlColorscheme = "hybrid"
 set background=dark
+set number
 colorscheme hybrid_reverse
-let g:airline_theme = "hybrid"
-let g:airline_powerline_fonts = 1
-let g:webdevicons_enable = 1
+let g:Lf_StlColorscheme = "hybrid_reverse"
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
 :set guioptions-=r  "remove right-hand scroll bar
@@ -29,3 +29,31 @@ set wildignorecase
 set mouse=nv
 set hidden
 set ttimeout
+" airline
+let g:airline#extensions#branch#enabled = 1
+let g:airline_theme = "hybrid"
+let g:airline_powerline_fonts = 1
+let g:airline_section_b = '%{fugitive#head()}'
+ if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+  " unicode symbols
+  " let g:airline_left_sep = '»'
+  " let g:airline_left_sep = '▶'
+  " let g:airline_right_sep = '«'
+  " let g:airline_right_sep = '◀'
+  let g:airline_symbols.crypt = '🔒'
+  let g:airline_symbols.linenr = '☰'
+  let g:airline_symbols.linenr = '␊'
+  let g:airline_symbols.linenr = '␤'
+  " let g:airline_symbols.linenr = '¶'
+  let g:airline_symbols.maxlinenr = ''
+  let g:airline_symbols.maxlinenr = '㏑'
+  let g:airline_symbols.branch = '🎋'
+  let g:airline_symbols.paste = 'ρ'
+  let g:airline_symbols.paste = 'Þ'
+  let g:airline_symbols.paste = '∥'
+  let g:airline_symbols.spell = 'Ꞩ'
+  let g:airline_symbols.notexists = 'Ɇ'
+  let g:airline_symbols.whitespace = 'Ξ'
