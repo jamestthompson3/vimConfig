@@ -7,8 +7,8 @@ else
 endif
 
 " Add the dein installation directory into runtimepath
-let s:full_path = join(['\\.cache', 'vimfiles', 'repos', 'github.com', 'Shougo', 'dein.vim'], s:file_separator)
-let s:state_path = join(['\\.cache','dein'], s:file_separator)
+let s:full_path = join(['','.cache', 'vimfiles', 'repos', 'github.com', 'Shougo', 'dein.vim'], s:file_separator)
+let s:state_path = join(['','.cache','dein'], s:file_separator)
 exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
  call dein#begin($HOME.s:state_path)
  call dein#load_dict({

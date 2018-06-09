@@ -3,7 +3,12 @@ let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1
 
+  if has('win16') || has('win32') || has('win64')
 set guifont=Iosevka:h10:cANSI:qDRAFT
+else
+  set guifont=Iosevka\ 10
+endif
+
 " set vb t_vb=
 set background=dark
 set number
