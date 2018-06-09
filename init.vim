@@ -42,8 +42,8 @@ let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
       \ ['CANCELED(c)']]
 " Linting
 let g:ale_linters = {
-\   'javascript': ['eslint', 'flow'],
-\   'python': ['flaxe8', 'pylint'],
+\   'javascript': ['eslint', 'flow', 'tsserver'],
+\   'python': ['flake8', 'pylint'],
 \   'rust': ['rls', 'rustfmt'],
 \   'json': ['fixjson', 'jsonlint'],
 \   'vim': ['vint']

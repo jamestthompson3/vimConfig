@@ -1,8 +1,7 @@
 syntax enable
 filetype plugin indent on
 set autoindent
-" Automatically read a file changed outside of vim
-set autoread
+set autoread  " Automatically read a file changed outside of vim
 set undolevels=1000
 set wildmode=list:longest,full " gives tab completion lists in ex command area
 set shiftwidth=2 " indent code with two spaces
@@ -42,6 +41,18 @@ set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
 set noeb vb t_vb=
+if has("gui_running")
+  " GUI is running or is about to start.
+  set lines=1000 columns=1000
+else
+  " This is console Vim.
+  if exists("+lines")
+    set lines=50
+  endif
+  if exists("+columns")
+    set columns=100
+  endif
+endif
 au GUIEnter * set vb t_vb=
 " removes whitespace
 autocmd BufWritePre * %s/\s\+$//e
