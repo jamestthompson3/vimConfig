@@ -42,6 +42,7 @@ call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options
     \ 'blacklist': ['go'],
     \ 'completor': function('asyncomplete#sources#buffer#completor'),
     \ }))
+
 if executable('typescript-language-server')
     au User lsp_setup call lsp#register_server({
       \ 'name': 'typescript-language-server',
@@ -50,7 +51,7 @@ if executable('typescript-language-server')
       \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
       \ })
 endif
-au FileType js  flow_complete call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
+au FileType javascript  flow_complete call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \ 'name': 'flow',
     \ 'whitelist': ['javascript'],
     \ 'completor': function('asyncomplete#sources#flow#completor'),
@@ -60,10 +61,17 @@ au FileType js  flow_complete call asyncomplete#register_source(asyncomplete#sou
     \    'show_typeinfo': 1
     \  },
     \ }))
-au FileType js typescript_complete call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
+au FileType javascript typescript_complete call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
     \ 'name': 'tscompletejob',
     \ 'whitelist': ['typescript', 'javascript'],
     \ 'completor': function('asyncomplete#sources#tscompletejob#completor'),
     \ }))
 
-let g:FlyGrep_search_tools = ['rg','ag', 'grep']
+call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
+    \ 'name': 'tags',
+    \ 'whitelist': ['c'],
+    \ 'completor': function('asyncomplete#sources#tags#completor'),
+    \ 'config': {
+    \    'max_file_size': 50000000,
+    \  },
+    \ }))
