@@ -35,6 +35,8 @@ call vimfiler#custom#profile('custom', 'context', {
       \ 'no_quit' : 1,
       \ 'force_hide' : 0,
       \ })
+" Tags
+let g:gutentags_ctags_tagfile = ".git/tags"
 " Completion tools
 call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',

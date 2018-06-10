@@ -31,10 +31,9 @@ nnoremap <silent> <Leader>sp :call Search()<CR>
 nnoremap <silent> <Leader>fr :call SearchandReplace()<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 set wildchar=<Tab>
-" for  ctrlp
-let g:ctrlp_map = '<Leader><Leader>'
-let g:ctrlp_cmd = 'CtrlP'
-nnoremap <Leader>, :CtrlPBuffer<CR>
+"" for leader f
+let g:Lf_ShortcutF = '<Leader><Leader>'
+nnoremap <Leader>, :LeaderfBuffer<CR>
 " Quit window, quit and quit all other windows but current one
 nnoremap <silent> wq ZZ
 nnoremap <silent> q :bp\|bd #<CR>

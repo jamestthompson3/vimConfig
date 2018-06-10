@@ -27,7 +27,7 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'heavenshell/vim-jsdoc': { 'on_cmd': 'JsDoc' },
   \ 'Raimondi/delimitMate': { 'lazy': 0, 'on_path': '.*'},
   \ 'w0rp/ale':{},
-  \ 'ctrlpvim/ctrlp.vim': {},
+  \ 'Yggdroot/LeaderF': {'loadconf' : 1, 'merged' : 0, },
   \ 'Shougo/vimfiler.vim':{'merged' : 0, 'lazy': 0, 'on_path': '.*' },
   \  'andymass/vim-matchup':{},
   \ 'tpope/vim-projectionist':{ 'on_cmd' : ['A', 'AS', 'AV',

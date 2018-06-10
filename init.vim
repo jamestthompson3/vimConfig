@@ -34,11 +34,8 @@ let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 " completion
 let g:asyncomplete_remove_duplicates = 1
-" Faster ctrlP
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  'node_modules\|build\|lib\|\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+" Faster leaderf
+let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 " Org tools
 let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
       \ ['REPORT(r)', 'BUG(b)', 'KNOWNCAUSE(k)', '|', 'FIXED(f)'],
