@@ -4,8 +4,9 @@ function! s:open_vimfiler() abort
   silent VimFiler
 endfunction
 nnoremap <silent> <F3> :call <SID>open_vimfiler()<CR>
-
+" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:vimfiler_tree_opened_icon = get(g:, 'vimfiler_tree_opened_icon', '▼')
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:vimfiler_tree_closed_icon = get(g:, 'vimfiler_tree_closed_icon', '▷')
 let g:vimfiler_file_icon = get(g:, 'vimfiler_file_icon', '')
 let g:vimfiler_tree_leaf_icon = ''
@@ -35,40 +36,14 @@ call vimfiler#custom#profile('custom', 'context', {
       \ 'no_quit' : 1,
       \ 'force_hide' : 0,
       \ })
-" Tags
-let g:gutentags_ctags_tagfile = ".git/tags"
 " Completion tools
+
 call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
     \ 'whitelist': ['*'],
     \ 'blacklist': ['go'],
     \ 'completor': function('asyncomplete#sources#buffer#completor'),
     \ }))
-
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'typescript-language-server',
-      \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-      \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
-      \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
-      \ })
-endif
-au FileType javascript call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
-    \ 'name': 'flow',
-    \ 'whitelist': ['javascript'],
-    \ 'completor': function('asyncomplete#sources#flow#completor'),
-    \ 'config': {
-    \    'prefer_local': 1,
-    \    'flowbin_path': expand('~/bin/flow'),
-    \    'show_typeinfo': 1
-    \  },
-    \ }))
-" au FileType javascript call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
-"     \ 'name': 'tscompletejob',
-"     \ 'whitelist': ['typescript', 'javascript'],
-"     \ 'completor': function('asyncomplete#sources#tscompletejob#completor'),
-"     \ }))
-
 call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \ 'name': 'tags',
     \ 'whitelist': ['c'],

@@ -47,9 +47,8 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'prabirshrestha/asyncomplete-flow.vim': { 'on_ft': 'javascript' },
   \ 'prabirshrestha/async.vim': {},
   \ 'prabirshrestha/asyncomplete-buffer.vim': { 'lazy': 0, 'on_path': '.*'},
-  \ 'runoshun/tscompletejob': { 'on_ft': ['typescript', 'javscript' ] },
-  \ 'prabirshrestha/asyncomplete-tscompletejob.vim': { 'on_ft': [ 'typescript', 'javascript' ] },
   \ 'prabirshrestha/asyncomplete-tags.vim': {'lazy': 0, 'on_path': '.*'},
+  \ 'prabirshrestha/vim-lsp': {},
   \ 'elzr/vim-json': { 'on_ft' : ['javascript','json']}
 \ })
  call dein#end()
