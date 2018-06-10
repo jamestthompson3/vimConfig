@@ -51,7 +51,7 @@ if executable('typescript-language-server')
       \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
       \ })
 endif
-au FileType javascript  flow_complete call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
+au FileType javascript call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \ 'name': 'flow',
     \ 'whitelist': ['javascript'],
     \ 'completor': function('asyncomplete#sources#flow#completor'),
@@ -61,11 +61,11 @@ au FileType javascript  flow_complete call asyncomplete#register_source(asyncomp
     \    'show_typeinfo': 1
     \  },
     \ }))
-au FileType javascript typescript_complete call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
-    \ 'name': 'tscompletejob',
-    \ 'whitelist': ['typescript', 'javascript'],
-    \ 'completor': function('asyncomplete#sources#tscompletejob#completor'),
-    \ }))
+" au FileType javascript call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
+"     \ 'name': 'tscompletejob',
+"     \ 'whitelist': ['typescript', 'javascript'],
+"     \ 'completor': function('asyncomplete#sources#tscompletejob#completor'),
+"     \ }))
 
 call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \ 'name': 'tags',

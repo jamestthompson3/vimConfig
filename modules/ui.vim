@@ -30,8 +30,6 @@ set sidescrolloff=5
 set display+=lastline
 set incsearch
 set hlsearch
-set wildignorecase
-set mouse=nv
 set hidden
 set ttimeout
 " airline
@@ -40,7 +38,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = "hybrid"
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = '%{fugitive#head()}'
-let g:airline_section_z = ''
+let g:airline_section_z = '%{gutentags#statusline()}'
  if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif

@@ -3,6 +3,8 @@ filetype plugin indent on
 set autoindent
 set autoread  " Automatically read a file changed outside of vim
 set undolevels=1000
+set wildignorecase
+set mouse=nv
 set wildmode=list:longest,full " gives tab completion lists in ex command area
 set shiftwidth=2 " indent code with two spaces
 set tabstop=2 " tabs take two spaces
@@ -56,4 +58,10 @@ endif
 au GUIEnter * set vb t_vb=
 " removes whitespace
 autocmd BufWritePre * %s/\s\+$//e
-
+"" Ignore dist and build folders
+set wildignore+=*/dist*/**,*/target/**,*/build/**
+" Ignore libs
+set wildignore+=*/lib/**,*/node_modules/**,*/bower_components/**
+" Ignore images, pdfs, and font files
+set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf
+set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
