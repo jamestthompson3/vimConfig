@@ -14,16 +14,14 @@ let g:jsdoc_underscore_private = 1
 " Enable to use ECMAScript6's Shorthand function, Arrow function.
 let g:jsdoc_enable_es6 = 1
 let g:vim_json_syntax_conceal = 0
-augroup javascript_ide
-  autocmd!
-  " TODO fix js-lsp
- autocmd FileType javascript call lsp#register_server({
+
+call lsp#register_server({
       \ 'name': 'typescript-language-server',
       \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
       \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
       \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
       \ })
-  autocmd FileType javascript call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
+call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \ 'name': 'flow',
     \ 'whitelist': ['javascript'],
     \ 'completor': function('asyncomplete#sources#flow#completor'),
@@ -33,7 +31,7 @@ augroup javascript_ide
     \    'show_typeinfo': 1
     \  },
     \ }))
-  autocmd FileType javascript nnoremap <silent> gh :LspHover<CR>
-  autocmd FileType javascript nnoremap <silent> K :LspReferences<CR>
-augroup END
+nnoremap <silent> gh :LspHover<CR>
+nnoremap <silent> gl :pc<CR>
+nnoremap <silent> K :LspReferences<CR>
 
