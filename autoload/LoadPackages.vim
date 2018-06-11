@@ -15,15 +15,9 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'Quramy/vim-js-pretty-template': { 'on_ft': 'javascript' },
   \ 'mattn/emmet-vim': {},
   \ 'wakatime/vim-wakatime': {},
-  \ 'pangloss/vim-javascript': { 'on_ft': 'javascript'},
   \ 'kristijanhusak/vim-hybrid-material':{},
   \ 'styled-components/vim-styled-components': { 'on_ft': 'javascript' },
-  \ 'maxmellon/vim-jsx-pretty': { 'on_ft': 'javascript' },
   \ 'neoclide/vim-jsx-improve': { 'on_ft': 'javascript' },
-  \ 'othree/es.next.syntax.vim': { 'on_ft': 'javascript' },
-  \ 'othree/javascript-libraries-syntax.vim': {
-  \ 'on_ft': ['javascript', 'coffee', 'ls', 'typescript'] },
-  \ 'othree/yajs.vim': { 'on_ft': 'javascript' },
   \ 'heavenshell/vim-jsdoc': { 'on_cmd': 'JsDoc' },
   \ 'Raimondi/delimitMate': { 'lazy': 0, 'on_path': '.*'},
   \ 'w0rp/ale':{},
@@ -33,7 +27,7 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'tpope/vim-projectionist':{ 'on_cmd' : ['A', 'AS', 'AV',
         \ 'AT', 'AD', 'Cd', 'Lcd', 'ProjectDo']},
   \ 'tpope/vim-commentary':{},
-  \ 'jceb/vim-orgmode':{'on_ft': 'org'},
+  \ 'jceb/vim-orgmode':{'on_path': '.org'},
   \ 'mhinz/vim-grepper' : { 'on_cmd' : 'Grepper', 'loadconf' : 1},
   \ 'vim-airline/vim-airline': {},
   \ 'vim-airline/vim-airline-themes': {},
@@ -42,14 +36,15 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'Shougo/unite.vim': {},
   \ 'tpope/vim-speeddating': {'on_ft': ['text', 'org']},
   \ 'ludovicchabant/vim-gutentags': {},
-  \ 'ryanoasis/vim-devicons': {},
+  \ 'skywind3000/gutentags_plus': {},
   \ 'prabirshrestha/asyncomplete.vim': { 'lazy':0, 'on_path': '.*'},
   \ 'prabirshrestha/asyncomplete-flow.vim': { 'on_ft': 'javascript' },
   \ 'prabirshrestha/async.vim': {},
   \ 'prabirshrestha/asyncomplete-buffer.vim': { 'lazy': 0, 'on_path': '.*'},
   \ 'prabirshrestha/asyncomplete-tags.vim': {'lazy': 0, 'on_path': '.*'},
   \ 'prabirshrestha/vim-lsp': {},
-  \ 'elzr/vim-json': { 'on_ft' : ['javascript','json']}
+  \ 'elzr/vim-json': { 'on_ft' : ['javascript','json']},
+  \ 'ryanoasis/vim-devicons': {},
 \ })
  call dein#end()
  call dein#save_state()

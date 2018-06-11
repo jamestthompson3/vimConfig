@@ -37,12 +37,12 @@ let g:asyncomplete_remove_duplicates = 1
 " Faster leaderf
 let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 " Org tools
-let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
-      \ ['REPORT(r)', 'BUG(b)', 'KNOWNCAUSE(k)', '|', 'FIXED(f)'],
-      \ ['CANCELED(c)']]
+" let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
+"       \ ['REPORT(r)', 'BUG(b)', 'KNOWNCAUSE(k)', '|', 'FIXED(f)'],
+"       \ ['CANCELED(c)']]
 " Linting
 let g:ale_linters = {
-\   'javascript': ['eslint', 'flow', 'tsserver'],
+\   'javascript': ['eslint', 'flow' ],
 \   'python': ['flake8', 'pylint'],
 \   'rust': ['rls', 'rustfmt'],
 \   'json': ['fixjson', 'jsonlint'],

@@ -61,7 +61,7 @@ autocmd BufWritePre * %s/\s\+$//e
 "" Ignore dist and build folders
 set wildignore+=*/dist*/**,*/target/**,*/build/**
 " Ignore libs
-set wildignore+=*/lib/**,*/node_modules/**,*/bower_components/**
+set wildignore+=*/lib/**,*/node_modules/**,*/bower_components/**,*/locale/**
 " Ignore images, pdfs, and font files
 set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot

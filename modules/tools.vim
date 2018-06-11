@@ -4,9 +4,8 @@ function! s:open_vimfiler() abort
   silent VimFiler
 endfunction
 nnoremap <silent> <F3> :call <SID>open_vimfiler()<CR>
-" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:vimfiler_tree_opened_icon = get(g:, 'vimfiler_tree_opened_icon', '▼')
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:vimfiler_tree_closed_icon = get(g:, 'vimfiler_tree_closed_icon', '▷')
 let g:vimfiler_file_icon = get(g:, 'vimfiler_file_icon', '')
 let g:vimfiler_tree_leaf_icon = ''
@@ -37,7 +36,6 @@ call vimfiler#custom#profile('custom', 'context', {
       \ 'force_hide' : 0,
       \ })
 " Completion tools
-
 call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
     \ 'whitelist': ['*'],
