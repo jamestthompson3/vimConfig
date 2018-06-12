@@ -6,7 +6,7 @@ let g:enable_guicolors = 1
 if has('win16') || has('win32') || has('win64')
   set guifont=Iosevka:h10:cANSI:qDRAFT
 elseif has('Mac')
-  set guifont=Iosevka:h11
+  set guifont=Iosevka\ Term\ Nerd\ Font\ Complete:h11
 else
   set guifont=Iosevka\ 10
 endif
