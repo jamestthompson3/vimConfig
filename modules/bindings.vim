@@ -42,3 +42,6 @@ nnoremap <silent> sq :only<CR>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+" spell check
+nnoremap <silent><F7> :setlocal spell! spell?<CR>
+

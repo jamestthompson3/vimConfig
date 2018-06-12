@@ -50,3 +50,6 @@ call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \    'max_file_size': 50000000,
     \  },
     \ }))
+
+" autoclose
+let g:closetag_filenames = ['*.html,*.xhtml,*.phtml', '*.js', '*.jsx', '*.tsx']

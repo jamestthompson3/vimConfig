@@ -1,6 +1,6 @@
 " Plugins
-set encoding=utf-8
-set fileencoding=utf-8
+set encoding=utf8
+set fileencoding=utf8
 " Create function to manage things in a semi-sane way
 if has('win16') || has('win32') || has('win64')
  let g:file_separator = '\\'
@@ -15,7 +15,6 @@ call LoadPackages#Load()
 
 function! LoadCustomModule( name )
   let script = g:modules_folder .  a:name . ".vim"
- " echom "Now loading " . a:name
   exec ":runtime " . script
 endfunction
 
@@ -24,7 +23,6 @@ call LoadCustomModule( 'core' )
 call LoadCustomModule( 'ui' )
 call LoadCustomModule( 'bindings' )
 call LoadCustomModule( 'tools' )
-call LoadCustomModule( join(['lang','javascript'], g:file_separator) )
 
 
 " matchup settings

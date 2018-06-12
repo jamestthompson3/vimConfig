@@ -15,6 +15,8 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'Quramy/vim-js-pretty-template': { 'on_ft': 'javascript' },
   \ 'mattn/emmet-vim': {},
   \ 'wakatime/vim-wakatime': {},
+  \ 'nightsense/stellarized': {},
+  \ 'alvan/vim-closetag': {'on_ft': ['javascript', 'html', 'xml', 'markdown', 'org' ]},
   \ 'kristijanhusak/vim-hybrid-material':{},
   \ 'styled-components/vim-styled-components': { 'on_ft': 'javascript' },
   \ 'neoclide/vim-jsx-improve': { 'on_ft': 'javascript' },
