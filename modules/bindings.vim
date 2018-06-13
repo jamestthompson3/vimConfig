@@ -1,7 +1,8 @@
-function! Search() abort
-  let term = input('Enter search term: ')
-  exec ":GrepperRg " . term
-endfunction
+" TODO make search and replace populate qf list
+" function! SearchandReplace() abort
+"   let term = input('Enter search term: ')
+"   exec ":GrepperRg " . term
+" endfunction
 
 let mapleader = "\<Space>"
 inoremap jj <Esc>
@@ -19,7 +20,7 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
 " Comments
-noremap <Leader>c  :Commentary<CR>
+noremap <silent> <Leader>c  :Commentary<CR>
 " Easy splits
 nnoremap <silent> sp :vsplit<CR>
 nnoremap <silent> sv :split<CR>
@@ -27,8 +28,8 @@ nnoremap <silent> tt :tab split<CR>
 
 " Unhighlight after search
 nnoremap <silent> <Esc> :noh<CR><Esc>
-nnoremap <silent> <Leader>sp :call Search()<CR>
-nnoremap <silent> <Leader>fr :call SearchandReplace()<CR>
+nnoremap <silent> <Leader>sp :FlyGrep<CR>
+" nnoremap <silent> <Leader>fr :call SearchandReplace()<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 set wildchar=<Tab>
 "" for leader f
