@@ -27,7 +27,6 @@ if [ $machine = 'Linux' ]
    else
    echo  $( curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh && sh ./installer.sh ~/.cache/vimfiles )
    fi
-  $( rm -rf .vim && git clone https://github.com/jamestthompson3/vimConfig.git ~/.vim )
    echo Done!
 
 elif [ $machine = 'Mac' ]
@@ -47,14 +46,18 @@ elif [ $machine = 'Mac' ]
    echo $( brew install ripgrep )
    echo Installing ctags for code indexing...
    echo $( brew install --HEAD universal-ctags/universal-ctags/universal-ctags )
-   echo Installing vim plugin manager
+    if [ -a ~/jstags ]
+      then echo JS enhanced tags found
+    else
+     echo Installing JS enhanced tags...
+     echo $( git clone https://github.com/romainl/ctags-patterns-for-javascript.git ~/jstags && cp ~/jstags/.ctags ~/.ctags)
+   fi
+   echo Installing vim plugin manager...
    if [ -a ~/.cache/vimfiles/repos/github.com/Shougo/dein.vim ]
     then echo Dein plugin manager already installed
    else
     echo $( curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh && sh ./installer.sh ~/.cache/vimfiles )
    fi
-  echo Linking to system vimrc
-  $( ln -s vimrc ~/vimrc )
   echo Installing fonts...
   echo $( brew tap caskroom/fonts )
   echo $( brew cask install font-iosevka )
