@@ -14,6 +14,7 @@ endif
 " set vb t_vb=
 set background=dark
 set number
+set nowrap
 set noshowmode
 colorscheme hybrid_reverse
 let g:Lf_StlColorscheme = "hybrid_reverse"
