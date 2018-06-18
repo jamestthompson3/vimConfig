@@ -13,6 +13,7 @@ set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
+set ff=unix
 let g:data_dir = $HOME . '/.cache/Vim/'
 let g:backup_dir = g:data_dir . 'backup'
 let g:swap_dir = g:data_dir . 'swap'
@@ -58,7 +59,7 @@ au GUIEnter * set vb t_vb=
 " removes whitespace
 autocmd BufWritePre * %s/\s\+$//e
 "" Ignore dist and build folders
-set wildignore+=*/dist*/**,*/target/**,*/build/**
+set wildignore+=*/dist*/**,*/target/**,*/build*/**
 " Ignore libs
 set wildignore+=*/lib/**,*/node_modules/**,*/bower_components/**,*/locale/**
 " Ignore images, pdfs, and font files

@@ -1,4 +1,6 @@
+if !has('nvim')
 set rop=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
+endif
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1

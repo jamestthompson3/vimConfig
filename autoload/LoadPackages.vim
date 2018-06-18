@@ -18,6 +18,7 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'mattn/emmet-vim': {},
   \ 'wakatime/vim-wakatime': {},
   \ 'nightsense/stellarized': {'on_cmd': 'LeaderfColorscheme'},
+  \ 'mhartington/oceanic-next': {},
   \ 'kristijanhusak/vim-hybrid-material':{},
   \ 'styled-components/vim-styled-components': { 'on_ft': 'javascript' },
   \ 'neoclide/vim-jsx-improve': { 'on_ft': 'javascript' },

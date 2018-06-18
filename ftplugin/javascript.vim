@@ -32,7 +32,8 @@ call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \    'show_typeinfo': 1
     \  },
     \ }))
-nnoremap <silent> gh :LspHover<CR>
+" nnoremap <silent> gh :ALEHover<CR>
+" nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> gl :pc<CR>
 nnoremap <silent> <leader>K :LspReferences<CR>
 
