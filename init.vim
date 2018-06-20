@@ -1,6 +1,7 @@
 " Plugins
 set encoding=utf8
 set fileencoding=utf8
+set ff=unix
 " Create function to manage things in a semi-sane way
 if has('win16') || has('win32') || has('win64')
  let g:file_separator = '\\'
@@ -32,6 +33,7 @@ let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 " completion
 let g:asyncomplete_remove_duplicates = 1
+
 " Faster leaderf
 let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 " Org tools
@@ -56,7 +58,7 @@ let g:ale_completion_enabled = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none --parser flow --semi false --print-width 100'
 let g:ale_statusline_format = ['{%d} error(s)', '{%d} warning(s)', '']
-let g:ale_lint_on_text_changed = 'never' " Slows down things if it's always linting
+let g:ale_lint_on_text_changed = 'normal' " Slows down things if it's always linting
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 " let g:ale_open_list = 1

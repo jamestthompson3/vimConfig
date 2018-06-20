@@ -22,6 +22,7 @@ let g:vim_json_syntax_conceal = 0
 "       \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
 "       \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
 "       \ })
+"
 call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \ 'name': 'flow',
     \ 'whitelist': ['javascript'],
@@ -32,8 +33,16 @@ call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \    'show_typeinfo': 1
     \  },
     \ }))
-" nnoremap <silent> gh :ALEHover<CR>
-" nnoremap <silent> gd :ALEGoToDefinition<CR>
+
+" call lsp#register_server({
+"         \ 'name': 'flow-language-server',
+"         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'flow-language-server --stdio']},
+"         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
+"         \ 'whitelist': ['javascript'],
+"         \ })
+
+nnoremap <silent> gh :ALEHover<CR>
+nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> gl :pc<CR>
-nnoremap <silent> <leader>K :LspReferences<CR>
+nnoremap <silent> <leader>K :ALEFindReferences<CR>
 

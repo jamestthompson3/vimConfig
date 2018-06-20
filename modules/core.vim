@@ -13,7 +13,15 @@ set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
-set ff=unix
+set cot+=preview
+if has('nvim')
+  autocmd BufWritePre * :set ff=unix
+endif
+" if has('pythonx')
+"   set pythonxversion=3
+" else
+"   set pythonxversion=2
+" endif
 let g:data_dir = $HOME . '/.cache/Vim/'
 let g:backup_dir = g:data_dir . 'backup'
 let g:swap_dir = g:data_dir . 'swap'
