@@ -4,7 +4,7 @@
 "   exec ":GrepperRg " . term
 " endfunction
 
-let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 inoremap jj <Esc>
 " Copying and pasting from system clipboard
 xnoremap <Leader>y "+y

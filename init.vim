@@ -1,7 +1,6 @@
-" Plugins
-set encoding=utf8
+scriptencoding utf-8
 set fileencoding=utf8
-set ff=unix
+set fileformat=unix
 " Create function to manage things in a semi-sane way
 if has('win16') || has('win32') || has('win64')
  let g:file_separator = '\\'
@@ -9,14 +8,14 @@ else
  let g:file_separator = '/'
 endif
 
-let g:modules_folder = 'modules' . file_separator
+let g:modules_folder = 'modules' . g:file_separator
 
 " Load plugins
 call LoadPackages#Load()
 
 function! LoadCustomModule( name )
-  let script = g:modules_folder .  a:name . ".vim"
-  exec ":runtime " . script
+  let l:script = g:modules_folder .  a:name . '.vim'
+  exec ':runtime ' . l:script
 endfunction
 
 " Load custom modules
