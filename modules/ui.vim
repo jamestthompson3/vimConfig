@@ -1,5 +1,6 @@
+scriptencoding utf-8
 if !has('nvim')
-set rop=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
+set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
 endif
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
@@ -21,7 +22,7 @@ set number
 set nowrap
 set noshowmode
 colorscheme hybrid_reverse
-let g:Lf_StlColorscheme = "hybrid_reverse"
+let g:Lf_StlColorscheme = 'hybrid_reverse'
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
 :set guioptions-=r  "remove right-hand scroll bar
@@ -43,7 +44,7 @@ set ttimeout
 " airline
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = "hybrid"
+let g:airline_theme = 'hybrid'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = '%{fugitive#head()}'
 let g:airline_section_z = '%{gutentags#statusline()}'

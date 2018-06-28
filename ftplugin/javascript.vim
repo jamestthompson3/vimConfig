@@ -29,7 +29,7 @@ call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \ 'completor': function('asyncomplete#sources#flow#completor'),
     \ 'config': {
     \    'prefer_local': 1,
-    \    'flowbin_path': expand('~/bin/flow'),
+    \    'flowbin_path': system('which flow'),
     \    'show_typeinfo': 1
     \  },
     \ }))

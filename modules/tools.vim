@@ -1,3 +1,4 @@
+scriptencoding utf-8
 " vimfiler
 let g:vimfiler_as_default_explorer = 1
 function! s:open_vimfiler() abort

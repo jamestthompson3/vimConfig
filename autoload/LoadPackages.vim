@@ -5,7 +5,7 @@ if has('win16') || has('win32') || has('win64')
 let s:state_path = join(['','.cache','dein'], s:file_separator)
 else
  let s:file_separator = '/'
-let s:state_path = join([$HOME,'vim','bundles'], s:file_separator)
+let s:state_path = join(['','vim','bundles'], s:file_separator)
 endif
 
 " Add the dein installation directory into runtimepath

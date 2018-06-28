@@ -1,3 +1,4 @@
+scriptencoding utf-8
 syntax enable
 filetype plugin indent on
 set autoindent
@@ -13,10 +14,17 @@ set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
-set cot+=preview
-if has('nvim')
-  autocmd BufWritePre * :set ff=unix
-endif
+set completeopt+=preview
+augroup core
+  autocmd!
+  if has('nvim')
+    autocmd BufWritePre * :set ff=unix
+  endif
+
+  au GUIEnter * set vb t_vb=
+  " removes whitespace
+  autocmd BufWritePre * %s/\s\+$//e
+augroup END
 " if has('pythonx')
 "   set pythonxversion=3
 " else
@@ -50,22 +58,19 @@ unlet g:conf_dir
 set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
-set noeb vb t_vb=
-if has("gui_running")
+set noerrorbells vb t_vb=
+if has('gui_running')
   " GUI is running or is about to start.
   set lines=1000 columns=1000
 else
   " This is console Vim.
-  if exists("+lines")
+  if exists('+lines')
     set lines=50
   endif
-  if exists("+columns")
+  if exists('+columns')
     set columns=100
   endif
 endif
-au GUIEnter * set vb t_vb=
-" removes whitespace
-autocmd BufWritePre * %s/\s\+$//e
 "" Ignore dist and build folders
 set wildignore+=*/dist*/**,*/target/**,*/build*/**
 " Ignore libs
