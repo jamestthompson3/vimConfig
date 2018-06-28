@@ -1,4 +1,3 @@
-
 function LoadPackages#Load()
 if has('win16') || has('win32') || has('win64')
  let s:file_separator = '\\'
@@ -44,6 +43,7 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'skywind3000/gutentags_plus': {},
   \ 'prabirshrestha/asyncomplete.vim': { 'lazy':0, 'on_path': '*'},
   \ 'prabirshrestha/asyncomplete-flow.vim': { 'on_ft': 'javascript' },
+  \ 'prabirshrestha/asyncomplete-lsp.vim': {},
   \ 'prabirshrestha/async.vim': {},
   \ 'prabirshrestha/asyncomplete-buffer.vim': { 'lazy': 0, 'on_path': '*'},
   \ 'prabirshrestha/asyncomplete-tags.vim': {'lazy': 0, 'on_path': '*'},
