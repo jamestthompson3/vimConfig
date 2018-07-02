@@ -2,6 +2,7 @@ set encoding=utf8
 scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
+" set ff=unix
 " Create function to manage things in a semi-sane way
 if has('win16') || has('win32') || has('win64')
  let g:file_separator = '\\'

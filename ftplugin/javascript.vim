@@ -41,8 +41,10 @@ call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
 "         \ 'whitelist': ['javascript'],
 "         \ })
 
-nnoremap <silent> gh :ALEHover<CR>
-nnoremap <silent> gd :ALEGoToDefinition<CR>
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+nnoremap <silent> gh :LspHover<CR>
+nnoremap <silent> gd :LspDefinition<CR>
 nnoremap <silent> gl :pc<CR>
 nnoremap <silent> <leader>K :ALEFindReferences<CR>
 

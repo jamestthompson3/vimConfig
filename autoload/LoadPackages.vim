@@ -33,6 +33,7 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'tpope/vim-commentary':{},
   \ 'jceb/vim-orgmode': {'on_ft': ['org', 'txt']},
   \ 'mhinz/vim-grepper' : { 'on_cmd' : 'Grepper', 'loadconf' : 1},
+  \  'brooth/far.vim' : { 'on_cmd' : 'Far'},
   \ 'wsdjeg/FlyGrep.vim': {'on_cmd' : 'FlyGrep'},
   \ 'vim-airline/vim-airline': {},
   \ 'vim-airline/vim-airline-themes': {},

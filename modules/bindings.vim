@@ -29,7 +29,7 @@ nnoremap <silent> tt :tab split<CR>
 " Unhighlight after search
 nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <silent> <Leader>sp :FlyGrep<CR>
-" nnoremap <silent> <Leader>fr :call SearchandReplace()<CR>
+nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 set wildchar=<Tab>
 "" for leader f

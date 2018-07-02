@@ -54,3 +54,4 @@ call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
 let g:closetag_filenames = ['*.html,*.xhtml,*.phtml', '*.js', '*.jsx', '*.tsx']
 " Searching
 let g:FlyGrep_search_tools = ['rg', 'ag', 'grep', 'pt', 'ack']
+let g:far#source= 'rg'
