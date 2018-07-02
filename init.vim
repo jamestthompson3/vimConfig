@@ -1,3 +1,4 @@
+set encoding=utf8
 scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix

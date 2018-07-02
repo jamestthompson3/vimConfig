@@ -21,7 +21,7 @@ set background=dark
 set number
 set nowrap
 set noshowmode
-colorscheme hybrid_reverse
+colorscheme flatlandia
 let g:Lf_StlColorscheme = 'hybrid_reverse'
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
@@ -44,7 +44,7 @@ set ttimeout
 " airline
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'hybrid'
+let g:airline_theme = 'flatlandia'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = '%{fugitive#head()}'
 let g:airline_section_z = '%{gutentags#statusline()}'
