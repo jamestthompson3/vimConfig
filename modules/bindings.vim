@@ -35,6 +35,7 @@ set wildchar=<Tab>
 "" for leader f
 let g:Lf_ShortcutF = '<Leader><Leader>'
 nnoremap <Leader>, :LeaderfBuffer<CR>
+nnoremap <Leader>. :LeaderfMruCwd<CR>
 " Quit window, quit and quit all other windows but current one
 nnoremap <silent> wq ZZ
 nnoremap <silent> q :bp\|bd #<CR>

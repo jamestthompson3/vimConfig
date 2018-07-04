@@ -5,6 +5,8 @@ endif
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
 
 if has('win16') || has('win32') || has('win64')
   set guifont=Iosevka:h10:cANSI:qDRAFT
@@ -17,11 +19,12 @@ else
 endif
 
 " set vb t_vb=
+set termguicolors
 set background=dark
 set number
 set nowrap
 set noshowmode
-colorscheme flatlandia
+colorscheme OceanicNext
 let g:Lf_StlColorscheme = 'hybrid_reverse'
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
