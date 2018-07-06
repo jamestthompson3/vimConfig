@@ -37,6 +37,8 @@ call vimfiler#custom#profile('custom', 'context', {
       \ 'force_hide' : 0,
       \ })
 " Completion tools
+" TODO fine tune completion not to interfere with lsp
+" 'blacklist': ['javascript', 'rust'],
 call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
     \ 'whitelist': ['*'],
@@ -45,6 +47,7 @@ call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options
 
 call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \ 'name': 'tags',
+    \ 'whitelist': ['*'],
     \ 'completor': function('asyncomplete#sources#tags#completor'),
     \ 'config': {
     \    'max_file_size': 50000000,
