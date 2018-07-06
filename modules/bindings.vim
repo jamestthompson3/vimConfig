@@ -3,7 +3,7 @@
 "   let term = input('Enter search term: ')
 "   exec ":GrepperRg " . term
 " endfunction
-
+"
 let g:mapleader = "\<Space>"
 inoremap jj <Esc>
 " Copying and pasting from system clipboard
@@ -19,6 +19,16 @@ nnoremap <C-H> <C-W><C-H>
 " Buffer switching
 nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+" nnoremap <silent> <M>
 " Comments
 noremap <silent> <Leader>c  :Commentary<CR>
 " Easy splits
@@ -32,6 +42,10 @@ nnoremap <silent> <Leader>sp :FlyGrep<CR>
 nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 set wildchar=<Tab>
+
+" ALE jump to errors
+nnoremap <silent> <Leader>jj :ALENext<CR>
+nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 "" for leader f
 let g:Lf_ShortcutF = '<Leader><Leader>'
 nnoremap <Leader>, :LeaderfBuffer<CR>

@@ -50,6 +50,11 @@ call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \  },
     \ }))
 
+
+
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+
 " autoclose
 let g:closetag_filenames = ['*.html,*.xhtml,*.phtml', '*.js', '*.jsx', '*.tsx']
 " Searching

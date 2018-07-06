@@ -2,7 +2,6 @@ set encoding=utf8
 scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
-" set ff=unix
 " Create function to manage things in a semi-sane way
 if has('win16') || has('win32') || has('win64')
  let g:file_separator = '\\'
@@ -43,14 +42,17 @@ let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 "       \ ['CANCELED(c)']]
 " Linting
 let g:ale_linters = {
-\   'javascript': ['eslint', 'flow' ],
+\   'javascript': ['eslint', 'flow'],
 \   'python': ['flake8', 'pylint'],
 \   'rust': ['rls', 'rustfmt'],
 \   'json': ['fixjson', 'jsonlint'],
 \   'vim': ['vint']
 \}
 
-let g:ale_sign_error = '💩'
+let g:ale_sign_error = '🚨'
+if has ('nvim')
+  let g:ale_sign_error = '>>'
+endif
 let g:ale_sign_warning = '⚡️'
 
 let g:ale_fixers = {'javascript': ['prettier']}

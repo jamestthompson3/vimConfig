@@ -61,7 +61,7 @@ set directory=$HOME/.cache/Vim/swap
 set noerrorbells vb t_vb=
 if has('gui_running')
   " GUI is running or is about to start.
-  set lines=1000 columns=1000
+  set lines=50 columns=300
 else
   " This is console Vim.
   if exists('+lines')
