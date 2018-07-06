@@ -12,8 +12,6 @@ if has('win16') || has('win32') || has('win64')
   set guifont=Iosevka:h10:cANSI:qDRAFT
 elseif has('Mac')
   set guifont=Iosevka\ Term\ Nerd\ Font\ Complete:h11
-elseif has('nvim')
-  GuiFont Iosevka
 else
   set guifont=Iosevka\ 10
 endif

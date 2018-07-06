@@ -39,6 +39,7 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'vim-airline/vim-airline-themes': {},
   \ 'tpope/vim-fugitive': {'on_path': '*'},
   \ 'tpope/vim-surround': {'lazy': 0, 'on_path': '*'},
+  \ 'equalsraf/neovim-gui-shim' : {},
   \ 'Shougo/unite.vim': {},
   \ 'tpope/vim-speeddating': {'on_ft': ['text', 'org']},
   \ 'ludovicchabant/vim-gutentags': {},

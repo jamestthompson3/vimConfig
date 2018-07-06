@@ -34,17 +34,17 @@ call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \  },
     \ }))
 
-" call lsp#register_server({
+" if executable('flow-language-server')
+"   call lsp#register_server({
 "         \ 'name': 'flow-language-server',
-"         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'flow-language-server --stdio']},
+"         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'flow-language-server.cmd --stdio']},
 "         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
 "         \ 'whitelist': ['javascript'],
 "         \ })
+" endif
 
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
 nnoremap <silent> gh :LspHover<CR>
-nnoremap <silent> gd :LspDefinition<CR>
+nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> gl :pc<CR>
 nnoremap <silent> <leader>K :ALEFindReferences<CR>
 
