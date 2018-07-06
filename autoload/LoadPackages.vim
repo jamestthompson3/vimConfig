@@ -46,11 +46,9 @@ exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   \ 'skywind3000/gutentags_plus': {},
   \ 'prabirshrestha/asyncomplete.vim': { 'lazy':0, 'on_path': '*'},
   \ 'prabirshrestha/asyncomplete-flow.vim': { 'on_ft': 'javascript' },
-  \ 'prabirshrestha/asyncomplete-lsp.vim': {},
   \ 'prabirshrestha/async.vim': {},
   \ 'prabirshrestha/asyncomplete-buffer.vim': { 'lazy': 0, 'on_path': '*'},
   \ 'prabirshrestha/asyncomplete-tags.vim': {'lazy': 0, 'on_path': '*'},
-  \ 'prabirshrestha/vim-lsp': {},
   \ 'elzr/vim-json': { 'on_ft' : ['javascript','json']},
   \ 'ryanoasis/vim-devicons': {},
 \ })

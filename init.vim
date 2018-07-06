@@ -42,7 +42,7 @@ let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 "       \ ['CANCELED(c)']]
 " Linting
 let g:ale_linters = {
-\   'javascript': ['eslint', 'flow'],
+\   'javascript': ['eslint', 'flow-language-server'],
 \   'python': ['flake8', 'pylint'],
 \   'rust': ['rls', 'rustfmt'],
 \   'json': ['fixjson', 'jsonlint'],
