@@ -9,3 +9,5 @@ if has('Mac')
 else
   let g:rust_clip_command = 'xclip -selection clipboard'
 endif
+call asyncomplete#register_source(
+    \ asyncomplete#sources#racer#get_source_options())

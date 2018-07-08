@@ -58,7 +58,7 @@ endif
 let g:ale_sign_warning = '⚡️'
 let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt']}
 let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_set_balloons = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none --parser flow --semi false --print-width 100'

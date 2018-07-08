@@ -17,13 +17,7 @@ let g:vim_json_syntax_conceal = 0
 
 call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \ 'name': 'flow',
-    \ 'whitelist': ['javascript'],
     \ 'completor': function('asyncomplete#sources#flow#completor'),
-    \ 'config': {
-    \    'prefer_local': 1,
-    \    'flowbin_path': system('which flow'),
-    \    'show_typeinfo': 1
-    \  },
     \ }))
 
 nnoremap <silent> gh :ALEHover<CR>
