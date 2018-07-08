@@ -24,6 +24,8 @@ nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 " Comments
 noremap <silent> <Leader>c  :Commentary<CR>
+" Macros
+nnoremap m q
 " Easy splits
 nnoremap <silent> sp :vsplit<CR>
 nnoremap <silent> sv :split<CR>
