@@ -26,8 +26,8 @@ call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
     \  },
     \ }))
 
-nnoremap <silent> gh :LspHover<CR>
+nnoremap <silent> gh :ALEHover<CR>
 nnoremap <silent> gd :ALEGoToDefinition<CR>
-nnoremap <silent> gl :pc<CR>
 nnoremap <silent> <leader>K :ALEFindReferences<CR>
+nnoremap <silent> gl :pc<CR>
 

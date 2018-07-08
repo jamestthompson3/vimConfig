@@ -1,9 +1,3 @@
-" TODO make search and replace populate qf list
-" function! SearchandReplace() abort
-"   let term = input('Enter search term: ')
-"   exec ":GrepperRg " . term
-" endfunction
-"
 let g:mapleader = "\<Space>"
 inoremap jj <Esc>
 " Copying and pasting from system clipboard
@@ -28,7 +22,6 @@ nnoremap <Leader>6 :6b<CR>
 nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
-" nnoremap <silent> <M>
 " Comments
 noremap <silent> <Leader>c  :Commentary<CR>
 " Easy splits
@@ -58,6 +51,11 @@ nnoremap <silent> sq :only<CR>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+" File explorer
+function! s:open_vimfiler() abort
+  silent VimFiler
+endfunction
+nnoremap <silent> <F3> :call <SID>open_vimfiler()<CR>
 " spell check
 nnoremap <silent><F7> :setlocal spell! spell?<CR>
 

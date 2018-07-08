@@ -1,12 +1,7 @@
 scriptencoding utf-8
 " vimfiler
 let g:vimfiler_as_default_explorer = 1
-function! s:open_vimfiler() abort
-  silent VimFiler
-endfunction
-nnoremap <silent> <F3> :call <SID>open_vimfiler()<CR>
 let g:vimfiler_tree_opened_icon = get(g:, 'vimfiler_tree_opened_icon', '▼')
-" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:vimfiler_tree_closed_icon = get(g:, 'vimfiler_tree_closed_icon', '▷')
 let g:vimfiler_file_icon = get(g:, 'vimfiler_file_icon', '')
 let g:vimfiler_tree_leaf_icon = ''
@@ -36,6 +31,7 @@ call vimfiler#custom#profile('custom', 'context', {
       \ 'no_quit' : 1,
       \ 'force_hide' : 0,
       \ })
+
 " Completion tools
 " TODO fine tune completion not to interfere with lsp
 " 'blacklist': ['javascript', 'rust'],
@@ -54,10 +50,8 @@ call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \  },
     \ }))
 
-
-
-" autoclose
-let g:closetag_filenames = ['*.html,*.xhtml,*.phtml', '*.js', '*.jsx', '*.tsx']
+" for asyncomplete.vim log
+let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 " Searching
 let g:FlyGrep_search_tools = ['rg', 'ag', 'grep', 'pt', 'ack']
 let g:far#source= 'rg'

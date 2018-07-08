@@ -2,6 +2,7 @@ set encoding=utf8
 scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
+
 " Create function to manage things in a semi-sane way
 if has('win16') || has('win32') || has('win64')
  let g:file_separator = '\\'
@@ -14,17 +15,16 @@ let g:modules_folder = 'modules' . g:file_separator
 " Load plugins
 call LoadPackages#Load()
 
+" Load custom modules
 function! LoadCustomModule( name )
   let l:script = g:modules_folder .  a:name . '.vim'
   exec ':runtime ' . l:script
 endfunction
 
-" Load custom modules
 call LoadCustomModule( 'core' )
 call LoadCustomModule( 'ui' )
 call LoadCustomModule( 'bindings' )
 call LoadCustomModule( 'tools' )
-
 
 " matchup settings
 let g:matchup_transmute_enabled = 1
@@ -42,30 +42,30 @@ let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 "       \ ['CANCELED(c)']]
 " Linting
 let g:ale_linters = {
-\   'javascript': ['eslint', 'flow-language-server'],
-\   'python': ['flake8', 'pylint'],
-\   'rust': ['rls', 'rustfmt'],
-\   'json': ['fixjson', 'jsonlint'],
-\   'vim': ['vint']
-\}
+  \   'javascript': ['eslint', 'flow-language-server'],
+  \   'python': ['flake8', 'pylint'],
+  \   'rust': ['rls', 'rustfmt'],
+  \   'json': ['fixjson', 'jsonlint'],
+  \   'vim': ['vint']
+  \}
 
 let g:ale_sign_error = '🚨'
 if has ('nvim')
+  " for some reason neovim hates unicode, so just do something basic
   let g:ale_sign_error = '>>'
 endif
-let g:ale_sign_warning = '⚡️'
 
+let g:ale_sign_warning = '⚡️'
 let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt']}
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1
+let g:ale_set_balloons = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none --parser flow --semi false --print-width 100'
 let g:ale_statusline_format = ['{%d} error(s)', '{%d} warning(s)', '']
 let g:ale_lint_on_text_changed = 'normal' " Slows down things if it's always linting
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
-" let g:ale_open_list = 1
-
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 
