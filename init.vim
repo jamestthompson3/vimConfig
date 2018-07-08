@@ -45,10 +45,11 @@ let g:ale_linters = {
   \   'python': ['flake8', 'pylint'],
   \ 'javascript': ['eslint', 'flow-language-server'],
   \   'json': ['fixjson', 'jsonlint'],
-  \   'vim': ['vint']
+  \   'vim': ['vint'],
+  \ 'rust': ['rls']
   \}
 
-let g:ale_linters_ignore = {'rust': ['rls', 'rustc', 'rustfmt']}
+" let g:ale_linters_ignore = {'rust': ['rls', 'rustc', 'rustfmt']}
 
 let g:ale_sign_error = '🚨'
 if has ('nvim')
@@ -56,11 +57,10 @@ if has ('nvim')
   let g:ale_sign_error = '>>'
 endif
 
-set hidden
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['flow', 'lsp']
-    \ }
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+"     \ 'javascript': ['flow', 'lsp']
+"     \ }
 
 let g:ale_sign_warning = '⚡️'
 let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt'], 'html':['tidy']}

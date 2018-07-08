@@ -1,5 +1,6 @@
 scriptencoding utf-8
 syntax enable
+set hidden
 filetype plugin indent on
 set autoindent
 set autoread  " Automatically read a file changed outside of vim
