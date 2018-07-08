@@ -38,6 +38,8 @@ nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 set wildchar=<Tab>
 
+" LSP
+
 " ALE jump to errors
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
@@ -49,6 +51,7 @@ nnoremap <Leader>. :LeaderfMruCwd<CR>
 nnoremap <silent> wq ZZ
 nnoremap <silent> q :bp\|bd #<CR>
 nnoremap <silent> sq :only<CR>
+nnoremap <silent> gl :pc<CR>
 " completion
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"

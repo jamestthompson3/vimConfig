@@ -42,12 +42,13 @@ let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 "       \ ['CANCELED(c)']]
 " Linting
 let g:ale_linters = {
-  \   'javascript': ['eslint', 'flow-language-server'],
   \   'python': ['flake8', 'pylint'],
-  \   'rust': ['rls', 'rustfmt'],
+  \ 'javascript': ['eslint', 'flow-language-server'],
   \   'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint']
   \}
+
+let g:ale_linters_ignore = {'rust': ['rls', 'rustc', 'rustfmt']}
 
 let g:ale_sign_error = '🚨'
 if has ('nvim')
@@ -55,8 +56,14 @@ if has ('nvim')
   let g:ale_sign_error = '>>'
 endif
 
+set hidden
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['flow', 'lsp']
+    \ }
+
 let g:ale_sign_warning = '⚡️'
-let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt']}
+let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt'], 'html':['tidy']}
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 0
 let g:ale_set_balloons = 1
