@@ -43,25 +43,32 @@ let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 " Linting
 let g:ale_linters = {
   \   'python': ['flake8', 'pylint'],
-  \ 'javascript': ['eslint', 'flow', 'flow-language-server'],
+  \ 'javascript': ['eslint'],
   \   'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
-  \ 'rust': ['rls']
+  \ 'rust': ['rustfmt']
   \}
 
 " let g:ale_linters_ignore = {'rust': ['rls', 'rustc', 'rustfmt']}
 
+
+" let g:deoplete#enable_at_startup = 1
+
+" call deoplete#custom#option({
+"     \ 'auto_complete_delay': 50,
+"     \ 'smart_case': v:true,
+"     \ 'complete_method': 'omnifunc'
+"     \ })
 let g:ale_sign_error = '🚨'
 if has ('nvim')
   " for some reason neovim hates unicode, so just do something basic
   let g:ale_sign_error = '>>'
 endif
 
-" let g:LanguageClient_serverCommands = {
-"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"     \ 'javascript': ['flow lsp']
-"     \ }
-
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['flow', 'lsp']
+    \ }
 let g:ale_sign_warning = '⚡️'
 let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt'], 'html':['tidy']}
 let g:ale_fix_on_save = 1

@@ -15,7 +15,8 @@ set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
-set completeopt+=preview
+set completeopt+=preview,longest,noinsert,menuone,noselect
+set omnifunc=syntaxcomplete#Complete
 augroup core
   autocmd!
   if has('nvim')

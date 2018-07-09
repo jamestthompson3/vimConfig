@@ -1,7 +1,6 @@
 """""""""""""" JS stuff """"""""""""""""""""""
 " Syntax Highlighting
 let g:jsx_ext_required = 0
-" let g:vim_jsx_pretty_colorful_config = 1
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
@@ -16,10 +15,10 @@ let g:jsdoc_enable_es6 = 1
 let g:vim_json_syntax_conceal = 0
 let g:ale_completion_enabled = 1
 
-call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
-    \ 'name': 'flow',
-    \ 'completor': function('asyncomplete#sources#flow#completor'),
-    \ }))
+" call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
+"     \ 'name': 'flow',
+"     \ 'completor': function('asyncomplete#sources#flow#completor'),
+"     \ }))
 
 " function! OpenRefs() abort
 "   call LanguageClient#textDocument_references()
