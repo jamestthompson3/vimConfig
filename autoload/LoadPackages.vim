@@ -52,9 +52,9 @@ call dein#add('keremc/asyncomplete-racer.vim', { 'on_ft': 'rust' } )
 call dein#add('prabirshrestha/async.vim', {} )
 call dein#add('prabirshrestha/asyncomplete-buffer.vim', { 'lazy': 0, 'on_path': '*'} )
 call dein#add('prabirshrestha/asyncomplete-tags.vim', {'lazy': 0, 'on_path': '*'} )
-" if has('nvim')
-"   call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': s:lang_server_build} )
-" endif
+if has('nvim')
+  " call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': s:lang_server_build} )
+endif
 call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
 call dein#add('ryanoasis/vim-devicons', {} )
 

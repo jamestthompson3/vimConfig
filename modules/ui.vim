@@ -45,10 +45,11 @@ set ttimeout
 " airline
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline_theme = 'flatlandia'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = '%{fugitive#head()}'
-let g:airline_section_z = '%{gutentags#statusline()}'
+let g:airline_section_z = ''
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif

@@ -43,7 +43,7 @@ let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 " Linting
 let g:ale_linters = {
   \   'python': ['flake8', 'pylint'],
-  \ 'javascript': ['eslint', 'flow-language-server'],
+  \ 'javascript': ['eslint', 'flow', 'flow-language-server'],
   \   'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
   \ 'rust': ['rls']
@@ -59,7 +59,7 @@ endif
 
 " let g:LanguageClient_serverCommands = {
 "     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"     \ 'javascript': ['flow', 'lsp']
+"     \ 'javascript': ['flow lsp']
 "     \ }
 
 let g:ale_sign_warning = '⚡️'
