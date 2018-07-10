@@ -35,6 +35,7 @@ call vimfiler#custom#profile('custom', 'context', {
 " Completion tools
 " TODO fine tune completion not to interfere with lsp
 " 'blacklist': ['javascript', 'rust'],
+"
 call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
     \ 'whitelist': ['*'],
@@ -50,35 +51,23 @@ call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \  },
     \ }))
 
+call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
+    \ 'name': 'flow',
+    \ 'whitelist': ['javascript'],
+    \ 'completor': function('asyncomplete#sources#flow#completor'),
+    \ }))
 
-let g:LanguageClient_diagnosticsDisplay = {
-      \ 1: {
-      \  'name': 'Error',
-      \      'texthl': 'ALEError',
-      \      'signText': '>>',
-      \      'signTexthl': 'ALEErrorSign',
-      \  },
-      \  2: {
-      \      'name': 'Warning',
-      \      'texthl': 'ALEWarning',
-      \      'signText': '⚡️',
-      \      'signTexthl': 'ALEWarningSign',
-      \  },
-      \  3: {
-      \      'name': 'Information',
-      \      'texthl': 'ALEInfo',
-      \      'signText': 'ℹ',
-      \       'signTexthl': 'ALEInfoSign',
-       \  },
-      \  4: {
-     \    'name': 'Hint',
-      \   'texthl': 'ALEInfo',
-      \  'signText': '➤',
-      \    'signTexthl': 'ALEInfoSign',
-      \  }
-   \  }
 " for asyncomplete.vim log
 let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+" let g:deoplete#enable_at_startup = 1
+
+" call deoplete#custom#option({
+"     \ 'auto_complete_delay': 50,
+"     \ 'smart_case': v:true,
+"     \ 'complete_method': 'omnifunc'
+"     \ })
+
+
 " Searching
 let g:FlyGrep_search_tools = ['rg', 'ag', 'grep', 'pt', 'ack']
 let g:far#source= 'rg'

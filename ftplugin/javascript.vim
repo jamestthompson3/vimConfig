@@ -15,10 +15,6 @@ let g:jsdoc_enable_es6 = 1
 let g:vim_json_syntax_conceal = 0
 let g:ale_completion_enabled = 1
 
-" call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
-"     \ 'name': 'flow',
-"     \ 'completor': function('asyncomplete#sources#flow#completor'),
-"     \ }))
 
 " function! OpenRefs() abort
 "   call LanguageClient#textDocument_references()
@@ -27,7 +23,6 @@ let g:ale_completion_enabled = 1
 
 " nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
 " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-
 nnoremap <silent> gh :ALEHover<CR>
 nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> K :ALEFindReferences<CR>

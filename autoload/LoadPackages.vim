@@ -54,7 +54,7 @@ call dein#add('prabirshrestha/asyncomplete-buffer.vim', { 'lazy': 0, 'on_path': 
 call dein#add('prabirshrestha/asyncomplete-tags.vim', {'lazy': 0, 'on_path': '*'} )
 
 if has('nvim')
-  call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': s:lang_server_build} )
+  " call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': s:lang_server_build} )
   " call dein#add('Shougo/deoplete.nvim')
   " call dein#add('roxma/nvim-yarp')
 endif

@@ -25,6 +25,7 @@ call LoadCustomModule( 'core' )
 call LoadCustomModule( 'ui' )
 call LoadCustomModule( 'bindings' )
 call LoadCustomModule( 'tools' )
+call LoadCustomModule( 'linting_lsp' )
 
 " matchup settings
 let g:matchup_transmute_enabled = 1
@@ -40,46 +41,4 @@ let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
 " let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
 "       \ ['REPORT(r)', 'BUG(b)', 'KNOWNCAUSE(k)', '|', 'FIXED(f)'],
 "       \ ['CANCELED(c)']]
-" Linting
-let g:ale_linters = {
-  \   'python': ['flake8', 'pylint'],
-  \ 'javascript': ['eslint'],
-  \   'json': ['fixjson', 'jsonlint'],
-  \   'vim': ['vint'],
-  \ 'rust': ['rustfmt']
-  \}
-
-" let g:ale_linters_ignore = {'rust': ['rls', 'rustc', 'rustfmt']}
-
-
-" let g:deoplete#enable_at_startup = 1
-
-" call deoplete#custom#option({
-"     \ 'auto_complete_delay': 50,
-"     \ 'smart_case': v:true,
-"     \ 'complete_method': 'omnifunc'
-"     \ })
-let g:ale_sign_error = '🚨'
-if has ('nvim')
-  " for some reason neovim hates unicode, so just do something basic
-  let g:ale_sign_error = '>>'
-endif
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'javascript': ['flow', 'lsp']
-    \ }
-let g:ale_sign_warning = '⚡️'
-let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt'], 'html':['tidy']}
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 0
-let g:ale_set_balloons = 1
-let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none --parser flow --semi false --print-width 100'
-let g:ale_statusline_format = ['{%d} error(s)', '{%d} warning(s)', '']
-let g:ale_lint_on_text_changed = 'normal' " Slows down things if it's always linting
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
 
