@@ -20,12 +20,13 @@ if [ $machine = 'Linux' ]
    echo $( apt install vim -y )
    echo Installing ripgrep for fast searching...
    echo $( apt install ripgrep -y )
-   echo Please install ctags for code indexing...
+   echo Installing ctags for code indexing...
+   echo $( apt install ctags -y)
    echo Installing vim plugin manager
    if [ -a ~/.cache/vimfiles/repos/github.com/Shougo/dein.vim ]
     then echo Dein plugin manager already installed
    else
-   echo  $( curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh && sh ./installer.sh ~/.cache/vimfiles )
+    echo $( curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh && sh ./installer.sh ~/.cache/vimfiles )
    fi
    echo Done!
 
