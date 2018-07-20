@@ -51,12 +51,6 @@ call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \  },
     \ }))
 
-call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
-    \ 'name': 'flow',
-    \ 'whitelist': ['javascript'],
-    \ 'completor': function('asyncomplete#sources#flow#completor'),
-    \ }))
-
 " for asyncomplete.vim log
 let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 " let g:deoplete#enable_at_startup = 1
