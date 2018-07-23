@@ -27,3 +27,10 @@ nnoremap <silent> gh :ALEHover<CR>
 nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> K :ALEFindReferences<CR>
 
+call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
+    \ 'name': 'flow',
+    \ 'whitelist': ['javascript'],
+    \ 'completor': function('asyncomplete#sources#flow#completor'),
+    \ }))
+
+

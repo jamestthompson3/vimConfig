@@ -28,11 +28,6 @@ let g:Lf_StlColorscheme = 'hybrid_reverse'
 :set guioptions-=T  "remove toolbar
 :set guioptions-=r  "remove right-hand scroll bar
 :set guioptions-=L  "remove left-hand scroll bar
-"menuone: show the pupmenu when only one match
-  " disable preview scratch window,
-set completeopt=menu,menuone,longest
-" h: 'complete'
-set complete=.,w,b,u,t
 " limit completion menu height
 set pumheight=15
 set scrolloff=1

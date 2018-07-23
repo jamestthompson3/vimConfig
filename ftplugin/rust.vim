@@ -5,6 +5,7 @@
 
 " nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
 " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+
 nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> gh :ALEHover<CR>
 nnoremap <silent> K :ALEFindReferences<CR>

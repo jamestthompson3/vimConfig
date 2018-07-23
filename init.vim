@@ -32,8 +32,6 @@ let g:matchup_transmute_enabled = 1
 let g:matchup_motion_enabled = 0
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
-" completion
-let g:asyncomplete_remove_duplicates = 1
 
 " Faster leaderf
 let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}

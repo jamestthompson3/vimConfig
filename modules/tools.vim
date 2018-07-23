@@ -35,7 +35,8 @@ call vimfiler#custom#profile('custom', 'context', {
 " Completion tools
 " TODO fine tune completion not to interfere with lsp
 " 'blacklist': ['javascript', 'rust'],
-"
+let g:asyncomplete_remove_duplicates = 1
+
 call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'buffer',
     \ 'whitelist': ['*'],
@@ -51,12 +52,12 @@ call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
     \  },
     \ }))
 
-call asyncomplete#register_source(asyncomplete#sources#flow#get_source_options({
-    \ 'name': 'flow',
-    \ 'whitelist': ['javascript'],
-    \ 'completor': function('asyncomplete#sources#flow#completor'),
-    \ }))
-
+call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+\ 'name': 'omni',
+\ 'whitelist': ['*'],
+\ 'blacklist': ['c', 'cpp' ],
+\ 'completor': function('asyncomplete#sources#omni#completor')
+\  }))
 " for asyncomplete.vim log
 let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 " let g:deoplete#enable_at_startup = 1
@@ -66,7 +67,9 @@ let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 "     \ 'smart_case': v:true,
 "     \ 'complete_method': 'omnifunc'
 "     \ })
-
+" let g:deoplete#sources#rust#racer_binary = system('which racer')
+" let g:deoplete#sources#rust#rust_source_path = system('which rustc')
+" let g:deoplete#sources#rust#disable_keymap=1
 
 " Searching
 let g:FlyGrep_search_tools = ['rg', 'ag', 'grep', 'pt', 'ack']
