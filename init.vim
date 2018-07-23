@@ -34,7 +34,7 @@ let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 
 " Faster leaderf
-let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules'], 'file': []}
+let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules', 'target'], 'file': []}
 " Org tools
 " let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
 "       \ ['REPORT(r)', 'BUG(b)', 'KNOWNCAUSE(k)', '|', 'FIXED(f)'],
