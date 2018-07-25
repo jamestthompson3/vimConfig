@@ -1,7 +1,7 @@
 scriptencoding = utf-8
 let g:ale_linters = {
   \   'python': ['flake8', 'pylint'],
-   \ 'javascript': ['eslint', 'flow-language-server' ],
+   \ 'javascript': ['eslint', 'flow' ],
   \   'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
   \ 'rust': ['rls', 'cargo']
@@ -53,8 +53,8 @@ let g:ale_linters = {
 " endif
 
 if has ('nvim')
-  let g:ale_sign_error = '🚨'
-  " let g:ale_sign_error = '>>'
+  " let g:ale_sign_error = '🚨'
+  let g:ale_sign_error = '>>'
 endif
 
 let g:ale_sign_warning = '⚡️'
