@@ -58,7 +58,7 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 \ 'blacklist': ['c', 'cpp' ],
 \ 'completor': function('asyncomplete#sources#omni#completor')
 \  }))
-" for asyncomplete.vim log
+"for asyncomplete.vim log
 let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 " let g:deoplete#enable_at_startup = 1
 

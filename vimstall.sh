@@ -14,10 +14,11 @@ if [ $machine = 'Linux' ]
   then
     echo Starting process for Linux
   sleep .8
-   echo Updating vim...
-   echo $( add-apt-repository ppa:jonathonf/vim -y )
+   echo Installing Neovim
+   echo $( sudo apt-get install software-properties-common -y )
+   echo $( sudo apt-add-repository ppa:neovim-ppa/stable  -y )
    echo $( apt upgrade -y )
-   echo $( apt install vim -y )
+   echo $( apt install neovim -y )
    echo Installing ripgrep for fast searching...
    echo $( apt install ripgrep -y )
    echo Installing ctags for code indexing...
@@ -26,9 +27,11 @@ if [ $machine = 'Linux' ]
    if [ -a ~/.cache/vimfiles/repos/github.com/Shougo/dein.vim ]
     then echo Dein plugin manager already installed
    else
-    echo $( curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh && sh ./installer.sh ~/.cache/vimfiles )
+    echo $( sudo curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh && sh ./installer.sh ~/.cache/vimfiles )
    fi
    echo Done!
+   echo Now open nvim and run ':call dein#install()' to install plugins and then restart nvim to start coding
+   echo Happy hacking!
 
 elif [ $machine = 'Mac' ]
   then
