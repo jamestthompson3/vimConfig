@@ -72,5 +72,8 @@ let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 " let g:deoplete#sources#rust#disable_keymap=1
 
 " Searching
+let g:grepper = {}
+let g:grepper.dir = 'repo,file'
+let g:grepper.tools = ['rg', 'ag', 'git']
 let g:FlyGrep_search_tools = ['rg', 'ag', 'grep', 'pt', 'ack']
 let g:far#source= 'rg'
