@@ -22,7 +22,9 @@ let g:ale_completion_enabled = 1
 " endfunction
 " nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
 " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> gh :ALEHover<CR>
-nnoremap <silent> gd :ALEGoToDefinition<CR>
-nnoremap <silent> K :ALEFindReferences<CR>
+if !exists('g:gui_oni')
+  nnoremap <silent> gh ALEHover<CR>
+  nnoremap <silent> gd :ALEGoToDefinition<CR>
+  nnoremap <silent> K :ALEFindReferences<CR>
+endif
 

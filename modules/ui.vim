@@ -8,6 +8,7 @@ let g:enable_guicolors = 1
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 
+
 if has('win16') || has('win32') || has('win64')
   set guifont=Iosevka:h10:cANSI:qDRAFT
 elseif has('Mac')

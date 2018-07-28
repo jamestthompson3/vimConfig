@@ -12,12 +12,12 @@ let g:ale_linters = {
 " " LSP only working on Linux currently
 " let g:LanguageClient_serverCommands = {
 "     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"     \ 'javascript': ['flow', 'lsp']
+"     \ 'javascript': ['flow lsp']
 "     \ }
 
 
 " let g:LanguageClient_rootMarkers = {
-"         \ 'javascript': ['.flowconfig'],
+"         \ 'javascript': ['package.json'],
 "         \ 'rust': ['Cargo.toml'],
 "         \ }
 
