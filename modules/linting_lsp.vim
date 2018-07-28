@@ -9,8 +9,6 @@ let g:ale_linters = {
   " \ 'rust': ['rls', 'cargo']
 " if !has('win16') || !has('win32') || !has('win64')
 " let g:ale_linters_ignore = { 'javascript': ['flow']}
-<<<<<<< HEAD
-" " LSP only working on Linux currently
 " let g:LanguageClient_serverCommands = {
 "     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 "     \ 'javascript': ['flow lsp']
@@ -21,16 +19,6 @@ let g:ale_linters = {
 "         \ 'javascript': ['package.json'],
 "         \ 'rust': ['Cargo.toml'],
 "         \ }
-=======
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls']
-    \ }
-
-
-let g:LanguageClient_rootMarkers = {
-        \ 'rust': ['Cargo.toml'],
-        \ }
->>>>>>> 3b2cc4fc3bc29965ca5bf397a43f481c0107b0bd
 
 let g:LanguageClient_diagnosticsDisplay = {
       \ 1: {
