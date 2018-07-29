@@ -2,6 +2,7 @@ scriptencoding = utf-8
 let g:ale_linters = {
   \   'python': ['flake8', 'pylint'],
    \ 'javascript': ['eslint', 'flow'],
+   \ 'rust': ['rls', 'cargo'],
   \   'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
   \}

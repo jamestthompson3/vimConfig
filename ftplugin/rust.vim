@@ -3,8 +3,6 @@
 "   exec ':lopen'
 " endfunction
 
-nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 if !exists('g:gui_oni')
   nnoremap <silent> gd :ALEGoToDefinition<CR>

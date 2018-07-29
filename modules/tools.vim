@@ -37,27 +37,29 @@ call vimfiler#custom#profile('custom', 'context', {
 " 'blacklist': ['javascript', 'rust'],
 let g:asyncomplete_remove_duplicates = 1
 
-call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ }))
+if !exists('g:gui_oni')
+  call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+      \ 'name': 'buffer',
+      \ 'whitelist': ['*'],
+      \ 'completor': function('asyncomplete#sources#buffer#completor'),
+      \ }))
 
-call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
-    \ 'name': 'tags',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#tags#completor'),
-    \ 'config': {
-    \    'max_file_size': 50000000,
-    \  },
-    \ }))
+  call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
+      \ 'name': 'tags',
+      \ 'whitelist': ['*'],
+      \ 'completor': function('asyncomplete#sources#tags#completor'),
+      \ 'config': {
+      \    'max_file_size': 50000000,
+      \  },
+      \ }))
 
-call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-\ 'name': 'omni',
-\ 'whitelist': ['*'],
-\ 'blacklist': ['c', 'cpp' ],
-\ 'completor': function('asyncomplete#sources#omni#completor')
-\  }))
+  call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+  \ 'name': 'omni',
+  \ 'whitelist': ['*'],
+  \ 'blacklist': ['c', 'cpp' ],
+  \ 'completor': function('asyncomplete#sources#omni#completor')
+  \  }))
+endif
 "for asyncomplete.vim log
 let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 " let g:deoplete#enable_at_startup = 1
