@@ -15,13 +15,6 @@ let g:jsdoc_enable_es6 = 1
 let g:vim_json_syntax_conceal = 0
 let g:ale_completion_enabled = 1
 
-
-" function! OpenRefs() abort
-"   call LanguageClient#textDocument_references()
-"   exec ':lopen'
-" endfunction
-" nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 if !exists('g:gui_oni')
   nnoremap <silent> gh ALEHover<CR>
   nnoremap <silent> gd :ALEGoToDefinition<CR>

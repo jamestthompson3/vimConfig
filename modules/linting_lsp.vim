@@ -2,61 +2,15 @@ scriptencoding = utf-8
 let g:ale_linters = {
   \   'python': ['flake8', 'pylint'],
    \ 'javascript': ['eslint', 'flow'],
-   \ 'rust': ['rls', 'cargo'],
+   \ 'rust': ['cargo'],
   \   'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
   \}
-
-  " \ 'rust': ['rls', 'cargo']
-" if !has('win16') || !has('win32') || !has('win64')
-" let g:ale_linters_ignore = { 'javascript': ['flow']}
-" let g:LanguageClient_serverCommands = {
-"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"     \ 'javascript': ['flow lsp']
-"     \ }
-
-
-" let g:LanguageClient_rootMarkers = {
-"         \ 'javascript': ['package.json'],
-"         \ 'rust': ['Cargo.toml'],
-"         \ }
-
-let g:LanguageClient_diagnosticsDisplay = {
-      \ 1: {
-      \  'name': 'Error',
-      \      'texthl': 'ALEError',
-      \      'signText': '>>',
-      \      'signTexthl': 'ALEErrorSign',
-      \  },
-      \  2: {
-      \      'name': 'Warning',
-      \      'texthl': 'ALEWarning',
-      \      'signText': '⚡️',
-      \      'signTexthl': 'ALEWarningSign',
-      \  },
-      \  3: {
-      \      'name': 'Information',
-      \      'texthl': 'ALEInfo',
-      \      'signText': 'ℹ',
-      \       'signTexthl': 'ALEInfoSign',
-       \  },
-      \  4: {
-     \    'name': 'Hint',
-      \   'texthl': 'ALEInfo',
-      \  'signText': 'i',
-      \    'signTexthl': 'ALEInfoSign',
-      \  }
-   \  }
-
-" let g:LanguageClient_loggingFile = expand('~/lsp_log.log')
-" let g:LanguageClient_loggingLevel = 'DEBUG'
-" endif
 
 if has ('nvim')
   " let g:ale_sign_error = '🚨'
   let g:ale_sign_error = '>>'
 endif
-
 let g:ale_sign_warning = '⚡️'
 let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt'], 'html':['tidy']}
 let g:ale_fix_on_save = 1
