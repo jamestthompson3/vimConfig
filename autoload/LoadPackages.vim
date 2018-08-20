@@ -60,9 +60,7 @@ call dein#add('keremc/asyncomplete-racer.vim', { 'on_ft': 'rust' } )
 call dein#add('yami-beta/asyncomplete-omni.vim', {'lazy':0, 'on_path': '*'})
 endif
 " devicon
-if !exists('g:gui_oni')
 call dein#add('ryanoasis/vim-devicons', {} )
-endif
 
 call dein#end()
 call dein#save_state()
