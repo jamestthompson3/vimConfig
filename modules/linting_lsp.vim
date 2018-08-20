@@ -2,15 +2,11 @@ scriptencoding = utf-8
 let g:ale_linters = {
   \   'python': ['flake8', 'pylint'],
    \ 'javascript': ['eslint', 'flow'],
-   \ 'rust': ['cargo'],
+  \ 'rust': ['cargo', 'rls'],
   \   'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
   \}
-
-if has ('nvim')
-  " let g:ale_sign_error = '🚨'
-  let g:ale_sign_error = '>>'
-endif
+let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '⚡️'
 let g:ale_fixers = {'javascript': ['prettier'], 'rust': ['rustfmt'], 'html':['tidy']}
 let g:ale_fix_on_save = 1

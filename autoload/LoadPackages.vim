@@ -22,6 +22,7 @@ call dein#add('neoclide/vim-jsx-improve', { 'on_ft': 'javascript' } )
 call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
 " Themes
 call dein#add('nightsense/stellarized', {} )
+call dein#add('chrisbra/Colorizer', {} )
 call dein#add('jordwalke/flatlandia', {} )
 call dein#add('kristijanhusak/vim-hybrid-material',{} )
 call dein#add('mhartington/oceanic-next', {} )
@@ -29,7 +30,7 @@ call dein#add('mattn/webapi-vim', {'on_path': '*'} )
 " Rust
 call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
 " Utils
-call dein#add('wakatime/vim-wakatime', {} )
+call dein#add('wakatime/vim-wakatime', {'lazy': 0, 'on_path': '*'} )
 call dein#add('Raimondi/delimitMate', { 'lazy': 0, 'on_path': '*'} )
 call dein#add('w0rp/ale',{} )
 call dein#add('Yggdroot/LeaderF', {'loadconf' : 1, 'merged' : 0, } )
@@ -42,14 +43,14 @@ call dein#add('vim-airline/vim-airline', {} )
 call dein#add('vim-airline/vim-airline-themes', {} )
 " Tyler Pope Magic
 call dein#add('tpope/vim-commentary',{} )
-call dein#add('tpope/vim-projectionist',{ 'on_cmd' : ['A', 'AS', 'AV', 'AT', 'AD', 'Cd', 'Lcd', 'ProjectDo']} )
-call dein#add('tpope/vim-fugitive', {'on_path': '*'} )
+call dein#add('tpope/vim-fugitive', {} )
 call dein#add('tpope/vim-surround', {'lazy': 0, 'on_path': '*'} )
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 " Tags
 call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': 'python'} )
 call dein#add('skywind3000/gutentags_plus', {} )
 " Async complete stuff
+if !exists('g:gui_oni')
 call dein#add('prabirshrestha/asyncomplete.vim', { 'lazy':0, 'on_path': '*'} )
 call dein#add('prabirshrestha/async.vim', {'lazy': 0, 'on_path': '*'} )
 call dein#add('prabirshrestha/asyncomplete.vim', {})
@@ -57,8 +58,11 @@ call dein#add('prabirshrestha/asyncomplete-buffer.vim', { 'lazy': 0, 'on_path': 
 call dein#add('prabirshrestha/asyncomplete-tags.vim', {'lazy': 0, 'on_path': '*'} )
 call dein#add('keremc/asyncomplete-racer.vim', { 'on_ft': 'rust' } )
 call dein#add('yami-beta/asyncomplete-omni.vim', {'lazy':0, 'on_path': '*'})
+endif
 " devicon
+if !exists('g:gui_oni')
 call dein#add('ryanoasis/vim-devicons', {} )
+endif
 
 call dein#end()
 call dein#save_state()

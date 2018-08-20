@@ -29,6 +29,6 @@ let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 " Searching
 let g:grepper = {}
 let g:grepper.dir = 'repo,file'
-let g:grepper.tools = ['rg', 'ag', 'git']
-let g:FlyGrep_search_tools = ['rg', 'ag', 'grep', 'pt', 'ack']
-let g:far#source= 'rg'
+let g:grepper.tools = ['ag', 'rg', 'git']
+let g:FlyGrep_search_tools = ['ag', 'rg', 'grep', 'pt', 'ack']
+let g:far#source= 'ag'
