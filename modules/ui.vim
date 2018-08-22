@@ -23,7 +23,7 @@ set background=dark
 set number
 set nowrap
 set noshowmode
-colorscheme OceanicNext
+colorscheme falcon
 let g:Lf_StlColorscheme = 'hybrid_reverse'
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
@@ -40,12 +40,14 @@ set hidden
 set ttimeout
 " airline
 let g:airline#extensions#branch#enabled = 1
+let g:falcon_airline = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_theme = 'flatlandia'
+let g:airline_theme = 'falcon'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = '%{fugitive#head()}'
 let g:airline_section_z = ''
+let g:airline_section_y = ''
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif

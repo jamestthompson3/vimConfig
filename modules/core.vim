@@ -10,6 +10,7 @@ set mouse=nv
 set wildmode=list:longest,full " gives tab completion lists in ex command area
 set shiftwidth=2 " indent code with two spaces
 set softtabstop=2 " tabs take two spaces
+set tabstop=2
 set expandtab " replace tabs with spaces
 set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
