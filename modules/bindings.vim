@@ -56,11 +56,6 @@ nnoremap <silent> gl :pc<CR>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-" File explorer
-function! s:open_vimfiler() abort
-  silent VimFiler
-endfunction
-nnoremap <silent> <F3> :call <SID>open_vimfiler()<CR>
 " spell check
 nnoremap <silent><F7> :setlocal spell! spell?<CR>
 
