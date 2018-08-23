@@ -30,6 +30,8 @@ call dein#add('mhartington/oceanic-next', {} )
 call dein#add('mattn/webapi-vim', {'on_path': '*'} )
 " Rust
 call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
+" Reason
+call dein#add('reasonml-editor/vim-reason-plus', { 'on_ft': 'reason'} )
 " Utils
 call dein#add('wakatime/vim-wakatime', {} )
 call dein#add('unblevable/quick-scope', {} )
@@ -51,7 +53,8 @@ call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': 'python'} )
 call dein#add('skywind3000/gutentags_plus', {} )
 " Async complete stuff
 call dein#add('Shougo/deoplete.nvim', {} )
-call dein#add('wokalski/autocomplete-flow', {} )
+call dein#add('carlitux/deoplete-ternjs', {} )
+call dein#add('copy/deoplete-ocaml', {} )
 " devicon
 call dein#add('ryanoasis/vim-devicons', {} )
 

@@ -1,6 +1,7 @@
 scriptencoding utf-8
 " Completion tools
 let g:deoplete#enable_at_startup = 1
+" let g:deoplete#auto_complete_delay = 10
 " Searching
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:grepper = {}
