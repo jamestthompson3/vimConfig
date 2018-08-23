@@ -51,6 +51,7 @@ call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': 'python'} )
 call dein#add('skywind3000/gutentags_plus', {} )
 " Async complete stuff
 call dein#add('Shougo/deoplete.nvim', {} )
+call dein#add('wokalski/autocomplete-flow', {} )
 " devicon
 call dein#add('ryanoasis/vim-devicons', {} )
 
