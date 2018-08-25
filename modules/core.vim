@@ -28,11 +28,6 @@ augroup core
   " removes whitespace
   autocmd BufWritePre * %s/\s\+$//e
 augroup END
-" if has('pythonx')
-"   set pythonxversion=3
-" else
-"   set pythonxversion=2
-" endif
 let g:data_dir = $HOME . '/.cache/Vim/'
 let g:backup_dir = g:data_dir . 'backup'
 let g:swap_dir = g:data_dir . 'swap'
