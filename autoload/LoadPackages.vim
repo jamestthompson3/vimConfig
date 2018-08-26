@@ -43,6 +43,8 @@ call dein#add('jceb/vim-orgmode', {'on_ft': ['org', 'txt']} )
 call dein#add('mhinz/vim-grepper' , { 'on_cmd' : 'Grepper', 'loadconf' : 1} )
 call dein#add('brooth/far.vim' , { 'on_cmd' : 'Far'} )
 call dein#add('wsdjeg/FlyGrep.vim', {'on_cmd' : 'FlyGrep'} )
+call dein#add('vim-airline/vim-airline', {} )
+call dein#add('vim-airline/vim-airline-themes', {} )
 " Tyler Pope Magic
 call dein#add('tpope/vim-commentary',{} )
 call dein#add('tpope/vim-fugitive', {} )
@@ -54,6 +56,7 @@ call dein#add('skywind3000/gutentags_plus', {} )
 " Async complete stuff
 call dein#add('Shougo/deoplete.nvim', {} )
 call dein#add('carlitux/deoplete-ternjs', {} )
+call dein#add('racer-rust/vim-racer', {} )
 call dein#add('copy/deoplete-ocaml', {} )
 " devicon
 call dein#add('ryanoasis/vim-devicons', {} )

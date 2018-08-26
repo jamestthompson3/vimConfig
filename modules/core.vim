@@ -17,6 +17,8 @@ set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
 set completeopt+=preview,longest,noinsert,menuone,noselect
+set ignorecase
+set smartcase
 set omnifunc=syntaxcomplete#Complete
 augroup core
   autocmd!

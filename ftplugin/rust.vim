@@ -10,4 +10,5 @@ if has('Mac')
 else
   let g:rust_clip_command = 'xclip -selection clipboard'
 endif
-
+let g:ale_completion_enabled = 1
+" let g:racer_cmd = system('which racer)
