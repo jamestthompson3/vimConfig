@@ -31,7 +31,10 @@ set wildchar=<Tab>
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 "" for leader f
+let g:Lf_ShortcutF = '<C-P>'
+if exists('g:oni_gui')
 let g:Lf_ShortcutF = '<Leader><Leader>'
+endif
 nnoremap <Leader>, :LeaderfBuffer<CR>
 nnoremap <Leader>. :LeaderfMruCwd<CR>
 " Quit window, quit and quit all other windows but current one
