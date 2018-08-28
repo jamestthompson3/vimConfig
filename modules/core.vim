@@ -6,6 +6,7 @@ set autoindent
 set autoread  " Automatically read a file changed outside of vim
 set undolevels=1000
 set wildignorecase
+set wildmenu
 set mouse=nv
 set wildmode=list:longest,full " gives tab completion lists in ex command area
 set shiftwidth=2 " indent code with two spaces
@@ -30,6 +31,10 @@ augroup core
   " removes whitespace
   autocmd BufWritePre * %s/\s\+$//e
 augroup END
+if has('win16') || has('win32') || has('win64')
+  let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
+endif
+" let g:python3_host_prog = 'C:\dev\Python35\python.exe'
 let g:data_dir = $HOME . '/.cache/Vim/'
 let g:backup_dir = g:data_dir . 'backup'
 let g:swap_dir = g:data_dir . 'swap'

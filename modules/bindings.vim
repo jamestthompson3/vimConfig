@@ -14,11 +14,14 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
 " Macros
-nnoremap m q
+nnoremap mm q
 " Easy splits
 nnoremap <silent> sp :vsplit<CR>
 nnoremap <silent> sv :split<CR>
 nnoremap <silent> tt :tab split<CR>
+" nerdtree
+nnoremap <silent><F3> :NERDTreeToggle<CR>
+nnoremap <silent><Leader>t :NERDTreeFind<CR>
 
 " Unhighlight after search
 nnoremap <silent> <Esc> :noh<CR><Esc>

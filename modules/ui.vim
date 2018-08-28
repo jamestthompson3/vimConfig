@@ -19,6 +19,7 @@ endif
 
 set termguicolors
 set background=dark
+set bg=dark
 set number
 set nowrap
 set noshowmode
@@ -45,7 +46,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline_theme = 'falcon'
 let g:airline_powerline_fonts = 1
-let g:airline_section_b = '%{fugitive#head()}'
+let g:airline_section_b = ' %{fugitive#head()}'
 let g:airline_section_z = ''
 let g:airline_section_y = ''
 if !exists('g:airline_symbols')
