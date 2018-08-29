@@ -19,7 +19,6 @@ endif
 
 set termguicolors
 set background=dark
-set bg=dark
 set number
 set nowrap
 set noshowmode

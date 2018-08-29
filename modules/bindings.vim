@@ -29,7 +29,6 @@ nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <silent> <Leader>sp :Grepper<CR>
 nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
-set wildchar=<Tab>
 " ALE jump to errors
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
@@ -51,4 +50,11 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 " spell check
 nnoremap <silent><F7> :setlocal spell! spell?<CR>
+" Misc
+set wildchar=<Tab>
+function! OpenTerminalDrawer() abort
+  execute ':copen'
+  execute ':term'
+endfunction
 
+nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
