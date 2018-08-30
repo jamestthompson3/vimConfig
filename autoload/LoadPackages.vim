@@ -52,7 +52,7 @@ call dein#add('tpope/vim-fugitive', {} )
 call dein#add('tpope/vim-surround', {'lazy': 0, 'on_path': '*'} )
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 " Tags
-call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': 'python'} )
+call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': ['python', 'c', 'cpp', 'rust']} )
 call dein#add('skywind3000/gutentags_plus', {} )
 " Async complete stuff
 call dein#add('Shougo/deoplete.nvim', {} )
