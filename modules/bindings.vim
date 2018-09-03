@@ -32,13 +32,27 @@ nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 " ALE jump to errors
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
-"" for leader f
-let g:Lf_ShortcutF = '<C-P>'
+"" for denite
+map <silent><C-P> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
 if exists('g:oni_gui')
-let g:Lf_ShortcutF = '<Leader><Leader>'
+map <silent><Leader><Leader> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
 endif
-nnoremap <Leader>, :LeaderfBuffer<CR>
-nnoremap <Leader>. :LeaderfMruCwd<CR>
+" denite file search (c-p uses gitignore, c-o looks at everything)
+map <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
+map <silent><Leader>, :Denite buffer  -direction=dynamicbottom<CR>
+map <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
+call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#option('default', 'prompt', '>')
+" -u flag to unrestrict (see ag docs)
+call denite#custom#var('file_rec', 'command',
+\ ['ag', '--follow', '--nocolor', '--nogroup','--ignore-case', '-u', '-g', ''])
+
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+
+call denite#custom#var('file_rec/git', 'command',
+\ ['ag', '--follow', '--nocolor', '--nogroup', '--ignore-case', '-g', ''])
+
 " Quit window, quit and quit all other windows but current one
 nnoremap <silent> wq ZZ
 nnoremap <silent> q :bp\|bd #<CR>

@@ -15,13 +15,13 @@ let g:matchup_motion_enabled = 0
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 " nerdtree
-let NERDTreeQuitOnOpen = 1
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeDirArrows = 1
+call denite#custom#source(
+	\ 'file_mru', 'matchers', ['matcher/fuzzy', 'matcher/project_files'])
+
 augroup tree
 "autocmd bufenter * if (winnr(“$”) == 1 && exists(“b:NERDTreeType”) && b:NERDTreeType == “primary”) | q | endif
 augroup END
-" Faster leaderf
-let g:Lf_WildIgnore = {'dir': ['lib','build', 'node_modules', 'target'], 'file': []}
-
