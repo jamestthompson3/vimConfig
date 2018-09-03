@@ -50,6 +50,7 @@ call dein#add('vim-airline/vim-airline-themes', {} )
 " Tyler Pope Magic
 call dein#add('tpope/vim-commentary',{} )
 call dein#add('tpope/vim-fugitive', {} )
+call dein#add('tpope/vim-unimpaired', {} )
 call dein#add('tpope/vim-surround', {'lazy': 0, 'on_path': '*'} )
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 " Tags
