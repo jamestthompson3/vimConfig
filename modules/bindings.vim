@@ -38,9 +38,12 @@ if exists('g:oni_gui')
 map <silent><Leader><Leader> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
 endif
 " denite file search (c-p uses gitignore, c-o looks at everything)
-map <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
-map <silent><Leader>, :Denite buffer  -direction=dynamicbottom<CR>
-map <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
+nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
+nnoremap <silent><Leader>, :Denite buffer  -direction=dynamicbottom<CR>
+nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
+nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
+nnoremap <silent><Leader>m :Denite mark  -direction=dynamicbottom<CR>
+xnoremap <silent><Leader>v :<C-u>Denite register -buffer-name=register -default-action=replace<CR>
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#option('default', 'prompt', '>')
