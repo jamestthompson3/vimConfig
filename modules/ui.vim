@@ -46,7 +46,7 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline_theme = 'falcon'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = ' %{fugitive#head()}'
-let g:airline_section_z = ''
+let g:airline_section_z = '%{FileSize()}'
 let g:airline_section_y = ''
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
@@ -73,27 +73,27 @@ let g:airline_symbols.notexists = 'Ɇ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:webdevicons_enable = 1
 
-" function! FileSize() abort
-"     let l:bytes = getfsize(expand('%p'))
-"     if (l:bytes >= 1024)
-"         let l:kbytes = l:bytes / 1025
-"     endif
-"     if (exists('kbytes') && l:kbytes >= 1000)
-"         let l:mbytes = l:kbytes / 1000
-"     endif
+function! FileSize() abort
+    let l:bytes = getfsize(expand('%p'))
+    if (l:bytes >= 1024)
+        let l:kbytes = l:bytes / 1025
+    endif
+    if (exists('kbytes') && l:kbytes >= 1000)
+        let l:mbytes = l:kbytes / 1000
+    endif
 
-"     if l:bytes <= 0
-"         return '0'
-"     endif
+    if l:bytes <= 0
+        return '0'
+    endif
 
-"     if (exists('mbytes'))
-"         return l:mbytes . 'MB '
-"     elseif (exists('kbytes'))
-"         return l:kbytes . 'KB '
-"     else
-"         return l:bytes . 'B '
-"     endif
-" endfunction
+    if (exists('mbytes'))
+        return l:mbytes . 'MB '
+    elseif (exists('kbytes'))
+        return l:kbytes . 'KB '
+    else
+        return l:bytes . 'B '
+    endif
+endfunction
 
 " function! LinterStatus() abort
 "     let l:counts = ale#statusline#Count(bufnr(''))
