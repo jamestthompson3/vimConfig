@@ -54,7 +54,7 @@ call denite#custom#var('file_rec', 'command',
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 
 call denite#custom#var('file_rec/git', 'command',
-\ ['ag', '--follow', '--nocolor', '--nogroup', '--ignore-case', '-g', ''])
+\ ['git', 'ls-files', '|', 'fzf'])
 
 " Quit window, quit and quit all other windows but current one
 nnoremap <silent> wq ZZ
