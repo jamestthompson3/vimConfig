@@ -22,7 +22,7 @@ set background=dark
 set number
 set nowrap
 set noshowmode
-colorscheme falcon
+colorscheme tokyo-metro
 let g:Lf_StlColorscheme = 'hybrid_reverse'
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar

@@ -7,6 +7,9 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:grepper = {}
 let g:grepper.dir = 'repo,file'
 let g:grepper.tools = ['ag', 'rg', 'git']
+let g:grepper.ag = {
+      \'grepprg': 'ag -i --vimgrep --ignore lib --ignore node_modules --ignore dist'
+      \}
 let g:FlyGrep_search_tools = ['ag', 'rg', 'grep', 'pt', 'ack']
 let g:far#source= 'ag'
 " matchup settings

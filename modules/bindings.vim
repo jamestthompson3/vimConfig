@@ -44,6 +44,19 @@ nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>m :Denite mark  -direction=dynamicbottom<CR>
 xnoremap <silent><Leader>v :<C-u>Denite register -buffer-name=register -default-action=replace<CR>
+map <leader>a :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::!<CR>
+
+call denite#custom#source(
+\ 'grep', 'matchers', ['matcher_regexp'])
+
+" use ag for content search
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'default_opts',
+    \ ['-i', '--vimgrep'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', ['ignore node_modules','ignore lib', 'ignore dist'])
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#option('default', 'prompt', '>')
