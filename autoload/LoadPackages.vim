@@ -18,7 +18,7 @@ call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
 call dein#add('styled-components/vim-styled-components', { 'on_ft': 'javascript' } )
 call dein#add('neoclide/vim-jsx-improve', { 'on_ft': 'javascript' } )
 call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
-" call dein#add('mhartington/nvim-typescript', { 'build': './install.sh' } )
+" call dein#add('mhartington/nvim-typescript', {} )
 " Themes
 call dein#add('chrisbra/Colorizer', {} )
 call dein#add('jordwalke/flatlandia', {} )
