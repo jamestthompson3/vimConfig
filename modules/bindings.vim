@@ -1,44 +1,63 @@
+scriptencoding = utf-8
+"                ╔══════════════════════════════════════════╗
+"                ║         » LEADER AND QUICK ESCAPE «      ║
+"                ╚══════════════════════════════════════════╝
 let g:mapleader = "\<Space>"
 inoremap jj <Esc>
-" Copying and pasting from system clipboard
+"                ╔══════════════════════════════════════════╗
+"                ║             » SYSTEM CLIPBOARD «         ║
+"                ╚══════════════════════════════════════════╝
 xnoremap <Leader>y "+y
 xnoremap <Leader>d "+d
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
-" Move windows
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-" Buffer switching
+"                ╔══════════════════════════════════════════╗
+"                ║             » WINDOW MOTIONS «           ║
+"                ╚══════════════════════════════════════════╝
+nnoremap <C-J> <C-W><C-J> ".....Move down window
+nnoremap <C-K> <C-W><C-K> ".....Move up window
+nnoremap <C-L> <C-W><C-L> ".....Move left window
+nnoremap <C-H> <C-W><C-H> ".....Move right window
+
+nnoremap <silent> wq ZZ  "......Quit window
+nnoremap <silent> q :bp\|bd #<CR> "........Quit buffer
+nnoremap <silent> sq :only<CR> "......Quit all windows but current
+nnoremap <silent> gl :pc<CR> "......Quit quickfix
+"                ╔══════════════════════════════════════════╗
+"                ║             » BUFFER SWITCHING «         ║
+"                ╚══════════════════════════════════════════╝
+
 nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
-" Macros
+"                ╔══════════════════════════════════════════╗
+"                ║                 » MACROS «               ║
+"                ╚══════════════════════════════════════════╝
 nnoremap mm q
-" Easy splits
+"                ╔══════════════════════════════════════════╗
+"                ║               » EASY SPLITS «            ║
+"                ╚══════════════════════════════════════════╝
 nnoremap <silent> sp :vsplit<CR>
 nnoremap <silent> sv :split<CR>
 nnoremap <silent> tt :tab split<CR>
-" nerdtree
+"                ╔══════════════════════════════════════════╗
+"                ║                » NERDTREE «              ║
+"                ╚══════════════════════════════════════════╝
 nnoremap <silent><F3> :NERDTreeToggle<CR>
 nnoremap <silent><Leader>t :NERDTreeFind<CR>
+"                ╔══════════════════════════════════════════╗
+"                ║              » SEARCHING «               ║
+"                ╚══════════════════════════════════════════╝
+nnoremap <silent> <Esc> :noh<CR><Esc> "....Unhighlight after search
+nnoremap <silent> <Leader>sp :Grepper<CR> "...Grep whole project
+nnoremap <silent> <Leader>fr :Far<CR> "....Project find and replace
+nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr> "...Grep for word under cursor
 
-" Unhighlight after search
-nnoremap <silent> <Esc> :noh<CR><Esc>
-" Searching
-nnoremap <silent> <Leader>sp :Grepper<CR>
-nnoremap <silent> <Leader>fr :Far<CR>
-nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
-" ALE jump to errors
-nnoremap <silent> <Leader>jj :ALENext<CR>
-nnoremap <silent> <Leader>kk :ALEPrevious<CR>
-"" for denite
-map <silent><C-P> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
+map <silent><C-P> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR> "...Search files tracked by git
 if exists('g:oni_gui')
 map <silent><Leader><Leader> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
 endif
-" denite file search (c-p uses gitignore, c-o looks at everything)
-nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
+
+nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR> "...Search all files
 nnoremap <silent><Leader>, :Denite buffer  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
@@ -69,22 +88,27 @@ call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#var('file_rec/git', 'command',
 \ ['git', 'ls-files', '|', 'fzf'])
 
-" Quit window, quit and quit all other windows but current one
-nnoremap <silent> wq ZZ
-nnoremap <silent> q :bp\|bd #<CR>
-nnoremap <silent> sq :only<CR>
-nnoremap <silent> gl :pc<CR>
-" completion
+"                ╔══════════════════════════════════════════╗
+"                ║           » ALE JUMP TO ERRORS «         ║
+"                ╚══════════════════════════════════════════╝
+nnoremap <silent> <Leader>jj :ALENext<CR>
+nnoremap <silent> <Leader>kk :ALEPrevious<CR>
+"                ╔══════════════════════════════════════════╗
+"                ║               » COMPLETION «             ║
+"                ╚══════════════════════════════════════════╝
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-" spell check
+"                ╔══════════════════════════════════════════╗
+"                ║             » SPELL CHECK «              ║
+"                ╚══════════════════════════════════════════╝
 nnoremap <silent><F7> :setlocal spell! spell?<CR>
-" Misc
+"                ╔══════════════════════════════════════════╗
+"                ║                 » MISC «                 ║
+"                ╚══════════════════════════════════════════╝
 set wildchar=<Tab>
 function! OpenTerminalDrawer() abort
   execute ':copen'
   execute ':term'
 endfunction
-
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>

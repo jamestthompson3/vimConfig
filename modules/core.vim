@@ -3,6 +3,7 @@ syntax enable
 set hidden
 filetype plugin indent on
 set autoindent
+set smartindent
 set autoread  " Automatically read a file changed outside of vim
 set undolevels=1000
 set wildignorecase
@@ -17,10 +18,8 @@ set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
-set completeopt+=preview,longest,noinsert,menuone,noselect
 set ignorecase
 set smartcase
-set omnifunc=syntaxcomplete#Complete
 augroup core
   autocmd!
   if has('nvim')
