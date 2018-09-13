@@ -62,7 +62,7 @@ call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'nor
 call denite#custom#option('default', 'prompt', '>')
 " -u flag to unrestrict (see ag docs)
 call denite#custom#var('file_rec', 'command',
-\ ['ag', '--follow', '--nocolor', '--nogroup','--ignore-case', '-u', '-g', ''])
+\ ['ls', '-a', '|', 'fzf'])
 
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 
