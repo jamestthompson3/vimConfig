@@ -63,6 +63,7 @@ map <silent><Leader><Leader> :DeniteProjectDir -buffer-name=git -direction=dynam
 endif
 
 nnoremap <silent><Leader>g :Denite gitbranch<CR>
+nnoremap <silent><Leader>gl :Denite gitlog<CR>
 nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
 nnoremap <silent><Leader>. :Denite buffer  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>

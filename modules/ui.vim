@@ -10,12 +10,13 @@ set termguicolors
 set background=dark
 set number
 set nowrap
+set cursorline
 set noshowmode
-set guioptions-=m  "...remove menu bar
-set guioptions-=T  "...remove toolbar
-set guioptions-=r  "...remove right-hand scroll bar
-set guioptions-=L  "...remove left-hand scroll bar
-set pumheight=15   "...limit completion menu height
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+set pumheight=15   "limit completion menu height
 set scrolloff=1
 set sidescrolloff=5
 set display+=lastline
