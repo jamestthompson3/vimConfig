@@ -3,6 +3,7 @@ syntax enable
 set hidden
 filetype plugin indent on
 set autoindent
+set smartindent
 set autoread  " Automatically read a file changed outside of vim
 set undolevels=1000
 set wildignorecase
@@ -17,10 +18,8 @@ set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
-set completeopt+=preview,longest,noinsert,menuone,noselect
 set ignorecase
 set smartcase
-set omnifunc=syntaxcomplete#Complete
 augroup core
   autocmd!
   if has('nvim')
@@ -48,7 +47,7 @@ autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
 
 augroup checktime
     au!
-    if !has("gui_running")
+    if !has('gui_running')
         "silent! necessary otherwise throws errors when using command
         "line window.
         autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
@@ -58,6 +57,14 @@ augroup END
 if has('win16') || has('win32') || has('win64')
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
 endif
+
+if !exists('g:gui_oni')
+  augroup typescript_ft
+    au!
+    autocmd BufRead,BufNewFile *.ts set filetype=typescript
+  augroup END
+endif
+
 " let g:python3_host_prog = 'C:\dev\Python35\python.exe'
 let g:data_dir = $HOME . '/.cache/Vim/'
 let g:backup_dir = g:data_dir . 'backup'

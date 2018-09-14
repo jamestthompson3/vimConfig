@@ -1,13 +1,37 @@
 scriptencoding utf-8
+"                ╔══════════════════════════════════════════╗
+"                ║                 » BASICS «               ║
+"                ╚══════════════════════════════════════════╝
 if !has('nvim')
 set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
 endif
+
+set termguicolors
+set background=dark
+set number
+set nowrap
+set noshowmode
+set guioptions-=m  "...remove menu bar
+set guioptions-=T  "...remove toolbar
+set guioptions-=r  "...remove right-hand scroll bar
+set guioptions-=L  "...remove left-hand scroll bar
+set pumheight=15   "...limit completion menu height
+set scrolloff=1
+set sidescrolloff=5
+set display+=lastline
+set incsearch
+set hlsearch
+set ttimeout
+
+colorscheme tokyo-metro
+"                ╔══════════════════════════════════════════╗
+"                ║                 » FONTS «                ║
+"                ╚══════════════════════════════════════════╝
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
-
 
 if has('win16') || has('win32') || has('win64')
   set guifont=Iosevka:h10:cANSI:qDRAFT
@@ -17,28 +41,9 @@ else
   set guifont=Iosevka\ 10
 endif
 
-set termguicolors
-set background=dark
-set number
-set nowrap
-set noshowmode
-colorscheme tokyo-metro
-let g:Lf_StlColorscheme = 'hybrid_reverse'
-:set guioptions-=m  "remove menu bar
-:set guioptions-=T  "remove toolbar
-:set guioptions-=r  "remove right-hand scroll bar
-:set guioptions-=L  "remove left-hand scroll bar
-
-" limit completion menu height
-set pumheight=15
-set scrolloff=1
-set sidescrolloff=5
-set display+=lastline
-set incsearch
-set hlsearch
-set hidden
-set ttimeout
-" airline
+"                ╔══════════════════════════════════════════╗
+"                ║                » AIRLINE «               ║
+"                ╚══════════════════════════════════════════╝
 let g:airline#extensions#branch#enabled = 1
 let g:falcon_airline = 1
 let g:airline#extensions#tabline#enabled = 1
