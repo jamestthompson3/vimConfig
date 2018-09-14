@@ -55,6 +55,8 @@ augroup checktime
 augroup END
 
 if has('win16') || has('win32') || has('win64')
+  " set shell=powershell
+  " set shellcmdflag=-command
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
 endif
 

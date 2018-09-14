@@ -50,6 +50,7 @@ call dein#add('Raimondi/delimitMate', { 'lazy': 0, 'on_path': '*'} )
 call dein#add('w0rp/ale',{} )
 call dein#add('scrooloose/nerdtree',{} )
 call dein#add('Shougo/denite.nvim')
+call dein#add('neoclide/denite-git')
 call dein#add('Shougo/neomru.vim')
 call dein#add('andymass/vim-matchup',{} )
 call dein#add('jceb/vim-orgmode', {'on_ft': ['org', 'txt']} )
@@ -77,6 +78,7 @@ call dein#add('Shougo/deoplete.nvim', {} )
 call dein#add('carlitux/deoplete-ternjs', {} )
 call dein#add('racer-rust/vim-racer', {} )
 call dein#add('copy/deoplete-ocaml', {} )
+call dein#add('zchee/deoplete-jedi', {} )
 "                ╔══════════════════════════════════════════╗
 "                ║                » ICONS «                 ║
 "                ╚══════════════════════════════════════════╝
