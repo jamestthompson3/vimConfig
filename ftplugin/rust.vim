@@ -3,6 +3,8 @@
   nnoremap <silent> gh :ALEHover<CR>
   nnoremap <silent> K :ALEFindReferences<CR>
 " endif
+let b:ale_linters =  ['rls']
+let b:ale_fixers = ['rustfmt']
 
 nnoremap <silent> <leader>R :RustRun<CR>
 if has('Mac')

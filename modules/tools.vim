@@ -45,3 +45,7 @@ call denite#custom#source(
 augroup tree
 "autocmd bufenter * if (winnr(“$”) == 1 && exists(“b:NERDTreeType”) && b:NERDTreeType == “primary”) | q | endif
 augroup END
+"                ╔══════════════════════════════════════════╗
+"                ║                  » GOYO «                ║
+"                ╚══════════════════════════════════════════╝
+let g:goyo_width = 120

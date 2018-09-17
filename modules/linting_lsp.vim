@@ -1,18 +1,13 @@
 scriptencoding = utf-8
 let g:ale_linters = {
-  \   'python': ['flake8', 'pylint'],
-   \  'javascript': ['eslint', 'flow'],
-    \ 'rust': ['rls'],
-   \  'json': ['fixjson', 'jsonlint'],
-    \ 'c': ['cquery', 'clang'],
+  \  'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
-  \ 'typescript': ['tslint']
   \}
 let g:ale_sign_error = '❌ '
 let g:ale_sign_warning = '⚠️'
 let g:ale_fixers = {
-      \ 'javascript': ['prettier'], 'rust': ['rustfmt'], 'html':['tidy'],
-      \ 'markdown': ['prettier'], 'c': ['clang-format'], 'typescript':['prettier'],
+      \  'html':['tidy'],
+      \ 'markdown': ['prettier'],
       \ 'reason': ['refmt']
       \ }
 let g:ale_fix_on_save = 1

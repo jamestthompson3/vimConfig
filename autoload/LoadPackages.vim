@@ -56,6 +56,7 @@ call dein#add('andymass/vim-matchup',{} )
 call dein#add('jceb/vim-orgmode', {'on_ft': ['org', 'txt']} )
 call dein#add('mhinz/vim-grepper' , { 'on_cmd' : 'Grepper', 'loadconf' : 1} )
 call dein#add('brooth/far.vim' , { 'on_cmd' : 'Far'} )
+call dein#add('junegunn/goyo.vim' , { 'on_cmd' : 'Goyo'} )
 call dein#add('vim-airline/vim-airline', {} )
 call dein#add('vim-airline/vim-airline-themes', {} )
 "                ╔══════════════════════════════════════════╗

@@ -18,6 +18,13 @@ let g:jsdoc_enable_es6 = 1
 "                ║                  » ALE «                 ║
 "                ╚══════════════════════════════════════════╝
 let g:ale_completion_enabled = 1
+let b:ale_linters = ['eslint', 'flow']
+let b:ale_fixers = ['prettier']
+
+if !exists('g:gui_oni')
+  let b:ale_linters = ['eslint', 'flow', 'tsserver']
+endif
+
 if !exists('g:gui_oni')
   nnoremap <silent> gh :ALEHover<CR>
   nnoremap <silent> gd :ALEGoToDefinition<CR>
