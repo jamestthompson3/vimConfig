@@ -6,6 +6,16 @@ snippet d "debug statement"
 debugger
 endsnippet
 
+snippet switch
+switch ( ${VISUAL}${1:expression} ) {
+	case '${VISUAL}${3:case}':
+		${4}
+		return ${0}
+	default:
+		${2}
+}
+endsnippet
+
 snippet flowmachine "React Class component with flow and sate machine" b
 // @flow
 import * as React from 'react'
