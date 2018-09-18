@@ -14,6 +14,7 @@ augroup omnifuncs
   " set omnifunc=syntaxcomplete#Complete
 augroup END
 set completeopt+=preview,longest,noinsert,menuone,noselect
+let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . "UltiSnips"
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝

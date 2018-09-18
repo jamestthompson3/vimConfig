@@ -52,15 +52,14 @@ nnoremap <silent><Leader>t :NERDTreeFind<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝
+nmap S :%s//g<LEFT><LEFT>
+vmap S :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <silent> <Leader>sp :Grepper<CR>
 nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 
-map <silent><C-P> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
-if exists('g:oni_gui')
 map <silent><Leader><Leader> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
-endif
 
 nnoremap <silent><Leader>g :Denite gitbranch<CR>
 nnoremap <silent><Leader>gl :Denite gitlog<CR>
@@ -76,15 +75,25 @@ call denite#custom#source(
 \ 'grep', 'matchers', ['matcher_regexp'])
 
 " use ag for content search
+function! GetOpts() abort
+  let l:opts = ['ignore flow-typed']
+  if getcwd() =~ 'kamu-front'
+    call extend(opts, ['ignore viiksetjs', 'ignore front/flow-typed'])
+  endif
+  return opts
+endfunction
+
 call denite#custom#var('grep', 'command', ['ag'])
 call denite#custom#var('grep', 'default_opts',
     \ ['-i', '--vimgrep'])
 call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', [])
 call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', ['ignore node_modules','ignore lib', 'ignore dist'])
+call denite#custom#var('grep', 'final_opts', GetOpts())
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#map(
       \ 'normal',
       \ 'a',
@@ -131,6 +140,14 @@ call denite#custom#var('file_rec/git', 'command',
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 "                ╔══════════════════════════════════════════╗
+"                ║          » BLOCK MANIPULATION «          ║
+"                ╚══════════════════════════════════════════╝
+vmap <up>    <Plug>SchleppUp
+vmap <down>  <Plug>SchleppDown
+vmap <left>  <Plug>SchleppLeft
+vmap <right> <Plug>SchleppRight
+
+"                ╔══════════════════════════════════════════╗
 "                ║               » COMPLETION «             ║
 "                ╚══════════════════════════════════════════╝
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -143,6 +160,7 @@ nnoremap <silent><F7> :setlocal spell! spell?<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║                 » MISC «                 ║
 "                ╚══════════════════════════════════════════╝
+nnoremap ; :
 set wildchar=<Tab>
 function! OpenTerminalDrawer() abort
   execute ':copen'
