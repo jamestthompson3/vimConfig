@@ -78,9 +78,9 @@ call denite#custom#source(
 function! GetOpts() abort
   let l:opts = ['ignore flow-typed']
   if getcwd() =~ 'kamu-front'
-    call extend(opts, ['ignore viiksetjs', 'ignore front/flow-typed'])
+    call extend(l:opts, ['ignore viiksetjs', 'ignore front/flow-typed'])
   endif
-  return opts
+  return l:opts
 endfunction
 
 call denite#custom#var('grep', 'command', ['ag'])
@@ -121,13 +121,9 @@ call denite#custom#map(
       \ 'noremap'
       \)
 call denite#custom#option('default', 'prompt', '>')
-" -u flag to unrestrict (see ag docs)
-" call denite#custom#var('branches', 'command', ['git', 'branch'])
-" call denite#custom#alias('source', 'branches', 'branches')
 call denite#custom#var('file_rec', 'command',
-      \ ['ag', '--follow', '--nocolor', '--nogroup','--ignore-case', '-u', '-g', ''])
-"      \ ['fd', '--type', 'f', '--hidden',  '--exclude' , '".git"', '|', 'fzf'])
-"\ ['fzf'])
+      \ ['rg', '-L', '-i', '--no-ignore', '--files'])
+""'-u', '-g', ''
 
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 

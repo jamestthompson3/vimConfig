@@ -1,3 +1,4 @@
+scriptencoding utf-8
 function LoadPackages#Load()
 if has('win16') || has('win32') || has('win64')
   let s:file_separator = '\\'
@@ -26,71 +27,73 @@ call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
 
 call dein#add('jalvesaq/Nvim-R', { 'on_ft': 'r' } )
 "                ╔══════════════════════════════════════════╗
-"                ║               » THEMES «                 ║
+"                ║                » REASON «                ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('chrisbra/Colorizer', {} )
-call dein#add('jordwalke/flatlandia', {} )
-call dein#add('fenetikm/falcon', {} )
-call dein#add('koirand/tokyo-metro.vim', {} )
-call dein#add('nightsense/snow', {} )
-call dein#add('andreypopp/vim-colors-plain', {} )
-call dein#add('kristijanhusak/vim-hybrid-material',{} )
-call dein#add('mhartington/oceanic-next', {} )
-call dein#add('mattn/webapi-vim', {'on_path': '*'} )
+call dein#add('reasonml-editor/vim-reason-plus', { 'on_ft': 'reason'} )
+
 "                ╔══════════════════════════════════════════╗
 "                ║                 » RUST «                 ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
+
 "                ╔══════════════════════════════════════════╗
-"                ║                » REASON «                ║
+"                ║               » THEMES «                 ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('reasonml-editor/vim-reason-plus', { 'on_ft': 'reason'} )
+call dein#add('chrisbra/Colorizer')
+call dein#add('jordwalke/flatlandia')
+call dein#add('fenetikm/falcon')
+call dein#add('koirand/tokyo-metro.vim')
+call dein#add('nightsense/snow')
+call dein#add('andreypopp/vim-colors-plain')
+call dein#add('kristijanhusak/vim-hybrid-material')
+call dein#add('mhartington/oceanic-next')
+call dein#add('mattn/webapi-vim')
 "                ╔══════════════════════════════════════════╗
 "                ║                  » UTILS «               ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('wakatime/vim-wakatime', {} )
-call dein#add('unblevable/quick-scope', {} )
-call dein#add('Raimondi/delimitMate', { 'lazy': 0, 'on_path': '*'} )
-call dein#add('w0rp/ale',{} )
-call dein#add('scrooloose/nerdtree',{} )
+call dein#add('unblevable/quick-scope')
+call dein#add('Raimondi/delimitMate')
+call dein#add('w0rp/ale')
+call dein#add('scrooloose/nerdtree')
 call dein#add('SirVer/ultisnips')
 call dein#add('Shougo/denite.nvim')
 call dein#add('neoclide/denite-git')
 call dein#add('sheerun/vim-polyglot')
 call dein#add('zirrostig/vim-schlepp')
 call dein#add('Shougo/neomru.vim')
-call dein#add('andymass/vim-matchup',{} )
+call dein#add('andymass/vim-matchup')
 call dein#add('jceb/vim-orgmode', {'on_ft': ['org', 'txt']} )
 call dein#add('mhinz/vim-grepper' , { 'on_cmd' : 'Grepper', 'loadconf' : 1} )
 call dein#add('brooth/far.vim' , { 'on_cmd' : 'Far'} )
 call dein#add('junegunn/goyo.vim' , { 'on_cmd' : 'Goyo'} )
-call dein#add('vim-airline/vim-airline', {} )
-call dein#add('vim-airline/vim-airline-themes', {} )
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 "                ╔══════════════════════════════════════════╗
 "                ║             » TPOPE MAGIC «              ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('tpope/vim-commentary',{} )
-call dein#add('tpope/vim-fugitive', {} )
-call dein#add('tpope/vim-unimpaired', {} )
-call dein#add('tpope/vim-surround', {'lazy': 0, 'on_path': '*'} )
+call dein#add('tpope/vim-commentary')
+call dein#add('tpope/vim-fugitive')
+call dein#add('tpope/vim-unimpaired')
+call dein#add('tpope/vim-surround')
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 "                ╔══════════════════════════════════════════╗
 "                ║                 » TAGS «                 ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': ['python', 'c', 'cpp', 'rust']} )
-call dein#add('skywind3000/gutentags_plus', {} )
+call dein#add('skywind3000/gutentags_plus', {'on_ft': ['python', 'c', 'cpp', 'rust']} )
 "                ╔══════════════════════════════════════════╗
 "                ║              » COMPLETION «              ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('Shougo/deoplete.nvim', {} )
-call dein#add('carlitux/deoplete-ternjs', {} )
-call dein#add('racer-rust/vim-racer', {} )
-call dein#add('copy/deoplete-ocaml', {} )
-call dein#add('zchee/deoplete-jedi', {} )
+call dein#add('Shougo/deoplete.nvim')
+call dein#add('carlitux/deoplete-ternjs')
+call dein#add('racer-rust/vim-racer')
+call dein#add('copy/deoplete-ocaml')
+call dein#add('zchee/deoplete-jedi')
 "                ╔══════════════════════════════════════════╗
 "                ║                » ICONS «                 ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('ryanoasis/vim-devicons', {} )
+call dein#add('ryanoasis/vim-devicons')
 
 call dein#end()
 call dein#save_state()
