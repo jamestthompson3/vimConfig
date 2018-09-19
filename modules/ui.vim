@@ -101,6 +101,9 @@ function! FileSize() abort
     endif
 endfunction
 
+call denite#custom#option('_', 'highlight_mode_insert', 'CursorLine')
+call denite#custom#option('_', 'highlight_matched_range', 'None')
+call denite#custom#option('_', 'highlight_matched_char', 'None')
 " function! LinterStatus() abort
 "     let l:counts = ale#statusline#Count(bufnr(''))
 

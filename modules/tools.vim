@@ -4,6 +4,7 @@ scriptencoding utf-8
 "                ╚══════════════════════════════════════════╝
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 10
+call deoplete#custom#source('ultisnips', 'rank', 1000)
 augroup omnifuncs
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -15,6 +16,7 @@ augroup omnifuncs
 augroup END
 set completeopt+=preview,longest,noinsert,menuone,noselect
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . "UltiSnips"
+let g:UltiSnipsExpandTrigger = "J"
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝

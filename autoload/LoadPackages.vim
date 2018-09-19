@@ -19,12 +19,12 @@ call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'js']} )
 call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
 call dein#add('styled-components/vim-styled-components', { 'on_ft': 'javascript' } )
 call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
+" call dein#add('mhartington/nvim-typescript', {} )
 "                ╔══════════════════════════════════════════╗
 "                ║                   » R «                  ║
 "                ╚══════════════════════════════════════════╝
 
 call dein#add('jalvesaq/Nvim-R', { 'on_ft': 'r' } )
-" call dein#add('mhartington/nvim-typescript', {} )
 "                ╔══════════════════════════════════════════╗
 "                ║               » THEMES «                 ║
 "                ╚══════════════════════════════════════════╝
