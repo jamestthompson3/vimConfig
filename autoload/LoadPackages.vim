@@ -1,6 +1,6 @@
 scriptencoding utf-8
 function LoadPackages#Load()
-if has('win16') || has('win32') || has('win64')
+if g:isWindows
   let s:file_separator = '\\'
   let s:state_path = join(['','.cache','dein'], s:file_separator)
 else

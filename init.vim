@@ -3,8 +3,10 @@ scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
 
-" Create function to manage things in a semi-sane way
-if has('win16') || has('win32') || has('win64')
+let g:isOni = exists('g:gui_oni')
+" Create function to manage thing in a semi-sane way
+let g:isWindows = has('win16') || has('win32') || has('win64')
+if g:isWindows
  let g:file_separator = '\\'
 else
  let g:file_separator = '/'

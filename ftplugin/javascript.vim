@@ -21,11 +21,11 @@ let g:ale_completion_enabled = 1
 let b:ale_linters = ['eslint', 'flow']
 let b:ale_fixers = ['prettier']
 
-if !exists('g:gui_oni')
+if !g:isOni
   let b:ale_linters = ['eslint', 'flow', 'tsserver']
 endif
 
-if !exists('g:gui_oni')
+if !g:isOni
   nnoremap <silent> gh :ALEHover<CR>
   nnoremap <silent> gd :ALEGoToDefinition<CR>
   nnoremap <silent> K :ALEFindReferences<CR>
