@@ -55,11 +55,14 @@ augroup checktime
     endif
 augroup END
 
-if has('win16') || has('win32') || has('win64')
+if g:isWindows
   " set shell=powershell
   " set shellcmdflag=-command
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
+else
+  let g:python3_host_prog = '/usr/bin/python3'
 endif
+
 
 " let g:python3_host_prog = 'C:\dev\Python35\python.exe'
 let g:data_dir = $HOME . '/.cache/Vim/'

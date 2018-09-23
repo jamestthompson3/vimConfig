@@ -52,7 +52,8 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline_theme = 'falcon'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = ' %{fugitive#head()}'
-let g:airline_section_z = '%{FileSize()}'
+"let g:airline_section_z = '%{FileSize()}'
+let g:airline_section_z = ''
 let g:airline_section_y = ''
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
@@ -101,9 +102,6 @@ function! FileSize() abort
     endif
 endfunction
 
-call denite#custom#option('_', 'highlight_mode_insert', 'CursorLine')
-call denite#custom#option('_', 'highlight_matched_range', 'None')
-call denite#custom#option('_', 'highlight_matched_char', 'None')
 " function! LinterStatus() abort
 "     let l:counts = ale#statusline#Count(bufnr(''))
 
