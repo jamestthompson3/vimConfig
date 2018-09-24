@@ -3,11 +3,6 @@ scriptencoding = utf-8
 "                ║         » LEADER AND QUICK ESCAPE «      ║
 "                ╚══════════════════════════════════════════╝
 let g:mapleader = "\<Space>"
-ve left window
-ve left window
-ve left window
-ve left window
-ve left window
 inoremap jj <Esc>
 "                ╔══════════════════════════════════════════╗
 "                ║             » SYSTEM CLIPBOARD «         ║
@@ -47,8 +42,56 @@ nnoremap <silent> tt :tab split<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
-nnoremap <silent><F3> :NERDTreeToggle<CR>
-nnoremap <silent><Leader>t :NERDTreeFind<CR>
+nnoremap <silent><F3> :Defx `expand('%:p:h')` -search=`expand('%:p')` -split=vertical<CR>
+
+autocmd FileType defx call s:defx_my_settings()
+	function! s:defx_my_settings() abort
+	  " Define mappings
+	  nnoremap <silent><buffer><expr> <CR>
+	  \ defx#do_action('open')
+	  nnoremap <silent><buffer><expr> c
+	  \ defx#do_action('copy')
+	  nnoremap <silent><buffer><expr> m
+	  \ defx#do_action('move')
+	  nnoremap <silent><buffer><expr> p
+	  \ defx#do_action('paste')
+	  nnoremap <silent><buffer><expr> l
+	  \ defx#do_action('open')
+	  nnoremap <silent><buffer><expr> E
+	  \ defx#do_action('open', 'vsplit')
+	  nnoremap <silent><buffer><expr> P
+	  \ defx#do_action('open', 'pedit')
+	  nnoremap <silent><buffer><expr> K
+	  \ defx#do_action('new_directory')
+	  nnoremap <silent><buffer><expr> N
+	  \ defx#do_action('new_file')
+	  nnoremap <silent><buffer><expr> d
+	  \ defx#do_action('remove')
+	  nnoremap <silent><buffer><expr> r
+	  \ defx#do_action('rename')
+	  nnoremap <silent><buffer><expr> x
+	  \ defx#do_action('execute_system')
+	  nnoremap <silent><buffer><expr> .
+	  \ defx#do_action('toggle_ignored_files')
+	  nnoremap <silent><buffer><expr> h
+	  \ defx#do_action('cd', ['..'])
+	  nnoremap <silent><buffer><expr> ~
+	  \ defx#do_action('cd')
+	  nnoremap <silent><buffer><expr> q
+	  \ defx#do_action('quit')
+	  nnoremap <silent><buffer><expr> <Space>
+	  \ defx#do_action('toggle_select') . 'j'
+	  nnoremap <silent><buffer><expr> *
+	  \ defx#do_action('toggle_select_all')
+	  nnoremap <silent><buffer><expr> j
+	  \ line('.') == line('$') ? 'gg' : 'j'
+	  nnoremap <silent><buffer><expr> k
+	  \ line('.') == 1 ? 'G' : 'k'
+	  nnoremap <silent><buffer><expr> <C-l>
+	  \ defx#do_action('redraw')
+	  nnoremap <silent><buffer><expr> <C-g>
+	  \ defx#do_action('print')
+	endfunction
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝
@@ -59,7 +102,7 @@ nnoremap <silent> <Leader>sp :Grepper<CR>
 nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 
-map <silent><Leader><Leader> :DeniteProjectDir -buffer-name=git -direction=dynamicbottom file_rec/git<CR>
+nnoremap <silent><Leader><Leader> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec/git<CR>
 
 nnoremap <silent><Leader>g :Denite gitbranch<CR>
 nnoremap <silent><Leader>gl :Denite gitlog<CR>
@@ -69,67 +112,16 @@ nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>m :Denite mark  -direction=dynamicbottom<CR>
 xnoremap <silent><Leader>v :<C-u>Denite register -buffer-name=register -default-action=replace<CR>
-map <leader>a :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::!<CR>
+nmap <leader>a :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::!<CR>
 
-call denite#custom#source(
-\ 'grep', 'matchers', ['matcher_regexp'])
-
-" use ag for content search
-function! GetOpts() abort
-  let l:opts = ['ignore flow-typed']
-  if getcwd() =~ 'kamu-front'
-    call extend(l:opts, ['ignore viiksetjs', 'ignore front/flow-typed'])
-  endif
-  return l:opts
-endfunction
-
-call denite#custom#var('grep', 'command', ['ag'])
-call denite#custom#var('grep', 'default_opts',
-    \ ['-i', '--vimgrep'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', [])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', GetOpts())
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map(
-      \ 'normal',
-      \ 'a',
-      \ '<denite:do_action:add>',
-      \ 'noremap'
-      \)
-
-call denite#custom#map(
-      \ 'normal',
-      \ 'd',
-      \ '<denite:do_action:delete>',
-      \ 'noremap'
-      \)
-
-call denite#custom#map(
-      \ 'normal',
-      \ 'r',
-      \ '<denite:do_action:reset>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'normal',
-      \ 'c',
-      \ '<denite:do_action:checkout>',
-      \ 'noremap'
-      \)
-call denite#custom#option('default', 'prompt', '>')
-call denite#custom#var('file_rec', 'command',
-      \ ['rg', '-L', '-i', '--no-ignore', '--files'])
-""'-u', '-g', ''
-
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-
-call denite#custom#var('file_rec/git', 'command',
-\ ['git', 'ls-files', '|', 'fzf'])
-
+call denite#custom#map('normal', 'a', '<denite:do_action:add>', 'noremap')
+call denite#custom#map('normal','d','<denite:do_action:delete>','noremap')
+call denite#custom#map('normal','r','<denite:do_action:reset>','noremap')
+call denite#custom#map('normal','c','<denite:do_action:checkout>','noremap')
 "                ╔══════════════════════════════════════════╗
 "                ║           » ALE JUMP TO ERRORS «         ║
 "                ╚══════════════════════════════════════════╝
@@ -157,6 +149,7 @@ nnoremap <silent><F7> :setlocal spell! spell?<CR>
 "                ║                 » MISC «                 ║
 "                ╚══════════════════════════════════════════╝
 nnoremap ; :
+nnoremap : ;
 set wildchar=<Tab>
 function! OpenTerminalDrawer() abort
   execute ':copen'

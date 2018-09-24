@@ -39,7 +39,38 @@ if g:isWindows
 endif
 let g:far#auto_write_replaced_buffers = 1
 call denite#custom#source(
+\ 'grep', 'matchers', ['matcher_regexp'])
+
+" use ag for content search
+function! GetOpts() abort
+  let l:opts = ['ignore flow-typed']
+  if getcwd() =~ 'kamu-front'
+    call extend(l:opts, ['ignore viiksetjs', 'ignore front/flow-typed'])
+  endif
+  return l:opts
+endfunction
+
+call denite#custom#source(
 	\ 'file_mru', 'matchers', ['matcher/fuzzy', 'matcher/project_files'])
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'default_opts',
+    \ ['-i', '--vimgrep'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', GetOpts())
+call denite#custom#option('default', 'prompt', '>')
+call denite#custom#var('file_rec', 'command',
+      \ ['rg', '-L', '-i', '--no-ignore', '--files'])
+""'-u', '-g', ''
+
+call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+
+call denite#custom#option('_', 'highlight_mode_insert', 'CursorLine')
+call denite#custom#option('_', 'highlight_matched_range', 'None')
+call denite#custom#option('_', 'highlight_matched_char', 'None')
+
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║
 "                ╚══════════════════════════════════════════╝
@@ -48,21 +79,11 @@ let g:matchup_motion_enabled = 0
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 "                ╔══════════════════════════════════════════╗
-"                ║                » NERDTREE «              ║
-"                ╚══════════════════════════════════════════╝
-let g:NERDTreeQuitOnOpen = 1
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeDirArrows = 1
-augroup tree
-"autocmd bufenter * if (winnr(“$”) == 1 && exists(“b:NERDTreeType”) && b:NERDTreeType == “primary”) | q | endif
-augroup END
-"                ╔══════════════════════════════════════════╗
 "                ║                  » GOYO «                ║
 "                ╚══════════════════════════════════════════╝
 let g:goyo_width = 120
 "                ╔══════════════════════════════════════════╗
 "                ║                 » COLOR «                ║
 "                ╚══════════════════════════════════════════╝
-let g:colorizer_auto_color = 1
-
+" let g:colorizer_auto_color = 1
+let g:colorizer_auto_filetype='css,html,javascript.jsx'
