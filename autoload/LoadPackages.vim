@@ -41,7 +41,6 @@ call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
 "                ╚══════════════════════════════════════════╝
 call dein#add('chrisbra/Colorizer')
 call dein#add('jordwalke/flatlandia')
-call dein#add('fenetikm/falcon')
 call dein#add('koirand/tokyo-metro.vim')
 call dein#add('nightsense/snow')
 call dein#add('andreypopp/vim-colors-plain')
