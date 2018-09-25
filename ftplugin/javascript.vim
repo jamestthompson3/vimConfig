@@ -18,7 +18,7 @@ let g:jsdoc_enable_es6 = 1
 "                ║                  » ALE «                 ║
 "                ╚══════════════════════════════════════════╝
 let g:ale_completion_enabled = 1
-let b:ale_linters = ['eslint', 'flow']
+let b:ale_linters = ['eslint', 'flow-language-server']
 let b:ale_fixers = ['prettier']
 
 if !g:isOni

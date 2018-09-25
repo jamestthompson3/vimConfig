@@ -8,6 +8,7 @@ let g:ale_sign_warning = '⚠️'
 let g:ale_fixers = {
       \  'html':['tidy'],
       \ 'markdown': ['prettier'],
+      \ 'javascript': ['prettier']
       \ }
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 0
