@@ -21,6 +21,8 @@ set linebreak " do not break words.
 set backspace=indent,eol,start
 set ignorecase
 set smartcase
+set noswapfile
+set inccommand=split
 augroup core
   autocmd!
   if has('nvim')

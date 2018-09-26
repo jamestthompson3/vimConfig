@@ -149,7 +149,7 @@ nnoremap <silent><F7> :setlocal spell! spell?<CR>
 "                ║                 » MISC «                 ║
 "                ╚══════════════════════════════════════════╝
 nnoremap ; :
-nnoremap : ;
+nnoremap <Leader>; ;
 set wildchar=<Tab>
 function! OpenTerminalDrawer() abort
   execute ':copen'

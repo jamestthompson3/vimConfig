@@ -28,7 +28,7 @@ if g:isWindows
   let g:grepper.tools = ['ag', 'rg', 'git']
 endif
 let g:grepper.ag = {
-      \'grepprg': 'ag -i --vimgrep'
+      \'grepprg': 'ag -i --vimgrep --ignore flow-typed'
       \}
 let g:grepper.rg = {
       \'grepprg': 'rg --vimgrep'
@@ -51,7 +51,9 @@ function! GetOpts() abort
 endfunction
 
 call denite#custom#source(
-	\ 'file_mru', 'matchers', ['matcher/fuzzy', 'matcher/project_files'])
+	\ 'file_mru', 'matchers', ['matcher/regexp', 'matcher/fuzzy', 'matcher/project_files'])
+call denite#custom#source('file_mru', 'sorters', ['sorter/sublime', 'sorter/rank'])
+
 call denite#custom#var('grep', 'command', ['ag'])
 call denite#custom#var('grep', 'default_opts',
     \ ['-i', '--vimgrep'])
@@ -62,13 +64,16 @@ call denite#custom#var('grep', 'final_opts', GetOpts())
 call denite#custom#option('default', 'prompt', '>')
 call denite#custom#var('file_rec', 'command',
       \ ['rg', '-L', '-i', '--no-ignore', '--files'])
-""'-u', '-g', ''
 
 call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#source('file_rec/git', 'matchers', ['matcher/regexp', 'matcher/fuzzy'])
+call denite#custom#source('file_rec', 'matchers', ['matcher/regexp', 'matcher/fuzzy'])
+call denite#custom#source('file_rec', 'sorters', ['sorter/sublime', 'sorter/rank'])
+call denite#custom#source('file_rec/git', 'sorters', ['sorter/sublime', 'sorter/rank'])
 
-call denite#custom#option('_', 'highlight_mode_insert', 'CursorLine')
-call denite#custom#option('_', 'highlight_matched_range', 'None')
+call denite#custom#option('_', 'highlight_mode_insert', 'CursorLineNr')
+call denite#custom#option('_', 'highlight_matched_range', 'Search')
 call denite#custom#option('_', 'highlight_matched_char', 'None')
 
 "                ╔══════════════════════════════════════════╗

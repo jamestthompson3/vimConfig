@@ -23,7 +23,7 @@ set display+=lastline
 set incsearch
 set hlsearch
 set ttimeout
-hi SpellBad guibg=#ff2929 ctermbg=224
+hi SpellBad guibg=#ff2929 ctermbg=196
 
 colorscheme tokyo-metro
 "                ╔══════════════════════════════════════════╗
