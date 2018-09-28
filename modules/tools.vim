@@ -50,9 +50,10 @@ function! GetOpts() abort
   return l:opts
 endfunction
 
-call denite#custom#source(
-	\ 'file_mru', 'matchers', ['matcher/regexp', 'matcher/fuzzy', 'matcher/project_files'])
+call denite#custom#source('file_mru', 'matchers', ['matcher/regexp', 'matcher/fuzzy', 'matcher/project_files'])
 call denite#custom#source('file_mru', 'sorters', ['sorter/sublime', 'sorter/rank'])
+" call denite#custom#source('buffer', 'sorters', ['sorter/sublime', 'sorter/rank'])
+call denite#custom#source('buffer', 'matchers', ['matcher/regexp', 'matcher/fuzzy', 'matcher/project_files'])
 
 call denite#custom#var('grep', 'command', ['ag'])
 call denite#custom#var('grep', 'default_opts',
@@ -61,7 +62,6 @@ call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', [])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', GetOpts())
-call denite#custom#option('default', 'prompt', '>')
 call denite#custom#var('file_rec', 'command',
       \ ['rg', '-L', '-i', '--no-ignore', '--files'])
 
@@ -75,6 +75,7 @@ call denite#custom#source('file_rec/git', 'sorters', ['sorter/sublime', 'sorter/
 call denite#custom#option('_', 'highlight_mode_insert', 'CursorLineNr')
 call denite#custom#option('_', 'highlight_matched_range', 'Search')
 call denite#custom#option('_', 'highlight_matched_char', 'None')
+call denite#custom#option('_', 'prompt', '>')
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║
@@ -83,6 +84,10 @@ let g:matchup_transmute_enabled = 1
 let g:matchup_motion_enabled = 0
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
+"                ╔══════════════════════════════════════════╗
+"                ║                » NERDTREE «              ║
+"                ╚══════════════════════════════════════════╝
+let g:netrw_winsize = 20
 "                ╔══════════════════════════════════════════╗
 "                ║                  » GOYO «                ║
 "                ╚══════════════════════════════════════════╝

@@ -79,6 +79,9 @@ let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = 'Ɇ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:webdevicons_enable = 1
+let g:webdevicons_enable_airline_statusline = 1
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_denite = 1
 
 function! FileSize() abort
     let l:bytes = getfsize(expand('%p'))
