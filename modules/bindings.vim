@@ -112,7 +112,7 @@ nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>m :Denite mark  -direction=dynamicbottom<CR>
 xnoremap <silent><Leader>v :<C-u>Denite register -buffer-name=register -default-action=replace<CR>
-nmap <leader>a :DeniteProjectDir -buffer-name=grep -default-action=quickfix grep:::!<CR>
+nmap <leader>a :DeniteProjectDir -buffer-name=grep grep:::!<CR>
 
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')

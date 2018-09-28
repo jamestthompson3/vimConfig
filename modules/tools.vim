@@ -92,3 +92,11 @@ let g:goyo_width = 120
 "                ╚══════════════════════════════════════════╝
 " let g:colorizer_auto_color = 1
 let g:colorizer_auto_filetype='css,html,javascript.jsx'
+"                ╔══════════════════════════════════════════╗
+"                ║               » WINDOWS «                ║
+"                ╚══════════════════════════════════════════╝
+augroup WINDOWS
+  autocmd!
+  autocmd WinEnter * set number
+  autocmd WinLeave * set nonumber
+augroup END
