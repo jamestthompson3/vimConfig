@@ -49,6 +49,9 @@ endif
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'jsformatter'
 let g:airline_theme = 'flatlandia'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = ' %{fugitive#head()}'
@@ -83,27 +86,30 @@ let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_airline_tabline = 1
 let g:webdevicons_enable_denite = 1
 
-function! FileSize() abort
-    let l:bytes = getfsize(expand('%p'))
-    if (l:bytes >= 1024)
-        let l:kbytes = l:bytes / 1025
-    endif
-    if (exists('kbytes') && l:kbytes >= 1000)
-        let l:mbytes = l:kbytes / 1000
-    endif
+" function! FileSize() abort
+"     let l:bytes = getfsize(expand('%p'))
+"     if (l:bytes >= 1024)
+"         let l:kbytes = l:bytes / 1025
+"     endif
+"     if (exists('kbytes') && l:kbytes >= 1000)
+"         let l:mbytes = l:kbytes / 1000
+"     endif
 
-    if l:bytes <= 0
-        return '0'
-    endif
+"     if l:bytes <= 0
+"         return '0'
+"     endif
 
-    if (exists('mbytes'))
-        return l:mbytes . 'MB '
-    elseif (exists('kbytes'))
-        return l:kbytes . 'KB '
-    else
-        return l:bytes . 'B '
-    endif
-endfunction
+"     if (exists('mbytes'))
+"         return l:mbytes . 'MB '
+"     elseif (exists('kbytes'))
+"         return l:kbytes . 'KB '
+"     else
+"         return l:bytes . 'B '
+"     endif
+" endfunction
+
+
+" set tabline+=%1*\ %F\ %*
 
 " function! LinterStatus() abort
 "     let l:counts = ale#statusline#Count(bufnr(''))
@@ -142,7 +148,7 @@ endfunction
 " set statusline+=%1*\ \ %{fugitive#head()}
 " set statusline+=%=
 " set statusline+=%3*\ ‹‹
-" set statusline+=%1*\ %{FileSize()}
+" " set statusline+=%1*\ %{FileSize()}
 " set statusline+=%3*\ %{ReadOnly()}
 " set statusline+=%3*\ %{LinterStatus()}
 " set statusline+=%3*\ ››\ %*
