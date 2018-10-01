@@ -53,3 +53,5 @@ call denite#custom#source('doc_grep', 'matchers', ['matcher/regexp', 'matcher/fu
 call denite#custom#source('doc_grep', 'sorters', ['sorter/sublime', 'sorter/rank'])
 
 nnoremap <silent><Leader>k :DeniteProjectDir -buffer-name=docs -direction=dynamicbottom doc_grep<CR>
+iabbrev cosnt const
+iabbrev imoprt import

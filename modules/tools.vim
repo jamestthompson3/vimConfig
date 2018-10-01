@@ -50,10 +50,10 @@ function! GetOpts() abort
   return l:opts
 endfunction
 
-call denite#custom#source('file_mru', 'matchers', ['matcher/regexp', 'matcher/fuzzy', 'matcher/project_files'])
+call denite#custom#source('file_mru', 'matchers', ['matcher/regexp', 'matcher/fruzzy', 'matcher/project_files'])
 call denite#custom#source('file_mru', 'sorters', ['sorter/sublime', 'sorter/rank'])
 " call denite#custom#source('buffer', 'sorters', ['sorter/sublime', 'sorter/rank'])
-call denite#custom#source('buffer', 'matchers', ['matcher/regexp', 'matcher/fuzzy', 'matcher/project_files'])
+" call denite#custom#source('buffer', 'matchers', ['matcher/regexp', 'matcher/fruzzy', 'matcher/project_files'])
 
 call denite#custom#var('grep', 'command', ['ag'])
 call denite#custom#var('grep', 'default_opts',
@@ -67,8 +67,8 @@ call denite#custom#var('file_rec', 'command',
 
 call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#source('file_rec/git', 'matchers', ['matcher/regexp', 'matcher/fuzzy'])
-call denite#custom#source('file_rec', 'matchers', ['matcher/regexp', 'matcher/fuzzy'])
+call denite#custom#source('file_rec/git', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
+call denite#custom#source('file_rec', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
 call denite#custom#source('file_rec', 'sorters', ['sorter/sublime', 'sorter/rank'])
 call denite#custom#source('file_rec/git', 'sorters', ['sorter/sublime', 'sorter/rank'])
 
