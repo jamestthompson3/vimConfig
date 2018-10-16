@@ -32,6 +32,7 @@ augroup core
   au GUIEnter * set vb t_vb=
   " removes whitespace
   autocmd BufWritePre * %s/\s\+$//e
+  autocmd InsertLeave * write
 augroup END
 augroup AutoSwap
         autocmd!
@@ -39,11 +40,11 @@ augroup AutoSwap
 augroup END
 
 function! AS_HandleSwapfile (filename, swapname)
-        " if swapfile is older than file itself, just get rid of it
-        if getftime(v:swapname) < getftime(a:filename)
-                call delete(v:swapname)
-                let v:swapchoice = 'e'
-        endif
+    " if swapfile is older than file itself, just get rid of it
+    if getftime(v:swapname) < getftime(a:filename)
+            call delete(v:swapname)
+            let v:swapchoice = 'e'
+    endif
 endfunction
 autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
   \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif

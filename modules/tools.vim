@@ -2,7 +2,9 @@ scriptencoding utf-8
 "                ╔══════════════════════════════════════════╗
 "                ║                » COMPLETION «            ║
 "                ╚══════════════════════════════════════════╝
+if !g:isOni
 let g:deoplete#enable_at_startup = 1
+endif
 let g:deoplete#auto_complete_delay = 10
 call deoplete#custom#source('ultisnips', 'rank', 1000)
 augroup omnifuncs
@@ -55,6 +57,7 @@ call denite#custom#source('file_mru', 'sorters', ['sorter/sublime', 'sorter/rank
 " call denite#custom#source('buffer', 'sorters', ['sorter/sublime', 'sorter/rank'])
 " call denite#custom#source('buffer', 'matchers', ['matcher/regexp', 'matcher/fruzzy', 'matcher/project_files'])
 
+let g:fruzzy#usenative = 1
 call denite#custom#var('grep', 'command', ['ag'])
 call denite#custom#var('grep', 'default_opts',
     \ ['-i', '--vimgrep'])

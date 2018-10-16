@@ -56,6 +56,7 @@ nmap S :%s//g<LEFT><LEFT>
 vmap S :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <silent> <Leader>sp :Grepper<CR>
+nnoremap gab :Grepper-buffers<CR>
 nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 
