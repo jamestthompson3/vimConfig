@@ -15,7 +15,8 @@ set shiftwidth=2 " indent code with two spaces
 set softtabstop=2 " tabs take two spaces
 set tabstop=2
 set expandtab " replace tabs with spaces
-set smarttab " pressing tab key in insert mode insert spaces
+set runtimepath+=~/.skim
+"set smarttab " pressing tab key in insert mode insert spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start

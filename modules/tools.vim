@@ -68,7 +68,9 @@ call denite#custom#var('grep', 'final_opts', GetOpts())
 call denite#custom#var('file_rec', 'command',
       \ ['rg', '-L', '-i', '--no-ignore', '--files'])
 
-call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
+
+" call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
+call denite#custom#var('file_rec/git', 'command', ['fd', '.', '-i', '--type', 'file'])
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#source('file_rec/git', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
 call denite#custom#source('file_rec', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
