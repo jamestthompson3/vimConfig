@@ -60,12 +60,19 @@ nnoremap gab :Grepper-buffers<CR>
 nnoremap <silent> <Leader>fr :Far<CR>
 nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
 
-nnoremap <silent><Leader><Leader> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec/git<CR>
+nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
+nnoremap <silent><Leader>g :GCheckout<CR>
+nnoremap <silent><Leader>. :Buffers<CR>
+nnoremap <silent><Leader>gl :Commits<CR>
+nnoremap <silent><C-O> :call Fzf_dev(1)<CR>
+if g:isWindows
+  nnoremap <silent><Leader><Leader> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec/git<CR>
+  nnoremap <silent><Leader>g :Denite gitbranch<CR>
+  nnoremap <silent><Leader>. :Denite buffer  -direction=dynamicbottom<CR>
+  nnoremap <silent><Leader>gl :Denite gitlog<CR>
+  nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
+endif
 
-nnoremap <silent><Leader>g :Denite gitbranch<CR>
-nnoremap <silent><Leader>gl :Denite gitlog<CR>
-nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
-nnoremap <silent><Leader>. :Denite buffer  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>m :Denite mark  -direction=dynamicbottom<CR>

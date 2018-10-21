@@ -53,10 +53,14 @@ function! GetOpts() abort
 endfunction
 
 let g:fzf_layout = { 'window': 'enew' }
-function! Fzf_dev()
+function! Fzf_dev(no_git) abort
 
-  function! s:files()
-    let l:files = split(system($SKIM_DEFAULT_COMMAND), '\n')
+  function! s:files(no_git)
+    let l:file_list = system($SKIM_DEFAULT_COMMAND)
+    if a:no_git
+      let l:file_list = system('rg -L -i --no-ignore --files')
+    endif
+    let l:files = split(l:file_list, '\n')
     return s:prepend_icon(l:files)
   endfunction
 
@@ -73,16 +77,33 @@ function! Fzf_dev()
 
   function! s:edit_file(item)
     let l:pos = stridx(a:item, ' ')
-    let l:file_path = a:item[pos+1:-1]
+    let l:file_path = a:item[l:pos+1:-1]
     execute 'silent e' l:file_path
   endfunction
 
   call skim#run({
-        \ 'source': <sid>files(),
+        \ 'source': <sid>files(a:no_git),
         \ 'sink':   function('s:edit_file'),
         \ 'options': '-m',
         \ 'down': '40%'})
 endfunction
+function! s:open_branch_fzf(line)
+  let l:parser = split(a:line)
+  let l:branch = l:parser[0]
+  if l:branch ==? '*'
+    let l:branch = l:parser[1]
+  endif
+  execute '!git checkout ' . l:branch
+endfunction
+
+command! -bang -nargs=0 GCheckout
+  \ call fzf#vim#grep(
+  \   'git branch -v', 0,
+  \   {
+  \     'sink': function('s:open_branch_fzf')
+  \   },
+  \   <bang>0
+  \ )
 call denite#custom#source('file_mru', 'matchers', ['matcher/regexp', 'matcher/fruzzy', 'matcher/project_files'])
 call denite#custom#source('file_mru', 'sorters', ['sorter/sublime', 'sorter/rank'])
 " call denite#custom#source('buffer', 'sorters', ['sorter/sublime', 'sorter/rank'])
