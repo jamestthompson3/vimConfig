@@ -57,8 +57,6 @@ call dein#add('Raimondi/delimitMate')
 call dein#add('w0rp/ale')
 " call dein#add('scrooloose/nerdtree')
 call dein#add('SirVer/ultisnips')
-call dein#add('Shougo/denite.nvim')
-call dein#add('neoclide/denite-git')
 if g:isWindows
   call dein#add('junegunn/fzf', { 'build': './install --all'})
   call dein#add('junegunn/fzf.vim')

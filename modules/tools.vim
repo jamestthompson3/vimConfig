@@ -40,9 +40,6 @@ let g:far#source= 'rgnvim'
 "   let g:far#source= 'agnvim'
 " endif
 let g:far#auto_write_replaced_buffers = 1
-call denite#custom#source(
-\ 'grep', 'matchers', ['matcher_regexp'])
-
 " use ag for content search
 function! GetOpts() abort
   let l:opts = ['ignore flow-typed']
@@ -53,61 +50,84 @@ function! GetOpts() abort
 endfunction
 
 let g:fzf_layout = { 'window': 'enew' }
-function! Fzf_dev(no_git) abort
 
-
-  let s:file_list = ['']
-  function! s:files(no_git)
-    function! OnEvent(job_id, data, event)
-      let s:file_list[-1] .= a:data[0]
-      call extend(s:file_list, a:data[1:])
-      call s:prepend_icon(s:file_list)
-    endfunction
-
-    let s:callbacks = {
-    \ 'on_stdout': 'OnEvent'
-    \ }
-    if !a:no_git
-      call jobstart([ 'rg --files' ], s:callbacks)
-    else
-      call jobstart([ 'rg', '-L', '-i', '--no-ignore', '--files' ], s:callbacks)
-    endif
-    " let l:files = split(s:file_list, '\n')
-      " echom printf('%s', string(s:file_list))
-    return s:prepend_icon(s:file_list)
-  endfunction
-
-  function! s:prepend_icon(candidates)
+function! s:prepend_icon(candidates)
     let l:result = []
     for l:candidate in a:candidates
       let l:filename = fnamemodify(l:candidate, ':p:t')
       let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
       call add(l:result, printf('%s %s', l:icon, l:candidate))
     endfor
-
     return l:result
-  endfunction
+endfunction
 
-  function! s:edit_file(item)
+function! s:edit_file(item)
     let l:pos = stridx(a:item, ' ')
     let l:file_path = a:item[l:pos+1:-1]
     execute 'silent e' l:file_path
+endfunction
+
+function! Fzf_dev(no_git) abort
+  let s:file_list = ['']
+  let s:callbacks = {
+    \ 'on_stdout': 'OnEvent',
+    \ 'on_exit': 'OnExit'
+    \ }
+
+  if !a:no_git
+    call jobstart([ 'rg',  '--files' ], s:callbacks)
+  else
+    call jobstart([ 'rg', '--no-ignore', '--files' ], s:callbacks)
+  endif
+
+  function! OnEvent(job_id, data, event)
+    let s:file_list[-1] .= a:data[0]
+    call extend(s:file_list, a:data[1:])
+  endfunction
+
+  function! OnExit(job_id, data, event)
+    if g:isWindows
+      call fzf#run({
+        \ 'source': s:prepend_icon(s:file_list),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m',
+        \ 'down': '40%'
+        \ })
+    else
+      call skim#run({
+        \ 'source': s:prepend_icon(s:file_list),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m',
+        \ 'down': '40%'
+        \ })
+    call feedkeys('i')
+    endif
+  endfunction
+endfunction
+
+function! Fzf_mru() abort
+  function! s:generate_mru()
+    let l:mru_files = split(system('sed "1d" ~/.cache/neomru/file'), '\n')
+    let l:cur_dir = getcwd()
+    let l:filtered_files = filter(l:mru_files, {idx, val -> stridx(val, cur_dir) >= 0} )
+    return l:filtered_files
   endfunction
 
   if g:isWindows
-    call fzf#run({
-        \ 'source': <sid>files(a:no_git),
+      call fzf#run({
+        \ 'source': s:prepend_icon(s:generate_mru()),
         \ 'sink':   function('s:edit_file'),
         \ 'options': '-m',
-        \ 'down': '40%'})
-  else
-    call skim#run({
-        \ 'source': <sid>files(a:no_git),
+        \ 'down': '40%'
+        \ })
+    else
+      call skim#run({
+        \ 'source': s:prepend_icon(s:generate_mru()),
         \ 'sink':   function('s:edit_file'),
         \ 'options': '-m',
-        \ 'down': '40%'})
-
-  endif
+        \ 'down': '40%'
+        \ })
+    endif
 endfunction
 
 function! s:open_branch_fzf(line)
@@ -127,35 +147,13 @@ command! -bang -nargs=0 GCheckout
   \   },
   \   <bang>0
   \ )
-call denite#custom#source('file_mru', 'matchers', ['matcher/regexp', 'matcher/fruzzy', 'matcher/project_files'])
-call denite#custom#source('file_mru', 'sorters', ['sorter/sublime', 'sorter/rank'])
-" call denite#custom#source('buffer', 'sorters', ['sorter/sublime', 'sorter/rank'])
-" call denite#custom#source('buffer', 'matchers', ['matcher/regexp', 'matcher/fruzzy', 'matcher/project_files'])
 
-let g:fruzzy#usenative = 1
-call denite#custom#var('grep', 'command', ['ag'])
-call denite#custom#var('grep', 'default_opts',
-    \ ['-i', '--vimgrep'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', [])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', GetOpts())
-call denite#custom#var('file_rec', 'command',
-      \ ['rg', '-L', '-i', '--no-ignore', '--files'])
-
-
-" call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
-call denite#custom#var('file_rec/git', 'command', ['fd', '.', '-i', '--type', 'file'])
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#source('file_rec/git', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
-call denite#custom#source('file_rec', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
-call denite#custom#source('file_rec', 'sorters', ['sorter/sublime', 'sorter/rank'])
-call denite#custom#source('file_rec/git', 'sorters', ['sorter/sublime', 'sorter/rank'])
-
-call denite#custom#option('_', 'highlight_mode_insert', 'Visual')
-call denite#custom#option('_', 'highlight_matched_range', 'Search')
-call denite#custom#option('_', 'highlight_matched_char', 'None')
-call denite#custom#option('_', 'prompt', '>')
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║

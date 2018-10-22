@@ -37,21 +37,5 @@ let g:deoplete#sources#ternjs#types = 1 "Whether to include the types of the com
 let g:ternjs#arguments = ['--no-port-file']
 let g:deoplete#sources#ternjs#depths = 1 "Whether to include the distance  between the completions and the origin position in the result data.
 
-"                ╔══════════════════════════════════════════╗
-"                ║             » SEARCH DOCS «              ║
-"                ╚══════════════════════════════════════════╝
-call denite#custom#var('doc_grep', 'command', ['rg'])
-call denite#custom#var('doc_grep', 'default_opts',
-    \ ['-i', '--vimgrep', '--no-ignore'])
-call denite#custom#var('doc_grep', 'recursive_opts', [])
-call denite#custom#var('doc_grep', 'pattern_opt', ['--type', 'markdown'])
-call denite#custom#var('doc_grep', 'separator', ['--'])
-call denite#custom#var('doc_grep', 'final_opts', [])
-
-call denite#custom#alias('source', 'doc_grep', 'grep')
-call denite#custom#source('doc_grep', 'matchers', ['matcher/regexp', 'matcher/fuzzy'])
-call denite#custom#source('doc_grep', 'sorters', ['sorter/sublime', 'sorter/rank'])
-
-nnoremap <silent><Leader>k :DeniteProjectDir -buffer-name=docs -direction=dynamicbottom doc_grep<CR>
 iabbrev cosnt const
 iabbrev imoprt import

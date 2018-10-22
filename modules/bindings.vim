@@ -65,28 +65,9 @@ nnoremap <silent><Leader>g :GCheckout<CR>
 nnoremap <silent><Leader>. :Buffers<CR>
 nnoremap <silent><Leader>gl :Commits<CR>
 nnoremap <silent><C-O> :call Fzf_dev(1)<CR>
-" if g:isWindows
-"   nnoremap <silent><Leader><Leader> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec/git<CR>
-"   nnoremap <silent><Leader>g :Denite gitbranch<CR>
-"   nnoremap <silent><Leader>. :Denite buffer  -direction=dynamicbottom<CR>
-"   nnoremap <silent><Leader>gl :Denite gitlog<CR>
-"   nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
-" endif
+nnoremap <silent><Leader>, :call Fzf_mru()<CR>
+nnoremap <silent><Leader>m :Marks<CR>
 
-nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
-nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
-nnoremap <silent><Leader>m :Denite mark  -direction=dynamicbottom<CR>
-xnoremap <silent><Leader>v :<C-u>Denite register -buffer-name=register -default-action=replace<CR>
-nmap <leader>a :DeniteProjectDir -buffer-name=grep grep:::!<CR>
-
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('normal', 'a', '<denite:do_action:add>', 'noremap')
-call denite#custom#map('normal','d','<denite:do_action:delete>','noremap')
-call denite#custom#map('normal','r','<denite:do_action:reset>','noremap')
-call denite#custom#map('normal','c','<denite:do_action:checkout>','noremap')
 "                ╔══════════════════════════════════════════╗
 "                ║           » ALE JUMP TO ERRORS «         ║
 "                ╚══════════════════════════════════════════╝
