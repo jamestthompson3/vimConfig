@@ -59,8 +59,14 @@ call dein#add('w0rp/ale')
 call dein#add('SirVer/ultisnips')
 call dein#add('Shougo/denite.nvim')
 call dein#add('neoclide/denite-git')
-call dein#add('lotabout/skim.vim')
-call dein#add('lotabout/skim', {'build': './install'})
+if g:isWindows
+  call dein#add('junegunn/fzf', { 'build': './install --all'})
+  call dein#add('junegunn/fzf.vim')
+endif
+if !g:isWindows
+  call dein#add('lotabout/skim.vim')
+  call dein#add('lotabout/skim', {'build': './install'})
+endif
 call dein#add('sheerun/vim-polyglot')
 call dein#add('zirrostig/vim-schlepp')
 call dein#add('Shougo/neomru.vim')

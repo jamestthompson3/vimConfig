@@ -56,7 +56,7 @@ let g:fzf_layout = { 'window': 'enew' }
 function! Fzf_dev(no_git) abort
 
   function! s:files(no_git)
-    let l:file_list = system($SKIM_DEFAULT_COMMAND)
+    let l:file_list = system('rg --files')
     if a:no_git
       let l:file_list = system('rg -L -i --no-ignore --files')
     endif
@@ -81,12 +81,22 @@ function! Fzf_dev(no_git) abort
     execute 'silent e' l:file_path
   endfunction
 
-  call skim#run({
+  if g:isWindows
+    call fzf#run({
         \ 'source': <sid>files(a:no_git),
         \ 'sink':   function('s:edit_file'),
         \ 'options': '-m',
         \ 'down': '40%'})
+  else
+    call skim#run({
+        \ 'source': <sid>files(a:no_git),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m',
+        \ 'down': '40%'})
+
+  endif
 endfunction
+
 function! s:open_branch_fzf(line)
   let l:parser = split(a:line)
   let l:branch = l:parser[0]
@@ -146,7 +156,8 @@ let g:matchup_match_paren_timeout = 100
 "                ╚══════════════════════════════════════════╝
 let g:netrw_winsize = 20
 let g:netrw_banner = 0
-let g:netrw_browse_split = 4
+let g:netrw_browse_split = 0
+let g:netrw_fastbrowse = 2
 "                ╔══════════════════════════════════════════╗
 "                ║                  » GOYO «                ║
 "                ╚══════════════════════════════════════════╝

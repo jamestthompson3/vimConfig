@@ -65,13 +65,13 @@ nnoremap <silent><Leader>g :GCheckout<CR>
 nnoremap <silent><Leader>. :Buffers<CR>
 nnoremap <silent><Leader>gl :Commits<CR>
 nnoremap <silent><C-O> :call Fzf_dev(1)<CR>
-if g:isWindows
-  nnoremap <silent><Leader><Leader> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec/git<CR>
-  nnoremap <silent><Leader>g :Denite gitbranch<CR>
-  nnoremap <silent><Leader>. :Denite buffer  -direction=dynamicbottom<CR>
-  nnoremap <silent><Leader>gl :Denite gitlog<CR>
-  nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
-endif
+" if g:isWindows
+"   nnoremap <silent><Leader><Leader> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec/git<CR>
+"   nnoremap <silent><Leader>g :Denite gitbranch<CR>
+"   nnoremap <silent><Leader>. :Denite buffer  -direction=dynamicbottom<CR>
+"   nnoremap <silent><Leader>gl :Denite gitlog<CR>
+"   nnoremap <silent><C-O> :DeniteProjectDir -buffer-name=files -direction=dynamicbottom file_rec<CR>
+" endif
 
 nnoremap <silent><Leader>, :Denite file_mru  -direction=dynamicbottom<CR>
 nnoremap <silent><Leader>F :Denite outline  -direction=dynamicbottom<CR>
@@ -124,3 +124,4 @@ nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
 nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+nmap <F5> :so $MYVIMRC<CR>
