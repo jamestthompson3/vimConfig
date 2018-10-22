@@ -52,6 +52,58 @@ function! GetOpts() abort
   return l:opts
 endfunction
 
+let g:fzf_layout = { 'window': 'enew' }
+function! Fzf_dev(no_git) abort
+
+  function! s:files(no_git)
+    let l:file_list = system($SKIM_DEFAULT_COMMAND)
+    if a:no_git
+      let l:file_list = system('rg -L -i --no-ignore --files')
+    endif
+    let l:files = split(l:file_list, '\n')
+    return s:prepend_icon(l:files)
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:filename = fnamemodify(l:candidate, ':p:t')
+      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+      call add(l:result, printf('%s %s', l:icon, l:candidate))
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:edit_file(item)
+    let l:pos = stridx(a:item, ' ')
+    let l:file_path = a:item[l:pos+1:-1]
+    execute 'silent e' l:file_path
+  endfunction
+
+  call skim#run({
+        \ 'source': <sid>files(a:no_git),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m',
+        \ 'down': '40%'})
+endfunction
+function! s:open_branch_fzf(line)
+  let l:parser = split(a:line)
+  let l:branch = l:parser[0]
+  if l:branch ==? '*'
+    let l:branch = l:parser[1]
+  endif
+  execute '!git checkout ' . l:branch
+endfunction
+
+command! -bang -nargs=0 GCheckout
+  \ call fzf#vim#grep(
+  \   'git branch -v', 0,
+  \   {
+  \     'sink': function('s:open_branch_fzf')
+  \   },
+  \   <bang>0
+  \ )
 call denite#custom#source('file_mru', 'matchers', ['matcher/regexp', 'matcher/fruzzy', 'matcher/project_files'])
 call denite#custom#source('file_mru', 'sorters', ['sorter/sublime', 'sorter/rank'])
 " call denite#custom#source('buffer', 'sorters', ['sorter/sublime', 'sorter/rank'])
@@ -68,7 +120,9 @@ call denite#custom#var('grep', 'final_opts', GetOpts())
 call denite#custom#var('file_rec', 'command',
       \ ['rg', '-L', '-i', '--no-ignore', '--files'])
 
-call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
+
+" call denite#custom#var('file_rec/git', 'command', ['rg', '-L', '-i', '--files'])
+call denite#custom#var('file_rec/git', 'command', ['fd', '.', '-i', '--type', 'file'])
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 call denite#custom#source('file_rec/git', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
 call denite#custom#source('file_rec', 'matchers', ['matcher/regexp', 'matcher/fruzzy'])
