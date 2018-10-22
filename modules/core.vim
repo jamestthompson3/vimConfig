@@ -32,7 +32,7 @@ augroup core
   au GUIEnter * set vb t_vb=
   " removes whitespace
   autocmd BufWritePre * %s/\s\+$//e
-  autocmd InsertLeave * write
+  " autocmd InsertLeave * write
 augroup END
 augroup AutoSwap
         autocmd!

@@ -2,9 +2,9 @@ scriptencoding utf-8
 "                ╔══════════════════════════════════════════╗
 "                ║                » COMPLETION «            ║
 "                ╚══════════════════════════════════════════╝
-if !g:isOni
+" if !g:isOni
 let g:deoplete#enable_at_startup = 1
-endif
+" endif
 let g:deoplete#auto_complete_delay = 10
 call deoplete#custom#source('ultisnips', 'rank', 1000)
 augroup omnifuncs
@@ -36,9 +36,9 @@ let g:grepper.rg = {
       \'grepprg': 'rg --vimgrep'
       \}
 let g:far#source= 'rgnvim'
-if g:isWindows
-  let g:far#source= 'agnvim'
-endif
+" if g:isWindows
+"   let g:far#source= 'agnvim'
+" endif
 let g:far#auto_write_replaced_buffers = 1
 call denite#custom#source(
 \ 'grep', 'matchers', ['matcher_regexp'])
@@ -75,7 +75,7 @@ call denite#custom#source('file_rec', 'matchers', ['matcher/regexp', 'matcher/fr
 call denite#custom#source('file_rec', 'sorters', ['sorter/sublime', 'sorter/rank'])
 call denite#custom#source('file_rec/git', 'sorters', ['sorter/sublime', 'sorter/rank'])
 
-call denite#custom#option('_', 'highlight_mode_insert', 'CursorLineNr')
+call denite#custom#option('_', 'highlight_mode_insert', 'Visual')
 call denite#custom#option('_', 'highlight_matched_range', 'Search')
 call denite#custom#option('_', 'highlight_matched_char', 'None')
 call denite#custom#option('_', 'prompt', '>')
