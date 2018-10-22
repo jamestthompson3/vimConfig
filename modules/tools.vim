@@ -55,13 +55,26 @@ endfunction
 let g:fzf_layout = { 'window': 'enew' }
 function! Fzf_dev(no_git) abort
 
+
+  let s:file_list = ['']
   function! s:files(no_git)
-    let l:file_list = system('rg --files')
-    if a:no_git
-      let l:file_list = system('rg -L -i --no-ignore --files')
+    function! OnEvent(job_id, data, event)
+      let s:file_list[-1] .= a:data[0]
+      call extend(s:file_list, a:data[1:])
+      call s:prepend_icon(s:file_list)
+    endfunction
+
+    let s:callbacks = {
+    \ 'on_stdout': 'OnEvent'
+    \ }
+    if !a:no_git
+      call jobstart([ 'rg --files' ], s:callbacks)
+    else
+      call jobstart([ 'rg', '-L', '-i', '--no-ignore', '--files' ], s:callbacks)
     endif
-    let l:files = split(l:file_list, '\n')
-    return s:prepend_icon(l:files)
+    " let l:files = split(s:file_list, '\n')
+      " echom printf('%s', string(s:file_list))
+    return s:prepend_icon(s:file_list)
   endfunction
 
   function! s:prepend_icon(candidates)
