@@ -93,6 +93,7 @@ function! Fzf_dev(no_git) abort
         \ 'options': '-m',
         \ 'down': '40%'
         \ })
+    call feedkeys('i')
     else
       call skim#run({
         \ 'source': s:prepend_icon(s:file_list),
@@ -107,10 +108,11 @@ endfunction
 
 function! Fzf_mru() abort
   function! s:generate_mru()
-    let l:mru_files = split(system('sed "1d" ~/.cache/neomru/file'), '\n')
-    let l:cur_dir = getcwd()
+    let l:mru_path_command = printf('sed "1d" %s', g:neomru#file_mru_path)
+    let l:mru_files = split(system(l:mru_path_command), '\n')
+    let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
     let l:filtered_files = filter(l:mru_files, {idx, val -> stridx(val, cur_dir) >= 0} )
-    return l:filtered_files
+    return map(l:filtered_files, {idx, val -> substitute(val, cur_dir.'/', '', '')})
   endfunction
 
   if g:isWindows

@@ -53,7 +53,7 @@ augroup END
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝
 nmap S :%s//g<LEFT><LEFT>
-vmap S :s//g<LEFT><LEFT>
+" vmap S :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <silent> <Leader>sp :Grepper<CR>
 nnoremap gab :Grepper-buffers<CR>
@@ -102,7 +102,12 @@ function! OpenTerminalDrawer() abort
   execute ':term'
 endfunction
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
+"                ╔══════════════════════════════════════════╗
+"                ║              » VIM DEV «                 ║
+"                ╚══════════════════════════════════════════╝
+
 nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nmap <F5> :so $MYVIMRC<CR>
+nmap <F7> :so %<CR>

@@ -46,7 +46,7 @@ endif
 "                ╔══════════════════════════════════════════╗
 "                ║                » AIRLINE «               ║
 "                ╚══════════════════════════════════════════╝
-    let g:fzf_colors =
+let g:fzf_colors =
     \ { 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
       \ 'hl':      ['fg', 'CursorLine'],
