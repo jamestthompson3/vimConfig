@@ -36,18 +36,7 @@ let g:grepper.rg = {
       \'grepprg': 'rg --vimgrep'
       \}
 let g:far#source= 'rgnvim'
-" if g:isWindows
-"   let g:far#source= 'agnvim'
-" endif
 let g:far#auto_write_replaced_buffers = 1
-" use ag for content search
-function! GetOpts() abort
-  let l:opts = ['ignore flow-typed']
-  if getcwd() =~ 'kamu-front'
-    call extend(l:opts, ['ignore viiksetjs', 'ignore front/flow-typed'])
-  endif
-  return l:opts
-endfunction
 
 let g:fzf_layout = { 'window': 'enew' }
 
@@ -59,6 +48,30 @@ function! s:prepend_icon(candidates)
       call add(l:result, printf('%s %s', l:icon, l:candidate))
     endfor
     return l:result
+endfunction
+
+function! s:run_fzf(list, async)
+  if g:isWindows
+      call fzf#run({
+        \ 'source': s:prepend_icon(a:list),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m',
+        \ 'down': '40%'
+        \ })
+    if a:async
+      call feedkeys('i')
+    endif
+  else
+    call skim#run({
+      \ 'source': s:prepend_icon(a:list),
+      \ 'sink':   function('s:edit_file'),
+      \ 'options': '-m',
+      \ 'down': '40%'
+      \ })
+    if a:async
+      call feedkeys('i')
+    endif
+  endif
 endfunction
 
 function! s:edit_file(item)
@@ -86,23 +99,7 @@ function! Fzf_dev(no_git) abort
   endfunction
 
   function! OnExit(job_id, data, event)
-    if g:isWindows
-      call fzf#run({
-        \ 'source': s:prepend_icon(s:file_list),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m',
-        \ 'down': '40%'
-        \ })
-    call feedkeys('i')
-    else
-      call skim#run({
-        \ 'source': s:prepend_icon(s:file_list),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m',
-        \ 'down': '40%'
-        \ })
-    call feedkeys('i')
-    endif
+    call s:run_fzf(s:file_list, 1)
   endfunction
 endfunction
 
@@ -114,22 +111,13 @@ function! Fzf_mru() abort
     let l:filtered_files = filter(l:mru_files, {idx, val -> stridx(val, cur_dir) >= 0} )
     return map(l:filtered_files, {idx, val -> substitute(val, cur_dir.'/', '', '')})
   endfunction
+  call s:run_fzf(s:generate_mru(), 0)
+endfunction
 
-  if g:isWindows
-      call fzf#run({
-        \ 'source': s:prepend_icon(s:generate_mru()),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m',
-        \ 'down': '40%'
-        \ })
-    else
-      call skim#run({
-        \ 'source': s:prepend_icon(s:generate_mru()),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m',
-        \ 'down': '40%'
-        \ })
-    endif
+function! Fzf_dir() abort
+  let l:file_dir = expand('%:p:h')
+  let l:dir_files = split(system(printf('ls %s', l:file_dir)), '\n')
+  call s:run_fzf(l:dir_files, 0)
 endfunction
 
 function! s:open_branch_fzf(line)
@@ -143,7 +131,7 @@ endfunction
 
 command! -bang -nargs=0 GCheckout
   \ call fzf#vim#grep(
-  \   'git branch -v', 0,
+  \   'git branch', 0,
   \   {
   \     'sink': function('s:open_branch_fzf')
   \   },
