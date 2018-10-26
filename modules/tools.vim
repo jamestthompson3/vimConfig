@@ -40,6 +40,19 @@ let g:far#auto_write_replaced_buffers = 1
 
 let g:fzf_layout = { 'window': 'enew' }
 
+function! FuzzyJest(trimmed_values) abort
+  call skim#run({
+        \ 'source': a:trimmed_values,
+        \ 'sink':   function('JestTest'),
+        \ 'options': '-m',
+        \ 'down': '40%'
+        \ })
+    call feedkeys('i')
+endfunction
+
+let g:jest_opts = {}
+let g:Jest_list_callback = funcref('FuzzyJest')
+
 function! s:prepend_icon(candidates)
     let l:result = []
     for l:candidate in a:candidates
@@ -144,6 +157,7 @@ command! -bang -nargs=* Rg
       \   <bang>0 ? fzf#vim#with_preview('up:60%')
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
+
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║

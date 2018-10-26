@@ -18,9 +18,10 @@ call dein#begin($HOME.s:state_path)
 call dein#add('Quramy/vim-js-pretty-template', { 'on_ft': 'javascript' } )
 call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'js']} )
 call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
+call dein#add('~/code/vim-jest')
 " call dein#add('styled-components/vim-styled-components', { 'on_ft': 'javascript' } )
 call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
-" call dein#add('mhartington/nvim-typescript', {} )
+call dein#add('yardnsm/vim-import-cost', {'build': 'npm install'} )
 "                ╔══════════════════════════════════════════╗
 "                ║                   » R «                  ║
 "                ╚══════════════════════════════════════════╝
@@ -56,6 +57,7 @@ call dein#add('unblevable/quick-scope')
 call dein#add('Raimondi/delimitMate')
 call dein#add('w0rp/ale')
 call dein#add('thinca/vim-localrc')
+call dein#add('tpope/vim-scriptease')
 " call dein#add('scrooloose/nerdtree')
 call dein#add('SirVer/ultisnips')
 if g:isWindows
