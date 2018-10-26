@@ -49,6 +49,7 @@ endfunction
 
 nmap <silent> Lrt :call ListTests()<CR>
 nmap <silent> Lt :call JestList()<CR>
+nmap <silent> T :call RunJest()<CR>
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » TERN «                  ║
