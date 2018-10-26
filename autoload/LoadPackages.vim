@@ -58,7 +58,7 @@ call dein#add('Raimondi/delimitMate')
 call dein#add('w0rp/ale')
 call dein#add('thinca/vim-localrc')
 call dein#add('tpope/vim-scriptease')
-" call dein#add('scrooloose/nerdtree')
+call dein#add('scrooloose/nerdtree')
 call dein#add('SirVer/ultisnips')
 if g:isWindows
   call dein#add('junegunn/fzf', { 'build': './install --all'})

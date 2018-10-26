@@ -41,14 +41,7 @@ nnoremap <silent> sv :split<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
-nnoremap <silent><F3> :Lex<CR>
-function! NetrwMapping()
-    noremap <buffer> N %
-endfunction
-augroup netrw_mapping
-    autocmd!
-    autocmd filetype netrw call NetrwMapping()
-augroup END
+nnoremap <silent><F3> :NERDTreeToggle<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝

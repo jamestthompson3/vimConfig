@@ -40,19 +40,6 @@ let g:far#auto_write_replaced_buffers = 1
 
 let g:fzf_layout = { 'window': 'enew' }
 
-function! FuzzyJest(trimmed_values) abort
-  call skim#run({
-        \ 'source': a:trimmed_values,
-        \ 'sink':   function('JestTest'),
-        \ 'options': '-m',
-        \ 'down': '40%'
-        \ })
-    call feedkeys('i')
-endfunction
-
-let g:jest_opts = {}
-let g:Jest_list_callback = funcref('FuzzyJest')
-
 function! s:prepend_icon(candidates)
     let l:result = []
     for l:candidate in a:candidates
@@ -169,10 +156,9 @@ let g:matchup_match_paren_timeout = 100
 "                ╔══════════════════════════════════════════╗
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
-let g:netrw_winsize = 20
-let g:netrw_banner = 0
-let g:netrw_browse_split = 0
-let g:netrw_fastbrowse = 2
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
 "                ╔══════════════════════════════════════════╗
 "                ║                  » GOYO «                ║
 "                ╚══════════════════════════════════════════╝

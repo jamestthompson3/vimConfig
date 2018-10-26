@@ -18,7 +18,7 @@ let g:jsdoc_enable_es6 = 1
 "                ║                  » ALE «                 ║
 "                ╚══════════════════════════════════════════╝
 let g:ale_completion_enabled = 1
-let b:ale_linters = ['eslint', 'flow']
+let b:ale_linters = ['eslint', 'flow-language-server']
 let b:ale_fixers = ['prettier']
 
 " if !g:isOni
@@ -30,6 +30,26 @@ if !g:isOni
   nnoremap <silent> gd :ALEGoToDefinition<CR>
   nnoremap <silent> K :ALEFindReferences<CR>
 endif
+
+function! FuzzyJest(trimmed_values) abort
+  call fzf#run({
+        \ 'source': a:trimmed_values,
+        \ 'sink':   function('JestTest'),
+        \ 'options': '-m',
+        \ 'down': '40%'
+        \ })
+    call feedkeys('i')
+endfunction
+
+function! ListTests() abort
+  let g:Jest_list_callback = funcref('FuzzyJest')
+  call JestList()
+  unlet g:Jest_list_callback
+endfunction
+
+nmap <silent> Lrt :call ListTests()<CR>
+nmap <silent> Lt :call JestList()<CR>
+
 "                ╔══════════════════════════════════════════╗
 "                ║                » TERN «                  ║
 "                ╚══════════════════════════════════════════╝
