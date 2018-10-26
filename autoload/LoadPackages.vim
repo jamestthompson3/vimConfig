@@ -55,6 +55,7 @@ call dein#add('wakatime/vim-wakatime', {} )
 call dein#add('unblevable/quick-scope')
 call dein#add('Raimondi/delimitMate')
 call dein#add('w0rp/ale')
+call dein#add('thinca/vim-localrc')
 " call dein#add('scrooloose/nerdtree')
 call dein#add('SirVer/ultisnips')
 if g:isWindows
@@ -87,8 +88,8 @@ call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 "                ╔══════════════════════════════════════════╗
 "                ║                 » TAGS «                 ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': ['python', 'c', 'cpp', 'rust']} )
-call dein#add('skywind3000/gutentags_plus', {'on_ft': ['python', 'c', 'cpp', 'rust']} )
+" call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': ['python', 'c', 'cpp', 'rust']} )
+" call dein#add('skywind3000/gutentags_plus', {'on_ft': ['python', 'c', 'cpp', 'rust']} )
 "                ╔══════════════════════════════════════════╗
 "                ║              » COMPLETION «              ║
 "                ╚══════════════════════════════════════════╝
