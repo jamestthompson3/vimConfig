@@ -101,8 +101,21 @@ nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
 "                ║              » VIM DEV «                 ║
 "                ╚══════════════════════════════════════════╝
 
+function! Profiler() abort
+  if exists('g:profiler_running')
+    profile pause
+    unlet g:profiler_running
+    noautocmd qall!
+  else
+    let g:profiler_running = 1
+    profile start profile.log
+    profile func *
+    profile file *
+  endif
+endfunction
 nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-nmap <F5> :so $MYVIMRC<CR>
-nmap <F7> :so %<CR>
+nmap <silent><F5> :so $MYVIMRC<CR>
+nmap <silent><F7> :so %<CR>
+nmap <silent><F1> :call Profiler()<CR>
