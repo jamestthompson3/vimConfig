@@ -16,10 +16,9 @@ call dein#begin($HOME.s:state_path)
 "                ║               » JAVASCRIPT «             ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('Quramy/vim-js-pretty-template', { 'on_ft': 'javascript' } )
-call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'js']} )
+call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'javascript']} )
 call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
-call dein#add('~/code/vim-jest')
-" call dein#add('styled-components/vim-styled-components', { 'on_ft': 'javascript' } )
+call dein#add('~/code/vim-jest', { 'on_ft': ['javascript', 'typescript']})
 call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
 call dein#add('yardnsm/vim-import-cost', {'build': 'npm install'} )
 "                ╔══════════════════════════════════════════╗
@@ -48,31 +47,23 @@ call dein#add('nightsense/snow')
 call dein#add('andreypopp/vim-colors-plain')
 call dein#add('kristijanhusak/vim-hybrid-material')
 call dein#add('mhartington/oceanic-next')
-call dein#add('mattn/webapi-vim')
 "                ╔══════════════════════════════════════════╗
 "                ║                  » UTILS «               ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('wakatime/vim-wakatime', {} )
+call dein#add('mattn/webapi-vim')
 call dein#add('unblevable/quick-scope')
 call dein#add('Raimondi/delimitMate')
 call dein#add('w0rp/ale')
 call dein#add('thinca/vim-localrc')
-call dein#add('tpope/vim-scriptease')
 call dein#add('scrooloose/nerdtree')
 call dein#add('SirVer/ultisnips')
-if g:isWindows
-  call dein#add('junegunn/fzf', { 'build': './install --all'})
-  call dein#add('junegunn/fzf.vim')
-endif
-if !g:isWindows
-  call dein#add('lotabout/skim.vim')
-  call dein#add('lotabout/skim', {'build': './install'})
-endif
+call dein#add('junegunn/fzf', { 'build': './install --all'})
+call dein#add('junegunn/fzf.vim')
 call dein#add('sheerun/vim-polyglot')
 call dein#add('zirrostig/vim-schlepp')
 call dein#add('Shougo/neomru.vim')
 call dein#add('andymass/vim-matchup')
-call dein#add('raghur/fruzzy')
 call dein#add('jceb/vim-orgmode', {'on_ft': ['org', 'txt']} )
 call dein#add('mhinz/vim-grepper' , { 'on_cmd' : 'Grepper', 'loadconf' : 1} )
 call dein#add('brooth/far.vim' , { 'on_cmd' : 'Far'} )
@@ -83,6 +74,7 @@ call dein#add('vim-airline/vim-airline-themes')
 "                ║             » TPOPE MAGIC «              ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('tpope/vim-commentary')
+call dein#add('tpope/vim-scriptease')
 call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-unimpaired')
 call dein#add('tpope/vim-surround')

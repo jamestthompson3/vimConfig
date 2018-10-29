@@ -51,27 +51,15 @@ function! s:prepend_icon(candidates)
 endfunction
 
 function! s:run_fzf(list, async)
-  if g:isWindows
-      call fzf#run({
-        \ 'source': s:prepend_icon(a:list),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m',
-        \ 'down': '40%'
-        \ })
-    if a:async
-      call feedkeys('i')
-    endif
-  else
-    call skim#run({
-      \ 'source': s:prepend_icon(a:list),
-      \ 'sink':   function('s:edit_file'),
-      \ 'options': '-m',
-      \ 'down': '40%'
-      \ })
-    if a:async
-      call feedkeys('i')
-    endif
-  endif
+ call fzf#run({
+     \ 'source': s:prepend_icon(a:list),
+     \ 'sink':   function('s:edit_file'),
+     \ 'options': '-m',
+     \ 'down': '40%'
+     \ })
+ if a:async
+   call feedkeys('i')
+ endif
 endfunction
 
 function! s:edit_file(item)
