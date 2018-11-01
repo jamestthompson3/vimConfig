@@ -65,6 +65,7 @@ endfunction
 function! s:edit_file(item)
     let l:pos = stridx(a:item, ' ')
     let l:file_path = a:item[l:pos+1:-1]
+    echom l:file_path
     execute 'silent e' l:file_path
 endfunction
 
@@ -104,7 +105,7 @@ endfunction
 
 function! Fzf_dir() abort
   let l:file_dir = expand('%:p:h')
-  let l:dir_files = split(system(printf('ls %s', l:file_dir)), '\n')
+  let l:dir_files = map(split(system(printf('ls %s', l:file_dir)), '\n'), {idx, val -> substitute(fnamemodify(val, ':p'), '\\', '/', 'g')})
   call s:run_fzf(l:dir_files, 0)
 endfunction
 

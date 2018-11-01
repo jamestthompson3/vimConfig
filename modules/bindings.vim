@@ -1,9 +1,15 @@
 scriptencoding = utf-8
 "                ╔══════════════════════════════════════════╗
-"                ║         » LEADER AND QUICK ESCAPE «      ║
+"                ║         » Leader AND QUICK ESCAPE «      ║
 "                ╚══════════════════════════════════════════╝
 let g:mapleader = "\<Space>"
 inoremap jj <Esc>
+
+" if exists(':tnoremap')
+"  tnoremap <Esc> <C-\><C-n>
+" endif
+
+
 "                ╔══════════════════════════════════════════╗
 "                ║             » SYSTEM CLIPBOARD «         ║
 "                ╚══════════════════════════════════════════╝
@@ -42,6 +48,7 @@ nnoremap <silent> sv :split<CR>
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
 nnoremap <silent><F3> :NERDTreeToggle<CR>
+nnoremap <silent><Leader>f :NERDTreeFind<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝
@@ -49,20 +56,26 @@ nmap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <silent> <Leader>sp :Grepper<CR>
-nnoremap gab :Grepper-buffers<CR>
+nnoremap <silent>gab :Grepper-buffers<CR>
 nnoremap <silent> <Leader>fr :Far<CR>
-nnoremap <leader>* :Grepper -tool rg -cword -noprompt<cr>
+nnoremap <Leader>* :Grepper -tool rg -cword -noprompt<cr>
 
 nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
-nnoremap <silent><Leader>g :GCheckout<CR>
 nnoremap <silent><Leader>a :Rg<CR>
 nnoremap <silent><Leader>. :Buffers<CR>
 nnoremap <silent><Leader>r :call Fzf_dir()<CR>
-nnoremap <silent><Leader>gl :Commits<CR>
 nnoremap <silent><C-O> :call Fzf_dev(1)<CR>
 nnoremap <silent><Leader>, :call Fzf_mru()<CR>
 nnoremap <silent><Leader>m :Marks<CR>
+"                ╔══════════════════════════════════════════╗
+"                ║                 » GIT «                  ║
+"                ╚══════════════════════════════════════════╝
 
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gp :Gpush<CR>
+nnoremap <silent><Leader>g :GCheckout<CR>
+nnoremap <silent><Leader>gl :Commits<CR>
+"
 "                ╔══════════════════════════════════════════╗
 "                ║           » ALE JUMP TO ERRORS «         ║
 "                ╚══════════════════════════════════════════╝

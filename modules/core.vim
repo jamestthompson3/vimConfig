@@ -33,7 +33,6 @@ augroup core
   au GUIEnter * set vb t_vb=
   " removes whitespace
   autocmd BufWritePre * %s/\s\+$//e
-  " autocmd InsertLeave * write
 augroup END
 augroup AutoSwap
         autocmd!
@@ -68,7 +67,6 @@ else
 endif
 
 
-" let g:python3_host_prog = 'C:\dev\Python35\python.exe'
 let g:data_dir = $HOME . '/.cache/Vim/'
 let g:backup_dir = g:data_dir . 'backup'
 let g:swap_dir = g:data_dir . 'swap'

@@ -46,6 +46,9 @@ endif
 "                ╔══════════════════════════════════════════╗
 "                ║                » AIRLINE «               ║
 "                ╚══════════════════════════════════════════╝
+"
+let g:gonvim_draw_statusline = 0
+" let g:gonvim_start_fullscreen = 1
 let g:fzf_colors =
     \ { 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
