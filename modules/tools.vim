@@ -88,7 +88,7 @@ function! Fzf_dev(no_git) abort
   endfunction
 
   function! OnExit(job_id, data, event)
-    call s:run_fzf(s:file_list, 1)
+    call s:run_fzf(filter( s:file_list, {idx, val -> val isnot# ''} ), 1)
   endfunction
 endfunction
 

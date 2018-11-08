@@ -17,9 +17,9 @@ let g:jsdoc_enable_es6 = 1
 "                ╔══════════════════════════════════════════╗
 "                ║                  » ALE «                 ║
 "                ╚══════════════════════════════════════════╝
-let g:ale_completion_enabled = 1
-let b:ale_linters = ['eslint', 'flow']
+let b:ale_linters = ['eslint', 'flow', 'tsserver']
 let b:ale_fixers = ['prettier']
+let b:ale_linters_ignore = ['tsserver']
 
 " if !g:isOni
 "   let b:ale_linters = ['eslint', 'flow', 'tsserver']
@@ -60,3 +60,4 @@ let g:deoplete#sources#ternjs#depths = 1 "Whether to include the distance  betwe
 
 iabbrev cosnt const
 iabbrev imoprt import
+iabbrev iomprt import

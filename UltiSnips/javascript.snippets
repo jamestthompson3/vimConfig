@@ -56,3 +56,17 @@ componentDidMount() {
 	$1
 }
 endsnippet
+
+snippet desc "describe" b
+describe('$1' () => {
+	it('$2', () => {
+		$3
+	})
+})
+endsnippet
+
+snippet it "test description" b
+it('$1', () => {
+		$2
+})
+endsnippet

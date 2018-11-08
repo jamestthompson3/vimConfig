@@ -14,6 +14,8 @@ endif
 
 let g:modules_folder = 'modules' . g:file_separator
 
+" set globals before packes are loaded
+let g:ale_completion_enabled = 1
 " Load plugins
 call LoadPackages#Load()
 
