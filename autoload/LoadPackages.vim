@@ -50,14 +50,14 @@ call dein#add('mhartington/oceanic-next')
 "                ╔══════════════════════════════════════════╗
 "                ║                  » UTILS «               ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('wakatime/vim-wakatime', {} )
+call dein#add('wakatime/vim-wakatime')
 call dein#add('mattn/webapi-vim')
 call dein#add('unblevable/quick-scope')
 call dein#add('Raimondi/delimitMate')
 call dein#add('w0rp/ale')
-call dein#add('iamcco/markdown-preview.nvim', { 'build': 'cd app && yarn install'})
+call dein#add('iamcco/markdown-preview.nvim', { 'build': 'cd app && yarn install', 'on_ft': ['org', 'markdown']} )
 call dein#add('thinca/vim-localrc')
-call dein#add('scrooloose/nerdtree')
+call dein#add('scrooloose/nerdtree', { 'on_cmd': 'NERDTree'})
 call dein#add('SirVer/ultisnips')
 call dein#add('junegunn/fzf', { 'build': './install --all'})
 call dein#add('junegunn/fzf.vim')

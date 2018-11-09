@@ -20,7 +20,7 @@ let g:jsdoc_enable_es6 = 1
 let b:ale_linters = ['eslint', 'flow', 'tsserver']
 let b:ale_fixers = ['prettier']
 let b:ale_linters_ignore = ['tsserver']
-call deoplete#disable()
+" call deoplete#disable()
 
 " if !g:isOni
 "   let b:ale_linters = ['eslint', 'flow', 'tsserver']

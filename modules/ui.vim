@@ -47,8 +47,6 @@ endif
 "                ║                » AIRLINE «               ║
 "                ╚══════════════════════════════════════════╝
 "
-let g:gonvim_draw_statusline = 0
-" let g:gonvim_start_fullscreen = 1
 let g:fzf_colors =
     \ { 'fg':      ['fg', 'Normal'],
       \ 'bg':      ['bg', 'Normal'],
@@ -65,16 +63,16 @@ let g:fzf_colors =
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'jsformatter'
-let g:airline_theme = 'flatlandia'
+let g:airline_theme = 'oceanicnext'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = ' %{fugitive#head()}'
-"let g:airline_section_z = '%{FileSize()}'
+" let g:airline_section_z = 'testing'
 let g:airline_section_z = ''
-let g:airline_section_y = ''
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
@@ -133,16 +131,21 @@ let g:webdevicons_enable_airline_tabline = 1
 
 "     let l:all_errors = l:counts.error + l:counts.style_error
 "     let l:all_non_errors = l:counts.total - l:all_errors
+"     let l:warning = nr2char(0xf420)
+"     let l:error = nr2char(0xf421)
 "     if l:counts.total == 0
 "       hi User3 guifg=#b2b2b2 guibg=#000000 gui=BOLD
-"       return '👌'
+"       return nr2char(0xf05a) . ' '
 "     else
 "       hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
+
 "     return printf(
-"     \   '%dW %dE',
+"     \   '%d %d %d %d',
 "     \   l:all_non_errors,
-"     \   l:all_errors
-"     \)
+"     \   l:warning,
+"     \   l:all_errors,
+"     \   l:error
+"     \) . ' '
 "   endif
 " endfunction
 
