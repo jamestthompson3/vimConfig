@@ -4,6 +4,7 @@ set hidden
 filetype plugin indent on
 set autoindent
 set smartindent
+set lazyredraw
 set autoread  " Automatically read a file changed outside of vim
 set undolevels=1000
 set wildignorecase
