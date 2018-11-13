@@ -55,7 +55,7 @@ nnoremap <silent><Leader>f :NERDTreeFind<CR>
 nmap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
-nnoremap <silent><Leader>p :SearchProject<Space>
+nnoremap <silent><Leader>sp :SearchProject<Space>
 nnoremap <silent><Leader>gab :SearchBuffers<Space>
 nnoremap <silent> <Leader>fr :Far<CR>
 
