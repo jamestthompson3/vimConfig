@@ -23,6 +23,7 @@ let g:UltiSnipsExpandTrigger = '<c-l>'
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+set grepprg=rg\ --vimgrep
 let g:grepper = {}
 let g:grepper.dir = 'repo,file'
 let g:grepper.tools = ['rg', 'ag', 'git']
@@ -39,7 +40,6 @@ let g:far#source= 'rgnvim'
 let g:far#auto_write_replaced_buffers = 1
 
 let g:fzf_layout = { 'window': 'enew' }
-
 function! s:prepend_icon(candidates)
     let l:result = []
     for l:candidate in a:candidates
@@ -127,6 +127,12 @@ command! -bang -nargs=0 GCheckout
   \   <bang>0
   \ )
 
+function! s:OpenList(pattern) abort
+  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep'.' '.a:pattern)})
+  exec ":copen"
+endfunction
+
+command! -bang -nargs=+ SearchProject call s:OpenList(<q-args>)
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,

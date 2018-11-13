@@ -55,10 +55,8 @@ nnoremap <silent><Leader>f :NERDTreeFind<CR>
 nmap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
-nnoremap <silent> <Leader>sp :Grepper<CR>
-nnoremap <silent>gab :Grepper-buffers<CR>
+nnoremap <Leader>p :SearchProject<Space>
 nnoremap <silent> <Leader>fr :Far<CR>
-nnoremap <Leader>* :Grepper -tool rg -cword -noprompt<cr>
 
 nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
 nnoremap <silent><Leader>a :Rg<CR>
