@@ -133,7 +133,7 @@ function! s:OpenList(pattern) abort
 endfunction
 
 function! s:GrepBufs(pattern)
-  exec ':silent bufdo grepa'.' '.a:pattern
+  exec ':silent bufdo grepadd!'.' '.a:pattern.' %'
   exec ':copen'
 endfunction
 command! -bang -nargs=+ SearchProject call s:OpenList(<q-args>)
