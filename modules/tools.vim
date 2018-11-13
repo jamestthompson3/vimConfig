@@ -129,10 +129,15 @@ command! -bang -nargs=0 GCheckout
 
 function! s:OpenList(pattern) abort
   call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep'.' '.a:pattern)})
-  exec ":copen"
+  exec ':copen'
 endfunction
 
+function! s:GrepBufs(pattern)
+  exec ':silent bufdo grepa'.' '.a:pattern
+  exec ':copen'
+endfunction
 command! -bang -nargs=+ SearchProject call s:OpenList(<q-args>)
+command! -bang -nargs=+ SearchBuffers call s:GrepBufs(<q-args>)
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
