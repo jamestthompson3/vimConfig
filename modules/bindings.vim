@@ -5,9 +5,9 @@ scriptencoding = utf-8
 let g:mapleader = "\<Space>"
 inoremap jj <Esc>
 
-" if exists(':tnoremap')
-"  tnoremap <Esc> <C-\><C-n>
-" endif
+if exists(':tnoremap')
+ tnoremap <C-\> <C-\><C-n>
+endif
 
 
 "                ╔══════════════════════════════════════════╗
