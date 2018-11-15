@@ -24,21 +24,6 @@ let g:UltiSnipsExpandTrigger = '<c-l>'
 "                ╚══════════════════════════════════════════╝
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 set grepprg=rg\ --vimgrep
-let g:grepper = {}
-let g:grepper.dir = 'repo,file'
-let g:grepper.tools = ['rg', 'ag', 'git']
-if g:isWindows
-  let g:grepper.tools = ['ag', 'rg', 'git']
-endif
-let g:grepper.ag = {
-      \'grepprg': 'ag -i --vimgrep --ignore flow-typed'
-      \}
-let g:grepper.rg = {
-      \'grepprg': 'rg --vimgrep'
-      \}
-let g:far#source= 'rgnvim'
-let g:far#auto_write_replaced_buffers = 1
-
 let g:fzf_layout = { 'window': 'enew' }
 function! s:prepend_icon(candidates)
     let l:result = []
@@ -127,17 +112,28 @@ command! -bang -nargs=0 GCheckout
   \   <bang>0
   \ )
 
-function! s:OpenList(pattern) abort
-  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep'.' '.a:pattern)})
+function! s:OpenList() abort
+  let l:pattern = input('Search > ')
+  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.l:pattern)})
   exec ':copen'
 endfunction
 
-function! s:GrepBufs(pattern)
-  exec ':silent bufdo grepadd!'.' '.a:pattern.' %'
+function! s:GrepBufs() abort
+  let l:pattern  = input('Search > ')
+  exec ':silent bufdo grepadd'.' '.l:pattern.' %'
   exec ':copen'
 endfunction
-command! -bang -nargs=+ SearchProject call s:OpenList(<q-args>)
-command! -bang -nargs=+ SearchBuffers call s:GrepBufs(<q-args>)
+
+function! s:FindReplace() abort
+  let l:find = input('Find > ')
+  let l:replace = input('Replace > ')
+  exec printf(':silent args `rg -l --fixed-strings -S %s`', l:find)
+  exec ':silent argdo %s'.printf('/%s/%s/g', l:find, l:replace).' | update'
+endfunction
+
+command! -bang SearchProject call s:OpenList()
+command! -bang SearchBuffers call s:GrepBufs()
+command! -bang FindandReplace call s:FindReplace()
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
