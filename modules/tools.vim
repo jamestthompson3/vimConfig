@@ -127,13 +127,19 @@ endfunction
 function! s:FindReplace() abort
   let l:find = input('Find > ')
   let l:replace = input('Replace > ')
-  exec printf(':silent args `rg -l --fixed-strings -S %s`', l:find)
-  exec ':silent argdo %s'.printf('/%s/%s/g', l:find, l:replace).' | update'
+  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.l:find)})
+    exec ':copen'
+    let l:confirm = input('Make changes? > ')
+    if l:confirm
+      exec ':silent cfdo %s'.printf('/%s/%s/g', l:find, l:replace).' | update'
+    else
+    exec ':silent cfdo %s'.printf('/%s/%s/g', l:find, l:replace).' | update'
+  endif
 endfunction
 
 command! -bang SearchProject call s:OpenList()
 command! -bang SearchBuffers call s:GrepBufs()
-command! -bang FindandReplace call s:FindReplace()
+command! -bang  FindandReplace call s:FindReplace()
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
