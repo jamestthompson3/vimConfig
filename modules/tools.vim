@@ -124,18 +124,22 @@ function! s:GrepBufs() abort
   exec ':copen'
 endfunction
 
+function! s:Confirm(find, replace) abort
+  let s:replace_string = printf('/%s/%s/g', a:find, a:replace)
+  exec ':copen'
+  function! s:Replace_words()
+    exec ':silent cfdo %s'.s:replace_string.' | update'
+  endfunction
+  command! ReplaceAll call s:Replace_words()
+endfunction
+
 function! s:FindReplace() abort
   let l:find = input('Find > ')
   let l:replace = input('Replace > ')
   call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.l:find)})
-    exec ':copen'
-    let l:confirm = input('Make changes? > ')
-    if l:confirm
-      exec ':silent cfdo %s'.printf('/%s/%s/g', l:find, l:replace).' | update'
-    else
-    exec ':silent cfdo %s'.printf('/%s/%s/g', l:find, l:replace).' | update'
-  endif
+  call s:Confirm(l:find, l:replace)
 endfunction
+
 
 command! -bang SearchProject call s:OpenList()
 command! -bang SearchBuffers call s:GrepBufs()

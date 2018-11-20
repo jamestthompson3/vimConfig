@@ -1,4 +1,5 @@
 " if !exists('g:gui_oni')
+let g:ale_completion_enabled = 0
   nnoremap <silent> gd :ALEGoToDefinition<CR>
   nnoremap <silent> gh :ALEHover<CR>
   nnoremap <silent> K :ALEFindReferences<CR>
