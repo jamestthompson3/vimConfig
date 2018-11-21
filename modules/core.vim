@@ -21,6 +21,7 @@ set runtimepath+=~/.skim
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
+set ignorecase
 set smartcase
 set noswapfile
 set inccommand=split

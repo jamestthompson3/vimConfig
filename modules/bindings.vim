@@ -58,6 +58,9 @@ nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <silent><Leader>sp :SearchProject<CR>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent> <Leader>fr :FindandReplace<CR>
+augroup searching
+  autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
+augroup END
 
 nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
 nnoremap <silent><Leader>a :Rg<CR>
