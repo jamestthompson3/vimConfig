@@ -55,9 +55,9 @@ nmap <silent> T :call RunJest()<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║                » TERN «                  ║
 "                ╚══════════════════════════════════════════╝
-let g:deoplete#sources#ternjs#types = 1 "Whether to include the types of the completions
-let g:ternjs#arguments = ['--no-port-file']
-let g:deoplete#sources#ternjs#depths = 1 "Whether to include the distance  between the completions and the origin position in the result data.
+" let g:deoplete#sources#ternjs#types = 1 "Whether to include the types of the completions
+" let g:ternjs#arguments = ['--no-port-file']
+" let g:deoplete#sources#ternjs#depths = 1 "Whether to include the distance  between the completions and the origin position in the result data.
 
 iabbrev cosnt const
 iabbrev imoprt import
