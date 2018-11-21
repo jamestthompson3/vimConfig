@@ -125,7 +125,7 @@ function! s:GrepBufs() abort
 endfunction
 
 function! s:Confirm(find, replace) abort
-  let s:replace_string = printf('/%s/%s/g', a:find, a:replace)
+  let s:replace_string = printf('/\<%s\>/%s/g', a:find, a:replace)
   exec ':copen'
   function! s:Replace_words()
     exec ':silent cfdo %s'.s:replace_string.' | update'
