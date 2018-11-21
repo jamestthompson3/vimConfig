@@ -114,8 +114,12 @@ command! -bang -nargs=0 GCheckout
 
 function! s:OpenList() abort
   let l:pattern = input('Search > ')
-  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.l:pattern)})
+  call s:GrepToQF(l:pattern)
   exec ':copen'
+endfunction
+
+function! s:GrepToQF(pattern) abort
+  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.a:pattern)})
 endfunction
 
 function! s:GrepBufs() abort
@@ -133,17 +137,24 @@ function! s:Confirm(find, replace) abort
   command! ReplaceAll call s:Replace_words()
 endfunction
 
-function! s:FindReplace() abort
+function! s:FindReplace(callback) abort
   let l:find = input('Find > ')
   let l:replace = input('Replace > ')
-  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.l:find)})
+  call s:GrepToQF(l:find)
   call s:Confirm(l:find, l:replace)
 endfunction
 
 
+function! s:Replace_qf(args) abort
+  let l:arg_list = split(a:args, ' ')
+  let s:replace_string = printf('/\<%s\>/%s/g', l:arg_list[0], l:arg_list[1])
+  exec ':silent cfdo %s'.s:replace_string.' | update'
+endfunction
+
+command! -bang -nargs=+ ReplaceQF call s:Replace_qf(<q-args>)
 command! -bang SearchProject call s:OpenList()
 command! -bang SearchBuffers call s:GrepBufs()
-command! -bang  FindandReplace call s:FindReplace()
+command! -bang FindandReplace call s:FindReplace()
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
