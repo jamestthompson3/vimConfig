@@ -67,7 +67,7 @@ nnoremap <silent><Leader>a :Rg<CR>
 nnoremap <silent><Leader>. :Buffers<CR>
 nnoremap <silent><Leader>r :call Fzf_dir()<CR>
 nnoremap <silent><C-O> :call Fzf_dev(1)<CR>
-nnoremap <silent><Leader>, :call Fzf_mru()<CR>
+nnoremap <silent>, :call Fzf_mru()<CR>
 nnoremap <silent><Leader>m :Marks<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║                 » GIT «                  ║

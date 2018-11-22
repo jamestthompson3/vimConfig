@@ -35,17 +35,24 @@ function! s:prepend_icon(candidates)
     return l:result
 endfunction
 
-function! s:run_fzf(list, async)
+function! s:run_fzf(command)
  call fzf#run({
-     \ 'source': s:prepend_icon(a:list),
+     \ 'source': a:command . ' | devicon-lookup',
      \ 'sink':   function('s:edit_file'),
      \ 'options': '-m',
      \ 'down': '40%'
      \ })
- if a:async
-   call feedkeys('i')
- endif
 endfunction
+
+function! s:run_fzf_list(list)
+ call fzf#run({
+     \ 'source': a:list,
+     \ 'sink':   function('s:edit_file'),
+     \ 'options': '-m',
+     \ 'down': '40%'
+     \ })
+endfunction
+
 
 function! s:edit_file(item)
     let l:pos = stridx(a:item, ' ')
@@ -55,37 +62,22 @@ function! s:edit_file(item)
 endfunction
 
 function! Fzf_dev(no_git) abort
-  let s:file_list = ['']
-  let s:callbacks = {
-    \ 'on_stdout': 'OnEvent',
-    \ 'on_exit': 'OnExit'
-    \ }
-
-  if !a:no_git
-    call jobstart([ 'rg',  '--files' ], s:callbacks)
+   if !a:no_git
+    call s:run_fzf('rg --files')
   else
-    call jobstart([ 'rg', '--no-ignore', '--files' ], s:callbacks)
+    call s:run_fzf('rg --no-ignore --files')
   endif
-
-  function! OnEvent(job_id, data, event)
-    let s:file_list[-1] .= a:data[0]
-    call extend(s:file_list, a:data[1:])
-  endfunction
-
-  function! OnExit(job_id, data, event)
-    call s:run_fzf(filter( s:file_list, {idx, val -> val isnot# ''} ), 1)
-  endfunction
 endfunction
 
 function! Fzf_mru() abort
   function! s:generate_mru()
     let l:mru_path_command = printf('sed "1d" %s', g:neomru#file_mru_path)
-    let l:mru_files = split(system(l:mru_path_command), '\n')
+    let l:mru_files = split(system(l:mru_path_command.' | devicon-lookup'), '\n')
     let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
     let l:filtered_files = filter(l:mru_files, {idx, val -> stridx(val, cur_dir) >= 0} )
     return map(l:filtered_files, {idx, val -> substitute(val, cur_dir.'/', '', '')})
   endfunction
-  call s:run_fzf(s:generate_mru(), 0)
+  call s:run_fzf_list(s:generate_mru())
 endfunction
 
 function! Fzf_dir() abort
