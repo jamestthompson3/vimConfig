@@ -60,6 +60,7 @@ nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent> <Leader>fr :FindandReplace<CR>
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
+  autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
 augroup END
 
 nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
