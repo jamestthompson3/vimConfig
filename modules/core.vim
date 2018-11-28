@@ -1,30 +1,32 @@
 scriptencoding utf-8
 syntax enable
-set hidden
+set hidden " enable hidden buffers
 filetype plugin indent on
 set autoindent
 set smartindent
-set lazyredraw
+set lazyredraw " speed up vim drawing
 set autoread  " Automatically read a file changed outside of vim
 set undolevels=1000
-set wildignorecase
-set wildmenu
+set wildignorecase " no case sensitivity on wild menu
+set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions
 set mouse=nv
 set wildmode=list:longest,full " gives tab completion lists in ex command area
 set shiftwidth=2 " indent code with two spaces
 set softtabstop=2 " tabs take two spaces
-set tabstop=2
+set tabstop=2 " tabs take two spaces
 set expandtab " replace tabs with spaces
-set runtimepath+=~/.skim
-"set smarttab " pressing tab key in insert mode insert spaces
+" set smarttab " pressing tab key in insert mode insert spaces apparently not
+               " needed in neovim
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start
-set ignorecase
-set smartcase
-set noswapfile
-set inccommand=split
+" set ignorecase
+set smartcase " case is ignored if string contains a capital letter
+set noswapfile " This is a bit annoying
+set inccommand=split " preview replacement changes
+set synmaxcol=200 " Large columns with syntax highlights slow things down
+
 augroup core
   autocmd!
   if has('nvim')
@@ -47,6 +49,20 @@ function! AS_HandleSwapfile (filename, swapname)
             let v:swapchoice = 'e'
     endif
 endfunction
+
+function! MarkMargin (on)
+    if exists('b:MarkMargin')
+        try
+            call matchdelete(b:MarkMargin)
+        catch /./
+        endtry
+        unlet b:MarkMargin
+    endif
+    if a:on
+        let b:MarkMargin = matchadd('ColorColumn', '\%81v\s*\zs\S', 100)
+    endif
+endfunction
+
 autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
   \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
 

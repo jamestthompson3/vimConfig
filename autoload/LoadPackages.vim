@@ -30,6 +30,11 @@ call dein#add('jalvesaq/Nvim-R', { 'on_ft': 'r' } )
 "                ║                » REASON «                ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('reasonml-editor/vim-reason-plus', { 'on_ft': 'reason'} )
+"                ╔══════════════════════════════════════════╗
+"                ║                 » NIM «                  ║
+"                ╚══════════════════════════════════════════╝
+call dein#add('zah/nim.vim', { 'on_ft': 'nim'} )
+
 
 "                ╔══════════════════════════════════════════╗
 "                ║                 » RUST «                 ║
@@ -53,7 +58,7 @@ call dein#add('~/code/tokyo-metro.vim')
 call dein#add('Raimondi/delimitMate')
 call dein#add('Shougo/neomru.vim')
 call dein#add('SirVer/ultisnips')
-" call dein#add('andymass/vim-matchup')
+call dein#add('andymass/vim-matchup')
 call dein#add('jiangmiao/auto-pairs')
 call dein#add('romainl/vim-qf')
 call dein#add('iamcco/markdown-preview.nvim', { 'build': 'cd app && yarn install', 'on_ft': ['org', 'markdown']} )

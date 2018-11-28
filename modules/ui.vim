@@ -25,6 +25,7 @@ set hlsearch
 set ttimeout
 hi SpellBad guibg=#ff2929 ctermbg=196
 
+hi! ColorColumn ctermfg=208 ctermbg=000 guibg=#000000 guifg=#ff2929
 colorscheme tokyo-metro
 "                ╔══════════════════════════════════════════╗
 "                ║                 » FONTS «                ║
@@ -44,7 +45,7 @@ else
 endif
 
 "                ╔══════════════════════════════════════════╗
-"                ║                » AIRLINE «               ║
+"                ║                » PLUGINS «               ║
 "                ╚══════════════════════════════════════════╝
 "
 let g:fzf_colors =
@@ -71,22 +72,16 @@ let g:airline#extensions#tabline#formatter = 'jsformatter'
 let g:airline_theme = 'oceanicnext'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = ' %{fugitive#head()}'
-" let g:airline_section_z = 'testing'
 let g:airline_section_z = ''
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
 
 " unicode symbols
-" let g:airline_left_sep = '»'
-" let g:airline_left_sep = '▶'
-" let g:airline_right_sep = '«'
-" let g:airline_right_sep = '◀'
 let g:airline_symbols.crypt = '🔒'
 let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.linenr = '␊'
 let g:airline_symbols.linenr = '␤'
-" let g:airline_symbols.linenr = '¶'
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.maxlinenr = '㏑'
 let g:airline_symbols.branch = '🎋'
@@ -99,7 +94,6 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:webdevicons_enable = 1
 let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_airline_tabline = 1
-" let g:webdevicons_enable_denite = 1
 
 " function! FileSize() abort
 "     let l:bytes = getfsize(expand('%p'))

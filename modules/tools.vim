@@ -62,10 +62,18 @@ function! s:edit_file(item)
 endfunction
 
 function! Fzf_dev(no_git) abort
-   if !a:no_git
-    call s:run_fzf('rg --files')
+  if executable('nf')
+    let l:file_list_command = 'nf'
+    let l:file_list_command_no_git = 'nf --no-ignore'
   else
-    call s:run_fzf('rg --no-ignore --files')
+    let l:file_list_command = 'rg --files'
+    let l:file_list_command_no_git = 'rg --files --no-ignore'
+  endif
+
+   if !a:no_git
+    call s:run_fzf(l:file_list_command)
+  else
+    call s:run_fzf(l:file_list_command_no_git)
   endif
 endfunction
 
@@ -158,8 +166,6 @@ command! -bang -nargs=* Rg
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║
 "                ╚══════════════════════════════════════════╝
-let g:matchup_transmute_enabled = 1
-let g:matchup_motion_enabled = 0
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 "                ╔══════════════════════════════════════════╗
