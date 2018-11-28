@@ -6,7 +6,7 @@ fun! JumpToDef()
   endif
 endf
 
-let b:MarkMargin = 1
+let b:MarkMargin = 80
 
 " Jump to tag
 nnoremap <silent>gd :call JumpToDef()<cr>

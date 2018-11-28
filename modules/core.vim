@@ -57,7 +57,7 @@ augroup END
 
 function! MarkMargin ()
     if exists('b:MarkMargin')
-      call matchadd('ErrorMsg', '\%>80v\s*\zs\S', 0)
+      call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
     endif
 endfunction
 
