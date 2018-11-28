@@ -50,16 +50,14 @@ function! AS_HandleSwapfile (filename, swapname)
     endif
 endfunction
 
-function! MarkMargin (on)
+augroup MarkMargin
+    autocmd!
+    autocmd  BufEnter  * :call MarkMargin()
+augroup END
+
+function! MarkMargin ()
     if exists('b:MarkMargin')
-        try
-            call matchdelete(b:MarkMargin)
-        catch /./
-        endtry
-        unlet b:MarkMargin
-    endif
-    if a:on
-        let b:MarkMargin = matchadd('ColorColumn', '\%81v\s*\zs\S', 100)
+      call matchadd('ErrorMsg', '\%>80v\s*\zs\S', 0)
     endif
 endfunction
 

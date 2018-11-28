@@ -25,7 +25,6 @@ set hlsearch
 set ttimeout
 hi SpellBad guibg=#ff2929 ctermbg=196
 
-hi! ColorColumn ctermfg=208 ctermbg=000 guibg=#000000 guifg=#ff2929
 colorscheme tokyo-metro
 "                ╔══════════════════════════════════════════╗
 "                ║                 » FONTS «                ║

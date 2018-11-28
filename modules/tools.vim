@@ -2,9 +2,8 @@ scriptencoding utf-8
 "                ╔══════════════════════════════════════════╗
 "                ║                » COMPLETION «            ║
 "                ╚══════════════════════════════════════════╝
-" if !g:isOni
+
 let g:deoplete#enable_at_startup = 1
-" endif
 let g:deoplete#auto_complete_delay = 10
 call deoplete#custom#source('ultisnips', 'rank', 1000)
 augroup omnifuncs
@@ -114,12 +113,15 @@ command! -bang -nargs=0 GCheckout
 
 function! s:OpenList() abort
   let l:pattern = input('Search > ')
+  if !l:pattern
+    return
+  endif
   call s:GrepToQF(l:pattern)
   exec ':copen'
 endfunction
 
 function! s:GrepToQF(pattern) abort
-  call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.a:pattern)})
+    call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.a:pattern)})
 endfunction
 
 function! s:GrepBufs() abort
@@ -139,6 +141,9 @@ endfunction
 
 function! s:FindReplace(callback) abort
   let l:find = input('Find > ')
+  if !l:find
+    return
+  endif
   let l:replace = input('Replace > ')
   call s:GrepToQF(l:find)
   call s:Confirm(l:find, l:replace)
