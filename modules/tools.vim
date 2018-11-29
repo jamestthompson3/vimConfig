@@ -113,7 +113,7 @@ command! -bang -nargs=0 GCheckout
 
 function! s:OpenList() abort
   let l:pattern = input('Search > ')
-  if !l:pattern
+  if l:pattern == ''
     return
   endif
   call s:GrepToQF(l:pattern)
@@ -141,7 +141,7 @@ endfunction
 
 function! s:FindReplace(callback) abort
   let l:find = input('Find > ')
-  if !l:find
+  if l:find == ''
     return
   endif
   let l:replace = input('Replace > ')
