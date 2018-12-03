@@ -149,7 +149,7 @@ function! s:FindReplace(callback) abort
   call s:Confirm(l:find, l:replace)
 endfunction
 
-
+" Replace things in the quick fix list
 function! s:Replace_qf(args) abort
   let l:arg_list = split(a:args, ' ')
   let s:replace_string = printf('/\<%s\>/%s/g', l:arg_list[0], l:arg_list[1])
@@ -196,3 +196,27 @@ augroup WINDOWS
   autocmd WinEnter * set number
   autocmd WinLeave * set nonumber
 augroup END
+"                ╔══════════════════════════════════════════╗
+"                ║                » MISC «                  ║
+"                ╚══════════════════════════════════════════╝
+
+" Convert to snake_case
+function! s:Snake(args) abort
+  if a:args == 1
+    exec ':%s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
+  else
+    exec ':s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
+  endif
+endfunction
+
+" Convert to camelCase
+function! s:Camel(args) abort
+  if a:args == 1
+    exec ':%s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
+  else
+    exec ':s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
+  endif
+endfunction
+
+command! -bang -nargs=* Snake call s:Snake(<q-args>)
+command! -bang -nargs=* Camel call s:Camel(<q-args>)

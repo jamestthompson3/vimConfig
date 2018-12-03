@@ -80,6 +80,7 @@ call dein#add('w0rp/ale')
 "                ║             » TPOPE MAGIC «              ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('tpope/vim-commentary')
+call dein#add('tpope/vim-abolish')
 call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-scriptease')
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )

@@ -1,7 +1,7 @@
 scriptencoding utf-8
-syntax enable
+syntax enable " enable sytnax
 set hidden " enable hidden buffers
-filetype plugin indent on
+filetype plugin indent on " use ftplugin and indents based on detect file type
 set autoindent
 set smartindent
 set lazyredraw " speed up vim drawing
@@ -10,7 +10,7 @@ set undolevels=1000
 set wildignorecase " no case sensitivity on wild menu
 set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions
-set mouse=nv
+set mouse=nv " Mouse can be used in normal and visual mode
 set wildmode=list:longest,full " gives tab completion lists in ex command area
 set shiftwidth=2 " indent code with two spaces
 set softtabstop=2 " tabs take two spaces
@@ -20,7 +20,7 @@ set expandtab " replace tabs with spaces
                " needed in neovim
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
-set backspace=indent,eol,start
+set backspace=indent,eol,start "see :h backspace
 " set ignorecase
 set smartcase " case is ignored if string contains a capital letter
 set noswapfile " This is a bit annoying
@@ -28,59 +28,49 @@ set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 
 augroup core
-  autocmd!
-  if has('nvim')
-    autocmd BufWritePre * :set ff=unix
-  endif
-
-  au GUIEnter * set vb t_vb=
-  " removes whitespace
-  autocmd BufWritePre * %s/\s\+$//e
+  au GUIEnter * set vb t_vb= " no annoying bells
+  autocmd BufWritePre * %s/\s\+$//e " removes whitespace
+  autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
+    \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
 augroup END
+
 augroup AutoSwap
-        autocmd!
-        autocmd SwapExists *  call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
+  autocmd!
+  autocmd SwapExists *  call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
 augroup END
 
 function! AS_HandleSwapfile (filename, swapname)
-    " if swapfile is older than file itself, just get rid of it
-    if getftime(v:swapname) < getftime(a:filename)
-            call delete(v:swapname)
-            let v:swapchoice = 'e'
-    endif
+ " if swapfile is older than file itself, just get rid of it
+  if getftime(v:swapname) < getftime(a:filename)
+    call delete(v:swapname)
+    let v:swapchoice = 'e'
+  endif
 endfunction
 
 augroup MarkMargin
-    autocmd!
-    autocmd  BufEnter  * :call MarkMargin()
+  autocmd!
+  autocmd  BufEnter  * :call MarkMargin()
 augroup END
 
 function! MarkMargin ()
-    if exists('b:MarkMargin')
-      call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
-    endif
+  if exists('b:MarkMargin')
+    call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
+  endif
 endfunction
 
-autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
-  \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
-
 augroup checktime
-    au!
-    if !has('gui_running')
-        "silent! necessary otherwise throws errors when using command
-        "line window.
-        autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
-    endif
+  au!
+  if !has('gui_running')
+      "silent! necessary otherwise throws errors when using command line window.
+    autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
+  endif
 augroup END
 
 if g:isWindows
-  " set shell=powershell
-  " set shellcmdflag=-command
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
 else
   let g:python3_host_prog = '/usr/bin/python3'
 endif
-
 
 let g:data_dir = $HOME . '/.cache/Vim/'
 let g:backup_dir = g:data_dir . 'backup'
