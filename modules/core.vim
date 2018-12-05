@@ -32,6 +32,9 @@ augroup core
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
+  " Sundry file type associations
+  au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
+  au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
 augroup END
 
 augroup AutoSwap
