@@ -27,6 +27,7 @@ set noswapfile " This is a bit annoying
 set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
+
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
 set formatlistpat+=\\[({]\\?                " |  Optionally match opening punctuation
@@ -58,7 +59,7 @@ augroup core
     setlocal comments=
   endfunction
 
-  autocmd vimrc FileType txt call PlainText()
+  au! FileType txt call PlainText()
 augroup END
 
 augroup AutoSwap
