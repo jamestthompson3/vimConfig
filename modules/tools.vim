@@ -87,12 +87,6 @@ function! Fzf_mru() abort
   call s:run_fzf_list(s:generate_mru())
 endfunction
 
-function! Fzf_dir() abort
-  let l:file_dir = expand('%:p:h')
-  let l:dir_files = map(split(system(printf('ls %s', l:file_dir)), '\n'), {idx, val -> substitute(fnamemodify(val, ':p'), '\\', '/', 'g')})
-  call s:run_fzf(l:dir_files, 0)
-endfunction
-
 function! s:open_branch_fzf(line)
   let l:parser = split(a:line)
   let l:branch = l:parser[0]

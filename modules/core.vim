@@ -21,11 +21,16 @@ set expandtab " replace tabs with spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start "see :h backspace
-" set ignorecase
-set smartcase " case is ignored if string contains a capital letter
+set ignorecase " ignore cases
+set smartcase " except if string contains a capital letter
 set noswapfile " This is a bit annoying
 set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
+set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
+
+" Common mistakes
+iab    retrun  return
+iab     pritn  print
 
 augroup core
   au GUIEnter * set vb t_vb= " no annoying bells
@@ -35,6 +40,7 @@ augroup core
   " Sundry file type associations
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
+  au! BufNewFile,BufRead *.txt,*.md,*.org, set breakindent set linebreak
 augroup END
 
 augroup AutoSwap

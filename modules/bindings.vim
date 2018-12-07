@@ -66,7 +66,9 @@ augroup END
 nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
 nnoremap <silent><Leader>a :Rg<CR>
 nnoremap <silent><Leader>. :Buffers<CR>
-nnoremap <silent><Leader>r :call Fzf_dir()<CR>
+
+nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
+
 nnoremap <silent><C-O> :call Fzf_dev(1)<CR>
 nnoremap <silent>, :call Fzf_mru()<CR>
 nnoremap <silent><Leader>m :Marks<CR>
