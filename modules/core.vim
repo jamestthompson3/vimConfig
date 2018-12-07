@@ -27,7 +27,19 @@ set noswapfile " This is a bit annoying
 set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
-
+set formatlistpat=^\\s*                     " Optional leading whitespace
+set formatlistpat+=[                        " Start character class
+set formatlistpat+=\\[({]\\?                " |  Optionally match opening punctuation
+set formatlistpat+=\\(                      " |  Start group
+set formatlistpat+=[0-9]\\+                 " |  |  Numbers
+set formatlistpat+=\\\|                     " |  |  or
+set formatlistpat+=[a-zA-Z]\\+              " |  |  Letters
+set formatlistpat+=\\)                      " |  End group
+set formatlistpat+=[\\]:.)}                 " |  Closing punctuation
+set formatlistpat+=]                        " End character class
+set formatlistpat+=\\s\\+                   " One or more spaces
+set formatlistpat+=\\\|                     " or
+set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
 " Common mistakes
 iab    retrun  return
 iab     pritn  print
@@ -41,6 +53,12 @@ augroup core
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.txt,*.md,*.org, set breakindent set linebreak
+
+  function! PlainText()
+    setlocal comments=
+  endfunction
+
+  autocmd vimrc FileType txt call PlainText()
 augroup END
 
 augroup AutoSwap
