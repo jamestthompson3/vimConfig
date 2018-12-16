@@ -111,7 +111,7 @@ function! s:OpenList() abort
     return
   endif
   call s:GrepToQF(l:pattern)
-  exec ':copen'
+  exec ':cwindow'
 endfunction
 
 function! s:GrepToQF(pattern) abort
@@ -121,12 +121,12 @@ endfunction
 function! s:GrepBufs() abort
   let l:pattern  = input('Search > ')
   exec ':silent bufdo grepadd'.' '.l:pattern.' %'
-  exec ':copen'
+  exec ':cwindow'
 endfunction
 
 function! s:Confirm(find, replace) abort
   let s:replace_string = printf('/\<%s\>/%s/g', a:find, a:replace)
-  exec ':copen'
+  exec ':cwindow'
   function! s:Replace_words()
     exec ':silent cfdo %s'.s:replace_string.' | update'
   endfunction
@@ -210,6 +210,43 @@ function! s:Camel(args) abort
   else
     exec ':s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
   endif
+endfunction
+
+function! CCR()
+    let cmdline = getcmdline()
+    if cmdline =~ '\v\C^(ls|files|buffers)'
+        " like :ls but prompts for a buffer command
+        return "\<CR>:b"
+    elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+        " like :g//# but prompts for a command
+        return "\<CR>:"
+    elseif cmdline =~ '\v\C^(dli|il)'
+        " like :dlist or :ilist but prompts for a count for :djump or :ijump
+        return "\<CR>:" . cmdline[0] . "j  " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
+    elseif cmdline =~ '\v\C^(cli|lli)'
+        " like :clist or :llist but prompts for an error/location number
+        return "\<CR>:sil " . repeat(cmdline[0], 2) . "\<Space>"
+    elseif cmdline =~ '\C^old'
+        " like :oldfiles but prompts for an old file to edit
+        set nomore
+        return "\<CR>:sil se more|e #<"
+    elseif cmdline =~ '\C^changes'
+        " like :changes but prompts for a change to jump to
+        set nomore
+        return "\<CR>:sil se more|norm! g;\<S-Left>"
+    elseif cmdline =~ '\C^ju'
+        " like :jumps but prompts for a position to jump to
+        set nomore
+        return "\<CR>:sil se more|norm! \<C-o>\<S-Left>"
+    elseif cmdline =~ '\C^marks'
+        " like :marks but prompts for a mark to jump to
+        return "\<CR>:norm! `"
+    elseif cmdline =~ '\C^undol'
+        " like :undolist but prompts for a change to undo
+        return "\<CR>:u "
+    else
+        return "\<CR>"
+    endif
 endfunction
 
 command! -bang -nargs=* Snake call s:Snake(<q-args>)

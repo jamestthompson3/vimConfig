@@ -53,13 +53,9 @@ augroup core
   " Sundry file type associations
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
-  au! BufNewFile,BufRead *.txt,*.md,*.org, set breakindent set linebreak
+  " au! BufNewFile,BufRead *.txt,*.md,*.org, set breakindent set linebreak
+  " au! BufNewFile,BufRead *.txt, setlocal comments=
 
-  function! PlainText()
-    setlocal comments=
-  endfunction
-
-  au! FileType txt call PlainText()
 augroup END
 
 augroup AutoSwap
