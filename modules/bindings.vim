@@ -69,7 +69,7 @@ nnoremap <silent><Leader>. :Buffers<CR>
 
 nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
 
-nnoremap <silent><C-O> :call Fzf_dev(1)<CR>
+nnoremap <silent><c-p> :call Fzf_dev(1)<CR>
 nnoremap <silent>, :call Fzf_mru()<CR>
 nnoremap <silent><Leader>m :Marks<CR>
 

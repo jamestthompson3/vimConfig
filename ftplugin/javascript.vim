@@ -25,7 +25,7 @@ let b:ale_linters_ignore = ['tsserver']
 " peek symbol definition
 nnoremap gh [I
 " jump to symbol definition
-nnoremap gd :ijump <c-r><c-w><CR>
+nnoremap <silent> gd :ijump <c-r><c-w><CR>
 
 function! FuzzyJest(trimmed_values) abort
   call fzf#run({
@@ -53,4 +53,5 @@ iabbrev iomprt import
 
 setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
-setlocal define=class\s[a-z]*\|export\sconst\s[a-z]*\|export\sdefault\s[a-z]*\|^\s*function\s[a-z]* " searches for symbols starting with 'class', 'export const' and 'function'
+setlocal define=class\\s
+" setlocal define=class\s[a-z]*\|export\sconst\s[a-z]*\|export\sdefault\s[a-z]*\|^\s*function\s[a-z]* " searches for symbols starting with 'class', 'export const' and 'function'
