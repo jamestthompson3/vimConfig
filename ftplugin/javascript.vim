@@ -22,11 +22,10 @@ let b:ale_fixers = ['prettier']
 let b:ale_linters_ignore = ['tsserver']
 " call deoplete#disable()
 
-if !g:isOni
-  nnoremap <silent> gh :ALEHover<CR>
-  nnoremap <silent> gd :ALEGoToDefinition<CR>
-  nnoremap <silent> K :ALEFindReferences<CR>
-endif
+" peek symbol definition
+nnoremap gh [I
+" jump to symbol definition
+nnoremap gd :ijump <c-r><c-w><CR>
 
 function! FuzzyJest(trimmed_values) abort
   call fzf#run({
@@ -52,6 +51,6 @@ iabbrev cosnt const
 iabbrev imoprt import
 iabbrev iomprt import
 
-setlocal suffixesadd+=.js " navigate to imported files by adding the js suffix
+setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
-setlocal define=class\\s
+setlocal define=class\s[a-z]*\|export\sconst\s[a-z]*\|export\sdefault\s[a-z]*\|^\s*function\s[a-z]* " searches for symbols starting with 'class', 'export const' and 'function'
