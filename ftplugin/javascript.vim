@@ -48,13 +48,10 @@ nmap <silent> Lrt :call ListTests()<CR>
 nmap <silent> Lt :call JestList()<CR>
 nmap <silent> T :call RunJest()<CR>
 
-"                ╔══════════════════════════════════════════╗
-"                ║                » TERN «                  ║
-"                ╚══════════════════════════════════════════╝
-" let g:deoplete#sources#ternjs#types = 1 "Whether to include the types of the completions
-" let g:ternjs#arguments = ['--no-port-file']
-" let g:deoplete#sources#ternjs#depths = 1 "Whether to include the distance  between the completions and the origin position in the result data.
-
 iabbrev cosnt const
 iabbrev imoprt import
 iabbrev iomprt import
+
+setlocal suffixesadd+=.js " navigate to imported files by adding the js suffix
+setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
+setlocal define=class\\s
