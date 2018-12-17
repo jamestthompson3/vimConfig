@@ -67,7 +67,6 @@ call dein#add('junegunn/fzf', { 'build': './install --all'})
 call dein#add('junegunn/fzf.vim')
 call dein#add('junegunn/goyo.vim' , { 'on_cmd' : 'Goyo'} )
 call dein#add('mattn/webapi-vim')
-call dein#add('scrooloose/nerdtree', { 'on_cmd': 'NERDTree'})
 call dein#add('sheerun/vim-polyglot')
 call dein#add('thinca/vim-localrc')
 call dein#add('unblevable/quick-scope')
@@ -85,6 +84,7 @@ call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-scriptease')
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 call dein#add('tpope/vim-surround')
+call dein#add('tpope/vim-vinegar')
 call dein#add('tpope/vim-unimpaired')
 "                ╔══════════════════════════════════════════╗
 "                ║                 » TAGS «                 ║
@@ -95,7 +95,6 @@ call dein#add('tpope/vim-unimpaired')
 "                ║              » COMPLETION «              ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('Shougo/deoplete.nvim')
-" call dein#add('carlitux/deoplete-ternjs')
 call dein#add('copy/deoplete-ocaml')
 call dein#add('racer-rust/vim-racer')
 call dein#add('zchee/deoplete-jedi')
