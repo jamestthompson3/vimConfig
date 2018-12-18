@@ -47,8 +47,7 @@ nnoremap <silent> sv :split<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
-nnoremap <silent><F3> :NERDTreeToggle<CR>
-nnoremap <silent><Leader>f :NERDTreeFind<CR>
+nnoremap <silent><F3> :Lex<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝

@@ -28,6 +28,10 @@ set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 
+" use this command to remove folders
+let g:netrw_localrmdir = 'rm -r'
+let g:netrw_winsize = 20
+
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
 set formatlistpat+=\\[({]\\?                " |  Optionally match opening punctuation
