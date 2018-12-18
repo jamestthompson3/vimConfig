@@ -28,9 +28,9 @@ set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 
-" use this command to remove folders
-let g:netrw_localrmdir = 'rm -r'
-let g:netrw_winsize = 20
+
+let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
+let g:netrw_winsize = 20 " smaller explorer window
 
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
@@ -45,12 +45,26 @@ set formatlistpat+=]                        " End character class
 set formatlistpat+=\\s\\+                   " One or more spaces
 set formatlistpat+=\\\|                     " or
 set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
+
 " Common mistakes
 iab    retrun  return
 iab     pritn  print
 
+" Quit netrw when selecting a file
+function! QuitNetrw()
+  for i in range(1, bufnr($))
+    if buflisted(i)
+      if getbufvar(i, '&filetype') == "netrw"
+        silent exe 'bwipeout ' . i
+      endif
+    endif
+  endfor
+endfunction
+
 augroup core
   au GUIEnter * set vb t_vb= " no annoying bells
+  au FileType netrw au BufLeave QuitNetrw()
+
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
