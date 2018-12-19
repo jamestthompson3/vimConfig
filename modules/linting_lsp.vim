@@ -14,7 +14,6 @@ let g:ale_fixers = {
       \ 'javascript': ['prettier']
       \ }
 let g:ale_fix_on_save = 1
-let g:ale_set_balloons = 1
 let g:ale_list_window_size = 5
 let g:ale_virtualtext_cursor = 1
 let g:ale_javascript_prettier_use_local_config = 1

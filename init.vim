@@ -3,6 +3,8 @@ scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
 
+let g:did_install_default_menus = 1  " avoid stupid menu.vim (saves ~100ms)
+
 let g:isOni = exists('g:gui_oni')
 " Create function to manage thing in a semi-sane way
 let g:isWindows = has('win16') || has('win32') || has('win64')
@@ -14,8 +16,6 @@ endif
 
 let g:modules_folder = 'modules' . g:file_separator
 
-" set globals before packes are loaded
-let g:ale_completion_enabled = 1
 " Load plugins
 call LoadPackages#Load()
 

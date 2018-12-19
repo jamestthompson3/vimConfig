@@ -19,7 +19,7 @@ call dein#add('Quramy/vim-js-pretty-template', { 'on_ft': 'javascript' } )
 call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
 call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
 call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'javascript']} )
-call dein#add('yardnsm/vim-import-cost', {'build': 'npm install'} )
+call dein#add('yardnsm/vim-import-cost', {'build': 'npm install', 'on_cmd': 'ImportCost'} )
 call dein#add('~/code/vim-jest', { 'on_ft': ['javascript', 'typescript']})
 "                ╔══════════════════════════════════════════╗
 "                ║                   » R «                  ║
@@ -44,13 +44,13 @@ call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
 "                ╔══════════════════════════════════════════╗
 "                ║               » THEMES «                 ║
 "                ╚══════════════════════════════════════════╝
-call dein#add('andreypopp/vim-colors-plain')
+call dein#add('andreypopp/vim-colors-plain', {'on_cmd': 'Colors'})
 call dein#add('chrisbra/Colorizer')
-call dein#add('jordwalke/flatlandia')
-call dein#add('julien/vim-colors-green')
-call dein#add('kristijanhusak/vim-hybrid-material')
+call dein#add('jordwalke/flatlandia',{'on_cmd': 'Colors'})
+call dein#add('julien/vim-colors-green',{'on_cmd': 'Colors'})
+call dein#add('kristijanhusak/vim-hybrid-material', {'on_cmd': 'Colors'})
 call dein#add('mhartington/oceanic-next')
-call dein#add('nightsense/snow')
+call dein#add('nightsense/snow', {'on_cmd': 'Colors'})
 call dein#add('~/code/tokyo-metro.vim')
 "                ╔══════════════════════════════════════════╗
 "                ║                  » UTILS «               ║
@@ -59,32 +59,31 @@ call dein#add('Raimondi/delimitMate')
 call dein#add('Shougo/neomru.vim')
 call dein#add('SirVer/ultisnips')
 call dein#add('andymass/vim-matchup')
-call dein#add('jiangmiao/auto-pairs')
-call dein#add('romainl/vim-qf')
 call dein#add('iamcco/markdown-preview.nvim', { 'build': 'cd app && yarn install', 'on_ft': ['org', 'markdown']} )
 call dein#add('jceb/vim-orgmode', {'on_ft': ['org', 'txt']} )
+call dein#add('jiangmiao/auto-pairs')
 call dein#add('junegunn/fzf', { 'build': './install --all'})
 call dein#add('junegunn/fzf.vim')
 call dein#add('junegunn/goyo.vim' , { 'on_cmd' : 'Goyo'} )
+call dein#add('justinmk/vim-dirvish')
 call dein#add('mattn/webapi-vim')
+call dein#add('romainl/vim-qf')
 call dein#add('sheerun/vim-polyglot')
 call dein#add('thinca/vim-localrc')
 call dein#add('unblevable/quick-scope')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
-call dein#add('wakatime/vim-wakatime')
-call dein#add('zirrostig/vim-schlepp')
 call dein#add('w0rp/ale')
+call dein#add('zirrostig/vim-schlepp')
 "                ╔══════════════════════════════════════════╗
 "                ║             » TPOPE MAGIC «              ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('tpope/vim-commentary')
-call dein#add('tpope/vim-abolish')
+call dein#add('tpope/vim-abolish', {'on_cmd': 'Abolish'})
 call dein#add('tpope/vim-fugitive')
-call dein#add('tpope/vim-scriptease')
+call dein#add('tpope/vim-scriptease', { 'on_ft': 'vim' })
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 call dein#add('tpope/vim-surround')
-call dein#add('tpope/vim-vinegar')
 call dein#add('tpope/vim-unimpaired')
 "                ╔══════════════════════════════════════════╗
 "                ║                 » TAGS «                 ║
@@ -95,9 +94,9 @@ call dein#add('tpope/vim-unimpaired')
 "                ║              » COMPLETION «              ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('Shougo/deoplete.nvim')
-call dein#add('copy/deoplete-ocaml')
-call dein#add('racer-rust/vim-racer')
-call dein#add('zchee/deoplete-jedi')
+call dein#add('copy/deoplete-ocaml', { 'on_ft': ['reason', 'ml', 'ocaml'] })
+call dein#add('racer-rust/vim-racer', { 'on_ft': 'rust' })
+call dein#add('zchee/deoplete-jedi', { 'on_ft': 'python' })
 "                ╔══════════════════════════════════════════╗
 "                ║                » ICONS «                 ║
 "                ╚══════════════════════════════════════════╝

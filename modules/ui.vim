@@ -68,7 +68,7 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'jsformatter'
-let g:airline_theme = 'oceanicnext'
+let g:airline_theme = 'night_owl'
 let g:airline_powerline_fonts = 1
 let g:airline_section_b = ' %{fugitive#head()}'
 let g:airline_section_z = ''
@@ -127,10 +127,10 @@ let g:webdevicons_enable_airline_tabline = 1
 "     let l:warning = nr2char(0xf420)
 "     let l:error = nr2char(0xf421)
 "     if l:counts.total == 0
-"       hi User3 guifg=#b2b2b2 guibg=#000000 gui=BOLD
+"       hi User3 guifg=#b2b2b2 gui=BOLD
 "       return nr2char(0xf05a) . ' '
 "     else
-"       hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
+"       hi User3 guifg=#c9505c gui=BOLD
 
 "     return printf(
 "     \   '%d %d %d %d',
@@ -155,31 +155,27 @@ let g:webdevicons_enable_airline_tabline = 1
 " set laststatus=2
 " set statusline=
 " set statusline+=\%#keyword#\%m
-" set statusline+=%1*\ ‹‹
 " set statusline+=%1*\ %F\ %*
-" set statusline+=%1*\ ››
 " set statusline+=%1*\ \ %{fugitive#head()}
 " set statusline+=%=
-" set statusline+=%3*\ ‹‹
 " " set statusline+=%1*\ %{FileSize()}
 " set statusline+=%3*\ %{ReadOnly()}
 " set statusline+=%3*\ %{LinterStatus()}
-" set statusline+=%3*\ ››\ %*
 
 " function! CheckStatus() abort
 "   let curr = winnr()
 "   for n in range(1, winnr('$'))
 "     if n == winnr()
-"      hi User1 guifg=#FFFFFF guibg=#000000
+"      hi User1 guifg=#FFFFFF gui=BOLD
 "    else
-"       hi User1 guifg=#b2b2b2 guibg=#000000 gui=BOLD
+"       hi User1 guifg=#b2b2b2 gui=BOLD
 "     endif
 "   endfor
 " endfunction
 
 " augroup statusline
-" au InsertEnter *  hi User1 guibg=#191f26 guifg=#ffc552 gui=BOLD
-" au InsertLeave * hi User1 guifg=#FFFFFF guibg=#000000
+" au InsertEnter *  hi User1 guifg=#ffc552 gui=BOLD
+" au InsertLeave * hi User1 guifg=#b2b2b2
 " au WinLeave, BufWinLeave * call CheckStatus()
 " augroup END
 

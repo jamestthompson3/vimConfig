@@ -13,9 +13,10 @@ augroup omnifuncs
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  " set omnifunc=syntaxcomplete#Complete
+  set omnifunc=syntaxcomplete#Complete
 augroup END
 set completeopt+=preview,longest,noinsert,menuone,noselect
+set complete+=i
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-l>'
 "                ╔══════════════════════════════════════════╗
@@ -61,13 +62,14 @@ function! s:edit_file(item)
 endfunction
 
 function! Fzf_dev(no_git) abort
-  if executable('nf')
-    let l:file_list_command = 'nf'
-    let l:file_list_command_no_git = 'nf --no-ignore'
-  else
+  " Needs to be fixed on Windows
+  " if executable('nf')
+  "   let l:file_list_command = 'nf'
+  "   let l:file_list_command_no_git = 'nf --no-ignore'
+  " else
     let l:file_list_command = 'rg --files'
     let l:file_list_command_no_git = 'rg --files --no-ignore'
-  endif
+  " endif
 
    if !a:no_git
     call s:run_fzf(l:file_list_command)
@@ -112,6 +114,15 @@ function! s:OpenList() abort
   endif
   call s:GrepToQF(l:pattern)
   exec ':cwindow'
+endfunction
+
+function! RenameFile() abort
+  let l:oldName = getline('.')
+  let l:newName = input('Rename as: ', l:oldName, 'file')
+  if newName != '' && newName != oldName
+    call rename(oldName, newName)
+    call feedkeys('R')
+  endif
 endfunction
 
 function! s:GrepToQF(pattern) abort
@@ -170,9 +181,10 @@ let g:matchup_match_paren_timeout = 100
 "                ╔══════════════════════════════════════════╗
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
+let g:loaded_netrwPlugin = 1
+command! -nargs=? -complete=dir Explore Dirvish <args> | silent call feedkeys('20<c-w>|')
+command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args> | silent call feedkeys('20<c-w>|')
+command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args> | silent call feedkeys('20<c-w>|')
 "                ╔══════════════════════════════════════════╗
 "                ║                  » GOYO «                ║
 "                ╚══════════════════════════════════════════╝

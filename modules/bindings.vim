@@ -47,7 +47,13 @@ nnoremap <silent> sv :split<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
-nnoremap <silent><F3> :Lex<CR>
+nnoremap <silent><F3> :Vex<CR>
+augroup FileNav
+  autocmd!
+  autocmd FileType dirvish nnoremap <buffer> <silent>D :call delete(getline('.'))<CR>
+  autocmd FileType dirvish nnoremap <buffer> n :e %/
+  autocmd FileType dirvish nnoremap <buffer> r :call RenameFile()<CR>
+augroup END
 "                ╔══════════════════════════════════════════╗
 "                ║              » SEARCHING «               ║
 "                ╚══════════════════════════════════════════╝
