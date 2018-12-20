@@ -61,38 +61,7 @@ let g:fzf_colors =
       \ 'spinner': ['fg', 'Label'],
       \ 'header':  ['fg', 'Comment'] }
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'jsformatter'
-let g:airline_theme = 'night_owl'
-let g:airline_powerline_fonts = 1
-let g:airline_section_b = ' %{fugitive#head()}'
-let g:airline_section_z = ''
-if !exists('g:airline_symbols')
-   let g:airline_symbols = {}
-endif
-
-" unicode symbols
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.maxlinenr = '㏑'
-let g:airline_symbols.branch = '🎋'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = 'Ɇ'
-let g:airline_symbols.whitespace = 'Ξ'
 let g:webdevicons_enable = 1
-let g:webdevicons_enable_airline_statusline = 1
-let g:webdevicons_enable_airline_tabline = 1
 
 " function! FileSize() abort
 "     let l:bytes = getfsize(expand('%p'))
@@ -117,66 +86,77 @@ let g:webdevicons_enable_airline_tabline = 1
 " endfunction
 
 
-" set tabline+=%1*\ %F\ %*
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
 
-" function! LinterStatus() abort
-"     let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+    let l:warning = nr2char(0xf420)
+    let l:error = nr2char(0xf421)
+    if l:counts.total == 0
+      return nr2char(0xf05a) . ' '
+    else
+      return printf(
+    \   '%d ⚠ %d ☓',
+    \   l:warning,
+    \   l:error
+    \) . ' '
+  endif
+endfunction
 
-"     let l:all_errors = l:counts.error + l:counts.style_error
-"     let l:all_non_errors = l:counts.total - l:all_errors
-"     let l:warning = nr2char(0xf420)
-"     let l:error = nr2char(0xf421)
-"     if l:counts.total == 0
-"       hi User3 guifg=#b2b2b2 gui=BOLD
-"       return nr2char(0xf05a) . ' '
-"     else
-"       hi User3 guifg=#c9505c gui=BOLD
+" Dictionary: take mode() input -> longer notation of current mode
+" mode() is defined by Vim
+let g:currentmode={ 'V' : 'V·Line ', 'i' : '[+]' }
 
-"     return printf(
-"     \   '%d %d %d %d',
-"     \   l:all_non_errors,
-"     \   l:warning,
-"     \   l:all_errors,
-"     \   l:error
-"     \) . ' '
-"   endif
-" endfunction
 
-" function! ReadOnly() abort
-"   if &readonly || !&modifiable
-"     hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
-"     return ''
-"   else
-"     return ''
-"   endif
-" endfunction
+" Function: return current mode
+" abort -> function will abort soon as error detected
+function! ModeCurrent() abort
+    let l:modecurrent = mode()
+    " use get() -> fails safely, since ^V doesn't seem to register
+    " 3rd arg is used when return of mode() == 0, which is case with ^V
+    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
+    if l:modecurrent == '^V'
+      return 'V Block'
+    else
+      let l:modelist = toupper(get(g:currentmode, l:modecurrent, ''))
+      return l:modelist
+    endif
+endfunction
 
-" set noshowmode
-" set laststatus=2
-" set statusline=
-" set statusline+=\%#keyword#\%m
-" set statusline+=%1*\ %F\ %*
-" set statusline+=%1*\ \ %{fugitive#head()}
-" set statusline+=%=
-" " set statusline+=%1*\ %{FileSize()}
-" set statusline+=%3*\ %{ReadOnly()}
-" set statusline+=%3*\ %{LinterStatus()}
+function! ReadOnly() abort
+  if &readonly || !&modifiable
+    hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
+    return ''
+  else
+    return ''
+  endif
+endfunction
 
-" function! CheckStatus() abort
-"   let curr = winnr()
-"   for n in range(1, winnr('$'))
-"     if n == winnr()
-"      hi User1 guifg=#FFFFFF gui=BOLD
-"    else
-"       hi User1 guifg=#b2b2b2 gui=BOLD
-"     endif
-"   endfor
-" endfunction
+set noshowmode
+set laststatus=2
+set statusline=
+set statusline+=%<
+set statusline+=%f
+set statusline+=%{ModeCurrent()}
+set statusline+=\ ⟫\ \ %{fugitive#head()}
+set statusline+=%=
+set statusline+=%{ReadOnly()}
+set statusline+=%{LinterStatus()}
 
-" augroup statusline
-" au InsertEnter *  hi User1 guifg=#ffc552 gui=BOLD
-" au InsertLeave * hi User1 guifg=#b2b2b2
-" au WinLeave, BufWinLeave * call CheckStatus()
-" augroup END
+hi! link StatusLine Constant
+hi! link StatusLineNC Comment
+hi! link BufTabLineFill NonText
+hi! link BufTabLineActive Pmenu
+hi! link BufTabLineCurrent WildMenu
+let g:buftabline_show = 1
+let g:buftabline_indicators = 1
 
+augroup statusline
+    au!
+    au BufEnter help hi! link StatusLine NonText
+    au BufLeave help hi! link StatusLine Constant
+"   au InsertEnter *  hi! link StatusLine Statement
+"   au InsertLeave * hi! link StatusLine Constant
+augroup END
 
