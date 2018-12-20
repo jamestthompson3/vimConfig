@@ -6,6 +6,7 @@ scriptencoding utf-8
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 10
 call deoplete#custom#source('ultisnips', 'rank', 1000)
+
 augroup omnifuncs
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -17,6 +18,8 @@ augroup omnifuncs
 augroup END
 set completeopt+=preview,longest,noinsert,menuone,noselect
 set complete+=i
+
+" snippets settings
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-l>'
 "                ╔══════════════════════════════════════════╗
@@ -25,15 +28,6 @@ let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 set grepprg=rg\ --vimgrep
 let g:fzf_layout = { 'window': 'enew' }
-function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      let l:filename = fnamemodify(l:candidate, ':p:t')
-      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-      call add(l:result, printf('%s %s', l:icon, l:candidate))
-    endfor
-    return l:result
-endfunction
 
 function! s:run_fzf(command)
  call fzf#run({
@@ -78,7 +72,7 @@ function! Fzf_dev(no_git) abort
   endif
 endfunction
 
-function! Fzf_mru() abort
+function! Fzf_mru() abort " Search most recently used files
   function! s:generate_mru()
     let l:mru_path_command = printf('sed "1d" %s', g:neomru#file_mru_path)
     let l:mru_files = split(system(l:mru_path_command.' | devicon-lookup'), '\n')
@@ -98,7 +92,7 @@ function! s:open_branch_fzf(line)
   execute '!git checkout ' . l:branch
 endfunction
 
-command! -bang -nargs=0 GCheckout
+command! -bang -nargs=0 GCheckout " fuzzy search through git branch, checkout selected branch
   \ call fzf#vim#grep(
   \   'git branch', 0,
   \   {
@@ -165,7 +159,7 @@ command! -bang -nargs=+ ReplaceQF call s:Replace_qf(<q-args>)
 command! -bang SearchProject call s:OpenList()
 command! -bang SearchBuffers call s:GrepBufs()
 command! -bang FindandReplace call s:FindReplace()
-command! -bang -nargs=* Rg
+command! -bang -nargs=* Rg " Grep then fuzzy search through results
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
       \   <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -181,6 +175,7 @@ let g:matchup_match_paren_timeout = 100
 "                ╔══════════════════════════════════════════╗
 "                ║                » NERDTREE «              ║
 "                ╚══════════════════════════════════════════╝
+" Use dirvish over netrw, but still preserve netrw behavior
 let g:loaded_netrwPlugin = 1
 command! -nargs=? -complete=dir Explore Dirvish <args> | silent call feedkeys('20<c-w>|')
 command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args> | silent call feedkeys('20<c-w>|')
@@ -197,6 +192,8 @@ let g:colorizer_auto_filetype='css,html,javascript.jsx'
 "                ╔══════════════════════════════════════════╗
 "                ║               » WINDOWS «                ║
 "                ╚══════════════════════════════════════════╝
+"
+" Turn off column numbers if the window is inactive
 augroup WINDOWS
   autocmd!
   autocmd WinEnter * set number
@@ -224,6 +221,7 @@ function! s:Camel(args) abort
   endif
 endfunction
 
+" allows for easy jumping using commands like ili, ls, dli, etc.
 function! CCR()
     let cmdline = getcmdline()
     if cmdline =~ '\v\C^(ls|files|buffers)'

@@ -17,13 +17,20 @@ set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 set pumheight=15   "limit completion menu height
-set scrolloff=1
-set sidescrolloff=5
+set scrolloff=1 "minimal number of screen lines to keep above and below the cursor.
+set sidescrolloff=5 "same, but with columns
 set display+=lastline
 set incsearch
 set hlsearch
 set ttimeout
+
+" Custom higlight groups
 hi SpellBad guibg=#ff2929 ctermbg=196
+hi! link StatusLine Constant
+hi! link StatusLineNC Comment
+hi! link BufTabLineFill NonText
+hi! link BufTabLineActive Pmenu
+hi! link BufTabLineCurrent WildMenu
 
 colorscheme tokyo-metro
 "                ╔══════════════════════════════════════════╗
@@ -44,47 +51,9 @@ else
 endif
 
 "                ╔══════════════════════════════════════════╗
-"                ║                » PLUGINS «               ║
+"                ║              » STATUS LINE «             ║
 "                ╚══════════════════════════════════════════╝
 "
-let g:fzf_colors =
-    \ { 'fg':      ['fg', 'Normal'],
-      \ 'bg':      ['bg', 'Normal'],
-      \ 'hl':      ['fg', 'CursorLine'],
-      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-      \ 'hl+':     ['fg', 'Statement'],
-      \ 'info':    ['fg', 'PreProc'],
-      \ 'prompt':  ['fg', 'Conditional'],
-      \ 'pointer': ['fg', 'Exception'],
-      \ 'marker':  ['fg', 'Keyword'],
-      \ 'spinner': ['fg', 'Label'],
-      \ 'header':  ['fg', 'Comment'] }
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:webdevicons_enable = 1
-
-" function! FileSize() abort
-"     let l:bytes = getfsize(expand('%p'))
-"     if (l:bytes >= 1024)
-"         let l:kbytes = l:bytes / 1025
-"     endif
-"     if (exists('kbytes') && l:kbytes >= 1000)
-"         let l:mbytes = l:kbytes / 1000
-"     endif
-
-"     if l:bytes <= 0
-"         return '0'
-"     endif
-
-"     if (exists('mbytes'))
-"         return l:mbytes . 'MB '
-"     elseif (exists('kbytes'))
-"         return l:kbytes . 'KB '
-"     else
-"         return l:bytes . 'B '
-"     endif
-" endfunction
-
 
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
@@ -106,16 +75,13 @@ endfunction
 
 " Dictionary: take mode() input -> longer notation of current mode
 " mode() is defined by Vim
-let g:currentmode={ 'V' : 'V·Line ', 'i' : '[+]' }
+let g:currentmode={ 'V' : 'V·Line ', 'i' : '[+]', 'R': 'Replace' }
 
 
 " Function: return current mode
 " abort -> function will abort soon as error detected
 function! ModeCurrent() abort
     let l:modecurrent = mode()
-    " use get() -> fails safely, since ^V doesn't seem to register
-    " 3rd arg is used when return of mode() == 0, which is case with ^V
-    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
     if l:modecurrent == '^V'
       return 'V Block'
     else
@@ -133,22 +99,23 @@ function! ReadOnly() abort
   endif
 endfunction
 
+function! FileType() abort
+  let l:currFile = expand('%')
+  return WebDevIconsGetFileTypeSymbol(l:currFile, isdirectory(l:currFile))
+endfunction
+
 set noshowmode
 set laststatus=2
 set statusline=
 set statusline+=%<
 set statusline+=%f
-set statusline+=%{ModeCurrent()}
+set statusline+=\ %{FileType()}
+set statusline+=\ %{ModeCurrent()}
 set statusline+=\ ⟫\ \ %{fugitive#head()}
 set statusline+=%=
 set statusline+=%{ReadOnly()}
 set statusline+=%{LinterStatus()}
 
-hi! link StatusLine Constant
-hi! link StatusLineNC Comment
-hi! link BufTabLineFill NonText
-hi! link BufTabLineActive Pmenu
-hi! link BufTabLineCurrent WildMenu
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 
@@ -159,4 +126,24 @@ augroup statusline
 "   au InsertEnter *  hi! link StatusLine Statement
 "   au InsertLeave * hi! link StatusLine Constant
 augroup END
+
+"                ╔══════════════════════════════════════════╗
+"                ║                » PLUGINS «               ║
+"                ╚══════════════════════════════════════════╝
+"
+let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'CursorLine'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:webdevicons_enable = 1
 
