@@ -26,11 +26,10 @@ set ttimeout
 
 " Custom higlight groups
 hi SpellBad guibg=#ff2929 ctermbg=196
-hi! link StatusLine Constant
-hi! link StatusLineNC Comment
 hi! link BufTabLineFill NonText
 hi! link BufTabLineActive Pmenu
 hi! link BufTabLineCurrent WildMenu
+hi! link BufTabLineHidden Normal
 
 colorscheme tokyo-metro
 "                ╔══════════════════════════════════════════╗
@@ -116,8 +115,13 @@ set statusline+=%=
 set statusline+=%{ReadOnly()}
 set statusline+=%{LinterStatus()}
 
+hi! link StatusLine Constant
+hi! link StatusLineNC Comment
+
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
+let g:buftabline_separators = 1
+let g:buftabline_numbers = 2
 
 augroup statusline
     au!
