@@ -61,7 +61,7 @@ nnoremap <silent> sv :split<CR>
 nnoremap <silent><F3> :Vex<CR>
 augroup FileNav
   autocmd!
-  autocmd FileType dirvish nnoremap <buffer> <silent>D :call delete(getline('.'))<CR>
+  autocmd FileType dirvish nnoremap <buffer> <silent>D :call DeleteFile()<CR>
   autocmd FileType dirvish nnoremap <buffer> n :e %/
   autocmd FileType dirvish nnoremap <buffer> r :call RenameFile()<CR>
 augroup END

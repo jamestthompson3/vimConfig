@@ -13,3 +13,4 @@ command! -nargs=1 CompileNim call CompileNim(<q-args>)
 nnoremap <silent>rcf CompileNim
 setlocal suffixesadd+=.nim
 setlocal define=proc\\s
+setlocal include=import\\s

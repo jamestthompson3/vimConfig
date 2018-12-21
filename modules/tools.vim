@@ -119,6 +119,11 @@ function! RenameFile() abort
   endif
 endfunction
 
+function! DeleteFile() abort
+  call system(printf('rm -rf %s',getline('.')))
+  call feedkeys('R')
+endfunction
+
 function! s:GrepToQF(pattern) abort
     call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.a:pattern)})
 endfunction
