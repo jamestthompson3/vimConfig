@@ -55,7 +55,11 @@ endif
 "
 function! MU() " show current completion method
   let l:modecurrent = mode()
-  return l:modecurrent == 'i' ? g:mucomplete_current_method : ''
+  if l:modecurrent == 'i' && exists("g:mucomplete_current_method")
+   return g:mucomplete_current_method 
+   else
+     return ''
+  endif
 endfunction
 
 function! LinterStatus() abort

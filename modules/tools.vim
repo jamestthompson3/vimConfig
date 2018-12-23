@@ -3,27 +3,15 @@ scriptencoding utf-8
 "                ║                » COMPLETION «            ║
 "                ╚══════════════════════════════════════════╝
 
-
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#auto_complete_delay = 10
-" call deoplete#custom#source('ultisnips', 'rank', 1000)
-" call deoplete#custom#option({
-"       \ 'smart_case': v:true,
-"       \ })
-
-" call deoplete#custom#source('omni', 'functions', {
-" 		    \ 'python':  'pythoncomplete#Complete',
-" 		    \ 'javascript': 'javascriptcomplete#CompleteJS'
-" 		    \})
-"
 set completeopt+=preview,longest,noinsert,menuone,noselect
 set complete-=i " let mucomplete handle searching for included files. Don't scan by default
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
+
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#chains = {
-      \ 'default': ['omni', 'c-p', 'incl', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
-      \ 'vim': ['defs', 'cmd', 'omni', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
+      \ 'default': ['c-p', 'incl', 'omni', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
+      \ 'vim': ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
       \ }
 let g:mucomplete#minimum_prefix_length = 2
 

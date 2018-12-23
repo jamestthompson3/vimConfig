@@ -45,7 +45,7 @@ call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
 "                ║               » THEMES «                 ║
 "                ╚══════════════════════════════════════════╝
 call dein#add('andreypopp/vim-colors-plain', {'on_cmd': 'Colors'})
-call dein#add('chrisbra/Colorizer')
+call dein#add('chrisbra/Colorizer', { 'on_ft':  ['css', 'html', 'javascript.jsx', 'vim']})
 call dein#add('jordwalke/flatlandia',{'on_cmd': 'Colors'})
 call dein#add('julien/vim-colors-green',{'on_cmd': 'Colors'})
 call dein#add('kristijanhusak/vim-hybrid-material', {'on_cmd': 'Colors'})
