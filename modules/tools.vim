@@ -15,11 +15,14 @@ scriptencoding utf-8
 " 		    \ 'python':  'pythoncomplete#Complete',
 " 		    \ 'javascript': 'javascriptcomplete#CompleteJS'
 " 		    \})
-
+"
+set completeopt+=preview,longest,noinsert,menuone,noselect
+set complete-=i " let mucomplete handle searching for included files. Don't scan by default
+set complete-=t " let mucomplete handle searching for tags. Don't scan by default
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#chains = {
-      \ 'default': ['omni', 'defs', 'incl', 'keyn', 'keyp', 'tags', 'c-p', 'c-n', 'file', 'path', 'ulti'],
+      \ 'default': ['omni', 'c-p', 'incl', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
       \ 'vim': ['defs', 'cmd', 'omni', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
       \ }
 let g:mucomplete#minimum_prefix_length = 2
@@ -33,8 +36,7 @@ augroup omnifuncs
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   set omnifunc=syntaxcomplete#Complete
 augroup END
-set completeopt+=preview,longest,noinsert,menuone,noselect
-set complete+=i
+
 
 " snippets settings
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'

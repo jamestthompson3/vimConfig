@@ -53,6 +53,10 @@ endif
 "                ║              » STATUS LINE «             ║
 "                ╚══════════════════════════════════════════╝
 "
+function! MU() " show current completion method
+  let l:modecurrent = mode()
+  return l:modecurrent == 'i' ? g:mucomplete_current_method : ''
+endfunction
 
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
@@ -112,7 +116,8 @@ set statusline+=\ %{FileType()}
 set statusline+=\ %{ModeCurrent()}
 set statusline+=\ ⟫\ \ %{fugitive#head()}
 set statusline+=%=
-set statusline+=%{ReadOnly()}
+set statusline+=\ %{MU()}
+set statusline+=\ %{ReadOnly()}
 set statusline+=%{LinterStatus()}
 
 hi! link StatusLine Constant
