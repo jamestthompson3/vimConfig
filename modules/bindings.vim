@@ -5,6 +5,7 @@ scriptencoding = utf-8
 let g:mapleader = "\<Space>"
 inoremap jj <Esc>
 
+" Escape from terminal mode
 if exists(':tnoremap')
  tnoremap <C-\> <C-\><C-n>
 endif
@@ -17,6 +18,7 @@ xnoremap <Leader>y "+y
 xnoremap <Leader>d "+d
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
+xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 "                ╔══════════════════════════════════════════╗
 "                ║             » WINDOW MOTIONS «           ║
 "                ╚══════════════════════════════════════════╝
