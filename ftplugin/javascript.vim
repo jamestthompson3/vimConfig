@@ -20,12 +20,10 @@ let g:jsdoc_enable_es6 = 1
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 let b:ale_linters_ignore = ['tsserver']
-" call deoplete#disable()
 
-" peek symbol definition
-nnoremap gh [I
-" jump to symbol definition
-nnoremap <silent> gd :ijump <c-r><c-w><CR>
+"                ╔══════════════════════════════════════════╗
+"                ║                 » JEST «                 ║
+"                ╚══════════════════════════════════════════╝
 
 function! FuzzyJest(trimmed_values) abort
   call fzf#run({
@@ -47,9 +45,19 @@ nmap <silent> Lrt :call ListTests()<CR>
 nmap <silent> Lt :call JestList()<CR>
 nmap <silent> T :call RunJest()<CR>
 
+"                ╔══════════════════════════════════════════╗
+"                ║                 » MISC «                 ║
+"                ╚══════════════════════════════════════════╝
+
+" peek symbol definition
+nnoremap gh [I
+" jump to symbol definition
+nnoremap <silent> gd :ijump <c-r><c-w><CR>
+
 iabbrev cosnt const
 iabbrev imoprt import
 iabbrev iomprt import
+iabbrev improt import
 
 setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'

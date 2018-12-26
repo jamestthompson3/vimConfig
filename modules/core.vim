@@ -1,7 +1,7 @@
 scriptencoding utf-8
 syntax enable " enable sytnax
 set hidden " enable hidden buffers
-filetype plugin indent on " use ftplugin and indents based on detect file type
+filetype plugin indent on " use ftplugin and indents based on detected file type
 set autoindent
 set smartindent
 set lazyredraw " speed up vim drawing

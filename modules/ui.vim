@@ -56,7 +56,7 @@ endif
 function! MU() " show current completion method
   let l:modecurrent = mode()
   if l:modecurrent == 'i' && exists("g:mucomplete_current_method")
-   return g:mucomplete_current_method 
+   return g:mucomplete_current_method
    else
      return ''
   endif
@@ -64,13 +64,11 @@ endfunction
 
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
-
     let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-    let l:warning = nr2char(0xf420)
-    let l:error = nr2char(0xf421)
-    if l:counts.total == 0
-      return nr2char(0xf05a) . ' '
+    let l:warning = l:counts.warning
+    let l:error = l:counts.error
+    if l:all_errors + l:counts.warning == 0
+     return nr2char(0xf4a1) . ' '
     else
       return printf(
     \   '%d ⚠ %d ☓',

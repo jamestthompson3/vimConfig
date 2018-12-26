@@ -92,7 +92,6 @@ call dein#add('tpope/vim-unimpaired')
 "                ╔══════════════════════════════════════════╗
 "                ║              » COMPLETION «              ║
 "                ╚══════════════════════════════════════════╝
-" call dein#add('Shougo/deoplete.nvim')
 call dein#add('lifepillar/vim-mucomplete')
 " call dein#add('copy/deoplete-ocaml', { 'on_ft': ['reason', 'ml', 'ocaml'] })
 call dein#add('racer-rust/vim-racer', { 'on_ft': 'rust' })
