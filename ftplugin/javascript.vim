@@ -50,7 +50,9 @@ nmap <silent> T :call RunJest()<CR>
 "                ╚══════════════════════════════════════════╝
 
 " peek symbol definition
-nnoremap gh [I
+nnoremap gh [i
+" peek references
+nnoremap K [I
 " jump to symbol definition
 nnoremap <silent> gd :ijump <c-r><c-w><CR>
 
