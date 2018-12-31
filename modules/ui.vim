@@ -3,11 +3,11 @@ scriptencoding utf-8
 "                ║                 » BASICS «               ║
 "                ╚══════════════════════════════════════════╝
 if !has('nvim')
-set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
+  set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
+  set background=dark
 endif
 
 set termguicolors
-set background=dark
 set number
 set nowrap
 set cursorline
@@ -41,7 +41,7 @@ let g:enable_guicolors = 1
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 
-if has('win16') || has('win32') || has('win64')
+if g:isWindows
   set guifont=Iosevka:h10:cANSI:qDRAFT
 elseif has('Mac')
   set guifont=Iosevka\ Term\ Nerd\ Font\ Complete:h11
@@ -95,6 +95,17 @@ function! ModeCurrent() abort
     endif
 endfunction
 
+function! Get_gutentags_status(mods) abort
+  let l:msg = ''
+    if index(a:mods, 'ctags') >= 0
+      let l:msg .= '♨'
+    endif
+    if index(a:mods, 'cscope') >= 0
+      let l:msg .= '♺'
+    endif
+  return l:msg
+endfunction
+
 function! ReadOnly() abort
   if &readonly || !&modifiable
     hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
@@ -118,6 +129,7 @@ set statusline+=\ %{FileType()}
 set statusline+=\ %{ModeCurrent()}
 set statusline+=\ ⟫\ \ %{fugitive#head()}
 set statusline+=%=
+set statusline+=%{gutentags#statusline_cb(funcref('Get_gutentags_status'))}
 set statusline+=\ %{MU()}
 set statusline+=\ %{ReadOnly()}
 set statusline+=%{LinterStatus()}

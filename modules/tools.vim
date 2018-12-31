@@ -1,5 +1,10 @@
 scriptencoding utf-8
 "                ╔══════════════════════════════════════════╗
+"                ║                  » TAGS «                ║
+"                ╚══════════════════════════════════════════╝
+let g:gutentags_cache_dir = '~/.cache/'
+
+"                ╔══════════════════════════════════════════╗
 "                ║                » COMPLETION «            ║
 "                ╚══════════════════════════════════════════╝
 
@@ -9,8 +14,9 @@ set complete-=t " let mucomplete handle searching for tags. Don't scan by defaul
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
+let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {
-      \ 'default': ['c-p', 'incl', 'omni', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
+      \ 'default': ['omni', 'incl', 'c-p', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
       \ 'vim': ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
       \ }
 let g:mucomplete#minimum_prefix_length = 2

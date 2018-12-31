@@ -87,8 +87,7 @@ call dein#add('tpope/vim-unimpaired')
 "                ╔══════════════════════════════════════════╗
 "                ║                 » TAGS «                 ║
 "                ╚══════════════════════════════════════════╝
-" call dein#add('ludovicchabant/vim-gutentags', { 'on_ft': ['python', 'c', 'cpp', 'rust']} )
-" call dein#add('skywind3000/gutentags_plus', {'on_ft': ['python', 'c', 'cpp', 'rust']} )
+call dein#add('ludovicchabant/vim-gutentags')
 "                ╔══════════════════════════════════════════╗
 "                ║              » COMPLETION «              ║
 "                ╚══════════════════════════════════════════╝
