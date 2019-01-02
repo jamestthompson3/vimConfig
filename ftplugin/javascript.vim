@@ -52,7 +52,7 @@ nmap <silent> T :call RunJest()<CR>
 " peek symbol definition
 nnoremap gh [i
 " peek references
-nnoremap K [I
+nnoremap <silent>K :call ListTags()<CR>
 " jump to symbol definition
 nnoremap <silent> gd :ijump <c-r><c-w><CR>
 

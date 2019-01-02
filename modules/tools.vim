@@ -25,6 +25,13 @@ augroup omnifuncs
   set omnifunc=syntaxcomplete#Complete
 augroup END
 
+" tags
+let g:gutentags_cache_dir = "~/.cache"
+
+function! ListTags() abort " list all associated tags with cursor word
+  exec("ltag ".expand("<cword>"))
+  exec("lwindow")
+endfunction
 
 " snippets settings
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
