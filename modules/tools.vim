@@ -115,6 +115,11 @@ command! -bang -nargs=0 GCheckout " fuzzy search through git branch, checkout se
   \   <bang>0
   \ )
 
+function! s:GrepToQF(pattern) abort
+    let l:grepPattern = ':silent grep! '.a:pattern
+    exec l:grepPattern
+endfunction
+
 function! s:OpenList() abort
   let l:pattern = input('Search > ')
   if l:pattern == ''
@@ -138,9 +143,6 @@ function! DeleteFile() abort
   call feedkeys('R')
 endfunction
 
-function! s:GrepToQF(pattern) abort
-    call setqflist([], ' ', { 'lines': systemlist('rg --fixed-strings --vimgrep -S'.' '.a:pattern)})
-endfunction
 
 function! s:GrepBufs() abort
   let l:pattern  = input('Search > ')
