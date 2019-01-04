@@ -22,7 +22,6 @@ set sidescrolloff=5 "same, but with columns
 set display+=lastline
 set incsearch
 set hlsearch
-set ttimeout
 
 " Custom higlight groups
 hi SpellBad guibg=#ff2929 ctermbg=196
@@ -68,7 +67,7 @@ function! LinterStatus() abort
     let l:warning = l:counts.warning
     let l:error = l:counts.error
     if l:all_errors + l:counts.warning == 0
-     return nr2char(0xf4a1) . ' '
+     return '✓'
     else
       return printf(
     \   '%d ⚠ %d ☓',
@@ -136,7 +135,6 @@ set statusline+=%{LinterStatus()}
 
 hi! link StatusLine Constant
 hi! link StatusLineNC Comment
-
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 let g:buftabline_separators = 1

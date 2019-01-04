@@ -3,7 +3,10 @@ scriptencoding utf-8
 "                ║                  » TAGS «                ║
 "                ╚══════════════════════════════════════════╝
 let g:gutentags_cache_dir = '~/.cache/'
-
+function! ListTags() abort " list all associated tags with cursor word
+  exec('ltag '.expand('<cword>'))
+  exec('lwindow')
+endfunction
 "                ╔══════════════════════════════════════════╗
 "                ║                » COMPLETION «            ║
 "                ╚══════════════════════════════════════════╝
@@ -30,14 +33,6 @@ augroup omnifuncs
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   set omnifunc=syntaxcomplete#Complete
 augroup END
-
-" tags
-let g:gutentags_cache_dir = "~/.cache"
-
-function! ListTags() abort " list all associated tags with cursor word
-  exec("ltag ".expand("<cword>"))
-  exec("lwindow")
-endfunction
 
 " snippets settings
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
