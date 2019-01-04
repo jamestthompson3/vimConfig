@@ -8,7 +8,6 @@ set title " more meta info for window manager
 set lazyredraw " speed up vim drawing
 set autoread  " Automatically read a file changed outside of vim
 set splitright " when splitting vertically, focus goes right
-set splitbelow " when splitting vertically, focus goes down
 set undolevels=1000
 set ttimeout
 set wildignorecase " no case sensitivity on wild menu

@@ -8,7 +8,6 @@ if !has('nvim')
 endif
 
 set termguicolors
-set number
 set nowrap
 set cursorline
 set noshowmode
@@ -37,8 +36,6 @@ colorscheme tokyo-metro
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
 
 if g:isWindows
   set guifont=Iosevka:h10:cANSI:qDRAFT
@@ -54,7 +51,7 @@ endif
 "
 function! MU() " show current completion method
   let l:modecurrent = mode()
-  if l:modecurrent == 'i' && exists("g:mucomplete_current_method")
+  if l:modecurrent == 'i' && exists('g:mucomplete_current_method')
    return g:mucomplete_current_method
    else
      return ''
@@ -77,13 +74,8 @@ function! LinterStatus() abort
   endif
 endfunction
 
-" Dictionary: take mode() input -> longer notation of current mode
-" mode() is defined by Vim
 let g:currentmode={ 'V' : 'V·Line ', 'i' : '[+]', 'R': 'Replace' }
 
-
-" Function: return current mode
-" abort -> function will abort soon as error detected
 function! ModeCurrent() abort
     let l:modecurrent = mode()
     if l:modecurrent == '^V'
@@ -119,7 +111,6 @@ function! FileType() abort
   return WebDevIconsGetFileTypeSymbol(l:currFile, isdirectory(l:currFile))
 endfunction
 
-set noshowmode
 set laststatus=2
 set statusline=
 set statusline+=%<
@@ -144,27 +135,14 @@ augroup statusline
     au!
     au BufEnter help hi! link StatusLine NonText
     au BufLeave help hi! link StatusLine Constant
-"   au InsertEnter *  hi! link StatusLine Statement
-"   au InsertLeave * hi! link StatusLine Constant
+    " au InsertEnter *  hi! link StatusLine Statement
+    " au InsertLeave * hi! link StatusLine Constant
 augroup END
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » PLUGINS «               ║
 "                ╚══════════════════════════════════════════╝
 "
-let g:fzf_colors =
-    \ { 'fg':      ['fg', 'Normal'],
-      \ 'bg':      ['bg', 'Normal'],
-      \ 'hl':      ['fg', 'CursorLine'],
-      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-      \ 'hl+':     ['fg', 'Statement'],
-      \ 'info':    ['fg', 'PreProc'],
-      \ 'prompt':  ['fg', 'Conditional'],
-      \ 'pointer': ['fg', 'Exception'],
-      \ 'marker':  ['fg', 'Keyword'],
-      \ 'spinner': ['fg', 'Label'],
-      \ 'header':  ['fg', 'Comment'] }
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:webdevicons_enable = 1
 

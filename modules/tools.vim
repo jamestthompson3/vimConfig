@@ -107,14 +107,13 @@ function! s:open_branch_fzf(line)
   execute '!git checkout ' . l:branch
 endfunction
 
-command! -bang -nargs=0 GCheckout " fuzzy search through git branch, checkout selected branch
-  \ call fzf#vim#grep(
-  \   'git branch', 0,
-  \   {
-  \     'sink': function('s:open_branch_fzf')
-  \   },
-  \   <bang>0
-  \ )
+" fuzzy search through git branch, checkout selected branch
+command! -bang -nargs=0 GCheckout
+     \ call fzf#run({
+     \ 'source': 'git branch',
+     \ 'sink':   function('s:open_branch_fzf'),
+     \ 'down': '40%'
+     \ }, <bang>0)
 
 function! s:GrepToQF(pattern) abort
     let l:grepPattern = ':silent grep! '.a:pattern
@@ -181,13 +180,6 @@ command! -bang -nargs=+ ReplaceQF call s:Replace_qf(<q-args>)
 command! -bang SearchProject call s:OpenList()
 command! -bang SearchBuffers call s:GrepBufs()
 command! -bang FindandReplace call s:FindReplace()
-command! -bang -nargs=* Rg " Grep then fuzzy search through results
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
-
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║

@@ -18,6 +18,7 @@ xnoremap <Leader>y "+y
 xnoremap <Leader>d "+d
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
+" Don't trash current register when pasting in visual mode
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 "                ╔══════════════════════════════════════════╗
 "                ║             » WINDOW MOTIONS «           ║
@@ -82,21 +83,17 @@ augroup searching
 augroup END
 
 nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
-nnoremap <silent><Leader>a :Rg<CR>
 nnoremap <silent><Leader>. :Buffers<CR>
-
 nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
-
 nnoremap <silent><c-p> :call Fzf_dev(1)<CR>
 nnoremap <silent>, :call Fzf_mru()<CR>
-nnoremap <silent><Leader>m :Marks<CR>
-
+nnoremap ts :ts<space>
 cnoremap <expr> <CR> CCR()
 "                ╔══════════════════════════════════════════╗
 "                ║                 » GIT «                  ║
 "                ╚══════════════════════════════════════════╝
 
-noremap <Leader>gs :Gstatus<CR>
+noremap gs :Gstatus<CR>
 noremap <Leader>gp :Gpush<CR>
 nnoremap <silent><Leader>g :GCheckout<CR>
 nnoremap <silent><Leader>gl :Commits<CR>
@@ -135,6 +132,7 @@ function! OpenTerminalDrawer() abort
   execute ':term'
 endfunction
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
+nnoremap <Leader>t :Tagbar<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║              » VIM DEV «                 ║
 "                ╚══════════════════════════════════════════╝
