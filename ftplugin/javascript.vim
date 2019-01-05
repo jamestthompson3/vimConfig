@@ -55,6 +55,7 @@ nnoremap gh [i
 nnoremap <silent>K :call ListTags()<CR>
 " jump to symbol definition
 nnoremap <silent> gd :ijump <c-r><c-w><CR>
+inoremap `<CR>       `<CR>`<esc>O<tab>
 
 iabbrev cosnt const
 iabbrev imoprt import

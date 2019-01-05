@@ -10,6 +10,7 @@ set autoread  " Automatically read a file changed outside of vim
 set splitright " when splitting vertically, focus goes right
 set undolevels=1000
 set ttimeout
+set path& | let &path .= '**' " include all directories / files in current directory
 set wildignorecase " no case sensitivity on wild menu
 set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions

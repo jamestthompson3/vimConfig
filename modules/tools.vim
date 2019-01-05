@@ -120,15 +120,6 @@ function! s:GrepToQF(pattern) abort
     exec l:grepPattern
 endfunction
 
-function! s:OpenList() abort
-  let l:pattern = input('Search > ')
-  if l:pattern == ''
-    return
-  endif
-  call s:GrepToQF(l:pattern)
-  exec ':cwindow'
-endfunction
-
 function! RenameFile() abort
   let l:oldName = getline('.')
   let l:newName = input('Rename as: ', l:oldName, 'file')
@@ -177,9 +168,9 @@ function! s:Replace_qf(args) abort
 endfunction
 
 command! -bang -nargs=+ ReplaceQF call s:Replace_qf(<q-args>)
-command! -bang SearchProject call s:OpenList()
 command! -bang SearchBuffers call s:GrepBufs()
 command! -bang FindandReplace call s:FindReplace()
+command! -nargs=+ -complete=file_in_path -bar SearchProject silent! grep! <args> | redraw!
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║

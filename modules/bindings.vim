@@ -50,6 +50,22 @@ nmap <leader>9 <Plug>BufTabLine.Go(9)
 nmap <leader>0 <Plug>BufTabLine.Go(10)
 
 "                ╔══════════════════════════════════════════╗
+"                ║                 » PAIRS «               ║
+"                ╚══════════════════════════════════════════╝
+
+inoremap (           ()<left>
+inoremap (<CR>       (<CR>)<esc>O<tab>
+inoremap (<space>    (<space><space>)<left><left>
+inoremap {           {}<left>
+inoremap {<CR>       {<CR>}<esc>O<tab>
+inoremap {<space>    {<space><space>}<left><left>
+inoremap [<CR>       [<CR>]<esc>O<tab>
+inoremap [<space>    [<space><space>]<left><left>
+inoremap "           ""<left>
+inoremap '           ''<left>
+inoremap `           ``<left>
+
+"                ╔══════════════════════════════════════════╗
 "                ║                 » MACROS «               ║
 "                ╚══════════════════════════════════════════╝
 nnoremap mm q
@@ -74,7 +90,7 @@ augroup END
 nmap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
-nnoremap <silent><Leader>sp :SearchProject<CR>
+nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent> <Leader>fr :FindandReplace<CR>
 augroup searching
