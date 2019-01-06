@@ -59,6 +59,7 @@ inoremap (<space>    (<space><space>)<left><left>
 inoremap {           {}<left>
 inoremap {<CR>       {<CR>}<esc>O<tab>
 inoremap {<space>    {<space><space>}<left><left>
+inoremap [           []<left>
 inoremap [<CR>       [<CR>]<esc>O<tab>
 inoremap [<space>    [<space><space>]<left><left>
 inoremap "           ""<left>

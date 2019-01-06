@@ -34,9 +34,3 @@ call LoadCustomModule( 'ui' )
 call LoadCustomModule( 'bindings' )
 call LoadCustomModule( 'tools' )
 call LoadCustomModule( 'linting_lsp' )
-
-" Org tools
-" let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
-"       \ ['REPORT(r)', 'BUG(b)', 'KNOWNCAUSE(k)', '|', 'FIXED(f)'],
-"       \ ['CANCELED(c)']]
-

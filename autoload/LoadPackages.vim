@@ -16,7 +16,6 @@ function LoadPackages#Load()
   "                ║               » JAVASCRIPT «             ║
   "                ╚══════════════════════════════════════════╝
   call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
-  call dein#add('heavenshell/vim-jsdoc', { 'on_cmd': 'JsDoc' } )
   call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'javascript']} )
   call dein#add('~/code/vim-jest', { 'on_ft': ['javascript', 'typescript']})
   "                ╔══════════════════════════════════════════╗
