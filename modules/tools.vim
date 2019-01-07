@@ -1,5 +1,13 @@
 scriptencoding utf-8
 "                ╔══════════════════════════════════════════╗
+"                ║                  » TAGS «                ║
+"                ╚══════════════════════════════════════════╝
+let g:gutentags_cache_dir = '~/.cache/'
+function! ListTags() abort " list all associated tags with cursor word
+  exec('ltag '.expand('<cword>'))
+  exec('lwindow')
+endfunction
+"                ╔══════════════════════════════════════════╗
 "                ║                » COMPLETION «            ║
 "                ╚══════════════════════════════════════════╝
 
@@ -9,8 +17,9 @@ set complete-=t " let mucomplete handle searching for tags. Don't scan by defaul
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
+let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {
-      \ 'default': ['c-p', 'incl', 'omni', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
+      \ 'default': ['omni', 'incl', 'c-p', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
       \ 'vim': ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
       \ }
 let g:mucomplete#minimum_prefix_length = 2
@@ -24,14 +33,6 @@ augroup omnifuncs
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   set omnifunc=syntaxcomplete#Complete
 augroup END
-
-" tags
-let g:gutentags_cache_dir = "~/.cache"
-
-function! ListTags() abort " list all associated tags with cursor word
-  exec("ltag ".expand("<cword>"))
-  exec("lwindow")
-endfunction
 
 " snippets settings
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
@@ -106,27 +107,17 @@ function! s:open_branch_fzf(line)
   execute '!git checkout ' . l:branch
 endfunction
 
-command! -bang -nargs=0 GCheckout " fuzzy search through git branch, checkout selected branch
-  \ call fzf#vim#grep(
-  \   'git branch', 0,
-  \   {
-  \     'sink': function('s:open_branch_fzf')
-  \   },
-  \   <bang>0
-  \ )
+" fuzzy search through git branch, checkout selected branch
+command! -bang -nargs=0 GCheckout
+     \ call fzf#run({
+     \ 'source': 'git branch',
+     \ 'sink':   function('s:open_branch_fzf'),
+     \ 'down': '40%'
+     \ }, <bang>0)
 
 function! s:GrepToQF(pattern) abort
     let l:grepPattern = ':silent grep! '.a:pattern
     exec l:grepPattern
-endfunction
-
-function! s:OpenList() abort
-  let l:pattern = input('Search > ')
-  if l:pattern == ''
-    return
-  endif
-  call s:GrepToQF(l:pattern)
-  exec ':cwindow'
 endfunction
 
 function! RenameFile() abort
@@ -177,16 +168,9 @@ function! s:Replace_qf(args) abort
 endfunction
 
 command! -bang -nargs=+ ReplaceQF call s:Replace_qf(<q-args>)
-command! -bang SearchProject call s:OpenList()
 command! -bang SearchBuffers call s:GrepBufs()
 command! -bang FindandReplace call s:FindReplace()
-command! -bang -nargs=* Rg " Grep then fuzzy search through results
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
-
+command! -nargs=+ -complete=file_in_path -bar SearchProject silent! grep! <args> | redraw!
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » MATCHUP «               ║

@@ -3,12 +3,11 @@ scriptencoding utf-8
 "                ║                 » BASICS «               ║
 "                ╚══════════════════════════════════════════╝
 if !has('nvim')
-set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
+  set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
+  set background=dark
 endif
 
 set termguicolors
-set background=dark
-set number
 set nowrap
 set cursorline
 set noshowmode
@@ -22,7 +21,6 @@ set sidescrolloff=5 "same, but with columns
 set display+=lastline
 set incsearch
 set hlsearch
-set ttimeout
 
 " Custom higlight groups
 hi SpellBad guibg=#ff2929 ctermbg=196
@@ -38,10 +36,8 @@ colorscheme tokyo-metro
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
 
-if has('win16') || has('win32') || has('win64')
+if g:isWindows
   set guifont=Iosevka:h10:cANSI:qDRAFT
 elseif has('Mac')
   set guifont=Iosevka\ Term\ Nerd\ Font\ Complete:h11
@@ -55,7 +51,7 @@ endif
 "
 function! MU() " show current completion method
   let l:modecurrent = mode()
-  if l:modecurrent == 'i' && exists("g:mucomplete_current_method")
+  if l:modecurrent == 'i' && exists('g:mucomplete_current_method')
    return g:mucomplete_current_method
    else
      return ''
@@ -68,7 +64,7 @@ function! LinterStatus() abort
     let l:warning = l:counts.warning
     let l:error = l:counts.error
     if l:all_errors + l:counts.warning == 0
-     return nr2char(0xf4a1) . ' '
+     return '✓'
     else
       return printf(
     \   '%d ⚠ %d ☓',
@@ -78,13 +74,8 @@ function! LinterStatus() abort
   endif
 endfunction
 
-" Dictionary: take mode() input -> longer notation of current mode
-" mode() is defined by Vim
 let g:currentmode={ 'V' : 'V·Line ', 'i' : '[+]', 'R': 'Replace' }
 
-
-" Function: return current mode
-" abort -> function will abort soon as error detected
 function! ModeCurrent() abort
     let l:modecurrent = mode()
     if l:modecurrent == '^V'
@@ -93,6 +84,17 @@ function! ModeCurrent() abort
       let l:modelist = toupper(get(g:currentmode, l:modecurrent, ''))
       return l:modelist
     endif
+endfunction
+
+function! Get_gutentags_status(mods) abort
+  let l:msg = ''
+    if index(a:mods, 'ctags') >= 0
+      let l:msg .= '♨'
+    endif
+    if index(a:mods, 'cscope') >= 0
+      let l:msg .= '♺'
+    endif
+  return l:msg
 endfunction
 
 function! ReadOnly() abort
@@ -109,7 +111,6 @@ function! FileType() abort
   return WebDevIconsGetFileTypeSymbol(l:currFile, isdirectory(l:currFile))
 endfunction
 
-set noshowmode
 set laststatus=2
 set statusline=
 set statusline+=%<
@@ -118,13 +119,13 @@ set statusline+=\ %{FileType()}
 set statusline+=\ %{ModeCurrent()}
 set statusline+=\ ⟫\ \ %{fugitive#head()}
 set statusline+=%=
+set statusline+=%{gutentags#statusline_cb(funcref('Get_gutentags_status'))}
 set statusline+=\ %{MU()}
 set statusline+=\ %{ReadOnly()}
 set statusline+=%{LinterStatus()}
 
 hi! link StatusLine Constant
 hi! link StatusLineNC Comment
-
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 let g:buftabline_separators = 1
@@ -134,27 +135,14 @@ augroup statusline
     au!
     au BufEnter help hi! link StatusLine NonText
     au BufLeave help hi! link StatusLine Constant
-"   au InsertEnter *  hi! link StatusLine Statement
-"   au InsertLeave * hi! link StatusLine Constant
+    " au InsertEnter *  hi! link StatusLine Statement
+    " au InsertLeave * hi! link StatusLine Constant
 augroup END
 
 "                ╔══════════════════════════════════════════╗
 "                ║                » PLUGINS «               ║
 "                ╚══════════════════════════════════════════╝
 "
-let g:fzf_colors =
-    \ { 'fg':      ['fg', 'Normal'],
-      \ 'bg':      ['bg', 'Normal'],
-      \ 'hl':      ['fg', 'CursorLine'],
-      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-      \ 'hl+':     ['fg', 'Statement'],
-      \ 'info':    ['fg', 'PreProc'],
-      \ 'prompt':  ['fg', 'Conditional'],
-      \ 'pointer': ['fg', 'Exception'],
-      \ 'marker':  ['fg', 'Keyword'],
-      \ 'spinner': ['fg', 'Label'],
-      \ 'header':  ['fg', 'Comment'] }
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:webdevicons_enable = 1
 

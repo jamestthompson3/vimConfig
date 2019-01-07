@@ -4,9 +4,13 @@ set hidden " enable hidden buffers
 filetype plugin indent on " use ftplugin and indents based on detected file type
 set autoindent
 set smartindent
+set title " more meta info for window manager
 set lazyredraw " speed up vim drawing
 set autoread  " Automatically read a file changed outside of vim
+set splitright " when splitting vertically, focus goes right
 set undolevels=1000
+set ttimeout
+set path& | let &path .= '**' " include all directories / files in current directory
 set wildignorecase " no case sensitivity on wild menu
 set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions
@@ -27,6 +31,7 @@ set noswapfile " This is a bit annoying
 set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
+set belloff=all " No annoying bells
 
 
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
@@ -62,9 +67,7 @@ function! QuitNetrw()
 endfunction
 
 augroup core
-  au GUIEnter * set vb t_vb= " no annoying bells
   au FileType netrw au BufLeave QuitNetrw()
-
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
@@ -72,9 +75,6 @@ augroup core
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css
-  " au! BufNewFile,BufRead *.txt,*.md,*.org, set breakindent set linebreak
-  " au! BufNewFile,BufRead *.txt, setlocal comments=
-
 augroup END
 
 augroup AutoSwap
@@ -143,11 +143,6 @@ unlet g:conf_dir
 set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
-set noerrorbells vb t_vb=
-if has('gui_running')
-  " GUI is running or is about to start.
-  set lines=50 columns=300
-endif
 "" Ignore dist and build folders
 set wildignore+=*/dist*/**,*/target/**,*/build*/**
 " Ignore libs

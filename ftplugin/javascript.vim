@@ -55,6 +55,7 @@ nnoremap gh [i
 nnoremap <silent>K :call ListTags()<CR>
 " jump to symbol definition
 nnoremap <silent> gd :ijump <c-r><c-w><CR>
+inoremap `<CR>       `<CR>`<esc>O<tab>
 
 iabbrev cosnt const
 iabbrev imoprt import
@@ -64,4 +65,3 @@ iabbrev improt import
 setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
 setlocal define=class\\s
-" setlocal define=class\s[a-z]*\|export\sconst\s[a-z]*\|export\sdefault\s[a-z]*\|^\s*function\s[a-z]* " searches for symbols starting with 'class', 'export const' and 'function'

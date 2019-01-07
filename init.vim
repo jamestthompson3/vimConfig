@@ -3,7 +3,11 @@ scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
 
-let g:did_install_default_menus = 1  " avoid stupid menu.vim (saves ~100ms)
+" Disable vim plugins
+let g:did_install_default_menus = 1
+let g:loaded_tutor_mode_plugin = 1
+let g:loaded_zipPlugin = 1
+let g:loaded_gzip = 1
 
 let g:isOni = exists('g:gui_oni')
 " Create function to manage thing in a semi-sane way
@@ -30,9 +34,3 @@ call LoadCustomModule( 'ui' )
 call LoadCustomModule( 'bindings' )
 call LoadCustomModule( 'tools' )
 call LoadCustomModule( 'linting_lsp' )
-
-" Org tools
-" let g:org_todo_keywords = [['TODO(t)', '|', 'DONE(d)'],
-"       \ ['REPORT(r)', 'BUG(b)', 'KNOWNCAUSE(k)', '|', 'FIXED(f)'],
-"       \ ['CANCELED(c)']]
-
