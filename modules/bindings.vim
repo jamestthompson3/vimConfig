@@ -82,6 +82,7 @@ augroup searching
 augroup END
 
 nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
+nnoremap ts :ts<space>
 nnoremap <silent><Leader>a :Rg<CR>
 nnoremap <silent><Leader>. :Buffers<CR>
 
@@ -109,10 +110,10 @@ nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║          » BLOCK MANIPULATION «          ║
 "                ╚══════════════════════════════════════════╝
-vmap <up>    <Plug>SchleppUp
-vmap <down>  <Plug>SchleppDown
-vmap <left>  <Plug>SchleppLeft
-vmap <right> <Plug>SchleppRight
+vnoremap <up>    <Plug>SchleppUp
+vnoremap <down>  <Plug>SchleppDown
+vnoremap <left>  <Plug>SchleppLeft
+vnoremap <right> <Plug>SchleppRight
 
 "                ╔══════════════════════════════════════════╗
 "                ║               » COMPLETION «             ║

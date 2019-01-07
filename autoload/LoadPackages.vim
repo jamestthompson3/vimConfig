@@ -68,6 +68,7 @@ call dein#add('zirrostig/vim-schlepp')
 "                ╚══════════════════════════════════════════╝
 call dein#add('tpope/vim-commentary')
 call dein#add('tpope/vim-fugitive')
+call dein#add('tpope/vim-repeat')
 call dein#add('tpope/vim-scriptease', { 'on_ft': 'vim' })
 call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
 call dein#add('tpope/vim-surround')
