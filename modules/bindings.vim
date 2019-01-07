@@ -123,10 +123,10 @@ nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 "                ╔══════════════════════════════════════════╗
 "                ║          » BLOCK MANIPULATION «          ║
 "                ╚══════════════════════════════════════════╝
-vnoremap <up>    <Plug>SchleppUp
-vnoremap <down>  <Plug>SchleppDown
-vnoremap <left>  <Plug>SchleppLeft
-vnoremap <right> <Plug>SchleppRight
+vmap <up>    <Plug>SchleppUp
+vmap <down>  <Plug>SchleppDown
+vmap <left>  <Plug>SchleppLeft
+vmap <right> <Plug>SchleppRight
 
 "                ╔══════════════════════════════════════════╗
 "                ║               » COMPLETION «             ║
@@ -143,6 +143,8 @@ nnoremap <silent><F7> :setlocal spell! spell?<CR>
 "                ╚══════════════════════════════════════════╝
 nnoremap ; :
 nnoremap <Leader>; ;
+nnoremap mks :mks ~/sessions/
+nnoremap ss :so ~/sessions/
 set wildchar=<Tab>
 function! OpenTerminalDrawer() abort
   execute ':copen'

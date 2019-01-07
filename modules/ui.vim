@@ -21,6 +21,13 @@ set sidescrolloff=5 "same, but with columns
 set display+=lastline
 set incsearch
 set hlsearch
+set listchars=
+set listchars+=tab:░\
+set listchars+=trail:·
+set listchars+=space:·
+set listchars+=extends:»
+set listchars+=precedes:«
+set listchars+=nbsp:⣿
 
 " Custom higlight groups
 hi SpellBad guibg=#ff2929 ctermbg=196

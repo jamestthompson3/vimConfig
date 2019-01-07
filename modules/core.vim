@@ -9,8 +9,8 @@ set lazyredraw " speed up vim drawing
 set autoread  " Automatically read a file changed outside of vim
 set splitright " when splitting vertically, focus goes right
 set undolevels=1000
-set ttimeout
-set path& | let &path .= '**' " include all directories / files in current directory
+set path+=** " Add all directory files to path
+set ttimeout " Allows for setting custom ttimeoutlen intervals
 set wildignorecase " no case sensitivity on wild menu
 set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions
