@@ -99,7 +99,7 @@ augroup END
 
 " Git: {{{
 augroup git
-autocmd FileType fugitive nnoremap <buffer> P :Gpush<CR>
+autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
 augroup END
 nnoremap <silent><Leader>g :GCheckout<CR>
 nnoremap <silent><Leader>gl :Commits<CR>

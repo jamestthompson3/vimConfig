@@ -36,9 +36,7 @@ set grepprg=rg\ --vimgrep " use ripgrep
 set completeopt+=preview,longest,noinsert,menuone,noselect
 set complete-=i " let mucomplete handle searching for included files. Don't scan by default
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
-
-let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
-let g:netrw_winsize = 20 " smaller explorer window
+set omnifunc=syntaxcomplete#Complete
 
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
@@ -65,7 +63,6 @@ augroup omnifuncs
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  set omnifunc=syntaxcomplete#Complete
 augroup END
 
 " Quit netrw when selecting a file

@@ -1,4 +1,5 @@
 scriptencoding utf-8
+
 function LoadPackages#Load()
   if g:isWindows
     let s:file_separator = '\\'
@@ -12,32 +13,30 @@ function LoadPackages#Load()
   let s:full_path = join(['','.cache', 'dein.vim'], s:file_separator)
   exec 'set runtimepath+='.fnameescape($HOME.s:full_path)
   call dein#begin($HOME.s:state_path)
-  "                ╔══════════════════════════════════════════╗
-  "                ║               » JAVASCRIPT «             ║
-  "                ╚══════════════════════════════════════════╝
+
+  " Javascript: {{{
   call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
   call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'javascript']} )
   call dein#add('~/code/vim-jest', { 'on_ft': ['javascript', 'typescript']})
-  "                ╔══════════════════════════════════════════╗
-  "                ║                » REASON «                ║
-  "                ╚══════════════════════════════════════════╝
-  call dein#add('reasonml-editor/vim-reason-plus', { 'on_ft': 'reason'} )
-  "                ╔══════════════════════════════════════════╗
-  "                ║                 » NIM «                  ║
-  "                ╚══════════════════════════════════════════╝
-  call dein#add('zah/nim.vim', { 'on_ft': 'nim'} )
-  "                ╔══════════════════════════════════════════╗
-  "                ║                 » RUST «                 ║
-  "                ╚══════════════════════════════════════════╝
-  call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
+  " }}}
 
-  "                ╔══════════════════════════════════════════╗
-  "                ║               » THEMES «                 ║
-  "                ╚══════════════════════════════════════════╝
+  " Reason: {{{
+  call dein#add('reasonml-editor/vim-reason-plus', { 'on_ft': 'reason'} )
+  " }}}
+
+  " Nim: {{{
+  call dein#add('zah/nim.vim', { 'on_ft': 'nim'} )
+  " }}}
+
+  " Rust: {{{
+  call dein#add('rust-lang/rust.vim', { 'on_ft': 'rust'} )
+  " }}}
+
+  " Themes: {{{
   call dein#add('~/code/tokyo-metro.vim')
-  "                ╔══════════════════════════════════════════╗
-  "                ║                  » UTILS «               ║
-  "                ╚══════════════════════════════════════════╝
+  " }}}
+
+  " Utils: {{{
   call dein#add('Shougo/neomru.vim')
   call dein#add('chrisbra/Colorizer', { 'on_ft':  ['css', 'html', 'javascript.jsx', 'vim']})
   call dein#add('SirVer/ultisnips')
@@ -57,28 +56,26 @@ function LoadPackages#Load()
   call dein#add('ap/vim-buftabline')
   call dein#add('w0rp/ale')
   call dein#add('zirrostig/vim-schlepp')
-  "                ╔══════════════════════════════════════════╗
-  "                ║             » TPOPE MAGIC «              ║
-  "                ╚══════════════════════════════════════════╝
   call dein#add('tpope/vim-commentary')
   call dein#add('tpope/vim-fugitive')
   call dein#add('tpope/vim-repeat')
   call dein#add('tpope/vim-scriptease', { 'on_ft': 'vim' })
   call dein#add('tpope/vim-speeddating', {'on_ft': ['text', 'org']} )
   call dein#add('tpope/vim-surround')
-  "                ╔══════════════════════════════════════════╗
-  "                ║                 » TAGS «                 ║
-  "                ╚══════════════════════════════════════════╝
+  "}}}
+
+  " Tags: {{{
   call dein#add('ludovicchabant/vim-gutentags')
-  "                ╔══════════════════════════════════════════╗
-  "                ║              » COMPLETION «              ║
-  "                ╚══════════════════════════════════════════╝
-  call dein#add('lifepillar/vim-mucomplete')
+  " }}}
+
+  " Completion: {{{
   call dein#add('racer-rust/vim-racer', { 'on_ft': 'rust' })
-  "                ╔══════════════════════════════════════════╗
-  "                ║                » ICONS «                 ║
-  "                ╚══════════════════════════════════════════╝
+  call dein#add('lifepillar/vim-mucomplete')
+  " }}}
+
+  " Icons: {{{
   call dein#add('ryanoasis/vim-devicons')
+  " }}}
 
   call dein#end()
   call dein#save_state()

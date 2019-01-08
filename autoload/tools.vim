@@ -1,4 +1,5 @@
 scriptencoding utf-8
+
 function! tools#run_fzf(command)
  call fzf#run({
      \ 'source': a:command . ' | devicon-lookup',

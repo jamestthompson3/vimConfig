@@ -30,6 +30,8 @@ let g:modules_folder = 'modules' . g:file_separator
 call LoadPackages#Load()
 
 " Plugin globals: {{{
+let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
+let g:netrw_winsize = 20 " smaller explorer window
 let g:gutentags_cache_dir = '~/.cache/'
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
@@ -47,6 +49,12 @@ let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:goyo_width = 120
 let g:colorizer_auto_filetype='css,html,javascript.jsx'
+let g:buftabline_show = 1
+let g:buftabline_indicators = 1
+let g:buftabline_separators = 1
+let g:buftabline_numbers = 2
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:webdevicons_enable = 1
 " }}}
 
 " ALE: {{{
