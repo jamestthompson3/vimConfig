@@ -7,6 +7,13 @@ if !has('nvim')
   set background=dark
 endif
 
+" Turn off column numbers if the window is inactive
+augroup WINDOWS
+  autocmd!
+  autocmd WinEnter * set number
+  autocmd WinLeave * set nonumber
+augroup END
+
 set termguicolors
 set nowrap
 set cursorline
