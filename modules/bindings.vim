@@ -52,19 +52,27 @@ nmap <leader>0 <Plug>BufTabLine.Go(10)
 "                ╔══════════════════════════════════════════╗
 "                ║                 » PAIRS «               ║
 "                ╚══════════════════════════════════════════╝
+function! AutoClose(char) abort
+  echom a:char
+  let l:prevChar = matchstr(getline('.'), '.\%'.col('.').'c')
+  if prevChar == a:char
+    return a:char
+  endif
+endfunction
 
-inoremap (           ()<left>
-inoremap (<CR>       (<CR>)<esc>O<tab>
-inoremap (<space>    (<space><space>)<left><left>
-inoremap {           {}<left>
-inoremap {<CR>       {<CR>}<esc>O<tab>
-inoremap {<space>    {<space><space>}<left><left>
-inoremap [           []<left>
-inoremap [<CR>       [<CR>]<esc>O<tab>
-inoremap [<space>    [<space><space>]<left><left>
-inoremap "           ""<left>
-inoremap '           ''<left>
-inoremap `           ``<left>
+inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
+inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O<tab>
+inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
+inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
+inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O<tab>
+inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
+inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
+inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O<tab>
+inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
+inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
+inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
+inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
+inoremap `                  ``<left>
 
 "                ╔══════════════════════════════════════════╗
 "                ║                 » MACROS «               ║
