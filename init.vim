@@ -7,6 +7,7 @@ set fileformat=unix
 let g:did_install_default_menus = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_zipPlugin = 1
+let g:loaded_tarPlugin = 1
 let g:loaded_gzip = 1
 let g:loaded_netrwPlugin = 1
 " }}}
@@ -41,6 +42,10 @@ let g:mucomplete#chains = {
       \ 'vim': ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
       \ }
 let g:mucomplete#minimum_prefix_length = 2
+let g:vimjs#casesensistive = 0
+let g:vimjs#smartcomplete = 1
+let g:vimjs#chromeapis = 1
+let g:vimjs#reactapis = 1
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -117,5 +122,5 @@ command! -bang -nargs=0 GCheckout
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<q-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -bang FindandReplace call tools#FindReplace()
-command! -nargs=+ -complete=file_in_path -bar SearchProject silent! grep! <args> | redraw!
+command! -nargs=+ -complete=dir -bar SearchProject silent! grep! <args> | redraw!
 " }}}

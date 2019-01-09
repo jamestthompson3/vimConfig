@@ -176,4 +176,3 @@ function! tools#ListTags() abort
   exec('ltag '.expand('<cword>'))
   exec('lwindow')
 endfunction
-

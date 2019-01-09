@@ -18,6 +18,7 @@ function LoadPackages#Load()
   call dein#add('elzr/vim-json', { 'on_ft' : ['javascript','json']} )
   call dein#add('mattn/emmet-vim', {'on_ft': ['html', 'css', 'javascript']} )
   call dein#add('~/code/vim-jest', { 'on_ft': ['javascript', 'typescript']})
+  call dein#add('jamestthompson3/vim-better-javascript-completion', { 'on_ft': ['javascript', 'typescript']})
   " }}}
 
   " Reason: {{{
