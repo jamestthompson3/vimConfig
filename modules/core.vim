@@ -9,8 +9,8 @@ set lazyredraw " speed up vim drawing
 set autoread  " Automatically read a file changed outside of vim
 set splitright " when splitting vertically, focus goes right
 set undolevels=1000
-set path+=** " Add all directory files to path
 set ttimeout " Allows for setting custom ttimeoutlen intervals
+set ttimeoutlen=400 " shorter waiting interval betweeen key combos
 set wildignorecase " no case sensitivity on wild menu
 set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions
@@ -20,8 +20,6 @@ set shiftwidth=2 " indent code with two spaces
 set softtabstop=2 " tabs take two spaces
 set tabstop=2 " tabs take two spaces
 set expandtab " replace tabs with spaces
-" set smarttab " pressing tab key in insert mode insert spaces apparently not
-               " needed in neovim
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set backspace=indent,eol,start "see :h backspace

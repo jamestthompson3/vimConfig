@@ -21,7 +21,7 @@ set sidescrolloff=5 "same, but with columns
 set display+=lastline
 set incsearch
 set hlsearch
-set listchars=
+set listchars= " list chars for showing indentation
 set listchars+=tab:░\
 set listchars+=trail:·
 set listchars+=space:·
