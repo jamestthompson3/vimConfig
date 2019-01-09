@@ -1,11 +1,24 @@
 scriptencoding utf-8
-"                ╔══════════════════════════════════════════╗
-"                ║                 » BASICS «               ║
-"                ╚══════════════════════════════════════════╝
+
+" Basics: {{{
 if !has('nvim')
   set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
   set background=dark
+  if g:isWindows
+    set guifont=Iosevka:h10:cANSI:qDRAFT
+  elseif has('Mac')
+    set guifont=Iosevka\ Term\ Nerd\ Font\ Complete:h11
+  else
+    set guifont=Iosevka\ 10
+  endif
 endif
+
+" Turn off column numbers if the window is inactive
+augroup WINDOWS
+  autocmd!
+  autocmd WinEnter * set number
+  autocmd WinLeave * set nonumber
+augroup END
 
 set termguicolors
 set nowrap
@@ -37,119 +50,33 @@ hi! link BufTabLineCurrent WildMenu
 hi! link BufTabLineHidden Normal
 
 colorscheme tokyo-metro
-"                ╔══════════════════════════════════════════╗
-"                ║                 » FONTS «                ║
-"                ╚══════════════════════════════════════════╝
+" }}}
+
+" Fonts: {{{
 let g:enable_italic_font = 1
 let g:enable_bold_font = 1
 let g:enable_guicolors = 1
+" }}}
 
-if g:isWindows
-  set guifont=Iosevka:h10:cANSI:qDRAFT
-elseif has('Mac')
-  set guifont=Iosevka\ Term\ Nerd\ Font\ Complete:h11
-else
-  set guifont=Iosevka\ 10
-endif
-
-"                ╔══════════════════════════════════════════╗
-"                ║              » STATUS LINE «             ║
-"                ╚══════════════════════════════════════════╝
-"
-function! MU() " show current completion method
-  let l:modecurrent = mode()
-  if l:modecurrent == 'i' && exists('g:mucomplete_current_method')
-   return g:mucomplete_current_method
-   else
-     return ''
-  endif
-endfunction
-
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:warning = l:counts.warning
-    let l:error = l:counts.error
-    if l:all_errors + l:counts.warning == 0
-     return '✓'
-    else
-      return printf(
-    \   '%d ⚠ %d ☓',
-    \   l:warning,
-    \   l:error
-    \) . ' '
-  endif
-endfunction
-
-let g:currentmode={ 'V' : 'V·Line ', 'i' : '[+]', 'R': 'Replace' }
-
-function! ModeCurrent() abort
-    let l:modecurrent = mode()
-    if l:modecurrent == '^V'
-      return 'V Block'
-    else
-      let l:modelist = toupper(get(g:currentmode, l:modecurrent, ''))
-      return l:modelist
-    endif
-endfunction
-
-function! Get_gutentags_status(mods) abort
-  let l:msg = ''
-    if index(a:mods, 'ctags') >= 0
-      let l:msg .= '♨'
-    endif
-    if index(a:mods, 'cscope') >= 0
-      let l:msg .= '♺'
-    endif
-  return l:msg
-endfunction
-
-function! ReadOnly() abort
-  if &readonly || !&modifiable
-    hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
-    return ''
-  else
-    return ''
-  endif
-endfunction
-
-function! FileType() abort
-  let l:currFile = expand('%')
-  return WebDevIconsGetFileTypeSymbol(l:currFile, isdirectory(l:currFile))
-endfunction
-
+" Statusline: {{{
 set laststatus=2
 set statusline=
 set statusline+=%<
 set statusline+=%f
-set statusline+=\ %{FileType()}
-set statusline+=\ %{ModeCurrent()}
+set statusline+=\ %{statusline#FileType()}
+set statusline+=\ %{statusline#ModeCurrent()}
 set statusline+=\ ⟫\ \ %{fugitive#head()}
 set statusline+=%=
-set statusline+=%{gutentags#statusline_cb(funcref('Get_gutentags_status'))}
-set statusline+=\ %{MU()}
-set statusline+=\ %{ReadOnly()}
-set statusline+=%{LinterStatus()}
+set statusline+=%{gutentags#statusline_cb(funcref('statusline#Get_gutentags_status'))}
+set statusline+=\ %{statusline#MU()}
+set statusline+=\ %{statusline#ReadOnly()}
+set statusline+=%{statusline#LinterStatus()}
 
 hi! link StatusLine Constant
 hi! link StatusLineNC Comment
-let g:buftabline_show = 1
-let g:buftabline_indicators = 1
-let g:buftabline_separators = 1
-let g:buftabline_numbers = 2
-
 augroup statusline
     au!
     au BufEnter help hi! link StatusLine NonText
     au BufLeave help hi! link StatusLine Constant
-    " au InsertEnter *  hi! link StatusLine Statement
-    " au InsertLeave * hi! link StatusLine Constant
 augroup END
-
-"                ╔══════════════════════════════════════════╗
-"                ║                » PLUGINS «               ║
-"                ╚══════════════════════════════════════════╝
-"
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:webdevicons_enable = 1
-
+"}}}

@@ -30,10 +30,11 @@ set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 set belloff=all " No annoying bells
-
-
-let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
-let g:netrw_winsize = 20 " smaller explorer window
+set grepprg=rg\ --vimgrep " use ripgrep
+set completeopt+=preview,longest,noinsert,menuone,noselect
+set complete-=i " let mucomplete handle searching for included files. Don't scan by default
+set complete-=t " let mucomplete handle searching for tags. Don't scan by default
+set omnifunc=syntaxcomplete#Complete
 
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
@@ -52,6 +53,15 @@ set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
 " Common mistakes
 iab    retrun  return
 iab     pritn  print
+
+augroup omnifuncs
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
 
 " Quit netrw when selecting a file
 function! QuitNetrw()

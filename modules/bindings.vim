@@ -1,7 +1,5 @@
 scriptencoding = utf-8
-"                ╔══════════════════════════════════════════╗
-"                ║         » Leader AND QUICK ESCAPE «      ║
-"                ╚══════════════════════════════════════════╝
+
 let g:mapleader = "\<Space>"
 inoremap jj <Esc>
 
@@ -11,31 +9,27 @@ if exists(':tnoremap')
 endif
 
 
-"                ╔══════════════════════════════════════════╗
-"                ║             » SYSTEM CLIPBOARD «         ║
-"                ╚══════════════════════════════════════════╝
+" System clipboard: {{{
 xnoremap <Leader>y "+y
 xnoremap <Leader>d "+d
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 " Don't trash current register when pasting in visual mode
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
-"                ╔══════════════════════════════════════════╗
-"                ║             » WINDOW MOTIONS «           ║
-"                ╚══════════════════════════════════════════╝
+" }}}
+
+" Window motions: {{{
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
 nnoremap <silent> wq ZZ
 nnoremap <silent> q :bp\|bd #<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
-"                ╔══════════════════════════════════════════╗
-"                ║             » BUFFER SWITCHING «         ║
-"                ╚══════════════════════════════════════════╝
+" }}}
 
+" Buffer switching: {{{
 nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
 nmap <leader>1 <Plug>BufTabLine.Go(1)
@@ -48,99 +42,89 @@ nmap <leader>7 <Plug>BufTabLine.Go(7)
 nmap <leader>8 <Plug>BufTabLine.Go(8)
 nmap <leader>9 <Plug>BufTabLine.Go(9)
 nmap <leader>0 <Plug>BufTabLine.Go(10)
+" }}}
 
-"                ╔══════════════════════════════════════════╗
-"                ║                 » PAIRS «               ║
-"                ╚══════════════════════════════════════════╝
+" Pairs: {{{
+inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
+inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O<tab>
+inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
+inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
+inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O<tab>
+inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
+inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
+inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O<tab>
+inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
+inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
+inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
+inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
+inoremap `                  ``<left>
+" }}}
 
-inoremap (           ()<left>
-inoremap (<CR>       (<CR>)<esc>O<tab>
-inoremap (<space>    (<space><space>)<left><left>
-inoremap {           {}<left>
-inoremap {<CR>       {<CR>}<esc>O<tab>
-inoremap {<space>    {<space><space>}<left><left>
-inoremap [           []<left>
-inoremap [<CR>       [<CR>]<esc>O<tab>
-inoremap [<space>    [<space><space>]<left><left>
-inoremap "           ""<left>
-inoremap '           ''<left>
-inoremap `           ``<left>
-
-"                ╔══════════════════════════════════════════╗
-"                ║                 » MACROS «               ║
-"                ╚══════════════════════════════════════════╝
 nnoremap mm q
-"                ╔══════════════════════════════════════════╗
-"                ║               » EASY SPLITS «            ║
-"                ╚══════════════════════════════════════════╝
+" Splits: {{{
 nnoremap <silent> sp :vsplit<CR>
 nnoremap <silent> sv :split<CR>
-"                ╔══════════════════════════════════════════╗
-"                ║                » NERDTREE «              ║
-"                ╚══════════════════════════════════════════╝
+" }}}
+
+" Files: {{{
 nnoremap <silent><F3> :Vex<CR>
 augroup FileNav
   autocmd!
-  autocmd FileType dirvish nnoremap <buffer> <silent>D :call DeleteFile()<CR>
+  autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
   autocmd FileType dirvish nnoremap <buffer> n :e %/
-  autocmd FileType dirvish nnoremap <buffer> r :call RenameFile()<CR>
+  autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
 augroup END
-"                ╔══════════════════════════════════════════╗
-"                ║              » SEARCHING «               ║
-"                ╚══════════════════════════════════════════╝
+" }}}
+
+" Search: {{{
 nmap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent> <Leader>fr :FindandReplace<CR>
+nnoremap <silent><Leader><Leader> :call tools#Fzf_dev(0)<CR>
+nnoremap ts :ts<space>
+nnoremap <silent><Leader>. :Buffers<CR>
+nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
+nnoremap <silent><c-p> :call tools#Fzf_dev(1)<CR>
+nnoremap <silent>, :call tools#Fzf_mru()<CR>
+cnoremap <expr> <CR> tools#CCR()
+
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
   autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
 augroup END
+" }}}
 
-nnoremap <silent><Leader><Leader> :call Fzf_dev(0)<CR>
-nnoremap ts :ts<space>
-nnoremap <silent><Leader>. :Buffers<CR>
-nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
-nnoremap <silent><c-p> :call Fzf_dev(1)<CR>
-nnoremap <silent>, :call Fzf_mru()<CR>
-cnoremap <expr> <CR> CCR()
-"                ╔══════════════════════════════════════════╗
-"                ║                 » GIT «                  ║
-"                ╚══════════════════════════════════════════╝
-
-noremap gs :Gstatus<CR>
-noremap <Leader>gp :Gpush<CR>
+" Git: {{{
+augroup git
+autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
+augroup END
 nnoremap <silent><Leader>g :GCheckout<CR>
 nnoremap <silent><Leader>gl :Commits<CR>
-"
-"                ╔══════════════════════════════════════════╗
-"                ║           » ALE JUMP TO ERRORS «         ║
-"                ╚══════════════════════════════════════════╝
+" }}}
+
+" ALE: {{{
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
-"                ╔══════════════════════════════════════════╗
-"                ║          » BLOCK MANIPULATION «          ║
-"                ╚══════════════════════════════════════════╝
+" }}}
+
+" Blocks: {{{
 vmap <up>    <Plug>SchleppUp
 vmap <down>  <Plug>SchleppDown
 vmap <left>  <Plug>SchleppLeft
 vmap <right> <Plug>SchleppRight
+" }}}
 
-"                ╔══════════════════════════════════════════╗
-"                ║               » COMPLETION «             ║
-"                ╚══════════════════════════════════════════╝
+" Completion: {{{
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-"                ╔══════════════════════════════════════════╗
-"                ║             » SPELL CHECK «              ║
-"                ╚══════════════════════════════════════════╝
+" }}}
+
+" Misc: {{{
 nnoremap <silent><F7> :setlocal spell! spell?<CR>
-"                ╔══════════════════════════════════════════╗
-"                ║                 » MISC «                 ║
-"                ╚══════════════════════════════════════════╝
 nnoremap ; :
 nnoremap <Leader>; ;
 nnoremap mks :mks ~/sessions/
@@ -152,10 +136,9 @@ function! OpenTerminalDrawer() abort
 endfunction
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
 nnoremap <Leader>t :Tagbar<CR>
-"                ╔══════════════════════════════════════════╗
-"                ║              » VIM DEV «                 ║
-"                ╚══════════════════════════════════════════╝
+" }}}
 
+" VimDev: {{{
 function! Profiler() abort
   if exists('g:profiler_running')
     profile pause
@@ -174,3 +157,4 @@ nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> tran
 nmap <silent><F5> :so $MYVIMRC<CR>
 nmap <silent><F7> :so %<CR>
 nmap <silent><F1> :call Profiler()<CR>
+" }}}
