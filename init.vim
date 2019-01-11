@@ -38,14 +38,10 @@ let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {
-      \ 'default': ['omni', 'incl', 'c-p', 'defs', 'tags', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
+      \ 'default': ['incl', 'omni', 'tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
       \ 'vim': ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
       \ }
 let g:mucomplete#minimum_prefix_length = 2
-let g:vimjs#casesensistive = 0
-let g:vimjs#smartcomplete = 1
-let g:vimjs#chromeapis = 1
-let g:vimjs#reactapis = 1
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']

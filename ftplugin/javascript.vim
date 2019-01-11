@@ -37,10 +37,14 @@ nmap <silent> T :call RunJest()<CR>
 " }}}
 
 " Misc: {{{
+let g:vimjs#casesensistive = 0
+let g:vimjs#smartcomplete = 1
+let g:vimjs#chromeapis = 1
+let g:vimjs#reactapis = 1
 " peek symbol definition
 nnoremap gh [i
 " peek references
-nnoremap <silent>K :call ListTags()<CR>
+nnoremap <silent>K :call tools#ListTags()<CR>
 " jump to symbol definition
 nnoremap <silent> gd :ijump <c-r><c-w><CR>
 inoremap `<CR>       `<CR>`<esc>O<tab>
@@ -54,4 +58,7 @@ setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) 
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
 setlocal define=class\\s
 setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal foldmethod=syntax
+setlocal foldlevelstart=1
+setlocal foldlevel=2
 " }}}
