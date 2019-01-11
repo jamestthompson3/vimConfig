@@ -12,6 +12,7 @@ set undolevels=1000
 set ttimeout " Allows for setting custom ttimeoutlen intervals
 set ttimeoutlen=400 " shorter waiting interval betweeen key combos
 set wildignorecase " no case sensitivity on wild menu
+set wildcharm=<C-z> " wildchar in macros
 set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions
 set mouse=nv " Mouse can be used in normal and visual mode
@@ -31,10 +32,11 @@ set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 set belloff=all " No annoying bells
 set grepprg=rg\ --vimgrep " use ripgrep
-set completeopt+=preview,longest,noinsert,menuone,noselect
+set completeopt+=longest,noinsert,menuone,noselect
 set complete-=i " let mucomplete handle searching for included files. Don't scan by default
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
 set omnifunc=syntaxcomplete#Complete
+set path-=/usr/include
 
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class

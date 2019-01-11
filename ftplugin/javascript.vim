@@ -45,6 +45,7 @@ let g:vimjs#reactapis = 1
 nnoremap gh [i
 " peek references
 nnoremap <silent>K :call tools#ListTags()<CR>
+nnoremap L :dli /
 " jump to symbol definition
 nnoremap <silent> gd :ijump <c-r><c-w><CR>
 inoremap `<CR>       `<CR>`<esc>O<tab>
@@ -56,9 +57,10 @@ iabbrev improt import
 
 setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
-setlocal define=class\\s
+setlocal define=export
 setlocal omnifunc=javascriptcomplete#CompleteJS
 setlocal foldmethod=syntax
 setlocal foldlevelstart=1
 setlocal foldlevel=2
+setlocal makeprg=eslint\ -f\ compact\ %
 " }}}

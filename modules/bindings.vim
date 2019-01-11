@@ -129,7 +129,6 @@ nnoremap ; :
 nnoremap <Leader>; ;
 nnoremap mks :mks ~/sessions/
 nnoremap ss :so ~/sessions/
-set wildchar=<Tab>
 function! OpenTerminalDrawer() abort
   execute ':copen'
   execute ':term'
