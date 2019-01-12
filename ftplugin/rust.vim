@@ -1,4 +1,3 @@
-execute 'packadd rust.vim'
 execute 'packadd vim-racer'
 
 nnoremap <silent> gd :ALEGoToDefinition<CR>

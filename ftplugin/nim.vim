@@ -1,6 +1,5 @@
 let b:MarkMargin = 80
 
-execute 'packadd nim.vim'
 compiler nim
 
 function! CompileNim(threads) abort
