@@ -58,7 +58,6 @@ iab     pritn  print
 
 augroup omnifuncs
   autocmd!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
@@ -77,6 +76,7 @@ endfunction
 augroup core
   au FileType netrw au BufLeave QuitNetrw()
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
+  autocmd BufAdd * call tools#loadDeps()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations
@@ -96,6 +96,8 @@ function! AS_HandleSwapfile (filename, swapname)
     call delete(v:swapname)
     let v:swapchoice = 'e'
   endif
+  " Echo current git branch
+  echom 'On branch: '.statusline#GitBranch()
 endfunction
 
 augroup MarkMargin

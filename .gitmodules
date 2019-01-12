@@ -38,13 +38,13 @@
 	path = pack/plugins/opt/vim-speeddating
 	url = https://github.com/tpope/vim-speeddating.git
 [submodule "pack/plugins/start/ale"]
-	path = pack/plugins/start/ale
+	path = pack/plugins/opt/ale
 	url = https://github.com/w0rp/ale.git
 [submodule "pack/plugins/start/fzf.vim"]
-	path = pack/plugins/start/fzf.vim
+	path = pack/plugins/opt/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
 [submodule "pack/plugins/start/vim-buftabline"]
-	path = pack/plugins/start/vim-buftabline
+	path = pack/plugins/opt/vim-buftabline
 	url = https://github.com/ap/vim-buftabline.git
 [submodule "pack/plugins/start/vim-commentary"]
 	path = pack/plugins/start/vim-commentary
@@ -53,19 +53,19 @@
 	path = pack/plugins/start/vim-dirvish
 	url = https://github.com/justinmk/vim-dirvish.git
 [submodule "pack/plugins/start/vim-fugitive"]
-	path = pack/plugins/start/vim-fugitive
+	path = pack/plugins/opt/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
 [submodule "pack/plugins/start/vim-gutentags"]
-	path = pack/plugins/start/vim-gutentags
+	path = pack/plugins/opt/vim-gutentags
 	url = https://github.com/ludovicchabant/vim-gutentags.git
 [submodule "pack/plugins/start/vim-localrc"]
 	path = pack/plugins/start/vim-localrc
 	url = https://github.com/thinca/vim-localrc.git
 [submodule "pack/plugins/start/vim-mucomplete"]
-	path = pack/plugins/start/vim-mucomplete
+	path = pack/plugins/opt/vim-mucomplete
 	url = https://github.com/lifepillar/vim-mucomplete.git
 [submodule "pack/plugins/start/vim-polyglot"]
-	path = pack/plugins/start/vim-polyglot
+	path = pack/plugins/opt/vim-polyglot
 	url = git@github.com:sheerun/vim-polyglot.git
 [submodule "pack/plugins/start/vim-qf"]
 	path = pack/plugins/start/vim-qf
@@ -74,10 +74,10 @@
 	path = pack/plugins/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
 [submodule "pack/plugins/start/vim-schlepp"]
-	path = pack/plugins/start/vim-schlepp
+	path = pack/plugins/opt/vim-schlepp
 	url = https://github.com/zirrostig/vim-schlepp.git
 [submodule "pack/plugins/start/vim-surround"]
-	path = pack/plugins/start/vim-surround
+	path = pack/plugins/opt/vim-surround
 	url = https://github.com/tpope/vim-surround.git
 [submodule "pack/plugins/start/webapi-vim"]
 	path = pack/plugins/start/webapi-vim
