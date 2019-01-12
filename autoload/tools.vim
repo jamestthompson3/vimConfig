@@ -74,7 +74,7 @@ endfunction
 
 function! tools#RenameFile() abort
   let l:oldName = getline('.')
-  let l:newName = input('Rename atools# ', l:oldName, 'file')
+  let l:newName = input('Rename: ', l:oldName, 'file')
   if newName != '' && newName != oldName
     call rename(oldName, newName)
     call feedkeys('R')
