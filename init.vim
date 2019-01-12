@@ -78,7 +78,7 @@ let g:ale_echo_msg_warning_str = 'W'. ' '
 let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' '
 let g:ale_echo_msg_format = '%severity%  %linter% - %s'
 let g:ale_virtualtext_prompt = ''
-let g:ale_sign_column_always = 1
+let g:ale_sign_column_always = 0
 let g:ale_statusline_format = [
       \ g:ale_echo_msg_error_str . ' %d',
       \ g:ale_echo_msg_warning_str . ' %d',

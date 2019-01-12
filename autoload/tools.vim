@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 function! tools#run_fzf(command)
-  execute "packadd fzf"
+  execute 'packadd fzf'
  call fzf#run({
      \ 'source': a:command . ' | devicon-lookup',
      \ 'sink':   function('tools#edit_file'),
@@ -11,7 +11,7 @@ function! tools#run_fzf(command)
 endfunction
 
 function! tools#run_fzf_list(list)
-  execute "packadd fzf"
+  execute 'packadd fzf'
  call fzf#run({
      \ 'source': a:list,
      \ 'sink':   function('tools#edit_file'),
@@ -184,4 +184,19 @@ endfunction
 function! tools#loadTagbar() abort
   execute 'packadd tagbar'
   execute ':TagbarOpen'
+endfunction
+
+function! tools#loadDeps() abort
+  let l:multiWindow = winnr('$') > 1
+  execute 'packadd ale'
+  execute 'packadd vim-polyglot'
+  execute 'packadd fzf.vim'
+  execute 'packadd vim-fugitive'
+  execute 'packadd vim-gutentags'
+  execute 'packadd vim-schlepp'
+  execute 'packadd vim-surround'
+  execute 'packadd vim-mucomplete'
+  if l:multiWindow
+    execute 'packadd vim-buftabline'
+  endif
 endfunction
