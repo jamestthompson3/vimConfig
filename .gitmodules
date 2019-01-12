@@ -85,3 +85,6 @@
 [submodule "pack/plugins/opt/vim-racer"]
 	path = pack/plugins/opt/vim-racer
 	url = git@github.com:racer-rust/vim-racer.git
+[submodule "pack/plugins/start/vim-cool"]
+	path = pack/plugins/start/vim-cool
+	url = git@github.com:romainl/vim-cool.git

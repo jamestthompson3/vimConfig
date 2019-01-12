@@ -99,7 +99,7 @@ augroup END
 
 " Git: {{{
 augroup git
-autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
+  autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
 augroup END
 nnoremap <silent><Leader>g :GCheckout<CR>
 nnoremap <silent><Leader>gl :Commits<CR>
@@ -111,10 +111,10 @@ nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 " }}}
 
 " Blocks: {{{
-vmap <up>    <Plug>SchleppUp
-vmap <down>  <Plug>SchleppDown
-vmap <left>  <Plug>SchleppLeft
-vmap <right> <Plug>SchleppRight
+xmap <up>    <Plug>SchleppUp
+xmap <down>  <Plug>SchleppDown
+xmap <left>  <Plug>SchleppLeft
+xmap <right> <Plug>SchleppRight
 " }}}
 
 " Completion: {{{
@@ -124,10 +124,9 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 " }}}
 
 " Misc: {{{
-nnoremap <silent><F7> :setlocal spell! spell?<CR>
 nnoremap ; :
 nnoremap <Leader>; ;
-nnoremap mks :mks ~/sessions/
+nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 function! OpenTerminalDrawer() abort
   execute ':copen'
