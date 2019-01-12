@@ -3,7 +3,7 @@ scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
 
-" Disable some defualt vim plugins: {{{
+" Disable some default vim plugins: {{{
 let g:did_install_default_menus = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_zipPlugin = 1
@@ -26,9 +26,6 @@ endif
 let g:modules_folder = 'modules' . g:file_separator
 
 " }}}
-
-" Load plugins
-call LoadPackages#Load()
 
 " Plugin globals: {{{
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
@@ -116,6 +113,7 @@ command! -bang -nargs=0 GCheckout
      \ }, <bang>0)
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<q-args>)
+command! -bang -nargs=0 Tagbar call tools#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -bang FindandReplace call tools#FindReplace()
 command! -nargs=+ -complete=dir -bar SearchProject silent! grep! <args> | redraw!

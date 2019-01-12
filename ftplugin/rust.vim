@@ -1,9 +1,9 @@
-" if !exists('g:gui_oni')
-let g:ale_completion_enabled = 0
-  nnoremap <silent> gd :ALEGoToDefinition<CR>
-  nnoremap <silent> gh :ALEHover<CR>
-  nnoremap <silent> K :ALEFindReferences<CR>
-" endif
+execute 'packadd rust.vim'
+execute 'packadd vim-racer'
+
+nnoremap <silent> gd :ALEGoToDefinition<CR>
+nnoremap <silent> gh :ALEHover<CR>
+nnoremap <silent> K :ALEFindReferences<CR>
 let b:ale_linters =  ['rls']
 let b:ale_fixers = ['rustfmt']
 
@@ -15,4 +15,3 @@ else
 endif
 
 compiler cargo
-" let g:racer_cmd = system('which racer)

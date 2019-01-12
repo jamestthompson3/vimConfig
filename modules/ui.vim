@@ -62,10 +62,9 @@ let g:enable_guicolors = 1
 set laststatus=2
 set statusline=
 set statusline+=%<
-set statusline+=%f
 set statusline+=\ %{statusline#FileType()}
 set statusline+=\ %{statusline#ModeCurrent()}
-set statusline+=\ ⟫\ \ %{fugitive#head()}
+set statusline+=\ ⟫\ \ %{statusline#StatuslineGit()}
 set statusline+=%=
 set statusline+=%{gutentags#statusline_cb(funcref('statusline#Get_gutentags_status'))}
 set statusline+=\ %{statusline#MU()}

@@ -57,9 +57,21 @@ function! statusline#ReadOnly() abort
   endif
 endfunction
 
-function! statusline#FileType() abort
-  let l:currFile = expand('%')
-  return WebDevIconsGetFileTypeSymbol(l:currFile, isdirectory(l:currFile))
+function! statusline#GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD | tr -d '\n'")
 endfunction
 
+function! statusline#StatuslineGit()
+  let l:branchname = statusline#GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+function! statusline#FileType() abort
+  let l:currFile = expand('%')
+  if filereadable(l:currFile)
+    return system('devicon-lookup <<< '.l:currFile." | tr -d '\n'")
+  else
+    return l:currFile
+  endif
+endfunction
 

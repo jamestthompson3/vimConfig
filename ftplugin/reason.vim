@@ -1,3 +1,2 @@
-if !g:isOni
+execute 'packadd vim-reason-plus'
 let b:ale_fixers = ['refmt']
-endif

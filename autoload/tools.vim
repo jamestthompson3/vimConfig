@@ -1,6 +1,7 @@
 scriptencoding utf-8
 
 function! tools#run_fzf(command)
+  execute "packadd fzf"
  call fzf#run({
      \ 'source': a:command . ' | devicon-lookup',
      \ 'sink':   function('tools#edit_file'),
@@ -10,6 +11,7 @@ function! tools#run_fzf(command)
 endfunction
 
 function! tools#run_fzf_list(list)
+  execute "packadd fzf"
  call fzf#run({
      \ 'source': a:list,
      \ 'sink':   function('tools#edit_file'),
@@ -44,9 +46,11 @@ function! tools#Fzf_dev(no_git) abort
 endfunction
 
 function! tools#Fzf_mru() abort " Search most recently used files
+function! s:IsReadable(idx, val)
+    return filereadable(expand(a:val))
+endfunction
   function! s:generate_mru()
-    let l:mru_path_command = printf('sed "1d" %s', g:neomru#file_mru_path)
-    let l:mru_files = split(system(l:mru_path_command.' | devicon-lookup'), '\n')
+    let l:mru_files = filter(copy(v:oldfiles), function('s:IsReadable'))
     let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
     let l:filtered_files = filter(l:mru_files, {idx, val -> stridx(val, cur_dir) >= 0} )
     return map(l:filtered_files, {idx, val -> substitute(val, cur_dir.'/', '', '')})
@@ -173,6 +177,11 @@ endfunction
 
 " list all associated tags with cursor word
 function! tools#ListTags() abort
-  exec('ltag '.expand('<cword>'))
-  exec('lwindow')
+  execute('ltag '.expand('<cword>'))
+  execute('lwindow')
+endfunction
+
+function! tools#loadTagbar() abort
+  execute 'packadd tagbar'
+  execute ':TagbarOpen'
 endfunction
