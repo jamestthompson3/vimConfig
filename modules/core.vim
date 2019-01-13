@@ -26,9 +26,9 @@ set noswapfile " This is a bit annoying
 set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
-set grepprg=rg\ --vimgrep " use ripgrep
+set grepprg=rg\ --vimgrep
 set completeopt+=longest,noinsert,menuone,noselect
-set complete-=i " let mucomplete handle searching for included files. Don't scan by default
+set completeopt-=preview
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
 set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
@@ -49,6 +49,7 @@ set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
 
 if !has('nvim')
 set autoindent
+set complete-=i " let mucomplete handle searching for included files. Don't scan by default
 set belloff=all " No annoying bells
 set wildmenu " tab through things at vim command line
 set backspace=indent,eol,start "see :h backspace
