@@ -20,6 +20,14 @@ function! tools#run_fzf_list(list)
      \ })
 endfunction
 
+function! tools#ShowDeclaration(global) abort
+    let pos = getpos('.')
+    if searchdecl(expand('<cword>'), a:global) == 0
+        let line_of_declaration = line('.')
+        execute line_of_declaration . '#'
+    endif
+    call cursor(pos[1], pos[2])
+endfunction
 
 function! tools#edit_file(item)
     let l:pos = stridx(a:item, ' ')

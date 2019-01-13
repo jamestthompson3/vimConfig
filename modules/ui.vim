@@ -4,6 +4,9 @@ scriptencoding utf-8
 if !has('nvim')
   set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
   set background=dark
+  set incsearch
+  set hlsearch
+  set laststatus=2
   if g:isWindows
     set guifont=Iosevka:h10:cANSI:qDRAFT
   elseif has('Mac')
@@ -32,8 +35,6 @@ set pumheight=15   "limit completion menu height
 set scrolloff=1 "minimal number of screen lines to keep above and below the cursor.
 set sidescrolloff=5 "same, but with columns
 set display+=lastline
-set incsearch
-set hlsearch
 set listchars= " list chars for showing indentation
 set listchars+=tab:░\
 set listchars+=trail:·
@@ -59,7 +60,6 @@ let g:enable_guicolors = 1
 " }}}
 
 " Statusline: {{{
-set laststatus=2
 set statusline=
 set statusline+=%<
 set statusline+=\ %f

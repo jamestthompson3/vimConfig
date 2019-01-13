@@ -2,7 +2,6 @@ scriptencoding utf-8
 syntax enable " enable sytnax
 set hidden " enable hidden buffers
 filetype plugin indent on " use ftplugin and indents based on detected file type
-set autoindent
 set smartindent
 set title " more meta info for window manager
 set lazyredraw " speed up vim drawing
@@ -10,10 +9,8 @@ set autoread  " Automatically read a file changed outside of vim
 set splitright " when splitting vertically, focus goes right
 set undolevels=1000
 set ttimeout " Allows for setting custom ttimeoutlen intervals
-set ttimeoutlen=400 " shorter waiting interval betweeen key combos
 set wildignorecase " no case sensitivity on wild menu
 set wildcharm=<C-z> " wildchar in macros
-set wildmenu " tab through things at vim command line
 set magic " Use extended regular expressions
 set mouse=nv " Mouse can be used in normal and visual mode
 set wildmode=list:longest,full " gives tab completion lists in ex command area
@@ -23,14 +20,12 @@ set tabstop=2 " tabs take two spaces
 set expandtab " replace tabs with spaces
 set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
-set backspace=indent,eol,start "see :h backspace
 set ignorecase " ignore cases
 set smartcase " except if string contains a capital letter
 set noswapfile " This is a bit annoying
 set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
-set belloff=all " No annoying bells
 set grepprg=rg\ --vimgrep " use ripgrep
 set completeopt+=longest,noinsert,menuone,noselect
 set complete-=i " let mucomplete handle searching for included files. Don't scan by default
@@ -51,6 +46,13 @@ set formatlistpat+=]                        " End character class
 set formatlistpat+=\\s\\+                   " One or more spaces
 set formatlistpat+=\\\|                     " or
 set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
+
+if !has('nvim')
+set autoindent
+set belloff=all " No annoying bells
+set wildmenu " tab through things at vim command line
+set backspace=indent,eol,start "see :h backspace
+endif
 
 " Common mistakes
 iab    retrun  return

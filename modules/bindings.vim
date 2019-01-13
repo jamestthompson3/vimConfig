@@ -89,6 +89,8 @@ nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <silent><c-p> :call tools#Fzf_dev(1)<CR>
 nnoremap <silent>, :call tools#Fzf_mru()<CR>
 cnoremap <expr> <CR> tools#CCR()
+nnoremap sd :call tools#ShowDeclaration(0)<CR>
+nnoremap sD :call tools#ShowDeclaration(1)<CR>
 
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>

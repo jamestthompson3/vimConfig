@@ -62,7 +62,7 @@ iabbrev improt import
 
 setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
-setlocal define=export
+setlocal define=class\\s
 setlocal omnifunc=javascriptcomplete#CompleteJS
 setlocal foldmethod=syntax
 setlocal foldlevelstart=1
