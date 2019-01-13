@@ -88,7 +88,7 @@ let g:ale_statusline_format = [
 " Load custom modules: {{{
 function! LoadCustomModule( name )
   let l:script = g:modules_folder .  a:name . '.vim'
-  exec ':runtime ' . l:script
+  execute ':runtime ' . l:script
 endfunction
 " }}}
 

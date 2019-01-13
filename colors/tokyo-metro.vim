@@ -75,10 +75,8 @@ hi! SpellCap ctermbg=137 ctermfg=252 gui=undercurl guisp=#f19a36
 hi! SpellLocal ctermbg=32 ctermfg=252 gui=undercurl guisp=#4399bb
 hi! SpellRare ctermbg=61 ctermfg=252 gui=undercurl guisp=#8b76d0
 hi! Statement ctermfg=41 gui=NONE  guifg=#56b88a
-hi! StatusLine cterm=reverse ctermbg=234 ctermfg=245 gui=reverse guibg=#17171b guifg=#818596 term=reverse
 hi! StatusLineTerm cterm=reverse ctermbg=234 ctermfg=245 gui=reverse guibg=#17171b guifg=#818596 term=reverse
 hi! StatusLineNC cterm=reverse ctermbg=238 ctermfg=233 gui=reverse guibg=#3e445e guifg=#0f1117
-hi! StatusLineTermNC cterm=reverse ctermbg=238 ctermfg=233 gui=reverse guibg=#3e445e guifg=#0f1117
 hi! StorageClass ctermfg=41 guifg=#56b88a
 hi! String ctermfg=38 guifg=#4399bb
 hi! Structure ctermfg=41 guifg=#56b88a
@@ -98,25 +96,10 @@ hi! diffRemoved ctermfg=196 guifg=#e24240
 hi! ALEErrorSign ctermbg=235 ctermfg=196 guibg=#1e2132 guifg=#e24240
 hi! ALEVirtualTextError  ctermfg=196  guifg=#ff9796 cterm=italic gui=italic
 hi! ALEVirtualTextWarning ctermfg=215 guifg=#fccf7b cterm=italic gui=italic
-hi! CtrlPMode1 ctermbg=241 ctermfg=234 guibg=#5a5f72 guifg=#17171b
-hi! EasyMotionShade ctermfg=239 guifg=#3d425b
-hi! EasyMotionTarget ctermfg=180 guifg=#bca375
-hi! EasyMotionTarget2First ctermfg=215 guifg=#f19a36
-hi! EasyMotionTarget2Second ctermfg=215 guifg=#f19a36
-hi! GitGutterAdd ctermbg=235 ctermfg=180 guibg=#1e2132 guifg=#bca375
-hi! GitGutterChange ctermbg=235 ctermfg=38 guibg=#1e2132 guifg=#4399bb
-hi! GitGutterChangeDelete ctermbg=235 ctermfg=38 guibg=#1e2132 guifg=#4399bb
-hi! GitGutterDelete ctermbg=235 ctermfg=196 guibg=#1e2132 guifg=#e24240
-hi! Sneak ctermbg=141 ctermfg=234 guibg=#8b76d0 guifg=#161821
-hi! SneakScope ctermbg=236 ctermfg=243 guibg=#272c42 guifg=#6b7089
-hi! SyntasticErrorSign ctermbg=235 ctermfg=196 guibg=#1e2132 guifg=#e24240
-hi! SyntasticStyleErrorSign ctermbg=235 ctermfg=196 guibg=#1e2132 guifg=#e24240
-hi! SyntasticStyleWarningSign ctermbg=235 ctermfg=215 guibg=#1e2132 guifg=#f19a36
-hi! SyntasticWarningSign ctermbg=235 ctermfg=215 guibg=#1e2132 guifg=#f19a36
-hi! ZenSpace ctermbg=196 guibg=#e24240
-hi! icebergALAccentRed ctermfg=196 guifg=#e24240
 
 hi! link cssBraces Delimiter
+hi! link StatusLine Constant
+hi! link StatusLineTermNC Comment
 hi! link cssClassName Special
 hi! link cssClassNameDot Normal
 hi! link cssPseudoClassId Special
@@ -155,11 +138,6 @@ hi! link xmlNamespace Statement
 hi! link xmlTag Statement
 hi! link xmlTagName Statement
 hi! link yamlKeyValueDelimiter Delimiter
-hi! link CtrlPPrtCursor Cursor
-hi! link CtrlPMatch Title
-hi! link CtrlPMode2 StatusLine
-hi! link deniteMatched Normal
-hi! link deniteMatchedChar Title
 hi! link jsFlowMaybe Normal
 hi! link jsFlowClassGroup PreProcItalic
 hi! link jsFlowObject Normal
@@ -202,26 +180,6 @@ hi! link markdownCodeDelimiter String
 hi! link markdownHeadingDelimiter Comment
 hi! link markdownRule Comment
 hi! link ngxDirective Statement
-hi! link NERDTreeOpenable Special
-hi! link NERDTreeClosable Special
-hi! link plug1 Normal
-hi! link plug2 Identifier
-hi! link plugDash Comment
-hi! link plugMessage Special
-hi! link SignifySignAdd GitGutterAdd
-hi! link SignifySignChange GitGutterChange
-hi! link SignifySignChangeDelete GitGutterChangeDelete
-hi! link SignifySignDelete GitGutterDelete
-hi! link SignifySignDeleteFirstLine SignifySignDelete
-hi! link StartifyBracket Comment
-hi! link StartifyFile Identifier
-hi! link StartifyFooter Constant
-hi! link StartifyHeader Constant
-hi! link StartifyNumber Special
-hi! link StartifyPath Comment
-hi! link StartifySection Statement
-hi! link StartifySlash Comment
-hi! link StartifySpecial Normal
 hi! link svssBraces Delimiter
 hi! link swiftIdentifier Normal
 hi! link typescriptAjaxMethods Normal

@@ -79,7 +79,6 @@ augroup END
 " Search: {{{
 nmap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
-nnoremap <silent> <Esc> :noh<CR><Esc>
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent> <Leader>fr :FindandReplace<CR>
@@ -129,8 +128,8 @@ nnoremap <Leader>; ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 function! OpenTerminalDrawer() abort
-  execute ':copen'
-  execute ':term'
+  execute 'copen'
+  execute 'term'
 endfunction
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
 nnoremap <Leader>t :Tagbar<CR>

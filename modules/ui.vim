@@ -67,10 +67,8 @@ set statusline+=\ %{statusline#ModeCurrent()}
 set statusline+=%=
 set statusline+=\ %{statusline#MU()}
 set statusline+=\ %{statusline#ReadOnly()}
-" set statusline+=%{statusline#LinterStatus()}
+set statusline+=\ %{statusline#LinterStatus()}
 
-hi! link StatusLine Constant
-hi! link StatusLineNC Comment
 augroup statusline
     au!
     au BufEnter help hi! link StatusLine NonText

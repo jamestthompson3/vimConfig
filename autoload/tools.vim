@@ -67,11 +67,6 @@ function! tools#open_branch_fzf(line)
   execute '!git checkout ' . l:branch
 endfunction
 
-function! tools#GrepToQF(pattern) abort
-    let l:grepPattern = ':silent grep! '.a:pattern
-    exec l:grepPattern
-endfunction
-
 function! tools#RenameFile() abort
   let l:oldName = getline('.')
   let l:newName = input('Rename: ', l:oldName, 'file')
@@ -89,15 +84,15 @@ endfunction
 
 function! tools#GrepBufs() abort
   let l:pattern  = input('Search > ')
-  exec ':silent bufdo grepadd'.' '.l:pattern.' %'
-  exec ':cwindow'
+  exec 'silent bufdo grepadd'.' '.l:pattern.' %'
+  exec 'cwindow'
 endfunction
 
 function! tools#Confirm(find, replace) abort
   let tools#replace_string = printf('/\<%s\>/%s/g', a:find, a:replace)
-  exec ':cwindow'
+  exec 'cwindow'
   function! tools#Replace_words()
-    exec ':silent cfdo %s'.tools#replace_string.' | update'
+    exec 'silent cfdo %s'.tools#replace_string.' | update'
   endfunction
   command! ReplaceAll call tools#Replace_words()
 endfunction
@@ -108,7 +103,8 @@ function! tools#FindReplace(callback) abort
     return
   endif
   let l:replace = input('Replace > ')
-  call tools#GrepToQF(l:find)
+
+  exec 'silent grep! '.l:find
   call tools#Confirm(l:find, l:replace)
 endfunction
 
@@ -116,24 +112,24 @@ endfunction
 function! tools#Replace_qf(args) abort
   let l:arg_list = split(a:args, ' ')
   let tools#replace_string = printf('/\<%s\>/%s/g', l:arg_list[0], l:arg_list[1])
-  exec ':silent cfdo %s'.tools#replace_string.' | update'
+  exec 'silent cfdo %s'.tools#replace_string.' | update'
 endfunction
 
 " Convert to snake_case
 function! tools#Snake(args) abort
   if a:args == 1
-    exec ':%s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
+    exec '%s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
   else
-    exec ':s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
+    exec 's#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
   endif
 endfunction
 
 " Convert to camelCase
 function! tools#Camel(args) abort
   if a:args == 1
-    exec ':%s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
+    exec '%s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
   else
-    exec ':s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
+    exec 's#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
   endif
 endfunction
 
@@ -177,13 +173,13 @@ endfunction
 
 " list all associated tags with cursor word
 function! tools#ListTags() abort
-  execute('ltag '.expand('<cword>'))
-  execute('lwindow')
+  execute 'ltag '.expand('<cword>')
+  execute 'lwindow'
 endfunction
 
 function! tools#loadTagbar() abort
   execute 'packadd tagbar'
-  execute ':TagbarOpen'
+  execute 'TagbarOpen'
 endfunction
 
 function! tools#loadDeps() abort

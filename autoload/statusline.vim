@@ -10,6 +10,9 @@ function! statusline#MU() " show current completion method
 endfunction
 
 function! statusline#LinterStatus() abort
+  if !exists('g:loaded_ale')
+    return ' '
+  else
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
     let l:warning = l:counts.warning
@@ -22,6 +25,7 @@ function! statusline#LinterStatus() abort
     \   l:warning,
     \   l:error
     \) . ' '
+    endif
   endif
 endfunction
 
