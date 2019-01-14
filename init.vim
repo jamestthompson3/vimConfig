@@ -27,6 +27,42 @@ let g:modules_folder = 'modules' . g:file_separator
 
 " }}}
 
+" Load Plugins: {{{
+  function! PackagerInit() abort
+    packadd vim-packager
+    call packager#init()
+    call packager#add('tpope/vim-commentary')
+    call packager#add('tpope/vim-repeat')
+    call packager#add('romainl/vim-cool')
+    call packager#add('romainl/vim-qf')
+    call packager#add('justinmk/vim-dirvish')
+    call packager#add('mattn/webapi-vim')
+    call packager#add('thinca/vim-localrc')
+
+    call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
+    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+    call packager#add('w0rp/ale', { 'type': 'opt' })
+    call packager#add('junegunn/fzf', { 'type': 'opt', 'do': './install --all' })
+    call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
+    call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+    call packager#add('SirVer/ultisnips', { 'type': 'opt' })
+    call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
+    call packager#add('ap/vim-buftabline', { 'type': 'opt' })
+    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
+    call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
+    call packager#add('jamestthompson3/vim-jest', { 'type': 'opt' })
+    call packager#add('elzr/vim-json', { 'type': 'opt' })
+    call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
+    call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
+    call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
+    call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
+    call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
+    call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
+    call packager#add('tpope/vim-speeddating', { 'type': 'opt' })
+    call packager#add('tpope/vim-surround', { 'type': 'opt' })
+  endfunction
+" }}}
+
 " Plugin globals: {{{
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
 let g:netrw_winsize = 20 " smaller explorer window
@@ -76,7 +112,7 @@ let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_echo_msg_error_str = 'E'. ' '
 let g:ale_echo_msg_warning_str = 'W'. ' '
 let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' '
-let g:ale_echo_msg_format = '%severity%  %linter% - %s'
+let g:ale_echo_msg_format = ''
 let g:ale_virtualtext_prompt = ''
 let g:ale_sign_column_always = 0
 let g:ale_statusline_format = [
@@ -117,4 +153,9 @@ command! -bang -nargs=0 Tagbar call tools#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -bang FindandReplace call tools#FindReplace()
 command! -nargs=+ -complete=dir -bar SearchProject silent! grep! <args> | redraw!
+
+command! PackagerInstall call PackagerInit() | call packager#install()
+command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
+command! PackagerClean call PackagerInit() | call packager#clean()
+command! PackagerStatus call PackagerInit() | call packager#status()
 " }}}

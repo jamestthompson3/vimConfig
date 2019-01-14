@@ -1,2 +1,2 @@
 set foldmethod=marker
-execute 'packadd vim-scriptease'
+packadd vim-scriptease

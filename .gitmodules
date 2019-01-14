@@ -1,90 +1,9 @@
-[submodule "pack/plugins/opt/Colorizer"]
-	path = pack/plugins/opt/Colorizer
-	url = https://github.com/chrisbra/Colorizer.git
-[submodule "pack/plugins/opt/fzf"]
-	path = pack/plugins/opt/fzf
-	url = https://github.com/junegunn/fzf.git
-[submodule "pack/plugins/opt/goyo.vim"]
-	path = pack/plugins/opt/goyo.vim
-	url = https://github.com/junegunn/goyo.vim.git
 [submodule "pack/plugins/opt/nim.vim"]
 	path = pack/plugins/opt/nim.vim
 	url = https://github.com/zah/nim.vim.git
 [submodule "pack/plugins/opt/rust.vim"]
 	path = pack/plugins/opt/rust.vim
 	url = https://github.com/rust-lang/rust.vim.git
-[submodule "pack/plugins/opt/tagbar"]
-	path = pack/plugins/opt/tagbar
-	url = https://github.com/majutsushi/tagbar.git
-[submodule "pack/plugins/opt/ultisnips"]
-	path = pack/plugins/opt/ultisnips
-	url = https://github.com/SirVer/ultisnips.git
-[submodule "pack/plugins/opt/vim-better-javascript-completion"]
-	path = pack/plugins/opt/vim-better-javascript-completion
-	url = https://github.com/jamestthompson3/vim-better-javascript-completion.git
-[submodule "pack/plugins/opt/vim-jest"]
-	path = pack/plugins/opt/vim-jest
-	url = git@github.com:jamestthompson3/vim-jest.git
-[submodule "pack/plugins/opt/vim-json"]
-	path = pack/plugins/opt/vim-json
-	url = https://github.com/elzr/vim-json.git
-[submodule "pack/plugins/opt/vim-reason-plus"]
-	path = pack/plugins/opt/vim-reason-plus
-	url = https://github.com/reasonml-editor/vim-reason-plus.git
-[submodule "pack/plugins/opt/vim-scriptease"]
-	path = pack/plugins/opt/vim-scriptease
-	url = https://github.com/tpope/vim-scriptease.git
-[submodule "pack/plugins/opt/vim-speeddating"]
-	path = pack/plugins/opt/vim-speeddating
-	url = https://github.com/tpope/vim-speeddating.git
-[submodule "pack/plugins/start/ale"]
-	path = pack/plugins/opt/ale
-	url = https://github.com/w0rp/ale.git
-[submodule "pack/plugins/start/fzf.vim"]
-	path = pack/plugins/opt/fzf.vim
-	url = https://github.com/junegunn/fzf.vim.git
-[submodule "pack/plugins/start/vim-buftabline"]
-	path = pack/plugins/opt/vim-buftabline
-	url = https://github.com/ap/vim-buftabline.git
-[submodule "pack/plugins/start/vim-commentary"]
-	path = pack/plugins/start/vim-commentary
-	url = https://github.com/tpope/vim-commentary.git
-[submodule "pack/plugins/start/vim-dirvish"]
-	path = pack/plugins/start/vim-dirvish
-	url = https://github.com/justinmk/vim-dirvish.git
-[submodule "pack/plugins/start/vim-fugitive"]
-	path = pack/plugins/opt/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
-[submodule "pack/plugins/start/vim-gutentags"]
-	path = pack/plugins/opt/vim-gutentags
-	url = https://github.com/ludovicchabant/vim-gutentags.git
-[submodule "pack/plugins/start/vim-localrc"]
-	path = pack/plugins/start/vim-localrc
-	url = https://github.com/thinca/vim-localrc.git
-[submodule "pack/plugins/start/vim-mucomplete"]
-	path = pack/plugins/opt/vim-mucomplete
-	url = https://github.com/lifepillar/vim-mucomplete.git
-[submodule "pack/plugins/start/vim-polyglot"]
-	path = pack/plugins/opt/vim-polyglot
-	url = git@github.com:sheerun/vim-polyglot.git
-[submodule "pack/plugins/start/vim-qf"]
-	path = pack/plugins/start/vim-qf
-	url = https://github.com/romainl/vim-qf.git
-[submodule "pack/plugins/start/vim-repeat"]
-	path = pack/plugins/start/vim-repeat
-	url = https://github.com/tpope/vim-repeat.git
-[submodule "pack/plugins/start/vim-schlepp"]
-	path = pack/plugins/opt/vim-schlepp
-	url = https://github.com/zirrostig/vim-schlepp.git
-[submodule "pack/plugins/start/vim-surround"]
-	path = pack/plugins/opt/vim-surround
-	url = https://github.com/tpope/vim-surround.git
-[submodule "pack/plugins/start/webapi-vim"]
-	path = pack/plugins/start/webapi-vim
-	url = https://github.com/mattn/webapi-vim.git
-[submodule "pack/plugins/opt/vim-racer"]
-	path = pack/plugins/opt/vim-racer
-	url = git@github.com:racer-rust/vim-racer.git
-[submodule "pack/plugins/start/vim-cool"]
-	path = pack/plugins/start/vim-cool
-	url = git@github.com:romainl/vim-cool.git
+[submodule "pack/plugins/opt/vim-packager"]
+	path = pack/plugins/opt/vim-packager
+	url = git@github.com:kristijanhusak/vim-packager.git

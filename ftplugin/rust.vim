@@ -1,4 +1,4 @@
-execute 'packadd vim-racer'
+packadd vim-racer
 
 " nnoremap <silent> gd :ALEGoToDefinition<CR>
 " nnoremap <silent> gh :ALEHover<CR>

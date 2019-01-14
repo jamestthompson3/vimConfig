@@ -1,1 +1,1 @@
-execute 'packadd vim-json'
+packadd vim-json

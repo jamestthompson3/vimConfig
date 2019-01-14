@@ -1,2 +1,2 @@
-execute 'packadd Colorizer'
+packadd Colorizer
 setlocal omnifunc=csscomplete#CompleteCSS

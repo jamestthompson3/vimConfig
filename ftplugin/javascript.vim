@@ -1,9 +1,9 @@
 scriptencoding utf-8
 
-execute 'packadd vim-jest'
-execute 'packadd vim-better-javascript-completion'
-execute 'packadd ultisnips'
-execute 'packadd Colorizer'
+packadd vim-jest
+packadd vim-better-javascript-completion
+packadd ultisnips
+packadd Colorizer
 
 " Syntax: {{{
 let g:jsx_ext_required = 0

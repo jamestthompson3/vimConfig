@@ -1,2 +1,2 @@
-execute 'packadd vim-reason-plus'
+packadd vim-reason-plus
 let b:ale_fixers = ['refmt']
