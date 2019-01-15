@@ -79,6 +79,7 @@ endfunction
 augroup core
   au FileType netrw au BufLeave QuitNetrw()
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
+  autocmd WinNew * call tools#saveSession(tools#manageSession())
   autocmd BufAdd * call tools#loadDeps()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif

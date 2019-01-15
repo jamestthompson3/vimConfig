@@ -58,7 +58,7 @@ function! s:IsReadable(idx, val)
     return filereadable(expand(a:val))
 endfunction
   function! s:generate_mru()
-    let l:mru_files = filter(copy(v:oldfiles), function('s:IsReadable'))
+    let l:mru_files = map(filter(copy(v:oldfiles), function('s:IsReadable')), { idx, val -> substitute(val, '\\', '/','g') })
     let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
     let l:filtered_files = filter(l:mru_files, {idx, val -> stridx(val, cur_dir) >= 0} )
     return map(l:filtered_files, {idx, val -> substitute(val, cur_dir.'/', '', '')})
@@ -204,3 +204,67 @@ function! tools#loadDeps() abort
     packadd vim-buftabline
   endif
 endfunction
+
+function! tools#gitCommand()
+  if g:isWindows
+    return trim(system("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'"))
+  else
+    return trim(system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'"))
+  endif
+endfunction
+
+function! tools#manageSession() abort
+  let l:sessionName = tools#gitCommand()
+  let l:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
+  let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
+  let l:filePath = substitute(expand('%:p:h'), '\\', '/', 'g')
+  let l:altName = substitute(l:filePath, l:cur_dir, '', '')
+  return [l:sessionName, l:sessionPath, l:altName]
+endfunction
+
+function! tools#saveSession(argsList) abort
+  let [ sessionName, sessionPath, altName ] = a:argsList
+  if sessionName != ''
+    if sessionName == 'master'
+      return
+    else
+      execute 'mks! '.sessionPath.trim(sessionName).'.vim'
+    endif
+  else
+    execute 'mks! '.sessionPath.altName.'.vim'
+  endif
+endfunction
+
+function! tools#PackagerInit() abort
+    packadd vim-packager
+    call packager#init()
+    call packager#add('tpope/vim-commentary')
+    call packager#add('tpope/vim-repeat')
+    call packager#add('romainl/vim-cool')
+    call packager#add('romainl/vim-qf')
+    call packager#add('justinmk/vim-dirvish')
+    call packager#add('mattn/webapi-vim')
+    call packager#add('thinca/vim-localrc')
+
+    call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
+    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+    call packager#add('w0rp/ale', { 'type': 'opt' })
+    call packager#add('junegunn/fzf', { 'type': 'opt', 'do': './install --all' })
+    call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
+    call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+    call packager#add('SirVer/ultisnips', { 'type': 'opt' })
+    call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
+    call packager#add('ap/vim-buftabline', { 'type': 'opt' })
+    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
+    call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
+    call packager#add('jamestthompson3/vim-jest', { 'type': 'opt' })
+    call packager#add('elzr/vim-json', { 'type': 'opt' })
+    call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
+    call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
+    call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
+    call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
+    call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
+    call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
+    call packager#add('tpope/vim-speeddating', { 'type': 'opt' })
+    call packager#add('tpope/vim-surround', { 'type': 'opt' })
+  endfunction
