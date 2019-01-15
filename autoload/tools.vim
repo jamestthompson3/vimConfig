@@ -255,6 +255,7 @@ function! tools#PackagerInit() abort
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
     call packager#add('ap/vim-buftabline', { 'type': 'opt' })
+    call packager#add('iamcco/markdown-preview.vim', { 'type': 'opt' })
     call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-jest', { 'type': 'opt' })

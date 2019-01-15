@@ -41,7 +41,6 @@ let g:mucomplete#chains = {
 let g:mucomplete#minimum_prefix_length = 2
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-l>'
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:fzf_layout = { 'window': 'enew' }
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100

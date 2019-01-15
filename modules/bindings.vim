@@ -42,17 +42,19 @@ nmap <leader>7 <Plug>BufTabLine.Go(7)
 nmap <leader>8 <Plug>BufTabLine.Go(8)
 nmap <leader>9 <Plug>BufTabLine.Go(9)
 nmap <leader>0 <Plug>BufTabLine.Go(10)
+nnoremap <silent> [q :cnext<CR>
+nnoremap <silent> ]q :cprev<CR>
 " }}}
 
 " Pairs: {{{
 inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
-inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O
+inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O<tab>
 inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
 inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
-inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O
+inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O<tab>
 inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
 inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
-inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O
+inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O<tab>
 inoremap <silent>[<space>          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
 inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
 inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
