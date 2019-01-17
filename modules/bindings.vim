@@ -131,12 +131,15 @@ nnoremap ; :
 nnoremap <Leader>; ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
+
 function! OpenTerminalDrawer() abort
   execute 'copen'
   execute 'term'
 endfunction
+
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
 nnoremap <Leader>t :Tagbar<CR>
+nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 " }}}
 
 " VimDev: {{{
