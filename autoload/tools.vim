@@ -3,7 +3,7 @@ scriptencoding utf-8
 function! tools#run_fzf(command)
   packadd fzf
  call fzf#run({
-     \ 'source': a:command . ' | devicon-lookup',
+     \ 'source': a:command,
      \ 'sink':   function('tools#edit_file'),
      \ 'options': '-m',
      \ 'down': '40%'

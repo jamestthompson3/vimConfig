@@ -32,7 +32,6 @@ set completeopt-=preview
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
 set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
-set updatetime=2500
 
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
@@ -47,11 +46,6 @@ set formatlistpat+=]                        " End character class
 set formatlistpat+=\\s\\+                   " One or more spaces
 set formatlistpat+=\\\|                     " or
 set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
-
-augroup auto_highlight
-  au!
-  au CursorHold * call tools#PreviewWord()
-augroup end
 
 if !has('nvim')
 set autoindent
@@ -87,6 +81,7 @@ augroup core
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd WinNew * call tools#saveSession(tools#manageSession())
   autocmd BufAdd * call tools#loadDeps()
+  autocmd SessionLoadPost * call tools#loadDeps()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations
