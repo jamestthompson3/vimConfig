@@ -81,6 +81,7 @@ augroup core
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd WinNew * call tools#saveSession(tools#manageSession())
   autocmd BufAdd * call tools#loadDeps()
+  autocmd SessionLoadPost * call tools#loadDeps()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations

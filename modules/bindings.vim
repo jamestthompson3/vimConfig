@@ -48,13 +48,13 @@ nnoremap <silent> ]q :cprev<CR>
 
 " Pairs: {{{
 inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
-inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O<tab>
+inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O
 inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
 inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
-inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O<tab>
+inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O
 inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
 inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
-inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O<tab>
+inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O
 inoremap <silent>[<space>          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
 inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
 inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
@@ -91,8 +91,7 @@ nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <silent><c-p> :call tools#Fzf_dev(1)<CR>
 nnoremap <silent>, :call tools#Fzf_mru()<CR>
 cnoremap <expr> <CR> tools#CCR()
-nnoremap sd :call tools#ShowDeclaration(0)<CR>
-nnoremap sD :call tools#ShowDeclaration(1)<CR>
+nnoremap sd :call tools#PreviewWord()<CR>
 
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
@@ -131,12 +130,15 @@ nnoremap ; :
 nnoremap <Leader>; ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
+
 function! OpenTerminalDrawer() abort
   execute 'copen'
   execute 'term'
 endfunction
+
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>
 nnoremap <Leader>t :Tagbar<CR>
+nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 " }}}
 
 " VimDev: {{{
