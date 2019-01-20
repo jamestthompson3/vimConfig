@@ -88,6 +88,7 @@ augroup core
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css
+  au! BufNewFile,BufRead *.wiki setf wiki
 augroup END
 
 augroup AutoSwap

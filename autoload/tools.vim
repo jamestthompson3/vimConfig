@@ -248,6 +248,7 @@ function! tools#PackagerInit() abort
 
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+    call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
     call packager#add('junegunn/fzf', { 'type': 'opt', 'do': './install --all' })
     call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
