@@ -61,7 +61,7 @@ hi! Normal ctermbg=234 ctermfg=252 guibg=#1c1e2b guifg=#abadb3
 hi! Operator ctermfg=94 guifg=#91603a
 hi! Pmenu ctermbg=236 ctermfg=251 guibg=#212121 guifg=#abadb3
 hi! PmenuSbar ctermbg=236 guibg=#3d425b
-hi! PmenuSel ctermbg=240 ctermfg=255 guibg=#5b6389 guifg=#eff0f4
+hi! PmenuSel guibg=#6788cc ctermbg=68 ctermfg=255 guifg=#eff0f4
 hi! PmenuThumb ctermbg=251 guibg=#abadb3
 hi! PreProc ctermfg=180 guifg=#ae65f2
 hi! PreProcItalic ctermfg=180 guifg=#ae65f2 gui=italic cterm=italic
@@ -76,7 +76,9 @@ hi! SpellLocal ctermbg=32 ctermfg=252 gui=undercurl guisp=#4399bb
 hi! SpellRare ctermbg=61 ctermfg=252 gui=undercurl guisp=#8b76d0
 hi! Statement ctermfg=41 gui=NONE  guifg=#56b88a
 hi! StatusLineTerm cterm=reverse ctermbg=234 ctermfg=245 gui=reverse guibg=#17171b guifg=#818596 term=reverse
-hi! StatusLineTermNC cterm=reverse ctermbg=238 ctermfg=233 gui=reverse guibg=#3e445e guifg=#0f1117
+hi! StatusLine ctermfg=38 guifg=#4399bb ctermbg=0 guibg=#000000
+hi! StatusLineNC ctermbg=235 ctermfg=243 guifg=#6b7089 guibg=#1c1e2b gui=italic cterm=italic
+hi! StatusLineTermNC cterm=reverse ctermbg=61 ctermfg=233 gui=reverse guibg=#3e445e guifg=#0f1117
 hi! StorageClass ctermfg=41 guifg=#56b88a
 hi! String ctermfg=38 guifg=#4399bb
 hi! Structure ctermfg=41 guifg=#56b88a
@@ -98,8 +100,6 @@ hi! ALEVirtualTextError  ctermfg=196  guifg=#ff9796 cterm=italic gui=italic
 hi! ALEVirtualTextWarning ctermfg=215 guifg=#fccf7b cterm=italic gui=italic
 
 hi! link cssBraces Delimiter
-hi! link StatusLine Constant
-hi! link StatusLineNC Comment
 hi! link cssClassName Special
 hi! link cssClassNameDot Normal
 hi! link cssPseudoClassId Special

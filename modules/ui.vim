@@ -46,9 +46,10 @@ set listchars+=nbsp:⣿
 " Custom higlight groups
 hi SpellBad guibg=#ff2929 ctermbg=196
 hi! link BufTabLineFill NonText
-hi! link BufTabLineActive Pmenu
-hi! link BufTabLineCurrent WildMenu
-hi! link BufTabLineHidden Normal
+hi! link BufTabLineActive Identifier
+hi! link BufTabLineCurrent StatusLine
+hi! link BufTabLineHidden Comment
+hi! link NormalNC Comment
 
 colorscheme tokyo-metro
 " }}}
@@ -69,9 +70,4 @@ set statusline+=\ %{statusline#MU()}
 set statusline+=\ %{statusline#ReadOnly()}
 set statusline+=\ %{statusline#LinterStatus()}
 
-augroup statusline
-    au!
-    au BufEnter help hi! link StatusLine NonText
-    au BufLeave help hi! link StatusLine Constant
-augroup END
 "}}}
