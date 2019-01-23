@@ -1,10 +1,12 @@
 scriptencoding utf-8
 
 packadd vim-jest
+packadd vim-js-file-import
 packadd vim-better-javascript-completion
 packadd ultisnips
 packadd Colorizer
 
+let g:js_file_import_omit_semicolon = 0
 " Syntax: {{{
 let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
