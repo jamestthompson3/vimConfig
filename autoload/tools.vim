@@ -197,6 +197,7 @@ function! tools#loadDeps() abort
   packadd fzf.vim
   packadd vim-fugitive
   packadd vim-gutentags
+  packadd vim-matchup
   packadd vim-schlepp
   packadd vim-surround
   packadd vim-mucomplete
@@ -247,6 +248,7 @@ function! tools#PackagerInit() abort
     call packager#add('thinca/vim-localrc')
 
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
+    call packager#add('andymass/vim-matchup', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-js-file-import', { 'type': 'opt', 'do': 'npm install' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
@@ -257,7 +259,7 @@ function! tools#PackagerInit() abort
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
     call packager#add('ap/vim-buftabline', { 'type': 'opt' })
-    call packager#add('iamcco/markdown-preview.vim', { 'type': 'opt' })
+    call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
     call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-jest', { 'type': 'opt' })

@@ -1,10 +1,14 @@
 scriptencoding utf-8
 
-packadd vim-jest
-packadd vim-js-file-import
-packadd vim-better-javascript-completion
-packadd ultisnips
-packadd Colorizer
+if !exists('g:loaded_js_config'):
+  packadd vim-jest
+  packadd vim-js-file-import
+  packadd vim-better-javascript-completion
+  packadd ultisnips
+  packadd Colorizer
+
+  let g:loaded_js_config = 1
+endif
 
 let g:js_file_import_omit_semicolon = 0
 " Syntax: {{{
@@ -67,7 +71,7 @@ setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to fi
 setlocal define=class\\s
 setlocal omnifunc=javascriptcomplete#CompleteJS
 setlocal foldmethod=syntax
-setlocal foldlevelstart=1
+setlocal foldlevelstart=90
 setlocal foldlevel=2
 setlocal makeprg=eslint\ -f\ compact\ %
 " }}}

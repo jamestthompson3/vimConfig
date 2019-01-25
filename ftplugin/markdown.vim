@@ -1,4 +1,6 @@
-packadd markdown-preview.vim
+packadd markdown-preview.nvim
+packadd vimwiki
+packadd vim-speeddating
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_refresh_slow = 1
@@ -14,3 +16,4 @@ let g:mkdp_markdown_css = ''
 let g:mkdp_highlight_css = ''
 let g:mkdp_port = ''
 let b:MarkMargin = 140
+iab <expr> dts strftime("%c")
