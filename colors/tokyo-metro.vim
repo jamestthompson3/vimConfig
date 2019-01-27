@@ -77,7 +77,7 @@ hi! SpellRare ctermbg=61 ctermfg=252 gui=undercurl guisp=#8b76d0
 hi! Statement ctermfg=41 gui=NONE  guifg=#56b88a
 hi! StatusLineTerm cterm=reverse ctermbg=234 ctermfg=245 gui=reverse guibg=#17171b guifg=#818596 term=reverse
 hi! StatusLine ctermfg=38 guifg=#4399bb ctermbg=0 guibg=#000000
-hi! StatusLineNC ctermbg=235 ctermfg=243 guifg=#6b7089 guibg=#1c1e2b gui=italic cterm=italic
+hi! StatusLineNC ctermbg=235 ctermfg=243 guifg=#6b7089 guibg=#000000 gui=italic cterm=italic
 hi! StatusLineTermNC cterm=reverse ctermbg=61 ctermfg=233 gui=reverse guibg=#3e445e guifg=#0f1117
 hi! StorageClass ctermfg=41 guifg=#56b88a
 hi! String ctermfg=38 guifg=#4399bb

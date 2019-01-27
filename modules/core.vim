@@ -9,6 +9,7 @@ set autoread  " Automatically read a file changed outside of vim
 set splitright " when splitting vertically, focus goes right
 set undolevels=1000
 set ttimeout " Allows for setting custom ttimeoutlen intervals
+set ttimeoutlen=20
 set wildignorecase " no case sensitivity on wild menu
 set wildcharm=<C-z> " wildchar in macros
 set magic " Use extended regular expressions
@@ -61,7 +62,6 @@ iab     pritn  print
 
 augroup omnifuncs
   autocmd!
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
 

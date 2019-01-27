@@ -4,7 +4,7 @@ function! tools#run_fzf(command)
   packadd fzf
  call fzf#run({
      \ 'source': a:command,
-     \ 'sink':   function('tools#edit_file'),
+     \ 'sink':  'e',
      \ 'options': '-m',
      \ 'down': '40%'
      \ })
@@ -14,7 +14,7 @@ function! tools#run_fzf_list(list)
   packadd fzf
  call fzf#run({
      \ 'source': a:list,
-     \ 'sink':   function('tools#edit_file'),
+     \ 'sink':   'e',
      \ 'options': '-m',
      \ 'down': '40%'
      \ })
@@ -27,13 +27,6 @@ function! tools#ShowDeclaration(global) abort
         execute line_of_declaration . '#'
     endif
     call cursor(pos[1], pos[2])
-endfunction
-
-function! tools#edit_file(item)
-    let l:pos = stridx(a:item, ' ')
-    let l:file_path = a:item[l:pos+1:-1]
-    echom l:file_path
-    execute 'silent e' l:file_path
 endfunction
 
 function! tools#Fzf_dev(no_git) abort
@@ -117,9 +110,8 @@ function! tools#FindReplace(callback) abort
 endfunction
 
 " Replace things in the quick fix list
-function! tools#Replace_qf(args) abort
-  let l:arg_list = split(a:args, ' ')
-  let tools#replace_string = printf('/\<%s\>/%s/g', l:arg_list[0], l:arg_list[1])
+function! tools#Replace_qf(term1, term2) abort
+  let tools#replace_string = printf('/\<%s\>/%s/g', a:term1, a:term2)
   exec 'silent cfdo %s'.tools#replace_string.' | update'
 endfunction
 
@@ -191,18 +183,23 @@ function! tools#loadTagbar() abort
 endfunction
 
 function! tools#loadDeps() abort
-  let l:multiWindow = winnr('$') > 1
-  packadd ale
-  packadd vim-polyglot
-  packadd fzf.vim
-  packadd vim-fugitive
-  packadd vim-gutentags
-  packadd vim-matchup
-  packadd vim-schlepp
-  packadd vim-surround
-  packadd vim-mucomplete
-  if l:multiWindow
+  let l:numBuffrs = len(getbufinfo({'buflisted':1}))
+  if l:numBuffrs > 1
     packadd vim-buftabline
+   endif
+  if exists('g:loadedDeps')
+    return
+  else
+    packadd ale
+    packadd vim-polyglot
+    packadd fzf.vim
+    packadd vim-fugitive
+    packadd vim-gutentags
+    packadd vim-matchup
+    packadd vim-schlepp
+    packadd vim-surround
+    packadd vim-mucomplete
+    let g:loadedDeps = 1
   endif
 endfunction
 
@@ -246,11 +243,12 @@ function! tools#PackagerInit() abort
     call packager#add('justinmk/vim-dirvish')
     call packager#add('mattn/webapi-vim')
     call packager#add('thinca/vim-localrc')
+    call packager#add('mhinz/vim-startify')
 
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-    call packager#add('kristijanhusak/vim-js-file-import', { 'type': 'opt', 'do': 'npm install' })
+    call packager#add('kristijanhusak/vim-js-file-import', { 'type': 'opt', 'do': 'yarn install' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
     call packager#add('junegunn/fzf', { 'type': 'opt', 'do': './install --all' })

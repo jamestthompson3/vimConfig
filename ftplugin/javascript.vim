@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-if !exists('g:loaded_js_config'):
+if !exists('g:loaded_js_config')
   packadd vim-jest
   packadd vim-js-file-import
   packadd vim-better-javascript-completion
@@ -66,12 +66,12 @@ iabbrev imoprt import
 iabbrev iomprt import
 iabbrev improt import
 
-setlocal suffixesadd+=.js,.jsx " navigate to imported files by adding the js(x) suffix
+setlocal suffixesadd+=.js,.jsx,.ts,.tsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
 setlocal define=class\\s
 setlocal omnifunc=javascriptcomplete#CompleteJS
 setlocal foldmethod=syntax
-setlocal foldlevelstart=90
+setlocal foldlevelstart=99
 setlocal foldlevel=2
 setlocal makeprg=eslint\ -f\ compact\ %
 " }}}

@@ -48,11 +48,23 @@ let g:goyo_width = 120
 let g:matchup_matchparen_stopline = 200
 let g:gutentags_project_root = ['package.json']
 let g:colorizer_auto_filetype='css,html,javascript.jsx'
-let g:vimwiki_list = [{ 'syntax': 'markdown', 'ext': '.md' }]
 let g:buftabline_show = 1
 let g:buftabline_indicators = 1
 let g:buftabline_separators = 1
 let g:buftabline_numbers = 2
+let g:startify_session_dir = '~/sessions'
+let g:startify_session_persistence = 1
+let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust'}
+
+let g:startify_session_sort = 1
+let g:startify_change_to_dir = 0
+let g:startify_bookmarks = [{ 'c': $MYVIMRC }]
+let g:startify_lists = [
+          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+          \ { 'type': 'sessions',  'header': ['   Sessions']       },
+          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+          \ { 'type': 'commands',  'header': ['   Commands']       },
+          \ ]
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:webdevicons_enable = 1
 " }}}
@@ -114,11 +126,12 @@ command! -bang -nargs=0 GCheckout
      \ 'down': '40%'
      \ }, <bang>0)
 
-command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<q-args>)
+
+command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang -nargs=0 Tagbar call tools#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -bang FindandReplace call tools#FindReplace()
-command! -nargs=+ -complete=dir -bar SearchProject silent! grep! <args> | redraw!
+command! -bang -nargs=+ FindandReplace call tools#FindReplace(<q-args>)
+command! -nargs=+ -complete=dir SearchProject execute 'silent! grep!'.<q-args>
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
