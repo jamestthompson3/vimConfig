@@ -6,6 +6,7 @@ if !exists('g:loaded_js_config')
   packadd vim-better-javascript-completion
   packadd ultisnips
   packadd Colorizer
+  runtime $MYVIMRC.g:file_separator.'modules'.g:file_separator.'ecmacommon.vim'
 
   let g:loaded_js_config = 1
 endif
@@ -59,19 +60,5 @@ nnoremap <silent>K :call tools#ListTags()<CR>
 nnoremap L :dli /
 " jump to symbol definition
 nnoremap <silent> gd :ijump <c-r><c-w><CR>
-inoremap `<CR>       `<CR>`<esc>O<tab>
-
-iabbrev cosnt const
-iabbrev imoprt import
-iabbrev iomprt import
-iabbrev improt import
-
-setlocal suffixesadd+=.js,.jsx,.ts,.tsx " navigate to imported files by adding the js(x) suffix
-setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
-setlocal define=class\\s
 setlocal omnifunc=javascriptcomplete#CompleteJS
-setlocal foldmethod=syntax
-setlocal foldlevelstart=99
-setlocal foldlevel=2
-setlocal makeprg=eslint\ -f\ compact\ %
 " }}}

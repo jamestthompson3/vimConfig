@@ -1,0 +1,69 @@
+snippet l "console.log statement"
+console.log($0)
+endsnippet
+
+snippet d "debug statement"
+debugger
+endsnippet
+
+snippet rsc "React Stateless Component" b
+import * as React from 'react'
+
+interface Props {
+    $2
+  }
+
+function `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0({$2}): Props {
+    return (
+      <$1></$1>
+    )
+  }
+endsnippet
+
+snippet rc "React stateful component" b
+import * as React from 'react'
+
+interface Props {
+    $2
+  }
+
+interface State {
+    $3
+  }
+
+class `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0 extends React.PureComponent<Props,State> {
+    render() {
+      const { $2 } = this.props
+        return (
+        <$1></$1>
+        )
+    }
+}
+
+endsnippet
+
+snippet cdm "Component Did Mount" b
+componentDidMount() {
+	$1
+}
+endsnippet
+
+snippet desc "describe" b
+describe('$1' () => {
+	it('$2', () => {
+		$3
+	})
+})
+endsnippet
+
+snippet it "test description" b
+it('$1', () => {
+		$2
+})
+endsnippet
+
+snippet "<([\w\.]+)" "jsx tag" br
+<`!p snip.rv = match.group(1)`${1}>
+	${VISUAL}${2}
+</`!p snip.rv = match.group(1)`${3}
+endsnippet
