@@ -16,28 +16,28 @@ switch ( ${VISUAL}${1:expression} ) {
 }
 endsnippet
 
-snippet flowmachine "React Class component with flow and sate machine" b
-// @flow
+snippet rsc "React Stateless Component" b
 import * as React from 'react'
-import { withStateMachine, State } from 'react-automata'
 
-class $0 extends React.Component<Props> {
-	render() {
-		return (
-			<div />
-		)
-	}
-}
-
-export default $0
+function `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0({$2}) {
+    return (
+      <$1></$1>
+    )
+  }
 endsnippet
 
-snippet bc "Basic functional stateless component" b
-const $0 = ({ $1, $2 }) => {
-	return (
-		<div />
-	)
+snippet rc "React stateful component" b
+import * as React from 'react'
+
+class `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0 extends React.PureComponent {
+    render() {
+      const { $2 } = this.props
+        return (
+        <$1></$1>
+        )
+    }
 }
+
 endsnippet
 
 snippet sm "State machine" b
