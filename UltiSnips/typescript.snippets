@@ -6,20 +6,14 @@ snippet d "debug statement"
 debugger
 endsnippet
 
-snippet switch
-switch ( ${VISUAL}${1:expression} ) {
-	case '${VISUAL}${3:case}':
-		${4}
-		return ${0}
-	default:
-		${2}
-}
-endsnippet
-
 snippet rsc "React Stateless Component" b
 import * as React from 'react'
 
-function `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0({$2}) {
+interface Props {
+    $2
+  }
+
+function `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0({$2}): Props {
     return (
       <$1></$1>
     )
@@ -29,7 +23,15 @@ endsnippet
 snippet rc "React stateful component" b
 import * as React from 'react'
 
-class `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0 extends React.PureComponent {
+interface Props {
+    $2
+  }
+
+interface State {
+    $3
+  }
+
+class `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0 extends React.PureComponent<Props,State> {
     render() {
       const { $2 } = this.props
         return (
@@ -38,17 +40,6 @@ class `!p snip.rv = snip.basename if snip.basename != 'index' else ''`$0 extends
     }
 }
 
-endsnippet
-
-snippet sm "State machine" b
-const stateChart = {
-	initial: '$1',
-	states: {
-		$1: { on: { $2: '$2', $3: '$3' }, onEntry: '$4' },
-		$2: { on: { $2: '$2', $3: '$3', $5: '$1' } },
-		$3: { on: { $1: '$1' } }
-	}
-}
 endsnippet
 
 snippet cdm "Component Did Mount" b
