@@ -247,6 +247,7 @@ function! tools#PackagerInit() abort
 
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
+    call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-js-file-import', { 'type': 'opt', 'do': 'yarn install' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
