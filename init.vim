@@ -70,6 +70,7 @@ let g:webdevicons_enable = 1
 " }}}
 
 " ALE: {{{
+let g:ale_completion_enabled = 1
 let g:ale_linters = {
   \  'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
