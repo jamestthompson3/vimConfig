@@ -66,6 +66,8 @@ let g:startify_lists = [
           \ ]
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:webdevicons_enable = 1
+let g:monotone_color = [115, 10, 65]
+let g:monotone_secondary_hue_offset = 300
 " }}}
 
 " ALE: {{{

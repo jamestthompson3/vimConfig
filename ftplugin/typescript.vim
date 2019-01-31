@@ -23,4 +23,8 @@ setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to fi
 setlocal define=class\\s
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
-setlocal foldlevel=2
+setlocal foldlevel=99
+
+augroup Typescript
+  autocmd BufWritePost * :syntax sync fromstart
+augroup END

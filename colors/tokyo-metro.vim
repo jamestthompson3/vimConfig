@@ -158,6 +158,7 @@ hi! link jsFuncParens Comment
 hi! link jsClassFuncName Title
 hi! link jsExport Statement
 hi! link jsImport JSSpecial
+hi! link typescriptReserved JSSpecial
 hi! link jsModuleAs JSSpecial
 hi! link jsExtendsKeyword JSSpecial
 hi! link jsFrom JSSpecial
