@@ -149,9 +149,9 @@ function s:MonotoneColors(color, secondary_hue_offset, emphasize_comments, contr
 	hi link ParenMatch MatchParen
 
 	" Popup menu
-	call s:Hi('Pmenu', s:color_bright_1, s:color_dark_0, 246, 235, 'NONE')
+	call s:Hi('Pmenu', s:color_bright_2, s:color_dark_2, 226, 245, 'NONE')
 	call s:Hi('PmenuSbar', 'NONE', s:color_dark_2, 'NONE', 235, 'NONE')
-	call s:Hi('PmenuSel', s:color_dark_2, s:color_bright_2, 252, 235, 'NONE')
+	call s:Hi('PmenuSel', s:color_dark_0, s:color_bright_1, 000, 218, 'NONE')
 	call s:Hi('PmenuThumb', 'NONE', s:color_dark_0, 'NONE', 235, 'NONE')
 
 	" Statusline
@@ -204,32 +204,17 @@ function s:MonotoneColors(color, secondary_hue_offset, emphasize_comments, contr
 	hi link CursorWordHighlight Underlined
 
 	" ALE
-	hi ALEError       guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
-	hi ALEWarning     guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
-	hi ALEErrorSign   guifg=#ff4444 ctermfg=203
-	hi ALEWarningSign guifg=#dd9922 ctermfg=214
-
-	" COC
-	hi CocErrorHighlight   guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
-	hi CocWarningHighlight guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
-	hi CocInfoHighlight    guisp=#00afff gui=undercurl ctermfg=153 cterm=bold,underline
-	hi CocHintHighlight    guisp=#00afff gui=undercurl ctermfg=153 cterm=bold,underline
-	hi CocErrorSign        guifg=#ff4444 ctermfg=203
-	hi CocWarningSign      guifg=#dd9922 ctermfg=214
-	hi CocInfoSign         guifg=#00afff ctermfg=153
-	hi CocHintSign         guifg=#00afff ctermfg=153
-
-	" Sneak
-	call s:Hi('Sneak', '#000000', s:color_hl_3, 16, 153, 'NONE')
-	call s:Hi('SneakLabel', '#000000', s:color_hl_3, 16, 153, 'bold')
-	call s:Hi('SneakLabelMask', s:color_hl_3, s:color_hl_3, 153, 153, 'NONE')
+	hi ALEError            guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
+	hi ALEWarning          guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
+	hi ALEErrorSign        guifg=#ff4444 ctermfg=203
+	hi ALEWarningSign      guifg=#dd9922 ctermfg=214
+  hi ALEVirtualTextError guifg=#ff4444 ctermfg=203
+  hi! link ALEVirtualTextInfo  Comment
 
 	" QuickScope
 	hi QuickScopePrimary gui=underline guisp=#ff4444
 	hi QuickScopeSecondary gui=underline guisp=#ff4444
 
-	" Highlightedyank
-	hi link HighlightedyankRegion Warning
 endfunction
 
 call s:MonotoneColors(
