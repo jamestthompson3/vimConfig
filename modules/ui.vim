@@ -50,6 +50,7 @@ hi! link BufTabLineActive Identifier
 hi! link BufTabLineCurrent StatusLine
 hi! link BufTabLineHidden Comment
 hi! link NormalNC Comment
+hi! link Whitespace Comment
 colorscheme monotone
 " }}}
 

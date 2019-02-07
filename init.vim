@@ -35,7 +35,7 @@ let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {
-      \ 'default': ['incl', 'omni', 'tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
+      \ 'default': [ 'incl','omni','tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti'],
       \ 'vim': ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti'],
       \ }
 let g:mucomplete#minimum_prefix_length = 2
@@ -66,7 +66,7 @@ let g:startify_lists = [
           \ ]
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:webdevicons_enable = 1
-let g:monotone_color = [115, 10, 65]
+let g:monotone_color = [217, 0, 70]
 let g:monotone_secondary_hue_offset = 300
 " }}}
 
@@ -139,4 +139,6 @@ command! PackagerInstall call tools#PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call tools#PackagerInit() | call packager#clean()
 command! PackagerStatus call tools#PackagerInit() | call packager#status()
+command! Blue :Monotone 193 90 90
+command! Red :Monotone 360 96 80
 " }}}
