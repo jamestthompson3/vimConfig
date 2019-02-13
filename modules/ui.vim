@@ -63,6 +63,7 @@ let g:enable_guicolors = 1
 " Statusline: {{{
 set statusline=
 set statusline+=%<
+set statusline+=\ %m
 set statusline+=\ %f
 set statusline+=\ %{statusline#ModeCurrent()}
 set statusline+=%=
