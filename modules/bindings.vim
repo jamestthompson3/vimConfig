@@ -86,10 +86,10 @@ nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent> <Leader>fr :FindandReplace<CR>
 nnoremap <silent><Leader><Leader> :call tools#Fzf_dev(0)<CR>
 nnoremap ts :ts<space>
-nnoremap <silent><Leader>. :Buffers<CR>
+nnoremap <silent><Leader>. :call tools#Fzf_mru()<CR>
 nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <silent><c-p> :call tools#Fzf_dev(1)<CR>
-nnoremap <silent>, :call tools#Fzf_mru()<CR>
+nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap <silent>sd :call tools#PreviewWord()<CR>
 

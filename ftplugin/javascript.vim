@@ -11,6 +11,8 @@ if !exists('g:loaded_js_config')
 endif
 
 let g:js_file_import_omit_semicolon = 0
+let g:mucomplete#chains.javascript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+let g:mucomplete#chains['javascript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 " Syntax: {{{
 let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
@@ -57,8 +59,6 @@ nnoremap gh [i
 " peek references
 nnoremap <silent>K :call tools#ListTags()<CR>
 nnoremap L :dli /
-" jump to symbol definition
-nnoremap <silent> gd :ijump <c-r><c-w><CR>
 
 iabbrev cosnt const
 iabbrev imoprt import

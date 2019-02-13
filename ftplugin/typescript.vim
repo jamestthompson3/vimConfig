@@ -11,6 +11,9 @@ if !exists('g:loaded_ts_config')
   let g:loaded_ts_config = 1
 endif
 
+let g:mucomplete#chains.typescript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+let g:mucomplete#chains['typescript.tsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+
 iabbrev cosnt const
 iabbrev imoprt import
 iabbrev iomprt import

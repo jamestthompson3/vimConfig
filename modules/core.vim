@@ -33,6 +33,7 @@ set completeopt-=preview
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
 set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
+set path+=**
 
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
