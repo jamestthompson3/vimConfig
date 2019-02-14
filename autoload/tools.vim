@@ -184,9 +184,6 @@ endfunction
 
 function! tools#loadDeps() abort
   let l:numBuffrs = len(getbufinfo({'buflisted':1}))
-  if l:numBuffrs > 1
-    packadd vim-buftabline
-   endif
   if exists('g:loadedDeps')
     return
   else
@@ -249,19 +246,17 @@ function! tools#PackagerInit() abort
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
     call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-    call packager#add('kristijanhusak/vim-js-file-import', { 'type': 'opt', 'do': 'yarn install' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
+    call packager#add('yardnsm/vim-import-cost', { 'type': 'opt' })
     call packager#add('junegunn/fzf', { 'type': 'opt', 'do': './install --all' })
     call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
     call packager#add('majutsushi/tagbar', { 'type': 'opt' })
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
-    call packager#add('ap/vim-buftabline', { 'type': 'opt' })
     call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
     call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
-    call packager#add('jamestthompson3/vim-jest', { 'type': 'opt' })
     call packager#add('elzr/vim-json', { 'type': 'opt' })
     call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
     call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })

@@ -1,8 +1,6 @@
 scriptencoding utf-8
 
 if !exists('g:loaded_js_config')
-  packadd vim-jest
-  packadd vim-js-file-import
   packadd vim-better-javascript-completion
   packadd ultisnips
   packadd Colorizer

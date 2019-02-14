@@ -163,9 +163,9 @@ set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
 "" Ignore dist and build folders
-set wildignore+=*/dist*/**,*/target/**
+set wildignore+=*/dist*/*,*/target/*,*/builds/*,*/pack/*
 " Ignore libs
-set wildignore+=*/lib/**,*/node_modules/**,*/bower_components/**,*/locale/**
+set wildignore+=*/lib/*,*/node_modules/*,*/bower_components/*,*/locale/*,*/flow-typed/*
 " Ignore images, pdfs, and font files
 set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
