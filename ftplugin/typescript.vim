@@ -1,4 +1,4 @@
-let b:ale_linters = ['tsserver']
+let b:ale_linters = ['tsserver', 'eslint']
 let b:ale_fixers = ['prettier']
 
 nnoremap <silent> gh :ALEHover<CR>
@@ -7,6 +7,7 @@ nnoremap <silent> K :ALEFindReferences<CR>
 
 if !exists('g:loaded_ts_config')
   packadd ultisnips
+  packadd Colorizer
   packadd vim-jsx-typescript
   let g:loaded_ts_config = 1
 endif
@@ -14,10 +15,6 @@ endif
 let g:mucomplete#chains.typescript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['typescript.tsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 
-iabbrev cosnt const
-iabbrev imoprt import
-iabbrev iomprt import
-iabbrev improt import
 
 
 inoremap `<CR>       `<CR>`<esc>O<tab>

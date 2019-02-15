@@ -25,28 +25,6 @@ let b:ale_fixers = ['prettier']
 let b:ale_linters_ignore = ['tsserver']
 " }}}
 
-" Jest: {{{
-function! FuzzyJest(trimmed_values) abort
-  call fzf#run({
-        \ 'source': a:trimmed_values,
-        \ 'sink':   function('JestTest'),
-        \ 'options': '-m',
-        \ 'down': '40%'
-        \ })
-    call feedkeys('i')
-endfunction
-
-function! ListTests() abort
-  let g:Jest_list_callback = funcref('FuzzyJest')
-  call JestList()
-  unlet g:Jest_list_callback
-endfunction
-
-nmap <silent> Lrt :call ListTests()<CR>
-nmap <silent> Lt :call JestList()<CR>
-nmap <silent> T :call RunJest()<CR>
-" }}}
-
 " Misc: {{{
 let g:vimjs#casesensistive = 0
 let g:vimjs#smartcomplete = 1
@@ -57,11 +35,6 @@ nnoremap gh [i
 " peek references
 nnoremap <silent>K :call tools#ListTags()<CR>
 nnoremap L :dli /
-
-iabbrev cosnt const
-iabbrev imoprt import
-iabbrev iomprt import
-iabbrev improt import
 
 inoremap `<CR>       `<CR>`<esc>O<tab>
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx " navigate to imported files by adding the js(x) suffix

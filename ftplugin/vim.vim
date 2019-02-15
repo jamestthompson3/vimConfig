@@ -1,3 +1,3 @@
 set foldmethod=marker
 packadd vim-scriptease
-set wildignore+=pack/**
+let g:mucomplete#chains.vim = ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti']

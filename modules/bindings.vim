@@ -32,16 +32,6 @@ nnoremap <silent> gl :pc<CR>
 " Buffer switching: {{{
 nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
-nmap <leader>1 <Plug>BufTabLine.Go(1)
-nmap <leader>2 <Plug>BufTabLine.Go(2)
-nmap <leader>3 <Plug>BufTabLine.Go(3)
-nmap <leader>4 <Plug>BufTabLine.Go(4)
-nmap <leader>5 <Plug>BufTabLine.Go(5)
-nmap <leader>6 <Plug>BufTabLine.Go(6)
-nmap <leader>7 <Plug>BufTabLine.Go(7)
-nmap <leader>8 <Plug>BufTabLine.Go(8)
-nmap <leader>9 <Plug>BufTabLine.Go(9)
-nmap <leader>0 <Plug>BufTabLine.Go(10)
 nnoremap <silent> [q :cnext<CR>
 nnoremap <silent> ]q :cprev<CR>
 " }}}
@@ -84,11 +74,9 @@ vmap s :s//g<LEFT><LEFT>
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent> <Leader>fr :FindandReplace<CR>
-nnoremap <silent><Leader><Leader> :call tools#Fzf_dev(0)<CR>
+nnoremap <silent><Leader>lt :call tools#ListTags()<CR>
 nnoremap ts :ts<space>
-nnoremap <silent><Leader>. :call tools#Fzf_mru()<CR>
 nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
-nnoremap <silent><c-p> :call tools#Fzf_dev(1)<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap <silent>sd :call tools#PreviewWord()<CR>

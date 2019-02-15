@@ -1,24 +1,5 @@
 scriptencoding utf-8
 
-function! tools#run_fzf(command)
-  packadd fzf
- call fzf#run({
-     \ 'source': a:command,
-     \ 'sink':  'e',
-     \ 'options': '-m',
-     \ 'down': '40%'
-     \ })
-endfunction
-
-function! tools#run_fzf_list(list)
-  packadd fzf
- call fzf#run({
-     \ 'source': a:list,
-     \ 'sink':   'e',
-     \ 'options': '-m',
-     \ 'down': '40%'
-     \ })
-endfunction
 
 function! tools#ShowDeclaration(global) abort
     let pos = getpos('.')
@@ -29,44 +10,6 @@ function! tools#ShowDeclaration(global) abort
     call cursor(pos[1], pos[2])
 endfunction
 
-function! tools#Fzf_dev(no_git) abort
-  " Needs to be fixed on Windows
-  " if executable('nf')
-  "   let l:file_list_command = 'nf'
-  "   let l:file_list_command_no_git = 'nf --no-ignore'
-  " else
-    let l:file_list_command = 'rg --files'
-    let l:file_list_command_no_git = 'rg --files --no-ignore'
-  " endif
-
-   if !a:no_git
-    call tools#run_fzf(l:file_list_command)
-  else
-    call tools#run_fzf(l:file_list_command_no_git)
-  endif
-endfunction
-
-function! tools#Fzf_mru() abort " Search most recently used files
-function! s:IsReadable(idx, val)
-    return filereadable(expand(a:val))
-endfunction
-  function! s:generate_mru()
-    let l:mru_files = map(filter(copy(v:oldfiles), function('s:IsReadable')), { idx, val -> substitute(val, '\\', '/','g') })
-    let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
-    let l:filtered_files = filter(l:mru_files, {idx, val -> stridx(val, cur_dir) >= 0} )
-    return map(l:filtered_files, {idx, val -> substitute(val, cur_dir.'/', '', '')})
-  endfunction
-  call tools#run_fzf_list(s:generate_mru())
-endfunction
-
-function! tools#open_branch_fzf(line)
-  let l:parser = split(a:line)
-  let l:branch = l:parser[0]
-  if l:branch ==? '*'
-    let l:branch = l:parser[1]
-  endif
-  execute '!git checkout ' . l:branch
-endfunction
 
 function! tools#RenameFile() abort
   let l:oldName = getline('.')
@@ -189,7 +132,6 @@ function! tools#loadDeps() abort
   else
     packadd ale
     packadd vim-polyglot
-    packadd fzf.vim
     packadd vim-fugitive
     packadd vim-gutentags
     packadd vim-matchup
@@ -248,9 +190,6 @@ function! tools#PackagerInit() abort
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
-    call packager#add('yardnsm/vim-import-cost', { 'type': 'opt' })
-    call packager#add('junegunn/fzf', { 'type': 'opt', 'do': './install --all' })
-    call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
     call packager#add('majutsushi/tagbar', { 'type': 'opt' })
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })

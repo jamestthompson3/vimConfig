@@ -7,13 +7,7 @@ if !has('nvim')
   set incsearch
   set hlsearch
   set laststatus=2
-  if g:isWindows
-    set guifont=Iosevka:h10:cANSI:qDRAFT
-  elseif has('Mac')
-    set guifont=Iosevka\ Term\ Nerd\ Font\ Complete:h11
-  else
-    set guifont=Iosevka\ 10
-  endif
+  set guifont=IBM\ Plex\ Mono
 endif
 
 " Turn off column numbers if the window is inactive
@@ -26,7 +20,6 @@ augroup END
 set termguicolors
 set nowrap
 set cursorline
-set noshowmode
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
@@ -45,10 +38,6 @@ set listchars+=nbsp:⣿
 
 " Custom higlight groups
 hi SpellBad guibg=#ff2929 ctermbg=196
-hi! link BufTabLineFill NonText
-hi! link BufTabLineActive Identifier
-hi! link BufTabLineCurrent StatusLine
-hi! link BufTabLineHidden Comment
 hi! link NormalNC Comment
 hi! link Whitespace Comment
 colorscheme monotone
@@ -63,11 +52,9 @@ let g:enable_guicolors = 1
 " Statusline: {{{
 set statusline=
 set statusline+=%<
-set statusline+=\ %m
+set statusline+=%m
 set statusline+=\ %f
-set statusline+=\ %{statusline#ModeCurrent()}
 set statusline+=%=
-set statusline+=\ %{statusline#MU()}
 set statusline+=\ %{statusline#ReadOnly()}
 set statusline+=\ %{statusline#LinterStatus()}
 

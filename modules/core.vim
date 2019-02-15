@@ -23,7 +23,7 @@ set shiftround " round indent to multiples of shiftwidth
 set linebreak " do not break words.
 set ignorecase " ignore cases
 set smartcase " except if string contains a capital letter
-set noswapfile " This is a bit annoying
+" set noswapfile " This is a bit annoying
 set inccommand=split " preview replacement changes
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
@@ -54,12 +54,16 @@ set autoindent
 set complete-=i " let mucomplete handle searching for included files. Don't scan by default
 set belloff=all " No annoying bells
 set wildmenu " tab through things at vim command line
-set backspace=indent,eol,start "see :h backspace
+set backspace=indent,eol,start "better backspace behavior
 endif
 
 " Common mistakes
-iab    retrun  return
-iab     pritn  print
+iabbrev retrun  return
+iabbrev pritn  print
+iabbrev cosnt const
+iabbrev imoprt import
+iabbrev iomprt import
+iabbrev improt import
 
 augroup omnifuncs
   autocmd!
@@ -122,7 +126,6 @@ endfunction
 augroup checktime
   au!
   if !has('gui_running')
-      "silent! necessary otherwise throws errors when using command line window.
     autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
   endif
 augroup END
@@ -162,7 +165,7 @@ unlet g:conf_dir
 set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
-"" Ignore dist and build folders
+" Ignore dist and build folders
 set wildignore+=*/dist*/*,*/target/*,*/builds/*,*/pack/*
 " Ignore libs
 set wildignore+=*/lib/*,*/node_modules/*,*/bower_components/*,*/locale/*,*/flow-typed/*

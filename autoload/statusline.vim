@@ -1,14 +1,5 @@
 scriptencoding utf-8
 
-function! statusline#MU() " show current completion method
-  let l:modecurrent = mode()
-  if l:modecurrent == 'i' && exists('g:mucomplete_current_method')
-   return g:mucomplete_current_method
-   else
-     return ''
-  endif
-endfunction
-
 function! statusline#LinterStatus() abort
   if !exists('g:loaded_ale')
     return ' '
@@ -21,7 +12,7 @@ function! statusline#LinterStatus() abort
      return '✓'
     else
       return printf(
-    \   '%d ⚠ %d ☓',
+    \   '%d W %d E',
     \   l:warning,
     \   l:error
     \) . ' '
@@ -29,33 +20,14 @@ function! statusline#LinterStatus() abort
   endif
 endfunction
 
-let s:currentmode={ 'V' : 'V·Line ', 'i' : '[+]', 'R': 'Replace' }
-
-function! statusline#ModeCurrent() abort
-    let l:modecurrent = mode()
-    if l:modecurrent == '^V'
-      return 'V Block'
-    else
-      let l:modelist = toupper(get(s:currentmode, l:modecurrent, ''))
-      return l:modelist
-    endif
-endfunction
-
-function! statusline#Get_gutentags_status(mods) abort
-  let l:msg = ''
-    if index(a:mods, 'ctags') >= 0
-      let l:msg .= '♨'
-    endif
-    if index(a:mods, 'cscope') >= 0
-      let l:msg .= '♺'
-    endif
-  return l:msg
-endfunction
-
 function! statusline#ReadOnly() abort
   if &readonly || !&modifiable
     hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
-    return ''
+    if g:isWindows
+      return '-- RO --'
+    else
+      return ''
+    endif
   else
     return ''
   endif

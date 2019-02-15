@@ -36,24 +36,17 @@ let g:mucomplete#no_mappings = 1
 let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {}
 let g:mucomplete#chains.default = ['incl','omni','tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti']
-let g:mucomplete#chains.vim = ['cmd', 'omni', 'defs', 'c-p', 'c-n', 'file', 'incl', 'keyn', 'keyp', 'tags', 'path', 'ulti']
 let g:mucomplete#minimum_prefix_length = 2
 let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
 let g:UltiSnipsExpandTrigger = '<c-l>'
-let g:fzf_layout = { 'window': 'enew' }
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
 let g:gutentags_project_root = ['package.json']
 let g:colorizer_auto_filetype='css,html,javascript.jsx'
-let g:buftabline_show = 1
-let g:buftabline_indicators = 1
-let g:buftabline_separators = 0
-let g:buftabline_numbers = 2
-let g:startify_session_dir = '~/sessions'
-let g:startify_session_persistence = 1
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
-
+let g:startify_session_persistence = 1
+let g:startify_session_dir = '~/sessions'
 let g:startify_session_sort = 1
 let g:startify_change_to_dir = 0
 let g:startify_bookmarks = [{ 'c': $MYVIMRC }]
@@ -63,8 +56,6 @@ let g:startify_lists = [
           \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
           \ { 'type': 'commands',  'header': ['   Commands']       },
           \ ]
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:webdevicons_enable = 1
 let g:monotone_color = [217, 0, 70]
 let g:monotone_secondary_hue_offset = 300
 " }}}
@@ -119,14 +110,6 @@ command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args
 
 command! -bang -nargs=* Snake call tools#Snake(<q-args>)
 command! -bang -nargs=* Camel call tools#Camel(<q-args>)
-" fuzzy search through git branch, checkout selected branch
-command! -bang -nargs=0 GCheckout
-     \ call fzf#run({
-     \ 'source': 'git branch',
-     \ 'sink':   function('s:open_branch_fzf'),
-     \ 'down': '40%'
-     \ }, <bang>0)
-
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang -nargs=0 Tagbar call tools#loadTagbar()
