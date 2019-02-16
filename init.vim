@@ -115,6 +115,7 @@ command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang -nargs=0 Tagbar call tools#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir SearchProject execute 'silent! grep!'.<q-args>
+command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })

@@ -151,6 +151,12 @@ function! tools#saveSession(argsList) abort
   endif
 endfunction
 
+" TODO improve this
+function! tools#GetFilesByType(ft) abort
+ call setqflist([], ' ', {'title': 'Files', 'lines': systemlist('fd '.a:ft)})
+ execute 'copen'
+endfunction
+
 function! tools#PreviewWord() abort
   if &previewwindow			" don't do this in the preview window
     return

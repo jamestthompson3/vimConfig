@@ -20,6 +20,7 @@ augroup END
 set termguicolors
 set nowrap
 set cursorline
+set relativenumber
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
@@ -36,12 +37,20 @@ set listchars+=extends:»
 set listchars+=precedes:«
 set listchars+=nbsp:⣿
 
-" Custom higlight groups
-hi SpellBad guibg=#ff2929 ctermbg=196
-hi! link NormalNC Comment
-hi! link Whitespace Comment
-highlight IsNotModified ctermbg=NONE guibg=NONE
-hi! link StatusLineModified Todo
+function! MyHighlights() abort
+  " Custom higlight groups
+  hi SpellBad guibg=#ff2929 ctermbg=196
+  hi! link NormalNC Comment
+  hi! link Whitespace Comment
+  highlight IsNotModified ctermbg=NONE guibg=NONE
+  hi! link StatusLineModified Todo
+endfunction
+
+augroup Colors
+  autocmd!
+  autocmd ColorScheme * call MyHighlights()
+augroup END
+
 colorscheme monotone
 " }}}
 

@@ -2,7 +2,6 @@ scriptencoding utf-8
 syntax enable " enable sytnax
 set hidden " enable hidden buffers
 filetype plugin indent on " use ftplugin and indents based on detected file type
-set smartindent
 set title " more meta info for window manager
 set lazyredraw " speed up vim drawing
 set autoread  " Automatically read a file changed outside of vim
@@ -22,8 +21,12 @@ set expandtab " replace tabs with spaces
 set shiftround " round indent to multiples of shiftwidth
 set ignorecase " ignore cases
 set smartcase " except if string contains a capital letter
-" set noswapfile " This is a bit annoying
-set inccommand=split " preview replacement changes
+set undofile
+set backup
+set swapfile
+if has('nvim')
+  set inccommand=split " preview replacement changes
+endif
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 set grepprg=rg\ --vimgrep
@@ -49,11 +52,11 @@ set formatlistpat+=\\\|                     " or
 set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
 
 if !has('nvim')
-set autoindent
-set complete-=i " let mucomplete handle searching for included files. Don't scan by default
-set belloff=all " No annoying bells
-set wildmenu " tab through things at vim command line
-set backspace=indent,eol,start "better backspace behavior
+  set autoindent
+  set complete-=i " let mucomplete handle searching for included files. Don't scan by default
+  set belloff=all " No annoying bells
+  set wildmenu " tab through things at vim command line
+  set backspace=indent,eol,start "better backspace behavior
 endif
 
 " Common mistakes

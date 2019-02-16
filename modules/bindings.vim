@@ -69,7 +69,7 @@ augroup END
 " }}}
 
 " Search: {{{
-nmap S :%s//g<LEFT><LEFT>
+nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap sb :g//#<Left><Left>
 nnoremap <Leader>sp :SearchProject<space>
