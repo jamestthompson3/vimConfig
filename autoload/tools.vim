@@ -1,6 +1,5 @@
 scriptencoding utf-8
 
-
 function! tools#ShowDeclaration(global) abort
     let pos = getpos('.')
     if searchdecl(expand('<cword>'), a:global) == 0
@@ -30,26 +29,6 @@ function! tools#GrepBufs() abort
   let l:pattern  = input('Search > ')
   exec 'silent bufdo grepadd'.' '.l:pattern.' %'
   exec 'cwindow'
-endfunction
-
-function! tools#Confirm(find, replace) abort
-  let tools#replace_string = printf('/\<%s\>/%s/g', a:find, a:replace)
-  exec 'cwindow'
-  function! tools#Replace_words()
-    exec 'silent cfdo %s'.tools#replace_string.' | update'
-  endfunction
-  command! ReplaceAll call tools#Replace_words()
-endfunction
-
-function! tools#FindReplace(callback) abort
-  let l:find = input('Find > ')
-  if l:find == ''
-    return
-  endif
-  let l:replace = input('Replace > ')
-
-  exec 'silent grep! '.l:find
-  call tools#Confirm(l:find, l:replace)
 endfunction
 
 " Replace things in the quick fix list
@@ -172,41 +151,6 @@ function! tools#saveSession(argsList) abort
   endif
 endfunction
 
-function! tools#PackagerInit() abort
-    packadd vim-packager
-    call packager#init()
-    call packager#add('tpope/vim-commentary')
-    call packager#add('tpope/vim-repeat')
-    call packager#add('romainl/vim-cool')
-    call packager#add('romainl/vim-qf')
-    call packager#add('justinmk/vim-dirvish')
-    call packager#add('mattn/webapi-vim')
-    call packager#add('thinca/vim-localrc')
-    call packager#add('mhinz/vim-startify')
-
-    call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
-    call packager#add('andymass/vim-matchup', { 'type': 'opt' })
-    call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
-    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-    call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
-    call packager#add('w0rp/ale', { 'type': 'opt' })
-    call packager#add('majutsushi/tagbar', { 'type': 'opt' })
-    call packager#add('SirVer/ultisnips', { 'type': 'opt' })
-    call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
-    call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
-    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
-    call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
-    call packager#add('elzr/vim-json', { 'type': 'opt' })
-    call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
-    call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
-    call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
-    call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
-    call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
-    call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
-    call packager#add('tpope/vim-speeddating', { 'type': 'opt' })
-    call packager#add('tpope/vim-surround', { 'type': 'opt' })
-  endfunction
-
 function! tools#PreviewWord() abort
   if &previewwindow			" don't do this in the preview window
     return
@@ -242,4 +186,39 @@ function! tools#PreviewWord() abort
       wincmd p			" back to old window
     endif
   endif
-endfun
+endfunction
+
+function! tools#PackagerInit() abort
+    packadd vim-packager
+    call packager#init()
+    call packager#add('tpope/vim-commentary')
+    call packager#add('tpope/vim-repeat')
+    call packager#add('romainl/vim-cool')
+    call packager#add('romainl/vim-qf')
+    call packager#add('justinmk/vim-dirvish')
+    call packager#add('mattn/webapi-vim')
+    call packager#add('thinca/vim-localrc')
+    call packager#add('mhinz/vim-startify')
+
+    call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
+    call packager#add('andymass/vim-matchup', { 'type': 'opt' })
+    call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
+    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+    call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
+    call packager#add('w0rp/ale', { 'type': 'opt' })
+    call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+    call packager#add('SirVer/ultisnips', { 'type': 'opt' })
+    call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
+    call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
+    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
+    call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
+    call packager#add('elzr/vim-json', { 'type': 'opt' })
+    call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
+    call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
+    call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
+    call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
+    call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
+    call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
+    call packager#add('tpope/vim-speeddating', { 'type': 'opt' })
+    call packager#add('tpope/vim-surround', { 'type': 'opt' })
+  endfunction

@@ -71,15 +71,16 @@ augroup END
 " Search: {{{
 nmap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
+nnoremap sb :g//#<Left><Left>
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
-nnoremap <silent> <Leader>fr :FindandReplace<CR>
 nnoremap <silent><Leader>lt :call tools#ListTags()<CR>
 nnoremap ts :ts<space>
-nnoremap <silent><Leader>r :Files <C-r>=expand("%:h")<CR>/<CR>
+nnoremap <slient>gh :call tools#ShowDeclaration(0)<CR>
+nnoremap <slient>sD :call tools#ShowDeclaration(1)<CR>
+nnoremap <silent>sd :call tools#PreviewWord()<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
-nnoremap <silent>sd :call tools#PreviewWord()<CR>
 
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>

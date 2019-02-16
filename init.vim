@@ -114,7 +114,6 @@ command! -bang -nargs=* Camel call tools#Camel(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang -nargs=0 Tagbar call tools#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -bang -nargs=+ FindandReplace call tools#FindReplace(<q-args>)
 command! -nargs=+ -complete=dir SearchProject execute 'silent! grep!'.<q-args>
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()

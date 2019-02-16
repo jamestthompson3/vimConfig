@@ -30,8 +30,6 @@ let g:vimjs#casesensistive = 0
 let g:vimjs#smartcomplete = 1
 let g:vimjs#chromeapis = 1
 let g:vimjs#reactapis = 1
-" peek symbol definition
-nnoremap gh [i
 " peek references
 nnoremap <silent>K :call tools#ListTags()<CR>
 nnoremap L :dli /

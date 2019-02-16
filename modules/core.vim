@@ -20,7 +20,6 @@ set softtabstop=2 " tabs take two spaces
 set tabstop=2 " tabs take two spaces
 set expandtab " replace tabs with spaces
 set shiftround " round indent to multiples of shiftwidth
-set linebreak " do not break words.
 set ignorecase " ignore cases
 set smartcase " except if string contains a capital letter
 " set noswapfile " This is a bit annoying

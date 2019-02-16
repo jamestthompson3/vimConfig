@@ -13,7 +13,7 @@ endif
 " Turn off column numbers if the window is inactive
 augroup WINDOWS
   autocmd!
-  autocmd WinEnter * set number
+  autocmd WinEnter * set relativenumber
   autocmd WinLeave * set nonumber
 augroup END
 
@@ -40,6 +40,8 @@ set listchars+=nbsp:⣿
 hi SpellBad guibg=#ff2929 ctermbg=196
 hi! link NormalNC Comment
 hi! link Whitespace Comment
+highlight IsNotModified ctermbg=NONE guibg=NONE
+hi! link StatusLineModified Todo
 colorscheme monotone
 " }}}
 
@@ -49,11 +51,13 @@ let g:enable_bold_font = 1
 let g:enable_guicolors = 1
 " }}}
 
+
+
 " Statusline: {{{
 set statusline=
 set statusline+=%<
-set statusline+=%m
-set statusline+=\ %f
+set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
+
 set statusline+=%=
 set statusline+=\ %{statusline#ReadOnly()}
 set statusline+=\ %{statusline#LinterStatus()}
