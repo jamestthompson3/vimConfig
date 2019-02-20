@@ -33,11 +33,6 @@ function! statusline#ReadOnly() abort
   endif
 endfunction
 
-function! statusline#GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD | tr -d '\n'")
-endfunction
-
 function! statusline#StatuslineGit()
-  let l:branchname = statusline#GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+  return tools#gitCommand()
 endfunction

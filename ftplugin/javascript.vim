@@ -8,7 +8,6 @@ if !exists('g:loaded_js_config')
   let g:loaded_js_config = 1
 endif
 
-let g:js_file_import_omit_semicolon = 0
 let g:mucomplete#chains.javascript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['javascript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 " Syntax: {{{
@@ -32,7 +31,6 @@ let g:vimjs#chromeapis = 1
 let g:vimjs#reactapis = 1
 " peek references
 nnoremap <silent>K :call tools#ListTags()<CR>
-nnoremap L :dli /
 
 inoremap `<CR>       `<CR>`<esc>O<tab>
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx " navigate to imported files by adding the js(x) suffix
@@ -42,4 +40,6 @@ setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
 setlocal omnifunc=javascriptcomplete#CompleteJS
+
 " }}}
+"

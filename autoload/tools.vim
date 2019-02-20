@@ -9,7 +9,6 @@ function! tools#ShowDeclaration(global) abort
     call cursor(pos[1], pos[2])
 endfunction
 
-
 function! tools#RenameFile() abort
   let l:oldName = getline('.')
   let l:newName = input('Rename: ', l:oldName, 'file')
@@ -23,7 +22,6 @@ function! tools#DeleteFile() abort
   call system(printf('rm -rf %s',getline('.')))
   call feedkeys('R')
 endfunction
-
 
 function! tools#GrepBufs() abort
   let l:pattern  = input('Search > ')
@@ -105,7 +103,6 @@ function! tools#loadTagbar() abort
 endfunction
 
 function! tools#loadDeps() abort
-  let l:numBuffrs = len(getbufinfo({'buflisted':1}))
   if exists('g:loadedDeps')
     return
   else

@@ -13,14 +13,14 @@ endif
 " Turn off column numbers if the window is inactive
 augroup WINDOWS
   autocmd!
-  autocmd WinEnter * set relativenumber
+  autocmd WinEnter * set number
   autocmd WinLeave * set nonumber
 augroup END
 
 set termguicolors
 set nowrap
 set cursorline
-set relativenumber
+set number
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
@@ -42,7 +42,7 @@ function! MyHighlights() abort
   hi SpellBad guibg=#ff2929 ctermbg=196
   hi! link NormalNC Comment
   hi! link Whitespace Comment
-  highlight IsNotModified ctermbg=NONE guibg=NONE
+  hi! link IsNotModified StatusLine
   hi! link StatusLineModified Todo
 endfunction
 
@@ -60,13 +60,13 @@ let g:enable_bold_font = 1
 let g:enable_guicolors = 1
 " }}}
 
-
-
 " Statusline: {{{
 set statusline=
 set statusline+=%<
 set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
 
+set statusline+=%=
+set statusline+=\ %{statusline#StatuslineGit()}
 set statusline+=%=
 set statusline+=\ %{statusline#ReadOnly()}
 set statusline+=\ %{statusline#LinterStatus()}

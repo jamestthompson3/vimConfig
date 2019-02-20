@@ -24,9 +24,6 @@ set smartcase " except if string contains a capital letter
 set undofile
 set backup
 set swapfile
-if has('nvim')
-  set inccommand=split " preview replacement changes
-endif
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 set grepprg=rg\ --vimgrep
@@ -50,6 +47,10 @@ set formatlistpat+=]                        " End character class
 set formatlistpat+=\\s\\+                   " One or more spaces
 set formatlistpat+=\\\|                     " or
 set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
+
+if has('nvim')
+  set inccommand=split " preview replacement changes
+endif
 
 if !has('nvim')
   set autoindent
@@ -77,7 +78,7 @@ function! QuitNetrw()
   for i in range(1, bufnr($))
     if buflisted(i)
       if getbufvar(i, '&filetype') == "netrw"
-        silent exe 'bwipeout ' . i
+        silent execute 'bwipeout ' . i
       endif
     endif
   endfor
@@ -135,6 +136,8 @@ augroup END
 let g:loaded_python_provider = 1
 if g:isWindows
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
+elseif g:isMac
+  let g:python3_host_prog= '/usr/local/bin/python3'
 else
   let g:python3_host_prog = '/usr/bin/python3'
 endif
