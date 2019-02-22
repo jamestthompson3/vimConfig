@@ -117,6 +117,7 @@ command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args
 
 command! -bang -nargs=* Snake call tools#Snake(<q-args>)
 command! -bang -nargs=* Camel call tools#Camel(<q-args>)
+command! Scratch call tools#makeScratch()
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang -nargs=0 Tagbar call tools#loadTagbar()
@@ -128,6 +129,7 @@ command! PackagerInstall call tools#PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call tools#PackagerInit() | call packager#clean()
 command! PackagerStatus call tools#PackagerInit() | call packager#status()
+
 command! Blue :Monotone 193 90 90
 command! Red :Monotone 360 96 80
 command! Reset :Monotone 217, 0, 70

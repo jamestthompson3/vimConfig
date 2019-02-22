@@ -111,8 +111,6 @@ function! AS_HandleSwapfile (filename, swapname)
     call delete(v:swapname)
     let v:swapchoice = 'e'
   endif
-  " Echo current git branch
-  echom 'On branch: '.statusline#GitBranch()
 endfunction
 
 augroup MarkMargin

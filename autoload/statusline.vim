@@ -23,16 +23,8 @@ endfunction
 function! statusline#ReadOnly() abort
   if &readonly || !&modifiable
     hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
-    if g:isWindows
       return '-- RO --'
-    else
-      return ''
-    endif
   else
     return ''
   endif
-endfunction
-
-function! statusline#StatuslineGit()
-  return tools#gitCommand()
 endfunction

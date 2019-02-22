@@ -24,7 +24,7 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <silent> wq ZZ
-nnoremap <silent> q :bp\|bd #<CR>
+nnoremap <silent> Q :bp\|bd #<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
 " }}}
@@ -52,7 +52,6 @@ inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
 inoremap `                  ``<left>
 " }}}
 
-nnoremap mm q
 " Splits: {{{
 nnoremap <silent> sp :vsplit<CR>
 nnoremap <silent> sv :split<CR>
@@ -72,14 +71,16 @@ augroup END
 nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap sb :g//#<Left><Left>
+nnoremap g_ :g//#<Left><Left><C-R><C-W><CR>:
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent><Leader>lt :call tools#ListTags()<CR>
 nnoremap ts :ts<space>
-nnoremap <slient>gh :call tools#ShowDeclaration(0)<CR>
-nnoremap <slient>sD :call tools#ShowDeclaration(1)<CR>
+nnoremap gh :call tools#ShowDeclaration(0)<CR>
+nnoremap sD :call tools#ShowDeclaration(1)<CR>
 nnoremap <silent>sd :call tools#PreviewWord()<CR>
 nnoremap , :find<space>
+nnoremap <leader>. :b<space>
 cnoremap <expr> <CR> tools#CCR()
 
 augroup searching
@@ -106,6 +107,8 @@ xmap <up>    <Plug>SchleppUp
 xmap <down>  <Plug>SchleppDown
 xmap <left>  <Plug>SchleppLeft
 xmap <right> <Plug>SchleppRight
+vnoremap <silent><leader>g :<C-U>call tools#HighlightRegion('Green')<CR>
+vnoremap <silent><leader>G :<C-U>call tools#UnHighlightRegion()<CR>
 " }}}
 
 " Completion: {{{

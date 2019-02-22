@@ -184,12 +184,35 @@ function! tools#PreviewWord() abort
     let w = substitute(w, '\\', '\\\\', '')
     call search('\<\V' . w . '\>')	" position cursor on match
     " Add a match highlight to the word at this position
-      hi previewWord term=bold ctermbg=green guibg=green
+      hi! link previewWord TODO
     exe 'match previewWord "\%' . line('.') . 'l\%' . col('.') . 'c\k*"'
       wincmd p			" back to old window
     endif
   endif
 endfunction
+
+function! tools#makeScratch() abort
+  execute 'new'
+  setlocal buftype=nofile
+  setlocal bufhidden=hide
+  setlocal noswapfile
+endfunction
+
+function! tools#HighlightRegion(color)
+  hi Green guibg=#77ff77 guifg=#000000
+  let l_start = line("'<")
+  let l_end = line("'>") + 1
+  execute 'syntax region '.a:color.' start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'
+endfunction
+
+
+function! tools#UnHighlightRegion()
+  let l_start = line("'<")
+  let l_end = line("'>") + 1
+  execute 'syntax off start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'
+  execute 'syntax on start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'
+endfunction
+
 
 function! tools#PackagerInit() abort
     packadd vim-packager
@@ -206,6 +229,7 @@ function! tools#PackagerInit() abort
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
     call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
+    call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
@@ -218,6 +242,7 @@ function! tools#PackagerInit() abort
     call packager#add('elzr/vim-json', { 'type': 'opt' })
     call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
     call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
+    call packager#add('chemzqm/vim-jsx-improve', { 'type': 'opt' })
     call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
     call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
     call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })

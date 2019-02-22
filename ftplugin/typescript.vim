@@ -9,6 +9,7 @@ if !exists('g:loaded_ts_config')
   packadd ultisnips
   packadd Colorizer
   packadd vim-jsx-typescript
+  packadd typescript-vim
   let g:loaded_ts_config = 1
 endif
 

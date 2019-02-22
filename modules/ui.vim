@@ -36,11 +36,13 @@ set listchars+=space:·
 set listchars+=extends:»
 set listchars+=precedes:«
 set listchars+=nbsp:⣿
-
+set guicursor+=n:blinkwait60-blinkon175-blinkoff175
 function! MyHighlights() abort
   " Custom higlight groups
   hi SpellBad guibg=#ff2929 ctermbg=196
   hi! link NormalNC Comment
+  hi! link TabLineFill Normal
+  hi! link TabLine StatusLine
   hi! link Whitespace Comment
   hi! link IsNotModified StatusLine
   hi! link StatusLineModified Todo
@@ -61,14 +63,18 @@ let g:enable_guicolors = 1
 " }}}
 
 " Statusline: {{{
-set statusline=
-set statusline+=%<
-set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
-
+"
+set statusline+=%#StatusLineModified#%{&mod?expand('%:~:.'):''}%*%#IsNotModified#%{&mod?'':expand('%:~:.')}%*
 set statusline+=%=
-set statusline+=\ %{statusline#StatuslineGit()}
+set statusline+=%<
 set statusline+=%=
 set statusline+=\ %{statusline#ReadOnly()}
 set statusline+=\ %{statusline#LinterStatus()}
-
 "}}}
+
+" Tabline: {{{
+set showtabline=2
+set tabline=ᚴ\ %{tools#gitCommand()}
+" }}}
+
+
