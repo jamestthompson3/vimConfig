@@ -34,6 +34,7 @@ nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
 nnoremap <silent> [q :cnext<CR>
 nnoremap <silent> ]q :cprev<CR>
+nnoremap <leader>. :Bs<space>
 " }}}
 
 " Pairs: {{{
@@ -59,6 +60,7 @@ nnoremap <silent> sv :split<CR>
 
 " Files: {{{
 nnoremap <silent><F3> :Vex<CR>
+nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 augroup FileNav
   autocmd!
   autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
@@ -80,7 +82,6 @@ nnoremap gh :call tools#ShowDeclaration(0)<CR>
 nnoremap sD :call tools#ShowDeclaration(1)<CR>
 nnoremap <silent>sd :call tools#PreviewWord()<CR>
 nnoremap , :find<space>
-nnoremap <leader>. :b<space>
 cnoremap <expr> <CR> tools#CCR()
 
 augroup searching
@@ -122,6 +123,7 @@ nnoremap ; :
 nnoremap <Leader>; ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
+nnoremap ' `
 
 function! OpenTerminalDrawer() abort
   execute 'copen'

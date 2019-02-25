@@ -3,5 +3,4 @@
 Necessary external binaries:
 
 - ripgrep
-- fzf
 - ctags

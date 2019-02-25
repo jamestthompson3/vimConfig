@@ -62,11 +62,12 @@ endif
 
 " Common mistakes
 iabbrev retrun  return
-iabbrev pritn  print
-iabbrev cosnt const
-iabbrev imoprt import
-iabbrev iomprt import
-iabbrev improt import
+iabbrev pritn   print
+iabbrev cosnt   const
+iabbrev imoprt  import
+iabbrev imprt   import
+iabbrev iomprt  import
+iabbrev improt  import
 
 augroup omnifuncs
   autocmd!
