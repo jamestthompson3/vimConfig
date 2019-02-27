@@ -25,7 +25,7 @@ setlocal define=class\\s
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
-
+setlocal commentstring=//%s
 augroup Typescript
   autocmd BufWritePost * :syntax sync fromstart
 augroup END

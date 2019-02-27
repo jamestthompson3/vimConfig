@@ -4,7 +4,6 @@ set hidden " enable hidden buffers
 filetype plugin indent on " use ftplugin and indents based on detected file type
 set title " more meta info for window manager
 set lazyredraw " speed up vim drawing
-set autoread  " Automatically read a file changed outside of vim
 set splitright " when splitting vertically, focus goes right
 set undolevels=1000
 set ttimeout " Allows for setting custom ttimeoutlen intervals
@@ -25,7 +24,6 @@ set undofile
 set backup
 set swapfile
 set synmaxcol=200 " Large columns with syntax highlights slow things down
-set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 set grepprg=rg\ --vimgrep
 set completeopt+=longest,noinsert,menuone,noselect
 set completeopt-=preview
@@ -54,6 +52,8 @@ endif
 
 if !has('nvim')
   set autoindent
+  set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
+  set autoread  " Automatically read a file changed outside of vim
   set complete-=i " let mucomplete handle searching for included files. Don't scan by default
   set belloff=all " No annoying bells
   set wildmenu " tab through things at vim command line
@@ -86,6 +86,7 @@ function! QuitNetrw()
 endfunction
 
 augroup core
+  autocmd!
   au FileType netrw au BufLeave QuitNetrw()
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd WinNew * call tools#saveSession(tools#manageSession())
@@ -99,6 +100,10 @@ augroup core
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css
   au! BufNewFile,BufRead *.wiki setf wiki
+  autocmd BufWritePre *
+    \ if !isdirectory(expand("<afile>:p:h")) |
+        \ call mkdir(expand("<afile>:p:h"), "p") |
+    \ endif
 augroup END
 
 augroup AutoSwap
