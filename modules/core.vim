@@ -18,7 +18,8 @@ set softtabstop=2 " tabs take two spaces
 set tabstop=2 " tabs take two spaces
 set expandtab " replace tabs with spaces
 set shiftround " round indent to multiples of shiftwidth
-set ignorecase " ignore cases
+" set ignorecase " ignore cases
+set infercase
 set smartcase " except if string contains a capital letter
 set undofile
 set backup
