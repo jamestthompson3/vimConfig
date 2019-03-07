@@ -84,6 +84,11 @@ let g:startify_lists = [
           \ ]
 let g:monotone_color = [217, 0, 70]
 let g:monotone_secondary_hue_offset = 300
+
+let g:pear_tree_smart_openers = 1
+let g:pear_tree_smart_closers = 1
+let g:pear_tree_smart_backspace = 1
+let g:pear_tree_timeout = 60
 " }}}
 
 " ALE: {{{

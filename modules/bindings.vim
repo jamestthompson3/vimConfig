@@ -25,6 +25,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <silent> wq ZZ
 nnoremap <silent> Q :bp\|bd #<CR>
+nnoremap <silent> cc :cclose<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
 " }}}
@@ -38,19 +39,19 @@ nnoremap <leader>. :Bs<space>
 " }}}
 
 " Pairs: {{{
-inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
-inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O
-inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
-inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
-inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O
-inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
-inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
-inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O
-inoremap <silent>[<space>          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
-inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
-inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
-inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
-inoremap `                  ``<left>
+" inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
+" inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O
+" inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
+" inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
+" inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O
+" inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
+" inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
+" inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O
+" inoremap <silent>[<space>          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
+" inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
+" inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
+" inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
+" inoremap `                  ``<left>
 " }}}
 
 " Splits: {{{
