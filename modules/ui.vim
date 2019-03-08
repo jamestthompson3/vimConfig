@@ -49,8 +49,6 @@ function! MyHighlights() abort
   hi! link TabLineFill Normal
   hi! link TabLine StatusLine
   hi! link Whitespace Comment
-  hi! link IsNotModified Normal
-  hi! link StatusLineModified Todo
   hi! link StatusLine Normal
 endfunction
 

@@ -111,6 +111,7 @@ hi! SyntasticWarningSign ctermbg=235 ctermfg=216 guibg=#1e2132 guifg=#e2a478
 hi! ZenSpace ctermbg=203 guibg=#e27878
 hi! icebergALAccentRed ctermfg=203 guifg=#e27878
 
+hi! link StatusLineModified ALEWarningSign
 hi! link cssBraces Delimiter
 hi! link cssClassName Special
 hi! link cssClassNameDot Normal

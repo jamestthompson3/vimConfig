@@ -203,6 +203,8 @@ function s:MonotoneColors(color, secondary_hue_offset, emphasize_comments, contr
 	" Plugin-specific highlighting
 	hi link CursorWordHighlight Underlined
 
+  hi! link StatusLineModified Todo
+
 	" ALE
 	hi ALEError            guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
 	hi ALEWarning          guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
