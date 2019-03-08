@@ -252,6 +252,7 @@ function! tools#PackagerInit() abort
     call packager#add('mattn/webapi-vim')
     call packager#add('thinca/vim-localrc')
     call packager#add('mhinz/vim-startify')
+    call packager#add('tmsvg/pear-tree')
 
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })

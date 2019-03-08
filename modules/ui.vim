@@ -37,6 +37,11 @@ set listchars+=extends:»
 set listchars+=precedes:«
 set listchars+=nbsp:⣿
 set guicursor+=n:blinkwait60-blinkon175-blinkoff175
+
+" }}}
+
+" Colors: {{{
+"
 function! MyHighlights() abort
   " Custom higlight groups
   hi SpellBad guibg=#ff2929 ctermbg=196
@@ -44,8 +49,7 @@ function! MyHighlights() abort
   hi! link TabLineFill Normal
   hi! link TabLine StatusLine
   hi! link Whitespace Comment
-  hi! link IsNotModified StatusLine
-  hi! link StatusLineModified Todo
+  hi! link StatusLine Normal
 endfunction
 
 augroup Colors
@@ -53,7 +57,7 @@ augroup Colors
   autocmd ColorScheme * call MyHighlights()
 augroup END
 
-colorscheme monotone
+colorscheme iceberg
 " }}}
 
 " Fonts: {{{
@@ -64,12 +68,12 @@ let g:enable_guicolors = 1
 
 " Statusline: {{{
 "
-set statusline+=%#StatusLineModified#%{&mod?expand('%:~:.'):''}%*%#IsNotModified#%{&mod?'':expand('%:~:.')}%*
+set statusline+=%#StatusLineModified#%{&mod?expand('%:~:.'):''}%*%{&mod?'':expand('%:~:.')}
 set statusline+=%=
 set statusline+=%<
 set statusline+=%=
 set statusline+=\ %{statusline#ReadOnly()}
-set statusline+=\ %{statusline#LinterStatus()}
+set statusline+=\ %{statusline#LinterStatus()}%*
 "}}}
 
 " Tabline: {{{

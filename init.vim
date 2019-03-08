@@ -84,6 +84,12 @@ let g:startify_lists = [
           \ ]
 let g:monotone_color = [217, 0, 70]
 let g:monotone_secondary_hue_offset = 300
+
+let g:pear_tree_smart_openers = 1
+let g:pear_tree_smart_closers = 1
+let g:pear_tree_smart_backspace = 1
+let g:pear_tree_timeout = 60
+let g:pear_tree_repeatable_expand = 0
 " }}}
 
 " ALE: {{{
@@ -108,7 +114,7 @@ let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_echo_msg_error_str = 'E'. ' '
 let g:ale_echo_msg_warning_str = 'W'. ' '
 let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' '
-let g:ale_echo_msg_format = '%s'
+let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_virtualtext_prompt = ''
 let g:ale_sign_column_always = 0
 let g:ale_statusline_format = [
