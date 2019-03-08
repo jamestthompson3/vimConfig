@@ -17,9 +17,9 @@ let g:isOni = exists('g:gui_oni')
 " Create function to manage thing in a semi-sane way
 let g:isWindows = has('win16') || has('win32') || has('win64')
 
-if has("unix")
-  let s:uname = system("uname")
-  if s:uname == "Darwin\n"
+if has('unix')
+  let s:uname = system('uname')
+  if s:uname == 'Darwin\n'
     let g:isMac = 1
   endif
 endif

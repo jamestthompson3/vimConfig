@@ -140,7 +140,7 @@ augroup END
 let g:loaded_python_provider = 1
 if g:isWindows
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
-elseif g:isMac
+elseif exists('g:isMac')
   let g:python3_host_prog= '/usr/local/bin/python3'
 else
   let g:python3_host_prog = '/usr/bin/python3'
