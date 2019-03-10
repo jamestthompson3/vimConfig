@@ -265,6 +265,7 @@ function! tools#PackagerInit() abort
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
     call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
+    call packager#add('felixge/vim-nodejs-errorformat', { 'type': 'opt' })
     call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
     call packager#add('elzr/vim-json', { 'type': 'opt' })

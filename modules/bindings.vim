@@ -39,19 +39,7 @@ nnoremap <leader>. :Bs<space>
 " }}}
 
 " Pairs: {{{
-" inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
-" inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O
-" inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
-" inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
-" inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O
-" inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
-" inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
-" inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O
-" inoremap <silent>[<space>          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
-" inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
-" inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
-" inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
-" inoremap `                  ``<left>
+    imap <F11> <Plug>(PearTreeExpand)
 " }}}
 
 " Splits: {{{

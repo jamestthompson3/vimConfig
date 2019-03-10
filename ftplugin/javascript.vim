@@ -5,7 +5,7 @@ if !exists('g:loaded_js_config')
   packadd vim-jsx-improve
   packadd ultisnips
   packadd Colorizer
-
+  packadd vim-nodejs-errorformat
   let g:loaded_js_config = 1
 endif
 
@@ -24,6 +24,7 @@ let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 let b:ale_linters_ignore = ['tsserver']
 " }}}
+
 
 " Misc: {{{
 let g:vimjs#casesensistive = 0
