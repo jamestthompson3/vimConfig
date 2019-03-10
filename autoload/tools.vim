@@ -98,8 +98,8 @@ function! tools#ListTags() abort
 endfunction
 
 function! tools#loadTagbar() abort
-  packadd tagbar
-  execute 'TagbarOpen'
+  packadd vista.vim
+  execute 'Vista'
 endfunction
 
 function! tools#loadDeps() abort
@@ -108,8 +108,9 @@ function! tools#loadDeps() abort
   else
     packadd ale
     packadd vim-polyglot
-    packadd vim-fugitive
+    packadd git-messenger.vim
     packadd vim-gutentags
+    packadd vim-fugitive
     packadd vim-matchup
     packadd vim-schlepp
     packadd vim-surround
@@ -256,16 +257,17 @@ function! tools#PackagerInit() abort
 
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
+    call packager#add('rhysd/git-messenger.vim', { 'type': 'opt' })
+    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
     call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
-    call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+    call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
     call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
-    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
     call packager#add('elzr/vim-json', { 'type': 'opt' })
     call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
