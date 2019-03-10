@@ -18,8 +18,7 @@ set softtabstop=2 " tabs take two spaces
 set tabstop=2 " tabs take two spaces
 set expandtab " replace tabs with spaces
 set shiftround " round indent to multiples of shiftwidth
-" set ignorecase " ignore cases
-set infercase
+set ignorecase " ignore cases
 set smartcase " except if string contains a capital letter
 set undofile
 set backup
@@ -149,7 +148,7 @@ augroup END
 let g:loaded_python_provider = 1
 if g:isWindows
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
-elseif g:isMac
+elseif exists('g:isMac')
   let g:python3_host_prog= '/usr/local/bin/python3'
 else
   let g:python3_host_prog = '/usr/bin/python3'

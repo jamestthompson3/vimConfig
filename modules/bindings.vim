@@ -80,6 +80,7 @@ augroup END
 " }}}
 
 " Git: {{{
+nnoremap <Leader>b :GitMessenger<CR>
 augroup git
   autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
 augroup END
