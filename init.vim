@@ -84,15 +84,14 @@ let g:startify_lists = [
           \ ]
 let g:monotone_color = [217, 0, 70]
 let g:monotone_secondary_hue_offset = 300
-
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
+let g:vista_sidebar_width = 70
 " }}}
 
-" ALE: {{{
 let g:ale_completion_enabled = 1
 let g:ale_linters = {
   \  'json': ['fixjson', 'jsonlint'],
@@ -121,7 +120,6 @@ let g:ale_statusline_format = [
       \ g:ale_echo_msg_error_str . ' %d',
       \ g:ale_echo_msg_warning_str . ' %d',
       \ nr2char(0xf4a1) . '  ']
-" }}}
 
 " Load custom modules: {{{
 function! LoadCustomModule( name )

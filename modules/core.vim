@@ -75,7 +75,6 @@ augroup vimrc_todo
     au Syntax * syn match MyTodo /\v<(\@todo|\@fixme):?/
           \ containedin=.*Comment,vimCommentTitle
 augroup END
-hi def link MyTodo Todo
 
 augroup omnifuncs
   autocmd!
@@ -104,6 +103,7 @@ augroup core
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
+  "au! BufNewFile,BufRead *.uml setf platinuml
   au! BufNewFile,BufRead *.tsx setf typescript.tsx
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css

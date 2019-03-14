@@ -50,6 +50,7 @@ function! MyHighlights() abort
   hi! link TabLine StatusLine
   hi! link Whitespace Comment
   hi! link StatusLine Normal
+  hi! link MyTodo Todo
 endfunction
 
 augroup Colors
