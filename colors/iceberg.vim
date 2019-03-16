@@ -16,7 +16,6 @@ if !has('gui_running') && &t_Co < 256
   finish
 endif
 
-set background=dark
 hi clear
 
 if exists('syntax_on')
@@ -93,22 +92,6 @@ hi! ALEErrorSign ctermbg=235 ctermfg=203 guibg=#1e2132 guifg=#e27878
 hi! ALEWarningSign ctermbg=235 ctermfg=216 guibg=#1e2132 guifg=#e2a478
 hi! ALEVirtualTextError ctermfg=203 guifg=#e27878
 hi! ALEVirtualTextWarning ctermfg=216 guifg=#e2a478
-hi! CtrlPMode1 ctermbg=241 ctermfg=234 guibg=#5a5f72 guifg=#17171b
-hi! EasyMotionShade ctermfg=239 guifg=#3d425b
-hi! EasyMotionTarget ctermfg=150 guifg=#b4be82
-hi! EasyMotionTarget2First ctermfg=216 guifg=#e2a478
-hi! EasyMotionTarget2Second ctermfg=216 guifg=#e2a478
-hi! GitGutterAdd ctermbg=235 ctermfg=150 guibg=#1e2132 guifg=#b4be82
-hi! GitGutterChange ctermbg=235 ctermfg=109 guibg=#1e2132 guifg=#89b8c2
-hi! GitGutterChangeDelete ctermbg=235 ctermfg=109 guibg=#1e2132 guifg=#89b8c2
-hi! GitGutterDelete ctermbg=235 ctermfg=203 guibg=#1e2132 guifg=#e27878
-hi! Sneak ctermbg=140 ctermfg=234 guibg=#a093c7 guifg=#161821
-hi! SneakScope ctermbg=236 ctermfg=242 guibg=#272c42 guifg=#6b7089
-hi! SyntasticErrorSign ctermbg=235 ctermfg=203 guibg=#1e2132 guifg=#e27878
-hi! SyntasticStyleErrorSign ctermbg=235 ctermfg=203 guibg=#1e2132 guifg=#e27878
-hi! SyntasticStyleWarningSign ctermbg=235 ctermfg=216 guibg=#1e2132 guifg=#e2a478
-hi! SyntasticWarningSign ctermbg=235 ctermfg=216 guibg=#1e2132 guifg=#e2a478
-hi! ZenSpace ctermbg=203 guibg=#e27878
 hi! icebergALAccentRed ctermfg=203 guifg=#e27878
 
 hi! link StatusLineModified ALEWarningSign
@@ -184,11 +167,6 @@ hi! link plug1 Normal
 hi! link plug2 Identifier
 hi! link plugDash Comment
 hi! link plugMessage Special
-hi! link SignifySignAdd GitGutterAdd
-hi! link SignifySignChange GitGutterChange
-hi! link SignifySignChangeDelete GitGutterChangeDelete
-hi! link SignifySignDelete GitGutterDelete
-hi! link SignifySignDeleteFirstLine SignifySignDelete
 hi! link StartifyBracket Comment
 hi! link StartifyFile Identifier
 hi! link StartifyFooter Constant

@@ -9,16 +9,16 @@ if exists(':tnoremap')
 endif
 
 
-" System clipboard: {{{
+" System Clipboard:
 xnoremap <Leader>y "+y
 xnoremap <Leader>d "+d
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 " Don't trash current register when pasting in visual mode
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
-" }}}
+"
 
-" Window motions: {{{
+" Window Motions:
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -28,26 +28,26 @@ nnoremap <silent> Q :bp\|bd #<CR>
 nnoremap <silent> cc :cclose<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
-" }}}
+"
 
-" Buffer switching: {{{
+" Buffer Switching:
 nnoremap <silent> <Tab> :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
 nnoremap <silent> [q :cnext<CR>
 nnoremap <silent> ]q :cprev<CR>
 nnoremap <leader>. :Bs<space>
-" }}}
 
-" Pairs: {{{
-    imap <F11> <Plug>(PearTreeExpand)
-" }}}
 
-" Splits: {{{
+" Pairs:
+inoremap<F11> <Plug>(PearTreeExpand)
+
+
+" Splits:
 nnoremap <silent> sp :vsplit<CR>
 nnoremap <silent> sv :split<CR>
-" }}}
 
-" Files: {{{
+
+" Files:
 nnoremap <silent><F3> :Vex<CR>
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 augroup FileNav
@@ -56,9 +56,9 @@ augroup FileNav
   autocmd FileType dirvish nnoremap <buffer> n :e %/
   autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
 augroup END
-" }}}
 
-" Search: {{{
+
+" Search:
 nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap sb :g//#<Left><Left>
@@ -76,36 +76,36 @@ augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
   autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
 augroup END
-" }}}
+"
 
-" Git: {{{
+" Git:
 nnoremap <Leader>b :GitMessenger<CR>
 augroup git
   autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
 augroup END
-" }}}
+"
 
-" ALE: {{{
+" ALE:
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
-" }}}
 
-" Blocks: {{{
+
+" Blocks:
 xmap <up>    <Plug>SchleppUp
 xmap <down>  <Plug>SchleppDown
 xmap <left>  <Plug>SchleppLeft
 xmap <right> <Plug>SchleppRight
 vnoremap <silent><leader>g :<C-U>call tools#HighlightRegion('Green')<CR>
 vnoremap <silent><leader>G :<C-U>call tools#UnHighlightRegion()<CR>
-" }}}
 
-" Completion: {{{
+
+" Completion:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-" }}}
 
-" Misc: {{{
+
+" Misc:
 nnoremap ; :
 nnoremap : ;
 nnoremap mks :mks! ~/sessions/
@@ -120,9 +120,9 @@ endfunction
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>i
 nnoremap <Leader>t :Tagbar<CR>
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-" }}}
 
-" VimDev: {{{
+
+" VimDev:
 function! Profiler() abort
   if exists('g:profiler_running')
     profile pause
@@ -138,7 +138,7 @@ endfunction
 nmap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-nmap <silent><F5> :so $MYVIMRC<CR>
-nmap <silent><F7> :so %<CR>
-nmap <silent><F1> :call Profiler()<CR>
-" }}}
+nnoremap <silent><F5> :so $MYVIMRC<CR>
+nnoremap <silent><F7> :so %<CR>
+nnoremap <silent><F1> :call Profiler()<CR>
+

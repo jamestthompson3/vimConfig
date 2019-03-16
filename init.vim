@@ -3,17 +3,16 @@ scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
 
-" Disable some default vim plugins: {{{
+" Disable some default vim plugins:
 let g:did_install_default_menus = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_zipPlugin = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_gzip = 1
 let g:loaded_netrwPlugin = 1
-" }}}
 
-" User globals: {{{
-let g:isOni = exists('g:gui_oni')
+
+" User Globals:
 " Create function to manage thing in a semi-sane way
 let g:isWindows = has('win16') || has('win32') || has('win64')
 
@@ -51,9 +50,18 @@ let g:startify_custom_header = [
       \'       ⢐⠐⢌⠐⠅⡂⠄⠄⢌⢉⠩⠡⡉⠍⠄⢄⠢⡁⡢⠠⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿ ',
       \'               time for code          ',
       \]
-" }}},
 
-" Plugin globals: {{{
+" Load Custom Modules:
+function! LoadCustomModule( name )
+  let l:script = g:modules_folder .  a:name . '.vim'
+  execute ':runtime ' . l:script
+endfunction
+
+call LoadCustomModule( 'core' )
+call LoadCustomModule( 'ui' )
+call LoadCustomModule( 'bindings' )
+
+" Plugin Globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
 let g:netrw_winsize = 20 " smaller explorer window
 let g:gutentags_cache_dir = '~/.cache/'
@@ -90,9 +98,9 @@ let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
 let g:vista_sidebar_width = 70
-" }}}
 
-" ALE {{{
+
+" ALE:
 let g:ale_completion_enabled = 1
 let g:ale_linters = {
   \   'vim': ['vint'],
@@ -109,20 +117,9 @@ let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' '
 let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_virtualtext_prompt = ''
 let g:ale_sign_column_always = 0
-"}}}
 
-" Load custom modules: {{{
-function! LoadCustomModule( name )
-  let l:script = g:modules_folder .  a:name . '.vim'
-  execute ':runtime ' . l:script
-endfunction
 
-call LoadCustomModule( 'core' )
-call LoadCustomModule( 'ui' )
-call LoadCustomModule( 'bindings' )
-" }}}
-
-" Commands: {{{
+" Commands:
 " Use dirvish over netrw, but still preserve netrw behavior
 command! -nargs=? -complete=dir Explore Dirvish <args> | silent call feedkeys('20<c-w>|')
 command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args> | silent call feedkeys('20<c-w>|')
@@ -148,4 +145,4 @@ command! PackagerStatus call tools#PackagerInit() | call packager#status()
 command! Blue :Monotone 193 90 90
 command! Red :Monotone 360 96 80
 command! Reset :Monotone 217, 0, 70
-"}}}
+

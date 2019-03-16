@@ -237,12 +237,12 @@ function! tools#PackagerInit() abort
     call packager#add('justinmk/vim-dirvish')
     call packager#add('mhinz/vim-startify')
     call packager#add('romainl/vim-cool')
-    call packager#add('romainl/vim-qf')
     call packager#add('thinca/vim-localrc')
     call packager#add('tmsvg/pear-tree')
     call packager#add('tpope/vim-commentary')
     call packager#add('tpope/vim-repeat')
 
+    call packager#add('romainl/vim-qf', { 'type': 'opt'})
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
@@ -274,6 +274,7 @@ function! tools#loadDeps() abort
     return
   else
     packadd ale
+    packadd vim-qf
     " packadd coc.nvim
     packadd vim-polyglot
     packadd git-messenger.vim
