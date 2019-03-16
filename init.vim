@@ -95,17 +95,12 @@ let g:vista_sidebar_width = 70
 " ALE {{{
 let g:ale_completion_enabled = 1
 let g:ale_linters = {
-  \  'json': ['fixjson', 'jsonlint'],
   \   'vim': ['vint'],
   \}
 
 let g:ale_sign_error = '!!'
 let g:ale_sign_warning = '>>'
 let g:ale_close_preview_on_insert = 1
-let g:ale_fixers = {
-      \  'html':['prettier'],
-      \ 'markdown': ['prettier'],
-      \ }
 let g:ale_fix_on_save = 1
 let g:ale_list_window_size = 5
 let g:ale_virtualtext_cursor = 1

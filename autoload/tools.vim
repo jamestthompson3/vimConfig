@@ -102,21 +102,6 @@ function! tools#loadTagbar() abort
   execute 'Vista'
 endfunction
 
-function! tools#loadDeps() abort
-  if exists('g:loadedDeps')
-    return
-  else
-    packadd ale
-    packadd vim-polyglot
-    packadd git-messenger.vim
-    packadd vim-gutentags
-    packadd vim-matchup
-    packadd vim-schlepp
-    packadd vim-surround
-    packadd vim-mucomplete
-    let g:loadedDeps = 1
-  endif
-endfunction
 
 function! tools#gitCommand()
   if g:isWindows
@@ -219,7 +204,7 @@ function! tools#UnHighlightRegion()
 endfunction
 
 function! tools#BufSel(pattern) abort
-  let bufcount = bufnr("$")
+  let bufcount = bufnr('$')
   let currbufnr = 1
   let nummatches = 0
   let firstmatchingbufnr = 0
@@ -227,7 +212,7 @@ function! tools#BufSel(pattern) abort
     if(bufexists(currbufnr))
       let currbufname = bufname(currbufnr)
       if(match(currbufname, a:pattern) > -1)
-        echo currbufnr . ": ". bufname(currbufnr)
+        echo currbufnr . ': '. bufname(currbufnr)
         let nummatches += 1
         let firstmatchingbufnr = currbufnr
       endif
@@ -235,52 +220,68 @@ function! tools#BufSel(pattern) abort
     let currbufnr = currbufnr + 1
   endwhile
   if(nummatches == 1)
-    execute ":buffer ". firstmatchingbufnr
+    execute ':buffer '. firstmatchingbufnr
   elseif(nummatches > 1)
-    let desiredbufnr = input("Enter buffer number: ")
+    let desiredbufnr = input('Enter buffer number: ')
     if(strlen(desiredbufnr) != 0)
-      execute ":buffer ". desiredbufnr
+      execute ':buffer '. desiredbufnr
     endif
   else
-    echo "No matching buffers"
+    echo 'No matching buffers'
   endif
 endfunction
 
 function! tools#PackagerInit() abort
     packadd vim-packager
     call packager#init()
-    call packager#add('tpope/vim-commentary')
-    call packager#add('tpope/vim-repeat')
+    call packager#add('justinmk/vim-dirvish')
+    call packager#add('mhinz/vim-startify')
     call packager#add('romainl/vim-cool')
     call packager#add('romainl/vim-qf')
-    call packager#add('justinmk/vim-dirvish')
-    call packager#add('mattn/webapi-vim')
     call packager#add('thinca/vim-localrc')
-    call packager#add('mhinz/vim-startify')
     call packager#add('tmsvg/pear-tree')
+    call packager#add('tpope/vim-commentary')
+    call packager#add('tpope/vim-repeat')
 
-    call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
-    call packager#add('andymass/vim-matchup', { 'type': 'opt' })
-    call packager#add('rhysd/git-messenger.vim', { 'type': 'opt' })
-    call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
-    call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
-    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-    call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
-    call packager#add('w0rp/ale', { 'type': 'opt' })
-    call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
-    call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
-    call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
-    call packager#add('felixge/vim-nodejs-errorformat', { 'type': 'opt' })
-    call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
+    call packager#add('andymass/vim-matchup', { 'type': 'opt' })
+    call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('elzr/vim-json', { 'type': 'opt' })
+    call packager#add('felixge/vim-nodejs-errorformat', { 'type': 'opt' })
+    call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
+    call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
+    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+    call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
     call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
-    call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
-    call packager#add('chemzqm/vim-jsx-improve', { 'type': 'opt' })
+    call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
+    call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
+    call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
+    call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
     call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
     call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
-    call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
+    call packager#add('rhysd/git-messenger.vim', { 'type': 'opt' })
+    call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
     call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
-    call packager#add('tpope/vim-speeddating', { 'type': 'opt' })
     call packager#add('tpope/vim-surround', { 'type': 'opt' })
-  endfunction
+    call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
+    call packager#add('w0rp/ale', { 'type': 'opt' })
+    call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
+endfunction
+
+
+function! tools#loadDeps() abort
+  if exists('g:loadedDeps')
+    return
+  else
+    packadd ale
+    " packadd coc.nvim
+    packadd vim-polyglot
+    packadd git-messenger.vim
+    packadd vim-gutentags
+    packadd vim-matchup
+    packadd vim-schlepp
+    packadd vim-surround
+    packadd vim-mucomplete
+    let g:loadedDeps = 1
+  endif
+endfunction

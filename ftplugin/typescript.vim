@@ -1,9 +1,9 @@
-let b:ale_linters = ['tsserver', 'eslint']
-let b:ale_fixers = ['prettier']
+" let b:ale_linters = ['tsserver', 'eslint']
+" let b:ale_fixers = ['prettier']
 
-nnoremap <silent> gh :ALEHover<CR>
-nnoremap <silent> gd :ALEGoToDefinition<CR>
-nnoremap <silent> K :ALEFindReferences<CR>
+" nnoremap <silent> gh :ALEHover<CR>
+" nnoremap <silent> gd :ALEGoToDefinition<CR>
+" nnoremap <silent> K :ALEFindReferences<CR>
 
 if !exists('g:loaded_ts_config')
   packadd ultisnips

@@ -2,7 +2,6 @@ scriptencoding utf-8
 
 if !exists('g:loaded_js_config')
   packadd vim-better-javascript-completion
-  packadd vim-jsx-improve
   packadd ultisnips
   packadd Colorizer
   packadd vim-nodejs-errorformat
@@ -21,9 +20,9 @@ let g:vim_json_syntax_conceal = 0
 " }}}
 
 " ALE: {{{
-let b:ale_linters = ['eslint']
+" let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
-let b:ale_linters_ignore = ['tsserver']
+" let b:ale_linters_ignore = ['tsserver']
 " }}}
 
 

@@ -68,7 +68,6 @@ nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent><Leader>lt :call tools#ListTags()<CR>
 nnoremap ts :ts<space>/
 nnoremap gh :call tools#ShowDeclaration(0)<CR>
-nnoremap sD :call tools#ShowDeclaration(1)<CR>
 nnoremap <silent>sd :call tools#PreviewWord()<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
@@ -84,8 +83,6 @@ nnoremap <Leader>b :GitMessenger<CR>
 augroup git
   autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
 augroup END
-nnoremap <silent><Leader>g :GCheckout<CR>
-nnoremap <silent><Leader>gl :Commits<CR>
 " }}}
 
 " ALE: {{{
@@ -110,7 +107,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " Misc: {{{
 nnoremap ; :
-nnoremap <Leader>; ;
+nnoremap : ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ' `
