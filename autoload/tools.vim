@@ -110,7 +110,6 @@ function! tools#loadDeps() abort
     packadd vim-polyglot
     packadd git-messenger.vim
     packadd vim-gutentags
-    packadd vim-fugitive
     packadd vim-matchup
     packadd vim-schlepp
     packadd vim-surround
@@ -199,6 +198,11 @@ function! tools#makeScratch() abort
   setlocal noswapfile
 endfunction
 
+function! tools#GitManager() abort
+  execute 'tabnew'
+  execute 'term lazygit'
+endfunction
+
 function! tools#HighlightRegion(color)
   hi Green guibg=#77ff77 guifg=#000000
   let l_start = line("'<")
@@ -258,7 +262,6 @@ function! tools#PackagerInit() abort
     call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
     call packager#add('rhysd/git-messenger.vim', { 'type': 'opt' })
-    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
     call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })

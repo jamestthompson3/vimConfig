@@ -66,7 +66,7 @@ nnoremap g_ :g//#<Left><Left><C-R><C-W><CR>:
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent><Leader>lt :call tools#ListTags()<CR>
-nnoremap ts :ts<space>
+nnoremap ts :ts<space>/
 nnoremap gh :call tools#ShowDeclaration(0)<CR>
 nnoremap sD :call tools#ShowDeclaration(1)<CR>
 nnoremap <silent>sd :call tools#PreviewWord()<CR>

@@ -19,7 +19,7 @@ let g:isWindows = has('win16') || has('win32') || has('win64')
 
 if has('unix')
   let s:uname = system('uname')
-  if s:uname == 'Darwin\n'
+  if s:uname =~ 'Darwin\n'
     let g:isMac = 1
   endif
 endif
@@ -92,6 +92,7 @@ let g:pear_tree_repeatable_expand = 1
 let g:vista_sidebar_width = 70
 " }}}
 
+" ALE {{{
 let g:ale_completion_enabled = 1
 let g:ale_linters = {
   \  'json': ['fixjson', 'jsonlint'],
@@ -104,22 +105,16 @@ let g:ale_close_preview_on_insert = 1
 let g:ale_fixers = {
       \  'html':['prettier'],
       \ 'markdown': ['prettier'],
-      \ 'javascript': ['prettier']
       \ }
 let g:ale_fix_on_save = 1
 let g:ale_list_window_size = 5
 let g:ale_virtualtext_cursor = 1
 let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_echo_msg_error_str = 'E'. ' '
-let g:ale_echo_msg_warning_str = 'W'. ' '
 let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' '
 let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_virtualtext_prompt = ''
 let g:ale_sign_column_always = 0
-let g:ale_statusline_format = [
-      \ g:ale_echo_msg_error_str . ' %d',
-      \ g:ale_echo_msg_warning_str . ' %d',
-      \ nr2char(0xf4a1) . '  ']
+"}}}
 
 " Load custom modules: {{{
 function! LoadCustomModule( name )
@@ -142,6 +137,7 @@ command! -bang -nargs=* Snake call tools#Snake(<q-args>)
 command! -bang -nargs=* Camel call tools#Camel(<q-args>)
 command! Scratch call tools#makeScratch()
 command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")
+command! GManage call tools#GitManager()
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang -nargs=0 Tagbar call tools#loadTagbar()

@@ -11,6 +11,7 @@ endif
 
 let g:mucomplete#chains.javascript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['javascript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+
 " Syntax: {{{
 let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
@@ -42,6 +43,6 @@ setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
 setlocal omnifunc=javascriptcomplete#CompleteJS
-
+setlocal equalprg=prettier
 " }}}
 "
