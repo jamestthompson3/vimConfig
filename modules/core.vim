@@ -103,6 +103,7 @@ augroup core
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
+  autocmd BufNewFile,BufRead *.h,*.m set tags+=~/global-objc-tags
   "au! BufNewFile,BufRead *.uml setf platinuml
   au! BufNewFile,BufRead *.tsx setf typescript.tsx
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
@@ -148,10 +149,8 @@ augroup END
 let g:loaded_python_provider = 1
 if g:isWindows
   let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
-elseif exists('g:isMac')
-  let g:python3_host_prog= '/usr/local/bin/python3'
 else
-  let g:python3_host_prog = '/usr/bin/python3'
+  let g:python3_host_prog= '/usr/local/bin/python3'
 endif
 
 let g:data_dir = $HOME . '/.cache/Vim/'

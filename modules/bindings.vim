@@ -31,12 +31,10 @@ nnoremap <silent> gl :pc<CR>
 "
 
 " Buffer Switching:
-nnoremap <silent> <Tab> :bnext<CR>
-nnoremap <silent> <S-Tab> :bprevious<CR>
 nnoremap <silent> [q :cnext<CR>
 nnoremap <silent> ]q :cprev<CR>
 nnoremap <leader>. :Bs<space>
-
+nnoremap ,b :buffer *<C-z>
 
 " Pairs:
 inoremap<F11> <Plug>(PearTreeExpand)

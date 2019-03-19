@@ -16,12 +16,7 @@ let g:loaded_netrwPlugin = 1
 " Create function to manage thing in a semi-sane way
 let g:isWindows = has('win16') || has('win32') || has('win64')
 
-if has('unix')
-  let s:uname = system('uname')
-  if s:uname =~ 'Darwin\n'
-    let g:isMac = 1
-  endif
-endif
+let g:isMac = system('uname') =~ 'Darwin\n'
 
 if g:isWindows
  let g:file_separator = '\\'
@@ -106,6 +101,7 @@ let g:ale_linters = {
   \   'vim': ['vint'],
   \}
 
+let g:ale_linters_explicit = 1
 let g:ale_sign_error = '!!'
 let g:ale_sign_warning = '>>'
 let g:ale_close_preview_on_insert = 1
@@ -132,7 +128,7 @@ command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")
 command! GManage call tools#GitManager()
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
-command! -bang -nargs=0 Tagbar call tools#loadTagbar()
+command! Tagbar call tools#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir SearchProject execute 'silent! grep!'.<q-args>
 command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)
@@ -142,7 +138,7 @@ command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({
 command! PackagerClean call tools#PackagerInit() | call packager#clean()
 command! PackagerStatus call tools#PackagerInit() | call packager#status()
 
-command! Blue :Monotone 193 90 90
-command! Red :Monotone 360 96 80
+command! Blue  :Monotone 193 90 90
+command! Red   :Monotone 360 96 80
 command! Reset :Monotone 217, 0, 70
 

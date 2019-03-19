@@ -1,12 +1,14 @@
 " let b:ale_linters = ['tsserver', 'eslint']
-" let b:ale_fixers = ['prettier']
+let b:ale_fixers = ['prettier']
 
-" nnoremap <silent> gh :ALEHover<CR>
-" nnoremap <silent> gd :ALEGoToDefinition<CR>
-" nnoremap <silent> K :ALEFindReferences<CR>
+nnoremap <silent> gh :call CocAction('doHover')<CR>
+nnoremap <silent> gd :call CocAction('jumpDefinition')<CR>
+nnoremap <silent> K <plug>(coc-references)
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 
 if !exists('g:loaded_ts_config')
   packadd ultisnips
+  packadd coc.nvim
   packadd Colorizer
   packadd vim-jsx-typescript
   packadd typescript-vim
@@ -15,6 +17,7 @@ endif
 
 let g:mucomplete#chains.typescript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['typescript.tsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+let g:ale_completion_enabled = 0
 
 
 
