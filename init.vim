@@ -11,7 +11,6 @@ let g:loaded_tarPlugin = 1
 let g:loaded_gzip = 1
 let g:loaded_netrwPlugin = 1
 
-
 " User Globals:
 " Create function to manage thing in a semi-sane way
 let g:isWindows = has('win16') || has('win32') || has('win64')
@@ -87,6 +86,15 @@ let g:startify_lists = [
           \ ]
 let g:monotone_color = [217, 0, 70]
 let g:monotone_secondary_hue_offset = 300
+let g:pear_tree_pairs = {
+    \   '(': {'closer': ')'},
+    \   '[': {'closer': ']'},
+    \   '{': {'closer': '}'},
+    \   "'": {'closer': "'"},
+    \   '"': {'closer': '"'},
+    \   '`': {'closer': '`'},
+    \   '<*>': {'closer': '</*>'}
+    \ }
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1

@@ -34,7 +34,6 @@ nnoremap <silent> gl :pc<CR>
 nnoremap <silent> [q :cnext<CR>
 nnoremap <silent> ]q :cprev<CR>
 nnoremap <leader>. :Bs<space>
-nnoremap ,b :buffer *<C-z>
 
 " Pairs:
 inoremap<F11> <Plug>(PearTreeExpand)

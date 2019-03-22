@@ -25,7 +25,6 @@ let b:ale_fixers = ['prettier']
 " let b:ale_linters_ignore = ['tsserver']
 " }}}
 
-
 " Misc: {{{
 let g:vimjs#casesensistive = 0
 let g:vimjs#smartcomplete = 1
@@ -34,7 +33,6 @@ let g:vimjs#reactapis = 1
 " peek references
 nnoremap <silent>K :call tools#ListTags()<CR>
 
-inoremap `<CR>       `<CR>`<esc>O<tab>
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx " navigate to imported files by adding the js(x) suffix
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
 setlocal define=class\\s
@@ -44,4 +42,4 @@ setlocal foldlevel=99
 setlocal omnifunc=javascriptcomplete#CompleteJS
 setlocal equalprg=prettier
 " }}}
-"
+
