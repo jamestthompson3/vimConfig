@@ -33,6 +33,8 @@ nnoremap <silent> gl :pc<CR>
 " Buffer Switching:
 nnoremap <silent> [q :cnext<CR>
 nnoremap <silent> ]q :cprev<CR>
+nnoremap <silent> [Q :cnfile<CR>
+nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
 
 " Pairs:

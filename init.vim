@@ -94,7 +94,7 @@ let g:pear_tree_pairs = {
     \   "'": {'closer': "'"},
     \   '"': {'closer': '"'},
     \   '`': {'closer': '`'},
-    \   '<*>': {'closer': '</*>'}
+    \   '<*>': {'closer': '</*>', 'not_like': '/$'}
     \ }
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
