@@ -106,6 +106,7 @@ augroup core
   autocmd BufNewFile,BufRead *.h,*.m set tags+=~/global-objc-tags
   "au! BufNewFile,BufRead *.uml setf platinuml
   au! BufNewFile,BufRead *.tsx setf typescript.tsx
+  au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css
   au! BufNewFile,BufRead *.wiki setf wiki

@@ -71,7 +71,6 @@ let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
 let g:gutentags_project_root = ['package.json']
-let g:colorizer_auto_filetype='css,html,javascript.jsx'
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
 let g:startify_session_persistence = 1
 let g:startify_session_dir = '~/sessions'
@@ -86,6 +85,8 @@ let g:startify_lists = [
           \ ]
 let g:monotone_color = [217, 0, 70]
 let g:monotone_secondary_hue_offset = 300
+let g:Hexokinase_virtualText = '██'
+let g:Hexokinase_ftAutoload = ['*']
 let g:pear_tree_pairs = {
     \   '(': {'closer': ')'},
     \   '[': {'closer': ']'},

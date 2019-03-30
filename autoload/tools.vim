@@ -245,7 +245,7 @@ function! tools#PackagerInit() abort
     call packager#add('romainl/vim-qf', { 'type': 'opt'})
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
-    call packager#add('chrisbra/Colorizer', { 'type': 'opt' })
+    call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
     call packager#add('elzr/vim-json', { 'type': 'opt' })
     call packager#add('felixge/vim-nodejs-errorformat', { 'type': 'opt' })
     call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
@@ -262,6 +262,7 @@ function! tools#PackagerInit() abort
     call packager#add('rhysd/git-messenger.vim', { 'type': 'opt' })
     call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
     call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
+    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('tpope/vim-surround', { 'type': 'opt' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
@@ -275,14 +276,15 @@ function! tools#loadDeps() abort
   else
     packadd ale
     packadd vim-qf
-    " packadd coc.nvim
     packadd vim-polyglot
     packadd git-messenger.vim
+    packadd vim-hexokinase
     packadd vim-gutentags
     packadd vim-matchup
     packadd vim-schlepp
     packadd vim-surround
     packadd vim-mucomplete
+    packadd vim-fugitive
     let g:loadedDeps = 1
   endif
 endfunction
