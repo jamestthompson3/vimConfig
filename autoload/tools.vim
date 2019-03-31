@@ -111,6 +111,14 @@ function! tools#gitCommand()
   endif
 endfunction
 
+function! tools#gitStat()
+  if g:isWindows
+    return trim(system("'git diff --shortstat 2> NUL | tr -d '\n'"))
+  else
+    return trim(system("git diff --shortstat 2> /dev/null | tr -d '\n'"))
+  endif
+endfunction
+
 function! tools#manageSession() abort
   let l:sessionName = tools#gitCommand()
   let l:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator

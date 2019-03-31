@@ -32,6 +32,10 @@ set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
 set path+=**
 
+if !g:isWindows
+  set shell=bash
+endif
+
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
 set formatlistpat+=\\[({]\\?                " |  Optionally match opening punctuation
