@@ -1,7 +1,6 @@
 scriptencoding utf-8
 syntax enable " enable sytnax
 set hidden " enable hidden buffers
-filetype plugin indent on " use ftplugin and indents based on detected file type
 set title " more meta info for window manager
 set lazyredraw " speed up vim drawing
 set splitright " when splitting vertically, focus goes right
@@ -57,12 +56,14 @@ endif
 
 if !has('nvim')
   set autoindent
+  filetype plugin indent on " use ftplugin and indents based on detected file type
   set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
   set autoread  " Automatically read a file changed outside of vim
   set complete-=i " let mucomplete handle searching for included files. Don't scan by default
   set belloff=all " No annoying bells
   set wildmenu " tab through things at vim command line
   set backspace=indent,eol,start "better backspace behavior
+  set hlsearch
 endif
 
 " Common mistakes
@@ -101,6 +102,7 @@ augroup core
   autocmd!
   au FileType netrw au BufLeave QuitNetrw()
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
+  autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
   autocmd WinNew * call tools#saveSession(tools#manageSession())
   autocmd BufAdd * call tools#loadDeps()
   autocmd SessionLoadPost * call tools#loadDeps()
