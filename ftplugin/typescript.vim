@@ -16,6 +16,7 @@ if !exists('g:loaded_ts_config')
 endif
 
 let g:mucomplete#chains.typescript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+let g:mucomplete#chains['typescript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['typescript.tsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:ale_completion_enabled = 0
 

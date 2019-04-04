@@ -58,7 +58,7 @@ hi! LineNr ctermbg=235 ctermfg=239 guibg=#1c1e2b guifg=#393f60 cterm=italic gui=
 hi! MatchParen ctermbg=237 ctermfg=255 guibg=#3e445e guifg=#ffffff
 hi! MoreMsg ctermfg=180 guifg=#bca375
 hi! Normal ctermbg=234 ctermfg=252 guibg=#1c1e2b guifg=#abadb3
-hi! Operator ctermfg=94 guifg=#91603a
+hi! Operator ctermfg=94 guifg=#abadb3
 hi! Pmenu ctermbg=236 ctermfg=251 guibg=#212121 guifg=#abadb3
 hi! PmenuSbar ctermbg=236 guibg=#3d425b
 hi! PmenuSel guibg=#6788cc ctermbg=68 ctermfg=255 guifg=#eff0f4
@@ -134,10 +134,9 @@ hi! link vimVar Normal
 hi! link xmlAttrib XMLConstant
 hi! link htmlArg XMLConstant
 hi! link xmlAttribPunct Statement
-hi! link xmlEndTag Statement
-hi! link xmlNamespace Statement
-hi! link xmlTag Statement
-hi! link xmlTagName Statement
+hi! link xmlNamespace Identifier
+hi! link xmlTag Identifier
+hi! link xmlTagName Identifier
 hi! link yamlKeyValueDelimiter Delimiter
 hi! link jsFlowMaybe Normal
 hi! link jsFlowClassGroup PreProcItalic

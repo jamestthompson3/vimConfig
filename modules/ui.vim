@@ -79,7 +79,7 @@ set statusline+=\ %{statusline#LinterStatus()}%*
 
 " Tabline: {{{
 set showtabline=2
-set tabline=ᚴ\ %{tools#gitCommand()}
+set tabline=ᚴ\ %{git#branch()}
 " }}}
 
 

@@ -79,9 +79,6 @@ augroup END
 
 " Git:
 nnoremap <Leader>b :GitMessenger<CR>
-augroup git
-  autocmd FileType fugitive nnoremap <buffer>P :Gpush<CR>
-augroup END
 "
 
 " ALE:
@@ -110,6 +107,7 @@ nnoremap : ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ' `
+nnoremap <CR> o<esc>
 
 function! OpenTerminalDrawer() abort
   execute 'copen'

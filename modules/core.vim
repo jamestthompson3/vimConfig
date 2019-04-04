@@ -31,6 +31,7 @@ set complete-=t " let mucomplete handle searching for tags. Don't scan by defaul
 set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
 set path+=**
+set virtualedit=block
 
 if !g:isWindows
   set shell=bash
@@ -109,7 +110,6 @@ augroup core
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   autocmd BufNewFile,BufRead *.h,*.m set tags+=~/global-objc-tags
   "au! BufNewFile,BufRead *.uml setf platinuml
-  au! BufNewFile,BufRead *.tsx setf typescript.tsx
   au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css

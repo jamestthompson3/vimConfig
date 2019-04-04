@@ -102,25 +102,8 @@ function! tools#loadTagbar() abort
   execute 'Vista'
 endfunction
 
-
-function! tools#gitCommand()
-  if g:isWindows
-    return trim(system("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'"))
-  else
-    return trim(system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'"))
-  endif
-endfunction
-
-function! tools#gitStat()
-  if g:isWindows
-    return trim(system("'git diff --shortstat 2> NUL | tr -d '\n'"))
-  else
-    return trim(system("git diff --shortstat 2> /dev/null | tr -d '\n'"))
-  endif
-endfunction
-
 function! tools#manageSession() abort
-  let l:sessionName = tools#gitCommand()
+  let l:sessionName = git#branch()
   let l:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
   let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
   let l:filePath = substitute(expand('%:p:h'), '\\', '/', 'g')
@@ -191,18 +174,12 @@ function! tools#makeScratch() abort
   setlocal noswapfile
 endfunction
 
-function! tools#GitManager() abort
-  execute 'tabnew'
-  execute 'term lazygit'
-endfunction
-
 function! tools#HighlightRegion(color)
   hi Green guibg=#77ff77 guifg=#000000
   let l_start = line("'<")
   let l_end = line("'>") + 1
   execute 'syntax region '.a:color.' start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'
 endfunction
-
 
 function! tools#UnHighlightRegion()
   let l_start = line("'<")
@@ -270,7 +247,6 @@ function! tools#PackagerInit() abort
     call packager#add('rhysd/git-messenger.vim', { 'type': 'opt' })
     call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
     call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
-    call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('tpope/vim-surround', { 'type': 'opt' })
     call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
     call packager#add('w0rp/ale', { 'type': 'opt' })
@@ -292,7 +268,6 @@ function! tools#loadDeps() abort
     packadd vim-schlepp
     packadd vim-surround
     packadd vim-mucomplete
-    packadd vim-fugitive
     let g:loadedDeps = 1
   endif
 endfunction
