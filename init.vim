@@ -83,7 +83,7 @@ let g:startify_lists = [
           \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
           \ { 'type': 'commands',  'header': ['   Commands']       },
           \ ]
-let g:monotone_color = [217, 0, 70]
+let g:monotone_color = [51, 80, 60]
 let g:monotone_secondary_hue_offset = 300
 let g:Hexokinase_virtualText = '██'
 let g:Hexokinase_ftAutoload = ['*']
