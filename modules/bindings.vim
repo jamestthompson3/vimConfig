@@ -107,7 +107,6 @@ nnoremap : ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ' `
-nnoremap <CR> o<esc>
 
 function! OpenTerminalDrawer() abort
   execute 'copen'

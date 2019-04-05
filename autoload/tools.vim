@@ -221,12 +221,12 @@ function! tools#PackagerInit() abort
     call packager#init()
     call packager#add('justinmk/vim-dirvish')
     call packager#add('mhinz/vim-startify')
-    call packager#add('romainl/vim-cool')
     call packager#add('thinca/vim-localrc')
-    call packager#add('tmsvg/pear-tree')
-    call packager#add('tpope/vim-commentary')
-    call packager#add('tpope/vim-repeat')
 
+    call packager#add('romainl/vim-cool', { 'type': 'opt'})
+    call packager#add('tmsvg/pear-tree', {'type': 'opt'})
+    call packager#add('tpope/vim-commentary', { 'type': 'opt'})
+    call packager#add('tpope/vim-repeat', { 'type': 'opt'})
     call packager#add('romainl/vim-qf', { 'type': 'opt'})
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
@@ -260,6 +260,10 @@ function! tools#loadDeps() abort
   else
     packadd ale
     packadd vim-qf
+    packadd pear-tree
+    packadd vim-cool
+    packadd vim-commentary
+    packadd vim-repeat
     packadd vim-polyglot
     packadd git-messenger.vim
     packadd vim-hexokinase
