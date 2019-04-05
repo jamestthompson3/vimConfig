@@ -69,7 +69,8 @@ let g:enable_guicolors = 1
 
 " Statusline: {{{
 "
-set statusline+=%#StatusLineModified#%{&mod?expand('%:~:.'):''}%*%{&mod?'':expand('%:~:.')}
+
+set statusline+=%#StatusLineModified#%{&mod?statusline#FileType():''}%*%{&mod?'':statusline#FileType()}
 set statusline+=%=
 set statusline+=%<
 set statusline+=%=

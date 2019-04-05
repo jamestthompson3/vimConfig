@@ -20,7 +20,7 @@ let g:vim_json_syntax_conceal = 0
 " }}}
 
 " ALE: {{{
-" let b:ale_linters = ['eslint']
+let b:ale_linters = ['eslint', 'flow']
 let b:ale_fixers = ['prettier']
 " let b:ale_linters_ignore = ['tsserver']
 " }}}

@@ -38,7 +38,7 @@ nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
 
 " Pairs:
-inoremap<F11> <Plug>(PearTreeExpand)
+" inoremap<F11> <Plug>(PearTreeExpand)
 
 
 " Splits:

@@ -1,5 +1,5 @@
 scriptencoding utf-8
-
+":filter! /term:/ oldfiles
 function! tools#ShowDeclaration(global) abort
     let pos = getpos('.')
     if searchdecl(expand('<cword>'), a:global) == 0

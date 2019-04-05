@@ -4,7 +4,7 @@ function! s:cmd(cmd, ...) abort
     let l:opt['cwd'] = fnameescape(expand('%:p:h'))
   endif
   let l:cmd = join(map(a:cmd, 'v:val !~# "\\v^[%#<]" || expand(v:val) == "" ? v:val : shellescape(expand(v:val))'))
-  execute get(l:opt, "pos", "botright") "new"
+  execute get(l:opt, 'pos', 'botright') 'new'
   setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
   nnoremap <buffer> q <c-w>c
   execute 'lcd' l:opt['cwd']
@@ -18,7 +18,7 @@ endfunction
 
 
 function! git#diff() abort
-  let l:ft = getbufvar("%", '&ft') " Get the file type
+  let l:ft = getbufvar('%', '&ft') " Get the file type
   let l:fn = expand('%:t')
   call s:git(['show', 'HEAD:./'.l:fn], 'rightbelow vertical')
   let &l:filetype = l:ft
@@ -30,10 +30,10 @@ function! git#diff() abort
 endfunction
 
 function! git#threeWayDiff() abort
-  let l:ft = getbufvar("%", "&ft") " Get the file type
+  let l:ft = getbufvar('%', '&ft') " Get the file type
   let l:fn = expand('%:t')
   " Show the version from the current branch on the left
-  call s:git(['show', ':2:./'.l:fn], "leftabove vertical")
+  call s:git(['show', ':2:./'.l:fn], 'leftabove vertical')
   let &l:filetype = l:ft
   execute 'silent file' l:fn '[OURS]'
   diffthis

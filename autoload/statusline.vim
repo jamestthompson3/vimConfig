@@ -28,3 +28,19 @@ function! statusline#ReadOnly() abort
     return ''
   endif
 endfunction
+
+function! statusline#FileType() abort
+  let l:currFile = expand('%:~:.')
+  let l:extension = expand('%:e')
+  if l:extension == ''
+    return ''
+  endif
+  if !executable('devicon-lookup')
+    return l:currFile
+  endif
+  if g:isWindows
+    return trim(system('devicon-lookup <<< '.l:currFile." 2> NUL | tr -d '\n'"))
+  else
+    return trim(system('devicon-lookup <<< '.l:currFile." 2> /dev/null | tr -d '\n'"))
+  endif
+endfunction
