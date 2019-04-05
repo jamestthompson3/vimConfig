@@ -78,8 +78,7 @@ iabbrev improt  import
 " Syntax improvements
 augroup vimrc_todo
     au!
-    au Syntax * syn match MyTodo /\v<(\@todo|\@fixme):?/
-          \ containedin=.*Comment,vimCommentTitle
+    au Syntax * syn match Todo '\(@todo\|@fixme\):\?' containedin=.*Comment,vimCommentTitle
 augroup END
 
 augroup omnifuncs

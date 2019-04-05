@@ -58,7 +58,7 @@ augroup Colors
   autocmd ColorScheme * call MyHighlights()
 augroup END
 
-colorscheme iceberg
+colorscheme monotone
 " }}}
 
 " Fonts: {{{
