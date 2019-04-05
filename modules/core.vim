@@ -74,7 +74,6 @@ iabbrev imprt   import
 iabbrev iomprt  import
 iabbrev improt  import
 
-
 " Syntax improvements
 augroup vimrc_todo
     au!

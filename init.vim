@@ -6,6 +6,8 @@ set fileformat=unix
 " Disable some default vim plugins:
 let g:did_install_default_menus = 1
 let g:loaded_tutor_mode_plugin = 1
+let g:loaded_matchit = 1
+let g:loaded_matchparen = 1
 let g:loaded_zipPlugin = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_gzip = 1
@@ -45,15 +47,6 @@ let g:startify_custom_header = [
       \'               time for code          ',
       \]
 
-" Load Custom Modules:
-function! LoadCustomModule( name )
-  let l:script = g:modules_folder .  a:name . '.vim'
-  execute ':runtime ' . l:script
-endfunction
-
-call LoadCustomModule( 'core' )
-call LoadCustomModule( 'ui' )
-call LoadCustomModule( 'bindings' )
 
 " Plugin Globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
@@ -83,8 +76,8 @@ let g:startify_lists = [
           \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
           \ { 'type': 'commands',  'header': ['   Commands']       },
           \ ]
-let g:monotone_color = [51, 80, 60]
-let g:monotone_secondary_hue_offset = 300
+" let g:monotone_color = [51, 80, 60]
+" let g:monotone_secondary_hue_offset = 300
 let g:Hexokinase_virtualText = '██'
 let g:Hexokinase_ftAutoload = ['*']
 let g:pear_tree_pairs = {
@@ -103,7 +96,6 @@ let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
 let g:vista_sidebar_width = 70
 
-
 " ALE:
 let g:ale_completion_enabled = 1
 let g:ale_linters = {
@@ -120,9 +112,18 @@ let g:ale_virtualtext_cursor = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' '
 let g:ale_echo_msg_format = '[%linter%] %s'
-let g:ale_virtualtext_prompt = ''
+let g:ale_virtualtext_prompt = ' '
 let g:ale_sign_column_always = 0
 
+" Load Custom Modules:
+function! LoadCustomModule( name )
+  let l:script = g:modules_folder .  a:name . '.vim'
+  execute ':runtime ' . l:script
+endfunction
+
+call LoadCustomModule( 'core' )
+call LoadCustomModule( 'ui' )
+call LoadCustomModule( 'bindings' )
 
 " Commands:
 " Use dirvish over netrw, but still preserve netrw behavior
