@@ -78,7 +78,7 @@ iabbrev improt  import
 " Syntax improvements
 augroup vimrc_todo
     au!
-    au Syntax * syn match Todo '\(@todo\|@fixme\):\?' containedin=.*Comment,vimCommentTitle
+    au Syntax * syn match Todo '@\?\(todo\|fixme\):\?' containedin=.*Comment,vimCommentTitle
 augroup END
 
 augroup omnifuncs
@@ -124,6 +124,12 @@ augroup END
 augroup AutoSwap
   autocmd!
   autocmd SwapExists *  call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
+augroup END
+
+augroup quickfix
+	autocmd!
+	autocmd QuickFixCmdPost cgetexpr cwindow
+	autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
 
 function! AS_HandleSwapfile (filename, swapname)

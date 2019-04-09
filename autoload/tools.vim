@@ -174,6 +174,26 @@ function! tools#makeScratch() abort
   setlocal noswapfile
 endfunction
 
+function! tools#redir(cmd)
+	for win in range(1, winnr('$'))
+		if getwinvar(win, 'scratch')
+			execute win . 'windo close'
+		endif
+	endfor
+	if a:cmd =~ '^!'
+		let output = system(matchstr(a:cmd, '^!\zs.*'))
+	else
+		redir => output
+		execute a:cmd
+		redir END
+	endif
+	vnew
+	let w:scratch = 1
+	setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile
+  nnoremap <buffer> q <c-w>c
+	call setline(1, split(output, "\n"))
+endfunction
+
 function! tools#HighlightRegion(color)
   hi Green guibg=#77ff77 guifg=#000000
   let l_start = line("'<")
@@ -243,7 +263,6 @@ function! tools#PackagerInit() abort
     call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
     call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
     call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
-    call packager#add('rhysd/git-messenger.vim', { 'type': 'opt' })
     call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
     call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
     call packager#add('tpope/vim-surround', { 'type': 'opt' })
@@ -264,7 +283,6 @@ function! tools#loadDeps() abort
     packadd vim-commentary
     packadd vim-repeat
     packadd vim-polyglot
-    packadd git-messenger.vim
     packadd vim-hexokinase
     packadd vim-gutentags
     packadd vim-matchup

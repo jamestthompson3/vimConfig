@@ -79,7 +79,7 @@ let g:startify_lists = [
 " let g:monotone_color = [51, 80, 60]
 " let g:monotone_secondary_hue_offset = 300
 let g:Hexokinase_virtualText = '██'
-let g:Hexokinase_ftAutoload = ['*']
+let g:Hexokinase_ftAutoload = ['css', 'xml', 'javascript']
 let g:pear_tree_pairs = {
     \   '(': {'closer': ')'},
     \   '[': {'closer': ']'},
@@ -138,11 +138,13 @@ command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")
 command! GManage call git#manage()
 command! Diff call git#diff()
 command! TDiff call git#threeWayDiff()
+command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")
+command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! Tagbar call tools#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -nargs=+ -complete=dir SearchProject execute 'silent! grep!'.<q-args>
+command! -nargs=+ -complete=dir -bar SearchProject cgetexpr system(&grepprg . ' ' . <q-args>)
 command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()

@@ -78,7 +78,9 @@ augroup END
 "
 
 " Git:
-nnoremap <Leader>b :GitMessenger<CR>
+nnoremap <Leader>b :Gblame<CR>
+nnoremap <silent><Leader>B :Redir %Gblame<CR><C-w><C-r><C-w>30<
+xnoremap <Leader>b :Gblame<CR>
 "
 
 " ALE:
