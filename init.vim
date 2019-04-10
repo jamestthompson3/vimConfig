@@ -25,29 +25,9 @@ else
 endif
 
 let g:modules_folder = 'modules' . g:file_separator
+let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 
-let g:startify_custom_header = [
-      \'               WELCOME TO VIM        ',
-      \'       ⣿⣿⣿⣿⣿⣿⣿⠿⢛⢛⡛⡻⢿⣿⣿⣿⣿⠟⠛⢛⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿ ',
-      \'       ⣿⣿⣿⣿⢟⢱⡔⡝⣜⣜⢜⢜⡲⡬⡉⢕⢆⢏⢎⢇⢇⣧⡉⠿⣿⣿⣿⣿⣿⣿ ',
-      \'       ⣿⣿⡟⡱⣸⠸⢝⢅⢆⢖⣜⣲⣵⣴⣱⣈⡣⣋⢣⠭⣢⣒⣬⣕⣄⣝⡻⢿⣿⣿ ',
-      \'       ⣿⠟⡜⣎⢎⢇⢇⣵⣷⣿⣿⡿⠛⠉⠉⠛⢿⣦⢵⣷⣿⣿⣿⠟⠛⠋⠓⢲⡝⣿ ',
-      \'       ⢏⢰⢱⣞⢜⢵⣿⣿⣿⣿⣿⠁⠐⠄⠄⠄⠄⢹⣻⣿⣿⣿⠡⠄⠄⠄⠄⠄⠹⣺ ',
-      \'       ⢕⢜⢕⢕⢵⠹⢿⣿⣿⣿⣿⡀⠸⠗⣀⠄⠄⣼⣻⣿⣿⣿⡀⢾⠆⣀⠄⠄⣰⢳ ',
-      \'       ⡕⣝⢜⡕⣕⢝⣜⢙⢿⣿⣿⣷⣦⣤⣥⣤⣾⢟⠸⢿⣿⣿⣿⣦⣄⣉⣤⡴⢫⣾ ',
-      \'       ⡪⡪⣪⢪⢎⢮⢪⡪⡲⢬⢩⢩⢩⠩⢍⡪⢔⢆⢏⡒⠮⠭⡙⡙⠭⢝⣨⣶⣿⣿ ',
-      \'       ⡪⡪⡎⡮⡪⡎⡮⡪⣪⢣⢳⢱⢪⢝⢜⢜⢕⢝⢜⢎⢧⢸⢱⡹⡍⡆⢿⣿⣿⣿ ',
-      \'       ⡪⡺⡸⡪⡺⣸⠪⠚⡘⠊⠓⠕⢧⢳⢹⡸⣱⢹⡸⡱⡱⡕⡵⡱⡕⣝⠜⢿⣿⣿ ',
-      \'       ⡪⡺⡸⡪⡺⢐⢪⢑⢈⢁⢋⢊⠆⠲⠰⠬⡨⡡⣁⣉⠨⡈⡌⢥⢱⠐⢕⣼⣿⣿ ',
-      \'       ⡪⣪⢣⢫⠪⢢⢅⢥⢡⢅⢅⣑⡨⡑⠅⠕⠔⠔⠄⠤⢨⠠⡰⠠⡂⣎⣼⣿⣿⣿ ',
-      \'       ⠪⣪⡪⡣⡫⡢⡣⡣⡣⡣⡣⣣⢪⡪⡣⡣⡲⣑⡒⡎⡖⢒⣢⣥⣶⣿⣿⣿⣿⣿ ',
-      \'       ⢁⢂⠲⠬⠩⣁⣙⢊⡓⠝⠎⠮⠮⠚⢎⡣⡳⠕⡉⣬⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿ ',
-      \'       ⢐⠐⢌⠐⠅⡂⠄⠄⢌⢉⠩⠡⡉⠍⠄⢄⠢⡁⡢⠠⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿ ',
-      \'               time for code          ',
-      \]
-
-
-" Plugin Globals:
+" plugin globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
 let g:netrw_banner=0
 let g:netrw_winsize=15
@@ -59,8 +39,8 @@ let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {}
 let g:mucomplete#chains.default = ['incl','omni','tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti']
 let g:mucomplete#minimum_prefix_length = 2
-let g:UltiSnipsSnippetsDir = $MYVIMRC . g:file_separator . 'UltiSnips'
-let g:UltiSnipsExpandTrigger = '<c-l>'
+let g:ultisnipssnippetsdir = $myvimrc . g:file_separator . 'ultisnips'
+let g:ultisnipsexpandtrigger = '<c-l>'
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
@@ -68,8 +48,8 @@ let g:gutentags_project_root = ['package.json']
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
 " let g:monotone_color = [51, 80, 60]
 " let g:monotone_secondary_hue_offset = 300
-let g:Hexokinase_virtualText = '██'
-let g:Hexokinase_ftAutoload = ['css', 'xml', 'javascript']
+let g:hexokinase_virtualtext = '██'
+let g:hexokinase_ftautoload = ['css', 'xml', 'javascript']
 let g:pear_tree_pairs = {
     \   '(': {'closer': ')'},
     \   '[': {'closer': ']'},

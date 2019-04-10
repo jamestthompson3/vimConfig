@@ -28,6 +28,8 @@ nnoremap <silent> Q :bp\|bd #<CR>
 nnoremap <silent> cc :cclose<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
+nnoremap <silent> <c-u> :call tools#smoothScroll(1)<cr>
+nnoremap <silent> <c-d> :call tools#smoothScroll(0)<cr>
 
 " Buffer Switching:
 nnoremap <silent> [q :cnext<CR>
@@ -99,7 +101,7 @@ nnoremap ; :
 nnoremap : ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
-nnoremap ssb :call tools#sourceSession()<CR>
+nnoremap ssb :call sessions#sourceSession()<CR>
 nnoremap ' `
 
 function! OpenTerminalDrawer() abort

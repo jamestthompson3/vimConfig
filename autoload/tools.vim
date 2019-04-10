@@ -44,13 +44,8 @@ function! tools#Camel(args) abort
   endif
 endfunction
 
-function! tools#sourceSession() abort
-  let l:branch = git#branch()
-  execute 'so ~/sessions/'.l:branch.'.vim'
-endfunction
-
 function! tools#splashScreen() abort
-  if line2byte('$') != -1
+  if line2byte('$') != -1 || argc() >= 1
     return
   else
   noautocmd enew
@@ -68,10 +63,10 @@ function! tools#splashScreen() abort
         \ nospell
         \ noswapfile
         \ signcolumn=no
-  call append('$', g:startify_custom_header)
-  setlocal nomodifiable nomodified
-  endif
 
+    silent! r ~/vim/skeletons/start.screen
+    setlocal nomodifiable nomodified
+  endif
 endfunction
 
 " allows for easy jumping using commands like ili, ls, dli, etc.
@@ -110,28 +105,6 @@ function! tools#CCR()
     else
         return "\<CR>"
     endif
-endfunction
-
-function! tools#manageSession() abort
-  let l:sessionName = git#branch()
-  let l:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
-  let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
-  let l:filePath = substitute(expand('%:p:h'), '\\', '/', 'g')
-  let l:altName = substitute(l:filePath, l:cur_dir, '', '')
-  return [l:sessionName, l:sessionPath, l:altName]
-endfunction
-
-function! tools#saveSession(argsList) abort
-  let [ sessionName, sessionPath, altName ] = a:argsList
-  if sessionName != ''
-    if sessionName == 'master'
-      return
-    else
-      execute 'mks! '.sessionPath.trim(sessionName).'.vim'
-    endif
-  else
-    execute 'mks! '.sessionPath.altName.'.vim'
-  endif
 endfunction
 
 " TODO improve this
@@ -207,6 +180,16 @@ function! tools#BufSel(pattern) abort
   else
     echo 'No matching buffers'
   endif
+endfunction
+
+function! tools#smoothScroll(up)
+    execute "normal " . (a:up ? "\<c-y>" : "\<c-e>")
+    redraw
+    for l:count in range(3, &scroll, 2)
+      sleep 10m
+      execute "normal " . (a:up ? "\<c-y>" : "\<c-e>")
+      redraw
+    endfor
 endfunction
 
 function! tools#PackagerInit() abort
