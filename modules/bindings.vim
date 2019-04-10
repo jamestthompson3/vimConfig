@@ -16,7 +16,7 @@ nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 " Don't trash current register when pasting in visual mode
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
-"
+
 
 " Window Motions:
 nnoremap <C-J> <C-W><C-J>
@@ -28,7 +28,6 @@ nnoremap <silent> Q :bp\|bd #<CR>
 nnoremap <silent> cc :cclose<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
-"
 
 " Buffer Switching:
 nnoremap <silent> [q :cnext<CR>
@@ -36,10 +35,6 @@ nnoremap <silent> ]q :cprev<CR>
 nnoremap <silent> [Q :cnfile<CR>
 nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
-
-" Pairs:
-" inoremap<F11> <Plug>(PearTreeExpand)
-
 
 " Splits:
 nnoremap <silent> sp :vsplit<CR>
@@ -64,10 +59,10 @@ nnoremap sb :g//#<Left><Left>
 nnoremap g_ :g//#<Left><Left><C-R><C-W><CR>:
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
-nnoremap <silent><Leader>lt :call tools#ListTags()<CR>
+nnoremap <silent><Leader>lt :call symbols#ListTags()<CR>
 nnoremap ts :ts<space>/
-nnoremap gh :call tools#ShowDeclaration(0)<CR>
-nnoremap <silent>sd :call tools#PreviewWord()<CR>
+nnoremap gh :call symbols#ShowDeclaration(0)<CR>
+nnoremap <silent>sd :call symbols#PreviewWord()<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 
@@ -75,18 +70,16 @@ augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
   autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
 augroup END
-"
+
 
 " Git:
 nnoremap <Leader>b :Gblame<CR>
 nnoremap <silent><Leader>B :Redir %Gblame<CR><C-w><C-r><C-w>30<
 xnoremap <Leader>b :Gblame<CR>
-"
 
 " ALE:
 nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
-
 
 " Blocks:
 xmap <up>    <Plug>SchleppUp
@@ -96,18 +89,17 @@ xmap <right> <Plug>SchleppRight
 vnoremap <silent><leader>g :<C-U>call tools#HighlightRegion('Green')<CR>
 vnoremap <silent><leader>G :<C-U>call tools#UnHighlightRegion()<CR>
 
-
 " Completion:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-
 
 " Misc:
 nnoremap ; :
 nnoremap : ;
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
+nnoremap ssb :call tools#sourceSession()<CR>
 nnoremap ' `
 
 function! OpenTerminalDrawer() abort
@@ -118,7 +110,6 @@ endfunction
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>i
 nnoremap <Leader>t :Tagbar<CR>
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-
 
 " VimDev:
 function! Profiler() abort

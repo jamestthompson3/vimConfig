@@ -11,7 +11,6 @@ let g:loaded_matchparen = 1
 let g:loaded_zipPlugin = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_gzip = 1
-let g:loaded_netrwPlugin = 1
 
 " User Globals:
 " Create function to manage thing in a semi-sane way
@@ -50,7 +49,9 @@ let g:startify_custom_header = [
 
 " Plugin Globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
-let g:netrw_winsize = 20 " smaller explorer window
+let g:netrw_banner=0
+let g:netrw_winsize=15
+let g:netrw_liststyle=3
 let g:gutentags_cache_dir = '~/.cache/'
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
@@ -65,17 +66,6 @@ let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
 let g:gutentags_project_root = ['package.json']
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
-let g:startify_session_persistence = 1
-let g:startify_session_dir = '~/sessions'
-let g:startify_session_sort = 1
-let g:startify_change_to_dir = 0
-let g:startify_bookmarks = [{ 'c': $MYVIMRC }]
-let g:startify_lists = [
-          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-          \ { 'type': 'sessions',  'header': ['   Sessions']       },
-          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-          \ { 'type': 'commands',  'header': ['   Commands']       },
-          \ ]
 " let g:monotone_color = [51, 80, 60]
 " let g:monotone_secondary_hue_offset = 300
 let g:Hexokinase_virtualText = '██'
@@ -93,15 +83,11 @@ let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
-let g:pear_tree_repeatable_expand = 0
+let g:pear_tree_repeatable_expand = 1
 let g:vista_sidebar_width = 70
 
 " ALE:
 let g:ale_completion_enabled = 1
-let g:ale_linters = {
-  \   'vim': ['vint'],
-  \}
-
 let g:ale_linters_explicit = 1
 let g:ale_sign_error = '!!'
 let g:ale_sign_warning = '>>'
@@ -126,11 +112,6 @@ call LoadCustomModule( 'ui' )
 call LoadCustomModule( 'bindings' )
 
 " Commands:
-" Use dirvish over netrw, but still preserve netrw behavior
-command! -nargs=? -complete=dir Explore Dirvish <args> | silent call feedkeys('20<c-w>|')
-command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args> | silent call feedkeys('20<c-w>|')
-command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args> | silent call feedkeys('20<c-w>|')
-
 command! -bang -nargs=* Snake call tools#Snake(<q-args>)
 command! -bang -nargs=* Camel call tools#Camel(<q-args>)
 command! Scratch call tools#makeScratch()
@@ -142,9 +123,9 @@ command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . ex
 command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
-command! Tagbar call tools#loadTagbar()
+command! Tagbar call symbols#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -nargs=+ -complete=dir -bar SearchProject cgetexpr system(&grepprg . ' ' . <q-args>)
+command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>
 command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()

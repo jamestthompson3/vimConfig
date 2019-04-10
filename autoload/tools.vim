@@ -1,14 +1,5 @@
 scriptencoding utf-8
 ":filter! /term:/ oldfiles
-function! tools#ShowDeclaration(global) abort
-    let pos = getpos('.')
-    if searchdecl(expand('<cword>'), a:global) == 0
-        let line_of_declaration = line('.')
-        execute line_of_declaration . '#'
-    endif
-    call cursor(pos[1], pos[2])
-endfunction
-
 function! tools#RenameFile() abort
   let l:oldName = getline('.')
   let l:newName = input('Rename: ', l:oldName, 'file')
@@ -53,6 +44,36 @@ function! tools#Camel(args) abort
   endif
 endfunction
 
+function! tools#sourceSession() abort
+  let l:branch = git#branch()
+  execute 'so ~/sessions/'.l:branch.'.vim'
+endfunction
+
+function! tools#splashScreen() abort
+  if line2byte('$') != -1
+    return
+  else
+  noautocmd enew
+  silent! setlocal
+        \ bufhidden=wipe
+        \ colorcolumn=
+        \ foldcolumn=0
+        \ matchpairs=
+        \ nobuflisted
+        \ nocursorcolumn
+        \ nocursorline
+        \ nolist
+        \ nonumber
+        \ norelativenumber
+        \ nospell
+        \ noswapfile
+        \ signcolumn=no
+  call append('$', g:startify_custom_header)
+  setlocal nomodifiable nomodified
+  endif
+
+endfunction
+
 " allows for easy jumping using commands like ili, ls, dli, etc.
 function! tools#CCR()
     let cmdline = getcmdline()
@@ -91,17 +112,6 @@ function! tools#CCR()
     endif
 endfunction
 
-" list all associated tags with cursor word
-function! tools#ListTags() abort
-  execute 'ltag '.expand('<cword>')
-  execute 'lwindow'
-endfunction
-
-function! tools#loadTagbar() abort
-  packadd vista.vim
-  execute 'Vista'
-endfunction
-
 function! tools#manageSession() abort
   let l:sessionName = git#branch()
   let l:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
@@ -128,43 +138,6 @@ endfunction
 function! tools#GetFilesByType(ft) abort
  call setqflist([], ' ', {'title': 'Files', 'lines': systemlist('fd '.a:ft)})
  execute 'copen'
-endfunction
-
-function! tools#PreviewWord() abort
-  if &previewwindow			" don't do this in the preview window
-    return
-  endif
-  let w = expand('<cword>')		" get the word under cursor
-  if w =~ '\a'			" if the word contains a letter
-
-    " Delete any existing highlight before showing another tag
-    silent! wincmd P			" jump to preview window
-    if &previewwindow			" if we really get there...
-      match none			" delete existing highlight
-      wincmd p			" back to old window
-    endif
-
-    " Try displaying a matching tag for the word under the cursor
-    try
-        exe 'ptag ' . w
-    catch
-      return
-    endtry
-
-    silent! wincmd P			" jump to preview window
-    if &previewwindow		" if we really get there...
-    if has('folding')
-      silent! .foldopen		" don't want a closed fold
-    endif
-    call search('$', 'b')		" to end of previous line
-    let w = substitute(w, '\\', '\\\\', '')
-    call search('\<\V' . w . '\>')	" position cursor on match
-    " Add a match highlight to the word at this position
-      hi! link previewWord TODO
-    exe 'match previewWord "\%' . line('.') . 'l\%' . col('.') . 'c\k*"'
-      wincmd p			" back to old window
-    endif
-  endif
 endfunction
 
 function! tools#makeScratch() abort
@@ -239,9 +212,8 @@ endfunction
 function! tools#PackagerInit() abort
     packadd vim-packager
     call packager#init()
-    call packager#add('justinmk/vim-dirvish')
-    call packager#add('mhinz/vim-startify')
     call packager#add('thinca/vim-localrc')
+    call packager#add('justinmk/vim-dirvish')
 
     call packager#add('romainl/vim-cool', { 'type': 'opt'})
     call packager#add('tmsvg/pear-tree', {'type': 'opt'})
@@ -251,7 +223,6 @@ function! tools#PackagerInit() abort
     call packager#add('SirVer/ultisnips', { 'type': 'opt' })
     call packager#add('andymass/vim-matchup', { 'type': 'opt' })
     call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
-    call packager#add('elzr/vim-json', { 'type': 'opt' })
     call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
     call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
@@ -278,6 +249,7 @@ function! tools#loadDeps() abort
   else
     packadd ale
     packadd vim-qf
+    packadd vim-dirvish
     packadd pear-tree
     packadd vim-cool
     packadd vim-commentary

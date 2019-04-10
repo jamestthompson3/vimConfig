@@ -75,10 +75,15 @@ iabbrev imprt   import
 iabbrev iomprt  import
 iabbrev improt  import
 
+function! s:myTodo()
+  syn match Todo '@\?\(todo\|fixme\):\?' containedin=.*Comment,vimCommentTitle contained
+  hi link MyTodo Todo
+endfunction
+
 " Syntax improvements
 augroup vimrc_todo
     au!
-    au Syntax * syn match Todo '@\?\(todo\|fixme\):\?' containedin=.*Comment,vimCommentTitle
+    au Syntax * call s:myTodo()
 augroup END
 
 augroup omnifuncs
@@ -99,17 +104,20 @@ endfunction
 
 augroup core
   autocmd!
+  autocmd VimEnter *  call tools#splashScreen()
   au FileType netrw au BufLeave QuitNetrw()
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
-  autocmd WinNew * call tools#saveSession(tools#manageSession())
+  autocmd BufAdd * call tools#saveSession(tools#manageSession())
+  autocmd VimLeavePre * call tools#saveSession(tools#manageSession())
   autocmd BufAdd * call tools#loadDeps()
   autocmd SessionLoadPost * call tools#loadDeps()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
     \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
-  autocmd BufNewFile,BufRead *.h,*.m set tags+=~/global-objc-tags
+  au! BufNewFile,BufRead *.mm,*.m setf objc
+  autocmd BufNewFile,BufRead *.h,*.m,*.mm set tags+=~/global-objc-tags
   "au! BufNewFile,BufRead *.uml setf platinuml
   au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
