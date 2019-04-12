@@ -53,31 +53,6 @@ function! tools#Camel(args) abort
   endif
 endfunction
 
-function! tools#splashScreen() abort
-  if line2byte('$') != -1 || argc() >= 1
-    return
-  else
-  noautocmd enew
-  silent! setlocal
-        \ bufhidden=wipe
-        \ colorcolumn=
-        \ foldcolumn=0
-        \ matchpairs=
-        \ nobuflisted
-        \ nocursorcolumn
-        \ nocursorline
-        \ nolist
-        \ nonumber
-        \ norelativenumber
-        \ nospell
-        \ noswapfile
-        \ signcolumn=no
-
-    silent! r ~/vim/skeletons/start.screen
-    setlocal nomodifiable nomodified
-  endif
-endfunction
-
 " allows for easy jumping using commands like ili, ls, dli, etc.
 function! tools#CCR()
     let cmdline = getcmdline()

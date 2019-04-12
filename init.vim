@@ -13,9 +13,7 @@ let g:loaded_tarPlugin = 1
 let g:loaded_gzip = 1
 
 " User Globals:
-" Create function to manage thing in a semi-sane way
 let g:isWindows = has('win16') || has('win32') || has('win64')
-
 let g:isMac = system('uname') =~ 'Darwin\n'
 
 if g:isWindows
@@ -26,6 +24,12 @@ endif
 
 let g:modules_folder = 'modules' . g:file_separator
 let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
+let g:loaded_python_provider = 1
+if g:isWindows
+  let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
+else
+  let g:python3_host_prog= '/usr/local/bin/python3'
+endif
 
 " plugin globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
@@ -46,8 +50,6 @@ let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
 let g:gutentags_project_root = ['package.json']
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
-" let g:monotone_color = [51, 80, 60]
-" let g:monotone_secondary_hue_offset = 300
 let g:hexokinase_virtualtext = '██'
 let g:hexokinase_ftautoload = ['css', 'xml', 'javascript']
 let g:pear_tree_pairs = {
@@ -59,7 +61,6 @@ let g:pear_tree_pairs = {
     \   '`': {'closer': '`'},
     \   '/*': {'closer': '*/'}
     \ }
-     " \   '<*>': {'closer': '</*>', 'not_like': '/$'}
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
@@ -83,14 +84,9 @@ let g:ale_virtualtext_prompt = ' '
 let g:ale_sign_column_always = 0
 
 " Load Custom Modules:
-function! LoadCustomModule( name )
-  let l:script = g:modules_folder .  a:name . '.vim'
-  execute ':runtime ' . l:script
-endfunction
-
-call LoadCustomModule( 'core' )
-call LoadCustomModule( 'ui' )
-call LoadCustomModule( 'bindings' )
+execute 'runtime '.g:modules_folder . 'core.vim'
+execute 'runtime '.g:modules_folder . 'ui.vim'
+execute 'runtime '.g:modules_folder . 'bindings.vim'
 
 " Commands:
 command! -bang -nargs=* Snake call tools#Snake(<q-args>)

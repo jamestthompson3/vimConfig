@@ -1,15 +1,6 @@
 scriptencoding utf-8
 
 " Basics: {{{
-if !has('nvim')
-  set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
-  set background=dark
-  set incsearch
-  set hlsearch
-  set laststatus=2
-  set guifont=IBM\ Plex\ Mono
-endif
-
 " Turn off column numbers if the window is inactive
 augroup WINDOWS
   autocmd!
@@ -41,7 +32,6 @@ set guicursor+=n:blinkwait60-blinkon175-blinkoff175
 " }}}
 
 " Colors: {{{
-"
 function! MyHighlights() abort
   " Custom higlight groups
   hi SpellBad guibg=#ff2929 ctermbg=196
@@ -53,23 +43,22 @@ function! MyHighlights() abort
   hi! link MyTodo Todo
 endfunction
 
+function! s:myTodo()
+  syn match Todo '@\?\(todo\|fixme\):\?' containedin=.*Comment,vimCommentTitle contained
+  hi link MyTodo Todo
+endfunction
+
+
 augroup Colors
   autocmd!
   autocmd ColorScheme * call MyHighlights()
+  autocmd Syntax * call s:myTodo()
 augroup END
 
 colorscheme monotone
 " }}}
 
-" Fonts: {{{
-let g:enable_italic_font = 1
-let g:enable_bold_font = 1
-let g:enable_guicolors = 1
-" }}}
-
 " Statusline: {{{
-"
-
 set statusline+=%#StatusLineModified#%{&mod?statusline#FileType():''}%*%{&mod?'':statusline#FileType()}
 set statusline+=%=
 set statusline+=%<
