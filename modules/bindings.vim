@@ -1,7 +1,7 @@
 scriptencoding = utf-8
 
 let g:mapleader = "\<Space>"
-inoremap jj <Esc>
+imap jj <Esc>
 
 " Escape from terminal mode
 if exists(':tnoremap')
@@ -23,7 +23,7 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-nnoremap <silent> wq ZZ
+nnoremap <silent> wq :close<CR>
 nnoremap <silent> Q :bp\|bd #<CR>
 nnoremap <silent> cc :cclose<CR>
 nnoremap <silent> sq :only<CR>
@@ -37,6 +37,7 @@ nnoremap <silent> ]q :cprev<CR>
 nnoremap <silent> [Q :cnfile<CR>
 nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
+nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
 
 " Splits:
 nnoremap <silent> sp :vsplit<CR>
@@ -103,6 +104,7 @@ nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ssb :call sessions#sourceSession()<CR>
 nnoremap ' `
+inoremap<F11> <Plug>(PearTreeExpand)
 
 function! OpenTerminalDrawer() abort
   execute 'copen'

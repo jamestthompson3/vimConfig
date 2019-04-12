@@ -20,6 +20,12 @@ function! statusline#LinterStatus() abort
   endif
 endfunction
 
+function! statusline#GetScope() abort
+  let l:scope = get(b:, 'vista_nearest_method_or_function', '')
+  echom l:scope
+  return l:scope != '' ?  ' Ⓕ  '.l:scope : ''
+endfunction
+
 function! statusline#ReadOnly() abort
   if &readonly || !&modifiable
     hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD

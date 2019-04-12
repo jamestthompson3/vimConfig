@@ -107,7 +107,7 @@ augroup core
   autocmd VimEnter *  call tools#splashScreen()
   au FileType netrw au BufLeave QuitNetrw()
   "todo enable to be toggled
-  "autocmd BufWritePre * %s/\s\+$//e " removes whitespace
+  autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
   autocmd WinNew * call sessions#saveSession()
   autocmd VimLeavePre * call sessions#saveSession()

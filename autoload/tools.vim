@@ -20,6 +20,15 @@ function! tools#GrepBufs() abort
   exec 'cwindow'
 endfunction
 
+" TODO improve this, i.e. .m or .mm would be valid
+function! tools#switchSourceHeader() abort
+  if (expand ('%:e') != 'h')
+    find %:t:r.h
+  else
+    execute 'find '.expand('%:t:r').'.'.b:source_ft
+  endif
+endfunction
+
 " Replace things in the quick fix list
 function! tools#Replace_qf(term1, term2) abort
   let tools#replace_string = printf('/\<%s\>/%s/g', a:term1, a:term2)
@@ -212,6 +221,7 @@ function! tools#PackagerInit() abort
     call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
     call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
     call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
+    call packager#local('/usr/local/opt/fzf', { 'type': 'opt'})
     call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
     call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
     call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
@@ -231,6 +241,8 @@ function! tools#loadDeps() abort
     return
   else
     packadd ale
+    packadd fzf
+    packadd vista.vim
     packadd vim-qf
     packadd vim-dirvish
     packadd pear-tree

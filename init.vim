@@ -40,7 +40,7 @@ let g:mucomplete#chains = {}
 let g:mucomplete#chains.default = ['incl','omni','tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti']
 let g:mucomplete#minimum_prefix_length = 2
 let g:ultisnipssnippetsdir = $myvimrc . g:file_separator . 'ultisnips'
-let g:ultisnipsexpandtrigger = '<c-l>'
+let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
@@ -57,14 +57,15 @@ let g:pear_tree_pairs = {
     \   "'": {'closer': "'"},
     \   '"': {'closer': '"'},
     \   '`': {'closer': '`'},
-    \   '<*>': {'closer': '</*>', 'not_like': '/$'}
+    \   '/*': {'closer': '*/'}
     \ }
+     " \   '<*>': {'closer': '</*>', 'not_like': '/$'}
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
-let g:vista_sidebar_width = 70
+let g:vista_sidebar_width = 50
 
 " ALE:
 let g:ale_completion_enabled = 1
@@ -103,7 +104,6 @@ command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . ex
 command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
-command! Tagbar call symbols#loadTagbar()
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>
 command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)

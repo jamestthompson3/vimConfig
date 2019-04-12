@@ -4,11 +4,6 @@ function! symbols#ListTags() abort
   execute 'lwindow'
 endfunction
 
-function! symbols#loadTagbar() abort
-  packadd vista.vim
-  execute 'Vista'
-endfunction
-
 function! symbols#PreviewWord() abort
   if &previewwindow			" don't do this in the preview window
     return
