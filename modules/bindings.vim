@@ -77,7 +77,7 @@ augroup END
 
 " Git:
 nnoremap <Leader>b :Gblame<CR>
-nnoremap <silent><Leader>B :Redir %Gblame<CR><C-w><C-r><C-w>30<
+nnoremap <silent><Leader>B :call git#blame()<CR>
 xnoremap <Leader>b :Gblame<CR>
 
 " ALE:
