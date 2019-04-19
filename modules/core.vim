@@ -23,7 +23,7 @@ set undofile
 set backup
 set swapfile
 set synmaxcol=200 " Large columns with syntax highlights slow things down
-set grepprg=rg\ --vimgrep
+set grepprg=rg\ --smart-case\ --vimgrep
 set completeopt+=longest,noinsert,menuone,noselect
 set completeopt-=preview
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
@@ -31,11 +31,13 @@ set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
 set path+=**
 set virtualedit=block
+set textwidth=100
 
 if !g:isWindows
   set shell=bash
 endif
 
+set formatoptions+=t
 set formatlistpat=^\\s*                     " Optional leading whitespace
 set formatlistpat+=[                        " Start character class
 set formatlistpat+=\\[({]\\?                " |  Optionally match opening punctuation
@@ -89,6 +91,7 @@ set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
 
 if has('nvim')
   set inccommand=split " preview replacement changes
+  set wildoptions=pum
 endif
 
 if !has('nvim')
@@ -116,6 +119,8 @@ iabbrev imoprt  import
 iabbrev imprt   import
 iabbrev iomprt  import
 iabbrev improt  import
+iabbrev slef    self
+iabbrev hadnler handler
 
 " FUNCTIONS:
 function! MarkMargin ()

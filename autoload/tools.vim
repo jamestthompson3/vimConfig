@@ -176,6 +176,25 @@ function! tools#smoothScroll(up)
     endfor
 endfunction
 
+function! s:cmd() abort
+    if executable("xdg-open")
+        return "xdg-open"
+    endif
+    if executable("open")
+        return "open"
+    endif
+    return "explorer"
+endfunction
+
+function! tools#getStub() abort
+  if exists('b:devURL')
+    let l:url = b:devURL
+  else
+    let l:url = " 'https://devdocs.io/#q="
+  endif
+  return s:cmd() . l:url
+endfunction
+
 function! tools#PackagerInit() abort
     packadd vim-packager
     call packager#init()

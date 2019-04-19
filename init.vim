@@ -99,6 +99,14 @@ command! TDiff call git#threeWayDiff()
 command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")
 command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
 
+function! s:checkDocs(args) abort
+  let l:stub = tools#getStub()
+  call system(len(split(a:args, ' ')) == 0 ?
+              \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . expand('<cword>') . "'" : len(split(a:args, ' ')) == 1 ?
+              \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . a:args . "'" : l:stub . substitute(a:args, '\s\+', '%20', 'g') . "'")
+endfunction
+
+command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>

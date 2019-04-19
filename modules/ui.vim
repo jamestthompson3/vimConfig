@@ -60,6 +60,7 @@ colorscheme monotone
 
 " Statusline: {{{
 set statusline+=%#StatusLineModified#%{&mod?statusline#FileType():''}%*%{&mod?'':statusline#FileType()}
+set statusline+=\ %c
 set statusline+=%=
 set statusline+=%<
 " set statusline+=%{statusline#GetScope()}

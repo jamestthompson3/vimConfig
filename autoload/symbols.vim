@@ -41,7 +41,6 @@ function! symbols#PreviewWord() abort
   endif
 endfunction
 
-
 function! symbols#ShowDeclaration(global) abort
     let pos = getpos('.')
     if searchdecl(expand('<cword>'), a:global) == 0
@@ -50,4 +49,3 @@ function! symbols#ShowDeclaration(global) abort
     endif
     call cursor(pos[1], pos[2])
 endfunction
-
