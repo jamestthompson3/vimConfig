@@ -34,7 +34,7 @@ set guicursor+=n:blinkwait60-blinkon175-blinkoff175
 " Colors: {{{
 function! MyHighlights() abort
   " Custom higlight groups
-  hi SpellBad guibg=#ff2929 ctermbg=196
+  " hi SpellBad guibg=#ff2929 ctermbg=196
   hi! link NormalNC Comment
   hi! link TabLineFill Normal
   hi! link TabLine StatusLine
@@ -55,7 +55,8 @@ augroup Colors
   autocmd Syntax * call s:myTodo()
 augroup END
 
-colorscheme monotone
+colorscheme gruvbox
+" colorscheme monotone
 " }}}
 
 " Statusline: {{{

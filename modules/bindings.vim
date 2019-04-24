@@ -69,6 +69,7 @@ nnoremap <silent>sd :call symbols#PreviewWord()<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap gX :DD<CR>
+nnoremap <Leader>f :Vista finder<CR>
 
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
