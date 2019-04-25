@@ -5,7 +5,7 @@ imap jj <Esc>
 
 " Escape from terminal mode
 if exists(':tnoremap')
- tnoremap <C-\> <C-\><C-n>
+  tnoremap <C-\> <C-\><C-n>
 endif
 
 
@@ -131,8 +131,8 @@ function! Profiler() abort
   endif
 endfunction
 nnoremap <C-F> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <silent><F5> :so $MYVIMRC<CR>
 nnoremap <silent><F7> :so %<CR>
 nnoremap <silent><F1> :call Profiler()<CR>

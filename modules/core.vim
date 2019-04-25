@@ -32,6 +32,9 @@ set path-=/usr/include
 set path+=**
 set virtualedit=block
 set textwidth=100
+set diffopt+=hiddenoff
+set diffopt+=iwhiteall
+set diffopt+=algorithm:patience
 
 if !g:isWindows
   set shell=bash
@@ -144,21 +147,21 @@ function! SplashScreen() abort
   if line2byte('$') != -1 || argc() >= 1
     return
   else
-  noautocmd enew
-  silent! setlocal
-        \ bufhidden=wipe
-        \ colorcolumn=
-        \ foldcolumn=0
-        \ matchpairs=
-        \ nobuflisted
-        \ nocursorcolumn
-        \ nocursorline
-        \ nolist
-        \ nonumber
-        \ norelativenumber
-        \ nospell
-        \ noswapfile
-        \ signcolumn=no
+    noautocmd enew
+    silent! setlocal
+          \ bufhidden=wipe
+          \ colorcolumn=
+          \ foldcolumn=0
+          \ matchpairs=
+          \ nobuflisted
+          \ nocursorcolumn
+          \ nocursorline
+          \ nolist
+          \ nonumber
+          \ norelativenumber
+          \ nospell
+          \ noswapfile
+          \ signcolumn=no
 
     silent! r ~/vim/skeletons/start.screen
     setlocal nomodifiable nomodified
@@ -166,7 +169,7 @@ function! SplashScreen() abort
 endfunction
 
 function! AS_HandleSwapfile (filename, swapname)
- " if swapfile is older than file itself, just get rid of it
+  " if swapfile is older than file itself, just get rid of it
   if getftime(v:swapname) < getftime(a:filename)
     call delete(v:swapname)
     let v:swapchoice = 'e'
@@ -191,7 +194,7 @@ augroup core
   autocmd BufAdd * call tools#loadDeps()
   autocmd SessionLoadPost * call tools#loadDeps()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
-    \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
+        \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.mm,*.m setf objc
@@ -202,9 +205,9 @@ augroup core
   au! BufNewFile,BufRead *.pcss setf css
   au! BufNewFile,BufRead *.wiki setf wiki
   autocmd BufWritePre *
-    \ if !isdirectory(expand("<afile>:p:h")) |
+        \ if !isdirectory(expand("<afile>:p:h")) |
         \ call mkdir(expand("<afile>:p:h"), "p") |
-    \ endif
+        \ endif
 augroup END
 
 augroup AutoSwap
@@ -213,9 +216,9 @@ augroup AutoSwap
 augroup END
 
 augroup quickfix
-	autocmd!
-	autocmd QuickFixCmdPost cgetexpr cwindow
-	autocmd QuickFixCmdPost lgetexpr lwindow
+  autocmd!
+  autocmd QuickFixCmdPost cgetexpr cwindow
+  autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
 
 augroup MarkMargin

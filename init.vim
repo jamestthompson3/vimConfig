@@ -17,9 +17,9 @@ let g:isWindows = has('win16') || has('win32') || has('win64')
 let g:isMac = system('uname') =~ 'Darwin\n'
 
 if g:isWindows
- let g:file_separator = '\\'
+  let g:file_separator = '\\'
 else
- let g:file_separator = '/'
+  let g:file_separator = '/'
 endif
 
 let g:modules_folder = 'modules' . g:file_separator
@@ -48,19 +48,19 @@ let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
-let g:gutentags_project_root = ['package.json']
+let g:gutentags_project_root = ['package.json', '.git']
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
 let g:hexokinase_virtualtext = '██'
 let g:hexokinase_ftautoload = ['css', 'xml', 'javascript']
 let g:pear_tree_pairs = {
-    \   '(': {'closer': ')'},
-    \   '[': {'closer': ']'},
-    \   '{': {'closer': '}'},
-    \   "'": {'closer': "'"},
-    \   '"': {'closer': '"'},
-    \   '`': {'closer': '`'},
-    \   '/*': {'closer': '*/'}
-    \ }
+      \   '(': {'closer': ')'},
+      \   '[': {'closer': ']'},
+      \   '{': {'closer': '}'},
+      \   "'": {'closer': "'"},
+      \   '"': {'closer': '"'},
+      \   '`': {'closer': '`'},
+      \   '/*': {'closer': '*/'}
+      \ }
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
@@ -102,8 +102,8 @@ command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
 function! s:checkDocs(args) abort
   let l:stub = tools#getStub()
   call system(len(split(a:args, ' ')) == 0 ?
-              \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . expand('<cword>') . "'" : len(split(a:args, ' ')) == 1 ?
-              \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . a:args . "'" : l:stub . substitute(a:args, '\s\+', '%20', 'g') . "'")
+        \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . expand('<cword>') . "'" : len(split(a:args, ' ')) == 1 ?
+        \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . a:args . "'" : l:stub . substitute(a:args, '\s\+', '%20', 'g') . "'")
 endfunction
 
 command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)

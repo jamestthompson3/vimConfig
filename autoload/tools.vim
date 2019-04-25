@@ -55,46 +55,46 @@ endfunction
 
 " allows for easy jumping using commands like ili, ls, dli, etc.
 function! tools#CCR()
-    let cmdline = getcmdline()
-    if cmdline =~ '\v\C^(ls|files|buffers)'
-        " like :ls but prompts for a buffer command
-        return "\<CR>:b"
-    elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
-        " like :g//# but prompts for a command
-        return "\<CR>:"
-    elseif cmdline =~ '\v\C^(dli|il)'
-        " like :dlist or :ilist but prompts for a count for :djump or :ijump
-        return "\<CR>:" . cmdline[0] . "j  " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
-    elseif cmdline =~ '\v\C^(cli|lli)'
-        " like :clist or :llist but prompts for an error/location number
-        return "\<CR>:sil " . repeat(cmdline[0], 2) . "\<Space>"
-    elseif cmdline =~ '\C^old'
-        " like :oldfiles but prompts for an old file to edit
-        set nomore
-        return "\<CR>:sil se more|e #<"
-    elseif cmdline =~ '\C^changes'
-        " like :changes but prompts for a change to jump to
-        set nomore
-        return "\<CR>:sil se more|norm! g;\<S-Left>"
-    elseif cmdline =~ '\C^ju'
-        " like :jumps but prompts for a position to jump to
-        set nomore
-        return "\<CR>:sil se more|norm! \<C-o>\<S-Left>"
-    elseif cmdline =~ '\C^marks'
-        " like :marks but prompts for a mark to jump to
-        return "\<CR>:norm! `"
-    elseif cmdline =~ '\C^undol'
-        " like :undolist but prompts for a change to undo
-        return "\<CR>:u "
-    else
-        return "\<CR>"
-    endif
+  let cmdline = getcmdline()
+  if cmdline =~ '\v\C^(ls|files|buffers)'
+    " like :ls but prompts for a buffer command
+    return "\<CR>:b"
+  elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+    " like :g//# but prompts for a command
+    return "\<CR>:"
+  elseif cmdline =~ '\v\C^(dli|il)'
+    " like :dlist or :ilist but prompts for a count for :djump or :ijump
+    return "\<CR>:" . cmdline[0] . "j  " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
+  elseif cmdline =~ '\v\C^(cli|lli)'
+    " like :clist or :llist but prompts for an error/location number
+    return "\<CR>:sil " . repeat(cmdline[0], 2) . "\<Space>"
+  elseif cmdline =~ '\C^old'
+    " like :oldfiles but prompts for an old file to edit
+    set nomore
+    return "\<CR>:sil se more|e #<"
+  elseif cmdline =~ '\C^changes'
+    " like :changes but prompts for a change to jump to
+    set nomore
+    return "\<CR>:sil se more|norm! g;\<S-Left>"
+  elseif cmdline =~ '\C^ju'
+    " like :jumps but prompts for a position to jump to
+    set nomore
+    return "\<CR>:sil se more|norm! \<C-o>\<S-Left>"
+  elseif cmdline =~ '\C^marks'
+    " like :marks but prompts for a mark to jump to
+    return "\<CR>:norm! `"
+  elseif cmdline =~ '\C^undol'
+    " like :undolist but prompts for a change to undo
+    return "\<CR>:u "
+  else
+    return "\<CR>"
+  endif
 endfunction
 
 " TODO improve this
 function! tools#GetFilesByType(ft) abort
- call setqflist([], ' ', {'title': 'Files', 'lines': systemlist('fd '.a:ft)})
- execute 'copen'
+  call setqflist([], ' ', {'title': 'Files', 'lines': systemlist('fd '.a:ft)})
+  execute 'copen'
 endfunction
 
 function! tools#makeScratch() abort
@@ -105,23 +105,23 @@ function! tools#makeScratch() abort
 endfunction
 
 function! tools#redir(cmd)
-	for win in range(1, winnr('$'))
-		if getwinvar(win, 'scratch')
-			execute win . 'windo close'
-		endif
-	endfor
-	if a:cmd =~ '^!'
-		let output = system(matchstr(a:cmd, '^!\zs.*'))
-	else
-		redir => output
-		execute a:cmd
-		redir END
-	endif
-	vnew
-	let w:scratch = 1
-	setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile
+  for win in range(1, winnr('$'))
+    if getwinvar(win, 'scratch')
+      execute win . 'windo close'
+    endif
+  endfor
+  if a:cmd =~ '^!'
+    let output = system(matchstr(a:cmd, '^!\zs.*'))
+  else
+    redir => output
+    execute a:cmd
+    redir END
+  endif
+  vnew
+  let w:scratch = 1
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile
   nnoremap <buffer> q <c-w>c
-	call setline(1, split(output, "\n"))
+  call setline(1, split(output, "\n"))
 endfunction
 
 function! tools#HighlightRegion(color)
@@ -167,23 +167,23 @@ function! tools#BufSel(pattern) abort
 endfunction
 
 function! tools#smoothScroll(up)
+  execute "normal " . (a:up ? "\<c-y>" : "\<c-e>")
+  redraw
+  for l:count in range(3, &scroll, 2)
+    sleep 10m
     execute "normal " . (a:up ? "\<c-y>" : "\<c-e>")
     redraw
-    for l:count in range(3, &scroll, 2)
-      sleep 10m
-      execute "normal " . (a:up ? "\<c-y>" : "\<c-e>")
-      redraw
-    endfor
+  endfor
 endfunction
 
 function! s:cmd() abort
-    if executable("xdg-open")
-        return "xdg-open"
-    endif
-    if executable("open")
-        return "open"
-    endif
-    return "explorer"
+  if executable("xdg-open")
+    return "xdg-open"
+  endif
+  if executable("open")
+    return "open"
+  endif
+  return "explorer"
 endfunction
 
 function! tools#getStub() abort
@@ -196,37 +196,37 @@ function! tools#getStub() abort
 endfunction
 
 function! tools#PackagerInit() abort
-    packadd vim-packager
-    call packager#init()
-    call packager#add('thinca/vim-localrc')
-    call packager#add('justinmk/vim-dirvish')
+  packadd vim-packager
+  call packager#init()
+  call packager#add('thinca/vim-localrc')
+  call packager#add('justinmk/vim-dirvish')
 
-    call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
-    call packager#add('SirVer/ultisnips', { 'type': 'opt' })
-    call packager#add('andymass/vim-matchup', { 'type': 'opt' })
-    call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
-    call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
-    call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-    call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
-    call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
-    call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
-    call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
-    call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
-    call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
-    call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
-    call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
-    call packager#add('romainl/vim-cool', { 'type': 'opt'})
-    call packager#add('romainl/vim-qf', { 'type': 'opt'})
-    call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
-    call packager#add('tmsvg/pear-tree', {'type': 'opt'})
-    call packager#add('tpope/vim-commentary', { 'type': 'opt'})
-    call packager#add('tpope/vim-repeat', { 'type': 'opt'})
-    call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
-    call packager#add('tpope/vim-surround', { 'type': 'opt' })
-    call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
-    call packager#add('w0rp/ale', { 'type': 'opt' })
-    call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
-    call packager#local('/usr/local/opt/fzf', { 'type': 'opt'})
+  call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
+  call packager#add('SirVer/ultisnips', { 'type': 'opt' })
+  call packager#add('andymass/vim-matchup', { 'type': 'opt' })
+  call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
+  call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
+  call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+  call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
+  call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
+  call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
+  call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
+  call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
+  call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
+  call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
+  call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
+  call packager#add('romainl/vim-cool', { 'type': 'opt'})
+  call packager#add('romainl/vim-qf', { 'type': 'opt'})
+  call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
+  call packager#add('tmsvg/pear-tree', {'type': 'opt'})
+  call packager#add('tpope/vim-commentary', { 'type': 'opt'})
+  call packager#add('tpope/vim-repeat', { 'type': 'opt'})
+  call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
+  call packager#add('tpope/vim-surround', { 'type': 'opt' })
+  call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
+  call packager#add('w0rp/ale', { 'type': 'opt' })
+  call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
+  call packager#local('/usr/local/opt/fzf', { 'type': 'opt'})
 endfunction
 
 
