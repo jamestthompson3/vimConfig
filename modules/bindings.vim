@@ -52,6 +52,7 @@ augroup FileNav
   autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
   autocmd FileType dirvish nnoremap <buffer> n :e %/
   autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
+  autocmd FileType netrw nnoremap <buffer> Q :close<CR>
 augroup END
 
 
