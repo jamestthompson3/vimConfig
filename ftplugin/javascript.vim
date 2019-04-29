@@ -40,9 +40,9 @@ setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
 setlocal omnifunc=javascriptcomplete#CompleteJS
-setlocal equalprg=prettier
+" setlocal equalprg=prettier
 
-let &makeprg="node %"
+let &makeprg='node %'
 
 " Error: bar
 "     at Object.foo [as _onTimeout] (/Users/Felix/.vim/bundle/vim-nodejs-errorformat/test.js:2:9)

@@ -5,7 +5,7 @@ imap jj <Esc>
 
 " Escape from terminal mode
 if exists(':tnoremap')
- tnoremap <C-\> <C-\><C-n>
+  tnoremap <C-\> <C-\><C-n>
 endif
 
 
@@ -52,6 +52,7 @@ augroup FileNav
   autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
   autocmd FileType dirvish nnoremap <buffer> n :e %/
   autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
+  autocmd FileType netrw nnoremap <buffer> Q :close<CR>
 augroup END
 
 
@@ -69,6 +70,7 @@ nnoremap <silent>sd :call symbols#PreviewWord()<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap gX :DD<CR>
+nnoremap <Leader>f :Vista finder<CR>
 
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
@@ -130,8 +132,8 @@ function! Profiler() abort
   endif
 endfunction
 nnoremap <C-F> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <silent><F5> :so $MYVIMRC<CR>
 nnoremap <silent><F7> :so %<CR>
 nnoremap <silent><F1> :call Profiler()<CR>
