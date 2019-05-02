@@ -31,7 +31,7 @@ let g:loaded_python_provider = 1
 " plugin globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
 let g:netrw_banner=0
-let g:netrw_winsize=15
+let g:netrw_winsize=45
 let g:netrw_liststyle=3
 let g:gutentags_cache_dir = '~/.cache/'
 let g:mucomplete#enable_auto_at_startup = 1

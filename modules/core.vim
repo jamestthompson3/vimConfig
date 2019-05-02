@@ -182,10 +182,14 @@ augroup omnifuncs
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
 
+augroup filebrowser
+  autocmd!
+  autocmd FileType netrw au BufLeave netrw close
+augroup END
+
 augroup core
   autocmd!
   autocmd VimEnter *  call SplashScreen()
-  au FileType netrw au BufLeave QuitNetrw()
   "todo enable to be toggled
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
