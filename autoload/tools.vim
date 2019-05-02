@@ -204,7 +204,6 @@ function! tools#PackagerInit() abort
   call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
   call packager#add('SirVer/ultisnips', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
-  call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
@@ -219,8 +218,8 @@ function! tools#PackagerInit() abort
   call packager#add('romainl/vim-qf', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
+  call packager#add('joelstrouts/swatch.vim', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
-  call packager#add('tpope/vim-repeat', { 'type': 'opt'})
   call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
@@ -242,7 +241,6 @@ function! tools#loadDeps() abort
     packadd pear-tree
     packadd vim-cool
     packadd vim-commentary
-    packadd vim-repeat
     packadd vim-polyglot
     packadd vim-hexokinase
     packadd vim-gutentags

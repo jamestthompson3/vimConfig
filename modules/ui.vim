@@ -55,8 +55,7 @@ augroup Colors
   autocmd Syntax * call s:myTodo()
 augroup END
 
-colorscheme gruvbox
-" colorscheme monotone
+colorscheme monotone
 " }}}
 
 " Statusline: {{{

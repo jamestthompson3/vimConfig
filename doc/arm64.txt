@@ -1,0 +1,95 @@
+ *arm64.txt* arm64 assembly language reference manual
+
+ +-+ +-+ +-+   +-+ +-+
+ |A| |R| |M|   |6| |4|
+ +-+ +-+ +-+   +-+ +-+
+
+
+            A Handy Reference Guide to ARM64 Assembly.
+            Taken and adapted from this blog post:
+            https://modexp.wordpress.com/2018/10/30/arm64-assembly/
+====================================================================
+CONTENTS                                            *ARM64Contents*
+
+    1. Registers ................ |ARMRegisters|
+    2. Conditions ............... |ARMConditions|
+    3. Data Types ............... |ARMDataTypes|
+    3. Credits .............. |JestCredits|
+
+====================================================================
+Section 1: Registers                                       *ARMRegisters*
+
+| Name  | Size    | Description                    |
+|-------|---------|--------------------------------|
+| *Wn*  | 32-bits | General purpose registers 0-31 |
+| *Xn*  | 64-bits | General purpose registers 0-31 |
+| *WZR* | 32-bits | Zero register                  |
+| *XZR* | 64-bits | Zero register                  |
+| *SP*  | 64-bits | Stack pointer                  |
+
+Calling Convention                                               *ARMCallingConvention*
+
+Note: The following is applicable to Debian Linux. You may freely use x0-x18, but remember that if
+calling subroutines, they may use them as well.
+
+| Register    | Description                |
+|-------------|----------------------------|
+| *X0 – X7*   | arguments and return value |
+| *X8 – X18*  | temporary registers        |
+| *X19 – X28* | callee-saved registers     |
+| *X29*       | frame pointer              |
+| *X30*       | link register              |
+| SP          | stack pointer              |
+
+Section 2: Conditions                                       *ARMConditions*
+
+Condition Flags                                               *ARMConditionFlags*
+
+ARM has a “process state” with condition flags that affect the behaviour of some instructions.
+Branch instructions can be used to change the flow of execution. Some of the data processing
+instructions allow setting the condition flags with the S suffix. e.g ANDS or ADDS. The flags are
+the Zero Flag (Z), the Carry Flag (C), the Negative Flag (N) and the is Overflow Flag (V).
+
+| Flag | Description                                                                                       |
+|------|---------------------------------------------------------------------------------------------------|
+| N    | Bit 31. Set if the result of an operation is negative. Cleared if the result is positive or zero. |
+| Z    | Bit 30. Set if the result of an operation is zero/equal. Cleared if non-zero/not equal.           |
+| C    | Bit 29. Set if an instruction results in a carry or overflow. Cleared if no carry.                |
+| V    | Bit 28. Set if an instruction results in an overflow. Cleared if no overflow.                     |
+
+
+Condition Codes                                               *ARMConditionCodes*
+
+The A32 instruction set supports conditional execution for most of its operations. To improve
+performance, ARM removed support with A64. These conditional codes are now only effective with
+branch, select and compare instructions. This appears to be a disadvantage, but there are sufficient
+alternatives in the A64 set that are a distinct improvement.
+
+| Mnemonic | Description                   | Condition Flags           |
+|----------|-------------------------------|---------------------------|
+| EQ       | Equal                         | Z set                     |
+| NE       | Not Equal                     | Z clear                   |
+| CS       | or HS Carry Set               | C set                     |
+| CC       | or LO Carry Clear             | C clear                   |
+| MI       | Minus                         | N set                     |
+| PL       | Plus, positive or zero        | N clear                   |
+| VS       | Overflow                      | V set                     |
+| VC       | No overflow                   | V clear                   |
+| HI       | Unsigned Higher than or equal | C set and Z clear         |
+| LS       | Unsigned Less than or equal   | C clear or Z set          |
+| GE       | Signed Greater than or Equal  | N and V the same          |
+| LT       | Signed Less than              | N and V differ            |
+| GT       | Signed Greater than           | Z clear, N and V the same |
+| LE       | Signed Less than or Equal     | J Z set, N and V differ   |
+| AL       | Always. Normally omitted.     | Any J                     |
+
+
+Section 3: Data Types                                       *ARMDataTypes*
+
+| Type       | Size     |
+|------------|----------|
+| Byte       | 8 bits   |
+| Half-word  | 16 bits  |
+| Word       | 32 bits  |
+| Doubleword | 64 bits  |
+| Quadword   | 128 bits |

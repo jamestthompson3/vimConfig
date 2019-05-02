@@ -18,18 +18,15 @@ let g:isMac = system('uname') =~ 'Darwin\n'
 
 if g:isWindows
   let g:file_separator = '\\'
+  let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
 else
   let g:file_separator = '/'
+  let g:python3_host_prog= '/usr/local/bin/python3'
 endif
 
 let g:modules_folder = 'modules' . g:file_separator
 let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 let g:loaded_python_provider = 1
-if g:isWindows
-  let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
-else
-  let g:python3_host_prog= '/usr/local/bin/python3'
-endif
 
 " plugin globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
