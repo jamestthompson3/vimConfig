@@ -1,5 +1,4 @@
 scriptencoding utf-8
-syntax enable " enable sytnax
 set hidden " enable hidden buffers
 set title " more meta info for window manager
 set lazyredraw " speed up vim drawing
@@ -99,6 +98,7 @@ endif
 
 if !has('nvim')
   set autoindent
+  syntax enable " enable sytnax
   filetype plugin indent on " use ftplugin and indents based on detected file type
   set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
   set autoread  " Automatically read a file changed outside of vim
