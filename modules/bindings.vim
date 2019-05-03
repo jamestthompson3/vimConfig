@@ -47,12 +47,13 @@ nnoremap <silent> sv :split<CR>
 " Files:
 nnoremap <silent><F3> :Vex<CR>
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap - :Ex<CR>
 augroup FileNav
   autocmd!
   autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
   autocmd FileType dirvish nnoremap <buffer> n :e %/
   autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
-  autocmd FileType netrw nnoremap <buffer> Q :close<CR>
+  autocmd FileType netrw nnoremap <buffer> q :close<CR>
 augroup END
 
 
