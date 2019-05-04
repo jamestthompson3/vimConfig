@@ -9,8 +9,8 @@ nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 if !exists('g:loaded_ts_config')
   packadd ultisnips
   packadd coc.nvim
-  packadd vim-jsx-typescript
-  packadd typescript-vim
+  " packadd vim-jsx-typescript
+  " packadd typescript-vim
   let g:loaded_ts_config = 1
 endif
 
@@ -25,7 +25,6 @@ setlocal define=class\\s
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
-setlocal commentstring=//%s
 augroup Typescript
   autocmd BufWritePost * :syntax sync fromstart
 augroup END
