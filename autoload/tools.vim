@@ -222,6 +222,7 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
+  call packager#add('tpope/vim-repeat', { 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('w0rp/ale', { 'type': 'opt' })
   call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
