@@ -12,7 +12,7 @@ nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 
 let b:ale_fixers = ['rustfmt']
 
-let g:mucomplete#chains.rust = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+let g:mucomplete#chains.rust = ['omni','file','path', 'ulti']
 let g:ale_completion_enabled = 0
 
 nnoremap <silent> <leader>R :RustRun<CR>

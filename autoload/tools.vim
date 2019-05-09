@@ -20,12 +20,12 @@ function! tools#GrepBufs() abort
   exec 'cwindow'
 endfunction
 
-" TODO improve this, i.e. .m or .mm would be valid
 function! tools#switchSourceHeader() abort
   if (expand ('%:e') != 'h')
     find %:t:r.h
   else
-    execute 'find '.expand('%:t:r').'.'.b:source_ft
+    let l:filename = expand('%:t:r')
+    execute 'find '.l:filename.'.'.b:source_ft
   endif
 endfunction
 
@@ -206,7 +206,6 @@ function! tools#PackagerInit() abort
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-  call packager#add('leafgarland/typescript-vim', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
@@ -218,7 +217,6 @@ function! tools#PackagerInit() abort
   call packager#add('romainl/vim-qf', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
-  call packager#add('joelstrouts/swatch.vim', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })

@@ -84,9 +84,10 @@ set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
 " Ignore dist and build folders
+" TODO add function to dive into previously ignored paths?
 set wildignore+=*/dist*/*,*/target/*,*/builds/*
 " Ignore libs
-set wildignore+=*/lib/*,*/bower_components/*,*/locale/*,*/flow-typed/*
+set wildignore+=*/lib/*,*/bower_components/*,*/locale/*,*/flow-typed/*,*/node_modules/*
 " Ignore images, pdfs, and font files
 set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
@@ -107,6 +108,8 @@ if !has('nvim')
   set wildmenu " tab through things at vim command line
   set backspace=indent,eol,start "better backspace behavior
   set hlsearch
+  set smarttab
+  set history=10000
   set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
   set background=dark
   set incsearch

@@ -9,14 +9,12 @@ nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 if !exists('g:loaded_ts_config')
   packadd ultisnips
   packadd coc.nvim
-  " packadd vim-jsx-typescript
-  " packadd typescript-vim
   let g:loaded_ts_config = 1
 endif
 
-let g:mucomplete#chains.typescript = ['omni','c-p', 'c-n','file','path', 'ulti']
-let g:mucomplete#chains['typescript.jsx'] = ['omni','c-p', 'c-n','file','path', 'ulti']
-let g:mucomplete#chains['typescript.tsx'] = ['omni','c-p', 'c-n','file','path', 'ulti']
+let g:mucomplete#chains.typescript = ['omni','file','path', 'ulti']
+let g:mucomplete#chains['typescript.jsx'] = ['omni','file','path', 'ulti']
+let g:mucomplete#chains['typescript.tsx'] = ['omni','file','path', 'ulti']
 let g:ale_completion_enabled = 0
 
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx " navigate to imported files by adding the js(x) suffix
