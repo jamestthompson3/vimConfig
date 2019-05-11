@@ -87,9 +87,9 @@ set directory=$HOME/.cache/Vim/swap
 " TODO add function to dive into previously ignored paths?
 set wildignore+=*/dist*/*,*/target/*,*/builds/*
 " Ignore libs
-set wildignore+=*/lib/*,*/bower_components/*,*/locale/*,*/flow-typed/*,*/node_modules/*
+set wildignore+=*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*
 " Ignore images, pdfs, and font files
-set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf
+set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
 
 if has('nvim')

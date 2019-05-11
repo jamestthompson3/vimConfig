@@ -210,7 +210,6 @@ function! tools#PackagerInit() abort
   call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
-  call packager#add('peitalin/vim-jsx-typescript', { 'type': 'opt' })
   call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
   call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})

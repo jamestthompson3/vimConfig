@@ -106,7 +106,8 @@ endfunction
 command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>
+command! -nargs=+ -complete=dir -bar SearchProject cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
+"execute 'silent! grep!'.<q-args>
 command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()

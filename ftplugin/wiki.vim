@@ -4,7 +4,7 @@ let b:localleader = "\\"
 iab <expr> dtss strftime("%H:%M")
 iab <expr> dateheader strftime("%Y %b %d")
 " highlight people / things with @
-match Todo '@\w\+'
+match Callout '@\w\+\.\?\w\+'
 setlocal foldmethod=syntax
 setlocal textwidth=120
 setlocal wrap
