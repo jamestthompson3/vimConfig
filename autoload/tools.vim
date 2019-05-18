@@ -176,6 +176,11 @@ function! tools#smoothScroll(up)
   endfor
 endfunction
 
+function! tools#CombineSelection(line1, line2, cp)
+  execute 'let char = "\u'.a:cp.'"'
+  execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
+endfunction
+
 function! s:cmd() abort
   if executable("xdg-open")
     return "xdg-open"

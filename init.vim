@@ -106,8 +106,10 @@ endfunction
 command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -nargs=+ -complete=dir -bar SearchProject cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
-"execute 'silent! grep!'.<q-args>
+command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>
+" TODO fix this
+"cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
+
 command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()
@@ -119,3 +121,12 @@ command! Blue  :Monotone 193 90 90
 command! Red   :Monotone 360 96 80
 command! Reset :Monotone 217, 0, 70
 
+" modify selected text using combining diacritics
+command! -range -nargs=0 Overline        call tools#CombineSelection(<line1>, <line2>, '0305')
+command! -range -nargs=0 Underline       call tools#CombineSelection(<line1>, <line2>, '0332')
+command! -range -nargs=0 DoubleUnderline call tools#CombineSelection(<line1>, <line2>, '0333')
+command! -range -nargs=0 Strikethrough   call tools#CombineSelection(<line1>, <line2>, '0336')
+
+" Jira stuff
+command! JIRAIssues call jira#getIssues()
+command! -range -nargs=0 JIRATransition call jira#transitionIssue()

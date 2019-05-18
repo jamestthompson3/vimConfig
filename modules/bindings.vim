@@ -115,7 +115,6 @@ function! OpenTerminalDrawer() abort
 endfunction
 
 nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>i
-nnoremap <Leader>t :Tagbar<CR>
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " VimDev:
