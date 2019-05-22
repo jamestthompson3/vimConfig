@@ -76,13 +76,7 @@ nnoremap <silent> n n:call HLNext(0.1)<cr>
 nnoremap <silent> N N:call HLNext(0.1)<cr>
 
 function! HLNext (blinktime) abort
-  " TODO clean this up
   let target_pat = '\c\%#'.@/
-  let ring = matchadd('ErrorMsg', target_pat, 101)
-  redraw
-  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
-  call matchdelete(ring)
-  redraw
   let ring = matchadd('ErrorMsg', target_pat, 101)
   redraw
   exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
