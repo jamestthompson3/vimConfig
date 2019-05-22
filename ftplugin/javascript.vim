@@ -40,7 +40,10 @@ setlocal foldlevelstart=99
 setlocal foldlevel=99
 setlocal omnifunc=javascriptcomplete#CompleteJS
 " setlocal equalprg=prettier
-
+syntax match jsOperator "<=" conceal cchar=≤
+syntax match jsOperator ">=" conceal cchar=≥
+syntax match jsOperator "!==" conceal cchar=≢
+syntax match jsArrowFunction /=>/ conceal cchar=⇒
 let &makeprg='node %'
 
 " Error: bar

@@ -1,9 +1,9 @@
-function! s:getIssues() abort
+function! jira#getIssues() abort
   execute 'r !jira i'
   execute '%s/\e\[[0-9;]\+[mK]//g'
 endfunction
 
-function! s:transitionIssue() abort
+function! jira#transitionIssue() abort
   let l:selection = s:get_visual_selection()
   execute 'copen'
   execute 'term jira i '.l:selection.' -t'
@@ -22,5 +22,7 @@ function! s:get_visual_selection()
     return join(lines, "\n")
 endfunction
 
+hi Green guibg=#77ff77 guifg=#000000
 syn match Todo 'To\ Do'
 syn match Identifier 'In\ Progress'
+syn match Green '?\w\+\-[0-9]\+'

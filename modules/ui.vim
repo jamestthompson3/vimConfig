@@ -41,6 +41,7 @@ function! MyHighlights() abort
   hi! link Whitespace Comment
   hi! link StatusLine Normal
   hi! link MyTodo Todo
+  hi IncSearch guifg=#d81a4c
 endfunction
 
 function! s:myTodo()

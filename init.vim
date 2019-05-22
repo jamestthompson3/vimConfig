@@ -130,3 +130,4 @@ command! -range -nargs=0 Strikethrough   call tools#CombineSelection(<line1>, <l
 " Jira stuff
 command! JIRAIssues call jira#getIssues()
 command! -range -nargs=0 JIRATransition call jira#transitionIssue()
+

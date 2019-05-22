@@ -47,6 +47,7 @@ nnoremap <silent> sv :split<CR>
 " Files:
 nnoremap <silent><F3> :Vex<CR>
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <silent><leader>F :call tools#simpleMru()<CR>
 augroup FileNav
   autocmd!
   autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
@@ -71,7 +72,23 @@ nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap gX :DD<CR>
 nnoremap <Leader>f :Vista finder<CR>
+nnoremap <silent> n n:call HLNext(0.1)<cr>
+nnoremap <silent> N N:call HLNext(0.1)<cr>
 
+function! HLNext (blinktime) abort
+  " TODO clean this up
+  let target_pat = '\c\%#'.@/
+  let ring = matchadd('ErrorMsg', target_pat, 101)
+  redraw
+  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+  call matchdelete(ring)
+  redraw
+  let ring = matchadd('ErrorMsg', target_pat, 101)
+  redraw
+  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+  call matchdelete(ring)
+  redraw
+endfunction
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
   autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
