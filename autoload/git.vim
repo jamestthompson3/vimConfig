@@ -51,9 +51,9 @@ endfunction
 
 function! git#branch()
   if g:isWindows
-    return trim(system("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'"))
+    return system("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
   else
-    return trim(system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'"))
+    return system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
   endif
 endfunction
 

@@ -45,8 +45,8 @@ function! statusline#FileType() abort
     return l:currFile
   endif
   if g:isWindows
-    return trim(system('devicon-lookup <<< '.l:currFile." 2> NUL | tr -d '\n'"))
+    return system('devicon-lookup <<< '.l:currFile." 2> NUL | tr -d '\n'")
   else
-    return trim(system('devicon-lookup <<< '.l:currFile." 2> /dev/null | tr -d '\n'"))
+    return system('devicon-lookup <<< '.l:currFile." 2> /dev/null | tr -d '\n'")
   endif
 endfunction

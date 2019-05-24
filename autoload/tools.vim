@@ -260,7 +260,6 @@ function! tools#PackagerInit() abort
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('w0rp/ale', { 'type': 'opt' })
   call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
-  call packager#local('/usr/local/opt/fzf', { 'type': 'opt'})
 endfunction
 
 
@@ -269,10 +268,8 @@ function! tools#loadDeps() abort
     return
   else
     packadd ale
-    packadd fzf
     packadd vista.vim
     packadd vim-qf
-    packadd vim-dirvish
     packadd pear-tree
     packadd vim-cool
     packadd vim-commentary

@@ -31,9 +31,6 @@ set path-=/usr/include
 set path+=**
 set virtualedit=block
 set textwidth=100
-set diffopt+=hiddenoff
-set diffopt+=iwhiteall
-set diffopt+=algorithm:patience
 
 if !g:isWindows
   set shell=bash
@@ -95,6 +92,9 @@ set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
 if has('nvim')
   set inccommand=split " preview replacement changes
   set wildoptions=pum
+  set diffopt+=hiddenoff
+  set diffopt+=iwhiteall
+  set diffopt+=algorithm:patience
 endif
 
 if !has('nvim')

@@ -81,9 +81,7 @@ let g:ale_virtualtext_prompt = ' '
 let g:ale_sign_column_always = 0
 
 " Load Custom Modules:
-execute 'runtime '.g:modules_folder . 'core.vim'
-execute 'runtime '.g:modules_folder . 'ui.vim'
-execute 'runtime '.g:modules_folder . 'bindings.vim'
+execute 'runtime! '.g:modules_folder.'*'
 
 " Commands:
 command! -bang -nargs=* Snake call tools#Snake(<q-args>)
