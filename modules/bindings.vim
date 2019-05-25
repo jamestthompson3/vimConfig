@@ -71,7 +71,6 @@ nnoremap <silent>sd :call symbols#PreviewWord()<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap gX :DD<CR>
-nnoremap <Leader>f :Vista finder<CR>
 nnoremap <silent> n n:call HLNext(0.1)<cr>
 nnoremap <silent> N N:call HLNext(0.1)<cr>
 
@@ -88,6 +87,48 @@ augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
 augroup END
 
+
+"Cscope
+nnoremap <leader>f :silent! cs find 0 <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
+vnoremap <silent> g<c-\> :<C-U>
+      \:let old_reg=getreg('"')<bar>
+      \:let old_regmode=getregtype('"')<cr>
+      \gvy
+      \:silent! cs find s <C-R>=@"<cr><cr>
+      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
+" Find functions call this word (3==c)
+nnoremap g<C-]> :silent! cs find c <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
+vnoremap <silent> g<c-]> :<C-U>
+      \:let old_reg=getreg('"')<bar>
+      \:let old_regmode=getregtype('"')<cr>
+      \gvy
+      \:silent! cs find c <C-R>=@"<cr><cr>
+      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
+" Find this text string  (4==t)
+nnoremap g<C-[> :silent! cs find t <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
+vnoremap <silent> g<c-[> :<C-U>
+      \:let old_reg=getreg('"')<bar>
+      \:let old_regmode=getregtype('"')<cr>
+      \gvy
+      \:silent! cs find t <C-R>=@"<cr><cr>
+      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
+" Find this definition (1==g)
+nnoremap g<C-g> :silent! cs find g <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
+vnoremap <silent> g<c-g> :<C-U>
+      \:let old_reg=getreg('"')<bar>
+      \:let old_regmode=getregtype('"')<cr>
+      \gvy
+      \:silent! cs find g <C-R>=@"<cr><cr>
+      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
+" Find this text string  (4==t)
+" Use input() instead of inputdialog() so you can use <C-R> more
+" effectively when pasting in text to search for
+" nnoremap g/ :silent! cs find t <C-R>=input("Enter search string:", expand("<cword>"))<CR><CR>:cwindow<CR>
+nnoremap g/ :let find_text = input("Enter search string:", expand("<cword>")) <bar>
+      \ :if find_text != '' \|
+      \     exec('silent! cs find t '.find_text) \|
+      \     exec('cwindow') \|
+      \ endif<CR>
 
 " Git:
 nnoremap <Leader>b :Gblame<CR>

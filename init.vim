@@ -27,6 +27,9 @@ endif
 let g:modules_folder = 'modules' . g:file_separator
 let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 let g:loaded_python_provider = 1
+let g:cscope_options_default    = '-C'
+let g:cscope_rebuild_on_refresh = 0
+let &cscopeprg = 'cscope'
 
 " plugin globals:
 let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
@@ -34,6 +37,7 @@ let g:netrw_banner=0
 let g:netrw_winsize=45
 let g:netrw_liststyle=3
 let g:gutentags_cache_dir = '~/.cache/'
+let g:gutentags_project_root = ['package.json', '.git']
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#buffer_relative_paths = 1
@@ -45,7 +49,6 @@ let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
-let g:gutentags_project_root = ['package.json', '.git']
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
 let g:hexokinase_virtualtext = '██'
 let g:hexokinase_ftautoload = ['css', 'xml', 'javascript']
@@ -105,6 +108,7 @@ command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>
+command! CSRefresh :call symbols#CSRefreshAllConns()
 " TODO fix this
 "cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
 

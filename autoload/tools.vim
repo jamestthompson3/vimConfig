@@ -280,6 +280,10 @@ function! tools#loadDeps() abort
     packadd vim-schlepp
     packadd vim-surround
     packadd vim-mucomplete
+    try
+      silent cscope add cscope.out
+    catch /^Vim\%((\a\+)\)\=:E/
+    endtry
     let g:loadedDeps = 1
   endif
 endfunction

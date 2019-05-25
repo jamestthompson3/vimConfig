@@ -32,6 +32,25 @@ set path+=**
 set virtualedit=block
 set textwidth=100
 
+
+" Cscope
+set cscopetagorder=0
+" set cscopetag
+set nocscopeverbose
+" determines how many components of a file's path to display
+set cscopepathcomp=3
+" Use the quickfix window for the cscope query
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+" add any database in current directory
+if filereadable("cscope.out")
+  " cscope -C (queries this with case insensitivity)
+  exec 'cs add '.getcwd().'/cscope.out "" '.g:cscope_options_default
+  " else add database pointed to by environment
+elseif $CSCOPE_DB != ""
+  cs add $CSCOPE_DB
+endif
+set csverb
+
 if !g:isWindows
   set shell=bash
 endif
@@ -215,6 +234,21 @@ augroup core
         \ if !isdirectory(expand("<afile>:p:h")) |
         \ call mkdir(expand("<afile>:p:h"), "p") |
         \ endif
+
+autocmd BufReadPost cscope.files
+      \ let before_lines = line('$') |
+      \ silent! exec 'silent! g/\(cscope\|node_modules\|build\/\|assets\/\|\.\(gif\|bmp\|png\|jpg\|swp\)\)/d' |
+      \ silent! exec 'silent! v/\./d' |
+      \ let before_lines = before_lines - line('$') |
+      \ if before_lines > 0 |
+      \   call confirm( 'Removed ' . before_lines . ' lines from file.  ' .
+      \           'These were any of the following: ' .
+      \           "\n".'- image and swap files ' .
+      \           "\n".'- directories ' .
+      \           "\n".'- any cscope files.' .
+      \           "\n\n".'Press u to recover these lines.'
+      \           ) |
+      \ endif
 augroup END
 
 augroup AutoSwap
