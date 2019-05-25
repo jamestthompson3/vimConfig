@@ -89,7 +89,7 @@ augroup END
 
 
 "Cscope
-nnoremap <leader>f :silent! cs find 0 <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
+nnoremap <leader>f :silent! cs find 0 <C-R>=expand("<cword>")<CR><CR>
 vnoremap <silent> g<c-\> :<C-U>
       \:let old_reg=getreg('"')<bar>
       \:let old_regmode=getregtype('"')<cr>

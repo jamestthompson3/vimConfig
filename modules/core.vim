@@ -41,15 +41,14 @@ set nocscopeverbose
 set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
-" add any database in current directory
-if filereadable("cscope.out")
-  " cscope -C (queries this with case insensitivity)
-  exec 'cs add '.getcwd().'/cscope.out "" '.g:cscope_options_default
-  " else add database pointed to by environment
-elseif $CSCOPE_DB != ""
-  cs add $CSCOPE_DB
-endif
 set csverb
+
+cnoreabbrev csa cs add
+cnoreabbrev csf cs find
+cnoreabbrev csk cs kill
+cnoreabbrev csr cs reset
+cnoreabbrev css cs show
+cnoreabbrev csh cs help
 
 if !g:isWindows
   set shell=bash
