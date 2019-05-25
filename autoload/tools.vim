@@ -244,7 +244,7 @@ function! tools#PackagerInit() abort
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
-  call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
+  call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
   call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
@@ -268,7 +268,7 @@ function! tools#loadDeps() abort
     return
   else
     packadd ale
-    packadd vista.vim
+    packadd tagbar
     packadd vim-qf
     packadd pear-tree
     packadd vim-cool
