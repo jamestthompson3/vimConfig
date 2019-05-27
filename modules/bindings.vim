@@ -19,10 +19,10 @@ xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 
 
 " Window Motions:
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <silent><C-J> :call WinMove('j')<cr>
+nnoremap <silent><C-L> :call WinMove('l')<cr>
+nnoremap <silent><C-H> :call WinMove('h')<cr>
+nnoremap <silent><C-K> :call WinMove('k')<cr>
 nnoremap <silent> wq :close<CR>
 nnoremap <silent> Q :bp\|bd #<CR>
 nnoremap <silent> cc :cclose<CR>
@@ -31,6 +31,20 @@ nnoremap <silent> gl :pc<CR>
 nnoremap <silent> <c-u> :call tools#smoothScroll(1)<cr>
 nnoremap <silent> <c-d> :call tools#smoothScroll(0)<cr>
 
+" Move in given direction or create new split
+function! WinMove(key) abort
+  let t:curwin = winnr()
+  exec "wincmd ".a:key
+  if (t:curwin == winnr())
+    if (match(a:key,'[jk]'))
+      wincmd v
+    else
+      wincmd s
+    endif
+    exec "wincmd ".a:key
+  endif
+endfunction
+
 " Buffer Switching:
 nnoremap <silent> [q :cnext<CR>
 nnoremap <silent> ]q :cprev<CR>
@@ -38,11 +52,6 @@ nnoremap <silent> [Q :cnfile<CR>
 nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
 nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
-
-" Splits:
-nnoremap <silent> sp :vsplit<CR>
-nnoremap <silent> sv :split<CR>
-
 
 " Files:
 nnoremap <silent><F3> :Vex<CR>
@@ -140,10 +149,10 @@ nnoremap <silent> <Leader>jj :ALENext<CR>
 nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 
 " Blocks:
-xmap <up>    <Plug>SchleppUp
-xmap <down>  <Plug>SchleppDown
-xmap <left>  <Plug>SchleppLeft
-xmap <right> <Plug>SchleppRight
+vnoremap <silent><up>    :m '<-2<cr>gv=gv
+vnoremap <silent><down>  :m '>+1<cr>gv=gv
+nnoremap <silent><up>    :m .-2<cr>==
+nnoremap <silent><down>  :m .+1<cr>==
 vnoremap <silent><leader>g :<C-U>call tools#HighlightRegion('Green')<CR>
 vnoremap <silent><leader>G :<C-U>call tools#UnHighlightRegion()<CR>
 
@@ -159,7 +168,6 @@ nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ssb :call sessions#sourceSession()<CR>
 nnoremap ' `
-inoremap<F11> <Plug>(PearTreeExpand)
 
 function! OpenTerminalDrawer() abort
   execute 'copen'

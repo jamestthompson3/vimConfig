@@ -247,7 +247,6 @@ function! tools#PackagerInit() abort
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
-  call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
   call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('romainl/vim-qf', { 'type': 'opt'})
@@ -259,7 +258,6 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-repeat', { 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('w0rp/ale', { 'type': 'opt' })
-  call packager#add('zirrostig/vim-schlepp', { 'type': 'opt' })
 endfunction
 
 
@@ -277,7 +275,6 @@ function! tools#loadDeps() abort
     packadd vim-hexokinase
     packadd vim-gutentags
     packadd vim-matchup
-    packadd vim-schlepp
     packadd vim-surround
     packadd vim-mucomplete
     try

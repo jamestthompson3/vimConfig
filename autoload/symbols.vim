@@ -50,14 +50,12 @@ function! symbols#ShowDeclaration(global) abort
   call cursor(pos[1], pos[2])
 endfunction
 
-function! symbols#buildCscope() abort
+function! symbols#buildCscopeFiles() abort
   let l:pattern  = input('filetype > ')
   call system('fd -e '.l:pattern.' > cscope.files && cscope -bcqR')
-  cscope add cscope.out
 endfunction
 
 
-" CScope support for VIM:/*{{{*/
 function! symbols#CSRefreshAllConns()
 
   " Check if there are any cscope connections
@@ -118,17 +116,6 @@ function! s:CSReloadDB( cs_conn_num, cs_db_name, cs_db_path, cs_options )
   if root_file == ""
     let root_file = fnamemodify(a:cs_db_name,":p")
   endif
-  " If no pre_path was specified (ie . = current directory)
-  " Then assume the directory has not changed since cscope was started
-  " let cs_db_path     = substitute(root_file, '^\.$',
-  "             \ '\=expand("%:p:h")', '')
-  " if has('win32')
-  "     let cs_db_fullpath = substitute(cs_db_path, '\S\+\zs\\\?$', '&\', '') .
-  "                 \ a:cs_db_name
-  " else
-  "     let cs_db_fullpath = substitute(cs_db_path, '\S\+\zs\\\?$', '&/', '') .
-  "                 \ a:cs_db_name
-  " endif
 
   if filereadable(cs_db_fullpath)
     if g:cscope_rebuild_on_refresh == 1

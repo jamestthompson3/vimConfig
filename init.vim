@@ -59,8 +59,10 @@ let g:pear_tree_pairs = {
       \   "'": {'closer': "'"},
       \   '"': {'closer': '"'},
       \   '`': {'closer': '`'},
-      \   '/*': {'closer': '*/'}
+      \   '<*>': {'closer': '</*>', 'not_like': '/$', 'until': '\W'},
+      \   '/\*': {'closer': '\*/'}
       \ }
+
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
@@ -70,6 +72,7 @@ let g:vista_sidebar_width = 50
 
 " ALE:
 let g:ale_completion_enabled = 1
+let g:ale_completion_delay = 20
 let g:ale_linters_explicit = 1
 let g:ale_sign_error = '!!'
 let g:ale_sign_warning = '>>'
@@ -108,7 +111,8 @@ command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>
-command! CSRefresh :call symbols#CSRefreshAllConns()
+command! CSRefresh call symbols#CSRefreshAllConns()
+command! CSBuild call symbols#buildCscopeFiles()
 " TODO fix this
 "cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
 

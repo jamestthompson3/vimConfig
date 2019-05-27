@@ -22,6 +22,7 @@ set undofile
 set backup
 set swapfile
 set synmaxcol=200 " Large columns with syntax highlights slow things down
+set cmdheight=2 " Reduce 'hit enter to continue' messages
 set grepprg=rg\ --smart-case\ --vimgrep
 set completeopt+=longest,noinsert,menuone,noselect
 set completeopt-=preview
@@ -42,6 +43,7 @@ set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set csverb
+set cscopetag
 
 cnoreabbrev csa cs add
 cnoreabbrev csf cs find
