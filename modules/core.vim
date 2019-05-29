@@ -1,23 +1,23 @@
 scriptencoding utf-8
-set hidden " enable hidden buffers
+set hidden
 set title " more meta info for window manager
-set lazyredraw " speed up vim drawing
-set splitright " when splitting vertically, focus goes right
+set lazyredraw
+set splitright
 set undolevels=1000
-set ttimeout " Allows for setting custom ttimeoutlen intervals
+set ttimeout
 set ttimeoutlen=20
-set wildignorecase " no case sensitivity on wild menu
+set wildignorecase
 set wildcharm=<C-z> " wildchar in macros
 set magic " Use extended regular expressions
-set mouse=nv " Mouse can be used in normal and visual mode
+set mouse=nv
 set wildmode=list:longest,full " gives tab completion lists in ex command area
-set shiftwidth=2 " indent code with two spaces
-set softtabstop=2 " tabs take two spaces
-set tabstop=2 " tabs take two spaces
-set expandtab " replace tabs with spaces
-set shiftround " round indent to multiples of shiftwidth
-set ignorecase " ignore cases
-set smartcase " except if string contains a capital letter
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+set shiftround
+set ignorecase
+set smartcase
 set undofile
 set backup
 set swapfile
@@ -36,14 +36,11 @@ set textwidth=100
 
 " Cscope
 set cscopetagorder=0
-" set cscopetag
 set nocscopeverbose
-" determines how many components of a file's path to display
 set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set csverb
-set cscopetag
 
 cnoreabbrev csa cs add
 cnoreabbrev csf cs find
@@ -100,17 +97,14 @@ unlet g:conf_dir
 set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
-" Ignore dist and build folders
 " TODO add function to dive into previously ignored paths?
 set wildignore+=*/dist*/*,*/target/*,*/builds/*
-" Ignore libs
 set wildignore+=*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*
-" Ignore images, pdfs, and font files
 set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
 
 if has('nvim')
-  set inccommand=split " preview replacement changes
+  set inccommand=split
   set wildoptions=pum
   set diffopt+=hiddenoff
   set diffopt+=iwhiteall
@@ -119,12 +113,12 @@ endif
 
 if !has('nvim')
   set autoindent
-  syntax enable " enable sytnax
-  filetype plugin indent on " use ftplugin and indents based on detected file type
+  syntax enable
+  filetype plugin indent on
   set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
   set autoread  " Automatically read a file changed outside of vim
   set complete-=i " let mucomplete handle searching for included files. Don't scan by default
-  set belloff=all " No annoying bells
+  set belloff=all
   set wildmenu " tab through things at vim command line
   set backspace=indent,eol,start "better backspace behavior
   set hlsearch
@@ -226,7 +220,6 @@ augroup core
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.mm,*.m setf objc
   autocmd BufNewFile,BufRead *.h,*.m,*.mm set tags+=~/global-objc-tags
-  "au! BufNewFile,BufRead *.uml setf platinuml
   au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css

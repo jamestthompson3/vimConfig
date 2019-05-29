@@ -168,6 +168,7 @@ nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ssb :call sessions#sourceSession()<CR>
 nnoremap ' `
+inoremap<F11> <Plug>(PearTreeExpand)
 
 function! OpenTerminalDrawer() abort
   execute 'copen'

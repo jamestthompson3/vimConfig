@@ -252,6 +252,7 @@ function! tools#PackagerInit() abort
   call packager#add('romainl/vim-qf', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
+  call packager#add('joelstrouts/swatch.vim', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })

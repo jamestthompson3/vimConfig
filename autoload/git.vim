@@ -27,6 +27,7 @@ function! git#diff() abort
   autocmd BufWinLeave <buffer> diffoff!
   wincmd p
   diffthis
+  normal! <C-W><C-R>
 endfunction
 
 function! git#threeWayDiff() abort
