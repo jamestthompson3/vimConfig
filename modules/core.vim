@@ -143,14 +143,14 @@ iabbrev slef    self
 iabbrev hadnler handler
 
 " FUNCTIONS:
-function! MarkMargin ()
+function! MarkMargin () abort
   if exists('b:MarkMargin')
     call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
   endif
 endfunction
 
 " Quit netrw when selecting a file
-function! QuitNetrw()
+function! QuitNetrw() abort
   for i in range(1, bufnr($))
     if buflisted(i)
       if getbufvar(i, '&filetype') == "netrw"

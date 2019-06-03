@@ -1,16 +1,18 @@
 hi clear
 syntax reset
 
-let g:colors_name = 'ghost'
+let g:colors_name = 'bright'
 
-hi Comment gui=italic guifg=#f5ac46 guibg=none
+set background=light
+
+hi Comment gui=italic guifg=#000000 guibg=#aa7766
 hi VertSplit gui=none guifg=#5e5959 guibg=none
 hi MatchParen gui=none guifg=#121111 guibg=#f5ac46
-hi CursorLineNR gui=none guifg=#9c9695 guibg=#222020
-hi CursorLine gui=none guifg=none guibg=#222020
+hi CursorLineNR gui=none guifg=#393636 guibg=#787271
+hi CursorLine gui=none guifg=#ffffff guibg=#222020
 hi LineNR gui=none guifg=#5e5959 guibg=none
 hi Search gui=bold guifg=#121111 guibg=#f5ac46
-hi Normal gui=none guifg=#d2cfcf guibg=#121111
+hi Normal gui=none guifg=#000000 guibg=#ffffff
 hi StatusLineNC gui=underline guifg=#5e5959 guibg=none
 hi Visual gui=none guifg=#121111 guibg=#d2cfcf
 hi Todo gui=bold guifg=White guibg=Magenta
@@ -21,7 +23,6 @@ hi NormalNC gui=none guifg=#5e5959 guibg=none
 hi NonText gui=none guifg=#9b4a3a guibg=none
 hi WildMenu gui=none guifg=#121111 guibg=#d2cfcf
 hi Folded gui=italic guifg=#d2cfcf guibg=#222020
-hi SpellBad gui=none guifg=Red guibg=none
 
 hi Function     guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic
 hi Identifier   guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic

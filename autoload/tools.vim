@@ -91,12 +91,6 @@ function! tools#CCR()
   endif
 endfunction
 
-" TODO improve this
-function! tools#GetFilesByType(ft) abort
-  call setqflist([], ' ', {'title': 'Files', 'lines': systemlist('fd '.a:ft)})
-  execute 'copen'
-endfunction
-
 function! tools#makeScratch() abort
   execute 'new'
   setlocal buftype=nofile
@@ -249,12 +243,9 @@ function! tools#PackagerInit() abort
   call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
   call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
-  call packager#add('romainl/vim-qf', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
-  call packager#add('joelstrouts/swatch.vim', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
-  call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('tpope/vim-repeat', { 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
@@ -267,8 +258,8 @@ function! tools#loadDeps() abort
     return
   else
     packadd ale
+    packadd cfilter
     packadd tagbar
-    packadd vim-qf
     packadd pear-tree
     packadd vim-cool
     packadd vim-commentary

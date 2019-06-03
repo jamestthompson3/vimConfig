@@ -91,9 +91,12 @@ function! HLNext (blinktime) abort
   call matchdelete(ring)
   redraw
 endfunction
+
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
   autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
+  autocmd BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>
+  autocmd BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>
 augroup END
 
 
