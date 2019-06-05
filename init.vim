@@ -44,12 +44,10 @@ let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {}
 let g:mucomplete#chains.default = ['incl','omni','tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path', 'ulti']
 let g:mucomplete#minimum_prefix_length = 2
-let g:ultisnipssnippetsdir = $myvimrc . g:file_separator . 'ultisnips'
-let g:UltiSnipsExpandTrigger = '<c-l>'
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
-let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript'}
+let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript', 'css': 'css'}
 let g:hexokinase_virtualtext = '██'
 let g:hexokinase_ftautoload = ['css', 'xml', 'javascript']
 let g:pear_tree_pairs = {
@@ -68,7 +66,6 @@ let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
-let g:vista_sidebar_width = 50
 
 " ALE:
 let g:ale_completion_enabled = 1
@@ -81,9 +78,7 @@ let g:ale_fix_on_save = 1
 let g:ale_list_window_size = 5
 let g:ale_virtualtext_cursor = 1
 let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' '
 let g:ale_echo_msg_format = '[%linter%] %s'
-let g:ale_virtualtext_prompt = ' '
 let g:ale_sign_column_always = 0
 
 " Load Custom Modules:
@@ -110,7 +105,7 @@ endfunction
 command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>
+command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>.' | cwindow'
 command! CSRefresh call symbols#CSRefreshAllConns()
 command! CSBuild call symbols#buildCscopeFiles()
 " TODO fix this
@@ -126,14 +121,3 @@ command! PackagerStatus call tools#PackagerInit() | call packager#status()
 command! Blue  :Monotone 193 90 90
 command! Red   :Monotone 360 96 80
 command! Reset :Monotone 217, 0, 70
-
-" modify selected text using combining diacritics
-command! -range -nargs=0 Overline        call tools#CombineSelection(<line1>, <line2>, '0305')
-command! -range -nargs=0 Underline       call tools#CombineSelection(<line1>, <line2>, '0332')
-command! -range -nargs=0 DoubleUnderline call tools#CombineSelection(<line1>, <line2>, '0333')
-command! -range -nargs=0 Strikethrough   call tools#CombineSelection(<line1>, <line2>, '0336')
-
-" Jira stuff
-command! JIRAIssues call jira#getIssues()
-command! -range -nargs=0 JIRATransition call jira#transitionIssue()
-

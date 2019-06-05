@@ -65,6 +65,12 @@ augroup FileNav
   autocmd FileType netrw nnoremap <buffer> q :close<CR>
 augroup END
 
+augroup ECMA
+autocmd!
+autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i
+autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap d<C-l> debugger
+augroup END
+
 
 " Search:
 nnoremap S :%s//g<LEFT><LEFT>
@@ -91,9 +97,12 @@ function! HLNext (blinktime) abort
   call matchdelete(ring)
   redraw
 endfunction
+
 augroup searching
   autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
   autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
+  autocmd BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>
+  autocmd BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>
 augroup END
 
 

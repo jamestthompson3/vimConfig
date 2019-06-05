@@ -26,3 +26,9 @@ hi Green guibg=#77ff77 guifg=#000000
 syn match Todo 'To\ Do'
 syn match Identifier 'In\ Progress'
 syn match Green '?\w\+\-[0-9]\+'
+
+" modify selected text using combining diacritics
+command! -range -nargs=0 Overline        call tools#CombineSelection(<line1>, <line2>, '0305')
+command! -range -nargs=0 Underline       call tools#CombineSelection(<line1>, <line2>, '0332')
+command! -range -nargs=0 DoubleUnderline call tools#CombineSelection(<line1>, <line2>, '0333')
+command! -range -nargs=0 Strikethrough   call tools#CombineSelection(<line1>, <line2>, '0336')

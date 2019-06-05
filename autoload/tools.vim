@@ -91,12 +91,6 @@ function! tools#CCR()
   endif
 endfunction
 
-" TODO improve this
-function! tools#GetFilesByType(ft) abort
-  call setqflist([], ' ', {'title': 'Files', 'lines': systemlist('fd '.a:ft)})
-  execute 'copen'
-endfunction
-
 function! tools#makeScratch() abort
   execute 'new'
   setlocal buftype=nofile
@@ -232,6 +226,14 @@ function! tools#simpleMru() abort
   endif
 endfunction
 
+function! tools#OpenQuickfix()
+    if get(g:, 'qf_auto_open_quickfix', 1)
+        " get user-defined maximum height
+        let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+    endif
+endfunction
+
 function! tools#PackagerInit() abort
   packadd vim-packager
   call packager#init()
@@ -239,22 +241,17 @@ function! tools#PackagerInit() abort
   call packager#add('justinmk/vim-dirvish')
 
   call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
-  call packager#add('SirVer/ultisnips', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
-  call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
   call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
-  call packager#add('romainl/vim-qf', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
-  call packager#add('joelstrouts/swatch.vim', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
-  call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('tpope/vim-repeat', { 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
@@ -267,8 +264,8 @@ function! tools#loadDeps() abort
     return
   else
     packadd ale
+    packadd cfilter
     packadd tagbar
-    packadd vim-qf
     packadd pear-tree
     packadd vim-cool
     packadd vim-commentary

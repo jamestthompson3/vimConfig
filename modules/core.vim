@@ -3,6 +3,7 @@ set hidden
 set title " more meta info for window manager
 set lazyredraw
 set splitright
+set nomodeline
 set undolevels=1000
 set ttimeout
 set ttimeoutlen=20
@@ -143,14 +144,14 @@ iabbrev slef    self
 iabbrev hadnler handler
 
 " FUNCTIONS:
-function! MarkMargin ()
+function! MarkMargin () abort
   if exists('b:MarkMargin')
     call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
   endif
 endfunction
 
 " Quit netrw when selecting a file
-function! QuitNetrw()
+function! QuitNetrw() abort
   for i in range(1, bufnr($))
     if buflisted(i)
       if getbufvar(i, '&filetype') == "netrw"
@@ -252,8 +253,9 @@ augroup END
 
 augroup quickfix
   autocmd!
-  autocmd QuickFixCmdPost cgetexpr cwindow
-  autocmd QuickFixCmdPost lgetexpr lwindow
+  autocmd QuickFixCmdPost [^l]* nested call tools#OpenQuickfix()
+  autocmd QuickFixCmdPost    l* nested call tools#OpenLoclist()
+  autocmd VimEnter            * nested call tools#OpenQuickfix()
 augroup END
 
 augroup MarkMargin

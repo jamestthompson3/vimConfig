@@ -8,3 +8,7 @@ match Callout '@\w\+\.\?\w\+'
 setlocal foldmethod=syntax
 setlocal textwidth=120
 setlocal wrap
+
+" Jira stuff
+command! JIRAIssues call jira#getIssues()
+command! -range -nargs=0 JIRATransition call jira#transitionIssue()
