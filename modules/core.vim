@@ -3,6 +3,7 @@ set hidden
 set title " more meta info for window manager
 set lazyredraw
 set splitright
+set nomodeline
 set undolevels=1000
 set ttimeout
 set ttimeoutlen=20
@@ -252,8 +253,9 @@ augroup END
 
 augroup quickfix
   autocmd!
-  autocmd QuickFixCmdPost cgetexpr cwindow
-  autocmd QuickFixCmdPost lgetexpr lwindow
+  autocmd QuickFixCmdPost [^l]* nested call tools#OpenQuickfix()
+  autocmd QuickFixCmdPost    l* nested call tools#OpenLoclist()
+  autocmd VimEnter            * nested call tools#OpenQuickfix()
 augroup END
 
 augroup MarkMargin

@@ -226,6 +226,14 @@ function! tools#simpleMru() abort
   endif
 endfunction
 
+function! tools#OpenQuickfix()
+    if get(g:, 'qf_auto_open_quickfix', 1)
+        " get user-defined maximum height
+        let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+    endif
+endfunction
+
 function! tools#PackagerInit() abort
   packadd vim-packager
   call packager#init()
@@ -233,7 +241,6 @@ function! tools#PackagerInit() abort
   call packager#add('justinmk/vim-dirvish')
 
   call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
-  call packager#add('SirVer/ultisnips', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })

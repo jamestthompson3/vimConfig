@@ -1,12 +1,6 @@
 scriptencoding utf-8
 
-if !exists('g:loaded_js_config')
-  packadd vim-better-javascript-completion
-  packadd ultisnips
-  packadd Colorizer
-  packadd vim-nodejs-errorformat
-  let g:loaded_js_config = 1
-endif
+packadd vim-better-javascript-completion
 
 let g:mucomplete#chains.javascript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['javascript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
