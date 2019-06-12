@@ -24,10 +24,6 @@ set guicursor+=n:blinkwait60-blinkon175-blinkoff175
 
 
 function! MyHighlights() abort
-  syntax match ConflictMarker /\(^<<<<<<< \@=\|^=======$\|^>>>>>>> \@=\)/ containedin=ALL
-  syntax match MyTodo /todo\|fixme/ containedin=.*Comment,vimCommentTitle contained
-  hi link MyTodo Todo
-  hi link ConflictMarker Error
   hi Callout guifg=#198cff
   hi! link TabLineFill Normal
   hi! link TabLine StatusLine
@@ -36,8 +32,11 @@ function! MyHighlights() abort
   hi IncSearch guifg=#d81a4c
 endfunction
 
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
 augroup Colors
   autocmd!
+  autocmd Syntax * syntax match UrlNoSpell /\w\+:\/\/[^[:space:]]\+/ contains=@NoSpell
   autocmd ColorScheme * call MyHighlights()
 augroup END
 

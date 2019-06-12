@@ -3,25 +3,25 @@ syntax reset
 
 let g:colors_name = 'ghost'
 
-hi Comment gui=italic guifg=#f5ac46 guibg=none
-hi VertSplit gui=none guifg=#5e5959 guibg=none
-hi MatchParen gui=none guifg=#121111 guibg=#f5ac46
-hi CursorLineNR gui=none guifg=#9c9695 guibg=#222020
-hi CursorLine gui=none guifg=none guibg=#222020
-hi LineNR gui=none guifg=#5e5959 guibg=none
+hi Comment gui=italic guifg=#f5ac46 guibg=NONE
+hi VertSplit gui=NONE guifg=#5e5959 guibg=NONE
+hi MatchParen gui=NONE guifg=#121111 guibg=#f5ac46
+hi CursorLineNR gui=NONE guifg=#9c9695 guibg=#222020
+hi CursorLine gui=NONE guifg=NONE guibg=#222020
+hi LineNR gui=NONE guifg=#5e5959 guibg=NONE
 hi Search gui=bold guifg=#121111 guibg=#f5ac46
-hi Normal gui=none guifg=#d2cfcf guibg=#121111
-hi StatusLineNC gui=underline guifg=#5e5959 guibg=none
-hi Visual gui=none guifg=#121111 guibg=#d2cfcf
+hi Normal gui=NONE guifg=#d2cfcf guibg=#121111
+hi StatusLineNC gui=underline guifg=#5e5959 guibg=NONE
+hi Visual gui=NONE guifg=#121111 guibg=#d2cfcf
 hi Todo gui=bold guifg=White guibg=Magenta
-hi Pmenu gui=none guifg=#9c9695 guibg=#171616
-hi PmenuSel gui=none guifg=#393636 guibg=#787271
-hi PmenuThumb gui=none guifg=none guibg=#393636
-hi NormalNC gui=none guifg=#5e5959 guibg=none
-hi NonText gui=none guifg=#9b4a3a guibg=none
-hi WildMenu gui=none guifg=#121111 guibg=#d2cfcf
+hi Pmenu gui=NONE guifg=#9c9695 guibg=#171616
+hi PmenuSel gui=NONE guifg=#393636 guibg=#787271
+hi PmenuThumb gui=NONE guifg=NONE guibg=#393636
+hi NormalNC gui=NONE guifg=#5e5959 guibg=NONE
+hi NonText gui=NONE guifg=#9b4a3a guibg=NONE
+hi WildMenu gui=NONE guifg=#121111 guibg=#d2cfcf
 hi Folded gui=italic guifg=#d2cfcf guibg=#222020
-hi SpellBad gui=none guifg=Red guibg=none
+hi SpellBad gui=NONE guifg=Red guibg=NONE
 
 hi Function     guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic
 hi Identifier   guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic

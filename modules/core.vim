@@ -33,6 +33,7 @@ set path-=/usr/include
 set path+=**
 set virtualedit=block
 set textwidth=100
+set conceallevel=2
 
 
 " Cscope
@@ -42,6 +43,11 @@ set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set csverb
+
+syntax match Normal '<=' conceal cchar=≤
+syntax match Normal '>=' conceal cchar=≥
+syntax match Normal '!=' conceal cchar=≢
+syntax match normal '=>' conceal cchar=⇒
 
 cnoreabbrev csa cs add
 cnoreabbrev csf cs find
@@ -114,8 +120,8 @@ endif
 
 if !has('nvim')
   set autoindent
-  syntax enable
   filetype plugin indent on
+  syntax enable
   set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
   set autoread  " Automatically read a file changed outside of vim
   set complete-=i " let mucomplete handle searching for included files. Don't scan by default
@@ -226,6 +232,7 @@ augroup core
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css
   au! BufNewFile,BufRead *.wiki setf wiki
+  au! BufNewFile,BufRead *.txt syntax region String start=+```\w+ end=+```+ contains=@NoSpell
   autocmd BufWritePre *
         \ if !isdirectory(expand("<afile>:p:h")) |
         \ call mkdir(expand("<afile>:p:h"), "p") |

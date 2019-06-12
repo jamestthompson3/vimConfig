@@ -247,7 +247,6 @@ function! tools#PackagerInit() abort
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
-  call packager#add('reasonml-editor/vim-reason-plus', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
