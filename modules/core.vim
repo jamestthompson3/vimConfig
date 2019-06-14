@@ -11,7 +11,7 @@ set wildignorecase
 set wildcharm=<C-z> " wildchar in macros
 set magic " Use extended regular expressions
 set mouse=nv
-set wildmode=list:longest,full " gives tab completion lists in ex command area
+set wildmode=list:longest,full
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
@@ -126,7 +126,7 @@ if !has('nvim')
   set autoread  " Automatically read a file changed outside of vim
   set complete-=i " let mucomplete handle searching for included files. Don't scan by default
   set belloff=all
-  set wildmenu " tab through things at vim command line
+  set wildmenu
   set backspace=indent,eol,start "better backspace behavior
   set hlsearch
   set smarttab
@@ -147,7 +147,9 @@ iabbrev imprt   import
 iabbrev iomprt  import
 iabbrev improt  import
 iabbrev slef    self
+iabbrev teh     the
 iabbrev hadnler handler
+iabbrev bunlde  bundle
 
 " FUNCTIONS:
 function! MarkMargin () abort
@@ -232,7 +234,6 @@ augroup core
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css
   au! BufNewFile,BufRead *.wiki setf wiki
-  au! BufNewFile,BufRead *.txt syntax region String start=+```\w+ end=+```+ contains=@NoSpell
   autocmd BufWritePre *
         \ if !isdirectory(expand("<afile>:p:h")) |
         \ call mkdir(expand("<afile>:p:h"), "p") |

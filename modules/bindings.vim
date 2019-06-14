@@ -3,7 +3,6 @@ scriptencoding = utf-8
 let g:mapleader = "\<Space>"
 imap jj <Esc>
 
-" Escape from terminal mode
 if exists(':tnoremap')
   tnoremap <C-\> <C-\><C-n>
 endif
@@ -68,6 +67,7 @@ augroup END
 augroup ECMA
 autocmd!
 autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i
+autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a
 autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap d<C-l> debugger
 augroup END
 

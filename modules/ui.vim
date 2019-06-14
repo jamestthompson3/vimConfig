@@ -36,7 +36,6 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 augroup Colors
   autocmd!
-  autocmd Syntax * syntax match UrlNoSpell /\w\+:\/\/[^[:space:]]\+/ contains=@NoSpell
   autocmd ColorScheme * call MyHighlights()
 augroup END
 
