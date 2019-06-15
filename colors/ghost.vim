@@ -10,6 +10,7 @@ hi CursorLineNR gui=NONE guifg=#9c9695 guibg=#222020
 hi CursorLine gui=NONE guifg=NONE guibg=#222020
 hi LineNR gui=NONE guifg=#5e5959 guibg=NONE
 hi Search gui=bold guifg=#121111 guibg=#f5ac46
+hi MatchParen gui=bold guifg=#f5ac46 guibg=#121111
 hi Normal gui=NONE guifg=#d2cfcf guibg=#121111
 hi StatusLineNC gui=underline guifg=#5e5959 guibg=NONE
 hi Visual gui=NONE guifg=#121111 guibg=#d2cfcf
@@ -22,6 +23,7 @@ hi NonText gui=NONE guifg=#9b4a3a guibg=NONE
 hi WildMenu gui=NONE guifg=#121111 guibg=#d2cfcf
 hi Folded gui=italic guifg=#d2cfcf guibg=#222020
 hi SpellBad gui=NONE guifg=Red guibg=NONE
+hi SpellRare gui=NONE guifg=#198cff guibg=NONE
 
 hi Function     guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic
 hi Identifier   guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic

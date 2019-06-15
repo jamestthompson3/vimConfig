@@ -34,6 +34,7 @@ set path+=**
 set virtualedit=block
 set textwidth=100
 set conceallevel=2
+set foldopen+=search
 
 
 " Cscope
