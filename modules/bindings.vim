@@ -3,7 +3,6 @@ scriptencoding = utf-8
 let g:mapleader = "\<Space>"
 imap jj <Esc>
 
-" Escape from terminal mode
 if exists(':tnoremap')
   tnoremap <C-\> <C-\><C-n>
 endif
@@ -60,7 +59,7 @@ nnoremap <silent><leader>F :call tools#simpleMru()<CR>
 augroup FileNav
   autocmd!
   autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
-  autocmd FileType dirvish nnoremap <buffer> n :e %/
+  autocmd FileType dirvish nnoremap <buffer> n :e %
   autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
   autocmd FileType netrw nnoremap <buffer> q :close<CR>
 augroup END
@@ -68,6 +67,7 @@ augroup END
 augroup ECMA
 autocmd!
 autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i
+autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a
 autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap d<C-l> debugger
 augroup END
 

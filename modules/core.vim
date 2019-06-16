@@ -11,7 +11,7 @@ set wildignorecase
 set wildcharm=<C-z> " wildchar in macros
 set magic " Use extended regular expressions
 set mouse=nv
-set wildmode=list:longest,full " gives tab completion lists in ex command area
+set wildmode=list:longest,full
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
@@ -33,6 +33,8 @@ set path-=/usr/include
 set path+=**
 set virtualedit=block
 set textwidth=100
+set conceallevel=2
+set foldopen+=search
 
 
 " Cscope
@@ -42,6 +44,11 @@ set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set csverb
+
+syntax match Normal '<=' conceal cchar=≤
+syntax match Normal '>=' conceal cchar=≥
+syntax match Normal '!=' conceal cchar=≢
+syntax match normal '=>' conceal cchar=⇒
 
 cnoreabbrev csa cs add
 cnoreabbrev csf cs find
@@ -114,13 +121,13 @@ endif
 
 if !has('nvim')
   set autoindent
-  syntax enable
   filetype plugin indent on
+  syntax enable
   set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
   set autoread  " Automatically read a file changed outside of vim
   set complete-=i " let mucomplete handle searching for included files. Don't scan by default
   set belloff=all
-  set wildmenu " tab through things at vim command line
+  set wildmenu
   set backspace=indent,eol,start "better backspace behavior
   set hlsearch
   set smarttab
@@ -141,7 +148,9 @@ iabbrev imprt   import
 iabbrev iomprt  import
 iabbrev improt  import
 iabbrev slef    self
+iabbrev teh     the
 iabbrev hadnler handler
+iabbrev bunlde  bundle
 
 " FUNCTIONS:
 function! MarkMargin () abort
@@ -211,6 +220,7 @@ augroup core
   "todo enable to be toggled
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
+  autocmd BufNewFile *.tsx 0r ~/vim/skeletons/skeleton.tsx
   autocmd WinNew * call sessions#saveSession()
   autocmd VimLeavePre * call sessions#saveSession()
   autocmd BufAdd * call tools#loadDeps()
