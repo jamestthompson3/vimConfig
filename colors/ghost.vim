@@ -3,6 +3,7 @@ syntax reset
 
 let g:colors_name = 'ghost'
 
+
 hi Comment gui=italic guifg=#f5ac46 guibg=NONE
 hi VertSplit gui=NONE guifg=#5e5959 guibg=NONE
 hi MatchParen gui=NONE guifg=#121111 guibg=#f5ac46
@@ -60,5 +61,3 @@ hi! link StatusLineModified Todo
 hi QuickFixLine guibg=#333333
 hi QFNormal guibg=#222222
 hi QFEndOfBuffer guifg=#222222
-
-finish

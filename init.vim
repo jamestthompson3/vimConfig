@@ -6,7 +6,7 @@ set fileformat=unix
 " Disable some default vim plugins:
 let g:did_install_default_menus = 1
 let g:loaded_tutor_mode_plugin = 1
-let g:loaded_matchit = 1
+let loaded_matchit = 1
 let g:loaded_matchparen = 1
 let g:loaded_zipPlugin = 1
 let g:loaded_tarPlugin = 1
