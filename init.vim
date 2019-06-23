@@ -66,6 +66,7 @@ let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
+let g:polyglot_disabled = ['javascript']
 
 " ALE:
 let g:ale_completion_enabled = 1

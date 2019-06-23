@@ -230,7 +230,7 @@ augroup core
   " Sundry file type associations
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
   au! BufNewFile,BufRead *.mm,*.m setf objc
-  autocmd BufNewFile,BufRead *.h,*.m,*.mm set tags+=~/global-objc-tags
+  au! BufNewFile,BufRead *.h,*.m,*.mm set tags+=~/global-objc-tags
   au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.pcss setf css

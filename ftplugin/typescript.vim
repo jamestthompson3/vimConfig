@@ -4,7 +4,6 @@ let b:ale_fixers = ['prettier']
 nnoremap <silent> gh :ALEHover<CR>
 nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> K :ALEFindReferences<CR>
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 
 let g:mucomplete#chains.typescript = ['omni', 'keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['typescript.jsx'] = ['omni', 'keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
@@ -22,5 +21,3 @@ setlocal define=class\\s
 setlocal foldmethod=manual
 setlocal foldlevelstart=99
 setlocal foldlevel=99
-
-command! FoldImports call CocAction('fold', 'imports')
