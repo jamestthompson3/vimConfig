@@ -11,4 +11,9 @@ syntax match UrlNoSpell /\w\+:\/\/[^[:space:]]\+/ contains=@NoSpell
 nnoremap j gj
 nnoremap k gk
 
-set statusline+=\ %{wordcount().words}\ words
+if exists('g:set_writerline')
+  finish
+else
+  set statusline+=\ %{wordcount().words}\ words
+  let g:set_writerline = 1
+endif
