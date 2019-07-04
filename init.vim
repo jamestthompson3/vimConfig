@@ -27,12 +27,9 @@ endif
 let g:modules_folder = 'modules' . g:file_separator
 let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 let g:loaded_python_provider = 1
-let g:cscope_options_default    = '-C'
-let g:cscope_rebuild_on_refresh = 0
-let &cscopeprg = 'cscope'
 
 " plugin globals:
-let g:netrw_localrmdir = 'rm -r' " use this command to remove folder
+let g:netrw_localrmdir = 'rm -r'
 let g:netrw_banner=0
 let g:netrw_winsize=45
 let g:netrw_liststyle=3
@@ -50,6 +47,7 @@ let g:matchup_matchparen_stopline = 200
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript', 'css': 'css'}
 let g:hexokinase_virtualtext = '██'
 let g:hexokinase_ftautoload = ['css', 'xml', 'javascript']
+let g:pear_tree_map_special_keys = 0
 let g:pear_tree_pairs = {
       \   '(': {'closer': ')'},
       \   '[': {'closer': ']'},

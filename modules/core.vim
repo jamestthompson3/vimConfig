@@ -32,18 +32,15 @@ set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
 set path+=**
 set virtualedit=block
-set textwidth=100
 set conceallevel=2
 set foldopen+=search
 
 
 " Cscope
 set cscopetagorder=0
-set nocscopeverbose
 set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
-set csverb
 
 syntax match Normal '<=' conceal cchar=≤
 syntax match Normal '>=' conceal cchar=≥
@@ -228,13 +225,14 @@ augroup core
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
         \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   " Sundry file type associations
-  au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
-  au! BufNewFile,BufRead *.mm,*.m setf objc
+  au! BufNewFile,BufRead *.bat,*.sys setfiletype dosbatch
+  au! BufNewFile,BufRead *.mm,*.m setfiletype objc
   au! BufNewFile,BufRead *.h,*.m,*.mm set tags+=~/global-objc-tags
   au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
-  au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
-  au! BufNewFile,BufRead *.pcss setf css
-  au! BufNewFile,BufRead *.wiki setf wiki
+  au! BufNewFile,BufRead *.svelte setfiletype html
+  au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setfiletype json
+  au! BufNewFile,BufRead *.pcss setfiletype css
+  au! BufNewFile,BufRead *.wiki setfiletype wiki
   autocmd BufWritePre *
         \ if !isdirectory(expand("<afile>:p:h")) |
         \ call mkdir(expand("<afile>:p:h"), "p") |

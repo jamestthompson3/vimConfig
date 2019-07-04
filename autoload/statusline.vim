@@ -36,7 +36,7 @@ function! statusline#ReadOnly() abort
 endfunction
 
 function! statusline#FileType() abort
-  let l:currFile = expand('%:~:.')
+  let l:currFile = expand('%:t')
   let l:extension = expand('%:e')
   if l:extension == ''
     return ''

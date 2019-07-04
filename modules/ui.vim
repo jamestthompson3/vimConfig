@@ -52,7 +52,6 @@ set statusline+=%#StatusLineModified#%{&mod?statusline#FileType():''}%*%{&mod?''
 set statusline+=\ %c
 set statusline+=%=
 set statusline+=%<
-set statusline+=%=
 set statusline+=\ %{statusline#ReadOnly()}
 set statusline+=\ %{statusline#LinterStatus()}%*
 

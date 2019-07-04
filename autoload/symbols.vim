@@ -1,3 +1,4 @@
+let s:cscope_options_default    = '-C'
 " list all associated tags with cursor word
 function! symbols#ListTags() abort
   execute 'ltag '.expand('<cword>')
@@ -93,7 +94,7 @@ function! symbols#CSRefreshAllConns()
               \     + strlen(cs_db_path)
               \     + 1
         call s:CSReloadDB( cs_conn_num, cs_db_name, cs_db_path,
-              \ g:cscope_options_default )
+              \ s:cscope_options_default )
       endif
       let index = index + 1
       let index = match(cs_conns, match_regex, index)
@@ -101,7 +102,7 @@ function! symbols#CSRefreshAllConns()
   else
     if filereadable("cscope.out")
       " cscope -C (queries this with case insensitivity)
-      exec 'cs add '.getcwd().'/cscope.out "" '.g:cscope_options_default
+      exec 'cs add '.getcwd().'/cscope.out "" '.s:cscope_options_default
     endif
   endif
 
@@ -118,9 +119,6 @@ function! s:CSReloadDB( cs_conn_num, cs_db_name, cs_db_path, cs_options )
   endif
 
   if filereadable(cs_db_fullpath)
-    if g:cscope_rebuild_on_refresh == 1
-      call CSRebuildDB( cs_db_fullpath, a:cs_options )
-    endif
     let cs_cmd = 'cs add '.
           \ cs_db_fullpath.' '.
           \ fnamemodify(cs_db_fullpath, ":p:h").' '.

@@ -51,6 +51,7 @@ nnoremap <silent> [Q :cnfile<CR>
 nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
 nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
+nnoremap <BS> :bp<CR>
 
 " Files:
 nnoremap <silent><F3> :Vex<CR>
@@ -122,14 +123,6 @@ vnoremap <silent> g<c-]> :<C-U>
       \gvy
       \:silent! cs find c <C-R>=@"<cr><cr>
       \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
-" Find this text string  (4==t)
-nnoremap g<C-[> :silent! cs find t <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
-vnoremap <silent> g<c-[> :<C-U>
-      \:let old_reg=getreg('"')<bar>
-      \:let old_regmode=getregtype('"')<cr>
-      \gvy
-      \:silent! cs find t <C-R>=@"<cr><cr>
-      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
 " Find this definition (1==g)
 nnoremap g<C-g> :silent! cs find g <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
 vnoremap <silent> g<c-g> :<C-U>
@@ -138,15 +131,6 @@ vnoremap <silent> g<c-g> :<C-U>
       \gvy
       \:silent! cs find g <C-R>=@"<cr><cr>
       \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
-" Find this text string  (4==t)
-" Use input() instead of inputdialog() so you can use <C-R> more
-" effectively when pasting in text to search for
-" nnoremap g/ :silent! cs find t <C-R>=input("Enter search string:", expand("<cword>"))<CR><CR>:cwindow<CR>
-nnoremap g/ :let find_text = input("Enter search string:", expand("<cword>")) <bar>
-      \ :if find_text != '' \|
-      \     exec('silent! cs find t '.find_text) \|
-      \     exec('cwindow') \|
-      \ endif<CR>
 
 " Git:
 nnoremap <Leader>b :Gblame<CR>
@@ -177,7 +161,6 @@ nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ssb :call sessions#sourceSession()<CR>
 nnoremap ' `
-inoremap<F11> <Plug>(PearTreeExpand)
 
 function! OpenTerminalDrawer() abort
   execute 'copen'
