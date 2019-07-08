@@ -254,7 +254,6 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('tpope/vim-repeat', { 'type': 'opt' })
-  call packager#add('zxqfl/tabnine-vim', { 'type': 'opt' })
   call packager#add('w0rp/ale', { 'type': 'opt' })
 endfunction
 

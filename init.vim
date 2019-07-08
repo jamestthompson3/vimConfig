@@ -55,7 +55,6 @@ let g:pear_tree_pairs = {
       \   "'": {'closer': "'"},
       \   '"': {'closer': '"'},
       \   '`': {'closer': '`'},
-      \   '<*>': {'closer': '</*>', 'not_like': '/$', 'until': '\W'},
       \   '/\*': {'closer': '\*/'}
       \ }
 
