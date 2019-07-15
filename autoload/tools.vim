@@ -240,20 +240,19 @@ function! tools#PackagerInit() abort
   call packager#add('thinca/vim-localrc')
   call packager#add('justinmk/vim-dirvish')
 
-  call packager#add('RRethy/vim-hexokinase', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
-  call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
+  call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+  call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install --frozen-lockfile'})
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
-  call packager#add('tpope/vim-repeat', { 'type': 'opt' })
   call packager#add('w0rp/ale', { 'type': 'opt' })
 endfunction
 
@@ -269,7 +268,6 @@ function! tools#loadDeps() abort
     packadd vim-cool
     packadd vim-commentary
     packadd vim-polyglot
-    packadd vim-hexokinase
     packadd vim-gutentags
     packadd vim-matchup
     packadd vim-surround

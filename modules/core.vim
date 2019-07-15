@@ -34,6 +34,7 @@ set path+=**
 set virtualedit=block
 set conceallevel=2
 set foldopen+=search
+set updatetime=200
 
 
 " Cscope

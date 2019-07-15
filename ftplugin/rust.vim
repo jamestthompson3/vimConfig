@@ -1,8 +1,8 @@
-nnoremap <silent> gd :ALEGoToDefinition<CR>
-nnoremap <silent> gh :ALEHover<CR>
-nnoremap <silent> K :ALEFindReferences<CR>
+nnoremap <silent> gd :call CocAction('jumpDefinition')<CR>
+nnoremap <silent> gh :call CocAction('doHover')<CR>
+nnoremap <silent> K <Plug>(coc-references)
 
-let b:ale_linters =  ['rls']
+"let b:ale_linters =  ['rls']
 let b:ale_fixers = ['rustfmt']
 
 let g:mucomplete#chains.rust = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']

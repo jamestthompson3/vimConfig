@@ -45,8 +45,6 @@ let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
 let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript', 'css': 'css'}
-let g:hexokinase_virtualtext = '██'
-let g:hexokinase_ftautoload = ['css', 'xml', 'javascript']
 let g:pear_tree_map_special_keys = 0
 let g:pear_tree_pairs = {
       \   '(': {'closer': ')'},
@@ -66,7 +64,6 @@ let g:pear_tree_repeatable_expand = 1
 let g:polyglot_disabled = ['javascript']
 
 " ALE:
-let g:ale_completion_enabled = 1
 let g:ale_completion_delay = 20
 let g:ale_linters_explicit = 1
 let g:ale_sign_error = '◉'
