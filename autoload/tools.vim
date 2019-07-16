@@ -25,7 +25,12 @@ function! tools#switchSourceHeader() abort
     find %:t:r.h
   else
     let l:filename = expand('%:t:r')
-    execute 'find '.l:filename.'.'.b:source_ft
+    for item in b:source_ft
+      try
+        execute 'find '.l:filename.'.'.item
+      catch /^Vim\%((\a\+)\)\=:E/
+    endtry
+  endfor
   endif
 endfunction
 

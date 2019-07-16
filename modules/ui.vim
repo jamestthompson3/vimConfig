@@ -21,8 +21,6 @@ set listchars+=precedes:«
 set listchars+=nbsp:⣿
 set guicursor+=n:blinkwait60-blinkon175-blinkoff175
 
-
-
 function! MyHighlights() abort
   hi Callout guifg=#198cff
   hi! link TabLineFill Normal

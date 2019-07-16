@@ -1,3 +1,4 @@
+packadd coc.nvim
 nnoremap <silent> gd :call CocAction('jumpDefinition')<CR>
 nnoremap <silent> gh :call CocAction('doHover')<CR>
 nnoremap <silent> K <Plug>(coc-references)
