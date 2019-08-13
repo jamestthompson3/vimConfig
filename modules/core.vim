@@ -219,6 +219,7 @@ augroup core
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
   autocmd BufNewFile *.tsx 0r ~/vim/skeletons/skeleton.tsx
+  autocmd BufNewFile *.md 0r ~/vim/skeletons/skeleton.md
   autocmd WinNew * call sessions#saveSession()
   autocmd VimLeavePre * call sessions#saveSession()
   autocmd BufAdd * call tools#loadDeps()
