@@ -263,7 +263,6 @@ augroup END
 augroup quickfix
   autocmd!
   autocmd QuickFixCmdPost [^l]* nested call tools#OpenQuickfix()
-  autocmd QuickFixCmdPost    l* nested call tools#OpenLoclist()
   autocmd VimEnter            * nested call tools#OpenQuickfix()
 augroup END
 

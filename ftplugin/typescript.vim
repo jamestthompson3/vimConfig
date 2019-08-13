@@ -7,6 +7,7 @@ nnoremap <leader>a :CocAction<CR>
 nnoremap <silent> gd :call CocAction('jumpDefinition')<CR>
 nnoremap <silent> gh :call CocAction('doHover')<CR>
 nnoremap <silent> K <Plug>(coc-references)
+nnoremap <leader>ld :CocList diagnostics<CR>
 
 " let coc handle this
 let g:mucomplete#chains.typescript = []

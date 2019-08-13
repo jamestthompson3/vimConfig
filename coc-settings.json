@@ -1,0 +1,12 @@
+{
+   "diagnostic.infoSign": "I" ,
+   "diagnostic.errorSign": "◉",
+   "diagnostic.hintSign": "H",
+   "json.enable": true,
+   "javascript.suggest.completeFunctionCalls": true,
+   "diagnostic.locationlist": true,
+   "tsserver.formatOnType": false,
+   "suggest.echodocSupport": false,
+   "suggest.triggerCompletionWait": 50,
+   "coc.preferences.formatOnSaveFiletypes": []
+}
