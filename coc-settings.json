@@ -2,6 +2,7 @@
    "diagnostic.infoSign": "I" ,
    "diagnostic.errorSign": "◉",
    "diagnostic.hintSign": "H",
+   "diagnostic.checkCurrentLine": true,
    "json.enable": true,
    "javascript.suggest.completeFunctionCalls": true,
    "diagnostic.locationlist": true,

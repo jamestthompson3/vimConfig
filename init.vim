@@ -115,6 +115,8 @@ command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({
 command! PackagerClean call tools#PackagerInit() | call packager#clean()
 command! PackagerStatus call tools#PackagerInit() | call packager#status()
 
+command! Fzf packadd fzf | packadd fzf.vim
+
 command! Blue  :Monotone 193 90 90
 command! Red   :Monotone 360 96 80
 command! Reset :Monotone 217, 0, 70

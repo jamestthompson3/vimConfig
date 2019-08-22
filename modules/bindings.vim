@@ -50,6 +50,7 @@ nnoremap <silent> ]q :cprev<CR>
 nnoremap <silent> [Q :cnfile<CR>
 nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
+nnoremap <leader>ls :Fzf<CR>:Buffers<CR>
 nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
 nnoremap <BS> :bp<CR>
 
@@ -73,7 +74,7 @@ augroup ECMA
 augroup END
 
 
-" Search:
+" Search and replace:
 nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap sb :g//#<Left><Left>
@@ -87,8 +88,6 @@ nnoremap <silent>sd :call symbols#PreviewWord()<CR>
 nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap gX :DD<CR>
-" nnoremap <silent> n n:call HLNext(0.1)<cr>
-" nnoremap <silent> N N:call HLNext(0.1)<cr>
 
 function! HLNext (blinktime) abort
   let target_pat = '\c\%#'.@/

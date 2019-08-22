@@ -259,6 +259,8 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('w0rp/ale', { 'type': 'opt' })
+  call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
+  call packager#local('/usr/local/opt/fzf', { 'type': 'opt' })
 endfunction
 
 
