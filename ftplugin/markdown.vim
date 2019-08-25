@@ -1,3 +1,3 @@
 match Callout '@\w\+\.\?\w\+'
-let b:MarkMargin = 140
+let b:MarkMargin = 200
 colorscheme gruvbox
