@@ -104,7 +104,7 @@ set undodir=$HOME/.cache/Vim/undofile
 set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
 " TODO add function to dive into previously ignored paths?
-set wildignore+=*/dist*/*,*/target/*,*/builds/*
+set wildignore+=*/dist*/*,*/target/*,*/builds/*,tags
 set wildignore+=*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*
 set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot

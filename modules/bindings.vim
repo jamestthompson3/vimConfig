@@ -71,12 +71,12 @@ augroup ECMA
   autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i
   autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a
   autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap d<C-l> debugger
+  autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i
 augroup END
-
-
 " Search and replace:
 nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
+nnoremap / ms/
 nnoremap sb :g//#<Left><Left>
 nnoremap g_ :g//#<Left><Left><C-R><C-W><CR>:
 nnoremap <Leader>sp :SearchProject<space>
@@ -147,6 +147,8 @@ nnoremap <silent><up>    :m .-2<cr>==
 nnoremap <silent><down>  :m .+1<cr>==
 vnoremap <silent><leader>g :<C-U>call tools#HighlightRegion('Green')<CR>
 vnoremap <silent><leader>G :<C-U>call tools#UnHighlightRegion()<CR>
+xnoremap <expr> I (mode()=~#'[vV]'?'<C-v>^o^I':'I')
+xnoremap <expr> A (mode()=~#'[vV]'?'<C-v>0o$A':'A')
 
 " Completion:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
