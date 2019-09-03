@@ -25,7 +25,7 @@ function! MyHighlights() abort
   hi Callout guifg=#198cff
   hi! link TabLineFill Normal
   hi! link TabLine StatusLine
-  hi! link Whitespace Comment
+  "hi! link Whitespace Comment
   hi! link StatusLine Normal
   hi IncSearch guifg=#d81a4c
 endfunction
@@ -70,6 +70,7 @@ function! s:colors() abort
   hi PmenuThumb gui=NONE guifg=NONE guibg=#393636
   hi NormalNC gui=NONE guifg=#5e5959 guibg=NONE
   hi NonText gui=NONE guifg=#9b4a3a guibg=NONE
+  hi Whitespace gui=NONE guifg=#6e6e6e guibg=NONE
   hi WildMenu gui=NONE guifg=#16161d guibg=#d2cfcf
   hi Folded gui=italic guifg=#d2cfcf guibg=#222020
   hi SpellBad gui=NONE guifg=Red guibg=NONE
