@@ -246,6 +246,7 @@ function! tools#PackagerInit() abort
   call packager#add('justinmk/vim-dirvish')
 
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
+  call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
