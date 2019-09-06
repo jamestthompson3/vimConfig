@@ -27,6 +27,7 @@ nnoremap <silent> Q :bp\|bd #<CR>
 nnoremap <silent> cc :cclose<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
+nnoremap <leader><tab> :bn<CR>
 nnoremap <silent> <c-u> :call tools#smoothScroll(1)<cr>
 nnoremap <silent> <c-d> :call tools#smoothScroll(0)<cr>
 
