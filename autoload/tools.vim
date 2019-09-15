@@ -257,6 +257,7 @@ function! tools#PackagerInit() abort
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
+  call packager#add('tpope/vim-apathy', { 'type': 'opt' })
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
@@ -273,6 +274,7 @@ function! tools#loadDeps() abort
     packadd cfilter
     packadd tagbar
     packadd pear-tree
+    packadd vim-apathy
     packadd vim-cool
     packadd vim-commentary
     packadd vim-polyglot
