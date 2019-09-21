@@ -1,8 +1,6 @@
 let b:ale_linters = ['eslint', 'tsserver']
 let b:ale_fixers = ['prettier']
 
-" packadd yats.vim
-
 " packadd coc.nvim
 
 " nnoremap <leader>a :CocAction<CR>
@@ -24,9 +22,6 @@ syntax match typescriptOpSymbols ">=" conceal cchar=≥
 syntax match typescriptOpSymbols "!==" conceal cchar=≢
 syntax match typescriptOpSymbols /=>/ conceal cchar=⇒
 
-setlocal suffixesadd+=.js,.jsx,.ts,.tsx " navigate to imported files by adding the js(x) suffix
-setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\) " allows to jump to files declared with import { someThing } from 'someFile'
-setlocal define=class\\s
 setlocal foldmethod=manual
 setlocal foldlevelstart=99
 setlocal foldlevel=99
