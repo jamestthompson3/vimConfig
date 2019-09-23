@@ -257,7 +257,7 @@ function! tools#PackagerInit() abort
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
-  call packager#add('tpope/vim-apathy', { 'type': 'opt' })
+  call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
