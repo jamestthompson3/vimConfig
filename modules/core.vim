@@ -1,5 +1,6 @@
 scriptencoding utf-8
 set hidden
+set secure
 set title " more meta info for window manager
 set lazyredraw
 set splitright

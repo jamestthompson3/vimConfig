@@ -1,4 +1,3 @@
-set encoding=utf8
 scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
@@ -11,6 +10,7 @@ let g:loaded_matchparen = 1
 let g:loaded_zipPlugin = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_gzip = 1
+let g:loaded_python_provider = 1
 
 " User Globals:
 let g:isWindows = has('win16') || has('win32') || has('win64')
@@ -26,7 +26,6 @@ endif
 
 let g:modules_folder = 'modules' . g:file_separator
 let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
-let g:loaded_python_provider = 1
 
 " plugin globals:
 let g:netrw_localrmdir = 'rm -r'
@@ -39,12 +38,13 @@ let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = {}
-let g:mucomplete#chains.default = ['incl','omni','tags', 'c-p', 'defs', 'c-n', 'keyn', 'keyp', 'file', 'path']
+let g:mucomplete#chains.default = ['omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path']
 let g:mucomplete#minimum_prefix_length = 2
 let g:matchup_matchparen_deferred = 1
 let g:matchup_match_paren_timeout = 100
 let g:matchup_matchparen_stopline = 200
-let g:vimwiki_nested_syntaxes = {'py': 'python','js': 'javascript', 'rs': 'rust', 'ts': 'typescript', 'css': 'css'}
+" Try this a bit later, rn highlighting doesn't work in popup
+" let g:matchup_matchparen_offscreen = {'method': 'popup'}
 let g:pear_tree_map_special_keys = 0
 let g:pear_tree_pairs = {
       \   '(': {'closer': ')'},
@@ -61,7 +61,7 @@ let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
-let g:polyglot_disabled = ['javascript']
+" let g:polyglot_disabled = ['javascript']
 
 " ALE:
 let g:ale_completion_delay = 20
@@ -82,8 +82,6 @@ let g:ale_sign_column_always = 0
 execute 'runtime! '.g:modules_folder.'*'
 
 " Commands:
-command! -bang -nargs=* Snake call tools#Snake(<q-args>)
-command! -bang -nargs=* Camel call tools#Camel(<q-args>)
 command! Scratch call tools#makeScratch()
 command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")
 command! GManage call git#manage()
@@ -92,14 +90,6 @@ command! TDiff call git#threeWayDiff()
 command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")
 command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
 
-function! s:checkDocs(args) abort
-  let l:stub = tools#getStub()
-  call system(len(split(a:args, ' ')) == 0 ?
-        \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . expand('<cword>') . "'" : len(split(a:args, ' ')) == 1 ?
-        \ l:stub . (expand('<bang>') == "!" || &filetype . '%20') . a:args . "'" : l:stub . substitute(a:args, '\s\+', '%20', 'g') . "'")
-endfunction
-
-command! -bang -nargs=* DD silent! call s:checkDocs(<q-args>)
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>.' | cwindow'
