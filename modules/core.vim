@@ -21,7 +21,7 @@ set ignorecase
 set smartcase
 set undofile
 set backup
-set swapfile
+set noswapfile
 set synmaxcol=200 " Large columns with syntax highlights slow things down
 set cmdheight=2 " Reduce 'hit enter to continue' messages
 set grepprg=rg\ --smart-case\ --vimgrep

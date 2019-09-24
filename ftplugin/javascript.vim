@@ -5,8 +5,8 @@ let b:ale_fixers = ['prettier']
 
 packadd vim-better-javascript-completion
 
-let g:mucomplete#chains.javascript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
-let g:mucomplete#chains['javascript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+let g:mucomplete#chains.javascript = ['tags','keyn', 'keyp', 'c-p', 'c-n', 'omni', 'file','path', 'ulti']
+let g:mucomplete#chains['javascript.jsx'] = ['tags','keyn', 'keyp', 'c-p', 'c-n', 'omni', 'file','path', 'ulti']
 
 let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
