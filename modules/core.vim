@@ -234,6 +234,7 @@ augroup core
   au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
   au! BufNewFile,BufRead *.svelte setfiletype html
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setfiletype json
+  au! BufRead *.json packadd coc.nvim
   au! BufNewFile,BufRead *.pcss setfiletype css
   au! BufNewFile,BufRead *.wiki setfiletype wiki
   autocmd BufWritePre *

@@ -261,6 +261,7 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
+  call packager#add('zxqfl/tabnine-vim', { 'type': 'opt' })
   call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
   call packager#local('/usr/local/opt/fzf', { 'type': 'opt' })
 endfunction
@@ -274,6 +275,7 @@ function! tools#loadDeps() abort
     packadd cfilter
     packadd tagbar
     packadd pear-tree
+    packadd tabnine-vim
     packadd vim-apathy
     packadd vim-cool
     packadd vim-commentary
