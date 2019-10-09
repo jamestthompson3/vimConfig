@@ -252,7 +252,6 @@ function! tools#PackagerInit() abort
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
-  call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install --frozen-lockfile'})
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
@@ -262,8 +261,7 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('zxqfl/tabnine-vim', { 'type': 'opt' })
-  call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
-  call packager#local('/usr/local/opt/fzf', { 'type': 'opt' })
+  call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
 endfunction
 
 
@@ -274,6 +272,7 @@ function! tools#loadDeps() abort
     packadd ale
     packadd cfilter
     packadd tagbar
+    packadd rainbow_parentheses.vim
     packadd pear-tree
     packadd tabnine-vim
     packadd vim-apathy

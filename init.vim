@@ -62,6 +62,7 @@ let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
 let g:pear_tree_timeout = 60
 let g:pear_tree_repeatable_expand = 1
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 " let g:polyglot_disabled = ['javascript']
 
 " ALE:
@@ -105,8 +106,6 @@ command! PackagerInstall call tools#PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call tools#PackagerInit() | call packager#clean()
 command! PackagerStatus call tools#PackagerInit() | call packager#status()
-
-command! Fzf packadd fzf | packadd fzf.vim
 
 command! Blue  :Monotone 193 90 90
 command! Red   :Monotone 360 96 80

@@ -51,7 +51,6 @@ nnoremap <silent> ]q :cprev<CR>
 nnoremap <silent> [Q :cnfile<CR>
 nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
-nnoremap <leader>ls :Fzf<CR>:Buffers<CR>
 nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
 nnoremap <BS> :bp<CR>
 

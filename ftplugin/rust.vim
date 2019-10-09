@@ -1,7 +1,7 @@
-packadd coc.nvim
-nnoremap <silent> gd :call CocAction('jumpDefinition')<CR>
-nnoremap <silent> gh :call CocAction('doHover')<CR>
-nnoremap <silent> K <Plug>(coc-references)
+" packadd coc.nvim
+" nnoremap <silent> gd :call CocAction('jumpDefinition')<CR>
+" nnoremap <silent> gh :call CocAction('doHover')<CR>
+" nnoremap <silent> K <Plug>(coc-references)
 
 "let b:ale_linters =  ['rls']
 let b:ale_fixers = ['rustfmt']
