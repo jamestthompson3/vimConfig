@@ -242,12 +242,15 @@ endfunction
 function! tools#PackagerInit() abort
   packadd vim-packager
   call packager#init()
-  call packager#add('thinca/vim-localrc')
   call packager#add('justinmk/vim-dirvish')
+  call packager#add('thinca/vim-localrc')
 
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
+  call packager#add('dense-analysis/ale', { 'type': 'opt' })
+  call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
+  call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
@@ -256,12 +259,9 @@ function! tools#PackagerInit() abort
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
-  call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
-  call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('zxqfl/tabnine-vim', { 'type': 'opt' })
-  call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
 endfunction
 
 
@@ -271,18 +271,18 @@ function! tools#loadDeps() abort
   else
     packadd ale
     packadd cfilter
-    packadd tagbar
-    packadd rainbow_parentheses.vim
     packadd pear-tree
+    packadd rainbow_parentheses.vim
     packadd tabnine-vim
+    packadd tagbar
     packadd vim-apathy
-    packadd vim-cool
     packadd vim-commentary
-    packadd vim-polyglot
+    packadd vim-cool
     packadd vim-gutentags
     packadd vim-matchup
-    packadd vim-surround
     packadd vim-mucomplete
+    packadd vim-polyglot
+    packadd vim-surround
     try
       silent cscope add cscope.out
     catch /^Vim\%((\a\+)\)\=:E/
