@@ -29,8 +29,8 @@ function! tools#switchSourceHeader() abort
       try
         execute 'find '.l:filename.'.'.item
       catch /^Vim\%((\a\+)\)\=:E/
-    endtry
-  endfor
+      endtry
+    endfor
   endif
 endfunction
 
@@ -232,11 +232,11 @@ function! tools#simpleMru() abort
 endfunction
 
 function! tools#OpenQuickfix()
-    if get(g:, 'qf_auto_open_quickfix', 1)
-        " get user-defined maximum height
-        let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
-    endif
+  if get(g:, 'qf_auto_open_quickfix', 1)
+    " get user-defined maximum height
+    let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
+    execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+  endif
 endfunction
 
 function! tools#PackagerInit() abort
@@ -269,6 +269,60 @@ function! tools#loadDeps() abort
   if exists('g:loadedDeps')
     return
   else
+
+    " plugin globals:
+    let g:netrw_localrmdir = 'rm -r'
+    let g:netrw_banner=0
+    let g:netrw_winsize=45
+    let g:netrw_liststyle=3
+    let g:gutentags_cache_dir = '~/.cache/'
+    let g:gutentags_project_root = ['package.json', 'Cargo.toml']
+    let g:gutentags_file_list_command = 'fd . -c never'
+    let g:mucomplete#enable_auto_at_startup = 1
+    let g:mucomplete#no_mappings = 1
+    let g:mucomplete#buffer_relative_paths = 1
+    let g:mucomplete#chains = {}
+    let g:mucomplete#chains.default = ['omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path']
+    let g:mucomplete#minimum_prefix_length = 2
+    let g:matchup_matchparen_deferred = 1
+    let g:matchup_match_paren_timeout = 100
+    let g:matchup_matchparen_stopline = 200
+    " Try this a bit later, rn highlighting doesn't work in popup
+    " let g:matchup_matchparen_offscreen = {'method': 'popup'}
+    let g:pear_tree_map_special_keys = 0
+    let g:pear_tree_pairs = {
+          \   '(': {'closer': ')'},
+          \   '[': {'closer': ']'},
+          \   '{': {'closer': '}'},
+          \   "'": {'closer': "'"},
+          \   '"': {'closer': '"'},
+          \   '`': {'closer': '`'},
+          \   '/\*': {'closer': '\*/'}
+          \ }
+
+    let g:pear_tree_smart_openers = 1
+    let g:pear_tree_smart_closers = 1
+    let g:pear_tree_smart_backspace = 1
+    let g:pear_tree_timeout = 60
+    let g:pear_tree_repeatable_expand = 1
+    let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+    " let g:polyglot_disabled = ['javascript']
+
+    " ALE:
+    let g:ale_completion_delay = 20
+    let g:ale_linters_explicit = 1
+    let g:ale_sign_error = '◉'
+    let g:ale_sign_warning = '◉'
+    let g:ale_close_preview_on_insert = 1
+    let g:ale_fix_on_save = 1
+    let g:ale_lint_on_insert_leave = 0
+    let g:ale_lint_on_text_changed = 0
+    let g:ale_list_window_size = 5
+    let g:ale_virtualtext_cursor = 1
+    let g:ale_javascript_prettier_use_local_config = 1
+    let g:ale_echo_msg_format = '[%linter%] %s'
+    let g:ale_sign_column_always = 0
+
     packadd ale
     packadd cfilter
     packadd pear-tree

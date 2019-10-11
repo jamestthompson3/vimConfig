@@ -44,11 +44,6 @@ set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
-syntax match Normal '<=' conceal cchar=≤
-syntax match Normal '>=' conceal cchar=≥
-syntax match Normal '!=' conceal cchar=≢
-syntax match normal '=>' conceal cchar=⇒
-
 cnoreabbrev csa cs add
 cnoreabbrev csf cs find
 cnoreabbrev csk cs kill
@@ -202,12 +197,6 @@ function! AS_HandleSwapfile (filename, swapname)
   endif
 endfunction
 
-" AUTOGROUPS:
-augroup omnifuncs
-  autocmd!
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-
 augroup filebrowser
   autocmd!
   autocmd FileType netrw au BufLeave netrw close
@@ -216,7 +205,7 @@ augroup END
 augroup core
   autocmd!
   autocmd VimEnter *  call SplashScreen()
-  "todo enable to be toggled
+  "TODO enable to be toggled
   autocmd BufWritePre * %s/\s\+$//e " removes whitespace
   autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
   autocmd BufNewFile *.tsx 0r ~/vim/skeletons/skeleton.tsx
@@ -234,7 +223,6 @@ augroup core
   au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
   au! BufNewFile,BufRead *.svelte setfiletype html
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setfiletype json
-  " au! BufRead *.json packadd coc.nvim
   au! BufNewFile,BufRead *.pcss setfiletype css
   au! BufNewFile,BufRead *.wiki setfiletype wiki
   autocmd BufWritePre *
@@ -272,11 +260,4 @@ augroup END
 augroup MarkMargin
   autocmd!
   autocmd  BufEnter  * :call MarkMargin()
-augroup END
-
-augroup checktime
-  au!
-  if !has('gui_running')
-    autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
-  endif
 augroup END
