@@ -68,10 +68,10 @@ augroup END
 
 augroup ECMA
   autocmd!
-  autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i
-  autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a
-  autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx inoremap d<C-l> debugger
-  autocmd FileType typescript,typescript.tsx,typescript.jsx,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i
+  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i
+  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a
+  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger
+  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i
 augroup END
 " Search and replace:
 nnoremap S :%s//g<LEFT><LEFT>

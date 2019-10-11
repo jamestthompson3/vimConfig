@@ -216,15 +216,6 @@ augroup core
   autocmd SessionLoadPost * call tools#loadDeps()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
         \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
-  " Sundry file type associations
-  au! BufNewFile,BufRead *.bat,*.sys setfiletype dosbatch
-  au! BufNewFile,BufRead *.mm,*.m setfiletype objc
-  au! BufNewFile,BufRead *.h,*.m,*.mm set tags+=~/global-objc-tags
-  au! BufNewFile,BufRead *.tsx setlocal commentstring=//%s
-  au! BufNewFile,BufRead *.svelte setfiletype html
-  au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setfiletype json
-  au! BufNewFile,BufRead *.pcss setfiletype css
-  au! BufNewFile,BufRead *.wiki setfiletype wiki
   autocmd BufWritePre *
         \ if !isdirectory(expand("<afile>:p:h")) |
         \ call mkdir(expand("<afile>:p:h"), "p") |
