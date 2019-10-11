@@ -12,36 +12,26 @@ if exists('s:current_syntax')
   let b:current_syntax = s:current_syntax
 endif
 
+syntax region  typescriptComment start="/\*"  end="\*/" contains=@Spell,typescriptCommentTodo extend
+syntax region  typescriptString start=+\z(["']\)+  skip=+\\\%(\z1\|$\)+  end=+\z1+ end=+$+ contains=typescriptSpecial,@Spell extend
+syntax match   typescriptSpecial            contained "\v\\%(x\x\x|u%(\x{4}|\{\x{4,5}})|c\u|.)"
 
-if hlexists("jsNoise")    " pangloss/vim-javascript
-  syntax cluster jsExpression add=jsxRegion
-elseif hlexists("javascriptOpSymbols")    " othree/yajs.vim
-  " refine the javascript line comment
-  syntax region javascriptLineComment start=+//+ end=/$/ contains=@Spell,javascriptCommentTodo extend keepend
-  syntax cluster javascriptValue add=jsxRegion
-  syntax cluster javascriptNoReserved add=jsxElement,jsxTag
+" refine the javascript line comment
+syntax region javaScriptLineComment start=+//+ end=/$/ contains=@Spell,javascriptCommentTodo extend keepend
+" add a javaScriptBlock group for build-in syntax
+syntax region javaScriptBlockBuildIn
+      \ contained
+      \ matchgroup=javaScriptBraces
+      \ start="{"
+      \ end="}"
+      \ extend
+      \ contains=javaScriptBlockBuildIn,@javaScriptEmbededExpr,javaScript.*
+      \ fold
+syntax cluster javaScriptEmbededExpr add=jsxRegion
 
-  " add support to arrow function which returns a tagged template string, e.g.
-  " () => html`<div></div>`
-  syntax cluster afterArrowFunc add=javascriptTagRef
-else    " build-in javascript syntax
-  " refine the javascript line comment
-  syntax region javaScriptLineComment start=+//+ end=/$/ contains=@Spell,javascriptCommentTodo extend keepend
-  " add a javaScriptBlock group for build-in syntax
-  syntax region javaScriptBlockBuildIn
-        \ contained
-        \ matchgroup=javaScriptBraces
-        \ start="{"
-        \ end="}"
-        \ extend
-        \ contains=javaScriptBlockBuildIn,@javaScriptEmbededExpr,javaScript.*
-        \ fold
-  syntax cluster javaScriptEmbededExpr add=jsxRegion
-
-  " refine the template string syntax
-  syntax region javaScriptStringT start=+`+ skip=+\\\\\|\\`+ end=+`+ contains=javaScriptSpecial,javaScriptEmbed,@htmlPreproc extend
-  syntax region javaScriptEmbed matchgroup=javaScriptEmbedBraces start=+\${+ end=+}+ contained contains=@javaScriptEmbededExpr,javaScript.*
-endif
+" refine the template string syntax
+syntax region javaScriptStringT start=+`+ skip=+\\\\\|\\`+ end=+`+ contains=javaScriptSpecial,javaScriptEmbed,@htmlPreproc extend
+syntax region javaScriptEmbed matchgroup=javaScriptEmbedBraces start=+\${+ end=+}+ contained contains=@javaScriptEmbededExpr,javaScript.*
 
 " because this is autoloaded, when developing you're going to need to source
 " the autoload/jsx_pretty/*.vim file manually, or restart vim
@@ -288,14 +278,6 @@ syn match typescriptIdentifierName extend
       \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>\|\<createGlobalStyle\>"
       \ nextgroup=styledDefinition
 
-" color the custom highlight elements
-hi def link cssCustomKeyFrameSelector  Constant
-hi def link cssCustomPositioningPrefix StorageClass
-hi def link styledAmpersand            Special
-
-hi def link styledXmlRegionKeyword Type
-hi def link styledXmlRegionNoise   Noise
-hi def link styledXmlRegion        String
 
 
 if exists("s:current_syntax")
@@ -305,3 +287,14 @@ endif
 syn keyword typescriptOperator new delete instanceof typeof
 syn keyword typescriptReserved abstract boolean byte char class const debugger double enum export extends final float goto implements import int interface long native package private protected public short static super synchronized throws transient volatile
 syn keyword typescriptStatement		return with
+
+" Links:
+hi def link javaScriptLineComment      Comment
+hi def link typescriptOperator         Keyword
+hi def link typescriptReserved         Keyword
+hi def link cssCustomKeyFrameSelector  Constant
+hi def link cssCustomPositioningPrefix StorageClass
+hi def link styledAmpersand            Special
+hi def link styledXmlRegionKeyword     Type
+hi def link styledXmlRegionNoise       Noise
+hi def link styledXmlRegion            String
