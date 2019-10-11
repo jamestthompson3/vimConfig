@@ -71,7 +71,7 @@ function! jsx_pretty#syntax#highlight()
         \ nextgroup=jsxAttrib
         \ skipwhite
         \ skipempty ' .(s:highlight_close_tag ? 'transparent' : '')
- 
+
   " <foo.bar>
   "     ~
   syntax match jsxDot +\.+ contained display
@@ -86,7 +86,7 @@ function! jsx_pretty#syntax#highlight()
 
   " <tag />
   "      ~~
-  syntax match jsxCloseString +/\_s*>+ contained 
+  syntax match jsxCloseString +/\_s*>+ contained
 
   " </tag>
   " ~~~~~~
@@ -134,7 +134,7 @@ function! jsx_pretty#syntax#highlight()
 
   " <tag id="sample">
   "         ~~~~~~~~
-  " and 
+  " and
   " <tag id='sample'>
   "         ~~~~~~~~
   syntax region jsxString start=+\z(["']\)+  skip=+\\\%(\z1\|$\)+  end=+\z1+ contained contains=@Spell display
@@ -188,7 +188,7 @@ function! jsx_pretty#syntax#highlight()
   highlight def link jsxAttrib Type
   highlight def link jsxAttribKeyword jsxAttrib
   highlight def link jsxEqual Operator
-  highlight def link jsxString String
+  highlight jsxString guifg=NONE guibg=NONE  gui=italic ctermfg=NONE  ctermbg=NONE  cterm=NONE
   highlight def link jsxDot Operator
   highlight def link jsxNamespace Operator
 

@@ -257,11 +257,9 @@ function! tools#PackagerInit() abort
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
-  call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
-  call packager#add('zxqfl/tabnine-vim', { 'type': 'opt' })
 endfunction
 
 
@@ -276,7 +274,7 @@ function! tools#loadDeps() abort
     let g:netrw_winsize=45
     let g:netrw_liststyle=3
     let g:gutentags_cache_dir = '~/.cache/'
-    let g:gutentags_project_root = ['package.json', 'Cargo.toml']
+    let g:gutentags_project_root = ['Cargo.toml']
     let g:gutentags_file_list_command = 'fd . -c never'
     let g:mucomplete#enable_auto_at_startup = 1
     let g:mucomplete#no_mappings = 1
@@ -311,7 +309,7 @@ function! tools#loadDeps() abort
     " ALE:
     let g:ale_completion_delay = 20
     let g:ale_linters_explicit = 1
-    let g:ale_sign_error = '◉'
+    let g:ale_sign_error = 'X'
     let g:ale_sign_warning = '◉'
     let g:ale_close_preview_on_insert = 1
     let g:ale_fix_on_save = 1
@@ -327,7 +325,6 @@ function! tools#loadDeps() abort
     packadd cfilter
     packadd pear-tree
     packadd rainbow_parentheses.vim
-    packadd tabnine-vim
     packadd tagbar
     packadd vim-apathy
     packadd vim-commentary
@@ -335,7 +332,6 @@ function! tools#loadDeps() abort
     packadd vim-gutentags
     packadd vim-matchup
     packadd vim-mucomplete
-    packadd vim-polyglot
     packadd vim-surround
     try
       silent cscope add cscope.out

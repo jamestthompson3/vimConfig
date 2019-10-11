@@ -21,15 +21,6 @@ set listchars+=precedes:«
 set listchars+=nbsp:⣿
 set guicursor+=n:blinkwait60-blinkon175-blinkoff175
 
-function! MyHighlights() abort
-  hi Callout guifg=#198cff
-  hi! link TabLineFill Normal
-  hi! link TabLine StatusLine
-  "hi! link Whitespace Comment
-  hi! link StatusLine Normal
-  hi IncSearch guifg=#d81a4c
-endfunction
-
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Turn off column numbers if the window is inactive
@@ -72,7 +63,6 @@ function! s:colors() abort
   hi NonText gui=NONE guifg=#9b4a3a guibg=NONE
   hi Whitespace gui=NONE guifg=#6e6e6e guibg=NONE
   hi WildMenu gui=NONE guifg=#16161d guibg=#d2cfcf
-  hi Folded gui=italic guifg=#d2cfcf guibg=#222020
   hi SpellBad gui=NONE guifg=Red guibg=NONE
   hi SpellRare gui=NONE guifg=#198cff guibg=NONE
 
@@ -94,6 +84,16 @@ function! s:colors() abort
   hi Title        guifg=NONE     guibg=NONE  gui=bold         ctermfg=NONE  ctermbg=NONE  cterm=bold
   hi Special      guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic
 
+  hi typescriptOperator      guifg=NONE     guibg=NONE  gui=bold         ctermfg=NONE  ctermbg=NONE  cterm=bold
+  hi typescriptReserved      guifg=NONE     guibg=NONE  gui=bold         ctermfg=NONE  ctermbg=NONE  cterm=bold
+  hi typescriptStatement     guifg=#198cff  guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
+
+  hi IncSearch      gui=NONE guifg=#d81a4c
+  hi QuickFixLine   gui=NONE guibg=#333333
+  hi QFNormal       gui=NONE guibg=#222222
+  hi QFEndOfBuffer  gui=NONE guifg=#222222
+  hi Callout        gui=NONE guifg=#198cff
+
   hi DiffAdd     guifg=#88aa77  guibg=NONE  gui=NONE       ctermfg=107  ctermbg=NONE  cterm=NONE
   hi DiffDelete  guifg=#aa7766  guibg=NONE  gui=NONE       ctermfg=137  ctermbg=NONE  cterm=NONE
   hi DiffChange  guifg=#7788aa  guibg=NONE  gui=NONE       ctermfg=67   ctermbg=NONE  cterm=NONE
@@ -104,14 +104,14 @@ function! s:colors() abort
   hi ALEErrorSign        guifg=#ff4444 ctermfg=203
   hi ALEWarningSign      guifg=#dd9922 ctermfg=214
   hi ALEVirtualTextError guifg=#ff4444 ctermfg=203
+
+  " links
   hi! link ALEVirtualTextInfo  Comment
-
   hi! link StatusLineModified Todo
-
-  hi QuickFixLine guibg=#333333
-  hi QFNormal guibg=#222222
-  hi QFEndOfBuffer guifg=#222222
-  call MyHighlights()
+  hi! link Folded DiffChange
+  hi! link TabLineFill Normal
+  hi! link TabLine StatusLine
+  hi! link StatusLine Normal
 endfunction
 
 au VimEnter * call <SID>colors()

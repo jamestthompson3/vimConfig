@@ -1,11 +1,3 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim syntax file
-"
-" Language: javascript.jsx
-" Maintainer: MaxMellon <maxmellon1994@gmail.com>
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 let s:jsx_cpo = &cpo
 set cpo&vim
 
@@ -19,6 +11,7 @@ endif
 if exists('s:current_syntax')
   let b:current_syntax = s:current_syntax
 endif
+
 
 if hlexists("jsNoise")    " pangloss/vim-javascript
   syntax cluster jsExpression add=jsxRegion
@@ -58,9 +51,6 @@ let b:current_syntax = 'javascript.jsx'
 
 let &cpo = s:jsx_cpo
 unlet s:jsx_cpo
-if exists('g:polyglot_disabled') && index(g:polyglot_disabled, 'styled-components') != -1
-  finish
-endif
 
 " Vim syntax file
 " Language:   styled-components (js/ts)
@@ -311,3 +301,7 @@ hi def link styledXmlRegion        String
 if exists("s:current_syntax")
   let b:current_syntax=s:current_syntax
 endif
+
+syn keyword typescriptOperator new delete instanceof typeof
+syn keyword typescriptReserved abstract boolean byte char class const debugger double enum export extends final float goto implements import int interface long native package private protected public short static super synchronized throws transient volatile
+syn keyword typescriptStatement		return with

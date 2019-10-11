@@ -2,15 +2,9 @@ let b:ale_linters = ['eslint', 'tsserver']
 let b:ale_fixers = ['prettier']
 
 let g:mucomplete#chains.typescript = ['tags','keyn', 'keyp', 'c-p', 'c-n', 'omni', 'file','path', 'ulti']
-let g:mucomplete#chains['typescript.jsx'] = ['tags','keyn', 'keyp', 'c-p', 'c-n', 'omni', 'file','path', 'ulti']
-let g:mucomplete#chains['typescript.tsx'] = ['tags','keyn', 'keyp', 'c-p', 'c-n', 'omni', 'file','path', 'ulti']
+let g:mucomplete#chains['typescriptreact'] = ['tags','keyn', 'keyp', 'c-p', 'c-n', 'omni', 'file','path', 'ulti']
 
-syntax match typescriptOpSymbols "<=" conceal cchar=≤
-syntax match typescriptOpSymbols ">=" conceal cchar=≥
-syntax match typescriptOpSymbols "!==" conceal cchar=≢
-syntax match typescriptArrowFunc /=>/ conceal cchar=⇒
-
-setlocal foldmethod=manual
+setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
 
