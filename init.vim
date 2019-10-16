@@ -54,6 +54,7 @@ command! PackagerInstall call tools#PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call tools#PackagerInit() | call packager#clean()
 command! PackagerStatus call tools#PackagerInit() | call packager#status()
+command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>'
 
 command! Blue  :Monotone 193 90 90
 command! Red   :Monotone 360 96 80

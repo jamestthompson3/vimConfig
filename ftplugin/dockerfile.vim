@@ -13,4 +13,4 @@ iabbrev onbuild ONBUILD
 iabbrev stopsignal STOPSIGNAL
 iabbrev healthcheck HEALTHCHECK
 iabbrev shell SHELL
-
+iabbrev volume VOLUME

@@ -14,4 +14,9 @@ augroup filetypedetect
   au BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setfiletype json
   au BufNewFile,BufRead *.pcss setfiletype css
   au BufNewFile,BufRead *.wiki setfiletype wiki
+  au BufRead,BufNewFile [Dd]ockerfile set ft=Dockerfile
+  au BufRead,BufNewFile Dockerfile* set ft=Dockerfile
+  au BufRead,BufNewFile [Dd]ockerfile.vim set ft=vim
+  au BufRead,BufNewFile *.dock set ft=Dockerfile
+  au BufRead,BufNewFile *.[Dd]ockerfile set ft=Dockerfile
 augroup end

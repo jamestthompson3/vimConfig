@@ -2303,3 +2303,5 @@ hi link ngxGzipOn Error
 hi link ngxSSLCipherInsecure Error
 
 hi link ngxThirdPartyLuaBlock Function
+
+setlocal commentstring=#%s

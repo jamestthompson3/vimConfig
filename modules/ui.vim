@@ -60,8 +60,8 @@ function! s:colors() abort
   hi PmenuSel gui=NONE guifg=#393636 guibg=#787271
   hi PmenuThumb gui=NONE guifg=NONE guibg=#393636
   hi NormalNC gui=NONE guifg=#5e5959 guibg=NONE
-  hi NonText gui=NONE guifg=#9b4a3a guibg=NONE
-  hi Whitespace gui=NONE guifg=#6e6e6e guibg=NONE
+  hi NonText gui=NONE guifg=#353535 guibg=NONE
+  hi Whitespace gui=NONE guifg=#353535 guibg=NONE
   hi WildMenu gui=NONE guifg=#16161d guibg=#d2cfcf
   hi SpellBad gui=NONE guifg=Red guibg=NONE
   hi SpellRare gui=NONE guifg=#198cff guibg=NONE
@@ -74,20 +74,21 @@ function! s:colors() abort
   hi Question         guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi Number           guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi String           guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
+  hi Constant         guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi SignColumn       guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi FoldColumn       guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
-  hi Constant         guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi Statement        guifg=NONE     guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi Type             guifg=NONE     guibg=NONE  gui=bold         ctermfg=NONE  ctermbg=NONE  cterm=bold
   hi Directory        guifg=NONE     guibg=NONE  gui=bold         ctermfg=NONE  ctermbg=NONE  cterm=bold
   hi Underlined       guifg=NONE     guibg=NONE  gui=underline    ctermfg=NONE  ctermbg=NONE  cterm=underline
   hi Title            guifg=NONE     guibg=NONE  gui=bold         ctermfg=NONE  ctermbg=NONE  cterm=bold
   hi Special          guifg=NONE     guibg=NONE  gui=italic       ctermfg=NONE  ctermbg=NONE  cterm=italic
+  hi ConstStrings     guifg=#198cff  guibg=NONE  gui=bold         ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi ReturnStatement  guifg=#198cff  guibg=NONE  gui=NONE         ctermfg=NONE  ctermbg=NONE  cterm=NONE
 
 
   hi IncSearch      gui=NONE guifg=#d81a4c
-  hi QuickFixLine   gui=NONE guibg=#333333
+  hi QuickFixLine   gui=NONE guibg=#353535
   hi QFNormal       gui=NONE guibg=#222222
   hi QFEndOfBuffer  gui=NONE guifg=#222222
   hi Callout        gui=NONE guifg=#198cff
@@ -110,6 +111,7 @@ function! s:colors() abort
   hi! link TabLineFill Normal
   hi! link TabLine StatusLine
   hi! link StatusLine Normal
+
 endfunction
 
 au VimEnter * call <SID>colors()

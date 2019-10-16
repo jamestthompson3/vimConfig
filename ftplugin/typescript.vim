@@ -1,4 +1,4 @@
-let b:ale_linters = ['eslint', 'tsserver']
+let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
 let g:mucomplete#chains.typescript = ['tags','keyn', 'keyp', 'c-p', 'c-n', 'omni', 'file','path', 'ulti']

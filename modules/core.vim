@@ -252,3 +252,12 @@ augroup MarkMargin
   autocmd!
   autocmd  BufEnter  * :call MarkMargin()
 augroup END
+
+" Show changes that happen outside file
+augroup checktime
+  au!
+  if !has('gui_running')
+    autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
+  endif
+augroup END
+
