@@ -25,12 +25,42 @@ if !exists('b:did_typescript_setup')
   endif
 
   " lint file on write
-  " TODO run async
     let &l:makeprg = 'tsc --noEmit --pretty false'
 
-    " augroup TS
-    "   autocmd!
-    "   autocmd BufWritePost <buffer> silent make! <afile> | silent redraw!
-    " augroup END
+    augroup TS
+      autocmd!
+      " FIXME for mono repo
+      " autocmd BufWritePost <buffer>  call TSLint()
+    augroup END
+    " let l:errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
   let b:did_typescript_setup = 1
 endif
+
+
+function! s:prep_qf(id, value)
+  echom value
+  let l:qf_item = {}
+  let l:qf_item.filename = a:value
+  return l:qf_item
+endfunction
+
+function! TSLint() abort
+  let l:callbacks = {
+    \ 'on_stdout': 'OnEvent',
+    \ 'on_exit': 'OnExit'
+    \ }
+  let s:errors = ['']
+
+  function! OnExit(job_id, data, event)
+        call setqflist([], ' ', {'lines': s:errors, 'efm': '%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m'})
+        exec 'cwindow'
+  endfunction
+
+  " :call setqflist([], ' ', {'lines': systemlist('tsc --noEmit --pretty false ./services/docs/pages/_app.tsx'), 'efm': '%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m'})
+  function! OnEvent(job_id, data, event)
+    let s:errors[-1] .= a:data[0]
+    call extend(s:errors, a:data[1:])
+  endfunction
+
+  call jobstart(printf('tsc --noEmit --pretty false %s', bufname('%')), l:callbacks)
+endfunction
