@@ -83,6 +83,7 @@ nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
 nnoremap <silent><Leader>lt :call symbols#ListTags()<CR>
 nnoremap ts :ts<space>/
+nnoremap <C-]> g<C-]>
 nnoremap gh :call symbols#ShowDeclaration(0)<CR>
 nnoremap ]] :ijump <C-R><C-W><CR>
 nnoremap <silent>sd :call symbols#PreviewWord()<CR>

@@ -255,6 +255,7 @@ function! tools#PackagerInit() abort
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+  call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
@@ -322,6 +323,7 @@ function! tools#loadDeps() abort
     let g:ale_sign_column_always = 0
 
     packadd ale
+    packadd nvim-colorizer.lua
     packadd cfilter
     packadd pear-tree
     packadd rainbow_parentheses.vim
@@ -337,6 +339,8 @@ function! tools#loadDeps() abort
       silent cscope add cscope.out
     catch /^Vim\%((\a\+)\)\=:E/
     endtry
+
+    lua require 'colorizer'.setup({'*';}, { no_names = true, rgb_fn = true })
     let g:loadedDeps = 1
   endif
 endfunction

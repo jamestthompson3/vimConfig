@@ -298,3 +298,4 @@ hi def link styledAmpersand            Special
 hi def link styledXmlRegionKeyword     Type
 hi def link styledXmlRegionNoise       Noise
 hi def link styledXmlRegion            String
+hi def link typescriptComment          Comment
