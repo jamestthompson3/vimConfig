@@ -46,12 +46,11 @@ function! s:colors() abort
   syntax reset
   hi Comment gui=italic guifg=#f5ac46 guibg=NONE
   hi VertSplit gui=NONE guifg=#5e5959 guibg=NONE
-  hi MatchParen gui=NONE guifg=#16161d guibg=#f5ac46
   hi CursorLineNR gui=NONE guifg=#9c9695 guibg=#222020
   hi CursorLine gui=NONE guifg=NONE guibg=#222020
   hi LineNR gui=NONE guifg=#5e5959 guibg=NONE
-  hi Search gui=bold guifg=#16161d guibg=#f5ac46
-  hi MatchParen gui=bold guifg=#f5ac46 guibg=#16161d
+  hi Search gui=italic guifg=#16161d guibg=#ff9966
+  hi MatchParen gui=bold guifg=#66ccff guibg=#16161d
   hi Normal gui=NONE guifg=#d2cfcf guibg=#16161d
   hi StatusLineNC gui=underline guifg=#5e5959 guibg=NONE
   hi Visual gui=NONE guifg=#16161d guibg=#d2cfcf

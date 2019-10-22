@@ -56,7 +56,6 @@ function! TSLint() abort
         exec 'cwindow'
   endfunction
 
-  " :call setqflist([], ' ', {'lines': systemlist('tsc --noEmit --pretty false ./services/docs/pages/_app.tsx'), 'efm': '%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m'})
   function! OnEvent(job_id, data, event)
     let s:errors[-1] .= a:data[0]
     call extend(s:errors, a:data[1:])

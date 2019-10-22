@@ -160,6 +160,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 " Misc:
 nnoremap ; :
 nnoremap : ;
+nnoremap 0 ^
 nnoremap mks :mks! ~/sessions/
 nnoremap ss :so ~/sessions/
 nnoremap ssb :call sessions#sourceSession()<CR>
