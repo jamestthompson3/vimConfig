@@ -32,11 +32,10 @@ augroup END
 
 "colorscheme ghost
 
-set statusline+=%#StatusLineModified#%{&mod?statusline#FileType():''}%*%{&mod?'':statusline#FileType()}
+set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<
 set statusline+=%=
 set statusline+=%<
 set statusline+=\ %{statusline#ReadOnly()}
-set statusline+=\ %{statusline#LinterStatus()}%*
 
 set showtabline=2
 set tabline=ᚴ\ %{git#branch()}
