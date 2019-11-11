@@ -17,7 +17,7 @@ nnoremap <Leader>P "+P
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 
 
-" Window Motions:
+" Window/Buffer Motions:
 nnoremap <silent><C-J> :call WinMove('j')<cr>
 nnoremap <silent><C-L> :call WinMove('l')<cr>
 nnoremap <silent><C-H> :call WinMove('h')<cr>
@@ -28,6 +28,8 @@ nnoremap <silent> cc :cclose<CR>
 nnoremap <silent> sq :only<CR>
 nnoremap <silent> gl :pc<CR>
 nnoremap <leader><tab> :bn<CR>
+nnoremap <silent>[a :prev<CR>
+nnoremap <silent>]a :next<CR>
 nnoremap <silent> <c-u> :call tools#smoothScroll(1)<cr>
 nnoremap <silent> <c-d> :call tools#smoothScroll(0)<cr>
 
@@ -166,6 +168,7 @@ nnoremap ss :so ~/sessions/
 nnoremap ssb :call sessions#sourceSession()<CR>
 nnoremap ' `
 nnoremap M :silent make<CR>
+nnoremap Y y$
 
 function! OpenTerminalDrawer() abort
   execute 'copen'
