@@ -113,26 +113,6 @@ if has('nvim')
   set diffopt+=algorithm:patience
 endif
 
-if !has('nvim')
-  set autoindent
-  filetype plugin indent on
-  syntax enable
-  set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
-  set autoread  " Automatically read a file changed outside of vim
-  set complete-=i " let mucomplete handle searching for included files. Don't scan by default
-  set belloff=all
-  set wildmenu
-  set backspace=indent,eol,start "better backspace behavior
-  set hlsearch
-  set smarttab
-  set history=10000
-  set renderoptions=type:directx,gamma:1.0,contrast:0.5,level:1,geom:1,renmode:4,taamode:1
-  set background=dark
-  set incsearch
-  set laststatus=2
-  set guifont=IBM\ Plex\ Mono
-endif
-
 " Common mistakes
 iabbrev retrun  return
 iabbrev pritn   print
@@ -221,20 +201,20 @@ augroup core
         \ call mkdir(expand("<afile>:p:h"), "p") |
         \ endif
 
-autocmd BufReadPost cscope.files
-      \ let before_lines = line('$') |
-      \ silent! exec 'silent! g/\(cscope\|node_modules\|build\/\|assets\/\|\.\(gif\|bmp\|png\|jpg\|swp\)\)/d' |
-      \ silent! exec 'silent! v/\./d' |
-      \ let before_lines = before_lines - line('$') |
-      \ if before_lines > 0 |
-      \   call confirm( 'Removed ' . before_lines . ' lines from file.  ' .
-      \           'These were any of the following: ' .
-      \           "\n".'- image and swap files ' .
-      \           "\n".'- directories ' .
-      \           "\n".'- any cscope files.' .
-      \           "\n\n".'Press u to recover these lines.'
-      \           ) |
-      \ endif
+  autocmd BufReadPost cscope.files
+        \ let before_lines = line('$') |
+        \ silent! exec 'silent! g/\(cscope\|node_modules\|build\/\|assets\/\|\.\(gif\|bmp\|png\|jpg\|swp\)\)/d' |
+        \ silent! exec 'silent! v/\./d' |
+        \ let before_lines = before_lines - line('$') |
+        \ if before_lines > 0 |
+        \   call confirm( 'Removed ' . before_lines . ' lines from file.  ' .
+        \           'These were any of the following: ' .
+        \           "\n".'- image and swap files ' .
+        \           "\n".'- directories ' .
+        \           "\n".'- any cscope files.' .
+        \           "\n\n".'Press u to recover these lines.'
+        \           ) |
+        \ endif
 augroup END
 
 augroup AutoSwap
