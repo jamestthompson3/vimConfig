@@ -340,7 +340,7 @@ function! tools#loadDeps() abort
     catch /^Vim\%((\a\+)\)\=:E/
     endtry
 
-    lua require 'colorizer'.setup({'*';}, { no_names = true, rgb_fn = true })
+    " lua require 'colorizer'.setup({'*';}, { no_names = true, rgb_fn = true })
     let g:loadedDeps = 1
   endif
 endfunction
