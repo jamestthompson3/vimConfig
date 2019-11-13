@@ -48,12 +48,12 @@ function! s:colors() abort
   hi VertSplit        guifg=#5e5959  guibg=NONE     gui=NONE        ctermfg=240    ctermbg=NONE cterm=NONE
   hi CursorLineNR     guifg=#9c9695  guibg=#222020  gui=NONE        ctermfg=247    ctermbg=236  cterm=NONE
   hi CursorLine       guifg=NONE     guibg=#222020  gui=NONE        ctermfg=NONE   ctermbg=236  cterm=NONE
-  hi LineNR           guifg=#5e5959  guibg=NONE     gui=NONE        ctermfg=238    ctermbg=NONE
+  hi LineNR           guifg=#5e5959  guibg=NONE     gui=NONE        ctermfg=238    ctermbg=NONE cterm=NONE
   hi Search           guifg=#16161d  guibg=#ff9966  gui=italic      ctermfg=0      ctermbg=172  cterm=italic
   hi MatchParen       guifg=#66ccff  guibg=#16161d  gui=bold        ctermfg=81     ctermbg=NONE cterm=bold
-  hi Normal           guifg=#d2cfcf  guibg=#16161d  gui=NONE        ctermfg=255    ctermbg=234  cterm=NONE
-  hi StatusLineNC     guifg=#5e5959  guibg=NONE     gui=NONE        ctermfg=238    ctermbg=NONE cterm=NONE
-  hi StatusLine       guifg=#d2cfcf  guibg=#16161d  gui=underline   ctermfg=255    ctermbg=234  cterm=underline
+  hi Normal           guifg=#d2cfcf  guibg=#16161d  gui=NONE        ctermfg=255    ctermbg=NONE  cterm=NONE
+  hi StatusLineNC     guifg=#5e5959  guibg=NONE     gui=underline   ctermfg=238    ctermbg=NONE cterm=underline
+  hi StatusLine       guifg=#d2cfcf  guibg=#16161d  gui=NONE        ctermfg=255    ctermbg=0  cterm=NONE
   hi Visual           guifg=#16161d  guibg=#d2cfcf  gui=NONE
   hi Todo             guifg=White    guibg=Magenta  gui=bold        ctermfg=15     ctermbg=201  cterm=bold
   hi Pmenu            guifg=#9c9695  guibg=#171616  gui=NONE        ctermfg=249    ctermbg=232  cterm=NONE
@@ -63,11 +63,11 @@ function! s:colors() abort
   hi NonText          guifg=#353535  guibg=NONE     gui=NONE        ctermfg=237    ctermbg=NONE cterm=NONE
   hi Whitespace       guifg=#353535  guibg=NONE     gui=NONE        ctermfg=237    ctermbg=NONE cterm=NONE
   hi WildMenu         guifg=#16161d  guibg=#d2cfcf  gui=NONE
-  hi SpellBad         guifg=Red      guibg=NONE     gui=NONE        ctermfg=9       ctermbg=NONE
-  hi SpellRare        guifg=#198cff  guibg=NONE     gui=NONE        ctermfg=12      ctermbg=NONE
+  hi SpellBad         guifg=Red      guibg=NONE     gui=NONE        ctermfg=9      ctermbg=NONE
+  hi SpellRare        guifg=#198cff  guibg=NONE     gui=NONE        ctermfg=12     ctermbg=NONE
 
-  hi Function         guifg=NONE     guibg=NONE     gui=italic     ctermfg=NONE  ctermbg=NONE  cterm=italic
-  hi Identifier       guifg=NONE     guibg=NONE     gui=italic     ctermfg=NONE  ctermbg=NONE  cterm=italic
+  hi Function         guifg=NONE     guibg=NONE     gui=italic     ctermfg=NONE  ctermbg=NONE  cterm=NONE
+  hi Identifier       guifg=NONE     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi Include          guifg=NONE     guibg=NONE     gui=italic     ctermfg=NONE  ctermbg=NONE  cterm=italic
   hi Keyword          guifg=NONE     guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=bold
   hi PreProc          guifg=NONE     guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=bold
@@ -82,7 +82,7 @@ function! s:colors() abort
   hi Directory        guifg=NONE     guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=bold
   hi Underlined       guifg=NONE     guibg=NONE     gui=underline  ctermfg=NONE  ctermbg=NONE  cterm=underline
   hi Title            guifg=NONE     guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=bold
-  hi Special          guifg=NONE     guibg=NONE     gui=italic     ctermfg=NONE  ctermbg=NONE  cterm=italic
+  hi Special          guifg=NONE     guibg=NONE     gui=italic     ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi ConstStrings     guifg=#198cff  guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
   hi ReturnStatement  guifg=#198cff  guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 
@@ -93,10 +93,10 @@ function! s:colors() abort
   hi QFEndOfBuffer    guifg=#222222 gui=NONE
   hi Callout          guifg=#198cff gui=NONE                       ctermfg=12    ctermbg=NONE  cterm=NONE
 
-  hi DiffAdd          guifg=#88aa77   gui=NONE      guibg=NONE     ctermfg=107   ctermbg=NONE  cterm=NONE
-  hi DiffDelete       guifg=#aa7766   gui=NONE      guibg=NONE     ctermfg=137   ctermbg=NONE  cterm=NONE
-  hi DiffChange       guifg=#7788aa   gui=NONE      guibg=NONE     ctermfg=67    ctermbg=NONE  cterm=NONE
-  hi DiffText         guifg=#7788aa   gui=underline guibg=NONE     ctermfg=67    ctermbg=NONE  cterm=underline
+  hi DiffAdd          guifg=#88aa77 guibg=NONE  gui=NONE           ctermfg=107   ctermbg=NONE  cterm=NONE
+  hi DiffDelete       guifg=#aa7766 guibg=NONE  gui=NONE           ctermfg=137   ctermbg=NONE  cterm=NONE
+  hi DiffChange       guifg=#7788aa guibg=NONE  gui=NONE           ctermfg=67    ctermbg=NONE  cterm=NONE
+  hi DiffText         guifg=#7788aa guibg=NONE  gui=underline      ctermfg=67    ctermbg=NONE  cterm=underline
 
   hi ALEError            guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
   hi ALEWarning          guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
