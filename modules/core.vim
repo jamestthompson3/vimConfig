@@ -241,3 +241,21 @@ augroup checktime
   endif
 augroup END
 
+" LSP
+call lsp#add_filetype_config({
+      \ 'filetype': ['typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
+      \ 'name': 'ecma-server',
+      \ 'cmd': 'javascript-typescript-stdio'
+      \ })
+
+call lsp#add_filetype_config({
+      \ 'filetype': 'rust',
+      \ 'name': 'rls',
+      \ 'cmd': 'rls',
+      \ 'capabilities': {
+      \   'clippy_preference': 'on',
+      \   'all_targets': v:false,
+      \   'build_on_save': v:true,
+      \   'wait_to_build': 0
+      \ }})
+

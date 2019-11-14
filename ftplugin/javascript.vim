@@ -18,7 +18,10 @@ let g:vimjs#casesensistive = 0
 let g:vimjs#smartcomplete = 1
 let g:vimjs#chromeapis = 1
 let g:vimjs#reactapis = 1
+
 nnoremap <silent>K :call tools#ListTags()<CR>
+nnoremap <silent> gd :call lsp#text_document_definition()<CR>
+nnoremap <silent> gh  :call lsp#text_document_hover()<CR>
 
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\)

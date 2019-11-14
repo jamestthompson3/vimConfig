@@ -1,9 +1,3 @@
-" packadd coc.nvim
-" nnoremap <silent> gd :call CocAction('jumpDefinition')<CR>
-" nnoremap <silent> gh :call CocAction('doHover')<CR>
-" nnoremap <silent> K <Plug>(coc-references)
-
-"let b:ale_linters =  ['rls']
 let b:ale_fixers = ['rustfmt']
 
 let g:mucomplete#chains.rust = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
@@ -16,3 +10,4 @@ else
 endif
 
 compiler cargo
+

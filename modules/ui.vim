@@ -98,11 +98,13 @@ function! s:colors() abort
   hi DiffChange       guifg=#7788aa guibg=NONE  gui=NONE           ctermfg=67    ctermbg=NONE  cterm=NONE
   hi DiffText         guifg=#7788aa guibg=NONE  gui=underline      ctermfg=67    ctermbg=NONE  cterm=underline
 
-  hi ALEError            guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
-  hi ALEWarning          guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
-  hi ALEErrorSign        guifg=#ff4444 ctermfg=203
-  hi ALEWarningSign      guifg=#dd9922 ctermfg=214
-  hi ALEVirtualTextError guifg=#ff4444 ctermfg=203
+  hi ALEError              guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
+  hi ALEWarning            guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
+  hi LspDiagnosticsError   guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
+  hi LspDiagnosticsWarning guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
+  hi ALEErrorSign          guifg=#ff4444 ctermfg=203
+  hi ALEWarningSign        guifg=#dd9922 ctermfg=214
+  hi ALEVirtualTextError   guifg=#ff4444 ctermfg=203
 
   " links
   hi! link ALEVirtualTextInfo  Comment
