@@ -55,7 +55,8 @@ command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>'
 function! s:find(term) abort
   let l:callbacks = {
         \ 'on_stdout': 'OnEvent',
-        \ 'on_exit': 'OnExit'
+        \ 'on_exit': 'OnExit',
+        \ 'stdout_buffered':v:true
         \ }
 
   let s:results = ['']
@@ -66,9 +67,10 @@ function! s:find(term) abort
   endfunction
 
   function! OnEvent(job_id, data, event)
-    let s:results[-1] .= a:data[0]
+      let eof = (a:data == [''])
+      let s:results[-1] .= a:data[0]
     call extend(s:results, a:data[1:])
   endfunction
 
-  call jobstart(printf('rg %s --vimgrep', a:term), l:callbacks)
+  call jobstart(printf('rg %s --vimgrep --smart-case', a:term), l:callbacks)
 endfunction
