@@ -255,7 +255,6 @@ function! tools#PackagerInit() abort
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
-  call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
@@ -287,7 +286,7 @@ function! tools#loadDeps() abort
     let g:matchup_match_paren_timeout = 100
     let g:matchup_matchparen_stopline = 200
     " Try this a bit later, rn highlighting doesn't work in popup
-    " let g:matchup_matchparen_offscreen = {'method': 'popup'}
+    let g:matchup_matchparen_offscreen = {'method': 'popup'}
     let g:pear_tree_map_special_keys = 0
     let g:pear_tree_pairs = {
           \   '(': {'closer': ')'},
@@ -305,7 +304,6 @@ function! tools#loadDeps() abort
     let g:pear_tree_timeout = 60
     let g:pear_tree_repeatable_expand = 1
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-    " let g:polyglot_disabled = ['javascript']
 
     " ALE:
     let g:ale_completion_delay = 20
@@ -323,7 +321,6 @@ function! tools#loadDeps() abort
     let g:ale_sign_column_always = 0
 
     packadd ale
-    packadd nvim-colorizer.lua
     packadd cfilter
     packadd pear-tree
     packadd rainbow_parentheses.vim
@@ -340,7 +337,6 @@ function! tools#loadDeps() abort
     catch /^Vim\%((\a\+)\)\=:E/
     endtry
 
-    " lua require 'colorizer'.setup({'*';}, { no_names = true, rgb_fn = true })
     let g:loadedDeps = 1
   endif
 endfunction

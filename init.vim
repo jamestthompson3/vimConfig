@@ -34,7 +34,6 @@ execute 'runtime! '.g:modules_folder.'*'
 " Commands:
 command! Scratch call tools#makeScratch()
 command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")
-command! GManage call git#manage()
 command! Diff call git#diff()
 command! TDiff call git#threeWayDiff()
 command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")
@@ -42,13 +41,9 @@ command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
 
 command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
 command! -bang SearchBuffers call tools#GrepBufs()
-command! -nargs=+ -complete=dir -bar SearchProject execute 'silent! grep!'.<q-args>.' | cwindow'
+command! -nargs=+ -complete=dir -bar SearchProject call s:find(<q-args>)
 command! CSRefresh call symbols#CSRefreshAllConns()
 command! CSBuild call symbols#buildCscopeFiles()
-" TODO fix this
-"cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
-
-command! -nargs=+ -complete=file FindFileByType call tools#GetFilesByType(<q-args>)
 
 command! PackagerInstall call tools#PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
@@ -56,6 +51,24 @@ command! PackagerClean call tools#PackagerInit() | call packager#clean()
 command! PackagerStatus call tools#PackagerInit() | call packager#status()
 command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>'
 
-command! Blue  :Monotone 193 90 90
-command! Red   :Monotone 360 96 80
-command! Reset :Monotone 217, 0, 70
+" Async grep
+function! s:find(term) abort
+  let l:callbacks = {
+        \ 'on_stdout': 'OnEvent',
+        \ 'on_exit': 'OnExit'
+        \ }
+
+  let s:results = ['']
+
+  function! OnExit(job_id, data, event)
+    call setqflist([], 'r', {'title': 'Search Results', 'lines': s:results})
+    exec 'cwindow'
+  endfunction
+
+  function! OnEvent(job_id, data, event)
+    let s:results[-1] .= a:data[0]
+    call extend(s:results, a:data[1:])
+  endfunction
+
+  call jobstart(printf('rg %s --vimgrep', a:term), l:callbacks)
+endfunction

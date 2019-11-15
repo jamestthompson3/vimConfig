@@ -66,11 +66,6 @@ function! git#stat()
   endif
 endfunction
 
-function! git#manage() abort
-  execute 'tabnew'
-  execute 'term lazygit'
-endfunction
-
 function! git#blame() abort
 execute ':Redir %Gblame'
 vertical resize 40
