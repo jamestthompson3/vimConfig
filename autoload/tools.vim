@@ -255,6 +255,7 @@ function! tools#PackagerInit() abort
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+  call packager#add('neovim/nvim-lsp', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
@@ -285,7 +286,6 @@ function! tools#loadDeps() abort
     let g:matchup_matchparen_deferred = 1
     let g:matchup_match_paren_timeout = 100
     let g:matchup_matchparen_stopline = 200
-    " Try this a bit later, rn highlighting doesn't work in popup
     let g:matchup_matchparen_offscreen = {'method': 'popup'}
     let g:pear_tree_map_special_keys = 0
     let g:pear_tree_pairs = {

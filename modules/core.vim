@@ -29,7 +29,6 @@ set grepprg=rg\ --smart-case\ --vimgrep
 set completeopt+=longest,noinsert,menuone,noselect
 set completeopt-=preview
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
-set omnifunc=syntaxcomplete#Complete
 set path-=/usr/include
 set path+=**
 set virtualedit=block
@@ -101,7 +100,7 @@ set backupdir=$HOME/.cache/Vim/backup
 set directory=$HOME/.cache/Vim/swap
 " TODO add function to dive into previously ignored paths?
 set wildignore+=*/dist*/*,*/target/*,*/builds/*,tags
-set wildignore+=*/lib/*,*/locale/*,*/flow-typed/* ",*/node_modules/*
+set wildignore+=*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*
 set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
 
@@ -242,11 +241,11 @@ augroup checktime
 augroup END
 
 " LSP
-" call lsp#add_filetype_config({
-"       \ 'filetype': ['typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
-"       \ 'name': 'ecma-server',
-"       \ 'cmd': 'javascript-typescript-stdio'
-"       \ })
+call lsp#add_filetype_config({
+      \ 'filetype': ['typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
+      \ 'name': 'ecma-server',
+      \ 'cmd': ['typescript-language-server', '--stdio']
+      \ })
 
 call lsp#add_filetype_config({
       \ 'filetype': 'rust',

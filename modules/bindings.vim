@@ -75,6 +75,11 @@ augroup ECMA
   autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger
   autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i
 augroup END
+
+augroup RUST
+autocmd!
+autocmd FileType rust inoremap <C-l> println!("{}",)<esc>i
+augroup END
 " Search and replace:
 nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>

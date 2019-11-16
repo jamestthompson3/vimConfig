@@ -2,6 +2,8 @@ let b:ale_fixers = ['rustfmt']
 
 let g:mucomplete#chains.rust = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 
+setl omnifunc=lsp#omnifunc
+
 nnoremap <silent> <leader>R :RustRun<CR>
 if has('Mac')
   let g:rust_clip_command = 'pbcopy'

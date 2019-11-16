@@ -8,3 +8,5 @@ let b:pear_tree_pairs = extend(deepcopy(g:pear_tree_pairs), {
       \         'not_like': '/$'
       \        }
       \ }, 'keep')
+
+setlocal omnifunc=lsp#omnifunc

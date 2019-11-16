@@ -103,6 +103,8 @@ function! s:colors() abort
   hi ALEWarning            guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
   hi LspDiagnosticsError   guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
   hi LspDiagnosticsWarning guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
+  hi LspDiagnosticsInformation ctermfg=12
+  hi LspDiagnosticsHint ctermfg=37
   hi ALEErrorSign          guifg=#ff4444 ctermfg=203
   hi ALEWarningSign        guifg=#dd9922 ctermfg=214
   hi ALEVirtualTextError   guifg=#ff4444 ctermfg=203
