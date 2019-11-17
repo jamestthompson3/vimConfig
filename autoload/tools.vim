@@ -249,13 +249,11 @@ function! tools#PackagerInit() abort
   call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
-  call packager#add('jamestthompson3/vim-better-javascript-completion', { 'type': 'opt' })
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
-  call packager#add('neovim/nvim-lsp', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
@@ -282,7 +280,7 @@ function! tools#loadDeps() abort
     let g:mucomplete#buffer_relative_paths = 1
     let g:mucomplete#chains = {}
     let g:mucomplete#chains.default = ['omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path']
-    let g:mucomplete#minimum_prefix_length = 2
+    let g:mucomplete#minimum_prefix_length = 1
     let g:matchup_matchparen_deferred = 1
     let g:matchup_match_paren_timeout = 100
     let g:matchup_matchparen_stopline = 200

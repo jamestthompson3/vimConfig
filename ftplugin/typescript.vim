@@ -66,7 +66,7 @@ function! TSLint() abort
   call jobstart(printf('yarn eslint --format unix %s', bufname('%')), l:callbacks)
 endfunction
 
-setl omnifunc=lsp#omnifunc
+setl omnifunc=v:lua.vim.lsp.omnifunc
 " nnoremap <silent> ;dc :call lsp#text_document_declaration()<CR>
 nnoremap <silent> gd :call lsp#text_document_definition()<CR>
 nnoremap <silent> gh  :call lsp#text_document_hover()<CR>

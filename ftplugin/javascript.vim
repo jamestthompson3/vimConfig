@@ -3,8 +3,6 @@ scriptencoding utf-8
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-" packadd vim-better-javascript-completion
-
 let g:mucomplete#chains.javascript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 let g:mucomplete#chains['javascript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 
@@ -13,11 +11,6 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 let g:vim_json_syntax_conceal = 0
-
-" let g:vimjs#casesensistive = 0
-" let g:vimjs#smartcomplete = 1
-" let g:vimjs#chromeapis = 1
-" let g:vimjs#reactapis = 1
 
 nnoremap <silent>K :call tools#ListTags()<CR>
 nnoremap <silent> gd :call lsp#text_document_definition()<CR>
