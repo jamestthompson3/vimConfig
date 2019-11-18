@@ -35,6 +35,11 @@ set virtualedit=block
 set conceallevel=2
 set foldopen+=search
 set updatetime=200
+set inccommand=split
+set wildoptions=pum
+set diffopt+=hiddenoff
+set diffopt+=iwhiteall
+set diffopt+=algorithm:patience
 
 
 " Cscope
@@ -104,14 +109,6 @@ set wildignore+=*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*
 set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store
 set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
 
-if has('nvim')
-  set inccommand=split
-  set wildoptions=pum
-  set diffopt+=hiddenoff
-  set diffopt+=iwhiteall
-  set diffopt+=algorithm:patience
-endif
-
 " Common mistakes
 iabbrev retrun  return
 iabbrev pritn   print
@@ -130,17 +127,6 @@ function! MarkMargin () abort
   if exists('b:MarkMargin')
     call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
   endif
-endfunction
-
-" Quit netrw when selecting a file
-function! QuitNetrw() abort
-  for i in range(1, bufnr($))
-    if buflisted(i)
-      if getbufvar(i, '&filetype') == "netrw"
-        silent execute 'bwipeout ' . i
-      endif
-    endif
-  endfor
 endfunction
 
 function! SplashScreen() abort
@@ -168,7 +154,13 @@ function! SplashScreen() abort
   endif
 endfunction
 
-function! AS_HandleSwapfile (filename, swapname)
+function s:remove_whitespace() abort
+  if (g:remove_whitespace)
+    %s/\s\+$//e " removes whitespace
+  endif
+endfunction
+
+function! s:AS_HandleSwapfile (filename, swapname)
   " if swapfile is older than file itself, just get rid of it
   if getftime(v:swapname) < getftime(a:filename)
     call delete(v:swapname)
@@ -184,8 +176,7 @@ augroup END
 augroup core
   autocmd!
   autocmd VimEnter *  call SplashScreen()
-  "TODO enable to be toggled
-  autocmd BufWritePre * %s/\s\+$//e " removes whitespace
+  autocmd BufWritePre * call s:remove_whitespace()
   autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
   autocmd BufNewFile *.tsx 0r ~/vim/skeletons/skeleton.tsx
   autocmd BufNewFile *.md 0r ~/vim/skeletons/skeleton.md
@@ -218,7 +209,7 @@ augroup END
 
 augroup AutoSwap
   autocmd!
-  autocmd SwapExists *  call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
+  autocmd SwapExists *  call s:AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
 augroup END
 
 augroup quickfix

@@ -15,6 +15,7 @@ let g:loaded_python_provider = 1
 " User Globals:
 let g:isWindows = has('win16') || has('win32') || has('win64')
 let g:isMac = system('uname') =~ 'Darwin\n'
+let g:remove_whitespace = 1 " Allows auto-remove whitespace to be toggled
 
 if g:isWindows
   let g:file_separator = '\\'
@@ -74,3 +75,4 @@ function! s:find(term) abort
 
   call jobstart(printf('rg %s --vimgrep --smart-case', a:term), l:callbacks)
 endfunction
+
