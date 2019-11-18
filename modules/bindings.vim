@@ -175,12 +175,12 @@ nnoremap ' `
 nnoremap M :silent make<CR>
 nnoremap Y y$
 
-function! s:OpenTerminalDrawer() abort
+function! OpenTerminalDrawer() abort
   execute 'copen'
   execute 'term'
 endfunction
 
-nnoremap <silent><Leader>d :call s:OpenTerminalDrawer()<CR>i
+nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>i
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " VimDev:
@@ -201,5 +201,5 @@ nnoremap <C-F> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> 
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 nnoremap <silent><F5> :so $MYVIMRC<CR>
 nnoremap <silent><F7> :so %<CR>
-nnoremap <silent><F1> :call s:Profiler()<CR>
+nnoremap <silent><F1> :call Profiler()<CR>
 
