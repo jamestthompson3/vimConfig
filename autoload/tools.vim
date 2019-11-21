@@ -250,6 +250,8 @@ function! tools#PackagerInit() abort
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
+  call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
+  call packager#local('/usr/local/opt/fzf', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
@@ -260,6 +262,10 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-markdown', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
+
+  " TEMP
+  call packager#add('scrooloose/vim-slumlord', { 'type': 'opt' })
+  call packager#add('aklt/plantuml-syntax', { 'type': 'opt' })
 endfunction
 
 
@@ -324,6 +330,8 @@ function! tools#loadDeps() abort
     packadd pear-tree
     packadd rainbow_parentheses.vim
     packadd tagbar
+    packadd fzf
+    packadd fzf.vim
     packadd vim-apathy
     packadd vim-commentary
     packadd vim-cool

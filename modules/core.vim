@@ -233,11 +233,11 @@ augroup END
 
 " LSP
 " runs out of mem on big projects
-" call lsp#add_filetype_config({
-"       \ 'filetype': ['typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
-"       \ 'name': 'ecma-server',
-"       \ 'cmd': ['typescript-language-server', '--stdio']
-"       \ })
+call lsp#add_filetype_config({
+      \ 'filetype': ['typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
+      \ 'name': 'ecma-server',
+      \ 'cmd': ['typescript-language-server', '--stdio']
+      \ })
 
 call lsp#add_filetype_config({
       \ 'filetype': 'rust',

@@ -88,6 +88,7 @@ nnoremap sb :g//#<Left><Left>
 nnoremap g_ :g//#<Left><Left><C-R><C-W><CR>:
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
+nnoremap <silent><Leader>G :GFiles<CR>
 nnoremap <silent><Leader>lt :call symbols#ListTags()<CR>
 nnoremap ts :ts<space>/
 nnoremap <C-]> g<C-]>
