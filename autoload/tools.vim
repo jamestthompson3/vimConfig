@@ -256,6 +256,7 @@ function! tools#PackagerInit() abort
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+  call packager#add('neovim/nvim-lsp', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
@@ -328,6 +329,7 @@ function! tools#loadDeps() abort
     packadd ale
     packadd cfilter
     packadd pear-tree
+    packadd nvim-lsp
     packadd rainbow_parentheses.vim
     packadd tagbar
     packadd fzf
