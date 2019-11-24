@@ -12,7 +12,7 @@ let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 let g:vim_json_syntax_conceal = 0
 
-set omnifunc=v:lua.vim.lsp.omnifunc
+lua require('lsp_setup').ecma_setup()
 
 nnoremap <silent>K :call tools#ListTags()<CR>
 nnoremap <silent> gd <cmd> lua vim.lsp.buf.definition()<CR>
