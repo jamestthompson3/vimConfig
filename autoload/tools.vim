@@ -275,6 +275,7 @@ function! tools#loadDeps() abort
     return
   else
 
+
     " plugin globals:
     let g:netrw_localrmdir = 'rm -r'
     let g:netrw_banner=0
@@ -329,11 +330,11 @@ function! tools#loadDeps() abort
     packadd ale
     packadd cfilter
     packadd pear-tree
-    packadd nvim-lsp
     packadd rainbow_parentheses.vim
     packadd tagbar
     packadd fzf
     packadd fzf.vim
+    packadd nvim-lsp
     packadd vim-apathy
     packadd vim-commentary
     packadd vim-cool
@@ -345,6 +346,12 @@ function! tools#loadDeps() abort
       silent cscope add cscope.out
     catch /^Vim\%((\a\+)\)\=:E/
     endtry
+
+lua << EOF
+  local nvim_lsp = require('nvim_lsp')
+  nvim_lsp.tsserver.setup(nvim_lsp.tsserver.template_config.default_config)
+  nvim_lsp.rls.setup(nvim_lsp.rls.template_config.default_config)
+EOF
 
     let g:loadedDeps = 1
   endif

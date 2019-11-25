@@ -9,4 +9,4 @@ let b:pear_tree_pairs = extend(deepcopy(g:pear_tree_pairs), {
       \        }
       \ }, 'keep')
 
-setlocal omnifunc=lsp#omnifunc
+set omnifunc=v:lua.vim.lsp.omnifunc

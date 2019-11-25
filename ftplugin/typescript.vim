@@ -67,10 +67,5 @@ function! TSLint() abort
 endfunction
 
 setl omnifunc=v:lua.vim.lsp.omnifunc
-" nnoremap <silent> ;dc :call lsp#text_document_declaration()<CR>
-nnoremap <silent> gd :call lsp#text_document_definition()<CR>
-nnoremap <silent> gh  :call lsp#text_document_hover()<CR>
-" nnoremap <silent> ;i  :call lsp#text_document_implementation()<CR>
-" nnoremap <silent> ;s  :call lsp#text_document_signature_help()<CR>
-" nnoremap <silent> ;td :call lsp#text_document_type_definition()<CR>
-" LSP
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
