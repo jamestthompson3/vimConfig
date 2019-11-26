@@ -349,8 +349,8 @@ function! tools#loadDeps() abort
 
 lua << EOF
   local nvim_lsp = require('nvim_lsp')
-  nvim_lsp.tsserver.setup(nvim_lsp.tsserver.template_config.default_config)
-  nvim_lsp.rls.setup(nvim_lsp.rls.template_config.default_config)
+  nvim_lsp.tsserver.setup({})
+  nvim_lsp.rls.setup({})
 EOF
 
     let g:loadedDeps = 1
