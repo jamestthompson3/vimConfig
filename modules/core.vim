@@ -230,3 +230,4 @@ augroup checktime
     autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
   endif
 augroup END
+

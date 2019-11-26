@@ -37,7 +37,7 @@ augroup END
 set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<
 set statusline+=%=
 set statusline+=%<
-set statusline+=\ %{statusline#ReadOnly()}
+set statusline+=%#MatchParen#%{statusline#LineNoIndicator()}%*\ %{statusline#ReadOnly()}
 
 set showtabline=2
 set tabline=ᚴ\ %{git#branch()}
@@ -102,8 +102,8 @@ function! s:colors() abort
 
   hi ALEError                   guifg=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
   hi ALEWarning                 guifg=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
-  hi LspDiagnosticsError        guifg=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
-  hi LspDiagnosticsWarning      guifg=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
+  hi LspDiagnosticsError        guifg=#ff4444 gui=NONE ctermfg=203 cterm=NONE
+  hi LspDiagnosticsWarning      guifg=#dd9922 gui=NONE ctermfg=214 cterm=NONE
   hi LspDiagnosticsInformation  guifg=#0000ff ctermfg=12
   hi LspDiagnosticsHint         guifg=#00afaf ctermfg=37
   hi ALEErrorSign               guifg=#ff4444 ctermfg=203

@@ -4,6 +4,8 @@ let b:ale_fixers = ['prettier']
 let g:mucomplete#chains.typescript = [ 'omni','tags','keyn', 'keyp', 'c-p', 'c-n', 'file','path', 'ulti']
 let g:mucomplete#chains['typescriptreact'] = ['omni','tags','keyn', 'keyp', 'c-p', 'c-n', 'file','path', 'ulti']
 
+nnoremap <silent> <leader>h <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
