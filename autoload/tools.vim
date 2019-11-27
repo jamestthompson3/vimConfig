@@ -350,7 +350,7 @@ function! tools#loadDeps() abort
 lua << EOF
   local nvim_lsp = require('nvim_lsp')
   local diagnostic = require('user_lsp')
-  vim.lsp.default_callbacks['textDocument/publishDiagnostics'] = diagnostic.buf_diagnostics_set_signs
+  -- vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.buf_diagnostics_set_signs
   nvim_lsp.tsserver.setup({})
   nvim_lsp.rls.setup({})
   nvim_lsp.sumneko_lua.setup({})

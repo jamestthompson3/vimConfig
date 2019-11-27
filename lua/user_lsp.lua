@@ -70,6 +70,7 @@ function M.buf_diagnostics_set_signs(_, _, result)
       api.nvim_command(string.format('sign define lsp text=◉  texthl=%s', severity_highlights[val.severity]))
       for _, l in pairs(val.range) do
         local line_no = l.line + 1
+        -- still errors out sometimes with invalid filename
         local sign_place = string.format('sign place %d line=%d name=lsp group=lsp_diag file=%s', line_no, line_no, file)
         api.nvim_command(sign_place)
       end
