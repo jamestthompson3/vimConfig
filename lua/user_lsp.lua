@@ -59,7 +59,8 @@ function M.buf_diagnostics_set_signs(_, _, result)
   local buffer_line_diagnostics = all_buffer_diagnostics[bufnr]
 
   local file = api.nvim_command_output("echo expand('%:p')")
-  local unplace = string.format('sign unplace * file=%s', (file):gsub([["]], ""))
+  local unplace = string.format('sign unplace * group=lsp_diag file=%s', file)
+  -- clean up exiting signs
   api.nvim_command(unplace)
   for line, line_diags in pairs(buffer_line_diagnostics) do
     for _, val in pairs(line_diags) do
@@ -69,7 +70,7 @@ function M.buf_diagnostics_set_signs(_, _, result)
       api.nvim_command(string.format('sign define lsp text=◉  texthl=%s', severity_highlights[val.severity]))
       for _, l in pairs(val.range) do
         local line_no = l.line + 1
-        local sign_place = string.format('sign place %d line=%d name=lsp file=%s', line_no, line_no, (file):gsub([["]], ""))
+        local sign_place = string.format('sign place %d line=%d name=lsp group=lsp_diag file=%s', line_no, line_no, file)
         api.nvim_command(sign_place)
       end
     end
