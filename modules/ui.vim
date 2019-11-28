@@ -1,19 +1,10 @@
 scriptencoding utf-8
 
-" termgui colors doesn't work on mac w/o tmux
-set termguicolors
-set nowrap
-set cursorline
-set number
-set pumblend=20
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
-set pumheight=15   "limit completion menu height
-set scrolloff=1 "minimal number of screen lines to keep above and below the cursor.
-set sidescrolloff=5 "same, but with columns
-set display+=lastline
+
 set listchars=
 set listchars+=tab:░\
 set listchars+=trail:·
@@ -21,18 +12,7 @@ set listchars+=space:·
 set listchars+=extends:»
 set listchars+=precedes:«
 set listchars+=nbsp:⣿
-set guicursor+=n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25
-
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
-" Turn off column numbers if the window is inactive
-augroup WINDOWS
-  autocmd!
-  autocmd WinEnter * set number
-  autocmd WinLeave * set nonumber
-augroup END
-
-"colorscheme ghost
 
 set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<
 set statusline+=%=

@@ -283,7 +283,7 @@ function! tools#loadDeps() abort
     let g:gutentags_file_list_command = 'fd . -c never'
     let g:mucomplete#enable_auto_at_startup = 1
     let g:mucomplete#no_mappings = 1
-    let g:mucomplete#buffer_relative_paths = 1
+    " let g:mucomplete#buffer_relative_paths = 1
     let g:mucomplete#chains = {}
     let g:mucomplete#chains.default = ['omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path']
     let g:mucomplete#minimum_prefix_length = 1
@@ -323,6 +323,9 @@ function! tools#loadDeps() abort
     let g:ale_javascript_prettier_use_local_config = 1
     let g:ale_echo_msg_format = '[%linter%] %s'
     let g:ale_sign_column_always = 0
+
+    lua require('navigation')
+    let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()'}
 
     packadd ale
     packadd cfilter

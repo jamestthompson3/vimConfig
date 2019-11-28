@@ -4,14 +4,7 @@ set completeopt-=preview
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
 set path-=/usr/include
 set path+=**
-set foldopen+=search
-set diffopt+=hiddenoff
-set diffopt+=iwhiteall
-set diffopt+=algorithm:patience
 
-
-" Use the quickfix window for the cscope query
-set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 cnoreabbrev csa cs add
 cnoreabbrev csf cs find
@@ -133,22 +126,9 @@ function! s:AS_HandleSwapfile (filename, swapname)
   endif
 endfunction
 
-augroup filebrowser
-  autocmd!
-  autocmd FileType netrw au BufLeave netrw close
-augroup END
-
 augroup core
   autocmd!
-  autocmd VimEnter *  call SplashScreen()
-  autocmd BufWritePre * call s:remove_whitespace()
-  autocmd BufNewFile *.html 0r ~/vim/skeletons/skeleton.html
-  autocmd BufNewFile *.tsx 0r ~/vim/skeletons/skeleton.tsx
-  autocmd BufNewFile *.md 0r ~/vim/skeletons/skeleton.md
-  autocmd WinNew * call sessions#saveSession()
-  autocmd VimLeavePre * call sessions#saveSession()
-  autocmd BufAdd * call tools#loadDeps()
-  autocmd SessionLoadPost * call tools#loadDeps()
+  autocmd BufWritePre     *      call s:remove_whitespace()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
         \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   autocmd BufWritePre *
@@ -175,12 +155,6 @@ augroup END
 augroup AutoSwap
   autocmd!
   autocmd SwapExists *  call s:AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
-augroup END
-
-augroup quickfix
-  autocmd!
-  autocmd QuickFixCmdPost [^l]* nested call tools#OpenQuickfix()
-  autocmd VimEnter            * nested call tools#OpenQuickfix()
 augroup END
 
 augroup MarkMargin

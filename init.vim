@@ -33,6 +33,7 @@ let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 lua << EOF
  local init = require('init')
  init.core_options()
+ init.plugin_globals()
 EOF
 execute 'runtime! '.g:modules_folder.'*'
 
