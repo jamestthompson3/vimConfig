@@ -31,6 +31,7 @@ let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 
 " Load Custom Modules:
 lua << EOF
+ require('mappings')
  local init = require('init')
  init.core_options()
  init.create_commands()

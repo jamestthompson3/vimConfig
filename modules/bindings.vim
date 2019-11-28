@@ -17,22 +17,6 @@ nnoremap <Leader>P "+P
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 
 
-" Window/Buffer Motions:
-nnoremap <silent><C-J> :call WinMove('j')<cr>
-nnoremap <silent><C-L> :call WinMove('l')<cr>
-nnoremap <silent><C-H> :call WinMove('h')<cr>
-nnoremap <silent><C-K> :call WinMove('k')<cr>
-nnoremap <silent> wq :close<CR>
-nnoremap <silent> Q :bp\|bd #<CR>
-nnoremap <silent> cc :cclose<CR>
-nnoremap <silent> sq :only<CR>
-nnoremap <silent> gl :pc<CR>
-nnoremap <leader><tab> :bn<CR>
-nnoremap <silent>[a :prev<CR>
-nnoremap <silent>]a :next<CR>
-nnoremap <silent> <c-u> :call tools#smoothScroll(1)<cr>
-nnoremap <silent> <c-d> :call tools#smoothScroll(0)<cr>
-
 " Move in given direction or create new split
 function! WinMove(key) abort
   let t:curwin = winnr()
@@ -48,10 +32,6 @@ function! WinMove(key) abort
 endfunction
 
 " Buffer Switching:
-nnoremap <silent> [q :cnext<CR>
-nnoremap <silent> ]q :cprev<CR>
-nnoremap <silent> [Q :cnfile<CR>
-nnoremap <silent> ]Q :cpfile<CR>
 nnoremap <leader>. :Bs<space>
 nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
 nnoremap <BS> :bp<CR>
@@ -60,6 +40,7 @@ nnoremap <BS> :bp<CR>
 nnoremap <silent><F3> :Vex<CR>
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent><leader>F :call tools#simpleMru()<CR>
+
 augroup FileNav
   autocmd!
   autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
@@ -81,17 +62,9 @@ autocmd!
 autocmd FileType rust inoremap <C-l> println!("{}",)<esc>i
 augroup END
 " Search and replace:
-nnoremap S :%s//g<LEFT><LEFT>
-vmap s :s//g<LEFT><LEFT>
 nnoremap / ms/
-nnoremap sb :g//#<Left><Left>
-nnoremap g_ :g//#<Left><Left><C-R><C-W><CR>:
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
-nnoremap <silent><C-p> :GFiles<CR>
-nnoremap <silent><C-b> :Buffers<CR>
-nnoremap <silent><Leader>lt :call symbols#ListTags()<CR>
-nnoremap ts :ts<space>/
 nnoremap <C-]> g<C-]>
 nnoremap gh :call symbols#ShowDeclaration(0)<CR>
 nnoremap ]] :ijump <C-R><C-W><CR>
@@ -142,14 +115,6 @@ vnoremap <silent> g<c-g> :<C-U>
       \:silent! cs find g <C-R>=@"<cr><cr>
       \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
 
-" Git:
-nnoremap <Leader>b :Gblame<CR>
-nnoremap <silent><Leader>B :call git#blame()<CR>
-xnoremap <Leader>b :Gblame<CR>
-
-" ALE:
-nnoremap <silent> <Leader>jj :ALENext<CR>
-nnoremap <silent> <Leader>kk :ALEPrevious<CR>
 
 " Blocks:
 vnoremap <silent><up>    :m '<-2<cr>gv=gv
@@ -165,16 +130,6 @@ xnoremap <expr> A (mode()=~#'[vV]'?'<C-v>0o$A':'A')
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-
-" Misc:
-nnoremap ; :
-nnoremap : ;
-nnoremap mks :mks! ~/sessions/
-nnoremap ss :so ~/sessions/
-nnoremap ssb :call sessions#sourceSession()<CR>
-nnoremap ' `
-nnoremap M :silent make<CR>
-nnoremap Y y$
 
 function! OpenTerminalDrawer() abort
   execute 'copen'
@@ -200,7 +155,4 @@ endfunction
 nnoremap <C-F> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-nnoremap <silent><F5> :so $MYVIMRC<CR>
-nnoremap <silent><F7> :so %<CR>
-nnoremap <silent><F1> :call Profiler()<CR>
 
