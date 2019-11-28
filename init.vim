@@ -30,6 +30,10 @@ let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 
 
 " Load Custom Modules:
+lua << EOF
+ local init = require('init')
+ init.core_options()
+EOF
 execute 'runtime! '.g:modules_folder.'*'
 
 " Commands:

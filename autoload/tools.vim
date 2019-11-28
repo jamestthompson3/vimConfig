@@ -264,9 +264,6 @@ function! tools#PackagerInit() abort
   call packager#add('tpope/vim-markdown', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
 
-  " TEMP
-  call packager#add('scrooloose/vim-slumlord', { 'type': 'opt' })
-  call packager#add('aklt/plantuml-syntax', { 'type': 'opt' })
 endfunction
 
 

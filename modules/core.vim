@@ -1,50 +1,15 @@
 scriptencoding utf-8
-set hidden
-set secure
-set title " more meta info for window manager
-set lazyredraw
-set splitright
-set nomodeline
-set undolevels=1000
-set ttimeout
-set ttimeoutlen=20
-set wildignorecase
-set wildcharm=<C-z> " wildchar in macros
-set magic " Use extended regular expressions
-set mouse=nv
-set wildmode=list:longest,full
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
-set expandtab
-set shiftround
-set ignorecase
-set smartcase
-set undofile
-set backup
-set noswapfile
-set synmaxcol=200 " Large columns with syntax highlights slow things down
-set cmdheight=2 " Reduce 'hit enter to continue' messages
-set grepprg=rg\ --smart-case\ --vimgrep
 set completeopt+=longest,noinsert,menuone,noselect
 set completeopt-=preview
 set complete-=t " let mucomplete handle searching for tags. Don't scan by default
 set path-=/usr/include
 set path+=**
-set virtualedit=block
-set conceallevel=2
 set foldopen+=search
-set updatetime=200
-set inccommand=split
-set wildoptions=pum
 set diffopt+=hiddenoff
 set diffopt+=iwhiteall
 set diffopt+=algorithm:patience
 
 
-" Cscope
-set cscopetagorder=0
-set cscopepathcomp=3
 " Use the quickfix window for the cscope query
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
