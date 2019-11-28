@@ -128,7 +128,7 @@ endfunction
 
 augroup core
   autocmd!
-  autocmd BufWritePre     *      call s:remove_whitespace()
+  autocmd BufWritePre * call s:remove_whitespace()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
         \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   autocmd BufWritePre *
@@ -155,11 +155,6 @@ augroup END
 augroup AutoSwap
   autocmd!
   autocmd SwapExists *  call s:AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
-augroup END
-
-augroup MarkMargin
-  autocmd!
-  autocmd  BufEnter  * :call MarkMargin()
 augroup END
 
 " Show changes that happen outside file

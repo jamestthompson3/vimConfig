@@ -33,29 +33,12 @@ let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 lua << EOF
  local init = require('init')
  init.core_options()
- init.plugin_globals()
+ init.create_commands()
 EOF
 execute 'runtime! '.g:modules_folder.'*'
 
 " Commands:
-command! Scratch call tools#makeScratch()
-command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")
-command! Diff call git#diff()
-command! TDiff call git#threeWayDiff()
-command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")
-command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)
-
-command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)
-command! -bang SearchBuffers call tools#GrepBufs()
 command! -nargs=+ -complete=dir -bar SearchProject call s:find(<q-args>)
-command! CSRefresh call symbols#CSRefreshAllConns()
-command! CSBuild call symbols#buildCscopeFiles()
-
-command! PackagerInstall call tools#PackagerInit() | call packager#install()
-command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
-command! PackagerClean call tools#PackagerInit() | call packager#clean()
-command! PackagerStatus call tools#PackagerInit() | call packager#status()
-command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>'
 
 " Async grep
 function! s:find(term) abort

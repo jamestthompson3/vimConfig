@@ -272,26 +272,16 @@ function! tools#loadDeps() abort
     return
   else
 
+lua << EOF
+  local plugins = require('plugins')
+  plugins.plugin_globals()
+EOF
 
     " plugin globals:
-    let g:netrw_localrmdir = 'rm -r'
-    let g:netrw_banner=0
-    let g:netrw_winsize=45
-    let g:netrw_liststyle=3
-    let g:gutentags_cache_dir = '~/.cache/'
-    let g:gutentags_project_root = ['Cargo.toml']
-    let g:gutentags_file_list_command = 'fd . -c never'
-    let g:mucomplete#enable_auto_at_startup = 1
-    let g:mucomplete#no_mappings = 1
-    " let g:mucomplete#buffer_relative_paths = 1
     let g:mucomplete#chains = {}
     let g:mucomplete#chains.default = ['omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path']
-    let g:mucomplete#minimum_prefix_length = 1
-    let g:matchup_matchparen_deferred = 1
-    let g:matchup_match_paren_timeout = 100
-    let g:matchup_matchparen_stopline = 200
+    let g:gutentags_project_root = ['Cargo.toml']
     let g:matchup_matchparen_offscreen = {'method': 'popup'}
-    let g:pear_tree_map_special_keys = 0
     let g:pear_tree_pairs = {
           \   '(': {'closer': ')'},
           \   '[': {'closer': ']'},
@@ -301,28 +291,7 @@ function! tools#loadDeps() abort
           \   '`': {'closer': '`'},
           \   '/\*': {'closer': '\*/'}
           \ }
-
-    let g:pear_tree_smart_openers = 1
-    let g:pear_tree_smart_closers = 1
-    let g:pear_tree_smart_backspace = 1
-    let g:pear_tree_timeout = 60
-    let g:pear_tree_repeatable_expand = 1
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-
-    " ALE:
-    let g:ale_completion_delay = 20
-    let g:ale_linters_explicit = 1
-    let g:ale_sign_error = 'X'
-    let g:ale_sign_warning = '◉'
-    let g:ale_close_preview_on_insert = 1
-    let g:ale_fix_on_save = 1
-    let g:ale_lint_on_insert_leave = 0
-    let g:ale_lint_on_text_changed = 0
-    let g:ale_list_window_size = 5
-    let g:ale_virtualtext_cursor = 1
-    let g:ale_javascript_prettier_use_local_config = 1
-    let g:ale_echo_msg_format = '[%linter%] %s'
-    let g:ale_sign_column_always = 0
 
     lua require('navigation')
     let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()'}

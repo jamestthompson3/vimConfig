@@ -88,9 +88,23 @@ function M.core_options()
   nvim_create_augroups(autocmds)
 end
 
-function M.plugin_globals()
-  vim.g.mucomplete_buffer_relative_paths = 1
+function M.create_commands()
+  nvim.command [[command! Scratch call tools#makeScratch()]]
+  nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
+  nvim.command [[command! Diff call git#diff()]]
+  nvim.command [[command! TDiff call git#threeWayDiff()]]
+  nvim.command [[command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")]]
+  nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
+  nvim.command [[command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)]]
+  nvim.command [[command! -bang SearchBuffers call tools#GrepBufs()]]
+  nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
+  nvim.command [[command! PackagerInstall call tools#PackagerInit() | call packager#install()]]
+  nvim.command [[command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })]]
+  nvim.command [[command! PackagerClean call tools#PackagerInit() | call packager#clean()]]
+  nvim.command [[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']]
+  nvim.command [[command! CSBuild call symbols#buildCscopeFiles()]]
+  nvim.command [[command! PackagerStatus call tools#PackagerInit() | call packager#status()]]
+  nvim.command [[command! MarkMargin call MarkMargin()]]
 end
-
 
 return M
