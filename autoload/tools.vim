@@ -294,6 +294,7 @@ EOF
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
     lua require('navigation')
+    let $FZF_DEFAULT_OPTS='--layout=reverse'
     let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()'}
 
     packadd ale
@@ -324,10 +325,6 @@ lua << EOF
   nvim_lsp.rls.setup({})
   nvim_lsp.sumneko_lua.setup({})
 EOF
-    augroup LSP
-      au!
-      autocmd! CursorHold * :lua vim.lsp.util.show_line_diagnostics()
-    augroup END
     let g:loadedDeps = 1
   endif
 endfunction
