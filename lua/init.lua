@@ -1,5 +1,5 @@
 require 'nvim_utils'
-
+local is_windows = vim.loop.os_uname().version:match("Windows")
 local nvim_options = setmetatable({}, {
   __index = function(_, k)
     return vim.api.nvim_get_option(k)
@@ -13,56 +13,90 @@ local M = {}
 
 function M.core_options()
   local options = {
-    hidden          = true,
-    secure          = true,
-    title           = true,
-    lazyredraw      = true,
-    splitright      = true,
-    modeline        = false,
-    ttimeout        = true,
-    wildignorecase  = true,
-    expandtab       = true,
-    shiftround      = true,
-    ignorecase      = true,
-    smartcase       = true,
-    undofile        = true,
-    backup          = true,
-    magic           = true,
+    hidden          = true;
+    secure          = true;
+    title           = true;
+    lazyredraw      = true;
+    splitright      = true;
+    modeline        = false;
+    ttimeout        = true;
+    wildignorecase  = true;
+    expandtab       = true;
+    shiftround      = true;
+    ignorecase      = true;
+    smartcase       = true;
+    undofile        = true;
+    backup          = true;
+    magic           = true;
 
-    undolevels      = 1000,
-    ttimeoutlen     = 20,
-    shiftwidth      = 2,
-    softtabstop     = 2,
-    tabstop         = 2,
-    synmaxcol       = 200,
-    cmdheight       = 2,
-    updatetime      = 200,
-    conceallevel    = 2,
-    cscopetagorder  = 0,
-    cscopepathcomp  = 3,
+    undolevels      = 1000;
+    ttimeoutlen     = 20;
+    shiftwidth      = 2;
+    softtabstop     = 2;
+    tabstop         = 2;
+    synmaxcol       = 200;
+    cmdheight       = 2;
+    updatetime      = 200;
+    conceallevel    = 2;
+    cscopetagorder  = 0;
+    cscopepathcomp  = 3;
 
-    mouse           = "nv",
-    foldopen        = "search",
-    diffopt         = "hiddenoff,iwhiteall,algorithm:patience",
-    wildmode        = "list:longest,full",
-    grepprg         = "rg --smart-case --vimgrep",
-    virtualedit     = "block",
-    inccommand      = "split",
-    cscopequickfix = "s-,c-,d-,i-,t-,e-",
+    mouse           = "nv";
+    foldopen        = "search";
+    encoding        = "UTF-8";
+    fileformat      = 'unix';
+    diffopt         = "hiddenoff,iwhiteall,algorithm:patience";
+    wildmode        = "list:longest,full";
+    grepprg         = [[rg\ --smart-case\ --vimgrep]];
+    virtualedit     = "block";
+    inccommand      = "split";
+    cscopequickfix  = "s-,c-,d-,i-,t-,e-";
+    path            = nvim_options.path .. ',' .. vim.api.nvim_call_function('getenv', { 'PWD' });
+    completeopt     = {'menuone', 'noinsert', 'noselect', 'longest'};
+    complete        = {'.', 'w', 'b', 'u'};
+    formatlistpat   = [[^\\s*\\[({]\\?\\([0-9]\\+\\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\\|^\\s*[-–+o*•]\\s\\+]];
 
     -- UI OPTS
-    termguicolors  = true,
-    wrap           = false,
-    cursorline     = true,
-    number         = true,
-    pumblend       = 20,
-    pumheight      = 15,
-    scrolloff      = 1,
-    sidescrolloff  = 5,
-    display        = "lastline",
-    guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25",
+    termguicolors  = true;
+    wrap           = false;
+    cursorline     = true;
+    number         = true;
+    pumblend       = 20;
+    pumheight      = 15;
+    scrolloff      = 1;
+    sidescrolloff  = 5;
+    display        = "lastline";
+    guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25";
   }
-  for k, v in pairs(options) do nvim_options[k] = v end
+  for k, v in pairs(options) do
+    if v == true or v == false then
+      vim.api.nvim_command('set ' .. k)
+    elseif type(v) == 'table' then
+      local values = ''
+      for k2, v2 in pairs(v) do
+        if k2 == 1 then
+          values = values .. v2
+        else
+          values = values .. ',' .. v2
+        end
+      end
+      vim.api.nvim_command('set ' .. k .. '=' .. values)
+    else
+      vim.api.nvim_command('set ' .. k .. '=' .. v)
+    end
+  end
+
+  -- Globals
+  vim.g.did_install_default_menus = 1
+  vim.g.loaded_tutor_mode_plugin = 1
+  vim.g.loaded_matchparen = 1
+  vim.g.loaded_zipPlugin = 1
+  vim.g.loaded_tarPlugin = 1
+  vim.g.loaded_gzip = 1
+  vim.g.loaded_python_provider = 1
+
+
+    vim.g.python3_host_prog = is_windows and 'C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe' or '/usr/local/bin/python3'
 
   local autocmds = {
     load_core = {
@@ -107,4 +141,10 @@ function M.create_commands()
   nvim.command [[command! MarkMargin call MarkMargin()]]
 end
 
-return M
+local file_separator = is_windows and '\\' or '/'
+local modules_folder = 'modules' .. file_separator
+vim.g.sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
+vim.api.nvim_command(string.format('runtime! %s*', modules_folder))
+
+M.core_options()
+M.create_commands()

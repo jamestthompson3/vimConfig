@@ -1,42 +1,19 @@
 scriptencoding utf-8
 set fileencoding=utf8
-set fileformat=unix
 
 " Disable some default vim plugins:
-let g:did_install_default_menus = 1
-let g:loaded_tutor_mode_plugin = 1
 let loaded_matchit = 1
-let g:loaded_matchparen = 1
-let g:loaded_zipPlugin = 1
-let g:loaded_tarPlugin = 1
-let g:loaded_gzip = 1
-let g:loaded_python_provider = 1
 
 " User Globals:
 let g:isWindows = has('win16') || has('win32') || has('win64')
 let g:isMac = system('uname') =~ 'Darwin\n'
 let g:remove_whitespace = 1 " Allows auto-remove whitespace to be toggled
 
-if g:isWindows
-  let g:file_separator = '\\'
-  let g:python3_host_prog = 'C:\Users\taylor.thompson\AppData\Local\Programs\Python\Python36-32\python.exe'
-else
-  let g:file_separator = '/'
-  let g:python3_host_prog= '/usr/local/bin/python3'
-endif
-
-let g:modules_folder = 'modules' . g:file_separator
-let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
-
-
 " Load Custom Modules:
 lua << EOF
  require('mappings')
- local init = require('init')
- init.core_options()
- init.create_commands()
+ require('init')
 EOF
-execute 'runtime! '.g:modules_folder.'*'
 
 " Commands:
 command! -nargs=+ -complete=dir -bar SearchProject call s:find(<q-args>)
@@ -64,4 +41,3 @@ function! s:find(term) abort
 
   call jobstart(printf('rg %s --vimgrep --smart-case', a:term), l:callbacks)
 endfunction
-

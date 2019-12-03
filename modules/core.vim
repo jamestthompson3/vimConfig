@@ -1,10 +1,4 @@
 scriptencoding utf-8
-set completeopt+=longest,noinsert,menuone,noselect
-set completeopt-=preview
-set complete-=t " let mucomplete handle searching for tags. Don't scan by default
-set path-=/usr/include
-set path+=**
-
 
 cnoreabbrev csa cs add
 cnoreabbrev csf cs find
@@ -16,21 +10,6 @@ cnoreabbrev csh cs help
 if !g:isWindows
   set shell=bash
 endif
-
-set formatoptions+=t
-set formatlistpat=^\\s*                     " Optional leading whitespace
-set formatlistpat+=[                        " Start character class
-set formatlistpat+=\\[({]\\?                " |  Optionally match opening punctuation
-set formatlistpat+=\\(                      " |  Start group
-set formatlistpat+=[0-9]\\+                 " |  |  Numbers
-set formatlistpat+=\\\|                     " |  |  or
-set formatlistpat+=[a-zA-Z]\\+              " |  |  Letters
-set formatlistpat+=\\)                      " |  End group
-set formatlistpat+=[\\]:.)}                 " |  Closing punctuation
-set formatlistpat+=]                        " End character class
-set formatlistpat+=\\s\\+                   " One or more spaces
-set formatlistpat+=\\\|                     " or
-set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
 
 " BACKUPS:
 let g:data_dir = $HOME . '/.cache/Vim/'
