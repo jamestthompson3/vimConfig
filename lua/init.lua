@@ -160,10 +160,25 @@ local function core_options()
         };
         ft = {
           {"FileType netrw au BufLeave netrw close"};
+          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i"};
+          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a"};
+          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
+          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
+          {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};
+          {"FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>"};
+          {"FileType dirvish nnoremap <buffer> n :e %"};
+          {"FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>"};
+          {"FileType netrw nnoremap <buffer> q :close<CR>"};
         };
         windows = {
           {"WinEnter", "*", "set number"};
           {"WinLeave", "*", "set nonumber"};
+        };
+        bufs = {
+          {"BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>"};
+          {"BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF"};
+          {"BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>"};
+          {"BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>"};
         };
       }
       nvim_create_augroups(autocmds)

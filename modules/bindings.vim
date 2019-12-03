@@ -39,26 +39,6 @@ nnoremap <silent><F3> :Vex<CR>
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent><leader>F :call tools#simpleMru()<CR>
 
-augroup FileNav
-  autocmd!
-  autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
-  autocmd FileType dirvish nnoremap <buffer> n :e %
-  autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
-  autocmd FileType netrw nnoremap <buffer> q :close<CR>
-augroup END
-
-augroup ECMA
-  autocmd!
-  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i
-  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a
-  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger
-  autocmd FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i
-augroup END
-
-augroup RUST
-autocmd!
-autocmd FileType rust inoremap <C-l> println!("{}",)<esc>i
-augroup END
 " Search and replace:
 nnoremap / ms/
 nnoremap <Leader>sp :SearchProject<space>
@@ -82,14 +62,6 @@ function! HLNext (blinktime) abort
   call matchdelete(ring)
   redraw
 endfunction
-
-augroup searching
-  autocmd BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>
-  autocmd BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF
-  autocmd BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>
-  autocmd BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>
-augroup END
-
 
 "Cscope
 nnoremap <leader>f :silent! cs find 0 <C-R>=expand("<cword>")<CR><CR>
