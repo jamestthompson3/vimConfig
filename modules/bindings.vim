@@ -16,8 +16,6 @@ nnoremap <Leader>P "+P
 " Don't trash current register when pasting in visual mode
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 
-
-" Move in given direction or create new split
 function! WinMove(key) abort
   let t:curwin = winnr()
   exec "wincmd ".a:key
@@ -134,12 +132,17 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
-function! OpenTerminalDrawer() abort
-  execute 'copen'
+function! OpenTerminalDrawer(floating) abort
+  if a:floating
+    execute 'lua NavigationFloatingWin()'
+  else
+    execute 'copen'
+  endif
   execute 'term'
 endfunction
 
-nnoremap <silent><Leader>d :call OpenTerminalDrawer()<CR>i
+nnoremap <silent><Leader>d :call OpenTerminalDrawer(1)<CR>i
+nnoremap <silent><Leader>D :call OpenTerminalDrawer(0)<CR>i
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " VimDev:

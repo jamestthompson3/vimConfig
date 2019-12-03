@@ -7,45 +7,6 @@ cnoreabbrev csr cs reset
 cnoreabbrev css cs show
 cnoreabbrev csh cs help
 
-if !g:isWindows
-  set shell=bash
-endif
-
-" BACKUPS:
-let g:data_dir = $HOME . '/.cache/Vim/'
-let g:backup_dir = g:data_dir . 'backup'
-let g:swap_dir = g:data_dir . 'swap'
-let g:undo_dir = g:data_dir . 'undofile'
-let g:conf_dir = g:data_dir . 'conf'
-if finddir(g:data_dir) ==# ''
-  silent call mkdir(g:data_dir, 'p', 0700)
-endif
-if finddir(g:backup_dir) ==# ''
-  silent call mkdir(g:backup_dir, 'p', 0700)
-endif
-if finddir(g:swap_dir) ==# ''
-  silent call mkdir(g:swap_dir, 'p', 0700)
-endif
-if finddir(g:undo_dir) ==# ''
-  silent call mkdir(g:undo_dir, 'p', 0700)
-endif
-if finddir(g:conf_dir) ==# ''
-  silent call mkdir(g:conf_dir, 'p', 0700)
-endif
-unlet g:data_dir
-unlet g:backup_dir
-unlet g:swap_dir
-unlet g:undo_dir
-unlet g:conf_dir
-set undodir=$HOME/.cache/Vim/undofile
-set backupdir=$HOME/.cache/Vim/backup
-set directory=$HOME/.cache/Vim/swap
-" TODO add function to dive into previously ignored paths?
-set wildignore+=*/dist*/*,*/target/*,*/builds/*,tags
-set wildignore+=*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*
-set wildignore+=*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store
-set wildignore+=*.ttf,*.otf,*.woff,*.woff2,*.eot
-
 " Common mistakes
 iabbrev retrun  return
 iabbrev pritn   print
@@ -91,12 +52,6 @@ function! SplashScreen() abort
   endif
 endfunction
 
-function s:remove_whitespace() abort
-  if (g:remove_whitespace)
-    %s/\s\+$//e " removes whitespace
-  endif
-endfunction
-
 function! s:AS_HandleSwapfile (filename, swapname)
   " if swapfile is older than file itself, just get rid of it
   if getftime(v:swapname) < getftime(a:filename)
@@ -107,7 +62,6 @@ endfunction
 
 augroup core
   autocmd!
-  autocmd BufWritePre * call s:remove_whitespace()
   autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
         \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
   autocmd BufWritePre *

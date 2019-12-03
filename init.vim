@@ -7,7 +7,6 @@ let loaded_matchit = 1
 " User Globals:
 let g:isWindows = has('win16') || has('win32') || has('win64')
 let g:isMac = system('uname') =~ 'Darwin\n'
-let g:remove_whitespace = 1 " Allows auto-remove whitespace to be toggled
 
 " Load Custom Modules:
 lua << EOF
