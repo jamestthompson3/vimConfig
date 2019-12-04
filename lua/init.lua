@@ -42,7 +42,7 @@ end
 
 create_backup_dir()
 
-local function splashscreen()
+function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = tonumber(api.nvim_command_output('echo argc()'))
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
@@ -198,6 +198,7 @@ local function core_options()
 
         local autocmds = {
           load_core = {
+            {"VimEnter",        "*",      [[lua splashscreen()]]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
@@ -261,4 +262,3 @@ local function core_options()
 
       core_options()
       create_commands()
-      splashscreen()
