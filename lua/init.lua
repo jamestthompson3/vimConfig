@@ -1,5 +1,6 @@
 require 'nvim_utils'
 local is_windows = vim.loop.os_uname().version:match("Windows")
+local api = vim.api
 local home = os.getenv("HOME")
 
 --- Check if a file or directory exists in this path
@@ -41,6 +42,27 @@ end
 
 create_backup_dir()
 
+local function splashscreen()
+  local curr_buf = api.nvim_get_current_buf()
+  local args = tonumber(api.nvim_command_output('echo argc()'))
+  local offset = api.nvim_buf_get_offset(curr_buf, 1)
+  if not offset == -1 and args >= 1 then
+    return
+  else
+    api.nvim_create_buf(false, true)
+    api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
+    api.nvim_buf_set_option(0, 'bufhidden',  'wipe')
+    api.nvim_buf_set_option(0, 'matchpairs',  '')
+    api.nvim_win_set_option(0, 'number',  false)
+    api.nvim_win_set_option(0, 'cursorline',  false)
+    api.nvim_win_set_option(0, 'cursorcolumn',  false)
+    api.nvim_win_set_option(0, 'relativenumber',  false)
+    api.nvim_buf_set_option(0, 'modified', false)
+    api.nvim_buf_set_option(0, 'modifiable', false)
+  end
+end
+
+
 local function core_options()
   local options = {
     hidden          = true;
@@ -81,7 +103,7 @@ local function core_options()
     virtualedit     = "block";
     inccommand      = "split";
     cscopequickfix  = "s-,c-,d-,i-,t-,e-";
-    path            = '.,,*';
+    path            = '.,,,**';
     completeopt     = {'menuone', 'noinsert', 'noselect', 'longest'};
     complete        = {'.', 'w', 'b', 'u'};
     formatlistpat   = [[^\\s*\\[({]\\?\\([0-9]\\+\\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\\|^\\s*[-–+o*•]\\s\\+]];
@@ -104,7 +126,7 @@ local function core_options()
   }
   for k, v in pairs(options) do
     if v == true or v == false then
-      vim.api.nvim_command('set ' .. k)
+      api.nvim_command('set ' .. k)
     elseif type(v) == 'table' then
       local values = ''
       for k2, v2 in pairs(v) do
@@ -114,9 +136,9 @@ local function core_options()
           values = values .. ',' .. v2
         end
       end
-      vim.api.nvim_command('set ' .. k .. '=' .. values)
+      api.nvim_command('set ' .. k .. '=' .. values)
     else
-      vim.api.nvim_command('set ' .. k .. '=' .. v)
+      api.nvim_command('set ' .. k .. '=' .. v)
     end
   end
 
@@ -133,80 +155,110 @@ local function core_options()
 
   vim.g.python3_host_prog = is_windows and 'C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe' or '/usr/local/bin/python3'
 
-  if not is_windows then vim.api.nvim_command('set shell=bash') end
-  vim.api.nvim_command [[
+  if not is_windows then api.nvim_command('set shell=bash') end
+  -- Global functions
+  api.nvim_command [[
   function RemoveWhiteSpace() abort
     if (g:remove_whitespace)
       execute 'normal mz'
       %s/\s\+$//ge
       execute 'normal `z'
-    endif
-    endfunction
+      endif
+      endfunction
       ]]
 
-      local autocmds = {
-        load_core = {
-          {"VimEnter",        "*",      [[call SplashScreen()]]};
-          {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
-          {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
-          {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
-          {"WinNew",          "*",      [[call sessions#saveSession()]]};
-          {"VimLeavePre",     "*",      [[call sessions#saveSession()]]};
-          {"BufAdd",          "*",      [[call tools#loadDeps()]]};
-          {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
-          {"SessionLoadPost", "*",      [[call tools#loadDeps()]]};
-          {"QuickFixCmdPost", "[^l]*", [[nested call tools#OpenQuickfix()]]};
-          {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
-        };
-        ft = {
-          {"FileType netrw au BufLeave netrw close"};
-          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i"};
-          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a"};
-          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
-          {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
-          {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};
-          {"FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>"};
-          {"FileType dirvish nnoremap <buffer> n :e %"};
-          {"FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>"};
-          {"FileType netrw nnoremap <buffer> q :close<CR>"};
-        };
-        windows = {
-          {"WinEnter", "*", "set number"};
-          {"WinLeave", "*", "set nonumber"};
-        };
-        bufs = {
-          {"BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>"};
-          {"BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF"};
-          {"BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>"};
-          {"BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>"};
-        };
-      }
-      nvim_create_augroups(autocmds)
-    end
+      api.nvim_command [[
+      function! MarkMargin () abort
+      if exists('b:MarkMargin')
+        call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
+        endif
+        endfunction
+        ]]
 
-    local function create_commands()
-      nvim.command [[command! Scratch call tools#makeScratch()]]
-      nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
-      nvim.command [[command! Diff call git#diff()]]
-      nvim.command [[command! TDiff call git#threeWayDiff()]]
-      nvim.command [[command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")]]
-      nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
-      nvim.command [[command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)]]
-      nvim.command [[command! -bang SearchBuffers call tools#GrepBufs()]]
-      nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
-      nvim.command [[command! PackagerInstall call tools#PackagerInit() | call packager#install()]]
-      nvim.command [[command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })]]
-      nvim.command [[command! PackagerClean call tools#PackagerInit() | call packager#clean()]]
-      nvim.command [[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']]
-      nvim.command [[command! CSBuild call symbols#buildCscopeFiles()]]
-      nvim.command [[command! PackagerStatus call tools#PackagerInit() | call packager#status()]]
-      nvim.command [[command! MarkMargin call MarkMargin()]]
-    end
+        -- abbrevs
+        api.nvim_command [[ cnoreabbrev csa cs add ]]
+        api.nvim_command [[ cnoreabbrev csf cs find ]]
+        api.nvim_command [[ cnoreabbrev csk cs kill ]]
+        api.nvim_command [[ cnoreabbrev csr cs reset ]]
+        api.nvim_command [[ cnoreabbrev css cs show ]]
+        api.nvim_command [[ cnoreabbrev csh cs help ]]
 
-    local file_separator = is_windows and '\\' or '/'
-    local modules_folder = 'modules' .. file_separator
-    vim.g.sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
-    vim.api.nvim_command(string.format('runtime! %s*', modules_folder))
+        -- Common mistakes
+        api.nvim_command [[ iabbrev retrun  return ]]
+        api.nvim_command [[ iabbrev pritn   print ]]
+        api.nvim_command [[ iabbrev cosnt   const ]]
+        api.nvim_command [[ iabbrev imoprt  import ]]
+        api.nvim_command [[ iabbrev imprt   import ]]
+        api.nvim_command [[ iabbrev iomprt  import ]]
+        api.nvim_command [[ iabbrev improt  import ]]
+        api.nvim_command [[ iabbrev slef    self ]]
+        api.nvim_command [[ iabbrev teh     the ]]
+        api.nvim_command [[ iabbrev hadnler handler ]]
+        api.nvim_command [[ iabbrev bunlde  bundle ]]
 
-    core_options()
-    create_commands()
+        local autocmds = {
+          load_core = {
+            {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
+            {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
+            {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
+            {"WinNew",          "*",      [[call sessions#saveSession()]]};
+            {"VimLeavePre",     "*",      [[call sessions#saveSession()]]};
+            {"BufAdd",          "*",      [[call tools#loadDeps()]]};
+            {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
+            {"SessionLoadPost", "*",      [[call tools#loadDeps()]]};
+            {"QuickFixCmdPost", "[^l]*", [[nested call tools#OpenQuickfix()]]};
+            {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
+          };
+          ft = {
+            {"FileType netrw au BufLeave netrw close"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
+            {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};
+            {"FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>"};
+            {"FileType dirvish nnoremap <buffer> n :e %"};
+            {"FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>"};
+            {"FileType netrw nnoremap <buffer> q :close<CR>"};
+          };
+          windows = {
+            {"WinEnter", "*", "set number"};
+            {"WinLeave", "*", "set nonumber"};
+          };
+          bufs = {
+            {"BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>"};
+            {"BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF"};
+            {"BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>"};
+            {"BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>"};
+          };
+        }
+        nvim_create_augroups(autocmds)
+      end
+
+      local function create_commands()
+        nvim.command [[command! Scratch call tools#makeScratch()]]
+        nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
+        nvim.command [[command! Diff call git#diff()]]
+        nvim.command [[command! TDiff call git#threeWayDiff()]]
+        nvim.command [[command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")]]
+        nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
+        nvim.command [[command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)]]
+        nvim.command [[command! -bang SearchBuffers call tools#GrepBufs()]]
+        nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
+        nvim.command [[command! PackagerInstall call tools#PackagerInit() | call packager#install()]]
+        nvim.command [[command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })]]
+        nvim.command [[command! PackagerClean call tools#PackagerInit() | call packager#clean()]]
+        nvim.command [[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']]
+        nvim.command [[command! CSBuild call symbols#buildCscopeFiles()]]
+        nvim.command [[command! PackagerStatus call tools#PackagerInit() | call packager#status()]]
+        nvim.command [[command! MarkMargin call MarkMargin()]]
+      end
+
+      local file_separator = is_windows and '\\' or '/'
+      local modules_folder = 'modules' .. file_separator
+      vim.g.sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
+      api.nvim_command(string.format('runtime! %s*', modules_folder))
+
+      core_options()
+      create_commands()
+      splashscreen()

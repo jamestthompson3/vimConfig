@@ -1,57 +1,6 @@
 scriptencoding utf-8
 
-cnoreabbrev csa cs add
-cnoreabbrev csf cs find
-cnoreabbrev csk cs kill
-cnoreabbrev csr cs reset
-cnoreabbrev css cs show
-cnoreabbrev csh cs help
-
-" Common mistakes
-iabbrev retrun  return
-iabbrev pritn   print
-iabbrev cosnt   const
-iabbrev imoprt  import
-iabbrev imprt   import
-iabbrev iomprt  import
-iabbrev improt  import
-iabbrev slef    self
-iabbrev teh     the
-iabbrev hadnler handler
-iabbrev bunlde  bundle
-
 " FUNCTIONS:
-function! MarkMargin () abort
-  if exists('b:MarkMargin')
-    call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\S', 0)
-  endif
-endfunction
-
-function! SplashScreen() abort
-  if line2byte('$') != -1 || argc() >= 1
-    return
-  else
-    noautocmd enew
-    silent! setlocal
-          \ bufhidden=wipe
-          \ colorcolumn=
-          \ foldcolumn=0
-          \ matchpairs=
-          \ nobuflisted
-          \ nocursorcolumn
-          \ nocursorline
-          \ nolist
-          \ nonumber
-          \ norelativenumber
-          \ nospell
-          \ noswapfile
-          \ signcolumn=no
-
-    silent! r ~/vim/skeletons/start.screen
-    setlocal nomodifiable nomodified
-  endif
-endfunction
-
 function! s:AS_HandleSwapfile (filename, swapname)
   " if swapfile is older than file itself, just get rid of it
   if getftime(v:swapname) < getftime(a:filename)
