@@ -1,18 +1,5 @@
 scriptencoding utf-8
 ":filter! /term:/ oldfiles
-function! tools#RenameFile() abort
-  let l:oldName = getline('.')
-  let l:newName = input('Rename: ', l:oldName, 'file')
-  if newName != '' && newName != oldName
-    call rename(oldName, newName)
-    call feedkeys('R')
-  endif
-endfunction
-
-function! tools#DeleteFile() abort
-  call system(printf('rm -rf %s',getline('.')))
-  call feedkeys('R')
-endfunction
 
 function! tools#GrepBufs() abort
   let l:pattern  = input('Search > ')
@@ -32,12 +19,6 @@ function! tools#switchSourceHeader() abort
       endtry
     endfor
   endif
-endfunction
-
-" Replace things in the quick fix list
-function! tools#Replace_qf(term1, term2) abort
-  let tools#replace_string = printf('/\<%s\>/%s/g', a:term1, a:term2)
-  exec 'silent cfdo %s'.tools#replace_string.' | update'
 endfunction
 
 " Convert to snake_case
@@ -94,13 +75,6 @@ function! tools#CCR()
   else
     return "\<CR>"
   endif
-endfunction
-
-function! tools#makeScratch() abort
-  execute 'new'
-  setlocal buftype=nofile
-  setlocal bufhidden=hide
-  setlocal noswapfile
 endfunction
 
 function! tools#redir(cmd)

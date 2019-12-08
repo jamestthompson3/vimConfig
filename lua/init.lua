@@ -44,7 +44,7 @@ create_backup_dir()
 
 function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
-  local args = tonumber(api.nvim_command_output('echo argc()'))
+  local args = tonumber(api.nvim_exec('echo argc()', true))
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
   if not offset == -1 and args >= 1 then
     return
@@ -52,6 +52,7 @@ function splashscreen()
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
     api.nvim_buf_set_option(0, 'bufhidden',  'wipe')
+    api.nvim_buf_set_option(0, 'buflisted',  false)
     api.nvim_buf_set_option(0, 'matchpairs',  '')
     api.nvim_win_set_option(0, 'number',  false)
     api.nvim_win_set_option(0, 'cursorline',  false)
@@ -108,6 +109,7 @@ local function core_options()
     complete        = {'.', 'w', 'b', 'u'};
     formatlistpat   = [[^\\s*\\[({]\\?\\([0-9]\\+\\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\\|^\\s*[-–+o*•]\\s\\+]];
     wildignore      = {'*/dist*/*','*/target/*','*/builds/*','tags','*/lib/*','*/locale/*','*/flow-typed/*','*/node_modules/*','*.png','*.PNG','*.jpg','*.jpeg','*.JPG','*.JPEG','*.pdf','*.exe','*.o','*.obj','*.dll','*.DS_Store','*.ttf','*.otf','*.woff','*.woff2','*.eot'};
+    shortmess       = nvim.o.shortmess .. 's';
     undodir         = home .. "/.cache/Vim/undofile";
     backupdir       = home .. "/.cache/Vim/backup";
     directory       = home .. "/.cache/Vim/swap";
@@ -217,9 +219,9 @@ local function core_options()
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
             {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};
-            {"FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>"};
+            {"FileType dirvish nnoremap <buffer> <silent>D :lua require'tools'.deleteFile()<CR>"};
             {"FileType dirvish nnoremap <buffer> n :e %"};
-            {"FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>"};
+            {"FileType dirvish nnoremap <buffer> r :lua require'tools'.renameFile()<CR>"};
             {"FileType netrw nnoremap <buffer> q :close<CR>"};
           };
           windows = {
@@ -237,13 +239,13 @@ local function core_options()
       end
 
       local function create_commands()
-        nvim.command [[command! Scratch call tools#makeScratch()]]
+        nvim.command [[command! Scratch lua require'tools'.makeScratch()]]
         nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
         nvim.command [[command! Diff call git#diff()]]
         nvim.command [[command! TDiff call git#threeWayDiff()]]
         nvim.command [[command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")]]
         nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
-        nvim.command [[command! -bang -nargs=+ ReplaceQF call tools#Replace_qf(<f-args>)]]
+        nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tools'.replaceQf(<f-args>)]]
         nvim.command [[command! -bang SearchBuffers call tools#GrepBufs()]]
         nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
         nvim.command [[command! PackagerInstall call tools#PackagerInit() | call packager#install()]]

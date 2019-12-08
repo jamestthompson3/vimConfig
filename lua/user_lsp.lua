@@ -58,7 +58,7 @@ function M.buf_diagnostics_set_signs(_, _, result)
   M.buf_diagnostics_save_positions(bufnr, result.diagnostics)
   local buffer_line_diagnostics = all_buffer_diagnostics[bufnr]
 
-  local file = api.nvim_command_output("echo expand('%:p')")
+  local file = api.nvim_exec("echo expand('%:p')")
   local unplace = string.format('sign unplace * group=lsp_diag file=%s', file)
   -- clean up exiting signs
   api.nvim_command(unplace)
