@@ -268,7 +268,6 @@ EOF
     let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
     lua require('navigation')
-    let $FZF_DEFAULT_OPTS='--layout=reverse'
     let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()'}
 
     packadd ale

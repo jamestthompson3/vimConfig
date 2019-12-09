@@ -5,6 +5,9 @@ let g:mucomplete#chains.typescript = [ 'omni','tags','keyn', 'keyp', 'c-p', 'c-n
 let g:mucomplete#chains['typescriptreact'] = ['omni','tags','keyn', 'keyp', 'c-p', 'c-n', 'file','path', 'ulti']
 
 nnoremap <silent> <leader>h <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+"setl omnifunc=v:lua.vim.lsp.omnifunc
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
 
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
@@ -68,6 +71,3 @@ function! TSLint() abort
   call jobstart(printf('yarn eslint --format unix %s', bufname('%')), l:callbacks)
 endfunction
 
-setl omnifunc=v:lua.vim.lsp.omnifunc
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
