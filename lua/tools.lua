@@ -27,7 +27,6 @@ end
 function M.replaceQf(term1, term2)
   local replaceString = string.format("\\<%s\\>/%s/g", term1, term2)
   local cmd = "silent cfdo %s/" .. replaceString .. ' | update'
-  print(cmd)
   api.nvim_command(cmd)
 end
 

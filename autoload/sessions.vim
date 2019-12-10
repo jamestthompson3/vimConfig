@@ -15,6 +15,7 @@ function! sessions#sourceSession() abort
   endif
 endfunction
 
+" TODO move to lua
 function! sessions#manageSession() abort
   let l:sessionName = git#branch()
   let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
@@ -23,15 +24,17 @@ function! sessions#manageSession() abort
   return [l:sessionName,  l:altName]
 endfunction
 
+" TODO move to lua
 function! sessions#saveSession() abort
-  let [ sessionName, altName ] = sessions#manageSession()
-  if sessionName != ''
-    if sessionName == 'master'
-      return
-    else
-      execute 'mks! '.g:sessionPath.trim(sessionName).'.vim'
-    endif
-  else
-    execute 'mks! '.g:sessionPath.altName.'.vim'
-  endif
+  return
+  " let [ sessionName, altName ] = sessions#manageSession()
+  " if sessionName != ''
+  "   if sessionName == 'master'
+  "     return
+  "   else
+  "     execute 'mks! '.g:sessionPath.trim(sessionName).'.vim'
+  "   endif
+  " else
+  "   execute 'mks! '.g:sessionPath.altName.'.vim'
+  " endif
 endfunction

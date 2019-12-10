@@ -31,12 +31,3 @@ augroup AutoSwap
   autocmd!
   autocmd SwapExists *  call s:AS_HandleSwapfile(expand('<afile>:p'), v:swapname)
 augroup END
-
-" Show changes that happen outside file
-augroup checktime
-  au!
-  if !has('gui_running')
-    autocmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
-  endif
-augroup END
-

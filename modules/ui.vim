@@ -14,9 +14,6 @@ set statusline+=%=
 set statusline+=%<
 set statusline+=%#MatchParen#%{statusline#LineNoIndicator()}%*\ %{statusline#ReadOnly()}
 
-set showtabline=2
-set tabline=ᚴ\ %{git#branch()}
-
 function! s:colors() abort
   hi clear
   syntax reset
@@ -27,7 +24,7 @@ function! s:colors() abort
   hi LineNR           guifg=#5e5959  guibg=NONE     gui=NONE        ctermfg=238    ctermbg=NONE cterm=NONE
   hi Search           guifg=#16161d  guibg=#ff9966  gui=italic      ctermfg=0      ctermbg=172  cterm=italic
   hi MatchParen       guifg=#66ccff  guibg=#16161d  gui=bold        ctermfg=81     ctermbg=NONE cterm=bold
-  hi NormalFloat      guifg=#66ccff  guibg=#16161d  gui=NONE        ctermfg=81     ctermbg=NONE cterm=NONE
+  " hi NormalFloat      guifg=#66ccff  guibg=#16161d  gui=NONE        ctermfg=81     ctermbg=NONE cterm=NONE
   hi Normal           guifg=#d2cfcf  guibg=#16161d  gui=NONE        ctermfg=255    ctermbg=NONE cterm=NONE
   hi StatusLineNC     guifg=#5e5959  guibg=NONE     gui=underline   ctermfg=238    ctermbg=NONE cterm=underline
   hi StatusLine       guifg=#d2cfcf  guibg=#16161d  gui=NONE        ctermfg=255    ctermbg=0    cterm=NONE

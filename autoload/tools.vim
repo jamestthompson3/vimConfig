@@ -98,7 +98,6 @@ function! tools#redir(cmd)
 endfunction
 
 function! tools#HighlightRegion(color)
-  hi Green guibg=#77ff77 guifg=#000000
   let l_start = line("'<")
   let l_end = line("'>") + 1
   execute 'syntax region '.a:color.' start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'

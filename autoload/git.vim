@@ -13,7 +13,7 @@ endfunction
 
 function! s:git(args, where) abort
   call s:cmd(['git'] + a:args, {'pos': a:where})
-setlocal nomodifiable
+  setlocal nomodifiable
 endfunction
 
 
@@ -50,14 +50,6 @@ function! git#threeWayDiff() abort
   diffthis
 endfunction
 
-function! git#branch()
-  if g:isWindows
-    return system("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
-  else
-    return system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
-  endif
-endfunction
-
 function! git#stat()
   if g:isWindows
     return trim(system("'git diff --shortstat 2> NUL | tr -d '\n'"))
@@ -67,12 +59,12 @@ function! git#stat()
 endfunction
 
 function! git#blame() abort
-execute ':Redir %Gblame'
-vertical resize 40
-silent! setlocal nomodifiable nonumber
-set filetype=fugitive
-call s:BlameSyntax()
-execute "normal \<c-w>\<c-r>"
+  execute ':Redir %Gblame'
+  vertical resize 40
+  silent! setlocal nomodifiable nonumber
+  set filetype=fugitive
+  call s:BlameSyntax()
+  execute "normal \<c-w>\<c-r>"
 endfunction
 
 let s:hash_colors = {}

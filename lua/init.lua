@@ -3,6 +3,16 @@ local is_windows = vim.loop.os_uname().version:match("Windows")
 local api = vim.api
 local home = os.getenv("HOME")
 
+-- return name of git branch
+function gitBranch()
+  if is_windows then
+    return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
+  else
+    return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+  end
+end
+
+
 --- Check if a file or directory exists in this path
 local function exists(file)
   local ok, err, code = os.rename(file, file)
@@ -46,7 +56,7 @@ function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = tonumber(api.nvim_exec('echo argc()', true))
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
-  if not offset == -1 and args >= 1 then
+  if not offset == -1 and not args >= 1 then
     return
   else
     api.nvim_create_buf(false, true)
@@ -62,7 +72,6 @@ function splashscreen()
     api.nvim_buf_set_option(0, 'modifiable', false)
   end
 end
-
 
 local function core_options()
   local options = {
@@ -118,6 +127,8 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
+    tabline        = string.format("ᚴ\\ %s", gitBranch());
+    showtabline    = 2;
     number         = true;
     pumblend       = 20;
     pumheight      = 15;
@@ -143,7 +154,7 @@ local function core_options()
       api.nvim_command('set ' .. k .. '=' .. v)
     end
   end
-
+  
   -- Globals
   vim.g.did_install_default_menus = 1
   vim.g.remove_whitespace = 1
@@ -213,6 +224,7 @@ local function core_options()
             {"QuickFixCmdPost", "[^l]*", [[nested call tools#OpenQuickfix()]]};
             {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
             {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
+            {"FocusGained", "*", "checktime"};
           };
           ft = {
             {"FileType netrw au BufLeave netrw close"};
