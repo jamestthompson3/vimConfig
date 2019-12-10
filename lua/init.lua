@@ -208,9 +208,11 @@ local function core_options()
             {"VimLeavePre",     "*",      [[call sessions#saveSession()]]};
             {"BufAdd",          "*",      [[call tools#loadDeps()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
+            {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
             {"SessionLoadPost", "*",      [[call tools#loadDeps()]]};
             {"QuickFixCmdPost", "[^l]*", [[nested call tools#OpenQuickfix()]]};
             {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
+            {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
           };
           ft = {
             {"FileType netrw au BufLeave netrw close"};

@@ -11,13 +11,6 @@ endfunction
 
 augroup core
   autocmd!
-  autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
-        \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
-  autocmd BufWritePre *
-        \ if !isdirectory(expand("<afile>:p:h")) |
-        \ call mkdir(expand("<afile>:p:h"), "p") |
-        \ endif
-
   autocmd BufReadPost cscope.files
         \ let before_lines = line('$') |
         \ silent! exec 'silent! g/\(cscope\|node_modules\|build\/\|assets\/\|\.\(gif\|bmp\|png\|jpg\|swp\)\)/d' |
