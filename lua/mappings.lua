@@ -35,7 +35,7 @@ function M.map()
     ["n<c-d>"]         = map_cmd [[silent call tools#smoothScroll(0)]],
     ["nmks"]           = map_cmd('mks! ~/sessions/'),
     ["nss"]            = map_cmd('so ~/sessions/'),
-    ["nssb"]           = map_cmd [[silent call sessions#sourceSession()]],
+    ["nssb"]           = map_cmd [[lua require'tools'.sourceSession()]],
     ["nM"]             = map_cmd('silent make'),
     ["n<F7>"]          = map_cmd('silent so "%"'),
     ["n<F1>"]          = map_cmd [[silent call Profiler()]],

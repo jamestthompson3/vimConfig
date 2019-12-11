@@ -589,3 +589,13 @@ function os.capture(cmd, raw)
   s = string.gsub(s, '[\n\r]+', ' ')
   return s
 end
+
+
+-- return name of git branch
+function gitBranch()
+  if is_windows then
+    return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
+  else
+    return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+  end
+end

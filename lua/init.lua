@@ -3,16 +3,6 @@ local is_windows = vim.loop.os_uname().version:match("Windows")
 local api = vim.api
 local home = os.getenv("HOME")
 
--- return name of git branch
-function gitBranch()
-  if is_windows then
-    return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
-  else
-    return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
-  end
-end
-
-
 --- Check if a file or directory exists in this path
 local function exists(file)
   local ok, err, code = os.rename(file, file)
@@ -154,7 +144,7 @@ local function core_options()
       api.nvim_command('set ' .. k .. '=' .. v)
     end
   end
-  
+
   -- Globals
   vim.g.did_install_default_menus = 1
   vim.g.remove_whitespace = 1
@@ -215,8 +205,8 @@ local function core_options()
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
-            {"WinNew",          "*",      [[call sessions#saveSession()]]};
-            {"VimLeavePre",     "*",      [[call sessions#saveSession()]]};
+            {"WinNew",          "*",      [[lua require'tools'.saveSession()]]};
+            {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
             {"BufAdd",          "*",      [[call tools#loadDeps()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
