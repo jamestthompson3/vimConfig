@@ -1,5 +1,4 @@
 require 'nvim_utils'
-local is_windows = vim.loop.os_uname().version:match("Windows")
 local api = vim.api
 local home = os.getenv("HOME")
 
@@ -46,9 +45,8 @@ function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = tonumber(api.nvim_exec('echo argc()', true))
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
-  if not offset == -1 and not args >= 1 then
-    return
-  else
+  print('args: ', args)
+  if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
     api.nvim_buf_set_option(0, 'bufhidden',  'wipe')
@@ -60,6 +58,10 @@ function splashscreen()
     api.nvim_win_set_option(0, 'relativenumber',  false)
     api.nvim_buf_set_option(0, 'modified', false)
     api.nvim_buf_set_option(0, 'modifiable', false)
+--  else if args >= 1 then
+ --   return
+  --  end
+  else
   end
 end
 
@@ -250,7 +252,7 @@ local function core_options()
         nvim.command [[command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")]]
         nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
         nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tools'.replaceQf(<f-args>)]]
-        nvim.command [[command! -bang SearchBuffers call tools#GrepBufs()]]
+        nvim.command [[command! -bang SearchBuffers lua require'tools'.grepBufs(<f-args>)]]
         nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
         nvim.command [[command! PackagerInstall call tools#PackagerInit() | call packager#install()]]
         nvim.command [[command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })]]
@@ -261,9 +263,7 @@ local function core_options()
         nvim.command [[command! MarkMargin call MarkMargin()]]
       end
 
-      local file_separator = is_windows and '\\' or '/'
       local modules_folder = 'modules' .. file_separator
-      vim.g.sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
       api.nvim_command(string.format('runtime! %s*', modules_folder))
 
       core_options()

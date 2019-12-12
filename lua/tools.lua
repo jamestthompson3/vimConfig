@@ -1,6 +1,7 @@
 require 'nvim_utils'
 local api = vim.api
 
+
 local M = {}
 
 function M.renameFile()
@@ -31,12 +32,18 @@ function M.replaceQf(term1, term2)
   api.nvim_command(cmd)
 end
 
+function M.grepBufs(term)
+  local cmd = string.format("silent bufdo grepadd %s %", term)
+  api.nvim_command(cmd)
+end
+
+-- Session Management
 function M.createSessionName()
   local sessionName = gitBranch()
   local currDir = os.getenv('PWD')
   if not sessionName == '' or sessionName == 'master'then
     -- TODO doesn't work well
-    return currDir
+    return "" --currDir
   else
     return sessionName
   end
@@ -44,8 +51,8 @@ end
 
 function M.saveSession()
   local sessionName = M.createSessionName()
-  print(sessionName)
-  local cmd = string.format("mks! %s.vim", sessionName)
+  local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
+  local cmd = string.format("mks! %s%s.vim", sessionPath, sessionName)
   api.nvim_exec(cmd, false)
 end
 

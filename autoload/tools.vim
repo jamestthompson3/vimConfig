@@ -1,12 +1,6 @@
 scriptencoding utf-8
 ":filter! /term:/ oldfiles
 
-function! tools#GrepBufs() abort
-  let l:pattern  = input('Search > ')
-  exec 'silent bufdo grepadd'.' '.l:pattern.' %'
-  exec 'cwindow'
-endfunction
-
 function! tools#switchSourceHeader() abort
   if (expand ('%:e') != 'h')
     find %:t:r.h
@@ -223,8 +217,8 @@ function! tools#PackagerInit() abort
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
-  call packager#add('junegunn/fzf.vim', { 'type': 'opt' })
-  call packager#local('/usr/local/opt/fzf', { 'type': 'opt' })
+  call packager#add('junegunn/fzf.vim')
+  call packager#local('/usr/local/opt/fzf')
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
@@ -274,8 +268,6 @@ EOF
     packadd pear-tree
     packadd rainbow_parentheses.vim
     packadd tagbar
-    packadd fzf
-    packadd fzf.vim
     packadd nvim-lsp
     packadd vim-apathy
     packadd vim-commentary

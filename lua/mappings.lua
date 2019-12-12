@@ -47,7 +47,7 @@ function M.map()
     ["nsb"]            = map_no_cr('g//#<Left><Left>'),
     ["ng_"]            = map_no_cr('g//#<Left><Left><C-R><C-W><CR>:'),
     ["n<leader>gab"]   = map_cmd('silent SearchBuffers'),
-    ["n<C-p>"]         = map_cmd('silent GFiles'),
+    ["n<C-p>"]         = map_cmd('silent Files'),
     ["n<C-b>"]         = map_cmd('silent Buffers'),
     ["n<leader>lt"]    = map_cmd [[silent call symbols#ListTags()]],
     ["nts"]            = map_no_cr('ts<space>/')
