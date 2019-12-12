@@ -1,6 +1,8 @@
 require 'nvim_utils'
 local api = vim.api
 
+local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
+
 
 local M = {}
 
@@ -42,7 +44,7 @@ function M.createSessionName()
   local sessionName = gitBranch()
   local currDir = os.getenv('PWD')
   if not sessionName == '' or sessionName == 'master'then
-    -- TODO doesn't work well
+    -- TODO doesn't work at all
     return "" --currDir
   else
     return sessionName
@@ -51,14 +53,13 @@ end
 
 function M.saveSession()
   local sessionName = M.createSessionName()
-  local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
   local cmd = string.format("mks! %s%s.vim", sessionPath, sessionName)
   api.nvim_exec(cmd, false)
 end
 
 function M.sourceSession()
   local sessionName = M.createSessionName()
-  local cmd = string.format("so! %s.vim", sessionName)
+  local cmd = string.format("so! %s%s.vim", sessionPath, sessionName)
   api.nvim_exec(cmd, false)
 end
 

@@ -45,7 +45,6 @@ function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = tonumber(api.nvim_exec('echo argc()', true))
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
-  print('args: ', args)
   if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
@@ -58,9 +57,6 @@ function splashscreen()
     api.nvim_win_set_option(0, 'relativenumber',  false)
     api.nvim_buf_set_option(0, 'modified', false)
     api.nvim_buf_set_option(0, 'modifiable', false)
---  else if args >= 1 then
- --   return
-  --  end
   else
   end
 end
