@@ -1,6 +1,10 @@
 require 'nvim_utils'
 local api = vim.api
 
+-- local function startswith(str, start)
+--   return string.sub(str, 1, string.len(start)) == start
+-- end
+
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
 
@@ -62,6 +66,23 @@ function M.sourceSession()
   local cmd = string.format("so! %s%s.vim", sessionPath, sessionName)
   api.nvim_exec(cmd, false)
 end
+
+-- TODO create buffer maps
+function M.simpleMRU()
+  local files = vim.v.oldfiles
+  local cwd = os.getenv("PWD")
+  for i, file in ipairs(files) do
+    if i < 15 then
+      if not vim.startswith(file, 'term://') and string.match(file,cwd) then
+        local prettyName = file:gsub(cwd, "")
+        api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(prettyName)))
+      end
+    end
+    api.nvim_command[[:1]]
+  end
+end
+
+M.simpleMRU()
 
 return M
 
