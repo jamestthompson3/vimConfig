@@ -58,7 +58,7 @@ function splashscreen()
     api.nvim_win_set_option(0, 'cursorcolumn',  false)
     api.nvim_win_set_option(0, 'relativenumber',  false)
     require 'tools'.simpleMRU()
-    api.nvim_command [[:22]]
+    api.nvim_command [[:23]]
     api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
     api.nvim_buf_set_option(0, 'modified', false)
     api.nvim_buf_set_option(0, 'modifiable', false)

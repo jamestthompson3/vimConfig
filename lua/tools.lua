@@ -71,7 +71,7 @@ function M.simpleMRU()
     if i < 15 then
       if not vim.startswith(file, 'term://') and string.match(file,cwd) then
         local prettyName = file:gsub(cwd, ".")
-        api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(prettyName)))
+          api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(prettyName)))
       end
     end
     api.nvim_command[[:1]]

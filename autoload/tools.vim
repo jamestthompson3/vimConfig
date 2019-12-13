@@ -168,36 +168,6 @@ endfunction
 
 
 
-function! tools#simpleMru() abort
-  let cur_file = expand("%:.")
-  let skip_first_file = 0
-
-  enew
-  setl buftype=nowrite nobuflisted bufhidden=delete noswapfile
-  map <buffer> <silent> <CR> gf
-  wviminfo | rviminfo!
-
-  for oldfile in v:oldfiles
-    let rel_file = fnamemodify(oldfile, ":.")
-
-    if rel_file[0] == "/" || rel_file[0] == "."
-      continue
-    endif
-
-    if line("$") == 1 && rel_file == cur_file
-      let skip_first_file = 1
-    endif
-
-    call append(line("$") - 1, rel_file)
-  endfor
-
-  if skip_first_file
-    :2
-  else
-    :1
-  endif
-endfunction
-
 function! tools#OpenQuickfix()
   if get(g:, 'qf_auto_open_quickfix', 1)
     " get user-defined maximum height
