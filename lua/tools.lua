@@ -1,10 +1,6 @@
 require 'nvim_utils'
 local api = vim.api
 
--- local function startswith(str, start)
---   return string.sub(str, 1, string.len(start)) == start
--- end
-
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
 
@@ -74,7 +70,7 @@ function M.simpleMRU()
   for i, file in ipairs(files) do
     if i < 15 then
       if not vim.startswith(file, 'term://') and string.match(file,cwd) then
-        local prettyName = file:gsub(cwd, "")
+        local prettyName = file:gsub(cwd, ".")
         api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(prettyName)))
       end
     end

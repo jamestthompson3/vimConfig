@@ -45,9 +45,11 @@ function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = tonumber(api.nvim_exec('echo argc()', true))
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
+  local currDir = os.getenv('PWD')
   if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
+    api.nvim_command(string.format("chdir %s", currDir))
     api.nvim_buf_set_option(0, 'bufhidden',  'wipe')
     api.nvim_buf_set_option(0, 'buflisted',  false)
     api.nvim_buf_set_option(0, 'matchpairs',  '')
@@ -55,6 +57,9 @@ function splashscreen()
     api.nvim_win_set_option(0, 'cursorline',  false)
     api.nvim_win_set_option(0, 'cursorcolumn',  false)
     api.nvim_win_set_option(0, 'relativenumber',  false)
+    require 'tools'.simpleMRU()
+    api.nvim_command [[:22]]
+    api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
     api.nvim_buf_set_option(0, 'modified', false)
     api.nvim_buf_set_option(0, 'modifiable', false)
   else
