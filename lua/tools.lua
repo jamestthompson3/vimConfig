@@ -66,19 +66,19 @@ end
 -- TODO create buffer maps
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = os.getenv("PWD")
-  for i, file in ipairs(files) do
-    if i < 15 then
-      if not vim.startswith(file, 'term://') and string.match(file,cwd) then
-        local prettyName = file:gsub(cwd, ".")
-          api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(prettyName)))
-      end
+  local cwd = api.nvim_exec('pwd', true)
+  for _, file in ipairs(files) do
+    -- print(getPath(file))
+    if string.match(getPath(file), getPath(cwd)) then
+      print(file:gsub(getPath(cwd), ''))
+    end
+    if not vim.startswith(file, 'term://') and string.match(getPath(file), getPath(cwd)) then
+      local prettyName = file:gsub(cwd, ".")
+      api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(prettyName)))
     end
     api.nvim_command[[:1]]
   end
 end
-
-M.simpleMRU()
 
 return M
 

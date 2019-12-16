@@ -11,6 +11,10 @@ VISUAL_MODE = {
 file_separator = is_windows and '\\' or '/'
 is_windows = vim.loop.os_uname().version:match("Windows")
 
+function getPath(str)
+    return str:match("(.*[/\\])")
+end
+
 -- TODO I fucking didn't know that vim.api.nvim_buf_* methods could take 0
 -- to signify the current buffer, so refactor potentially everything to avoid
 -- the call to vim.api.nvim_get_current_buf

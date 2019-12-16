@@ -12,6 +12,7 @@ let g:isMac = system('uname') =~ 'Darwin\n'
 lua << EOF
  require('mappings')
  require('init')
+ -- require('ui')
 EOF
 
 " Commands:
