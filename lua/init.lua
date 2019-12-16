@@ -205,10 +205,10 @@ local function core_options()
         local autocmds = {
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
+            {"VimEnter",        "*",      [[lua require'ui']]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
-            {"WinNew",          "*",      [[lua require'tools'.saveSession()]]};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
             {"BufAdd",          "*",      [[call tools#loadDeps()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};

@@ -8,7 +8,6 @@ let loaded_matchit = 1
 lua << EOF
  require('mappings')
  require('init')
- -- require('ui')
 EOF
 
 " Commands:
