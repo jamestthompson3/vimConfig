@@ -120,7 +120,7 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
-    tabline        = string.format("ᚴ\\ %s", gitBranch());
+    tabline        = string.format("ᚴ\\ [%s]\\ %s", gitBranch(), gitStat():gsub(" ", "\\ "));
     showtabline    = 2;
     number         = true;
     pumblend       = 20;
