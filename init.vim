@@ -4,10 +4,6 @@ set fileencoding=utf8
 " Disable some default vim plugins:
 let loaded_matchit = 1
 
-" User Globals:
-let g:isWindows = has('win16') || has('win32') || has('win64')
-let g:isMac = system('uname') =~ 'Darwin\n'
-
 " Load Custom Modules:
 lua << EOF
  require('mappings')

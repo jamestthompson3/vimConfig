@@ -16,7 +16,6 @@ function! s:git(args, where) abort
   setlocal nomodifiable
 endfunction
 
-
 function! git#diff() abort
   let l:ft = getbufvar('%', '&ft') " Get the file type
   let l:fn = expand('%:t')
@@ -48,14 +47,6 @@ function! git#threeWayDiff() abort
   autocmd BufWinLeave <buffer> diffoff!
   wincmd p
   diffthis
-endfunction
-
-function! git#stat()
-  if g:isWindows
-    return trim(system("'git diff --shortstat 2> NUL | tr -d '\n'"))
-  else
-    return trim(system("git diff --shortstat 2> /dev/null | tr -d '\n'"))
-  endif
 endfunction
 
 function! git#blame() abort

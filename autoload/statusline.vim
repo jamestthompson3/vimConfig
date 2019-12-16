@@ -22,7 +22,6 @@ endfunction
 
 function! statusline#ReadOnly() abort
   if &readonly || !&modifiable
-    hi User3 guifg=#c9505c guibg=#191f26 gui=BOLD
     return '-- RO --'
   else
     return ''
