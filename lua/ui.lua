@@ -64,8 +64,8 @@ highlight("ConstStrings",     "#198cff",  "NONE",     "bold",       "NONE",  "NO
 highlight("ReturnStatement",  "#198cff",  "NONE",     "NONE",       "NONE",  "NONE",  "NONE")
 
 
-highlight("IncSearch",        "#d81a4c", "NONE",      "NONE",       "161",  "NONE", "NONE")
-highlight("QuickFixLine",     "#353535",  "NONE",     "NONE",       "249",  "239",  "NONE")
+highlight("IncSearch",        "#d81a4c",  "NONE",     "NONE",       "161",  "NONE", "NONE")
+highlight("QuickFixLine",     "#bc6b01",  "NONE",     "NONE",       "249",  "239",  "NONE")
 highlight("QFNormal",         "#222222",  "NONE",     "NONE",       "NONE", "235",  "NONE")
 highlight("QFEndOfBuffer",    "#222222",  "NONE",     "NONE",       "NONE", "235",  "NONE")
 highlight("Callout",          "#198cff",  "NONE",     "NONE",       "12",   "NONE", "NONE")

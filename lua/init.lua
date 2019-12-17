@@ -130,6 +130,7 @@ local function core_options()
     display        = "lastline";
     guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25";
   }
+
   for k, v in pairs(options) do
     if v == true or v == false then
       api.nvim_command('set ' .. k)
