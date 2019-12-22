@@ -1,9 +1,4 @@
 let s:cscope_options_default    = '-C'
-" list all associated tags with cursor word
-function! symbols#ListTags() abort
-  execute 'ltag '.expand('<cword>')
-  execute 'lwindow'
-endfunction
 
 function! symbols#PreviewWord() abort
   if &previewwindow			" don't do this in the preview window

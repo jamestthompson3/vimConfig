@@ -193,6 +193,7 @@ function! tools#PackagerInit() abort
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+  call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('neovim/nvim-lsp', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
@@ -245,6 +246,7 @@ EOF
     packadd vim-gutentags
     packadd vim-matchup
     packadd vim-mucomplete
+    packadd nvim-colorizer.lua
     packadd vim-surround
     try
       silent cscope add cscope.out
@@ -254,6 +256,7 @@ EOF
 lua << EOF
   local nvim_lsp = require('nvim_lsp')
   local diagnostic = require('user_lsp')
+  require('colorizer').setup()
   -- vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.buf_diagnostics_set_signs
   nvim_lsp.tsserver.setup({})
   nvim_lsp.rls.setup({})

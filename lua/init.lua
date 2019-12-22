@@ -53,7 +53,7 @@ function splashscreen()
     api.nvim_buf_set_option(0, 'bufhidden',  'wipe')
     api.nvim_buf_set_option(0, 'buflisted',  false)
     api.nvim_buf_set_option(0, 'matchpairs',  '')
-    api.nvim_win_set_option(0, 'number',  false)
+    api.nvim_command [[setl nonumber]]
     api.nvim_win_set_option(0, 'cursorline',  false)
     api.nvim_win_set_option(0, 'cursorcolumn',  false)
     api.nvim_win_set_option(0, 'relativenumber',  false)

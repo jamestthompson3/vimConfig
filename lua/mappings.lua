@@ -49,7 +49,7 @@ function M.map()
     ["n<leader>gab"]   = map_cmd('silent SearchBuffers'),
     ["n<C-p>"]         = map_cmd('silent Files'),
     ["n<C-b>"]         = map_cmd('silent Buffers'),
-    ["n<leader>lt"]    = map_cmd [[silent call symbols#ListTags()]],
+    ["n<leader>lt"]    = map_cmd [[silent lua require'tools'.listTags()]],
     ["nts"]            = map_no_cr('ts<space>/')
   }
 

@@ -63,7 +63,6 @@ function M.sourceSession()
   api.nvim_exec(cmd, false)
 end
 
--- TODO create buffer maps
 function M.simpleMRU()
   local files = vim.v.oldfiles
   local cwd = api.nvim_exec('pwd', true)
@@ -78,6 +77,12 @@ function M.simpleMRU()
     end
     api.nvim_command[[:1]]
   end
+end
+
+function M.listTags()
+  local cword = api.nvim_exec("echo expand('<cword>')", true)
+  api.nvim_command('ltag '..cword)
+  api.nvim_command [[ lwindow ]]
 end
 
 return M
