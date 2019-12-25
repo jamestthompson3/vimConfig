@@ -1,18 +1,6 @@
 scriptencoding = utf-8
 
 let g:mapleader = "\<Space>"
-imap jj <Esc>
-
-if exists(':tnoremap')
-  tnoremap <C-\> <C-\><C-n>
-endif
-
-
-" System Clipboard:
-xnoremap <Leader>y "+y
-xnoremap <Leader>d "+d
-nnoremap <Leader>p "+p
-nnoremap <Leader>P "+P
 " Don't trash current register when pasting in visual mode
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 
@@ -30,29 +18,16 @@ function! WinMove(key) abort
 endfunction
 
 " Buffer Switching:
-nnoremap <leader>. :Bs<space>
 nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
-nnoremap <BS> :bp<CR>
-
 " Files:
-nnoremap <silent><F3> :Vex<CR>
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-nnoremap <silent><leader>F :call tools#simpleMru()<CR>
 
 " Search and replace:
-nnoremap / ms/
 nnoremap <Leader>sp :SearchProject<space>
 nnoremap <silent><Leader>gab :SearchBuffers<CR>
-nnoremap <C-]> g<C-]>
-nnoremap gh :call symbols#ShowDeclaration(0)<CR>
-nnoremap ]] :ijump <C-R><C-W><CR>
-nnoremap <silent>sd :call symbols#PreviewWord()<CR>
-nnoremap , :find<space>
 cnoremap <expr> <CR> tools#CCR()
 nnoremap gX :DD<CR>
 nnoremap <silent><leader>l :lua vim.lsp.util.show_line_diagnostics()<CR>
-nnoremap S :%s//g<LEFT><LEFT>
-vmap s :s//g<LEFT><LEFT>
 
 function! HLNext (blinktime) abort
   let target_pat = '\c\%#'.@/
@@ -65,29 +40,6 @@ endfunction
 
 "Cscope
 nnoremap <leader>f :silent! cs find 0 <C-R>=expand("<cword>")<CR><CR>
-vnoremap <silent> g<c-\> :<C-U>
-      \:let old_reg=getreg('"')<bar>
-      \:let old_regmode=getregtype('"')<cr>
-      \gvy
-      \:silent! cs find s <C-R>=@"<cr><cr>
-      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
-" Find functions call this word (3==c)
-nnoremap g<C-]> :silent! cs find c <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
-vnoremap <silent> g<c-]> :<C-U>
-      \:let old_reg=getreg('"')<bar>
-      \:let old_regmode=getregtype('"')<cr>
-      \gvy
-      \:silent! cs find c <C-R>=@"<cr><cr>
-      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
-" Find this definition (1==g)
-nnoremap g<C-g> :silent! cs find g <C-R>=expand("<cword>")<CR><CR>:cwindow<CR>
-vnoremap <silent> g<c-g> :<C-U>
-      \:let old_reg=getreg('"')<bar>
-      \:let old_regmode=getregtype('"')<cr>
-      \gvy
-      \:silent! cs find g <C-R>=@"<cr><cr>
-      \:call setreg('"', old_reg, old_regmode)<cr>:cwindow<CR>
-
 
 " Blocks:
 vnoremap <silent><up>    :m '<-2<cr>gv=gv
