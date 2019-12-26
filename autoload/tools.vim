@@ -184,11 +184,11 @@ function! tools#PackagerInit() abort
 
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
+  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
+  call packager#add('junegunn/fzf.vim')
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
-  call packager#add('junegunn/fzf.vim')
-  call packager#local('/usr/local/opt/fzf')
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
@@ -210,10 +210,7 @@ function! tools#loadDeps() abort
     return
   else
 
-lua << EOF
-  local plugins = require('plugins')
-  plugins.plugin_globals()
-EOF
+    lua require('plugins')
 
     " plugin globals:
     let g:mucomplete#chains = {}
@@ -229,38 +226,16 @@ EOF
           \   '`': {'closer': '`'},
           \   '/\*': {'closer': '\*/'}
           \ }
-    let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-
-    lua require('navigation')
     let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()'}
-
-    packadd ale
-    packadd cfilter
-    packadd pear-tree
-    packadd rainbow_parentheses.vim
-    packadd tagbar
-    packadd nvim-lsp
-    packadd vim-apathy
-    packadd vim-commentary
-    packadd vim-cool
-    packadd vim-gutentags
-    packadd vim-matchup
-    packadd vim-mucomplete
-    packadd nvim-colorizer.lua
-    packadd vim-surround
     try
       silent cscope add cscope.out
     catch /^Vim\%((\a\+)\)\=:E/
     endtry
 
 lua << EOF
-  local nvim_lsp = require('nvim_lsp')
   local diagnostic = require('user_lsp')
   require('colorizer').setup()
-  -- vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.buf_diagnostics_set_signs
-  nvim_lsp.tsserver.setup({})
-  nvim_lsp.rls.setup({})
-  nvim_lsp.sumneko_lua.setup({})
+  vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
 EOF
     let g:loadedDeps = 1
   endif

@@ -1,4 +1,5 @@
 require 'nvim_utils'
+
 local function highlight(group, guifg, guibg, attr, ctermfg, ctermbg, guisp)
 	local parts = {group}
 	if guifg then table.insert(parts, "guifg="..guifg) end
@@ -17,6 +18,8 @@ end
 
 nvim.command [[hi clear]]
 nvim.command [[syntax reset]]
+nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
+
 
 highlight("Comment",          "#f5ac46",  "NONE",     "italic",      "215",  "NONE", "NONE")
 highlight("VertSplit",        "#5e5959",  "NONE",     "NONE",        "240",  "NONE", "NONE")
@@ -25,6 +28,7 @@ highlight("CursorLine",       "NONE",     "#222020",  "NONE",        "NONE", "23
 highlight("LineNR",           "#5e5959",  "NONE",     "NONE",        "238",  "NONE", "NONE")
 highlight("Search",           "#16161d",  "#ff9966",  "italic",      "0",    "172",  "NONE")
 highlight("MatchParen",       "#66ccff",  "#16161d",  "bold",        "81",   "NONE", "NONE")
+highlight("MatchWord",        "#66ccff",  "#16161d",  "bold",        "81",   "NONE", "NONE")
 highlight("NormalFloat",      "#66ccff",  "#16161d",  "NONE",        "81",   "NONE", "NONE")
 highlight("Normal",           "#d2cfcf",  "#16161d",  "NONE",        "255",  "NONE", "NONE")
 highlight("TabLineFill",      "#d2cfcf",  "#000000",  "NONE",        "255",  "NONE", "NONE")

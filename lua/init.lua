@@ -108,6 +108,7 @@ local function core_options()
     cscopequickfix  = "s-,c-,d-,i-,t-,e-";
     path            = '.,,,**';
     completeopt     = {'menuone', 'noinsert', 'noselect', 'longest'};
+    listchars       = {'tab:░░', 'trail:·', 'space:·', 'extends:»', 'precedes:«', 'nbsp:⣿'};
     complete        = {'.', 'w', 'b', 'u'};
     formatlistpat   = [[^\\s*\\[({]\\?\\([0-9]\\+\\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\\|^\\s*[-–+o*•]\\s\\+]];
     wildignore      = {'*/dist*/*','*/target/*','*/builds/*','tags','*/lib/*','*/locale/*','*/flow-typed/*','*/node_modules/*','*.png','*.PNG','*.jpg','*.jpeg','*.JPG','*.JPEG','*.pdf','*.exe','*.o','*.obj','*.dll','*.DS_Store','*.ttf','*.otf','*.woff','*.woff2','*.eot'};
@@ -120,8 +121,7 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
-    tabline        = string.format("ᚴ\\ [%s]\\ %s", gitBranch(), gitStat():gsub(" ", "\\ "));
-    showtabline    = 2;
+    statusline     = "%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<" .. "%=" .. "%<" .. "%{statusline#ReadOnly()}\\ %P";
     number         = true;
     pumblend       = 20;
     pumheight      = 15;
@@ -206,17 +206,16 @@ local function core_options()
         local autocmds = {
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
-            {"VimEnter",        "*",      [[lua require'ui']]};
+            {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
+            {"UIEnter",        "*",      [[lua require'ui']]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
-            {"BufAdd",          "*",      [[call tools#loadDeps()]]};
+            {"BufEnter",        "*",      [[call tools#loadDeps()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
-            {"SessionLoadPost", "*",      [[call tools#loadDeps()]]};
             {"QuickFixCmdPost", "[^l]*", [[nested call tools#OpenQuickfix()]]};
-            {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
             {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
             {"FocusGained", "*", "checktime"};
           };
