@@ -1,6 +1,5 @@
 scriptencoding = utf-8
 
-let g:mapleader = "\<Space>"
 " Don't trash current register when pasting in visual mode
 xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
 
@@ -23,10 +22,7 @@ nnoremap <silent><leader>h :call tools#switchSourceHeader()<CR>
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " Search and replace:
-nnoremap <Leader>sp :SearchProject<space>
-nnoremap <silent><Leader>gab :SearchBuffers<CR>
 cnoremap <expr> <CR> tools#CCR()
-nnoremap gX :DD<CR>
 nnoremap <silent><leader>l :lua vim.lsp.util.show_line_diagnostics()<CR>
 
 function! HLNext (blinktime) abort
@@ -46,8 +42,6 @@ vnoremap <silent><up>    :m '<-2<cr>gv=gv
 vnoremap <silent><down>  :m '>+1<cr>gv=gv
 nnoremap <silent><up>    :m .-2<cr>==
 nnoremap <silent><down>  :m .+1<cr>==
-vnoremap <silent><leader>g :<C-U>call tools#HighlightRegion('Green')<CR>
-vnoremap <silent><leader>G :<C-U>call tools#UnHighlightRegion()<CR>
 xnoremap <expr> I (mode()=~#'[vV]'?'<C-v>^o^I':'I')
 xnoremap <expr> A (mode()=~#'[vV]'?'<C-v>0o$A':'A')
 
@@ -56,17 +50,6 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
-function! OpenTerminalDrawer(floating) abort
-  if a:floating
-    execute 'lua NavigationFloatingWin()'
-  else
-    execute 'copen'
-  endif
-  execute 'term'
-endfunction
-
-nnoremap <silent><Leader>d :call OpenTerminalDrawer(1)<CR>i
-nnoremap <silent><Leader>D :call OpenTerminalDrawer(0)<CR>i
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " VimDev:

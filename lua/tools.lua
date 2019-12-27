@@ -1,5 +1,6 @@
 require 'nvim_utils'
 local api = vim.api
+require 'navigation'
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
@@ -10,6 +11,16 @@ function M.openQuickfix()
   local qflen = tonumber(api.nvim_exec('echo len(getqflist())', true))
   local qfheight = math.min(10, qflen)
   api.nvim_command(string.format("cclose|%dcwindow", qfheight))
+end
+
+function M.openTerminalDrawer(floating)
+  if floating then
+    NavigationFloatingWin()
+  else
+    api.nvim_command [[ copen ]]
+  end
+  api.nvim_command [[ term ]]
+  api.nvim_input('i')
 end
 
 function M.renameFile()
@@ -91,5 +102,5 @@ function M.listTags()
   api.nvim_command [[ lwindow ]]
 end
 
-return M
 
+return M
