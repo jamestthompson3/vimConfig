@@ -121,7 +121,7 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
-    statusline     = "%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<" .. "%=" .. "%<" .. "%{statusline#ReadOnly()}\\ %P";
+    statusline     = "%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<" .. "%=" .. "%<" .. "%r\\ %L";
     number         = true;
     pumblend       = 20;
     pumheight      = 15;
@@ -206,16 +206,16 @@ local function core_options()
         local autocmds = {
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
-            {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
+            {"VimEnter",            "*", [[nested lua require'tools'.openQuickfix()]]};
             {"UIEnter",        "*",      [[lua require'ui']]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
-            {"BufEnter",        "*",      [[call tools#loadDeps()]]};
+            {"BufAdd",          "*",      [[call tools#loadDeps()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
-            {"QuickFixCmdPost", "[^l]*", [[nested call tools#OpenQuickfix()]]};
+            {"QuickFixCmdPost", "[^l]*", [[nested lua require'tools'.openQuickfix()]]};
             {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
             {"FocusGained", "*", "checktime"};
           };
@@ -240,6 +240,28 @@ local function core_options()
             {"BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF"};
             {"BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>"};
             {"BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>"};
+          };
+          ft_detect = {
+            {"BufReadPost",         "*.fugitiveblame", "set ft=fugitiveblame"};
+            { "BufRead,BufNewFile",  "*.nginx", "set ft=nginx"};
+            { "BufRead,BufNewFile", "nginx*.conf", "set ft=nginx"};
+            { "BufRead,BufNewFile", "*nginx.conf","set ft=nginx"};
+            { "BufRead,BufNewFile", "*/etc/nginx/*","set ft=nginx"};
+            { "BufRead,BufNewFile", "*/usr/local/nginx/conf/*","set ft=nginx"};
+            { "BufRead,BufNewFile", "*/nginx/*.conf","set ft=nginx"};
+            { "BufNewFile,BufRead", "*.bat,*.sys", "set ft=dosbatch"};
+            { "BufNewFile,BufRead", "*.mm,*.m", "set ft=objc"};
+            { "BufNewFile,BufRead", "*.h,*.m,*.mm","set tags+=~/global-objc-tags"};
+            { "BufNewFile,BufRead", "*.tsx", "setlocal commentstring=//%s"};
+            { "BufNewFile,BufRead", "*.svelte", "setfiletype html"};
+            { "BufNewFile,BufRead", "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc", "set ft=json"};
+            { "BufNewFile,BufRead", "*.pcss", "set ft=css"};
+            { "BufNewFile,BufRead", "*.wiki", "set ft=wiki"};
+            { "BufRead,BufNewFile", "[Dd]ockerfile","set ft=Dockerfile"};
+            { "BufRead,BufNewFile", "Dockerfile*","set ft=Dockerfile"};
+            { "BufRead,BufNewFile", "[Dd]ockerfile.vim" ,"set ft=vim"};
+            { "BufRead,BufNewFile", "*.dock", "set ft=Dockerfile"};
+            { "BufRead,BufNewFile", "*.[Dd]ockerfile","set ft=Dockerfile"};
           };
         }
         nvim_create_augroups(autocmds)

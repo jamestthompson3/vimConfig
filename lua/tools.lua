@@ -6,6 +6,12 @@ local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
 local M = {}
 
+function M.openQuickfix()
+  local qflen = tonumber(api.nvim_exec('echo len(getqflist())', true))
+  local qfheight = math.min(10, qflen)
+  api.nvim_command(string.format("cclose|%dcwindow", qfheight))
+end
+
 function M.renameFile()
   local oldName = api.nvim_get_current_line()
   local input_cmd = string.format("input('Rename: ', '%s', 'file')", oldName)
