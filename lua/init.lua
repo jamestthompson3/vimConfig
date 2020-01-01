@@ -50,18 +50,18 @@ function splashscreen()
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
     api.nvim_command(string.format("chdir %s", currDir))
-    api.nvim_buf_set_option(0, 'bufhidden',  'wipe')
-    api.nvim_buf_set_option(0, 'buflisted',  false)
-    api.nvim_buf_set_option(0, 'matchpairs',  '')
+    vim.bo[0].bufhidden='wipe'
+    vim.bo[0].buflisted=false
+    vim.bo[0].matchpairs=''
     api.nvim_command [[setl nonumber]]
-    api.nvim_win_set_option(0, 'cursorline',  false)
-    api.nvim_win_set_option(0, 'cursorcolumn',  false)
-    api.nvim_win_set_option(0, 'relativenumber',  false)
+    vim.wo[0].cursorline=false
+    vim.wo[0].cursorcolumn=false
+    vim.wo[0].relativenumber=false
     -- require 'tools'.simpleMRU()
     -- api.nvim_command [[:23]]
     -- api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
-    api.nvim_buf_set_option(0, 'modified', false)
-    api.nvim_buf_set_option(0, 'modifiable', false)
+    vim.bo[0].modified=false
+    vim.bo[0].modifiable=false
   else
   end
 end
@@ -122,6 +122,7 @@ local function core_options()
     nowrap         = true;
     cursorline     = true;
     statusline     = "%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<" .. "%=" .. "%<" .. "%r\\ %L";
+    fillchars      = "stlnc:»,vert:║,fold:·";
     number         = true;
     pumblend       = 20;
     pumheight      = 15;
@@ -207,13 +208,13 @@ local function core_options()
         local autocmds = {
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
-            {"VimEnter",            "*", [[nested lua require'tools'.openQuickfix()]]};
-            {"UIEnter",        "*",      [[lua require'ui']]};
+            {"VimEnter",        "*",      [[nested lua require'tools'.openQuickfix()]]};
+            {"UIEnter",        "*",       [[lua require'ui']]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
-            {"BufAdd",          "*",      [[call tools#loadDeps()]]};
+            {"BufAdd",          "*",      [[lua require'plugins']]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
             {"QuickFixCmdPost", "[^l]*", [[nested lua require'tools'.openQuickfix()]]};

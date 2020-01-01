@@ -14,7 +14,7 @@ function M.openQuickfix()
 end
 
 function M.openTerminalDrawer(floating)
-  if floating then
+  if floating == 1 then
     NavigationFloatingWin()
   else
     api.nvim_command [[ copen ]]
@@ -39,9 +39,10 @@ end
 
 function M.makeScratch()
   api.nvim_command [[enew]]
-  api.nvim_buf_set_option(0, 'buftype', 'nofile')
-  api.nvim_buf_set_option(0, 'bufhidden', 'hide')
-  api.nvim_buf_set_option(0, 'swapfile', false)
+  vim.bo[0].buftype='nofile'
+  vim.bo[0].bufhidden='hide'
+  vim.bo[0].swapfile=false
+  api.nvim_buf_set_keymap(0, 'n', 'q', ':bd<CR>', {noremap = true, silent = true})
 end
 
 
@@ -101,6 +102,5 @@ function M.listTags()
   api.nvim_command('ltag '..cword)
   api.nvim_command [[ lwindow ]]
 end
-
 
 return M

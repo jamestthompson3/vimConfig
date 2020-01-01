@@ -15,24 +15,6 @@ function! tools#switchSourceHeader() abort
   endif
 endfunction
 
-" Convert to snake_case
-function! tools#Snake(args) abort
-  if a:args == 1
-    exec '%s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
-  else
-    exec 's#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
-  endif
-endfunction
-
-" Convert to camelCase
-function! tools#Camel(args) abort
-  if a:args == 1
-    exec '%s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
-  else
-    exec 's#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
-  endif
-endfunction
-
 " allows for easy jumping using commands like ili, ls, dli, etc.
 function! tools#CCR()
   let cmdline = getcmdline()
@@ -196,38 +178,9 @@ function! tools#PackagerInit() abort
 endfunction
 
 
-function! tools#loadDeps() abort
-  if exists('g:loadedDeps')
-    return
-  else
-
-    lua require('plugins')
-
-    " plugin globals:
-    let g:mucomplete#chains = {}
-    let g:mucomplete#chains.default = ['omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path']
-    let g:gutentags_project_root = ['Cargo.toml']
-    let g:matchup_matchparen_offscreen = {'method': 'popup'}
-    let g:pear_tree_pairs = {
-          \   '(': {'closer': ')'},
-          \   '[': {'closer': ']'},
-          \   '{': {'closer': '}'},
-          \   "'": {'closer': "'"},
-          \   '"': {'closer': '"'},
-          \   '`': {'closer': '`'},
-          \   '/\*': {'closer': '\*/'}
-          \ }
-    let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()'}
-    try
-      silent cscope add cscope.out
-    catch /^Vim\%((\a\+)\)\=:E/
-    endtry
-
-lua << EOF
-  local diagnostic = require('user_lsp')
-  require('colorizer').setup()
-  vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
-EOF
-    let g:loadedDeps = 1
-  endif
+function! tools#loadCscope() abort
+  try
+    silent cscope add cscope.out
+  catch /^Vim\%((\a\+)\)\=:E/
+  endtry
 endfunction

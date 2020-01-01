@@ -36,3 +36,15 @@ function! s:find(term) abort
 
   call jobstart(printf('rg %s --vimgrep --smart-case', a:term), l:callbacks)
 endfunction
+
+" Plugin globals
+" TODO move to lua
+    let g:pear_tree_pairs = {
+          \   '(': {'closer': ')'},
+          \   '[': {'closer': ']'},
+          \   '{': {'closer': '}'},
+          \   "'": {'closer': "'"},
+          \   '"': {'closer': '"'},
+          \   '`': {'closer': '`'},
+          \   '/\*': {'closer': '\*/'}
+          \ }
