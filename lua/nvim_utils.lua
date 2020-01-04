@@ -12,7 +12,7 @@ file_separator = is_windows and '\\' or '/'
 is_windows = vim.loop.os_uname().version:match("Windows")
 
 function getPath(str)
-    return str:match("(.*[/\\])")
+  return str:match("(.*[/\\])")
 end
 
 -- TODO I fucking didn't know that vim.api.nvim_buf_* methods could take 0
@@ -616,3 +616,38 @@ function gitStat()
     return os.capture("git diff --shortstat 2> /dev/null | tr -d '\n'")
   end
 end
+
+-- set options
+function setOptions(options)
+  for k, v in pairs(options) do
+    if v == true or v == false then
+      vim.api.nvim_command('set ' .. k)
+    elseif type(v) == 'table' then
+      local values = ''
+      for k2, v2 in pairs(v) do
+        if k2 == 1 then
+          values = values .. v2
+        else
+          values = values .. ',' .. v2
+        end
+      end
+      vim.api.nvim_command('set ' .. k .. '=' .. values)
+    else
+      vim.api.nvim_command('set ' .. k .. '=' .. v)
+    end
+  end
+end
+
+
+function map_cmd(...)
+  return { ("<Cmd>%s<CR>"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
+end
+
+function map_call(...)
+  return { ("%s<CR>"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
+end
+
+function map_no_cr(...)
+  return { (":%s"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
+end
+

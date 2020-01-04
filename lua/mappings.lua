@@ -1,19 +1,6 @@
 require('nvim_utils')
 local M = {}
 
-local function map_cmd(...)
-  return { ("<Cmd>%s<CR>"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
-end
-
-local function map_call(...)
-  return { ("%s<CR>"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
-end
-
-local function map_no_cr(...)
-  return { (":%s"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
-end
-
-
 function M.map()
   local mappings = {
     ["ijj"]            = {"<Esc>",  noremap = false},

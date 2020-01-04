@@ -43,7 +43,7 @@ create_backup_dir()
 
 function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
-  local args = tonumber(api.nvim_exec('echo argc()', true))
+  local args = vim.fn.argc()
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
   local currDir = os.getenv('PWD')
   if offset == -1 and args == 0 then
@@ -132,23 +132,7 @@ local function core_options()
     guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25";
   }
 
-  for k, v in pairs(options) do
-    if v == true or v == false then
-      api.nvim_command('set ' .. k)
-    elseif type(v) == 'table' then
-      local values = ''
-      for k2, v2 in pairs(v) do
-        if k2 == 1 then
-          values = values .. v2
-        else
-          values = values .. ',' .. v2
-        end
-      end
-      api.nvim_command('set ' .. k .. '=' .. values)
-    else
-      api.nvim_command('set ' .. k .. '=' .. v)
-    end
-  end
+  setOptions(options)
 
   -- Globals
   api.nvim_command [[map <Space> <Leader>]]

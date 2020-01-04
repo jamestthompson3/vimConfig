@@ -27,6 +27,7 @@ local search = "#1fff5c"
 local neutralAdd = "#88aa77"
 local neutralDelete = "#aa7766"
 local neutralDiff = "#7788aa"
+local neutralBlock = "#648c9c"
 local attention = "#198cff"
 local title = "Magenta"
 local background = "#353535"
@@ -83,13 +84,16 @@ highlight("IncSearch",        search,     "NONE",     "NONE",       "161",  "NON
 highlight("QuickFixLine",     "#bc6b01",  "NONE",     "NONE",       "249",  "239",  "NONE")
 highlight("QFNormal",         "#222222",  "NONE",     "NONE",       "NONE", "235",  "NONE")
 highlight("QFEndOfBuffer",    "#222222",  "NONE",     "NONE",       "NONE", "235",  "NONE")
-highlight("Callout",          attention,  "NONE",     "NONE",       "12",   "NONE", "NONE")
 
 highlight("DiffAdd",          neutralAdd,    "NONE",  "NONE",           "107", "NONE",  "NONE")
 highlight("DiffDelete",       neutralDelete, "NONE",  "NONE",           "137", "NONE",  "NONE")
 highlight("DiffChange",       neutralDiff,   "NONE",  "NONE",           "67",  "NONE",  "NONE")
 highlight("DiffText",         neutralDiff,   "NONE",  "underline",      "67",  "NONE",  "NONE")
 
+-- Custom groups
+highlight("CodeBlock",        neutralAdd,   "NONE",     "NONE",       "12",   "NONE", "NONE")
+highlight("BlockQuote",       neutralBlock, "NONE",     "NONE",       "12",   "NONE", "NONE")
+highlight("Callout",          attention,    "NONE",     "NONE",       "12",   "NONE", "NONE")
 highlight("ALEError",         "#ff4444", "NONE", "undercurl", "203", "NONE", "NONE")
 highlight("ALEWarning",       highlighMd, "NONE", "undercurl", "214", "NONE", "NONE")
 highlight("LspDiagnosticsError",        "#ff4444", "NONE", "NONE",  "203", "NONE",  "NONE")

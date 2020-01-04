@@ -1,5 +1,6 @@
 require 'nvim_utils'
 local api = vim.api
+local fn = vim.fn
 require 'navigation'
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
@@ -8,7 +9,7 @@ local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 local M = {}
 
 function M.openQuickfix()
-  local qflen = tonumber(api.nvim_exec('echo len(getqflist())', true))
+  local qflen = fn.len(fn.getqflist())
   local qfheight = math.min(10, qflen)
   api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
@@ -72,18 +73,18 @@ end
 function M.saveSession()
   local sessionName = M.createSessionName()
   local cmd = string.format("mks! %s%s.vim", sessionPath, sessionName)
-  api.nvim_exec(cmd, false)
+  api.nvim_command(cmd)
 end
 
 function M.sourceSession()
   local sessionName = M.createSessionName()
   local cmd = string.format("so! %s%s.vim", sessionPath, sessionName)
-  api.nvim_exec(cmd, false)
+  api.nvim_command(cmd)
 end
 
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = api.nvim_exec('pwd', true)
+  local cwd = fn.pwd()
   for _, file in ipairs(files) do
     -- print(getPath(file))
     if string.match(getPath(file), getPath(cwd)) then
@@ -98,7 +99,7 @@ function M.simpleMRU()
 end
 
 function M.listTags()
-  local cword = api.nvim_exec("echo expand('<cword>')", true)
+  local cword = fn.expand('<cword>')
   api.nvim_command('ltag '..cword)
   api.nvim_command [[ lwindow ]]
 end

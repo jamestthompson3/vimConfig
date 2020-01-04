@@ -129,50 +129,30 @@ function! tools#CombineSelection(line1, line2, cp)
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
 
-function! s:cmd() abort
-  if executable("xdg-open")
-    return "xdg-open"
-  endif
-  if executable("open")
-    return "open"
-  endif
-  return "explorer"
-endfunction
-
-function! tools#getStub() abort
-  if exists('b:devURL')
-    let l:url = b:devURL
-  else
-    let l:url = " 'https://devdocs.io/#q="
-  endif
-  return s:cmd() . l:url
-endfunction
-
-
 function! tools#PackagerInit() abort
   packadd vim-packager
   call packager#init()
   call packager#add('justinmk/vim-dirvish')
   call packager#add('thinca/vim-localrc')
+  call packager#add('junegunn/fzf.vim')
 
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
-  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
-  call packager#add('junegunn/fzf.vim')
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
+  call packager#add('fcpg/vim-waikiki', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
+  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
-  call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('neovim/nvim-lsp', { 'type': 'opt' })
+  call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
-  call packager#add('tpope/vim-markdown', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
 
 endfunction
