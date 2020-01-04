@@ -254,6 +254,7 @@ local function core_options()
       end
 
       local function create_commands()
+        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject lua require'tools'.asyncGrep(<q-args>)]]
         nvim.command [[command! Scratch lua require'tools'.makeScratch()]]
         nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
         nvim.command [[command! Diff call git#diff()]]

@@ -1,4 +1,5 @@
 require 'nvim_utils'
+require 'navigation'
 local api = vim.api
 local M = {}
 local setWriterline = false
