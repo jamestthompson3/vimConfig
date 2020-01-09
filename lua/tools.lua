@@ -121,6 +121,8 @@ function M.asyncGrep(term)
   local function setQF()
     vim.fn.setqflist({}, 'r', {title = 'Search Results', lines = results})
     api.nvim_command [[ cwindow ]]
+    local count = #results
+    for i=0, count do results[i]=nil end -- clear the table
   end
   handle = vim.loop.spawn('rg', {
     args = {term, '--vimgrep', '--smart-case'},
@@ -132,7 +134,7 @@ function M.asyncGrep(term)
     stdout:close()
     stderr:close()
     handle:close()
-    setQF(results)
+    setQF()
   end
   )
   )
