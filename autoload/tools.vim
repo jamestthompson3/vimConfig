@@ -157,17 +157,6 @@ function! s:cmd() abort
   return "explorer"
 endfunction
 
-function! tools#getStub() abort
-  if exists('b:devURL')
-    let l:url = b:devURL
-  else
-    let l:url = " 'https://devdocs.io/#q="
-  endif
-  return s:cmd() . l:url
-endfunction
-
-
-
 function! tools#OpenQuickfix()
   if get(g:, 'qf_auto_open_quickfix', 1)
     " get user-defined maximum height

@@ -25,7 +25,7 @@ highlight("CursorLine",       "NONE",     "#222020",  "NONE",        "NONE", "23
 highlight("LineNR",           "#5e5959",  "NONE",     "NONE",        "238",  "NONE", "NONE")
 highlight("Search",           "#16161d",  "#ff9966",  "italic",      "0",    "172",  "NONE")
 highlight("MatchParen",       "#66ccff",  "#16161d",  "bold",        "81",   "NONE", "NONE")
-highlight("NormalFloat",      "#66ccff",  "#16161d",  "NONE",        "81",   "NONE", "NONE")
+highlight("NormalFloat",      "#d2cfcf",  "#16161d",  "NONE",        "81",   "NONE", "NONE")
 highlight("Normal",           "#d2cfcf",  "#16161d",  "NONE",        "255",  "NONE", "NONE")
 highlight("TabLineFill",      "#d2cfcf",  "#000000",  "NONE",        "255",  "NONE", "NONE")
 highlight("StatusLineNC",     "#5e5959",  "NONE",     "underline",   "238",  "NONE", "NONE")
