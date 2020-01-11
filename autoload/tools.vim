@@ -15,24 +15,6 @@ function! tools#switchSourceHeader() abort
   endif
 endfunction
 
-" Convert to snake_case
-function! tools#Snake(args) abort
-  if a:args == 1
-    exec '%s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
-  else
-    exec 's#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
-  endif
-endfunction
-
-" Convert to camelCase
-function! tools#Camel(args) abort
-  if a:args == 1
-    exec '%s#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
-  else
-    exec 's#\%($\%(\k\+\)\)\@<=_\(\k\)#\u\1#g'
-  endif
-endfunction
-
 " allows for easy jumping using commands like ili, ls, dli, etc.
 function! tools#CCR()
   let cmdline = getcmdline()
@@ -157,97 +139,38 @@ function! s:cmd() abort
   return "explorer"
 endfunction
 
-function! tools#OpenQuickfix()
-  if get(g:, 'qf_auto_open_quickfix', 1)
-    " get user-defined maximum height
-    let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
-    execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
-  endif
-endfunction
-
 function! tools#PackagerInit() abort
   packadd vim-packager
   call packager#init()
   call packager#add('justinmk/vim-dirvish')
   call packager#add('thinca/vim-localrc')
+  call packager#add('junegunn/fzf.vim')
 
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
+  call packager#add('fcpg/vim-waikiki', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
+  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
-  call packager#add('junegunn/fzf.vim')
-  call packager#local('/usr/local/opt/fzf')
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('neovim/nvim-lsp', { 'type': 'opt' })
+  call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
-  call packager#add('tpope/vim-markdown', { 'type': 'opt' })
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
 
 endfunction
 
 
-function! tools#loadDeps() abort
-  if exists('g:loadedDeps')
-    return
-  else
-
-lua << EOF
-  local plugins = require('plugins')
-  plugins.plugin_globals()
-EOF
-
-    " plugin globals:
-    let g:mucomplete#chains = {}
-    let g:mucomplete#chains.default = ['omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path']
-    let g:gutentags_project_root = ['Cargo.toml']
-    let g:matchup_matchparen_offscreen = {'method': 'popup'}
-    let g:pear_tree_pairs = {
-          \   '(': {'closer': ')'},
-          \   '[': {'closer': ']'},
-          \   '{': {'closer': '}'},
-          \   "'": {'closer': "'"},
-          \   '"': {'closer': '"'},
-          \   '`': {'closer': '`'},
-          \   '/\*': {'closer': '\*/'}
-          \ }
-    let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-
-    lua require('navigation')
-    let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()'}
-
-    packadd ale
-    packadd cfilter
-    packadd pear-tree
-    packadd rainbow_parentheses.vim
-    packadd tagbar
-    packadd nvim-lsp
-    packadd vim-apathy
-    packadd vim-commentary
-    packadd vim-cool
-    packadd vim-gutentags
-    packadd vim-matchup
-    packadd vim-mucomplete
-    packadd vim-surround
-    try
-      silent cscope add cscope.out
-    catch /^Vim\%((\a\+)\)\=:E/
-    endtry
-
-lua << EOF
-  local nvim_lsp = require('nvim_lsp')
-  local diagnostic = require('user_lsp')
-  -- vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.buf_diagnostics_set_signs
-  nvim_lsp.tsserver.setup({})
-  nvim_lsp.rls.setup({})
-  nvim_lsp.sumneko_lua.setup({})
-EOF
-    let g:loadedDeps = 1
-  endif
+function! tools#loadCscope() abort
+  try
+    silent cscope add cscope.out
+  catch /^Vim\%((\a\+)\)\=:E/
+  endtry
 endfunction

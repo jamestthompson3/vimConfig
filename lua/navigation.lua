@@ -29,7 +29,8 @@ function NavigationFloatingWin()
       width = win_width,
       height = win_height,
       row = math.ceil((height - win_height) / 2),
-      col = math.ceil((width - win_width) / 2)
+      col = math.ceil((width - win_width) / 2),
+      style = 'minimal'
     }
 
     -- create a new floating window, centered in the editor

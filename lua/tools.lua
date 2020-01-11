@@ -1,10 +1,28 @@
 require 'nvim_utils'
 local api = vim.api
+local fn = vim.fn
+require 'navigation'
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
 
 local M = {}
+
+function M.openQuickfix()
+  local qflen = fn.len(fn.getqflist())
+  local qfheight = math.min(10, qflen)
+  api.nvim_command(string.format("cclose|%dcwindow", qfheight))
+end
+
+function M.openTerminalDrawer(floating)
+  if floating == 1 then
+    NavigationFloatingWin()
+  else
+    api.nvim_command [[ copen ]]
+  end
+  api.nvim_command [[ term ]]
+  api.nvim_input('i')
+end
 
 function M.renameFile()
   local oldName = api.nvim_get_current_line()
@@ -22,9 +40,10 @@ end
 
 function M.makeScratch()
   api.nvim_command [[enew]]
-  api.nvim_buf_set_option(0, 'buftype', 'nofile')
-  api.nvim_buf_set_option(0, 'bufhidden', 'hide')
-  api.nvim_buf_set_option(0, 'swapfile', false)
+  vim.bo[0].buftype='nofile'
+  vim.bo[0].bufhidden='hide'
+  vim.bo[0].swapfile=false
+  api.nvim_buf_set_keymap(0, 'n', 'q', ':bd<CR>', {noremap = true, silent = true})
 end
 
 
@@ -54,19 +73,18 @@ end
 function M.saveSession()
   local sessionName = M.createSessionName()
   local cmd = string.format("mks! %s%s.vim", sessionPath, sessionName)
-  api.nvim_exec(cmd, false)
+  api.nvim_command(cmd)
 end
 
 function M.sourceSession()
   local sessionName = M.createSessionName()
   local cmd = string.format("so! %s%s.vim", sessionPath, sessionName)
-  api.nvim_exec(cmd, false)
+  api.nvim_command(cmd)
 end
 
--- TODO create buffer maps
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = api.nvim_exec('pwd', true)
+  local cwd = fn.pwd()
   for _, file in ipairs(files) do
     -- print(getPath(file))
     if string.match(getPath(file), getPath(cwd)) then
@@ -80,5 +98,48 @@ function M.simpleMRU()
   end
 end
 
-return M
+function M.listTags()
+  local cword = fn.expand('<cword>')
+  api.nvim_command('ltag '..cword)
+  api.nvim_command [[ lwindow ]]
+end
 
+local results = {}
+local function onread(err, data)
+  if err then
+    -- print('ERROR: ', err)
+    -- TODO handle err
+  end
+  if data then
+    table.insert(results, data)
+  end
+end
+
+function M.asyncGrep(term)
+  local stdout = vim.loop.new_pipe(false)
+  local stderr = vim.loop.new_pipe(false)
+  local function setQF()
+    vim.fn.setqflist({}, 'r', {title = 'Search Results', lines = results})
+    api.nvim_command [[ cwindow ]]
+    local count = #results
+    for i=0, count do results[i]=nil end -- clear the table
+  end
+  handle = vim.loop.spawn('rg', {
+    args = {term, '--vimgrep', '--smart-case'},
+    stdio = {stdout,stderr}
+  },
+  vim.schedule_wrap(function()
+    stdout:read_stop()
+    stderr:read_stop()
+    stdout:close()
+    stderr:close()
+    handle:close()
+    setQF()
+  end
+  )
+  )
+  vim.loop.read_start(stdout, onread)
+  vim.loop.read_start(stderr, onread)
+end
+
+return M

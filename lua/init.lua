@@ -43,25 +43,25 @@ create_backup_dir()
 
 function splashscreen()
   local curr_buf = api.nvim_get_current_buf()
-  local args = tonumber(api.nvim_exec('echo argc()', true))
+  local args = vim.fn.argc()
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
   local currDir = os.getenv('PWD')
   if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
     api.nvim_command(string.format("chdir %s", currDir))
-    api.nvim_buf_set_option(0, 'bufhidden',  'wipe')
-    api.nvim_buf_set_option(0, 'buflisted',  false)
-    api.nvim_buf_set_option(0, 'matchpairs',  '')
-    api.nvim_win_set_option(0, 'number',  false)
-    api.nvim_win_set_option(0, 'cursorline',  false)
-    api.nvim_win_set_option(0, 'cursorcolumn',  false)
-    api.nvim_win_set_option(0, 'relativenumber',  false)
+    vim.bo[0].bufhidden='wipe'
+    vim.bo[0].buflisted=false
+    vim.bo[0].matchpairs=''
+    api.nvim_command [[setl nonumber]]
+    vim.wo[0].cursorline=false
+    vim.wo[0].cursorcolumn=false
+    vim.wo[0].relativenumber=false
     -- require 'tools'.simpleMRU()
     -- api.nvim_command [[:23]]
     -- api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
-    api.nvim_buf_set_option(0, 'modified', false)
-    api.nvim_buf_set_option(0, 'modifiable', false)
+    vim.bo[0].modified=false
+    vim.bo[0].modifiable=false
   else
   end
 end
@@ -108,6 +108,7 @@ local function core_options()
     cscopequickfix  = "s-,c-,d-,i-,t-,e-";
     path            = '.,,,**';
     completeopt     = {'menuone', 'noinsert', 'noselect', 'longest'};
+    listchars       = {'tab:░░', 'trail:·', 'space:·', 'extends:»', 'precedes:«', 'nbsp:⣿'};
     complete        = {'.', 'w', 'b', 'u'};
     formatlistpat   = [[^\\s*\\[({]\\?\\([0-9]\\+\\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\\|^\\s*[-–+o*•]\\s\\+]];
     wildignore      = {'*/dist*/*','*/target/*','*/builds/*','tags','*/lib/*','*/locale/*','*/flow-typed/*','*/node_modules/*','*.png','*.PNG','*.jpg','*.jpeg','*.JPG','*.JPEG','*.pdf','*.exe','*.o','*.obj','*.dll','*.DS_Store','*.ttf','*.otf','*.woff','*.woff2','*.eot'};
@@ -120,8 +121,8 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
-    tabline        = string.format("ᚴ\\ [%s]\\ %s", gitBranch(), gitStat():gsub(" ", "\\ "));
-    showtabline    = 2;
+    statusline     = "%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<" .. "%=" .. "%<" .. "%r\\ %L";
+    fillchars      = "stlnc:»,vert:║,fold:·";
     number         = true;
     pumblend       = 20;
     pumheight      = 15;
@@ -131,25 +132,10 @@ local function core_options()
     guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25";
   }
 
-  for k, v in pairs(options) do
-    if v == true or v == false then
-      api.nvim_command('set ' .. k)
-    elseif type(v) == 'table' then
-      local values = ''
-      for k2, v2 in pairs(v) do
-        if k2 == 1 then
-          values = values .. v2
-        else
-          values = values .. ',' .. v2
-        end
-      end
-      api.nvim_command('set ' .. k .. '=' .. values)
-    else
-      api.nvim_command('set ' .. k .. '=' .. v)
-    end
-  end
+  setOptions(options)
 
   -- Globals
+  api.nvim_command [[map <Space> <Leader>]]
   vim.g.did_install_default_menus = 1
   vim.g.remove_whitespace = 1
   vim.g.loaded_tutor_mode_plugin = 1
@@ -206,17 +192,16 @@ local function core_options()
         local autocmds = {
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
-            {"VimEnter",        "*",      [[lua require'ui']]};
+            {"VimEnter",        "*",      [[nested lua require'tools'.openQuickfix()]]};
+            {"UIEnter",        "*",       [[lua require'ui']]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
-            {"BufAdd",          "*",      [[call tools#loadDeps()]]};
+            {"BufAdd",          "*",      [[lua require'plugins']]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
-            {"SessionLoadPost", "*",      [[call tools#loadDeps()]]};
-            {"QuickFixCmdPost", "[^l]*", [[nested call tools#OpenQuickfix()]]};
-            {"VimEnter",            "*", [[nested call tools#OpenQuickfix()]]};
+            {"QuickFixCmdPost", "[^l]*", [[nested lua require'tools'.openQuickfix()]]};
             {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
             {"FocusGained", "*", "checktime"};
           };
@@ -242,11 +227,34 @@ local function core_options()
             {"BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>"};
             {"BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>"};
           };
+          ft_detect = {
+            {"BufReadPost",         "*.fugitiveblame", "set ft=fugitiveblame"};
+            { "BufRead,BufNewFile",  "*.nginx", "set ft=nginx"};
+            { "BufRead,BufNewFile", "nginx*.conf", "set ft=nginx"};
+            { "BufRead,BufNewFile", "*nginx.conf","set ft=nginx"};
+            { "BufRead,BufNewFile", "*/etc/nginx/*","set ft=nginx"};
+            { "BufRead,BufNewFile", "*/usr/local/nginx/conf/*","set ft=nginx"};
+            { "BufRead,BufNewFile", "*/nginx/*.conf","set ft=nginx"};
+            { "BufNewFile,BufRead", "*.bat,*.sys", "set ft=dosbatch"};
+            { "BufNewFile,BufRead", "*.mm,*.m", "set ft=objc"};
+            { "BufNewFile,BufRead", "*.h,*.m,*.mm","set tags+=~/global-objc-tags"};
+            { "BufNewFile,BufRead", "*.tsx", "setlocal commentstring=//%s"};
+            { "BufNewFile,BufRead", "*.svelte", "setfiletype html"};
+            { "BufNewFile,BufRead", "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc", "set ft=json"};
+            { "BufNewFile,BufRead", "*.pcss", "set ft=css"};
+            { "BufNewFile,BufRead", "*.wiki", "set ft=wiki"};
+            { "BufRead,BufNewFile", "[Dd]ockerfile","set ft=Dockerfile"};
+            { "BufRead,BufNewFile", "Dockerfile*","set ft=Dockerfile"};
+            { "BufRead,BufNewFile", "[Dd]ockerfile.vim" ,"set ft=vim"};
+            { "BufRead,BufNewFile", "*.dock", "set ft=Dockerfile"};
+            { "BufRead,BufNewFile", "*.[Dd]ockerfile","set ft=Dockerfile"};
+          };
         }
         nvim_create_augroups(autocmds)
       end
 
       local function create_commands()
+        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject lua require'tools'.asyncGrep(<q-args>)]]
         nvim.command [[command! Scratch lua require'tools'.makeScratch()]]
         nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
         nvim.command [[command! Diff call git#diff()]]

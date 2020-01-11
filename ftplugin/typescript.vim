@@ -1,11 +1,12 @@
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-let g:mucomplete#chains.typescript = [ 'keyn', 'keyp', 'omni','tags','c-p','c-n', 'file','path']
-let g:mucomplete#chains['typescriptreact'] = ['keyn', 'keyp', 'omni','tags','c-p', 'c-n', 'file','path']
+let g:mucomplete#chains.typescript = [ 'omni','keyn', 'keyp','tags','c-p','c-n', 'file','path']
+let g:mucomplete#chains['typescriptreact'] = ['omni','keyn', 'keyp', 'tags','c-p', 'c-n', 'file','path']
 
-nnoremap <silent> <leader>h <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 setl omnifunc=v:lua.vim.lsp.omnifunc
+
+nnoremap <silent> ge <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
 

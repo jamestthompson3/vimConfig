@@ -23,8 +23,9 @@ function! s:get_visual_selection()
 endfunction
 
 hi Green guibg=#77ff77 guifg=#000000
+hi InProg guifg=cornflowerblue
 syn match Todo 'To\ Do'
-syn match Identifier 'In\ Progress'
+syn match InProg 'In\ Progress'
 syn match Green '?\w\+\-[0-9]\+'
 
 " modify selected text using combining diacritics

@@ -1,8 +1,10 @@
+local util = require 'vim.lsp.util'
+local protocol = require 'vim.lsp.protocol'
+
 local M = {}
+local lsps_diagnostics = {}
 local all_buffer_diagnostics = {}
 local api = vim.api
-local util = vim.lsp.util
-local protocol = require 'vim.lsp.protocol'
 local validate = vim.validate
 
 local severity_highlights = {
@@ -12,70 +14,127 @@ local severity_highlights = {
   [protocol.DiagnosticSeverity.Hint] = 'LspDiagnosticsHint';
 }
 
-function M.buf_diagnostics_save_positions(bufnr, diagnostics)
-  validate {
-    bufnr = {bufnr, 'n', true};
-    diagnostics = {diagnostics, 't', true};
-  }
-  if not diagnostics then return end
+
+function M.buf_clear_diagnostics(bufnr)
+  validate { bufnr = {bufnr, 'n', true} }
   bufnr = bufnr == 0 and api.nvim_get_current_buf() or bufnr
 
-  if not all_buffer_diagnostics[bufnr] then
-    -- Clean up our data when the buffer unloads.
-    api.nvim_buf_attach(bufnr, false, {
-      on_detach = function(b)
-        all_buffer_diagnostics[b] = nil
-      end
-    })
-  end
-  all_buffer_diagnostics[bufnr] = {}
-  local buffer_diagnostics = all_buffer_diagnostics[bufnr]
+  -- clear signs
+  vim.fn.sign_unplace('nvim-lsp', {buffer=bufnr})
 
-  for _, diagnostic in ipairs(diagnostics) do
-    local start = diagnostic.range.start
-    local line_diagnostics = buffer_diagnostics[start.line]
-    if not line_diagnostics then
-      line_diagnostics = {}
-      buffer_diagnostics[start.line] = line_diagnostics
+  -- clear virtual text namespace
+  api.nvim_buf_clear_namespace(bufnr, 2, 0, -1)
+end
+
+function M.buf_diagnostics_virtual_text(bufnr, diagnostics)
+  -- return if we are called from a window that is not showing bufnr
+  if api.nvim_win_get_buf(0) ~= bufnr then return end
+
+  local buffer_line_diagnostics = all_buffer_diagnostics[bufnr]
+  if not buffer_line_diagnostics then
+    util.buf_diagnostics_save_positions(bufnr, diagnostics)
+  end
+  buffer_line_diagnostics = all_buffer_diagnostics[bufnr]
+  if not buffer_line_diagnostics then
+    return
+  end
+  local line_no = api.nvim_buf_line_count(bufnr)
+  for _, line_diags in pairs(buffer_line_diagnostics) do
+
+    line = line_diags[1].range.start.line
+    if line+1 > line_no then goto continue end
+
+    local virt_texts = {}
+
+    -- window total width
+    local win_width = api.nvim_win_get_width(0)
+
+    -- line length
+    local lines = api.nvim_buf_get_lines(bufnr, line, line+1, 0)
+    local line_width = 0
+    if table.getn(lines) > 0 then
+      local line_content = lines[1]
+      if line_content == nil then goto continue end
+      line_width = vim.fn.strdisplaywidth(line_content)
     end
-    table.insert(line_diagnostics, diagnostic)
+
+    -- window decoration with (sign + fold + number)
+    local decoration_width = window_decoration_columns()
+
+    -- available space for virtual text
+    local right_padding = 1
+    local available_space = win_width - decoration_width - line_width - right_padding
+
+    -- virtual text
+    local last = line_diags[#line_diags]
+    local message = last.message:gsub("\r", ""):gsub("\n", "  ")
+
+    -- more than one diagnostic in line
+    if #line_diags > 1 then
+      local leading_space = available_space - vim.fn.strdisplaywidth(message) - #line_diags
+      local prefix = string.rep(" ", leading_space)
+      table.insert(virt_texts, {prefix, severity_highlights[line_diags[1].severity]})
+      for i = 2, #line_diags - 1 do
+        table.insert(virt_texts, {'', severity_highlights[line_diags[i].severity]})
+      end
+      table.insert(virt_texts, {message, severity_highlights[last.severity]})
+      -- 1 diagnostic in line
+    else
+      local leading_space = available_space - vim.fn.strdisplaywidth(message) - #line_diags
+      local prefix = string.rep(" ", leading_space)
+      table.insert(virt_texts, {prefix..message, severity_highlights[last.severity]})
+    end
+    api.nvim_buf_set_virtual_text(bufnr, diagnostic_ns, line, virt_texts, {})
+    ::continue::
   end
 end
 
-function M.buf_diagnostics_set_signs(_, _, result)
-  if not result then return end
-  local uri = result.uri
-  local bufnr = vim.uri_to_bufnr(uri)
-
-  if not bufnr then
-    err_message("LSP.publishDiagnostics: Couldn't find buffer for ", uri)
-    return
-  end
-
-  util.buf_clear_diagnostics(bufnr)
-  util.buf_diagnostics_save_positions(bufnr, result.diagnostics)
-
-  M.buf_diagnostics_save_positions(bufnr, result.diagnostics)
-  local buffer_line_diagnostics = all_buffer_diagnostics[bufnr]
-
-  local file = api.nvim_exec("echo expand('%:p')")
-  local unplace = string.format('sign unplace * group=lsp_diag file=%s', file)
-  -- clean up exiting signs
-  api.nvim_command(unplace)
-  for line, line_diags in pairs(buffer_line_diagnostics) do
-    for _, val in pairs(line_diags) do
-      if not val then
-        return
-      end
-      api.nvim_command(string.format('sign define lsp text=◉  texthl=%s', severity_highlights[val.severity]))
-      for _, l in pairs(val.range) do
-        local line_no = l.line + 1
-        -- still errors out sometimes with invalid filename
-        local sign_place = string.format('sign place %d line=%d name=lsp group=lsp_diag file=%s', line_no, line_no, file)
-        api.nvim_command(sign_place)
-      end
+-- show diagnostics in sign column
+function M.buf_diagnostics_signs(bufnr, diagnostics)
+  for _, diagnostic in ipairs(diagnostics) do
+    -- errors
+    if diagnostic.severity == 1 then
+      vim.fn.sign_place(0, 'nvim-lsp', 'LspErrorSign', bufnr, {lnum=(diagnostic.range.start.line+1)})
+      -- warnings
+    elseif diagnostic.severity == 2 then
+      vim.fn.sign_place(0, 'nvim-lsp', 'LspWarningSign', bufnr, {lnum=(diagnostic.range.start.line+1)})
+      -- info
+    elseif diagnostic.severity == 3 then
+      vim.fn.sign_place(0, 'nvim-lsp', 'LspInfoSign', bufnr, {lnum=(diagnostic.range.start.line+1)})
+      -- hint
+    elseif diagnostic.severity == 4 then
+      vim.fn.sign_place(0, 'nvim-lsp', 'LspHintSign', bufnr, {lnum=(diagnostic.range.start.line+1)})
     end
   end
+end
+
+-- show diagnostics in a number of ways
+function M.buf_show_diagnostics(bufnr)
+  if not lsps_diagnostics[bufnr] then return end
+  M.buf_clear_diagnostics(bufnr)
+  util.buf_diagnostics_save_positions(bufnr, lsps_diagnostics[bufnr])
+  M.buf_diagnostics_virtual_text(bufnr, lsps_diagnostics[bufnr])
+  M.buf_diagnostics_signs(bufnr, lsps_diagnostics[bufnr])
+end
+
+function M.diagnostics_callback(_, _, result)
+    if not result then return end
+    local uri = result.uri
+    local bufnr = vim.fn.bufadd((vim.uri_to_fname(uri)))
+    if not bufnr then
+        api.nvim_err_writeln(string.format("LSP.publishDiagnostics: Couldn't find buffer for %s", uri))
+        return
+    end
+    lsps_diagnostics[bufnr] = result.diagnostics
+    M.buf_show_diagnostics(bufnr)
+end
+
+if not sign_defined then
+  vim.fn.sign_define('LspErrorSign', {text='X', texthl='LspDiagnosticsError', linehl='', numhl=''})
+  vim.fn.sign_define('LspWarningSign', {text='◉', texthl='LspDiagnosticsWarning', linehl='', numhl=''})
+  vim.fn.sign_define('LspInfoSign', {text='i', texthl='LspDiagnosticsInfo', linehl='', numhl=''})
+  vim.fn.sign_define('LspHintSign', {text='H', texthl='LspDiagnosticsHint', linehl='', numhl=''})
+  sign_defined = true
 end
 
 return M

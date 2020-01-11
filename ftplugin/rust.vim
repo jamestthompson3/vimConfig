@@ -2,6 +2,7 @@ let b:ale_fixers = ['rustfmt']
 
 let g:mucomplete#chains.rust = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
 
+nnoremap <silent> ge <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
 
@@ -15,4 +16,3 @@ else
 endif
 
 compiler cargo
-

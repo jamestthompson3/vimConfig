@@ -1,60 +1,76 @@
 require('nvim_utils')
 local M = {}
 
-local function map_cmd(...)
-  return { ("<Cmd>%s<CR>"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
-end
-
-local function map_no_cr(...)
-  return { (":%s"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
-end
-
 function M.map()
   local mappings = {
-    ["ijj"]            = {"<Esc>",  noremap = false;},
-    ['t<C-\\>']        = { [[<C-\><C-n>]], noremap = true;},
-    ["n'"]             = {"`", noremap = true;},
-    ["nY"]             = {"y$", noremap = true;},
-    ["n;"]             = {":", noremap = true;},
-    ["n:"]             = {";", noremap = true;},
-    ["nwq"]            = map_cmd('silent close'),
-    ["ncc"]            = map_cmd('silent cclose'),
-    ["ngl"]            = map_cmd('silent pc'),
-    ["n<leader><tab>"] = map_cmd('silent bn'),
-    ["n[a"]            = map_cmd('silent prev'),
-    ["n]a"]            = map_cmd('silent next'),
-    ["n[q"]            = map_cmd('silent cnext'),
-    ["n]q"]            = map_cmd('silent cprev'),
-    ["n[Q"]            = map_cmd('silent cnfile'),
-    ["n]Q"]            = map_cmd('silent cpfile'),
-    ["n<C-J>"]         = map_cmd [[silent call WinMove('j')]],
-    ["n<C-L>"]         = map_cmd [[silent call WinMove('l')]],
-    ["n<C-H>"]         = map_cmd [[silent call WinMove('h')]],
-    ["n<C-K>"]         = map_cmd [[silent call WinMove('k')]],
-    ["n<c-u>"]         = map_cmd [[silent call tools#smoothScroll(1)]],
-    ["n<c-d>"]         = map_cmd [[silent call tools#smoothScroll(0)]],
+    ["ijj"]            = {"<Esc>",  noremap = false},
+    ['t<C-\\>']        = { [[<C-\><C-n>]], noremap = true},
+    ["n'"]             = {"`", noremap = true},
+    ["nY"]             = {"y$", noremap = true},
+    ["n;"]             = {":", noremap = true},
+    ["n:"]             = {";", noremap = true},
+    ["n/"]             = {"ms/", noremap = true},
+    ["x<leader>y"]     = {'\"+y', noremap = true},
+    ["x<leader>d"]     = {'\"+d', noremap = true},
+    ["n<leader>p"]     = {'\"+p', noremap = true},
+    ["n<leader>P"]     = {'\"+P', noremap = true},
+    ["n<C-]>"]         = {'g<C-]>', noremap = true},
+    ["t<Esc>"]         = {'<C-\\><C-n>', noremap = true},
+    ["nwq"]            = map_cmd('close'),
+    ["ncc"]            = map_cmd('cclose'),
+    ["ngl"]            = map_cmd('pc'),
+    ["n<leader><tab>"] = map_cmd('bn'),
+    ["n[a"]            = map_cmd('prev'),
+    ["n]a"]            = map_cmd('next'),
+    ["n[q"]            = map_cmd('cnext'),
+    ["n]q"]            = map_cmd('cprev'),
+    ["n[Q"]            = map_cmd('cnfile'),
+    ["n]Q"]            = map_cmd('cpfile'),
+    ["n<F3>"]          = map_cmd('Vex'),
+    ["ngX"]            = map_cmd('DD'),
+    ["n<C-J>"]         = map_cmd [[call WinMove('j')]],
+    ["n<C-L>"]         = map_cmd [[call WinMove('l')]],
+    ["n<C-H>"]         = map_cmd [[call WinMove('h')]],
+    ["n<C-K>"]         = map_cmd [[call WinMove('k')]],
+    ["n<c-u>"]         = map_cmd [[call tools#smoothScroll(1)]],
+    ["n<c-d>"]         = map_cmd [[call tools#smoothScroll(0)]],
     ["nmks"]           = map_cmd('mks! ~/sessions/'),
+    ["nn"]             = map_call('n:call HLNext(0.1)'),
+    ["nN"]             = map_call('N:call HLNext(0.1)'),
     ["nss"]            = map_cmd('so ~/sessions/'),
     ["nssb"]           = map_cmd [[lua require'tools'.sourceSession()]],
     ["nM"]             = map_cmd('silent make'),
-    ["n<F7>"]          = map_cmd('silent so "%"'),
-    ["n<F1>"]          = map_cmd [[silent call Profiler()]],
+    ["ngh"]            = map_cmd('call symbols#ShowDeclaration(0)'),
+    ["n]]"]            = map_cmd('ijump <C-R><C-W>'),
+    ["nsd"]            = map_cmd('call symbols#PreviewWord()'),
+    ["n<F7>"]          = map_cmd('so "%"'),
+    ["n<F1>"]          = map_cmd [[call Profiler()]],
+    ["n<leader>d"]     = map_cmd [[lua require'tools'.openTerminalDrawer(0)]],
+    ["n<leader>D"]     = map_cmd [[lua require'tools'.openTerminalDrawer(1)]],
     ["n<leader>b"]     = map_cmd('Gblame'),
     ["n<leader>B"]     = map_cmd [[silent call git#blame()]],
     ["x<leader>b"]     = map_cmd('Gblame'),
-    ["n<leader>jj"]    = map_cmd('silent ALENext'),
-    ["n<leader>kk"]    = map_cmd('silent ALEPrevious'),
+    ["n<leader>jj"]    = map_cmd('ALENext'),
+    ["n<leader>kk"]    = map_cmd('ALEPrevious'),
+    ["n<leader>gab"]   = map_cmd('SearchBuffers'),
+    ["n<C-p>"]         = map_cmd('Files'),
+    ["n<C-b>"]         = map_cmd('Buffers'),
+    ["n<leader>gab"]   = map_cmd('SearchBuffers'),
+    ["n<leader>lt"]    = map_cmd [[lua require'tools'.listTags()]],
+    ["n<leader>F"]     = map_cmd [[lua require'tools'.simpleMru()]],
+    ["v<leader>g"]      = map_cmd("<C-U>call tools#HighlightRegion('Green')"),
+    ["v<leader>G"]      = map_cmd('<C-U>call tools#UnHighlightRegion('),
+    ["nS"]             = map_no_cr('%s//g<LEFT><LEFT>'),
+    ["vs"]             = map_no_cr('s//g<LEFT><LEFT>'),
     ["nsb"]            = map_no_cr('g//#<Left><Left>'),
     ["ng_"]            = map_no_cr('g//#<Left><Left><C-R><C-W><CR>:'),
-    ["n<leader>gab"]   = map_cmd('silent SearchBuffers'),
-    ["n<C-p>"]         = map_cmd('silent Files'),
-    ["n<C-b>"]         = map_cmd('silent Buffers'),
-    ["n<leader>lt"]    = map_cmd [[silent call symbols#ListTags()]],
-    ["nts"]            = map_no_cr('ts<space>/')
+    ["n<leader>."]     = map_no_cr('Bs<space>'),
+    ["nts"]            = map_no_cr('ts<space>/'),
+    ["n,"]             = map_no_cr('find<space>'),
+    ["n<leader>sp"]    = map_no_cr('SearchProject<space>')
   }
 
   nvim_apply_mappings(mappings, {silent = true})
 end
 
 M.map()
-
