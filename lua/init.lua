@@ -121,7 +121,7 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
-    statusline     = "%#StatusLineModified#%{&mod?expand('%'):''}%*%{&mod?'':expand('%')}%<" .. "%=" .. "%<" .. "%r\\ %L";
+    statusline     = "%#StatusLineModified#%{&mod?expand('%:p:t'):''}%*%{&mod?'':expand('%:p:t')}%<" .. "%=" .. "%<" .. "%r\\ %L";
     fillchars      = "stlnc:»,vert:║,fold:·";
     number         = true;
     pumblend       = 20;
