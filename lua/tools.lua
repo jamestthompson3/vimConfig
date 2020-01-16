@@ -115,6 +115,7 @@ local function onread(err, data)
   end
 end
 
+-- TODO Fix, sometimes output doesn't work
 function M.asyncGrep(term)
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
