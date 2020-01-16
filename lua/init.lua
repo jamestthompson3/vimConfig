@@ -57,9 +57,9 @@ function splashscreen()
     vim.wo[0].cursorline=false
     vim.wo[0].cursorcolumn=false
     vim.wo[0].relativenumber=false
-    -- require 'tools'.simpleMRU()
-    -- api.nvim_command [[:23]]
-    -- api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
+    require 'tools'.simpleMRU()
+    api.nvim_command [[:23]]
+    api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
     vim.bo[0].modified=false
     vim.bo[0].modifiable=false
   else
@@ -208,7 +208,7 @@ local function core_options()
           ft = {
             {"FileType netrw au BufLeave netrw close"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i"};
-            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log(`%c${}`, 'color: ;')<esc>F{a"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log('%c', 'color: ;')<esc>Fca"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
             {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};

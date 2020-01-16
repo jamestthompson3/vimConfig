@@ -57,7 +57,7 @@ function M.map()
     ["n<C-b>"]         = map_cmd('Buffers'),
     ["n<leader>gab"]   = map_cmd('SearchBuffers'),
     ["n<leader>lt"]    = map_cmd [[lua require'tools'.listTags()]],
-    ["n<leader>F"]     = map_cmd [[lua require'tools'.simpleMru()]],
+    ["n<leader>F"]     = map_cmd [[lua require'tools'.simpleMRU()]],
     ["v<leader>g"]      = map_cmd("<C-U>call tools#HighlightRegion('Green')"),
     ["v<leader>G"]      = map_cmd('<C-U>call tools#UnHighlightRegion('),
     ["nS"]             = map_no_cr('%s//g<LEFT><LEFT>'),

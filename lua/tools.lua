@@ -84,7 +84,7 @@ end
 
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = fn.pwd()
+  local cwd = api.nvim_exec('pwd', true)
   for _, file in ipairs(files) do
     -- print(getPath(file))
     if string.match(getPath(file), getPath(cwd)) then
