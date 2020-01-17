@@ -21,8 +21,9 @@ nvim.command [[syntax reset]]
 nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
 
 local highlighMd = "#f5ac46"
+local nontext = "#FFCE5B"
 local match = "#2de2e6"
-local unfinished = "#ff1690"
+local unfinished = "#FB7DA7"
 local search = "#1fff5c"
 local neutralAdd = "#88aa77"
 local neutralDelete = "#aa7766"
@@ -30,21 +31,22 @@ local neutralDiff = "#7788aa"
 local neutralBlock = "#648c9c"
 local attention = "#198cff"
 local title = "Magenta"
-local background = "#353535"
+local background = "#2F343F"
 local normal = "#d2cfcf"
+local mdDark = "#818e8e"
 
 highlight("Comment",          highlighMd, "NONE",     "italic",      "215",  "NONE", "NONE")
-highlight("VertSplit",        "#5e5959",  "NONE",     "NONE",        "240",  "NONE", "NONE")
-highlight("CursorLineNR",     "#9c9695",  "#222020",  "NONE",        "247",  "236",  "NONE")
-highlight("CursorLine",       "NONE",     "#222020",  "NONE",        "NONE", "236",  "NONE")
-highlight("LineNR",           "#5e5959",  "NONE",     "NONE",        "238",  "NONE", "NONE")
+highlight("VertSplit",        mdDark,     "NONE",     "NONE",        "240",  "NONE", "NONE")
+highlight("CursorLineNR",     "NONE",    "NONE",     "NONE",        "247",  "236",  "NONE")
+highlight("CursorLine",       "NONE",     background,  "NONE",        "NONE", "236",  "NONE")
+highlight("LineNR",           mdDark,     "NONE",     "NONE",        "238",  "NONE", "NONE")
 highlight("Search",           "#16161d",  search,     "italic",      "0",    "172",  "NONE")
 highlight("MatchParen",       match,      "#16161d",  "bold",        "81",   "NONE", "NONE")
 highlight("MatchWord",        match,      "#16161d",  "bold",        "81",   "NONE", "NONE")
 highlight("NormalFloat",      match,      "#16161d",  "NONE",        "81",   "NONE", "NONE")
 highlight("Normal",           normal,     "#16161d",  "NONE",        "255",  "NONE", "NONE")
 highlight("TabLineFill",      normal,     "#000000",  "NONE",        "255",  "NONE", "NONE")
-highlight("StatusLineNC",     "#5e5959",  "NONE",     "underline",   "238",  "NONE", "NONE")
+highlight("StatusLineNC",     mdDark,     "NONE",     "underline",   "238",  "NONE", "NONE")
 highlight("StatusLine",       normal,     "#16161d",  "NONE",        "255",  "0",    "NONE")
 highlight("TabLine",          normal,     "#000000",  "NONE",        "255",  "0",    "NONE")
 highlight("Visual",           highlighMd, "#787271",  "NONE",        "NONE", "NONE", "NONE")
@@ -52,9 +54,9 @@ highlight("Todo",             "White",     unfinished,"bold",        "15",   "20
 highlight("Pmenu",            "#9c9695",  "#171616",  "NONE",        "249",  "232",  "NONE")
 highlight("PmenuSel",         "#393636",  "#787271",  "NONE",        "237",  "250",  "NONE")
 highlight("PmenuThumb",       "NONE",     "#393636",  "NONE",        "NONE", "NONE", "NONE")
-highlight("NormalNC",         "#5e5959",  "NONE",     "NONE",        "240",  "NONE", "NONE")
-highlight("NonText",          neutralDiff,"NONE",     "NONE",       "237",  "NONE", "NONE")
-highlight("Whitespace",       background, "NONE",     "NONE",       "237",  "NONE", "NONE")
+highlight("NormalNC",         mdDark,     "NONE",     "NONE",        "240",  "NONE", "NONE")
+highlight("NonText",          nontext,    "NONE",     "NONE",        "237",  "NONE", "NONE")
+highlight("Whitespace",       background, "NONE",     "NONE",        "237",  "NONE", "NONE")
 highlight("WildMenu",         "#16161d",  normal,     "NONE",        "NONE", "NONE", "NONE")
 highlight("SpellBad",         "Red",      "NONE",     "NONE",        "9",    "NONE", "NONE")
 highlight("SpellRare",        attention,  "NONE",     "NONE",        "12",   "NONE", "NONE")
@@ -74,7 +76,7 @@ highlight("Statement",        "NONE",     "NONE",     "NONE",       "NONE",  "NO
 highlight("Type",             "NONE",     "NONE",     "bold",       "NONE",  "NONE",  "NONE")
 highlight("Directory",        "NONE",     "NONE",     "bold",       "NONE",  "NONE",  "NONE")
 highlight("Underlined",       "NONE",     "NONE",     "underline",  "NONE",  "NONE",  "NONE")
-highlight("Title",            title,      "NONE",     "bold",       "15",  "NONE",  "NONE")
+highlight("Title",            title,      "NONE",     "bold",       "15",    "NONE",  "NONE")
 highlight("Special",          "NONE",     "NONE",     "italic",     "NONE",  "NONE",  "NONE")
 highlight("ConstStrings",     attention,  "NONE",     "bold",       "NONE",  "NONE",  "NONE")
 highlight("ReturnStatement",  attention,  "NONE",     "NONE",       "NONE",  "NONE",  "NONE")

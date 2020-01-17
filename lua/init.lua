@@ -54,9 +54,8 @@ function splashscreen()
     vim.bo[0].buflisted=false
     vim.bo[0].matchpairs=''
     api.nvim_command [[setl nonumber]]
-    vim.wo[0].cursorline=false
+    api.nvim_command [[setl nocursorline]]
     vim.wo[0].cursorcolumn=false
-    vim.wo[0].relativenumber=false
     require 'tools'.simpleMRU()
     api.nvim_command [[:23]]
     api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})

@@ -84,18 +84,15 @@ end
 
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = api.nvim_exec('pwd', true)
-  for _, file in ipairs(files) do
-    -- print(getPath(file))
-    if string.match(getPath(file), getPath(cwd)) then
-      print(file:gsub(getPath(cwd), ''))
+  local cwd = getPath(api.nvim_exec('pwd', true))
+  for i, file in ipairs(files) do
+    if not vim.startswith(file, 'term://') and string.match(getPath(file), cwd) then
+      local splitvals = vim.split(file, "/")
+      local fname = splitvals[#splitvals]
+      api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(fname)))
     end
-    if not vim.startswith(file, 'term://') and string.match(getPath(file), getPath(cwd)) then
-      local prettyName = file:gsub(cwd, ".")
-      api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(prettyName)))
-    end
-    api.nvim_command[[:1]]
   end
+  api.nvim_command[[:1]]
 end
 
 function M.listTags()

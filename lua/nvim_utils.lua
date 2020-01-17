@@ -12,7 +12,8 @@ file_separator = is_windows and '\\' or '/'
 is_windows = vim.loop.os_uname().version:match("Windows")
 
 function getPath(str)
-  return str:match("(.*[/\\])")
+  local s = str:gsub("%-","")
+  return s:match("(.*[/\\])")
 end
 
 -- TODO I fucking didn't know that vim.api.nvim_buf_* methods could take 0
