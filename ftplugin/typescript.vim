@@ -9,7 +9,7 @@ setl omnifunc=v:lua.vim.lsp.omnifunc
 nnoremap <silent> ge <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
-
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
