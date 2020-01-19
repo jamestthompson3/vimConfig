@@ -640,15 +640,15 @@ function setOptions(options)
 end
 
 
-function map_cmd(...)
-  return { ("<Cmd>%s<CR>"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
+function map_cmd(cmd_string, buflocal)
+  return { ("<Cmd>%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
 end
 
-function map_call(...)
-  return { ("%s<CR>"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
+function map_call(cmd_string, buflocal)
+  return { ("%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
 end
 
-function map_no_cr(...)
-  return { (":%s"):format(table.concat(vim.tbl_flatten {...}, " ")), noremap = true; }
+function map_no_cr(cmd_string, buflocal)
+  return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
 end
 

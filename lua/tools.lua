@@ -85,7 +85,7 @@ end
 function M.simpleMRU()
   local files = vim.v.oldfiles
   local cwd = getPath(api.nvim_exec('pwd', true))
-  for i, file in ipairs(files) do
+  for _, file in ipairs(files) do
     if not vim.startswith(file, 'term://') and string.match(getPath(file), cwd) then
       local splitvals = vim.split(file, "/")
       local fname = splitvals[#splitvals]

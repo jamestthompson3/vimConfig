@@ -43,7 +43,7 @@ highlight("LineNR",           mdDark,     "NONE",     "NONE",        "238",  "NO
 highlight("Search",           "#16161d",  search,     "italic",      "0",    "172",  "NONE")
 highlight("MatchParen",       match,      "#16161d",  "bold",        "81",   "NONE", "NONE")
 highlight("MatchWord",        match,      "#16161d",  "bold",        "81",   "NONE", "NONE")
-highlight("NormalFloat",      match,      "#16161d",  "NONE",        "81",   "NONE", "NONE")
+highlight("NormalFloat",      normal,      "#16161d",  "NONE",        "81",   "NONE", "NONE")
 highlight("Normal",           normal,     "#16161d",  "NONE",        "255",  "NONE", "NONE")
 highlight("TabLineFill",      normal,     "#000000",  "NONE",        "255",  "NONE", "NONE")
 highlight("StatusLineNC",     mdDark,     "NONE",     "underline",   "238",  "NONE", "NONE")

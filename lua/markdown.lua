@@ -32,11 +32,11 @@ local options = {
 }
 
 local mappings = {
-  ["nj"]            = {'gj', noremap = true},
-  ["nk"]            = {'gk', noremap = true},
-  ["ngh"]           = map_cmd("lua require'markdown'.previewLinkedPage()"),
-  ["n<leader>r"]    = map_cmd("lua require'markdown'.asyncDocs()"),
-  ["n<leader><CR>"] = map_cmd("call waikiki#FollowLink()")
+  ["nj"]            = {'gj', noremap = true, buffer = true},
+  ["nk"]            = {'gk', noremap = true, buffer = true},
+  ["ngh"]           = map_cmd("lua require'markdown'.previewLinkedPage()", true),
+  ["n<leader>r"]    = map_cmd("lua require'markdown'.asyncDocs()", true),
+  ["n<leader><CR>"] = map_cmd("call waikiki#FollowLink()", true)
 }
 
 function M.asyncDocs()
