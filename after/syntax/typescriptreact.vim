@@ -15,9 +15,10 @@ endif
 syntax region  typescriptComment start="/\*"  end="\*/" contains=@Spell,typescriptCommentTodo extend
 syntax region  typescriptString start=+\z(["']\)+  skip=+\\\%(\z1\|$\)+  end=+\z1+ end=+$+ contains=typescriptSpecial,@Spell extend
 syntax match   typescriptSpecial            contained "\v\\%(x\x\x|u%(\x{4}|\{\x{4,5}})|c\u|.)"
+syntax match   typescriptCommentTodo contained "\ctodo\|fixme"
 
 " refine the javascript line comment
-syntax region javaScriptLineComment start=+//+ end=/$/ contains=@Spell,javascriptCommentTodo extend keepend
+syntax region javaScriptLineComment start=+//+ end=/$/ contains=@Spell,javascriptCommentTodo,typescriptCommentTodo extend keepend
 " add a javaScriptBlock group for build-in syntax
 syntax region javaScriptBlockBuildIn
       \ contained
@@ -299,3 +300,4 @@ hi def link styledXmlRegionKeyword     Type
 hi def link styledXmlRegionNoise       Noise
 hi def link styledXmlRegion            String
 hi def link typescriptComment          Comment
+hi def link typescriptCommentTodo      Todo
