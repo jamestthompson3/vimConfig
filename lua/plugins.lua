@@ -23,6 +23,7 @@ vim.g.pear_tree_smart_closers = 1
 vim.g.pear_tree_smart_backspace = 1
 vim.g.pear_tree_timeout = 60
 vim.g.pear_tree_repeatable_expand = 1
+vim.g.pear_tree_map_special_keys = 1
 vim.g.gutentags_file_list_command = 'fd . -c never'
 vim.g.gutentags_cache_dir = '~/.cache/'
 vim.g.gutentags_project_root = {'Cargo.toml'}
@@ -36,12 +37,6 @@ vim.g.matchup_matchparen_deferred = 1
 vim.g.matchup_match_paren_timeout = 100
 vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
-vim.g.pear_tree_smart_openers = 1
-vim.g.pear_tree_smart_closers = 1
-vim.g.pear_tree_smart_backspace = 1
-vim.g.pear_tree_timeout = 60
-vim.g.pear_tree_repeatable_expand = 1
-vim.g.pear_tree_map_special_keys = 0
 vim.g.rainbow_pairs = [[ ['(', ')'], ['[', ']'], ['{', '}'] ]]
 vim.g.fzf_layout = { window = 'lua NavigationFloatingWin()'}
 

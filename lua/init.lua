@@ -207,7 +207,7 @@ local function core_options()
           ft = {
             {"FileType netrw au BufLeave netrw close"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i"};
-            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log('%c', 'color: ;')<esc>Fca"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log('%c', 'color: ;')<esc>F%la"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
             {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};

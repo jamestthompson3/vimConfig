@@ -62,7 +62,7 @@ end
 function M.createSessionName()
   local sessionName = gitBranch()
   local currDir = os.getenv('PWD')
-  if not sessionName == '' or sessionName == 'master'then
+  if not sessionName == '' or sessionName == 'master' then
     -- TODO doesn't work at all
     return "" --currDir
   else
@@ -78,7 +78,8 @@ end
 
 function M.sourceSession()
   local sessionName = M.createSessionName()
-  local cmd = string.format("so! %s%s.vim", sessionPath, sessionName)
+  print(string.format("so %s%s.vim", sessionPath, sessionName))
+  local cmd = string.format("so %s%s.vim", sessionPath, sessionName)
   api.nvim_command(cmd)
 end
 

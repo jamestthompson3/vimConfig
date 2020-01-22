@@ -1,8 +1,8 @@
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-let g:mucomplete#chains.typescript = [ 'omni','keyn', 'keyp','tags','c-p','c-n', 'file','path']
-let g:mucomplete#chains['typescriptreact'] = ['omni','keyn', 'keyp', 'tags','c-p', 'c-n', 'file','path']
+let g:mucomplete#chains.typescript = [ 'keyn', 'keyp','omni','tags','c-p','c-n', 'file','path']
+let g:mucomplete#chains['typescriptreact'] = ['keyn', 'keyp', 'omni','tags','c-p', 'c-n', 'file','path']
 
 set formatoptions+=o
 setl omnifunc=v:lua.vim.lsp.omnifunc
