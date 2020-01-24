@@ -5,12 +5,14 @@ let g:mucomplete#chains.typescript = [ 'keyn', 'keyp','omni','tags','c-p','c-n',
 let g:mucomplete#chains['typescriptreact'] = ['keyn', 'keyp', 'omni','tags','c-p', 'c-n', 'file','path']
 
 set formatoptions+=o
-setl omnifunc=v:lua.vim.lsp.omnifunc
+" temp
+" setl omnifunc=v:lua.vim.lsp.omnifunc
 
 nnoremap <silent> ge <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent><leader>f    <cmd>lua vim.lsp.buf.formatting()<CR>
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
@@ -41,6 +43,47 @@ if !exists('b:did_typescript_setup')
     " autocmd BufWritePost <buffer>  call TSLint()
   augroup END
   " let l:errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+  "TAGBAR:
+  let g:tagbar_type_typescript = {
+        \ 'ctagstype' : 'typescript',
+        \ 'kinds'     : [
+        \ 'f:functions',
+        \ 'c:classes',
+        \ 'i:interfaces',
+        \ 'g:enums',
+        \ 'e:enumerators',
+        \ 'm:methods',
+        \ 'n:namespaces',
+        \ 'p:properties',
+        \ 'v:variables',
+        \ 'C:constants',
+        \ 'G:generators',
+        \ 'a:aliases',
+        \ ],
+        \ 'sro'        : '.',
+        \ 'kind2scope' : {
+        \ 'c' : 'classes',
+        \ 'a' : 'aliases',
+        \ 'f' : 'functions',
+        \ 'v' : 'variables',
+        \ 'm' : 'methods',
+        \ 'i' : 'interfaces',
+        \ 'e' : 'enumerators',
+        \ 'enums'      : 'g'
+        \ },
+        \ 'scope2kind' : {
+        \ 'classes'    : 'c',
+        \ 'aliases'    : 'a',
+        \ 'functions'  : 'f',
+        \ 'variables'  : 'v',
+        \ 'methods'    : 'm',
+        \ 'interfaces' : 'i',
+        \ 'enumerators'      : 'e',
+        \ 'enums'      : 'g'
+        \ }
+        \ }
+
+  let g:tagbar_type_typescriptreact = g:tagbar_type_typescript
   let b:did_typescript_setup = 1
 endif
 

@@ -54,7 +54,7 @@ function M.replaceQf(term1, term2)
 end
 
 function M.grepBufs(term)
-  local cmd = string.format("silent bufdo grepadd %s %", term)
+  local cmd = string.format("silent bufdo vimgrepadd %s %", term)
   api.nvim_command(cmd)
 end
 
@@ -63,7 +63,6 @@ function M.createSessionName()
   local sessionName = gitBranch()
   local currDir = os.getenv('PWD')
   if not sessionName == '' or sessionName == 'master' then
-    -- TODO doesn't work at all
     return "" --currDir
   else
     return sessionName

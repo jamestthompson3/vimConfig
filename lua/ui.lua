@@ -109,3 +109,4 @@ highlight("ALEVirtualTextError",        "#ff4444", "NONE", "NONE",  "203", "NONE
 nvim.command [[hi! link ALEVirtualTextInfo  Comment]]
 nvim.command [[hi! link StatusLineModified Todo]]
 nvim.command [[hi! link Folded DiffChange]]
+nvim.command [[hi! link LspDiagnosticsUnderlineError ALEError]]

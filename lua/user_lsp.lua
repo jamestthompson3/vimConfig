@@ -127,6 +127,7 @@ function M.diagnostics_callback(_, _, result)
     end
     lsps_diagnostics[bufnr] = result.diagnostics
     M.buf_show_diagnostics(bufnr)
+    util.buf_diagnostics_underline(bufnr, result.diagnostics)
 end
 
 if not sign_defined then

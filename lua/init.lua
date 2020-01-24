@@ -207,7 +207,7 @@ local function core_options()
           ft = {
             {"FileType netrw au BufLeave netrw close"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i"};
-            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log('%c', 'color: ;')<esc>F%la"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log('%c%o', 'color: ;')<esc>F%;la"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
             {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};
@@ -261,7 +261,7 @@ local function core_options()
         nvim.command [[command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")]]
         nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
         nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tools'.replaceQf(<f-args>)]]
-        nvim.command [[command! -bang SearchBuffers lua require'tools'.grepBufs(<f-args>)]]
+        nvim.command [[command! -bang SearchBuffers lua require'tools'.grepBufs(<q-args>)]]
         nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
         nvim.command [[command! PackagerInstall call tools#PackagerInit() | call packager#install()]]
         nvim.command [[command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })]]
