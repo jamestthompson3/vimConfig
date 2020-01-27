@@ -34,6 +34,7 @@ local title = "Magenta"
 local background = "#2F343F"
 local normal = "#d2cfcf"
 local mdDark = "#818e8e"
+local vtext = "#2f2f30"
 
 highlight("Comment",          highlighMd, "NONE",     "italic",      "215",  "NONE", "NONE")
 highlight("VertSplit",        mdDark,     "NONE",     "NONE",        "240",  "NONE", "NONE")
@@ -45,6 +46,7 @@ highlight("MatchParen",       match,      "#16161d",  "bold",        "81",   "NO
 highlight("MatchWord",        match,      "#16161d",  "bold",        "81",   "NONE", "NONE")
 highlight("NormalFloat",      normal,      "#16161d",  "NONE",        "81",   "NONE", "NONE")
 highlight("Normal",           normal,     "#16161d",  "NONE",        "255",  "NONE", "NONE")
+highlight("GitLens",          mdDark,      "NONE",     "NONE",        "255",  "NONE", "NONE")
 highlight("TabLineFill",      normal,     "#000000",  "NONE",        "255",  "NONE", "NONE")
 highlight("StatusLineNC",     mdDark,     "NONE",     "underline",   "238",  "NONE", "NONE")
 highlight("StatusLine",       normal,     "#16161d",  "NONE",        "255",  "0",    "NONE")

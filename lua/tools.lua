@@ -14,6 +14,35 @@ function M.openQuickfix()
   api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
 
+function M.blameVirtText()
+  local ft = vim.fn.expand('%:h:t')
+  if ft == '' then
+    return
+  end
+  if ft == 'bin' then
+    return
+  end
+  api.nvim_buf_clear_namespace(0, 2, 0, -1)
+  local currFile = vim.fn.expand('%')
+  local line = api.nvim_win_get_cursor(0)
+  local blame = vim.fn.system(string.format('git blame -c -L %d,%d %s', line[1], line[1], currFile))
+  local hash = vim.split(blame, '%s')[1]
+  local cmd = string.format("git show %s ", hash).."--format='%an | %ar | %s'"
+  if hash == '00000000' then
+    text = 'Not Committed Yet'
+  else
+    text = vim.fn.system(cmd)
+    text = vim.split(text, '\n')[1]
+  end
+  api.nvim_buf_set_virtual_text(0, 2, line[1] - 1, {{ text,'GitLens' }}, {})
+end
+
+function M.clearBlameVirtText()
+  api.nvim_buf_clear_namespace(0, 2, 0, -1)
+end
+
+M.blameVirtText()
+
 function M.openTerminalDrawer(floating)
   if floating == 1 then
     NavigationFloatingWin()
@@ -39,8 +68,8 @@ function M.deleteFile()
 end
 
 function M.listFiles(pattern)
-    vim.fn.setqflist({}, 'r', {title = 'Files', lines = results, efm = '%f'})
-    nvim.command[[copen]]
+  vim.fn.setqflist({}, 'r', {title = 'Files', lines = results, efm = '%f'})
+  nvim.command[[copen]]
 end
 
 function M.makeScratch()
@@ -82,7 +111,6 @@ end
 
 function M.sourceSession()
   local sessionName = M.createSessionName()
-  print(string.format("so %s%s.vim", sessionPath, sessionName))
   local cmd = string.format("so %s%s.vim", sessionPath, sessionName)
   api.nvim_command(cmd)
 end

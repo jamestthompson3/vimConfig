@@ -202,6 +202,9 @@ local function core_options()
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
             {"QuickFixCmdPost", "[^l]*", [[nested lua require'tools'.openQuickfix()]]};
             {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
+            {"CursorHold",         "*",     [[lua require'tools'.blameVirtText()]]};
+            {"CursorMoved",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
+            {"CursorMovedI",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
             {"FocusGained", "*", "checktime"};
           };
           ft = {
@@ -258,7 +261,7 @@ local function core_options()
         nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
         nvim.command [[command! Diff call git#diff()]]
         nvim.command [[command! TDiff call git#threeWayDiff()]]
-        nvim.command [[command! -range Gblame echo join(systemlist("git blame -L <line1>,<line2> " . expand('%')), "\n")]]
+        nvim.command [[command! Gblame lua require'tools'.blameVirtText() ]]
         nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
         nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tools'.replaceQf(<f-args>)]]
         nvim.command [[command! -bang SearchBuffers lua require'tools'.grepBufs(<q-args>)]]
