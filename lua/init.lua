@@ -270,6 +270,7 @@ local function core_options()
         nvim.command [[command! CSBuild call symbols#buildCscopeFiles()]]
         nvim.command [[command! PackagerStatus call tools#PackagerInit() | call packager#status()]]
         nvim.command [[command! MarkMargin call MarkMargin()]]
+        nvim.command [[command! -nargs=+ ListFiles lua require'tools'.listFiles(<q-args>)]]
       end
 
       local modules_folder = 'modules' .. file_separator

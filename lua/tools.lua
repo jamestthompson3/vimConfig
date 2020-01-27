@@ -38,6 +38,11 @@ function M.deleteFile()
   api.nvim_input('R')
 end
 
+function M.listFiles(pattern)
+    vim.fn.setqflist({}, 'r', {title = 'Files', lines = results, efm = '%f'})
+    nvim.command[[copen]]
+end
+
 function M.makeScratch()
   api.nvim_command [[enew]]
   vim.bo[0].buftype='nofile'
