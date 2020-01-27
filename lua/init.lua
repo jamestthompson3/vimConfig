@@ -202,7 +202,7 @@ local function core_options()
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
             {"QuickFixCmdPost", "[^l]*", [[nested lua require'tools'.openQuickfix()]]};
             {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
-            {"CursorHold",         "*",     [[lua require'tools'.blameVirtText()]]};
+            -- {"CursorHold",         "*",     [[lua require'tools'.blameVirtText()]]};
             {"CursorMoved",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
             {"CursorMovedI",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
             {"FocusGained", "*", "checktime"};
