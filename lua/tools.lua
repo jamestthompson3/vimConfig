@@ -22,7 +22,7 @@ function M.blameVirtText()
   if ft == 'bin' then
     return
   end
-  api.nvim_buf_clear_namespace(0, 2, 0, -1)
+  api.nvim_buf_clear_namespace(0, 99, 0, -1)
   local currFile = vim.fn.expand('%')
   local line = api.nvim_win_get_cursor(0)
   local blame = vim.fn.system(string.format('git blame -c -L %d,%d %s', line[1], line[1], currFile))
@@ -33,15 +33,17 @@ function M.blameVirtText()
   else
     text = vim.fn.system(cmd)
     text = vim.split(text, '\n')[1]
+    if text:gmatch("fatal") then
+      text = 'Not Committed Yet'
+    end
   end
-  api.nvim_buf_set_virtual_text(0, 2, line[1] - 1, {{ text,'GitLens' }}, {})
+  api.nvim_buf_set_virtual_text(0, 99, line[1] - 1, {{ text,'GitLens' }}, {})
 end
 
 function M.clearBlameVirtText()
-  api.nvim_buf_clear_namespace(0, 2, 0, -1)
+  api.nvim_buf_clear_namespace(0, 99, 0, -1)
 end
 
-M.blameVirtText()
 
 function M.openTerminalDrawer(floating)
   if floating == 1 then
