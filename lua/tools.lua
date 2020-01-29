@@ -15,7 +15,7 @@ function M.openQuickfix()
 end
 
 function M.blameVirtText()
-  local ft = vim.fn.expand('%:h:t')
+  local ft = fn.expand('%:h:t')
   if ft == '' then
     return
   end
@@ -23,15 +23,15 @@ function M.blameVirtText()
     return
   end
   api.nvim_buf_clear_namespace(0, 99, 0, -1)
-  local currFile = vim.fn.expand('%')
+  local currFile = fn.expand('%')
   local line = api.nvim_win_get_cursor(0)
-  local blame = vim.fn.system(string.format('git blame -c -L %d,%d %s', line[1], line[1], currFile))
+  local blame = fn.system(string.format('git blame -c -L %d,%d %s', line[1], line[1], currFile))
   local hash = vim.split(blame, '%s')[1]
   local cmd = string.format("git show %s ", hash).."--format='%an | %ar | %s'"
   if hash == '00000000' then
     text = 'Not Committed Yet'
   else
-    text = vim.fn.system(cmd)
+    text = fn.system(cmd)
     text = vim.split(text, '\n')[1]
     if text:gmatch("fatal") then
       text = 'Not Committed Yet'
@@ -70,7 +70,7 @@ function M.deleteFile()
 end
 
 function M.listFiles(pattern)
-  vim.fn.setqflist({}, 'r', {title = 'Files', lines = results, efm = '%f'})
+  fn.setqflist({}, 'r', {title = 'Files', lines = results, efm = '%f'})
   nvim.command[[copen]]
 end
 
@@ -152,7 +152,7 @@ function M.asyncGrep(term)
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
   local function setQF()
-    vim.fn.setqflist({}, 'r', {title = 'Search Results', lines = results})
+    fn.setqflist({}, 'r', {title = 'Search Results', lines = results})
     api.nvim_command [[ cwindow ]]
     local count = #results
     for i=0, count do results[i]=nil end -- clear the table
