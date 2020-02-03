@@ -49,6 +49,7 @@ function M.map()
     ["n<leader>D"]     = map_cmd [[lua require'tools'.openTerminalDrawer(1)]],
     ["n<leader>b"]     = map_cmd('Gblame'),
     ["n<leader>B"]     = map_cmd [[silent call git#blame()]],
+    ["n<leader>w"]     = map_cmd('MatchupWhereAmI'),
     ["x<leader>b"]     = map_cmd('Gblame'),
     ["n<leader>jj"]    = map_cmd('ALENext'),
     ["n<leader>kk"]    = map_cmd('ALEPrevious'),

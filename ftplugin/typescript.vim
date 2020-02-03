@@ -1,18 +1,21 @@
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-let g:mucomplete#chains.typescript = [ 'keyn', 'keyp','omni','tags','c-p','c-n', 'file','path']
-let g:mucomplete#chains['typescriptreact'] = ['keyn', 'keyp', 'omni','tags','c-p', 'c-n', 'file','path']
+let g:mucomplete#chains.typescript = [ 'keyn', 'keyp','tags','omni','c-p','c-n', 'file','path']
+let g:mucomplete#chains['typescriptreact'] = ['keyn', 'keyp', 'tags','omni','c-p', 'c-n', 'file','path']
+packadd tagbar
 
 set formatoptions+=o
 " temp
-" setl omnifunc=v:lua.vim.lsp.omnifunc
+setl omnifunc=v:lua.vim.lsp.omnifunc
 
 nnoremap <silent> ge <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent><leader>f    <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <leader>r    <cmd>lua vim.lsp.buf.rename()<CR>
+
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99

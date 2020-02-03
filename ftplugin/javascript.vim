@@ -3,8 +3,8 @@ scriptencoding utf-8
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-let g:mucomplete#chains.javascript = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
-let g:mucomplete#chains['javascript.jsx'] = ['omni','keyn', 'keyp', 'c-p', 'c-n', 'tags', 'file','path', 'ulti']
+let g:mucomplete#chains.javascript = ['keyn', 'keyp', 'tags','omni','c-p', 'c-n', 'file','path', 'ulti']
+let g:mucomplete#chains['javascript.jsx'] = ['keyn', 'keyp', 'tags','omni','c-p', 'c-n','file','path', 'ulti']
 
 let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
@@ -12,13 +12,12 @@ let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 let g:vim_json_syntax_conceal = 0
 
-" lua require('lsp_setup').ecma_setup()
-
 nnoremap <silent>K :call tools#ListTags()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <leader>h <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <leader>r    <cmd>lua vim.lsp.buf.rename()<CR>
 
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\)
