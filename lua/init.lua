@@ -100,6 +100,7 @@ local function core_options()
     encoding        = "UTF-8";
     fileformat      = 'unix';
     diffopt         = "hiddenoff,iwhiteall,algorithm:patience";
+    nrformats       = "bin,hex,alpha";
     wildmode        = "full";
     grepprg         = [[rg\ --smart-case\ --vimgrep]];
     virtualedit     = "block";
@@ -239,6 +240,7 @@ local function core_options()
             { "BufRead,BufNewFile", "*/nginx/*.conf","set ft=nginx"};
             { "BufNewFile,BufRead", "*.bat,*.sys", "set ft=dosbatch"};
             { "BufNewFile,BufRead", "*.mm,*.m", "set ft=objc"};
+            { "BufNewFile,BufRead", "*.pu,*.uml,*.plantuml,*.puml,*.iuml", "packadd plantuml-syntax | packadd vim-slumlord | set ft=plantuml"};
             { "BufNewFile,BufRead", "*.h,*.m,*.mm","set tags+=~/global-objc-tags"};
             { "BufNewFile,BufRead", "*.tsx", "setlocal commentstring=//%s"};
             { "BufNewFile,BufRead", "*.svelte", "setfiletype html"};

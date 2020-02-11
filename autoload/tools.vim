@@ -146,6 +146,7 @@ function! tools#PackagerInit() abort
   call packager#add('thinca/vim-localrc')
   call packager#add('junegunn/fzf.vim')
 
+  call packager#add('aklt/plantuml-syntax', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
@@ -161,6 +162,7 @@ function! tools#PackagerInit() abort
   call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
+  call packager#add('scrooloose/vim-slumlord', { 'type': 'opt' })
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
