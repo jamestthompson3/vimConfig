@@ -19,6 +19,7 @@ function M.map()
     ["nwq"]            = map_cmd('close'),
     ["ncc"]            = map_cmd('cclose'),
     ["ngl"]            = map_cmd('pc'),
+    ["ngf"]            = map_cmd('e <cfile>'),
     ["n<leader><tab>"] = map_cmd('bn'),
     ["n[a"]            = map_cmd('prev'),
     ["n]a"]            = map_cmd('next'),
