@@ -33,7 +33,7 @@ function M.blameVirtText()
   else
     text = fn.system(cmd)
     text = vim.split(text, '\n')[1]
-    if text:gmatch("fatal") then
+    if text:find("fatal") then
       text = 'Not Committed Yet'
     end
   end
