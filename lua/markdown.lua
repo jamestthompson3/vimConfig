@@ -43,7 +43,7 @@ function M.asyncDocs()
   local shortname = vim.fn.expand('%:t:r')
   local fullname = api.nvim_buf_get_name(0)
   spawn('pandoc', {
-    args = {fullname, '--to=html5', '-o', string.format('%s.html', shortname), '-s', '--highlight-style', 'tango', '-c', 'notes.css'}
+    args = {fullname, '--from', 'gfm', '--to=html5', '-o', string.format('%s.html', shortname), '-s', '--highlight-style', 'tango', '-c', '$NOTES_DIR/notes.css'}
   }, function()
     print('FILE CONVERSION COMPLETE')
   end)
