@@ -89,6 +89,11 @@ function M.replaceQf(term1, term2)
   api.nvim_command(cmd)
 end
 
+function M.fastFind(pattern)
+  local files = "fd --color never --type f "..pattern
+  api.nvim_command(vim.trim(string.format('args `=systemlist("%s")`', files)))
+end
+
 function M.grepBufs(term)
   local cmd = string.format("silent bufdo vimgrepadd %s %", term)
   api.nvim_command(cmd)
