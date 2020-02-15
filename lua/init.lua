@@ -198,6 +198,7 @@ local function core_options()
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
+            {"TermClose",       "*",      [[lua vim.fn.feedkeys("i") ]]};
             {"BufAdd",          "*",      [[lua require'plugins']]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};

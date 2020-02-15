@@ -55,6 +55,12 @@ function M.openTerminalDrawer(floating)
   api.nvim_input('i')
 end
 
+function M.lazyGit()
+  NavigationFloatingWin()
+  api.nvim_command [[ term lazygit ]]
+  api.nvim_input('i')
+end
+
 function M.renameFile()
   local oldName = api.nvim_get_current_line()
   local input_cmd = string.format("input('Rename: ', '%s', 'file')", oldName)
