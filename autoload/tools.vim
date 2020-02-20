@@ -152,7 +152,7 @@ function! tools#PackagerInit() abort
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('fcpg/vim-waikiki', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
-  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
+  call packager#add('junegunn/fzf', { 'do': 'call fzf#install()'})
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })

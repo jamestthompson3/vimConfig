@@ -35,7 +35,7 @@ function! HLNext (blinktime) abort
 endfunction
 
 "Cscope
-nnoremap <leader>f :silent! cs find 0 <C-R>=expand("<cword>")<CR><CR>
+" nnoremap <leader>f :silent! cs find 0 <C-R>=expand("<cword>")<CR><CR>
 
 " Blocks:
 vnoremap <silent><up>    :m '<-2<cr>gv=gv
