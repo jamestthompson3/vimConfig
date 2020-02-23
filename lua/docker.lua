@@ -6,13 +6,14 @@ local util = require 'nvim_lsp/util'
 
 local M = {}
 
+dockerId = ""
 local function onread(err, data)
   if err then
     print('ERROR: ', err)
     -- TODO handle err
   end
   if data then
-    print('id: ', data)
+    dockerId = data
   end
 end
 
@@ -75,14 +76,15 @@ local function runContainer(name)
   handle = loop.spawn('docker', {
     args = args,
     stdio = {stdout,stderr}
-  }, function()
+  }, vim.schedule_wrap(function()
     stdout:read_stop()
     stderr:read_stop()
     stdout:close()
     stderr:close()
     handle:close()
     print(string.format("Container %s started succesfully", name.name))
-  end)
+    vim.g.currentContainer = fn.system(string.format("docker inspect --format '{{.Name}}' %s", dockerId)):gsub("/", "")
+  end))
   loop.read_start(stdout, onread)
   loop.read_start(stderr, onread)
 end
