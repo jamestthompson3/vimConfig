@@ -11,6 +11,10 @@ VISUAL_MODE = {
 file_separator = is_windows and '\\' or '/'
 is_windows = vim.loop.os_uname().version:match("Windows")
 
+function log(item)
+  print(vim.inspect(item))
+end
+
 --- Check if a file or directory exists in this path
 function exists(file)
   local ok, err, code = os.rename(file, file)
