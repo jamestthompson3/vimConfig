@@ -2,24 +2,6 @@ require 'nvim_utils'
 local api = vim.api
 local home = os.getenv("HOME")
 
---- Check if a file or directory exists in this path
-local function exists(file)
-  local ok, err, code = os.rename(file, file)
-  if not ok then
-    if code == 13 then
-      -- Permission denied, but it exists
-      return true
-    end
-  end
-  return ok, err
-end
-
---- Check if a directory exists in this path
-local function isdir(path)
-  -- "/" works on both Unix and Windows
-  return exists(path.."/")
-end
-
 local function create_backup_dir()
   local data_dir = home .. '/.cache/Vim/'
   local backup_dir = data_dir .. 'backup'
@@ -186,6 +168,7 @@ local function core_options()
         api.nvim_command [[ iabbrev improt  import ]]
         api.nvim_command [[ iabbrev slef    self ]]
         api.nvim_command [[ iabbrev teh     the ]]
+        api.nvim_command [[ iabbrev tehn     then ]]
         api.nvim_command [[ iabbrev hadnler handler ]]
         api.nvim_command [[ iabbrev bunlde  bundle ]]
 

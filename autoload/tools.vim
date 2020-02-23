@@ -129,16 +129,6 @@ function! tools#CombineSelection(line1, line2, cp)
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
 
-function! s:cmd() abort
-  if executable("xdg-open")
-    return "xdg-open"
-  endif
-  if executable("open")
-    return "open"
-  endif
-  return "explorer"
-endfunction
-
 function! tools#PackagerInit() abort
   packadd vim-packager
   call packager#init()
