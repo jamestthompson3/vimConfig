@@ -1,5 +1,4 @@
 require 'nvim_utils'
-require 'navigation'
 local api = vim.api
 local fn = vim.fn
 local loop = vim.loop
@@ -8,13 +7,12 @@ local util = require 'nvim_lsp/util'
 local M = {}
 
 local function onread(err, data)
-  print("Calling on read", err, data)
   if err then
     print('ERROR: ', err)
     -- TODO handle err
   end
   if data then
-    print('DATA: ', data)
+    print('id: ', data)
   end
 end
 
@@ -57,10 +55,25 @@ local function runContainer(name)
   else
     workspace = parsedConfig.workspaceMount
   end
+  if parsedConfig.runArgs then
+    cmd = parsedConfig.runArgs
+  else
+    cmd = '/bin/sh'
+  end
   local mountFolder = string.format("%s:%s", workspace, parsedConfig.workspaceFolder)
-  log(mountFolder)
+  local initialArgs = {'run', '-id','-v', mountFolder}
+  if not parsedConfig.forwardPorts or fn.len(parsedConfig.forwardPorts) == 0 then
+    args = fn.extend(initialArgs, {name.image, cmd})
+  else
+    portBindings = {}
+    for _, port in pairs(parsedConfig.forwardPorts) do
+      vim.list_extend(portBindings, {'-p', string.format("%d:%d", port, port)})
+    end
+    local finalArgs = fn.extend(initialArgs, portBindings)
+    args = fn.extend(finalArgs, {name.image, cmd})
+  end
   handle = loop.spawn('docker', {
-    args = {'run', '-it', '-d', '-v', mountFolder, name.image, '/bin/bash'},
+    args = args,
     stdio = {stdout,stderr}
   }, function()
     stdout:read_stop()
@@ -79,7 +92,7 @@ local function startContainer(name)
   local stdout = loop.new_pipe(false)
   local stderr = loop.new_pipe(false)
   handle = loop.spawn('docker', {
-    args = {'start', name.image, '/bin/bash'},
+    args = {'start', name.image },
     stdio = {stdout, stderr}
   }, function()
     stdout:read_stop()
@@ -93,19 +106,26 @@ local function startContainer(name)
   loop.read_start(stderr, onread)
 end
 
+local function buildFromImage()
+  local images = {}
+  local foundImages = fn.systemlist("docker image ls -a --format '{{.Repository}}:{{.Tag}} {{.ID}}'")
+  for i, image in pairs(foundImages) do
+    print(string.format('%d. %s', i, image))
+    local repo = vim.split(image, "%s")
+    table.insert(images, {name = repo[1], image = repo[2]})
+  end
+  local selected = tonumber(fn.input("No Containers found, choose an image to build: "))
+  if not selected then
+    return
+  end
+  runContainer(images[selected])
+end
+
 function M.attachToContainer()
   local containers = {}
   local foundContainers = fn.systemlist("docker container ls -a --format '{{.Names}} {{.Image}}'")
   if fn.len(foundContainers) == 0 then
-    local images = {}
-    local foundImages = fn.systemlist("docker image ls -a --format '{{.Repository}}:{{.Tag}} {{.ID}}'")
-    for i, image in pairs(foundImages) do
-      print(string.format('%d. %s', i, image))
-      local repo = vim.split(image, "%s")
-      table.insert(images, {name = repo[1], image = repo[2]})
-    end
-    local selected = tonumber(fn.input("No Containers found, choose an image to build: "))
-    runContainer(images[selected])
+    buildFromImage()
     return
   end
   for i, container in pairs(foundContainers) do
