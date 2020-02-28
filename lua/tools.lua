@@ -99,7 +99,7 @@ function M.fastFind(pattern)
   local found = vim.fn.systemlist("fd --color never --type f "..pattern)
   local foundlen = fn.len(found)
   if foundlen > 0 then
-      api.nvim_command('edit '..found[1])
+    api.nvim_command('edit '..found[1])
   end
 end
 
@@ -158,7 +158,12 @@ local function onread(err, data)
     -- TODO handle err
   end
   if data then
-    table.insert(results, data)
+    local vals = vim.split(data, "\n")
+    for _, d in pairs(vals) do
+      if d == "" then goto continue end
+      table.insert(results, d)
+      ::continue::
+    end
   end
 end
 
@@ -173,7 +178,7 @@ function M.asyncGrep(term)
     for i=0, count do results[i]=nil end -- clear the table
   end
   handle = vim.loop.spawn('rg', {
-    args = {term, '--vimgrep', '--smart-case'},
+    args = {term, '--vimgrep', '--smart-case', '--block-buffered'},
     stdio = {stdout,stderr}
   },
   vim.schedule_wrap(function()
@@ -186,8 +191,8 @@ function M.asyncGrep(term)
   end
   )
   )
-  vim.loop.read_start(stdout, onread)
-  vim.loop.read_start(stderr, onread)
+  vim.loop.read_start(stdout, vim.schedule_wrap(onread))
+  vim.loop.read_start(stderr, vim.schedule_wrap(onread))
 end
 
 return M
