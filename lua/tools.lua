@@ -191,8 +191,8 @@ function M.asyncGrep(term)
   end
   )
   )
-  vim.loop.read_start(stdout, vim.schedule_wrap(onread))
-  vim.loop.read_start(stderr, vim.schedule_wrap(onread))
+  vim.loop.read_start(stdout, onread)
+  vim.loop.read_start(stderr, onread)
 end
 
 return M
