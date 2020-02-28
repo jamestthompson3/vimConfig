@@ -84,7 +84,7 @@ local function core_options()
     diffopt         = "hiddenoff,iwhiteall,algorithm:patience";
     nrformats       = "bin,hex,alpha";
     wildmode        = "full";
-    grepprg         = [[rg\ --smart-case\ --vimgrep]];
+    grepprg         = [[rg\ --smart-case\ --vimgrep\ --block-buffered]];
     virtualedit     = "block";
     inccommand      = "split";
     cscopequickfix  = "s-,c-,d-,i-,t-,e-";

@@ -1,5 +1,6 @@
 local util = require 'vim.lsp.util'
 local protocol = require 'vim.lsp.protocol'
+require('nvim_utils')
 
 local M = {}
 local lsps_diagnostics = {}
@@ -118,16 +119,16 @@ function M.buf_show_diagnostics(bufnr)
 end
 
 function M.diagnostics_callback(_, _, result)
-    if not result then return end
-    local uri = result.uri
-    local bufnr = vim.fn.bufadd((vim.uri_to_fname(uri)))
-    if not bufnr then
-        api.nvim_err_writeln(string.format("LSP.publishDiagnostics: Couldn't find buffer for %s", uri))
-        return
-    end
-    lsps_diagnostics[bufnr] = result.diagnostics
-    M.buf_show_diagnostics(bufnr)
-    -- util.buf_diagnostics_underline(bufnr, result.diagnostics)
+  if not result then return end
+  local uri = result.uri
+  local bufnr = vim.fn.bufadd((vim.uri_to_fname(uri)))
+  if not bufnr then
+    api.nvim_err_writeln(string.format("LSP.publishDiagnostics: Couldn't find buffer for %s", uri))
+    return
+  end
+  lsps_diagnostics[bufnr] = result.diagnostics
+  M.buf_show_diagnostics(bufnr)
+  -- util.buf_diagnostics_underline(bufnr, result.diagnostics)
 end
 
 if not sign_defined then
@@ -136,6 +137,18 @@ if not sign_defined then
   vim.fn.sign_define('LspInfoSign', {text='i', texthl='LspDiagnosticsInfo', linehl='', numhl=''})
   vim.fn.sign_define('LspHintSign', {text='H', texthl='LspDiagnosticsHint', linehl='', numhl=''})
   sign_defined = true
+end
+
+function M.setMappings()
+  local mappings = {
+    ["nge"]        = map_cmd [[lua vim.lsp.util.show_line_diagnostics()]],
+    ["ngd"]        = map_cmd [[lua vim.lsp.buf.definition()]],
+    ["ngh"]        = map_cmd [[lua vim.lsp.buf.hover()]],
+    ["ngr"]        = map_cmd [[lua vim.lsp.buf.references()]],
+    ["n<leader>f"] = map_cmd [[lua vim.lsp.buf.formatting()]],
+    ["n<leader>r"] = map_cmd [[lua vim.lsp.buf.rename()]]
+  }
+  nvim_apply_mappings(mappings, {silent = true})
 end
 
 return M

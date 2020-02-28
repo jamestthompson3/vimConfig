@@ -13,11 +13,8 @@ let g:javascript_plugin_flow = 1
 let g:vim_json_syntax_conceal = 0
 
 nnoremap <silent>K :call tools#ListTags()<CR>
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <leader>h <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <leader>r    <cmd>lua vim.lsp.buf.rename()<CR>
+
+lua require'user_lsp'.setMappings()
 
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\)

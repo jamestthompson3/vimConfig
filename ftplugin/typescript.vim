@@ -9,12 +9,7 @@ set formatoptions+=o
 " temp
 setl omnifunc=v:lua.vim.lsp.omnifunc
 
-nnoremap <silent> ge <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent><leader>f    <cmd>lua vim.lsp.buf.formatting()<CR>
-nnoremap <leader>r    <cmd>lua vim.lsp.buf.rename()<CR>
+lua require'user_lsp'.setMappings()
 
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
