@@ -181,7 +181,7 @@ local function core_options()
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
-            {"TermClose",       "*",      [[lua api.nvim_input("i<esc>") ]]};
+            {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
             {"TermEnter",       "*",      "set nonumber"};
             {"BufAdd",          "*",      [[lua require'plugins']]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
