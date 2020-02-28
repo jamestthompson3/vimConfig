@@ -181,7 +181,7 @@ local function core_options()
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
-            {"TermClose",       "*",      [[lua vim.fn.feedkeys("i") ]]};
+            {"TermClose",       "*",      [[lua api.nvim_input("i<esc>") ]]};
             {"TermEnter",       "*",      "set nonumber"};
             {"BufAdd",          "*",      [[lua require'plugins']]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
@@ -244,7 +244,7 @@ local function core_options()
       end
 
       local function create_commands()
-        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject silent! grep! <q-args>]]
+        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject lua require'tools'.asyncGrep(<q-args>)]]
         nvim.command [[command! Scratch lua require'tools'.makeScratch()]]
         nvim.command [[command! -nargs=1 -complete=file_in_path Find lua require'tools'.fastFind(<f-args>) ]]
         nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]

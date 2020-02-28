@@ -96,7 +96,7 @@ function M.replaceQf(term1, term2)
 end
 
 function M.fastFind(pattern)
-  local found = vim.fn.systemlist("fd --color never --type f "..pattern)
+  local found = fn.systemlist("fd --color never --type f "..pattern)
   local foundlen = fn.len(found)
   if foundlen > 0 then
     api.nvim_command('edit '..found[1])
