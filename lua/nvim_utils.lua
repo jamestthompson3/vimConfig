@@ -1,5 +1,7 @@
 --- NVIM SPECIFIC SHORTCUTS
 vim = vim or {}
+api = vim.api
+fn = vim.fn
 
 VISUAL_MODE = {
   line = "line"; -- linewise
@@ -676,7 +678,7 @@ function map_no_cr(cmd_string, buflocal)
   return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
 end
 
-local function readout(bufhandle)
+function readout(bufhandle)
   return function(err, data)
     if err then
       api.nvim_put({api.nvim_replace_termcodes(err, true, true, true)}, "l", true, true)
@@ -687,7 +689,7 @@ local function readout(bufhandle)
   end
 end
 
-local function openJobWindow()
+function openJobWindow()
   local lines = api.nvim_get_option("lines")
   local columns = api.nvim_get_option("columns")
   local height = fn.float2nr((lines - 2) * 0.3)
