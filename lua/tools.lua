@@ -167,8 +167,8 @@ local function onread(err, data)
   end
 end
 
--- TODO Fix, sometimes output doesn't work
-function M.asyncGrep(term)
+function M.asyncGrep(...)
+  local terms = {...}
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
   local function setQF()
@@ -177,8 +177,9 @@ function M.asyncGrep(term)
     local count = #results
     for i=0, count do results[i]=nil end -- clear the table
   end
+  args = fn.extend(terms, {'--vimgrep', '--smart-case', '--block-buffered'})
   handle = vim.loop.spawn('rg', {
-    args = {term, '--vimgrep', '--smart-case', '--block-buffered'},
+    args = args,
     stdio = {stdout,stderr}
   },
   vim.schedule_wrap(function()
