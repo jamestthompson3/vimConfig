@@ -191,7 +191,7 @@ local function core_options()
             -- {"CursorHold",         "*",     [[lua require'tools'.blameVirtText()]]};
             {"CursorMoved",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
             {"CursorMovedI",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
-            {"FocusGained", "*", "checktime"};
+            {"FocusGained,CursorMoved,CursorMovedI", "*", "checktime"};
           };
           ft = {
             {"FileType netrw au BufLeave netrw close"};

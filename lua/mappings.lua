@@ -29,7 +29,6 @@ function M.map()
     ["n[Q"]            = map_cmd('cnfile'),
     ["n]Q"]            = map_cmd('cpfile'),
     ["n<F3>"]          = map_cmd('Vex'),
-    ["ngX"]            = map_cmd('DD'),
     ["n<C-J>"]         = map_cmd [[call WinMove('j')]],
     ["n<C-L>"]         = map_cmd [[call WinMove('l')]],
     ["n<C-H>"]         = map_cmd [[call WinMove('h')]],
