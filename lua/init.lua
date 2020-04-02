@@ -93,7 +93,7 @@ local function core_options()
     listchars       = {'tab:░░', 'trail:·', 'space:·', 'extends:»', 'precedes:«', 'nbsp:⣿'};
     complete        = {'.', 'w', 'b', 'u'};
     formatlistpat   = [[^\\s*\\[({]\\?\\([0-9]\\+\\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\\|^\\s*[-–+o*•]\\s\\+]];
-    wildignore      = {'*/dist*/*','*/target/*','*/builds/*','tags','*/lib/*','*/locale/*','*/flow-typed/*','*/node_modules/*','*.png','*.PNG','*.jpg','*.jpeg','*.JPG','*.JPEG','*.pdf','*.exe','*.o','*.obj','*.dll','*.DS_Store','*.ttf','*.otf','*.woff','*.woff2','*.eot'};
+    wildignore      = {'*/dist*/*','*/target/*','*/builds/*','tags','*/lib/*','*/flow-typed/*','*/node_modules/*','*.png','*.PNG','*.jpg','*.jpeg','*.JPG','*.JPEG','*.pdf','*.exe','*.o','*.obj','*.dll','*.DS_Store','*.ttf','*.otf','*.woff','*.woff2','*.eot'};
     shortmess       = nvim.o.shortmess .. 's';
     undodir         = home .. "/.cache/Vim/undofile";
     backupdir       = home .. "/.cache/Vim/backup";
@@ -244,7 +244,8 @@ local function core_options()
       end
 
       local function create_commands()
-        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject lua require'tools'.asyncGrep(<f-args>)]]
+        -- nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject lua require'tools'.asyncGrep(<f-args>)]]
+        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <f-args>]]
         nvim.command [[command! Scratch lua require'tools'.makeScratch()]]
         nvim.command [[command! -nargs=1 -complete=file_in_path Find lua require'tools'.fastFind(<f-args>) ]]
         nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
