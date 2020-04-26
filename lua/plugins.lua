@@ -39,7 +39,7 @@ vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
 vim.g.rainbow_pairs = [[ ['(', ')'], ['[', ']'], ['{', '}'] ]]
 vim.g.fzf_layout = { window = 'lua NavigationFloatingWin()'}
-
+vim.g.completion_trigger_character = {'.', '::'}
 
 local function loadDeps()
   if not loadedDeps then
@@ -56,7 +56,7 @@ local function loadDeps()
     api.nvim_command [[packadd vim-cool]]
     api.nvim_command [[packadd vim-gutentags]]
     api.nvim_command [[packadd vim-matchup]]
-    api.nvim_command [[packadd vim-mucomplete]]
+    -- api.nvim_command [[packadd vim-mucomplete]]
     api.nvim_command [[packadd nvim-colorizer.lua]]
     api.nvim_command [[packadd vim-surround]]
 
@@ -65,6 +65,7 @@ local function loadDeps()
     nvim_lsp.tsserver.setup({cmd = { "typescript-language-server", "--stdio" }})
 
     nvim_lsp.rls.setup({})
+    nvim_lsp.bashls.setup({})
 
     local diagnostic = require('user_lsp')
     vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback

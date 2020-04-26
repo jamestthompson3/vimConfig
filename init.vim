@@ -20,3 +20,24 @@ EOF
           \   '`': {'closer': '`'},
           \   '/\*': {'closer': '\*/'}
           \ }
+
+autocmd BufEnter * lua require'completion'.on_attach()
+let g:completion_auto_change_source = 1
+let g:completion_chain_complete_list = [
+    \{'complete_items': ['lsp', 'snippet']},
+    \{'mode': 'tags'},
+    \{'mode': '<c-p>'},
+    \{'mode': '<c-n>'},
+    \{'mode': 'keyn'},
+    \{'mode': 'keyp'},
+    \{'mode': 'incl'},
+    \{'mode': 'defs'},
+    \{'mode': 'file'}
+\]
+
+
+function! ActiveLine()
+    return luaeval("require'tools'.setStatusLine()")
+endfunction
+
+set statusline=%!ActiveLine()

@@ -2,6 +2,7 @@ require 'nvim_utils'
 local api = vim.api
 local fn = vim.fn
 require 'navigation'
+local icons = require 'devicons'
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
@@ -194,6 +195,24 @@ function M.asyncGrep(...)
   )
   vim.loop.read_start(stdout, onread)
   vim.loop.read_start(stderr, onread)
+end
+
+
+function M.setStatusLine()
+  local statusline = ""
+  local fileName = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')
+  local icon = icons.deviconTable[vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')]
+  local isModified = api.nvim_buf_get_option(0, 'mod')
+  if icon ~= nil then
+    fileName = icon .. ' ' .. fileName
+  end
+  if isModified then
+    statusline = statusline .. "%#StatusLineModified#" .. fileName .. '%*'
+  else
+    statusline = statusline .. fileName
+  end
+  statusline =  statusline .. "%<%=%<%r %L"
+  return statusline
 end
 
 return M

@@ -47,6 +47,7 @@ function splashscreen()
   end
 end
 
+
 local function core_options()
   local options = {
     hidden          = true;
@@ -103,7 +104,7 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
-    statusline     = "%#StatusLineModified#%{&mod?expand('%:p:t'):''}%*%{&mod?'':expand('%:p:t')}%<" .. "%=" .. "%<" .. "%r\\ %L";
+    -- statusline     = setStatusLine();
     fillchars      = "stlnc:»,vert:║,fold:·";
     number         = true;
     pumblend       = 20;
@@ -155,7 +156,7 @@ local function core_options()
         api.nvim_command [[ cnoreabbrev csf cs find ]]
         api.nvim_command [[ cnoreabbrev csk cs kill ]]
         api.nvim_command [[ cnoreabbrev csr cs reset ]]
-        api.nvim_command [[ cnoreabbrev css cs show ]]
+        -- api.nvim_command [[ cnoreabbrev css cs show ]]
         api.nvim_command [[ cnoreabbrev csh cs help ]]
 
         -- Common mistakes
