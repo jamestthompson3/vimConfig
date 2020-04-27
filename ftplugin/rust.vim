@@ -1,6 +1,6 @@
 let b:ale_fixers = ['rustfmt']
 
-let g:mucomplete#chains.rust = ['omni','tags','keyn', 'keyp', 'c-p', 'c-n','file','path', 'ulti']
+let g:mucomplete#chains.rust = ['omni','tags','c-p', 'c-n','file','path', 'ulti']
 
 lua require'user_lsp'.setMappings()
 
