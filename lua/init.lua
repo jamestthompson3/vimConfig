@@ -104,6 +104,7 @@ local function core_options()
     termguicolors  = true;
     nowrap         = true;
     cursorline     = true;
+    statusline     = "%#StatusLineModified#%{&mod?FileName():''}%*%{&mod?'':FileName()}%<" .. "%=" .. "%<" .. "%r\\ %L";
     -- statusline     = setStatusLine();
     fillchars      = "stlnc:»,vert:║,fold:·";
     number         = true;
@@ -142,6 +143,13 @@ local function core_options()
       endif
       endfunction
       ]]
+
+      api.nvim_command [[
+      function! FileName()
+        return luaeval("require'tools'.setStatusLine()")
+       endfunction
+      ]]
+
 
       api.nvim_command [[
       function! MarkMargin () abort

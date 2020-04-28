@@ -202,17 +202,10 @@ function M.setStatusLine()
   local statusline = ""
   local fileName = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')
   local icon = icons.deviconTable[vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')]
-  local isModified = api.nvim_buf_get_option(0, 'mod')
   if icon ~= nil then
     fileName = icon .. ' ' .. fileName
   end
-  if isModified then
-    statusline = statusline .. "%#StatusLineModified#" .. fileName .. '%*'
-  else
-    statusline = statusline .. fileName
-  end
-  statusline =  statusline .. "%<%=%<%r %L"
-  return statusline
+  return fileName
 end
 
 return M
