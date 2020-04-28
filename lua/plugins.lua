@@ -52,6 +52,7 @@ local function loadDeps()
     api.nvim_command [[packadd rainbow_parentheses.vim]]
     api.nvim_command [[packadd nvim-lsp]]
     api.nvim_command [[packadd vim-apathy]]
+
     api.nvim_command [[packadd vim-commentary]]
     api.nvim_command [[packadd vim-cool]]
     api.nvim_command [[packadd vim-gutentags]]

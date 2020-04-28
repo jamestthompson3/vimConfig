@@ -10,7 +10,7 @@ local function highlight(group, guifg, guibg, attr, ctermfg, ctermbg, guisp)
 		table.insert(parts, "gui="..attr)
 		table.insert(parts, "cterm="..attr)
 	end
-	if guisp then table.insert(parts, "guisp=#"..guisp) end
+	if guisp then table.insert(parts, "guisp="..guisp) end
 	-- nvim_print(parts)
 	-- nvim.ex.highlight(parts)
 	vim.api.nvim_command('highlight '..table.concat(parts, ' '))
@@ -36,19 +36,20 @@ local normal = "#d2cfcf"
 local mdDark = "#818e8e"
 local vtext = "#2f2f30"
 
-highlight("Comment",          highlighMd, "NONE",     "italic",      "215",  "NONE", "NONE")
+highlight("Comment",          highlighMd, "NONE",     "NONE",        "215",  "NONE", "italic")
 highlight("VertSplit",        mdDark,     "NONE",     "NONE",        "240",  "NONE", "NONE")
-highlight("CursorLineNR",     "NONE",    "NONE",     "NONE",        "247",  "236",  "NONE")
-highlight("CursorLine",       "NONE",     background,  "NONE",        "NONE", "236",  "NONE")
+highlight("CursorLineNR",     "NONE",    "NONE",      "NONE",        "247",  "236",  "NONE")
+highlight("Cursor",           vtext,      attention,  "NONE",        "247",  "236",  "NONE")
+highlight("CursorLine",       "NONE",     background,  "NONE",       "NONE", "236",  "NONE")
 highlight("LineNR",           mdDark,     "NONE",     "NONE",        "238",  "NONE", "NONE")
 highlight("Search",           "#16161d",  search,     "italic",      "0",    "172",  "NONE")
 highlight("MatchParen",       match,      "#16161d",  "bold",        "81",   "NONE", "NONE")
 highlight("MatchWord",        match,      "#16161d",  "bold",        "81",   "NONE", "NONE")
-highlight("NormalFloat",      normal,      "#16161d",  "NONE",        "81",   "NONE", "NONE")
+highlight("NormalFloat",      normal,      "#16161d",  "NONE",       "81",   "NONE", "NONE")
 highlight("Normal",           normal,     "#16161d",  "NONE",        "255",  "NONE", "NONE")
-highlight("GitLens",          mdDark,      "NONE",     "NONE",        "255",  "NONE", "NONE")
+highlight("GitLens",          mdDark,      "NONE",     "NONE",       "255",  "NONE", "NONE")
 highlight("TabLineFill",      normal,     "#000000",  "NONE",        "255",  "NONE", "NONE")
-highlight("StatusLineNC",     mdDark,     "NONE",     "underline",   "238",  "NONE", "NONE")
+highlight("StatusLineNC",     mdDark,     "NONE",     "underline",   "238",  "NONE", "underline")
 highlight("StatusLine",       normal,     "#16161d",  "NONE",        "255",  "0",    "NONE")
 highlight("TabLine",          normal,     "#000000",  "NONE",        "255",  "0",    "NONE")
 highlight("Visual",           highlighMd, "#787271",  "NONE",        "NONE", "NONE", "NONE")
@@ -63,7 +64,7 @@ highlight("WildMenu",         "#16161d",  normal,     "NONE",        "NONE", "NO
 highlight("SpellBad",         "Red",      "NONE",     "NONE",        "9",    "NONE", "NONE")
 highlight("SpellRare",        attention,  "NONE",     "NONE",        "12",   "NONE", "NONE")
 
-highlight("Function",         "NONE",     "NONE",     "italic",     "NONE",  "NONE",  "NONE")
+highlight("Function",         "NONE",     "NONE",     "NONE",       "NONE",  "NONE",  "italic")
 highlight("Identifier",       "NONE",     "NONE",     "NONE",       "NONE",  "NONE",  "NONE")
 highlight("Include",          "NONE",     "NONE",     "italic",     "NONE",  "NONE",  "NONE")
 highlight("Keyword",          "NONE",     "NONE",     "bold",       "NONE",  "NONE",  "NONE")
@@ -79,7 +80,7 @@ highlight("Type",             "NONE",     "NONE",     "bold",       "NONE",  "NO
 highlight("Directory",        "NONE",     "NONE",     "bold",       "NONE",  "NONE",  "NONE")
 highlight("Underlined",       "NONE",     "NONE",     "underline",  "NONE",  "NONE",  "NONE")
 highlight("Title",            title,      "NONE",     "bold",       "15",    "NONE",  "NONE")
-highlight("Special",          "NONE",     "NONE",     "italic",     "NONE",  "NONE",  "NONE")
+highlight("Special",          "NONE",     "NONE",     "NONE",       "NONE",  "NONE",  "italic")
 highlight("ConstStrings",     attention,  "NONE",     "bold",       "NONE",  "NONE",  "NONE")
 highlight("ReturnStatement",  attention,  "NONE",     "NONE",       "NONE",  "NONE",  "NONE")
 
