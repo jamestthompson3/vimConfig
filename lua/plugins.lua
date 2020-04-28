@@ -40,6 +40,16 @@ vim.g.matchup_matchparen_offscreen = {method = 'popup'}
 vim.g.rainbow_pairs = [[ ['(', ')'], ['[', ']'], ['{', '}'] ]]
 vim.g.fzf_layout = { window = 'lua NavigationFloatingWin()'}
 vim.g.completion_trigger_character = {'.', '::'}
+vim.g.completion_auto_change_source = 1
+
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,                 -- false will disable the whole extension
+    },
+    textobj = {                        -- this enables incremental selection
+        enable = true,
+    }
+}
 
 local function loadDeps()
   if not loadedDeps then

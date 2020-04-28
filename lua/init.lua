@@ -185,6 +185,7 @@ local function core_options()
             {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
             {"TermEnter",       "*",      "set nonumber"};
             {"BufAdd",          "*",      [[lua require'plugins']]};
+            {"BufEnter",        "*",      [[lua require'completion'.on_attach()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
             {"QuickFixCmdPost", "[^l]*", [[nested lua require'tools'.openQuickfix()]]};

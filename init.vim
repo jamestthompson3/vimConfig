@@ -21,10 +21,8 @@ EOF
           \   '/\*': {'closer': '\*/'}
           \ }
 
-autocmd BufEnter * lua require'completion'.on_attach()
-let g:completion_auto_change_source = 1
 let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp', 'snippet']},
+    \{'complete_items': ['ts', 'lsp', 'snippet']},
     \{'mode': 'tags'},
     \{'mode': '<c-p>'},
     \{'mode': '<c-n>'},
