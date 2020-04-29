@@ -27,12 +27,6 @@ vim.g.pear_tree_map_special_keys = 1
 vim.g.gutentags_file_list_command = 'fd . -c never'
 vim.g.gutentags_cache_dir = '~/.cache/'
 vim.g.gutentags_project_root = {'Cargo.toml'}
-vim.g['mucomplete#enable_auto_at_startup'] = 1
-vim.g['mucomplete#buffer_relative_paths'] = 1
-vim.g['mucomplete#no_mappings']= 1
-vim.g['mucomplete#buffer_relative_paths'] = 1
-vim.g['mucomplete#minimum_prefix_length'] = 1
-vim.g['mucomplete#chains'] = {default = {'omni','tags', 'c-p', 'c-n', 'keyn', 'keyp', 'incl', 'defs', 'file', 'path'}}
 vim.g.matchup_matchparen_deferred = 1
 vim.g.matchup_match_paren_timeout = 100
 vim.g.matchup_matchparen_stopline = 200
