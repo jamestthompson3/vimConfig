@@ -137,6 +137,7 @@ function! tools#PackagerInit() abort
   call packager#add('junegunn/fzf.vim')
   call packager#add('haorenW1025/completion-nvim')
   call packager#add('nvim-treesitter/nvim-treesitter')
+  call packager#add('nvim-treesitter/completion-treesitter')
 
   call packager#add('aklt/plantuml-syntax', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
@@ -148,7 +149,6 @@ function! tools#PackagerInit() abort
   call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
   call packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-  " call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
   call packager#add('neovim/nvim-lsp', { 'type': 'opt' })

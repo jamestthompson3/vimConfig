@@ -1,10 +1,8 @@
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-" let g:mucomplete#chains.typescript = [ 'keyn', 'keyp','tags','omni','c-p','c-n', 'file','path']
-" let g:mucomplete#chains['typescriptreact'] = ['keyn', 'keyp', 'tags','omni','c-p', 'c-n', 'file','path']
-let g:mucomplete#chains.typescript = [ 'omni','tags','c-p','c-n', 'file','path']
-let g:mucomplete#chains['typescriptreact'] = ['omni', 'tags','c-p', 'c-n', 'file','path']
+" let g:mucomplete#chains.typescript = [ 'omni','tags','c-p','c-n', 'file','path']
+" let g:mucomplete#chains['typescriptreact'] = ['omni', 'tags','c-p', 'c-n', 'file','path']
 packadd tagbar
 
 set formatoptions+=o

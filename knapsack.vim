@@ -23,7 +23,7 @@ set completeopt-=preview
 filetype plugin indent on
 set formatoptions-=o " Don't insert comment lines when pressing o in normal mode
 set autoread  " Automatically read a file changed outside of vim
-set complete-=i " let mucomplete handle searching for included files. Don't scan by default
+set complete-=i
 set belloff=all
 set wildmenu
 set backspace=indent,eol,start "better backspace behavior
