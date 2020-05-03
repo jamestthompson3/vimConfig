@@ -21,8 +21,11 @@ let g:pear_tree_pairs = {
       \   '/\*': {'closer': '\*/'}
       \ }
 
-let g:completion_chain_complete_list = [
-      \{'complete_items': ['ts', 'lsp', 'snippet']},
+" Configure the completion chains
+let g:completion_chain_complete_list = {
+      \'default' : {
+      \	'default' : [
+      \{'complete_items': ['lsp', 'snippet']},
       \{'mode': 'tags'},
       \{'mode': '<c-p>'},
       \{'mode': '<c-n>'},
@@ -31,4 +34,33 @@ let g:completion_chain_complete_list = [
       \{'mode': 'incl'},
       \{'mode': 'defs'},
       \{'mode': 'file'}
-      \]
+      \	],
+      \	'comment' : [],
+      \	'string' : []
+      \	},
+      \'c' : [
+      \	{'complete_items': ['ts']},
+      \{'mode': 'tags'},
+      \{'mode': '<c-p>'},
+      \{'mode': '<c-n>'},
+      \{'mode': 'keyn'},
+      \{'mode': 'keyp'},
+      \{'mode': 'incl'},
+      \{'mode': 'defs'},
+      \{'mode': 'file'}
+      \	],
+      \'python' : [
+      \	{'complete_items': ['ts']},
+      \{'mode': 'tags'},
+      \{'mode': '<c-p>'},
+      \{'mode': '<c-n>'},
+      \{'mode': 'keyn'},
+      \{'mode': 'keyp'},
+      \{'mode': 'incl'},
+      \{'mode': 'defs'},
+      \{'mode': 'file'}
+      \	],
+      \'lua' : [
+      \	{'complete_items': ['ts']}
+      \	],
+      \}
