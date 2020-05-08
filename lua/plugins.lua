@@ -16,7 +16,7 @@ vim.g.ale_lint_on_text_changed = 0
 vim.g.ale_list_window_size = 5
 vim.g.ale_virtualtext_cursor = 1
 vim.g.ale_javascript_prettier_use_local_config = 1
-vim.g.ale_echo_msg_format = '[%linter%] %s'
+vim.g.ale_echo_msg_format = '[%linter%] %s » %code%'
 vim.g.ale_sign_column_always = 0
 vim.g.pear_tree_smart_openers = 1
 vim.g.pear_tree_smart_closers = 1
@@ -50,20 +50,19 @@ local function loadDeps()
 
     require 'navigation'
 
-    api.nvim_command [[packadd ale]]
-    api.nvim_command [[packadd cfilter]]
-    api.nvim_command [[packadd pear-tree]]
-    api.nvim_command [[packadd rainbow_parentheses.vim]]
-    api.nvim_command [[packadd nvim-lsp]]
-    api.nvim_command [[packadd vim-apathy]]
+    vim.cmd [[packadd ale]]
+    vim.cmd [[packadd cfilter]]
+    vim.cmd [[packadd pear-tree]]
+    vim.cmd [[packadd rainbow_parentheses.vim]]
+    vim.cmd [[packadd nvim-lsp]]
+    vim.cmd [[packadd vim-apathy]]
 
-    api.nvim_command [[packadd vim-commentary]]
-    api.nvim_command [[packadd vim-cool]]
-    api.nvim_command [[packadd vim-gutentags]]
-    api.nvim_command [[packadd vim-matchup]]
-    -- api.nvim_command [[packadd vim-mucomplete]]
-    api.nvim_command [[packadd nvim-colorizer.lua]]
-    api.nvim_command [[packadd vim-surround]]
+    vim.cmd [[packadd vim-commentary]]
+    vim.cmd [[packadd vim-cool]]
+    vim.cmd [[packadd vim-gutentags]]
+    vim.cmd [[packadd vim-matchup]]
+    vim.cmd [[packadd nvim-colorizer.lua]]
+    vim.cmd [[packadd vim-surround]]
 
     local nvim_lsp = require 'nvim_lsp'
     nvim_lsp.sumneko_lua.setup({})

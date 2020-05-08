@@ -141,7 +141,6 @@ function! tools#PackagerInit() abort
 
   call packager#add('aklt/plantuml-syntax', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
-  call packager#add('davidhalter/jedi-vim', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
   call packager#add('fcpg/vim-waikiki', { 'type': 'opt' })
   call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })

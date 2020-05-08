@@ -1,5 +1,3 @@
-echom "Loaded python"
-packadd jedi-vim
 let b:ale_linters = ['flake8', 'pylint']
 " set omnifunc=python3complete#Complete
 set list
