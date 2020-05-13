@@ -144,6 +144,8 @@ function M.setMappings()
     ["nge"]        = map_cmd [[lua vim.lsp.util.show_line_diagnostics()]],
     ["ngd"]        = map_cmd [[lua vim.lsp.buf.definition()]],
     ["ngh"]        = map_cmd [[lua vim.lsp.buf.hover()]],
+    ["n[d"]        = map_cmd [[NextDiagnostic]],
+    ["n]d"]        = map_cmd [[PrevDiagnostic]],
     ["ngr"]        = map_cmd [[lua vim.lsp.buf.references()]],
     ["n<leader>f"] = map_cmd [[lua vim.lsp.buf.formatting()]],
     ["n<leader>r"] = map_cmd [[lua vim.lsp.buf.rename()]]

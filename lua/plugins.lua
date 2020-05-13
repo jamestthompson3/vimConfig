@@ -67,13 +67,13 @@ local function loadDeps()
     local nvim_lsp = require 'nvim_lsp'
     nvim_lsp.sumneko_lua.setup({})
     nvim_lsp.cssls.setup({})
-    nvim_lsp.tsserver.setup({cmd = { "typescript-language-server", "--stdio" }})
+    nvim_lsp.tsserver.setup({cmd = { "typescript-language-server", "--stdio" }, on_attach=require'diagnostic'.on_attach})
 
     nvim_lsp.rls.setup({})
     nvim_lsp.bashls.setup({})
 
-    local diagnostic = require('user_lsp')
-    vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
+    -- local diagnostic = require('user_lsp')
+    -- vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
     vim.fn['tools#loadCscope']()
     loadedDeps = true
   else

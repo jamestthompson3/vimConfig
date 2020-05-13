@@ -1,8 +1,6 @@
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-" let g:mucomplete#chains.typescript = [ 'omni','tags','c-p','c-n', 'file','path']
-" let g:mucomplete#chains['typescriptreact'] = ['omni', 'tags','c-p', 'c-n', 'file','path']
 packadd tagbar
 
 set formatoptions+=o
@@ -32,14 +30,15 @@ if !exists('b:did_typescript_setup')
   endif
 
   " lint file on write
-  " let &l:makeprg = 'tsc --noEmit --pretty false'
-  let &l:makeprg = 'eslint --format unix'
+  let &l:makeprg = 'tsc --noEmit --pretty false'
+  " let &l:makeprg = 'eslint --format unix'
 
   augroup TS
     autocmd!
     " FIXME for mono repo
     " autocmd BufWritePost <buffer>  call TSLint()
   augroup END
+  set efm=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
   " let l:errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
   "TAGBAR:
   let g:tagbar_type_typescript = {
@@ -101,8 +100,8 @@ function! TSLint() abort
   let s:errors = ['']
 
   function! OnExit(job_id, data, event)
-    " call setqflist([], ' ', {'lines': s:errors, 'efm': '%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m'})
-    call setqflist([], ' ', {'lines': s:errors})
+    call setqflist([], ' ', {'lines': s:errors, 'efm': '%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m'})
+    " call setqflist([], ' ', {'lines': s:errors})
     exec 'cwindow'
   endfunction
 
@@ -111,6 +110,7 @@ function! TSLint() abort
     call extend(s:errors, a:data[1:])
   endfunction
 
-  call jobstart(printf('yarn eslint --format unix %s', bufname('%')), l:callbacks)
+  " call jobstart(printf('yarn eslint --format unix %s', bufname('%')), l:callbacks)
+  call jobstart('tsc --pretty false', l:callbacks)
 endfunction
 
