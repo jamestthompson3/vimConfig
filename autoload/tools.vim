@@ -136,6 +136,7 @@ function! tools#PackagerInit() abort
   call packager#add('thinca/vim-localrc')
   call packager#add('junegunn/fzf.vim')
   call packager#add('haorenW1025/completion-nvim')
+  call packager#add('haorenW1025/diagnostic-nvim')
   call packager#add('nvim-treesitter/nvim-treesitter')
   call packager#add('nvim-treesitter/completion-treesitter')
 

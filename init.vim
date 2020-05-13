@@ -26,13 +26,10 @@ let g:completion_chain_complete_list = {
       \'default' : {
       \	'default' : [
       \{'complete_items': ['lsp', 'snippet']},
-      \{'mode': 'tags'},
       \{'mode': '<c-p>'},
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},
       \{'mode': 'keyp'},
-      \{'mode': 'incl'},
-      \{'mode': 'defs'},
       \{'mode': 'file'}
       \	],
       \	'comment' : [],
