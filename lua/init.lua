@@ -119,7 +119,6 @@ local function core_options()
   setOptions(options)
 
   -- Globals
-  api.nvim_command [[map <Space> <Leader>]]
   vim.g.did_install_default_menus = 1
   vim.g.remove_whitespace = 1
   vim.g.loaded_tutor_mode_plugin = 1

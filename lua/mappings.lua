@@ -22,6 +22,7 @@ function M.map()
     ["n<leader><tab>"] = map_cmd('bn'),
     ["n<leader>-"]     = map_cmd('echo expand("%")'),
     ["n<leader>g"]     = map_cmd [[lua require'tools'.lazyGit()]],
+    ["n<leader>f"]     = map_cmd('GFiles'),
     ["n[a"]            = map_cmd('prev'),
     ["n]a"]            = map_cmd('next'),
     ["n[q"]            = map_cmd('cnext'),
