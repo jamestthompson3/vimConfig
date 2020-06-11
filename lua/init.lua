@@ -184,7 +184,8 @@ local function core_options()
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
             {"VimEnter",        "*",      [[nested lua require'tools'.openQuickfix()]]};
-            {"UIEnter",        "*",       [[lua require'ui']]};
+            {"UIEnter",         "*",      [[lua require'ui']]};
+            {"TextYankPost",    "*",      [[silent! lua require'vim.highlight'.on_yank()]]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
             {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
@@ -254,7 +255,7 @@ local function core_options()
 
       local function create_commands()
         -- nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject lua require'tools'.asyncGrep(<f-args>)]]
-        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <f-args>]]
+        nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <q-args>]]
         nvim.command [[command! Scratch lua require'tools'.makeScratch()]]
         nvim.command [[command! -nargs=1 -complete=file_in_path Find lua require'tools'.fastFind(<f-args>) ]]
         nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]

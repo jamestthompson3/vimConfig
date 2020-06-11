@@ -24,7 +24,7 @@ end
 
 -- Globals
 vim.g.markdown_fenced_languages = { 'html', 'typescript', 'javascript', 'js=javascript', 'bash=sh', 'rust' }
-vim.g.waikiki_wiki_roots = { '~/notes' }
+vim.g.waikiki_wiki_roots = { '~/notes', '~/code/dank/knowledge-base' }
 vim.g.waikiki_default_maps = 1
 
 local options = {
