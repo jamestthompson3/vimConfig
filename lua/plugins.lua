@@ -7,7 +7,7 @@ vim.g.netrw_winsize=45
 vim.g.netrw_liststyle=3
 vim.g.ale_completion_delay = 20
 vim.g.ale_linters_explicit = 1
-vim.g.ale_sign_error = 'X'
+vim.g.ale_sign_error = '!!'
 vim.g.ale_sign_warning = '◉'
 vim.g.ale_close_preview_on_insert = 1
 vim.g.ale_fix_on_save = 1
@@ -16,6 +16,7 @@ vim.g.ale_lint_on_text_changed = 0
 vim.g.ale_list_window_size = 5
 vim.g.ale_virtualtext_cursor = 1
 vim.g.ale_javascript_prettier_use_local_config = 1
+vim.g.ale_fixers = {json = {"prettier"}}
 vim.g.ale_echo_msg_format = '[%linter%] %s » %code%'
 vim.g.ale_sign_column_always = 0
 vim.g.pear_tree_smart_openers = 1
@@ -34,15 +35,22 @@ vim.g.matchup_matchparen_offscreen = {method = 'popup'}
 vim.g.rainbow_pairs = [[ ['(', ')'], ['[', ']'], ['{', '}'] ]]
 vim.g.fzf_layout = { window = 'lua NavigationFloatingWin()'}
 vim.g.completion_trigger_character = {'.', '::'}
+vim.g.completion_matching_strategy_list = {'fuzzy', 'substring', 'exact'}
 vim.g.completion_auto_change_source = 1
 
 require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,                 -- false will disable the whole extension
-    },
-    textobj = {                        -- this enables incremental selection
-        enable = true,
-    }
+  highlight = {
+    enable = true,                 -- false will disable the whole extension
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {                       -- mappings for incremental selection (visual mappings)
+    init_selection = 'gnn',         -- maps in normal mode to init the node/scope selection
+    node_incremental = "grn",       -- increment to the upper named parent
+    scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
+    node_decremental = "grm",      -- decrement to the previous node
+  }
+}
 }
 
 local function loadDeps()
@@ -55,7 +63,6 @@ local function loadDeps()
     vim.cmd [[packadd pear-tree]]
     vim.cmd [[packadd rainbow_parentheses.vim]]
     vim.cmd [[packadd nvim-lsp]]
-    vim.cmd [[packadd vim-apathy]]
 
     vim.cmd [[packadd vim-commentary]]
     vim.cmd [[packadd vim-cool]]
@@ -72,8 +79,8 @@ local function loadDeps()
     nvim_lsp.rls.setup({})
     nvim_lsp.bashls.setup({})
 
-    -- local diagnostic = require('user_lsp')
-    -- vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
+    local diagnostic = require('user_lsp')
+    vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
     vim.fn['tools#loadCscope']()
     loadedDeps = true
   else

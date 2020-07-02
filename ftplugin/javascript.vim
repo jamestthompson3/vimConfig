@@ -3,9 +3,6 @@ scriptencoding utf-8
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-" let g:mucomplete#chains.javascript = ['keyn', 'keyp', 'tags','omni','c-p', 'c-n', 'file','path', 'ulti']
-" let g:mucomplete#chains['javascript.jsx'] = ['keyn', 'keyp', 'tags','omni','c-p', 'c-n','file','path', 'ulti']
-
 let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
