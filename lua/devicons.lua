@@ -27,6 +27,7 @@ local extensionTable = {
       ['react.jsx']                        = '',
       ['procfile']                         = '',
       ['dockerfile']                       = '',
+      ['Dockerfile']                       = '',
       ['docker-compose.yml']               = '',
       -- Extension
       ['styl']     = '',
