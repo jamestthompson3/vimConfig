@@ -57,6 +57,26 @@ let g:completion_chain_complete_list = {
       \{'mode': 'defs'},
       \{'mode': 'file'}
       \	],
+      \'typescript' : [
+      \	{'complete_items': ['ts']},
+      \{'mode': '<c-p>'},
+      \{'mode': '<c-n>'},
+      \{'mode': 'keyn'},
+      \{'mode': 'keyp'},
+      \{'mode': 'incl'},
+      \{'mode': 'defs'},
+      \{'mode': 'file'}
+      \	],
+      \'typescriptreact' : [
+      \	{'complete_items': ['ts']},
+      \{'mode': '<c-p>'},
+      \{'mode': '<c-n>'},
+      \{'mode': 'keyn'},
+      \{'mode': 'keyp'},
+      \{'mode': 'incl'},
+      \{'mode': 'defs'},
+      \{'mode': 'file'}
+      \	],
       \'lua' : [
       \	{'complete_items': ['ts']}
       \	],

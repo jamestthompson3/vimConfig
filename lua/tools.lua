@@ -208,4 +208,17 @@ function M.setStatusLine()
   return fileName
 end
 
+function M.profile()
+  if vim.g.profiler_running ~= nil then
+    api.nvim_command('profile pause')
+    vim.g.profiler_running = nil
+    api.nvim_command('noautocmd qall!')
+  else
+    vim.g.profiler_running = 1
+    api.nvim_command('profile start profile.log')
+    api.nvim_command('profile func *')
+    api.nvim_command('profile file *')
+  end
+end
+
 return M
