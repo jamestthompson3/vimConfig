@@ -135,7 +135,7 @@ function! tools#PackagerInit() abort
   call packager#add('justinmk/vim-dirvish')
   call packager#add('thinca/vim-localrc')
   call packager#add('junegunn/fzf.vim')
-  call packager#add('haorenW1025/completion-nvim')
+  call packager#add('nvim-lua/completion-nvim')
   call packager#add('wadackel/vim-dogrun')
 
   call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
