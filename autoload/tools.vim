@@ -140,13 +140,10 @@ function! tools#PackagerInit() abort
 
   call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
   call packager#add('nvim-treesitter/completion-treesitter', {'type': 'opt'})
-  call packager#add('aklt/plantuml-syntax', { 'type': 'opt' })
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
-  call packager#add('fcpg/vim-waikiki', { 'type': 'opt' })
   call packager#add('HerringtonDarkholme/yats.vim ', { 'type': 'opt' })
   call packager#add('junegunn/fzf', { 'do': 'call fzf#install()'})
-  call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
   call packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
