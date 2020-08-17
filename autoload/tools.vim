@@ -114,15 +114,15 @@ function! tools#BufSel(pattern) abort
   endif
 endfunction
 
-function! tools#smoothScroll(up)
-  execute "normal " . (a:up ? "\<c-y>" : "\<c-e>")
-  redraw
-  for l:count in range(3, &scroll, 2)
-    sleep 10m
-    execute "normal " . (a:up ? "\<c-y>" : "\<c-e>")
-    redraw
-  endfor
-endfunction
+" function! tools#smoothScroll(up)
+  " execute 'normal ' . (a:up ? '\<c-y>' : '\<c-e>')
+"   redraw
+"   for l:count in range(3, &scroll, 2)
+"     sleep 10m
+    " execute 'normal ' . (a:up ? '\<c-y>' : '\<c-e>')
+"     redraw
+"   endfor
+" endfunction
 
 function! tools#CombineSelection(line1, line2, cp)
   execute 'let char = "\u'.a:cp.'"'
@@ -135,17 +135,15 @@ function! tools#PackagerInit() abort
   call packager#add('justinmk/vim-dirvish')
   call packager#add('thinca/vim-localrc')
   call packager#add('junegunn/fzf.vim')
-  call packager#add('haorenW1025/completion-nvim')
-  call packager#add('nvim-treesitter/nvim-treesitter')
-  call packager#add('nvim-treesitter/completion-treesitter')
+  call packager#add('nvim-lua/completion-nvim')
+  call packager#add('wadackel/vim-dogrun')
 
-  call packager#add('aklt/plantuml-syntax', { 'type': 'opt' })
+  call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
+  call packager#add('nvim-treesitter/completion-treesitter', {'type': 'opt'})
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
-  call packager#add('fcpg/vim-waikiki', { 'type': 'opt' })
-  call packager#add('jamestthompson3/vim-apathy', { 'type': 'opt' })
+  call packager#add('HerringtonDarkholme/yats.vim ', { 'type': 'opt' })
   call packager#add('junegunn/fzf', { 'do': 'call fzf#install()'})
-  call packager#add('junegunn/rainbow_parentheses.vim', { 'type': 'opt' })
   call packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
@@ -155,6 +153,7 @@ function! tools#PackagerInit() abort
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})
   call packager#add('tmsvg/pear-tree', {'type': 'opt'})
+  call packager#add('tpope/vim-apathy', { 'type': 'opt' })
   call packager#add('tpope/vim-commentary', { 'type': 'opt'})
   call packager#add('tpope/vim-surround', { 'type': 'opt' })
 

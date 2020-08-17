@@ -1,12 +1,21 @@
+if get(g:, 'ts_loaded')
+  finish
+endif
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
+" let g:ale_completion_tsserver_autoimport = 1
+" let g:ale_cursor_detail = 1
+" let g:ale_virtualtext_cursor = 0
+
 packadd tagbar
+packadd yats.vim
 
 set formatoptions+=o
 " temp
 setl omnifunc=v:lua.vim.lsp.omnifunc
 
+setlocal suffixesadd+=.js,.jsx,.ts,.tsx
 lua require'user_lsp'.setMappings()
 
 setlocal foldmethod=syntax
@@ -114,3 +123,4 @@ function! TSLint() abort
   call jobstart('tsc --pretty false', l:callbacks)
 endfunction
 
+let g:ts_loaded = 1

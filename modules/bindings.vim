@@ -58,18 +58,6 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " VimDev:
-function! s:Profiler() abort
-  if exists('g:profiler_running')
-    profile pause
-    unlet g:profiler_running
-    noautocmd qall!
-  else
-    let g:profiler_running = 1
-    profile start profile.log
-    profile func *
-    profile file *
-  endif
-endfunction
 nnoremap <C-F> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
