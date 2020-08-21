@@ -92,3 +92,5 @@ let g:completion_chain_complete_list = {
       \	{'complete_items': ['ts']}
       \	],
       \}
+
+colorscheme ghost_mono
