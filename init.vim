@@ -27,12 +27,23 @@ let g:pear_tree_pairs = {
 let g:completion_chain_complete_list = {
       \'c' : [
       \	{'complete_items': ['ts']},
-      \{'mode': 'tags'},
+      \{'mode': '<c-p>'},
+      \{'mode': '<c-n>'},
+      \{'mode': 'keyn'},
+      \{'lode': 'tags'},
+      \{'mode': 'keyp'},
+      \{'mode': 'incl'},
+      \{'mode': 'defs'},
+      \{'mode': 'file'}
+      \	],
+      \'html' : [
+      \	{'complete_items': ['ts']},
       \{'mode': '<c-p>'},
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},
       \{'mode': 'keyp'},
       \{'mode': 'incl'},
+      \{'mode': 'tags'},
       \{'mode': 'defs'},
       \{'mode': 'file'}
       \	],
@@ -78,5 +89,6 @@ let g:completion_chain_complete_list = {
       \{'mode': 'file'}
       \	]
       \	}
+      \}
 
-colorscheme tokyo-metro
+colorscheme ghost_mono
