@@ -142,7 +142,6 @@ function! tools#PackagerInit() abort
   call packager#add('nvim-treesitter/completion-treesitter', {'type': 'opt'})
   call packager#add('andymass/vim-matchup', { 'type': 'opt' })
   call packager#add('dense-analysis/ale', { 'type': 'opt' })
-  call packager#add('HerringtonDarkholme/yats.vim ', { 'type': 'opt' })
   call packager#add('junegunn/fzf', { 'do': 'call fzf#install()'})
   call packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })

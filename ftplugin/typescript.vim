@@ -1,6 +1,3 @@
-if get(g:, 'ts_loaded')
-  finish
-endif
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
@@ -9,13 +6,13 @@ let b:ale_fixers = ['prettier']
 " let g:ale_virtualtext_cursor = 0
 
 packadd tagbar
-packadd yats.vim
+" packadd yats.vim
 
 set formatoptions+=o
 " temp
 setl omnifunc=v:lua.vim.lsp.omnifunc
 
-setlocal suffixesadd+=.js,.jsx,.ts,.tsx
+set suffixesadd+=.js,.jsx,.ts,.tsx
 lua require'user_lsp'.setMappings()
 
 setlocal foldmethod=syntax

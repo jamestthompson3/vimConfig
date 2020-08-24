@@ -184,7 +184,7 @@ local function core_options()
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
             {"VimEnter",        "*",      [[nested lua require'tools'.openQuickfix()]]};
-            {"UIEnter",         "*",      [[lua require'ui']]};
+            -- {"UIEnter",         "*",      [[lua require'ui']]};
             {"TextYankPost",    "*",      [[silent! lua require'vim.highlight'.on_yank()]]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
@@ -236,7 +236,6 @@ local function core_options()
             { "BufRead,BufNewFile", "*/nginx/*.conf","set ft=nginx"};
             { "BufNewFile,BufRead", "*.bat,*.sys", "set ft=dosbatch"};
             { "BufNewFile,BufRead", "*.mm,*.m", "set ft=objc"};
-            { "BufNewFile,BufRead", "*.pu,*.uml,*.plantuml,*.puml,*.iuml", "packadd plantuml-syntax | packadd vim-slumlord | set ft=plantuml"};
             { "BufNewFile,BufRead", "*.h,*.m,*.mm","set tags+=~/global-objc-tags"};
             { "BufNewFile,BufRead", "*.tsx", "setlocal commentstring=//%s"};
             { "BufNewFile,BufRead", "*.svelte", "setfiletype html"};

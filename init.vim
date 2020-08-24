@@ -9,6 +9,7 @@ let mapleader = "\<Space>"
 lua << EOF
 require('mappings')
 require('init')
+-- require('ui') TODO figure out colors that work w/ treesitter
 EOF
 
 " TODO move to lua
@@ -24,18 +25,6 @@ let g:pear_tree_pairs = {
 
 " Configure the completion chains
 let g:completion_chain_complete_list = {
-      \'default' : {
-      \	'default' : [
-      \{'complete_items': ['lsp', 'snippet']},
-      \{'mode': '<c-p>'},
-      \{'mode': '<c-n>'},
-      \{'mode': 'keyn'},
-      \{'mode': 'keyp'},
-      \{'mode': 'file'}
-      \	],
-      \	'comment' : [],
-      \	'string' : []
-      \	},
       \'c' : [
       \	{'complete_items': ['ts']},
       \{'mode': 'tags'},
@@ -63,9 +52,9 @@ let g:completion_chain_complete_list = {
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},
       \{'mode': 'keyp'},
+      \	{'complete_items': ['path']},
       \{'mode': 'incl'},
-      \{'mode': 'defs'},
-      \{'mode': 'file'}
+      \{'mode': 'defs'}
       \	],
       \'typescriptreact' : [
       \	{'complete_items': ['ts']},
@@ -73,11 +62,21 @@ let g:completion_chain_complete_list = {
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},
       \{'mode': 'keyp'},
+      \	{'complete_items': ['path']},
       \{'mode': 'incl'},
-      \{'mode': 'defs'},
-      \{'mode': 'file'}
+      \{'mode': 'defs'}
       \	],
       \'lua' : [
-      \	{'complete_items': ['ts']}
+      \	{'complete_items': ['ts', 'lsp']}
       \	],
-      \}
+      \	'default' : [
+      \{'complete_items': ['lsp', 'snippet', 'path']},
+      \{'mode': '<c-p>'},
+      \{'mode': '<c-n>'},
+      \{'mode': 'keyn'},
+      \{'mode': 'keyp'},
+      \{'mode': 'file'}
+      \	]
+      \	}
+
+colorscheme tokyo-metro

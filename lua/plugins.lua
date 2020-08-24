@@ -74,9 +74,6 @@ local function loadDeps()
     require'nvim-treesitter.configs'.setup {
       highlight = {
         enable = true,                    -- false will disable the whole extension
-        custom_captures = {               -- mapping of user defined captures to highlight groups
-        -- ["foo.bar"] = "Identifier"   -- highlight own capture @foo.bar with highlight group "Identifier", see :h nvim-treesitter-query-extensions
-      },
     },
     incremental_selection = {
       enable = true,
@@ -112,12 +109,6 @@ local function loadDeps()
   enable = true,
   disable = {},
   keymaps = {
-    ["iL"] = { -- you can define your own textobjects directly here
-    python = "(function_definition) @function",
-    cpp = "(function_definition) @function",
-    c = "(function_definition) @function",
-    java = "(method_declaration) @function"
-  },
   -- or you use the queries from supported languages with textobjects.scm
   ["af"] = "@function.outer",
   ["if"] = "@function.inner",
