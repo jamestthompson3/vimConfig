@@ -36,9 +36,9 @@ highlight SpellRare        guifg=#198cff       guibg=NONE          gui=NONE     
 
 highlight Function         guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight Identifier       guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
-highlight Include          guifg=NONE         guibg=NONE     gui=italic     ctermfg=NONE  ctermbg=NONE  cterm=NONE
+highlight Include          guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=bold
 highlight Keyword          guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
-highlight PreProc          guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
+highlight PreProc          guifg=Magenta         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Question         guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Number           guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight String           guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
@@ -49,7 +49,7 @@ highlight Statement        guifg=NONE         guibg=NONE     gui=NONE       cter
 highlight Type             guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Directory        guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Underlined       guifg=NONE         guibg=NONE     gui=underline  ctermfg=NONE  ctermbg=NONE  cterm=NONE
-highlight Title            guifg=Magenta      guibg=NONE     gui=bold       ctermfg=15    ctermbg=NONE  cterm=NONE
+highlight Title            guifg=#fb7da7      guibg=NONE     gui=bold       ctermfg=15    ctermbg=NONE  cterm=NONE
 highlight Special          guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight ConstStrings     guifg=#198cff      guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight ReturnStatement  guifg=#198cff      guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
@@ -87,6 +87,12 @@ highlight tsxTag                         guifg=#f5ac46     guibg=NONE  gui=NONE 
 highlight tsxCloseTag                    guifg=#f5ac46     guibg=NONE  gui=NONE      ctermfg=215  ctermbg=NONE    cterm=NONE
 highlight tsxAttrib                      guifg=#b5ae7d     guibg=NONE  gui=NONE      ctermfg=144  ctermbg=NONE    cterm=NONE
 highlight tsxTagName                     guifg=#648c9c     guibg=NONE  gui=NONE      ctermfg=12   ctermbg=NONE    cterm=NONE
+
+" Treesitter
+highlight TSConstructor    guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
+highlight TSType           guifg=#88aa77     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
+highlight TSMethod         guifg=#7788aa     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
+highlight TSOperator       guifg=#b5ae7d     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 
 " Links
 hi! link ALEVirtualTextInfo   Comment
