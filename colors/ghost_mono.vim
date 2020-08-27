@@ -95,6 +95,7 @@ highlight TSMethod         guifg=#7788aa     guibg=NONE     gui=NONE       cterm
 highlight TSOperator       guifg=#b5ae7d     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSPunctBracket   guifg=#818e8e     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSFunction       guifg=#aa7766     guibg=NONE     gui=NONE       ctermfg=137   ctermbg=NONE  cterm=NONE
+highlight TSCurrentScope   guifg=NONE        guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 
 " Links
 hi! link ALEVirtualTextInfo   Comment
