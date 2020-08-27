@@ -58,7 +58,6 @@ let g:completion_chain_complete_list = {
       \{'mode': 'file'}
       \	],
       \'typescript' : [
-      \	{'complete_items': ['ts']},
       \{'mode': '<c-p>'},
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},
@@ -68,7 +67,6 @@ let g:completion_chain_complete_list = {
       \{'mode': 'defs'}
       \	],
       \'typescriptreact' : [
-      \	{'complete_items': ['ts']},
       \{'mode': '<c-p>'},
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},

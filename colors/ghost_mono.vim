@@ -38,7 +38,7 @@ highlight Function         guifg=NONE         guibg=NONE     gui=NONE       cter
 highlight Identifier       guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Include          guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=bold
 highlight Keyword          guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
-highlight PreProc          guifg=Magenta         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
+highlight PreProc          guifg=Magenta      guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Question         guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Number           guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight String           guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
@@ -93,6 +93,8 @@ highlight TSConstructor    guifg=#648c9c     guibg=NONE     gui=NONE       cterm
 highlight TSType           guifg=#88aa77     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSMethod         guifg=#7788aa     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSOperator       guifg=#b5ae7d     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
+highlight TSPunctBracket   guifg=#818e8e     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
+highlight TSFunction       guifg=#aa7766     guibg=NONE     gui=NONE       ctermfg=137   ctermbg=NONE  cterm=NONE
 
 " Links
 hi! link ALEVirtualTextInfo   Comment
