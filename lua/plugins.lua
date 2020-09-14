@@ -89,7 +89,7 @@ local function loadDeps()
       enable = true
     },
     highlight_current_scope = {
-      enable = true
+      enable = false
     },
     smart_rename = {
       enable = true,
@@ -106,26 +106,9 @@ local function loadDeps()
     }
   },
   textobjects = { -- syntax-aware textobjects
-  enable = true,
+  enable = false,
   disable = {},
-  keymaps = {
-  -- or you use the queries from supported languages with textobjects.scm
-  ["af"] = "@function.outer",
-  ["if"] = "@function.inner",
-  ["aC"] = "@class.outer",
-  ["iC"] = "@class.inner",
-  ["ac"] = "@conditional.outer",
-  ["ic"] = "@conditional.inner",
-  ["ae"] = "@block.outer",
-  ["ie"] = "@block.inner",
-  ["al"] = "@loop.outer",
-  ["il"] = "@loop.inner",
-  ["is"] = "@statement.inner",
-  ["as"] = "@statement.outer",
-  ["ad"] = "@comment.outer",
-  ["am"] = "@call.outer",
-  ["im"] = "@call.inner"
-}
+  keymaps = {}
   },
 }
 loadedDeps = true

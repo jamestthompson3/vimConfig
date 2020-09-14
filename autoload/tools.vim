@@ -136,7 +136,6 @@ function! tools#PackagerInit() abort
   call packager#add('thinca/vim-localrc')
   call packager#add('junegunn/fzf.vim')
   call packager#add('nvim-lua/completion-nvim')
-  call packager#add('wadackel/vim-dogrun')
 
   call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
   call packager#add('nvim-treesitter/completion-treesitter', {'type': 'opt'})
