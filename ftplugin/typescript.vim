@@ -13,7 +13,7 @@ set formatoptions+=o
 setl omnifunc=v:lua.vim.lsp.omnifunc
 
 set suffixesadd+=.js,.jsx,.ts,.tsx
-lua require'user_lsp'.setMappings()
+" lua require'user_lsp'.setMappings()
 
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
