@@ -146,7 +146,7 @@ function! tools#PackagerInit() abort
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
   call packager#add('majutsushi/tagbar', { 'type': 'opt' })
-  call packager#add('neovim/nvim-lsp', { 'type': 'opt' })
+  call packager#add('neovim/nvim-lspconfig', { 'type': 'opt' })
   call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
   call packager#add('reedes/vim-wordy', { 'type': 'opt' })
   call packager#add('romainl/vim-cool', { 'type': 'opt'})

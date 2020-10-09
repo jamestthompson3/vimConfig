@@ -48,7 +48,7 @@ local function loadDeps()
     vim.cmd [[packadd cfilter]]
     vim.cmd [[packadd pear-tree]]
     vim.cmd [[packadd rainbow_parentheses.vim]]
-    vim.cmd [[packadd nvim-lsp]]
+    vim.cmd [[packadd nvim-lspconfig]]
     vim.cmd [[packadd nvim-treesitter]]
     vim.cmd [[packadd completion-treesitter]]
 
@@ -76,7 +76,7 @@ local function loadDeps()
         enable = true,                    -- false will disable the whole extension
     },
     incremental_selection = {
-      enable = true,
+      enable = false,
       keymaps = {                       -- mappings for incremental selection (visual mappings)
       init_selection = 'gnn',         -- maps in normal mode to init the node/scope selection
       node_incremental = "grn",       -- increment to the upper named parent
@@ -98,7 +98,7 @@ local function loadDeps()
       }
     },
     navigation = {
-      enable = true,
+      enable = false,
       keymaps = {
         goto_definition = "gnd",      -- mapping to go to definition of symbol under cursor
         list_definitions = "gnD"      -- mapping to list all definitions in current file
@@ -111,6 +111,11 @@ local function loadDeps()
   keymaps = {}
   },
 }
+-- custom syntax since treesitter overrides nvim defaults
+-- Doesn't work... :/
+nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
+nvim.command [[syntax match  AllTodo "\ctodo\|fixme\|TODO\|FIXME"]]
+
 loadedDeps = true
   else
     return

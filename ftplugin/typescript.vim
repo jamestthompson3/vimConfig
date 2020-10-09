@@ -1,10 +1,6 @@
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-" let g:ale_completion_tsserver_autoimport = 1
-" let g:ale_cursor_detail = 1
-" let g:ale_virtualtext_cursor = 0
-
 packadd tagbar
 " packadd yats.vim
 
@@ -36,14 +32,19 @@ if !exists('b:did_typescript_setup')
   endif
 
   " lint file on write
-  let &l:makeprg = 'tsc --noEmit --pretty false'
+  " let &l:makeprg = 'tsc --noEmit --pretty false'
   " let &l:makeprg = 'eslint --format unix'
-
-  augroup TS
-    autocmd!
-    " FIXME for mono repo
-    " autocmd BufWritePost <buffer>  call TSLint()
-  augroup END
+" setlocal makeprg=yarn\ --silent\ lint:compact\ --\ --fix
+" setlocal autoread
+" augroup TS
+"     autocmd! * <buffer>
+"     autocmd BufWritePost <buffer> silent make <afile> | checktime | silent redraw!
+" augroup END
+  " augroup TS
+  "   autocmd!
+  "   " FIXME for mono repo
+  "   " autocmd BufWritePost <buffer>  call TSLint()
+  " augroup END
   set efm=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
   " let l:errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
   "TAGBAR:
@@ -117,7 +118,7 @@ function! TSLint() abort
   endfunction
 
   " call jobstart(printf('yarn eslint --format unix %s', bufname('%')), l:callbacks)
-  call jobstart('tsc --pretty false', l:callbacks)
+  " call jobstart(printf('tsc %s --pretty false', bufname('%')), l:callbacks)
 endfunction
 
 let g:ts_loaded = 1
