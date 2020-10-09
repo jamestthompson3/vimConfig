@@ -207,9 +207,9 @@ local function core_options()
             {"FileType netrw au BufLeave netrw close"};
             {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-l> console.log()<esc>i"};
             {"FileType lua inoremap <C-l> log()<esc>i"};
-            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap <C-c> console.log('%c%o', 'color: ;')<esc>F%;la"};
-            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
-            {"FileType typescript,typescript.tsx,typescriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascriptreact,javascript,javascript.jsx inoremap <C-c> console.log('%c%o', 'color: ;')<esc>F%;la"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascriptreact,javascript,javascript.jsx inoremap d<C-l> debugger"};
+            {"FileType typescript,typescript.tsx,typescriptreact,javascriptreact,javascript,javascript.jsx nnoremap <leader>i biimport {<esc>ea} from ''<esc>i"};
             {"FileType rust inoremap <C-l> println!(\"{}\",)<esc>i"};
             {"FileType dirvish nnoremap <buffer> <silent>D :lua require'tools'.deleteFile()<CR>"};
             {"FileType dirvish nnoremap <buffer> n :e %"};
