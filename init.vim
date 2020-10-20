@@ -58,20 +58,20 @@ let g:completion_chain_complete_list = {
       \{'mode': 'file'}
       \	],
       \'typescript' : [
+      \	{'complete_items': ['lsp','path']},
       \{'mode': '<c-p>'},
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},
       \{'mode': 'keyp'},
-      \	{'complete_items': ['path']},
       \{'mode': 'incl'},
       \{'mode': 'defs'}
       \	],
       \'typescriptreact' : [
+      \	{'complete_items': ['lsp','path']},
       \{'mode': '<c-p>'},
       \{'mode': '<c-n>'},
       \{'mode': 'keyn'},
       \{'mode': 'keyp'},
-      \	{'complete_items': ['path']},
       \{'mode': 'incl'},
       \{'mode': 'defs'}
       \	],

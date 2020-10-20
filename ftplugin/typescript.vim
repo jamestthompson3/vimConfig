@@ -2,7 +2,6 @@ let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
 packadd tagbar
-" packadd yats.vim
 
 set formatoptions+=o
 " temp

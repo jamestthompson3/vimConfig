@@ -132,10 +132,10 @@ function M.diagnostics_callback(_, _, result)
 end
 
 if not sign_defined then
-  vim.fn.sign_define('LspErrorSign', {text='X', texthl='LspDiagnosticsError', linehl='', numhl=''})
+  vim.fn.sign_define('LspErrorSign', {text='💥', texthl='LspDiagnosticsError', linehl='', numhl=''})
   vim.fn.sign_define('LspWarningSign', {text='◉', texthl='LspDiagnosticsWarning', linehl='', numhl=''})
-  vim.fn.sign_define('LspInfoSign', {text='i', texthl='LspDiagnosticsInfo', linehl='', numhl=''})
-  vim.fn.sign_define('LspHintSign', {text='H', texthl='LspDiagnosticsHint', linehl='', numhl=''})
+  vim.fn.sign_define('LspInfoSign', {text='🙃', texthl='LspDiagnosticsInfo', linehl='', numhl=''})
+  vim.fn.sign_define('LspHintSign', {text='💡', texthl='LspDiagnosticsHint', linehl='', numhl=''})
   sign_defined = true
 end
 
@@ -146,7 +146,7 @@ function M.setMappings()
     ["ngh"]        = map_cmd [[lua vim.lsp.buf.hover()]],
     ["n[d"]        = map_cmd [[NextDiagnostic]],
     ["n]d"]        = map_cmd [[PrevDiagnostic]],
-    ["ngr"]        = map_cmd [[lua vim.lsp.buf.references()]],
+    ["n<leader>r"]        = map_cmd [[lua vim.lsp.buf.references()]],
     ["n<leader>f"] = map_cmd [[lua vim.lsp.buf.formatting()]],
     ["n<leader>r"] = map_cmd [[lua vim.lsp.buf.rename()]]
   }
