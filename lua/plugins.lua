@@ -63,7 +63,8 @@ local function loadDeps()
     nvim_lsp.sumneko_lua.setup({})
     nvim_lsp.cssls.setup({})
     nvim_lsp.tsserver.setup({
-      cmd = { "typescript-language-server", "--stdio" }
+      cmd = { "typescript-language-server", "--stdio" },
+      filetypes = {"typescript", "typescriptreact"}
     })
 
     nvim_lsp.rls.setup({})
