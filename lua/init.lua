@@ -1,4 +1,5 @@
 require 'nvim_utils'
+require 'plugins'
 local api = vim.api
 local home = os.getenv("HOME")
 
@@ -145,8 +146,8 @@ local function core_options()
 
       api.nvim_command [[
       function! FileName()
-        return luaeval("require'tools'.setStatusLine()")
-       endfunction
+      return luaeval("require'tools'.setStatusLine()")
+      endfunction
       ]]
 
 
@@ -192,7 +193,7 @@ local function core_options()
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
             {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
             {"TermEnter",       "*",      "set nonumber"};
-            {"BufAdd",          "*",      [[lua require'plugins']]};
+            {"BufAdd",          "*",      [[lua require'tools'.configurePlugins()]]};
             {"BufEnter",        "*",      [[lua require'completion'.on_attach()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
@@ -265,12 +266,8 @@ local function core_options()
         nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tools'.replaceQf(<f-args>)]]
         nvim.command [[command! -bang SearchBuffers lua require'tools'.grepBufs(<q-args>)]]
         nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
-        nvim.command [[command! PackagerInstall call tools#PackagerInit() | call packager#install()]]
-        nvim.command [[command! -bang PackagerUpdate call tools#PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })]]
-        nvim.command [[command! PackagerClean call tools#PackagerInit() | call packager#clean()]]
         nvim.command [[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']]
         nvim.command [[command! CSBuild call symbols#buildCscopeFiles()]]
-        nvim.command [[command! PackagerStatus call tools#PackagerInit() | call packager#status()]]
         nvim.command [[command! MarkMargin call MarkMargin()]]
         nvim.command [[command! -nargs=+ ListFiles lua require'tools'.listFiles(<q-args>)]]
       end

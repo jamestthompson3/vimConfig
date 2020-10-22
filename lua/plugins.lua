@@ -1,5 +1,6 @@
+M = {}
 local api = vim.api
-local loadedDeps = false
+
 
 vim.g.netrw_localrmdir = 'rm -r'
 vim.g.netrw_banner=0
@@ -32,97 +33,147 @@ vim.g.matchup_matchparen_deferred = 1
 vim.g.matchup_match_paren_timeout = 100
 vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
-vim.g.rainbow_pairs = [[ ['(', ')'], ['[', ']'], ['{', '}'] ]]
 vim.g.fzf_layout = { window = 'lua NavigationFloatingWin()'}
 vim.g.completion_trigger_character = {'.', '::'}
 vim.g.completion_matching_strategy_list = {'fuzzy', 'substring', 'exact'}
+vim.g.completion_customize_lsp_label = {
+  Function= ' [function]',
+  Method= ' [method]',
+  Reference= ' [refrence]',
+  Enum= ' [enum]',
+  Field= 'ﰠ [field]',
+  Keyword= ' [key]',
+  Variable= ' [variable]',
+  Folder= ' [folder]',
+  Snippet= ' [snippet]',
+  Operator= ' [operator]',
+  Module= ' [module]',
+  Text= 'ﮜ[text]',
+  Class= ' [class]',
+  Interface= ' [interface]'
+}
 vim.g.completion_auto_change_source = 1
 
-
-local function loadDeps()
-  if not loadedDeps then
-
-    require 'navigation'
-
-    vim.cmd [[packadd ale]]
-    vim.cmd [[packadd cfilter]]
-    vim.cmd [[packadd pear-tree]]
-    vim.cmd [[packadd rainbow_parentheses.vim]]
-    vim.cmd [[packadd nvim-lspconfig]]
-    vim.cmd [[packadd nvim-treesitter]]
-    vim.cmd [[packadd completion-treesitter]]
-
-    vim.cmd [[packadd vim-commentary]]
-    vim.cmd [[packadd vim-cool]]
-    vim.cmd [[packadd vim-gutentags]]
-    vim.cmd [[packadd vim-matchup]]
-    vim.cmd [[packadd nvim-colorizer.lua]]
-    vim.cmd [[packadd vim-surround]]
-
-    local nvim_lsp = require 'nvim_lsp'
-    nvim_lsp.sumneko_lua.setup({})
-    nvim_lsp.cssls.setup({})
-    nvim_lsp.tsserver.setup({
-      cmd = { "typescript-language-server", "--stdio" },
-      filetypes = {"typescript", "typescriptreact"}
-    })
-
-    nvim_lsp.rls.setup({})
-    nvim_lsp.bashls.setup({})
-
-    vim.fn['tools#loadCscope']()
-    local diagnostic = require('user_lsp')
-    vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
-
-    require'nvim-treesitter.configs'.setup {
-      highlight = {
-        enable = true,                    -- false will disable the whole extension
-      },
-      incremental_selection = {
-        enable = false,
-        keymaps = {                       -- mappings for incremental selection (visual mappings)
-        init_selection = 'gnn',         -- maps in normal mode to init the node/scope selection
-        node_incremental = "grn",       -- increment to the upper named parent
-        scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
-        node_decremental = "grm",       -- decrement to the previous node
-      }
-    },
-    refactor = {
-      highlight_definitions = {
-        enable = true
-      },
-      highlight_current_scope = {
-        enable = false
-      },
-      smart_rename = {
-        enable = true,
-        keymaps = {
-          smart_rename = "grr"          -- mapping to rename reference under cursor
-        }
-      },
-      navigation = {
-        enable = false,
-        keymaps = {
-          goto_definition = "gnd",      -- mapping to go to definition of symbol under cursor
-          list_definitions = "gnD"      -- mapping to list all definitions in current file
-        }
-      }
-    },
-    textobjects = { -- syntax-aware textobjects
-    enable = false,
-    disable = {},
-    keymaps = {}
+vim.g.completion_chain_complete_list = {
+  c = {
+    { complete_items = { 'ts' }},
+    { mode = '<c-p>'},
+    { mode = '<c-n>'},
+    { mode = 'keyn'},
+    { mode = 'tags'},
+    { mode = 'keyp'},
+    { mode = 'incl'},
+    { mode = 'defs'},
+    { mode = 'file'}
   },
+  html = {
+    { complete_items = { 'ts' }},
+    { mode = '<c-p>'},
+    { mode = '<c-n>'},
+    { mode = 'keyn'},
+    { mode = 'keyp'},
+    { mode = 'incl'},
+    { mode = 'tags'},
+    { mode = 'defs'},
+    { mode = 'file'}
+  },
+  python = {
+    { complete_items = { 'ts' }},
+    { mode = '<c-p>'},
+    { mode = '<c-n>'},
+    { mode = 'keyn'},
+    { mode = 'keyp'},
+    { mode = 'incl'},
+    { mode = 'defs'},
+    { mode = 'file'}
+  },
+  typescript = {
+    {complete_items = { 'lsp','path' }},
+    { mode = '<c-p>'},
+    { mode = '<c-n>'},
+    { mode = 'keyn'},
+    { mode = 'keyp'},
+    { mode = 'incl'},
+    { mode = 'defs'}
+  },
+  typescriptreact = {
+    {complete_items = { 'lsp','path' }},
+    { mode = '<c-p>'},
+    { mode = '<c-n>'},
+    { mode = 'keyn'},
+    { mode = 'keyp'},
+    { mode = 'incl'},
+    { mode = 'defs'}
+  },
+  lua = {
+    {complete_items = { 'ts', 'lsp' }}
+  },
+  default = {
+    {complete_items = { 'lsp', 'snippet', 'path' }},
+    { mode = '<c-p>'},
+    { mode = '<c-n>'},
+    { mode = 'keyn'},
+    { mode = 'keyp'},
+    { mode = 'file'}
+  }
 }
--- custom syntax since treesitter overrides nvim defaults
--- Doesn't work... :/
-nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
-nvim.command [[syntax match  AllTodo "\ctodo\|fixme\|TODO\|FIXME"]]
 
-loadedDeps = true
-  else
+
+
+
+-- Check if the packer tool exists
+local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
+
+if not packer_exists then
+  -- TODO: Maybe handle windows better?
+  if vim.fn.input("Download Packer? (y for yes)") ~= "y" then
     return
   end
+
+  local directory = string.format(
+  '%s/site/pack/packer/opt/',
+  vim.fn.stdpath('data')
+  )
+
+  vim.fn.mkdir(directory, 'p')
+
+  local out = vim.fn.system(string.format(
+  'git clone %s %s',
+  'https://github.com/wbthomason/packer.nvim',
+  directory .. '/packer.nvim'
+  ))
+
+  print(out)
+  print("Downloading packer.nvim...")
+
+  return
 end
 
-loadDeps()
+
+return require('packer').startup(function()
+  use 'justinmk/vim-dirvish'
+  use 'thinca/vim-localrc'
+  use 'junegunn/fzf.vim'
+  use 'nvim-lua/completion-nvim'
+  use 'neovim/nvim-lspconfig'
+
+  use { 'wbthomason/packer.nvim', opt = true }
+  use { 'nvim-treesitter/nvim-treesitter', opt = true, event = 'VimEnter *' }
+  use { 'nvim-treesitter/completion-treesitter', opt = true, event = 'VimEnter *' }
+  use { 'andymass/vim-matchup', opt = true, event = 'VimEnter *' }
+  use { 'dense-analysis/ale', opt = true, event = 'VimEnter *' }
+  use { 'junegunn/fzf', run = './install --all'}
+  use { 'kristijanhusak/vim-packager', opt = true }
+  use { 'ludovicchabant/vim-gutentags', opt = true, event = 'VimEnter *'  }
+  use { 'majutsushi/tagbar', opt = true }
+  use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css'} }
+  use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
+  use { 'romainl/vim-cool', opt = true, event = 'VimEnter *' }
+  use { 'tmsvg/pear-tree', opt = true, event = 'VimEnter *' }
+  use { 'tpope/vim-apathy', opt = true }
+  use { 'tpope/vim-commentary',opt = true, event = 'VimEnter *' }
+  use { 'tpope/vim-surround', opt = true, event = 'VimEnter *'  }
+  use { 'tpope/vim-repeat', opt = true, event = 'VimEnter *' }
+
+  -- use packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
+end)

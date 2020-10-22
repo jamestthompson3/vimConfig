@@ -129,35 +129,6 @@ function! tools#CombineSelection(line1, line2, cp)
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
 
-function! tools#PackagerInit() abort
-  packadd vim-packager
-  call packager#init()
-  call packager#add('justinmk/vim-dirvish')
-  call packager#add('thinca/vim-localrc')
-  call packager#add('junegunn/fzf.vim')
-  call packager#add('nvim-lua/completion-nvim')
-
-  call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
-  call packager#add('nvim-treesitter/completion-treesitter', {'type': 'opt'})
-  call packager#add('andymass/vim-matchup', { 'type': 'opt' })
-  call packager#add('dense-analysis/ale', { 'type': 'opt' })
-  call packager#add('junegunn/fzf', { 'do': 'call fzf#install()'})
-  call packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
-  call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-  call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
-  call packager#add('majutsushi/tagbar', { 'type': 'opt' })
-  call packager#add('neovim/nvim-lspconfig', { 'type': 'opt' })
-  call packager#add('norcalli/nvim-colorizer.lua', { 'type': 'opt' })
-  call packager#add('reedes/vim-wordy', { 'type': 'opt' })
-  call packager#add('romainl/vim-cool', { 'type': 'opt'})
-  call packager#add('tmsvg/pear-tree', {'type': 'opt'})
-  call packager#add('tpope/vim-apathy', { 'type': 'opt' })
-  call packager#add('tpope/vim-commentary', { 'type': 'opt'})
-  call packager#add('tpope/vim-surround', { 'type': 'opt' })
-
-endfunction
-
-
 function! tools#loadCscope() abort
   try
     silent cscope add cscope.out
