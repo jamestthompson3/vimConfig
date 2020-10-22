@@ -163,7 +163,6 @@ return require('packer').startup(function()
   use { 'andymass/vim-matchup', opt = true, event = 'VimEnter *' }
   use { 'dense-analysis/ale', opt = true, event = 'VimEnter *' }
   use { 'junegunn/fzf', run = './install --all'}
-  use { 'kristijanhusak/vim-packager', opt = true }
   use { 'ludovicchabant/vim-gutentags', opt = true, event = 'VimEnter *'  }
   use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
   use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css'} }

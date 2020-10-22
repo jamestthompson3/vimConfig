@@ -185,7 +185,6 @@ local function core_options()
           load_core = {
             {"VimEnter",        "*",      [[lua splashscreen()]]};
             {"VimEnter",        "*",      [[nested lua require'tools'.openQuickfix()]]};
-            -- {"UIEnter",         "*",      [[lua require'ui']]};
             {"TextYankPost",    "*",      [[silent! lua require'vim.highlight'.on_yank()]]};
             {"BufNewFile",      "*.html", "0r ~/vim/skeletons/skeleton.html"};
             {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
@@ -199,7 +198,6 @@ local function core_options()
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
             {"QuickFixCmdPost", "[^l]*", [[nested lua require'tools'.openQuickfix()]]};
             {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
-            -- {"CursorHold",         "*",     [[lua require'tools'.blameVirtText()]]};
             {"CursorMoved",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
             {"CursorMovedI",        "*",     [[lua require'tools'.clearBlameVirtText()]]};
             {"FocusGained,CursorMoved,CursorMovedI", "*", "checktime"};
