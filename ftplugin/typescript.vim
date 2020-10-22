@@ -1,8 +1,6 @@
 let b:ale_linters = ['eslint']
 let b:ale_fixers = ['prettier']
 
-packadd tagbar
-
 set formatoptions+=o
 " temp
 setl omnifunc=v:lua.vim.lsp.omnifunc

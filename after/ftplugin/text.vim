@@ -1,4 +1,3 @@
-packadd vim-wordy
 setlocal wrap
 setlocal linebreak
 setlocal spell

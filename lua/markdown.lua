@@ -3,10 +3,8 @@ require 'navigation'
 local api = vim.api
 local M = {}
 local setWriterline = false
-api.nvim_command [[ packadd vim-waikiki ]]
 
 function M.composer()
-  api.nvim_command [[ packadd vim-wordy ]]
   vim.wo[0].wrap = true
   vim.wo[0].linebreak = true
   vim.wo[0].spell = true
@@ -24,8 +22,6 @@ end
 
 -- Globals
 vim.g.markdown_fenced_languages = { 'html', 'typescript', 'javascript', 'js=javascript', 'bash=sh', 'rust' }
-vim.g.waikiki_wiki_roots = { '~/notes', '~/code/dank/knowledge-base' }
-vim.g.waikiki_default_maps = 1
 
 local options = {
   foldlevel   =  1;

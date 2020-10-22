@@ -165,7 +165,7 @@ return require('packer').startup(function()
   use { 'junegunn/fzf', run = './install --all'}
   use { 'kristijanhusak/vim-packager', opt = true }
   use { 'ludovicchabant/vim-gutentags', opt = true, event = 'VimEnter *'  }
-  use { 'majutsushi/tagbar', opt = true }
+  use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
   use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css'} }
   use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
   use { 'romainl/vim-cool', opt = true, event = 'VimEnter *' }
