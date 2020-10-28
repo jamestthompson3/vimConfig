@@ -40,7 +40,7 @@ function splashscreen()
     api.nvim_command [[setl nocursorline]]
     vim.wo[0].cursorcolumn=false
     require 'tools'.simpleMRU()
-    api.nvim_command [[:23]]
+    api.nvim_command [[:34]]
     api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
     vim.bo[0].modified=false
     vim.bo[0].modifiable=false
