@@ -10,9 +10,8 @@ let g:javascript_plugin_flow = 1
 let g:vim_json_syntax_conceal = 0
 
 nnoremap <silent>K :call tools#ListTags()<CR>
-" lua require'user_lsp'.setMappings()
+lua require'user_lsp'.setMappings()
 
-" lua require'user_lsp'.setMappings()
 
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\)

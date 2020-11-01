@@ -19,7 +19,7 @@ function M.configurePlugins()
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({
     cmd = { "typescript-language-server", "--stdio" },
-    filetypes = {"typescript", "typescriptreact"}
+    -- filetypes = {"typescript", "typescriptreact"}
   })
 
   nvim_lsp.rls.setup({})
