@@ -192,7 +192,7 @@ local function core_options()
             {"VimLeavePre",     "*",      [[lua require'tools'.saveSession()]]};
             {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
             {"TermEnter",       "*",      "set nonumber"};
-            {"BufAdd",          "*",      [[lua require'tools'.configurePlugins()]]};
+            {"UIEnter",          "*",     [[lua require'tools'.configurePlugins()]]};
             {"BufEnter",        "*",      [[lua require'completion'.on_attach()]]};
             {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
             {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};

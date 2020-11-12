@@ -3,10 +3,8 @@ syntax reset
 
 let g:colors_name = 'ghost_mono'
 
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
-
-highlight Comment          guifg=#f5ac46       guibg=NONE          gui=NONE       ctermfg=215    ctermbg=NONE   cterm=italic
+highlight Comment          guifg=#f5ac46       guibg=NONE          gui=NONE     ctermfg=215    ctermbg=NONE   cterm=NONE
 highlight VertSplit        guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight CursorLineNR     guifg=NONE          guibg=NONE          gui=NONE       ctermfg=247    ctermbg=236    cterm=NONE
 highlight Cursor           guifg=#2f2f30       guibg=#198cff       gui=NONE       ctermfg=247    ctermbg=236    cterm=NONE
@@ -90,7 +88,7 @@ highlight tsxTagName                     guifg=#648c9c     guibg=NONE  gui=NONE 
 
 " Treesitter
 highlight TSConstructor    guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
-highlight TSType           guifg=#88aa77     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
+highlight TSType           guifg=#88aa77     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight TSMethod         guifg=#7788aa     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSOperator       guifg=#b5ae7d     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSPunctBracket   guifg=#818e8e     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
@@ -101,3 +99,4 @@ highlight TSCurrentScope   guifg=NONE        guibg=NONE     gui=NONE       cterm
 hi! link ALEVirtualTextInfo   Comment
 hi! link StatusLineModified   Todo
 hi! link Folded               DiffChange
+hi! link AllTodo              Todo

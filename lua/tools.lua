@@ -17,10 +17,7 @@ function M.configurePlugins()
   local nvim_lsp = require 'nvim_lsp'
   nvim_lsp.sumneko_lua.setup({})
   nvim_lsp.cssls.setup({})
-  nvim_lsp.tsserver.setup({
-    cmd = { "typescript-language-server", "--stdio" },
-    -- filetypes = {"typescript", "typescriptreact"}
-  })
+  nvim_lsp.tsserver.setup({})
 
   nvim_lsp.rls.setup({})
   nvim_lsp.bashls.setup({})
@@ -72,7 +69,7 @@ function M.configurePlugins()
 -- custom syntax since treesitter overrides nvim defaults
 -- Doesn't work... :/
 nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
-nvim.command [[syntax match  AllTodo "\ctodo\|fixme\|TODO\|FIXME"]]
+nvim.command [[syntax match  AllTodo "(\ctodo\|fixme\|TODO\|FIXME):\?"]]
 
 end
 

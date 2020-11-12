@@ -131,8 +131,8 @@ if not packer_exists then
   end
 
   local directory = string.format(
-  '%s/site/pack/packer/opt/',
-  vim.fn.stdpath('data')
+  '%s/pack/packer/opt/',
+  vim.fn.stdpath('config')
   )
 
   vim.fn.mkdir(directory, 'p')
@@ -165,7 +165,7 @@ return require('packer').startup(function()
   use { 'junegunn/fzf', run = './install --all'}
   use { 'ludovicchabant/vim-gutentags', opt = true, event = 'VimEnter *'  }
   use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
-  use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css'} }
+  use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
   use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
   use { 'romainl/vim-cool', opt = true, event = 'VimEnter *' }
   use { 'tmsvg/pear-tree', opt = true, event = 'VimEnter *' }
