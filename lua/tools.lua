@@ -24,7 +24,13 @@ function M.configurePlugins()
 
   vim.fn['tools#loadCscope']()
   local diagnostic = require('user_lsp')
-  vim.lsp.callbacks['textDocument/publishDiagnostics'] = diagnostic.diagnostics_callback
+  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = true,
+      virtual_text = false,
+      signs = true,
+    }
+  )
 
   require'nvim-treesitter.configs'.setup {
     highlight = {
