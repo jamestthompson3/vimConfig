@@ -26,4 +26,22 @@ function M.setMappings()
   nvim_apply_mappings(mappings, {silent = true})
 end
 
+function M.configureLSP()
+  local nvim_lsp = require 'lspconfig'
+  -- nvim_lsp.sumneko_lua.setup({})
+  nvim_lsp.cssls.setup({})
+  nvim_lsp.tsserver.setup({})
+
+  nvim_lsp.rls.setup({})
+  nvim_lsp.bashls.setup({})
+  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    virtual_text = false,
+    signs = true,
+  }
+  )
+
+end
+
 return M

@@ -154,25 +154,26 @@ return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
   use 'thinca/vim-localrc'
   use 'junegunn/fzf.vim'
-  use 'nvim-lua/completion-nvim'
-  use 'neovim/nvim-lspconfig'
-
+  use { 'nvim-lua/completion-nvim', { 'neovim/nvim-lspconfig', config = function() require('user_lsp').configureLSP() end}}
   use { 'wbthomason/packer.nvim', opt = true }
-  use { 'nvim-treesitter/nvim-treesitter', opt = true, event = 'VimEnter *' }
-  use { 'nvim-treesitter/completion-treesitter', opt = true, event = 'VimEnter *' }
-  use { 'andymass/vim-matchup', opt = true, event = 'VimEnter *' }
-  use { 'dense-analysis/ale', opt = true, event = 'VimEnter *' }
-  use { 'junegunn/fzf', run = './install --all'}
-  use { 'ludovicchabant/vim-gutentags', opt = true, event = 'VimEnter *'  }
-  use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
-  use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
-  use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
-  use { 'romainl/vim-cool', opt = true, event = 'VimEnter *' }
-  use { 'tmsvg/pear-tree', opt = true, event = 'VimEnter *' }
-  use { 'tpope/vim-apathy', opt = true }
-  use { 'tpope/vim-commentary',opt = true, event = 'VimEnter *' }
-  use { 'tpope/vim-surround', opt = true, event = 'VimEnter *'  }
-  use { 'tpope/vim-repeat', opt = true, event = 'VimEnter *' }
+  use { 'nvim-treesitter/nvim-treesitter', event = 'VimEnter *', config = function()
+    require('treesitter')
+  end
+}
+use { 'nvim-treesitter/completion-treesitter', opt = true, event = 'VimEnter *' }
+use { 'andymass/vim-matchup', opt = true, event = 'VimEnter *' }
+use { 'dense-analysis/ale', opt = true, event = 'VimEnter *' }
+use { 'junegunn/fzf', run = './install --all'}
+use { 'ludovicchabant/vim-gutentags', opt = true, event = 'VimEnter *'  }
+use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
+use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
+use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
+use { 'romainl/vim-cool', opt = true, event = 'VimEnter *' }
+use { 'tmsvg/pear-tree', opt = true, event = 'VimEnter *' }
+use { 'tpope/vim-apathy', opt = true }
+use { 'tpope/vim-commentary',opt = true, event = 'VimEnter *' }
+use { 'tpope/vim-surround', opt = true, event = 'VimEnter *'  }
+use { 'tpope/vim-repeat', opt = true, event = 'VimEnter *' }
 
-  -- use packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
+-- use packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
 end)
