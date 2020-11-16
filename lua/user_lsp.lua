@@ -13,7 +13,7 @@ end
 
 function M.setMappings()
   local mappings = {
-    ["nge"]        = map_cmd [[lua vim.lsp.diagnostic.goto_next()]],
+    ["nge"]        = map_cmd [[lua vim.lsp.diagnostic.show_line_diagnostics()]],
     ["ngd"]        = map_cmd [[lua vim.lsp.buf.definition()]],
     ["ngh"]        = map_cmd [[lua vim.lsp.buf.hover()]],
     ["n[d"]        = map_cmd [[NextDiagnostic]],
