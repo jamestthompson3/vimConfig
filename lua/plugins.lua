@@ -19,6 +19,8 @@ vim.g.ale_virtualtext_cursor = 1
 vim.g.ale_javascript_prettier_use_local_config = 1
 vim.g.ale_fixers = {json = {"prettier"}}
 vim.g.ale_echo_msg_format = '[%linter%] %s » %code%'
+vim.g.ale_echo_cursor = 0
+vim.g.ale_virtualtext_prefix = ''
 vim.g.ale_sign_column_always = 0
 vim.g.pear_tree_smart_openers = 1
 vim.g.pear_tree_smart_closers = 1
