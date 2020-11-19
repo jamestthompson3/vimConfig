@@ -25,7 +25,7 @@ highlight Todo             guifg=White         guibg=#fb7da7       gui=bold     
 highlight Pmenu            guifg=#9c9695       guibg=#171616       gui=NONE       ctermfg=249    ctermbg=232    cterm=NONE
 highlight PmenuSel         guifg=#393636       guibg=#787271       gui=NONE       ctermfg=237    ctermbg=250    cterm=NONE
 highlight PmenuThumb       guifg=NONE          guibg=#393636       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
-highlight NormalNC         guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
+highlight NormalNC         guifg=#818e8e       guibg=#363636       gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight NonText          guifg=#ffce5b       guibg=NONE          gui=NONE       ctermfg=237    ctermbg=NONE   cterm=NONE
 highlight Whitespace       guifg=#2f343f       guibg=NONE          gui=NONE       ctermfg=237    ctermbg=NONE   cterm=NONE
 highlight WildMenu         guifg=#16161d       guibg=#d2cfcf       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
