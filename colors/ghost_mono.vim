@@ -78,15 +78,20 @@ highlight ALEVirtualTextError        guifg=Black       guibg=#ff4444  gui=NONE  
 highlight ALEVirtualTextWarning      guifg=Black       guibg=#f5ac46  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 
 " Language specific groups
-highlight typescriptPromiseMethod        guifg=#198cff     guibg=NONE  gui=NONE      ctermfg=107  ctermbg=NONE    cterm=NONE
-highlight typescriptPromiseStaticMethod  guifg=#198cff     guibg=NONE  gui=NONE      ctermfg=107  ctermbg=NONE    cterm=NONE
-highlight typescriptES6SetMethod         guifg=#198cff     guibg=NONE  gui=NONE      ctermfg=107  ctermbg=NONE    cterm=NONE
-highlight typescriptParens               guifg=#818e8e     guibg=NONE  gui=NONE      ctermfg=236  ctermbg=NONE    cterm=italic
-highlight typescriptBraces               guifg=#818e8e     guibg=NONE  gui=NONE      ctermfg=236  ctermbg=NONE    cterm=italic
-highlight tsxTag                         guifg=#f5ac46     guibg=NONE  gui=NONE      ctermfg=215  ctermbg=NONE    cterm=NONE
-highlight tsxCloseTag                    guifg=#f5ac46     guibg=NONE  gui=NONE      ctermfg=215  ctermbg=NONE    cterm=NONE
-highlight tsxAttrib                      guifg=#b5ae7d     guibg=NONE  gui=NONE      ctermfg=144  ctermbg=NONE    cterm=NONE
-highlight tsxTagName                     guifg=#648c9c     guibg=NONE  gui=NONE      ctermfg=12   ctermbg=NONE    cterm=NONE
+highlight typescriptPromiseMethod        guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
+highlight typescriptPromiseStaticMethod  guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
+highlight typescriptES6SetMethod         guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
+highlight typescriptParens               guifg=#818e8e     guibg=NONE     gui=NONE      ctermfg=236   ctermbg=NONE    cterm=italic
+highlight typescriptBraces               guifg=#818e8e     guibg=NONE     gui=NONE      ctermfg=236   ctermbg=NONE    cterm=italic
+highlight tsxTag                         guifg=#f5ac46     guibg=NONE     gui=NONE      ctermfg=215   ctermbg=NONE    cterm=NONE
+highlight tsxCloseTag                    guifg=#f5ac46     guibg=NONE     gui=NONE      ctermfg=215   ctermbg=NONE    cterm=NONE
+highlight tsxAttrib                      guifg=#b5ae7d     guibg=NONE     gui=NONE      ctermfg=144   ctermbg=NONE    cterm=NONE
+highlight tsxTagName                     guifg=#648c9c     guibg=NONE     gui=NONE      ctermfg=12    ctermbg=NONE    cterm=NONE
+highlight scalaInstanceDeclaration       guifg=#648c9c     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=italic
+highlight scalaNameDefinition            guifg=#aa7766     guibg=NONE     gui=NONE      ctermfg=137   ctermbg=NONE    cterm=NONE
+highlight scalaTypeDefinition            guifg=#88aa77     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=NONE
+" highlight scalaBlock                     guifg=#7788aa     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=italic
+highlight scalaSpecial                   guifg=#d2cfcf     guibg=#16161d  gui=italic    ctermfg=255   ctermbg=NONE    cterm=italic
 
 " Treesitter
 highlight TSConstructor    guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
