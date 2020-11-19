@@ -67,7 +67,7 @@ highlight BlockQuote                 guifg=#648c9c     guibg=NONE     gui=NONE  
 highlight Callout                    guifg=#198cff     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight ALEError                   guifg=#ff4444     guibg=NONE     gui=undercurl  ctermfg=0    ctermbg=203   cterm=NONE
 highlight ALEInfo                    guifg=Black       guibg=White    gui=NONE       ctermfg=0    ctermbg=215   cterm=NONE
-highlight ALEWarning                 guifg=Black       guibg=#f5ac46  gui=undercurl  ctermfg=0    ctermbg=214   cterm=NONE
+highlight ALEWarning                 guifg=#f5ac46     guibg=NONE    gui=undercurl  ctermfg=0    ctermbg=214   cterm=NONE
 highlight LspDiagnosticsError        guifg=#ff4444     guibg=NONE     gui=NONE       ctermfg=203  ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsWarning      guifg=#f5ac46     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsInformation  guifg=#0000ff     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
@@ -75,6 +75,7 @@ highlight LspDiagnosticsHint         guifg=#00afaf     guibg=NONE     gui=NONE  
 highlight ALEErrorSign               guifg=#ff4444     guibg=NONE     gui=NONE       ctermfg=203  ctermbg=NONE  cterm=NONE
 highlight ALEWarningSign             guifg=#f5ac46     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
 highlight ALEVirtualTextError        guifg=Black       guibg=#ff4444  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
+highlight ALEVirtualTextWarning      guifg=Black       guibg=#f5ac46  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 
 " Language specific groups
 highlight typescriptPromiseMethod        guifg=#198cff     guibg=NONE  gui=NONE      ctermfg=107  ctermbg=NONE    cterm=NONE
