@@ -1,9 +1,9 @@
-let b:ale_linters = ['eslint']
+let b:ale_linters = []
 let b:ale_fixers = ['prettier']
 
 set formatoptions+=o
 " temp
-setl omnifunc=v:lua.vim.lsp.omnifunc
+" setl omnifunc=v:lua.vim.lsp.omnifunc
 
 set suffixesadd+=.js,.jsx,.ts,.tsx
 lua require'user_lsp'.setMappings()
@@ -11,6 +11,16 @@ lua require'user_lsp'.setMappings()
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
 setlocal foldlevel=99
+
+" TODO figure out why ale is not working on mono repos
+set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %m,%-G%.%#
+setlocal makeprg=yarn\ run\ --silent\ lint:compact\ --fix
+
+setlocal autoread
+" augroup JS
+"     autocmd! * <buffer>
+"     autocmd BufWritePost <buffer> silent make <afile> | checktime | silent redraw!
+" augroup END
 
 if !exists('b:did_typescript_setup')
   " node_modules
@@ -42,7 +52,7 @@ if !exists('b:did_typescript_setup')
   "   " FIXME for mono repo
   "   " autocmd BufWritePost <buffer>  call TSLint()
   " augroup END
-  set efm=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+  " set efm=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
   " let l:errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
   "TAGBAR:
   let g:tagbar_type_typescript = {

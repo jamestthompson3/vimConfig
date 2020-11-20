@@ -10,15 +10,15 @@ highlight CursorLineNR     guifg=NONE          guibg=NONE          gui=NONE     
 highlight Cursor           guifg=#2f2f30       guibg=#198cff       gui=NONE       ctermfg=247    ctermbg=236    cterm=NONE
 highlight CursorLine       guifg=NONE          guibg=#2f343f       gui=NONE       ctermfg=NONE   ctermbg=236    cterm=NONE
 highlight LineNR           guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=238    ctermbg=NONE   cterm=NONE
-highlight Search           guifg=#16161d       guibg=#1fff5c       gui=italic     ctermfg=0      ctermbg=172    cterm=NONE
-highlight MatchParen       guifg=#2de2e6       guibg=#16161d       gui=bold       ctermfg=81     ctermbg=NONE   cterm=NONE
-highlight MatchWord        guifg=#2de2e6       guibg=#16161d       gui=bold       ctermfg=81     ctermbg=NONE   cterm=NONE
-highlight NormalFloat      guifg=#d2cfcf       guibg=#16161d       gui=NONE       ctermfg=81     ctermbg=NONE   cterm=NONE
-highlight Normal           guifg=#d2cfcf       guibg=#16161d       gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
+highlight Search           guifg=#121217       guibg=#1fff5c       gui=italic     ctermfg=0      ctermbg=172    cterm=NONE
+highlight MatchParen       guifg=#2de2e6       guibg=#121217       gui=bold       ctermfg=81     ctermbg=NONE   cterm=NONE
+highlight MatchWord        guifg=#2de2e6       guibg=#121217       gui=bold       ctermfg=81     ctermbg=NONE   cterm=NONE
+highlight NormalFloat      guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=81     ctermbg=NONE   cterm=NONE
+highlight Normal           guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
 highlight GitLens          guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
 highlight TabLineFill      guifg=#d2cfcf       guibg=#000000       gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
 highlight StatusLineNC     guifg=#818e8e       guibg=NONE          gui=underline  ctermfg=238    ctermbg=NONE   cterm=underline
-highlight StatusLine       guifg=#d2cfcf       guibg=#16161d       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
+highlight StatusLine       guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
 highlight TabLine          guifg=#d2cfcf       guibg=#000000       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
 highlight Visual           guifg=#f5ac46       guibg=#787271       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
 highlight Todo             guifg=White         guibg=#fb7da7       gui=bold       ctermfg=15     ctermbg=201    cterm=NONE
@@ -28,7 +28,7 @@ highlight PmenuThumb       guifg=NONE          guibg=#393636       gui=NONE     
 highlight NormalNC         guifg=#818e8e       guibg=#363636       gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight NonText          guifg=#ffce5b       guibg=NONE          gui=NONE       ctermfg=237    ctermbg=NONE   cterm=NONE
 highlight Whitespace       guifg=#2f343f       guibg=NONE          gui=NONE       ctermfg=237    ctermbg=NONE   cterm=NONE
-highlight WildMenu         guifg=#16161d       guibg=#d2cfcf       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
+highlight WildMenu         guifg=#121217       guibg=#d2cfcf       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
 highlight SpellBad         guifg=Red           guibg=NONE          gui=NONE       ctermfg=9      ctermbg=NONE   cterm=NONE
 highlight SpellRare        guifg=#198cff       guibg=NONE          gui=NONE       ctermfg=12     ctermbg=NONE   cterm=NONE
 
@@ -91,7 +91,7 @@ highlight scalaInstanceDeclaration       guifg=#648c9c     guibg=NONE     gui=NO
 highlight scalaNameDefinition            guifg=#aa7766     guibg=NONE     gui=NONE      ctermfg=137   ctermbg=NONE    cterm=NONE
 highlight scalaTypeDefinition            guifg=#88aa77     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=NONE
 " highlight scalaBlock                     guifg=#7788aa     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=italic
-highlight scalaSpecial                   guifg=#d2cfcf     guibg=#16161d  gui=italic    ctermfg=255   ctermbg=NONE    cterm=italic
+highlight scalaSpecial                   guifg=#d2cfcf     guibg=#121217  gui=italic    ctermfg=255   ctermbg=NONE    cterm=italic
 
 " Treesitter
 highlight TSConstructor    guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic

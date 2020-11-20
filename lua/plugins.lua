@@ -37,6 +37,7 @@ vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
 vim.g.fzf_layout = { window = 'lua NavigationFloatingWin()'}
 vim.g.completion_trigger_character = {'.', '::'}
+vim.g.completion_enable_auto_paren = 1
 vim.g.completion_matching_strategy_list = {'fuzzy', 'substring', 'exact'}
 vim.g.completion_customize_lsp_label = {
   Function= ' [function]',
@@ -162,20 +163,20 @@ return require('packer').startup(function()
     require('treesitter')
   end
 }
-use { 'nvim-treesitter/completion-treesitter', opt = true, event = 'VimEnter *' }
-use { 'andymass/vim-matchup', opt = true, event = 'VimEnter *' }
-use { 'dense-analysis/ale', opt = true, event = 'VimEnter *' }
+use { 'nvim-treesitter/completion-treesitter', opt = true, event = 'UIEnter *' }
+use { 'andymass/vim-matchup', opt = true, event = 'UIEnter *' }
+use { 'dense-analysis/ale', opt = true, event = 'UIEnter *' }
 use { 'junegunn/fzf', run = './install --all'}
-use { 'ludovicchabant/vim-gutentags', opt = true, event = 'VimEnter *'  }
+use { 'ludovicchabant/vim-gutentags', opt = true, event = 'UIEnter *'  }
 use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
 use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
 use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
 use { 'romainl/vim-cool', opt = true, event = 'VimEnter *' }
 use { 'tmsvg/pear-tree', opt = true, event = 'VimEnter *' }
 use { 'tpope/vim-apathy', opt = true }
-use { 'tpope/vim-commentary',opt = true, event = 'VimEnter *' }
-use { 'tpope/vim-surround', opt = true, event = 'VimEnter *'  }
-use { 'tpope/vim-repeat', opt = true, event = 'VimEnter *' }
+use { 'tpope/vim-commentary',opt = true, event = 'UIEnter *' }
+use { 'tpope/vim-surround', opt = true, event = 'UIEnter *'  }
+use { 'tpope/vim-repeat', opt = true, event = 'UIEnter *' }
 
 -- use packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
 end)
