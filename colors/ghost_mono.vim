@@ -13,19 +13,18 @@ highlight LineNR           guifg=#818e8e       guibg=NONE          gui=NONE     
 highlight Search           guifg=#121217       guibg=#1fff5c       gui=italic     ctermfg=0      ctermbg=172    cterm=NONE
 highlight MatchParen       guifg=#2de2e6       guibg=#121217       gui=bold       ctermfg=81     ctermbg=NONE   cterm=NONE
 highlight MatchWord        guifg=#2de2e6       guibg=#121217       gui=bold       ctermfg=81     ctermbg=NONE   cterm=NONE
-highlight NormalFloat      guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=81     ctermbg=NONE   cterm=NONE
-highlight Normal           guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
+highlight Normal           guifg=#d2cfcf       guibg=Black         gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
+highlight NormalNC         guifg=#d2cfcf       guibg=#0b0d0f       gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight GitLens          guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
 highlight TabLineFill      guifg=#d2cfcf       guibg=#000000       gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
-highlight StatusLineNC     guifg=#818e8e       guibg=NONE          gui=underline  ctermfg=238    ctermbg=NONE   cterm=underline
-highlight StatusLine       guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
+highlight StatusLine       guifg=#818e8e       guibg=NONE          gui=underline  ctermfg=238    ctermbg=NONE   cterm=underline
+highlight StatusLineNc     guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
 highlight TabLine          guifg=#d2cfcf       guibg=#000000       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
 highlight Visual           guifg=#f5ac46       guibg=#787271       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
 highlight Todo             guifg=White         guibg=#fb7da7       gui=bold       ctermfg=15     ctermbg=201    cterm=NONE
 highlight Pmenu            guifg=#9c9695       guibg=#171616       gui=NONE       ctermfg=249    ctermbg=232    cterm=NONE
 highlight PmenuSel         guifg=#393636       guibg=#787271       gui=NONE       ctermfg=237    ctermbg=250    cterm=NONE
 highlight PmenuThumb       guifg=NONE          guibg=#393636       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
-highlight NormalNC         guifg=#818e8e       guibg=#363636       gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight NonText          guifg=#ffce5b       guibg=NONE          gui=NONE       ctermfg=237    ctermbg=NONE   cterm=NONE
 highlight Whitespace       guifg=#2f343f       guibg=NONE          gui=NONE       ctermfg=237    ctermbg=NONE   cterm=NONE
 highlight WildMenu         guifg=#121217       guibg=#d2cfcf       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
@@ -104,5 +103,22 @@ highlight TSCurrentScope   guifg=NONE        guibg=NONE     gui=NONE       cterm
 
 " Links
 hi! link StatusLineModified   Todo
+hi! link NormalFloat          Normal
 hi! link Folded               DiffChange
 hi! link AllTodo              Todo
+
+" FZF
+let g:fzf_colors =
+      \ { "fg":      ["fg", "Normal"],
+      \ "bg":      ["bg", "Normal"],
+      \ "hl":      ["fg", "IncSearch"],
+      \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
+      \ "bg+":     ["bg", "CursorLine", "CursorColumn"],
+      \ "hl+":     ["fg", "IncSearch"],
+      \ "info":    ["fg", "IncSearch"],
+      \ "border":  ["fg", "Ignore"],
+      \ "prompt":  ["fg", "Comment"],
+      \ "pointer": ["fg", "IncSearch"],
+      \ "marker":  ["fg", "IncSearch"],
+      \ "spinner": ["fg", "IncSearch"],
+      \ "header":  ["fg", "WildMenu"] }

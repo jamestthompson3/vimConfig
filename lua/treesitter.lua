@@ -9,6 +9,7 @@ ts_config.setup {
     'html',
     'javascript',
     'json',
+    'scala',
     'python',
     'rust',
     'typescript',
