@@ -15,6 +15,7 @@ highlight MatchParen       guifg=#2de2e6       guibg=#121217       gui=bold     
 highlight MatchWord        guifg=#2de2e6       guibg=#121217       gui=bold       ctermfg=81     ctermbg=NONE   cterm=NONE
 highlight Normal           guifg=#d2cfcf       guibg=Black         gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
 highlight NormalNC         guifg=#d2cfcf       guibg=#0b0d0f       gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
+" highlight NormalFloat      guifg=Black         guibg=#818e8e       gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight GitLens          guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
 highlight TabLineFill      guifg=#d2cfcf       guibg=#000000       gui=NONE       ctermfg=255    ctermbg=NONE   cterm=NONE
 highlight StatusLine       guifg=#818e8e       guibg=NONE          gui=underline  ctermfg=238    ctermbg=NONE   cterm=underline
@@ -87,7 +88,7 @@ highlight tsxCloseTag                    guifg=#f5ac46     guibg=NONE     gui=NO
 highlight tsxAttrib                      guifg=#b5ae7d     guibg=NONE     gui=NONE      ctermfg=144   ctermbg=NONE    cterm=NONE
 highlight tsxTagName                     guifg=#648c9c     guibg=NONE     gui=NONE      ctermfg=12    ctermbg=NONE    cterm=NONE
 highlight scalaInstanceDeclaration       guifg=#648c9c     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=italic
-highlight scalaNameDefinition            guifg=#aa7766     guibg=NONE     gui=NONE      ctermfg=137   ctermbg=NONE    cterm=NONE
+highlight scalaNameDefinition            guifg=#9e3c3c     guibg=NONE     gui=NONE      ctermfg=137   ctermbg=NONE    cterm=NONE
 highlight scalaTypeDefinition            guifg=#88aa77     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=NONE
 " highlight scalaBlock                     guifg=#7788aa     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=italic
 highlight scalaSpecial                   guifg=#d2cfcf     guibg=#121217  gui=italic    ctermfg=255   ctermbg=NONE    cterm=italic
@@ -98,12 +99,11 @@ highlight TSType           guifg=#88aa77     guibg=NONE     gui=NONE       cterm
 highlight TSMethod         guifg=#7788aa     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSOperator       guifg=#b5ae7d     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSPunctBracket   guifg=#818e8e     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
-highlight TSFunction       guifg=#aa7766     guibg=NONE     gui=NONE       ctermfg=137   ctermbg=NONE  cterm=NONE
+highlight TSFunction       guifg=#9e3c3c     guibg=NONE     gui=NONE       ctermfg=137   ctermbg=NONE  cterm=NONE
 highlight TSCurrentScope   guifg=NONE        guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 
 " Links
 hi! link StatusLineModified   Todo
-hi! link NormalFloat          Normal
 hi! link Folded               DiffChange
 hi! link AllTodo              Todo
 

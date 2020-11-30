@@ -129,11 +129,9 @@ if get(g:, 'vim_markdown_json_frontmatter', 0)
   endtry
 endif
 
-if get(g:, 'vim_markdown_math', 0)
-  syn include @tex syntax/tex.vim
-  syn region mkdMath start="\\\@<!\$" end="\$" skip="\\\$" contains=@tex keepend
-  syn region mkdMath start="\\\@<!\$\$" end="\$\$" skip="\\\$" contains=@tex keepend
-endif
+syn include @tex syntax/tex.vim
+syn region mkdMath start="\\\@<!\$" end="\$" skip="\\\$" contains=@tex keepend
+syn region mkdMath start="\\\@<!\$\$" end="\$\$" skip="\\\$" contains=@tex keepend
 
 " Strike through
 if get(g:, 'vim_markdown_strikethrough', 0)
@@ -167,4 +165,4 @@ HtmlHiLink mkdDelimiter     Delimiter
 let b:current_syntax = "mkd"
 
 delcommand HtmlHiLink
-" vim: ts=8
+
