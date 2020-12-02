@@ -1,5 +1,5 @@
 local util = require 'vim.lsp.util'
-require('nvim_utils')
+require('tt.nvim_utils')
 
 local M = {}
 

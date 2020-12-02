@@ -1,8 +1,8 @@
-require 'nvim_utils'
+require('tt.nvim_utils')
 local api = vim.api
 local fn = vim.fn
-require 'navigation'
-local icons = require 'devicons'
+require('tt.navigation')
+local icons = require('tt.devicons')
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
@@ -10,7 +10,7 @@ local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 local M = {}
 
 function M.configurePlugins()
-  require 'navigation'
+  -- require 'navigation'
 
   vim.cmd [[packadd cfilter]]
 

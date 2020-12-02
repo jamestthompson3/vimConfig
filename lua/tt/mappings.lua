@@ -1,4 +1,4 @@
-require('nvim_utils')
+require('tt.nvim_utils')
 local M = {}
 
 function M.map()
@@ -21,7 +21,7 @@ function M.map()
     ["ngl"]            = map_cmd('pc'),
     ["n<leader><tab>"] = map_cmd('bn'),
     ["n<leader>-"]     = map_cmd('echo expand("%")'),
-    ["n<leader>g"]     = map_cmd [[lua require'tools'.lazyGit()]],
+    ["n<leader>g"]     = map_cmd [[lua require'tt.tools'.lazyGit()]],
     ["n<leader>f"]     = map_cmd('GFiles'),
     ["n[a"]            = map_cmd('prev'),
     ["n]a"]            = map_cmd('next'),
@@ -40,15 +40,15 @@ function M.map()
     ["nn"]             = map_call('n:call HLNext(0.1)'),
     ["nN"]             = map_call('N:call HLNext(0.1)'),
     ["nss"]            = map_cmd('so ~/sessions/'),
-    ["nssb"]           = map_cmd [[lua require'tools'.sourceSession()]],
+    ["nssb"]           = map_cmd [[lua require'tt.tools'.sourceSession()]],
     ["nM"]             = map_cmd('silent make'),
     ["ngh"]            = map_cmd('call symbols#ShowDeclaration(0)'),
     ["n]]"]            = map_cmd('ijump <C-R><C-W>'),
     ["nsd"]            = map_cmd('call symbols#PreviewWord()'),
     ["n<F7>"]          = map_cmd('so "%"'),
-    ["n<F1>"]          = map_cmd [[lua require'tools'.profile()]],
-    ["n<leader>d"]     = map_cmd [[lua require'tools'.openTerminalDrawer(0)]],
-    ["n<leader>D"]     = map_cmd [[lua require'tools'.openTerminalDrawer(1)]],
+    ["n<F1>"]          = map_cmd [[lua require'tt.tools'.profile()]],
+    ["n<leader>d"]     = map_cmd [[lua require'tt.tools'.openTerminalDrawer(0)]],
+    ["n<leader>D"]     = map_cmd [[lua require'tt.tools'.openTerminalDrawer(1)]],
     ["n<leader>b"]     = map_cmd('Gblame'),
     ["n<leader>B"]     = map_cmd [[silent call git#blame()]],
     ["n<leader>w"]     = map_cmd('MatchupWhereAmI'),
@@ -58,8 +58,8 @@ function M.map()
     ["n<leader>G"]     = map_cmd('SearchBuffers'),
     ["n<C-p>"]         = map_cmd('Files'),
     ["n<C-b>"]         = map_cmd('Buffers'),
-    ["n<leader>lt"]    = map_cmd [[lua require'tools'.listTags()]],
-    ["n<leader>F"]     = map_cmd [[lua require'tools'.simpleMRU()]],
+    ["n<leader>lt"]    = map_cmd [[lua require'tt.tools'.listTags()]],
+    ["n<leader>F"]     = map_cmd [[lua require'tt.tools'.simpleMRU()]],
     ["v<leader>g"]     = map_cmd("<C-U>call tools#HighlightRegion('Green')"),
     ["v<leader>G"]     = map_cmd('<C-U>call tools#UnHighlightRegion('),
     ["nS"]             = map_no_cr('%s//g<LEFT><LEFT>'),
