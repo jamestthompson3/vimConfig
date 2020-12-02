@@ -3,7 +3,8 @@ local set = vim.o
 local api = vim.api
 local home = os.getenv("HOME")
 
-vim.g.mapleader = "<Space>"
+vim.g.mapleader = " "
+
 api.nvim_command [[colorscheme ghost_mono]]
 
 api.nvim_command [[
@@ -39,7 +40,7 @@ set.updatetime      = 200
 set.conceallevel    = 2
 set.cscopetagorder  = 0
 set.cscopepathcomp  = 3
--- set.showbreak       = string.rep('>', 3) -- Make it so that long lines wrap smartly
+set.showbreak       = string.rep(' ', 3) -- Make it so that long lines wrap smartly
 
 set.mouse           = "nv"
 set.foldopen        = "search"
@@ -48,7 +49,7 @@ set.fileformat      = 'unix'
 set.diffopt         = "hiddenoff,iwhiteall,algorithm:patience"
 set.nrformats       = "bin,hex,alpha"
 set.wildmode        = "full"
-set.grepprg         = [[rg\ --smart-case\ --vimgrep\ --block-buffered]]
+set.grepprg         = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit     = "block"
 set.inccommand      = "split"
 set.cscopequickfix  = "s-,c-,d-,i-,t-,e-"
@@ -56,7 +57,7 @@ set.path            = '.,,,**'
 set.completeopt     = 'menuone,noinsert,noselect,longest'
 set.listchars       = 'tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿'
 set.complete        = '.,w,b,u'
-set.formatlistpat   = [[^\\s*\\[({]\\?\\([0-9]\\+\\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\\|^\\s*[-–+o*•]\\s\\+]]
+set.formatlistpat   = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.wildignore      = '*/dist*/*,*/target/*,*/builds/*,tags,*/flow-typed/*,*/node_modules/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot'
 set.shortmess       = vim.o.shortmess .. 's'
 set.undodir         = home .. "/.cache/Vim/undofile"
@@ -65,7 +66,7 @@ set.directory       = home .. "/.cache/Vim/swap"
 
 -- UI OPTS
 set.termguicolors  = true
---set.nowrap         = true
+set.wrap           = false
 set.cursorline     = true
 set.statusline     = "%#StatusLineModified#%{&mod?FileName():''}%*%{&mod?'':FileName()}%<" .. "%=" .. "%<" .. "%r\\ %L"
 -- statusline     = setStatusLine()
@@ -258,15 +259,15 @@ local function core_options()
           nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
           nvim.command [[command! Diff call git#diff()]]
           nvim.command [[command! TDiff call git#threeWayDiff()]]
-          nvim.command [[command! Gblame lua require'tools'.blameVirtText() ]]
+          nvim.command [[command! Gblame lua require'tt.tools'.blameVirtText() ]]
           nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
-          nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tools'.replaceQf(<f-args>)]]
-          nvim.command [[command! -bang SearchBuffers lua require'tools'.grepBufs(<q-args>)]]
+          nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tt.tools'.replaceQf(<f-args>)]]
+          nvim.command [[command! -bang SearchBuffers lua require'tt.tools'.grepBufs(<q-args>)]]
           nvim.command [[command! CSRefresh call symbols#CSRefreshAllConns()]]
           nvim.command [[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']]
           nvim.command [[command! CSBuild call symbols#buildCscopeFiles()]]
           nvim.command [[command! MarkMargin call MarkMargin()]]
-          nvim.command [[command! -nargs=+ ListFiles lua require'tools'.listFiles(<q-args>)]]
+          nvim.command [[command! -nargs=+ ListFiles lua require'tt.tools'.listFiles(<q-args>)]]
         end
 
         local modules_folder = 'modules' .. file_separator

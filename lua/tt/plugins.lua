@@ -34,6 +34,7 @@ return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
   use 'thinca/vim-localrc'
   use 'junegunn/fzf.vim'
+  -- use {'aca/completion-tabnine', run = './install.sh'}
   use { 'nvim-lua/completion-nvim', { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}}
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'nvim-treesitter/nvim-treesitter', event = 'VimEnter *', config = function()

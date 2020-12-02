@@ -3,465 +3,6 @@ vim = vim or {}
 api = vim.api
 fn = vim.fn
 
-VISUAL_MODE = {
-  line = "line"; -- linewise
-  block = "block"; -- characterwise
-  char = "char"; -- blockwise-visual
-}
-
-
-file_separator = is_windows and '\\' or '/'
-is_windows = vim.loop.os_uname().version:match("Windows")
-
-function log(item)
-  print(vim.inspect(item))
-end
-
---- Check if a file or directory exists in this path
-function exists(file)
-  local ok, err, code = os.rename(file, file)
-  if not ok then
-    if code == 13 then
-      -- Permission denied, but it exists
-      return true
-    end
-  end
-  return ok, err
-end
-
---- Check if a directory exists in this path
-function isdir(path)
-  -- "/" works on both Unix and Windows
-  return exists(path.."/")
-end
-
-
-function getPath(str)
-  local s = str:gsub("%-","")
-  return s:match("(.*[/\\])")
-end
-
--- TODO I fucking didn't know that vim.api.nvim_buf_* methods could take 0
--- to signify the current buffer, so refactor potentially everything to avoid
--- the call to vim.api.nvim_get_current_buf
-
--- An enhanced version of nvim_buf_get_mark which also accepts:
--- - A number as input: which is taken as a line number.
--- - A pair, which is validated and passed through otherwise.
-function nvim_mark_or_index(buf, input)
-  if type(input) == 'number' then
-    -- TODO how to handle column? It would really depend on whether this was the opening mark or ending mark
-    -- It also doesn't matter as long as the functions are respecting the mode for transformations
-    assert(input ~= 0, "Line number must be >= 1 or <= -1 for last line(s)")
-    return {input, 0}
-  elseif type(input) == 'table' then
-    -- TODO Further validation?
-    assert(#input == 2)
-    assert(input[1] >= 1)
-    return input
-  elseif type(input) == 'string' then
-    return vim.api.nvim_buf_get_mark(buf, input)
-    -- local result = vim.api.nvim_buf_get_mark(buf, input)
-    -- if result[2] == 2147483647 then
-    -- 	result[2] = -1
-    -- end
-    -- return result
-  end
-  assert(false, ("nvim_mark_or_index: Invalid input buf=%q, input=%q"):format(buf, input))
-end
-
--- TODO should I be wary of `&selection` in the nvim_buf_get functions?
---[[
-" https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
-function! s:get_visual_selection()
-" Why is this not a built-in Vim script function?!
-let [line_start, column_start] = getpos("'<")[1:2]
-let [line_end, column_end] = getpos("'>")[1:2]
-let lines = getline(line_start, line_end)
-if len(lines) == 0
-return ''
-endif
-let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
-let lines[0] = lines[0][column_start - 1:]
-return join(lines, "\n")
-endfunction
---]]
-
---- Return the lines of the selection, respecting selection modes.
--- RETURNS: table
-function nvim_buf_get_region_lines(buf, mark_a, mark_b, mode)
-  mode = mode or VISUAL_MODE.char
-  buf = buf or vim.api.nvim_get_current_buf()
-  -- TODO keep these? @refactor
-  mark_a = mark_a or '<'
-  mark_b = mark_b or '>'
-
-  local start = nvim_mark_or_index(buf, mark_a)
-  local finish = nvim_mark_or_index(buf, mark_b)
-  local lines = vim.api.nvim_buf_get_lines(buf, start[1] - 1, finish[1], false)
-
-  if mode == VISUAL_MODE.line then
-    return lines
-  end
-
-  if mode == VISUAL_MODE.char then
-    -- Order is important. Truncate the end first, because these are not commutative
-    if finish[2] ~= 2147483647 then
-      lines[#lines] = lines[#lines]:sub(1, finish[2] + 1)
-    end
-    if start[2] ~= 0 then
-      lines[1] = lines[1]:sub(start[2] + 1)
-    end
-    return lines
-  end
-
-  -- TODO implement block mode selection @feature
-
-  assert(false, "Invalid mode: "..vim.inspect(mode))
-end
-
-function nvim_buf_set_region_lines(buf, mark_a, mark_b, mode, lines)
-  buf = buf or vim.api.nvim_get_current_buf()
-  -- TODO keep these? @refactor
-  mark_a = mark_a or '<'
-  mark_b = mark_b or '>'
-
-  assert(mode == VISUAL_MODE.line, "Other modes aren't supported yet")
-
-  local start = nvim_mark_or_index(buf, mark_a)
-  local finish = nvim_mark_or_index(buf, mark_b)
-
-  return vim.api.nvim_buf_set_lines(buf, start[1] - 1, finish[1], false, lines)
-end
-
--- This is actually more efficient if what you're doing is modifying a region
--- because it can save api calls.
--- It's also the only way to do transformations that are correct with `char` mode
--- since it has to have access to the initial values of the region lines.
-function nvim_buf_transform_region_lines(buf, mark_a, mark_b, mode, fn)
-  buf = buf or vim.api.nvim_get_current_buf()
-  -- TODO keep these? @refactor
-  mark_a = mark_a or '<'
-  mark_b = mark_b or '>'
-
-  assert(mode ~= VISUAL_MODE.block, mode.." mode is not supported yet")
-
-  local start = nvim_mark_or_index(buf, mark_a)
-  local finish = nvim_mark_or_index(buf, mark_b)
-
-  assert(start and finish)
-
-  -- TODO contemplate passing in a function instead of lines as is.
-  -- local lines
-  -- local function lazy_lines()
-  -- 	if not lines then
-  -- 		lines = vim.api.nvim_buf_get_lines(buf, start[1] - 1, finish[1], false)
-  -- 	end
-  -- 	return lines
-  -- end
-
-  local lines = vim.api.nvim_buf_get_lines(buf, start[1] - 1, finish[1], false)
-
-  local result
-  if mode == VISUAL_MODE.char then
-    local prefix = ""
-    local suffix = ""
-    -- Order is important. Truncate the end first, because these are not commutative
-    -- TODO file a bug report about this, it's probably supposed to be -1
-    if finish[2] ~= 2147483647 then
-      suffix = lines[#lines]:sub(finish[2]+2)
-      lines[#lines] = lines[#lines]:sub(1, finish[2] + 1)
-    end
-    if start[2] ~= 0 then
-      prefix = lines[1]:sub(1, start[2])
-      lines[1] = lines[1]:sub(start[2] + 1)
-    end
-    result = fn(lines, mode)
-
-    -- If I take the result being nil as leaving it unmodified, then I can use it
-    -- to skip the set part and reuse this just to get fed the input.
-    if result == nil then
-      return
-    end
-
-    -- Sane defaults, assume that they want to erase things if it is nil or empty
-    if result == nil or #result == 0 then
-      result = {""}
-    end
-
-    -- Order is important. Truncate the end first, because these are not commutative
-    -- TODO file a bug report about this, it's probably supposed to be -1
-    if finish[2] ~= 2147483647 then
-      result[#result] = result[#result]..suffix
-    end
-    if start[2] ~= 0 then
-      result[1] = prefix..result[1]
-    end
-  elseif mode == VISUAL_MODE.line then
-    result = fn(lines, mode)
-    -- If I take the result being nil as leaving it unmodified, then I can use it
-    -- to skip the set part and reuse this just to get fed the input.
-    if result == nil then
-      return
-    end
-  end
-
-  return vim.api.nvim_buf_set_lines(buf, start[1] - 1, finish[1], false, result)
-end
-
--- Equivalent to `echo vim.inspect(...)`
-function nvim_print(...)
-  if select("#", ...) == 1 then
-    vim.api.nvim_out_write(vim.inspect((...)))
-  else
-    vim.api.nvim_out_write(vim.inspect {...})
-  end
-  vim.api.nvim_out_write("\n")
-end
-
---- Equivalent to `echo` EX command
-function nvim_echo(...)
-  for i = 1, select("#", ...) do
-    local part = select(i, ...)
-    vim.api.nvim_out_write(tostring(part))
-    -- vim.api.nvim_out_write("\n")
-    vim.api.nvim_out_write(" ")
-  end
-  vim.api.nvim_out_write("\n")
-end
-
--- `nvim.$method(...)` redirects to `nvim.api.nvim_$method(...)`
--- `nvim.fn.$method(...)` redirects to `vim.api.nvim_call_function($method, {...})`
--- TODO `nvim.ex.$command(...)` is approximately `:$command {...}.join(" ")`
--- `nvim.print(...)` is approximately `echo vim.inspect(...)`
--- `nvim.echo(...)` is approximately `echo table.concat({...}, '\n')`
--- Both methods cache the inital lookup in the metatable, but there is a small overhead regardless.
-nvim = setmetatable({
-  print = nvim_print;
-  echo = nvim_echo;
-  fn = setmetatable({}, {
-    __index = function(self, k)
-      local mt = getmetatable(self)
-      local x = mt[k]
-      if x ~= nil then
-        return x
-      end
-      local f = function(...) return vim.api.nvim_call_function(k, {...}) end
-      mt[k] = f
-      return f
-    end
-  });
-  buf = setmetatable({
-    -- current = setmetatable({}, {
-    -- 	__index = function(self, k)
-    -- 		local mt = getmetatable(self)
-    -- 		local x = mt[k]
-    -- 		if x ~= nil then
-    -- 			return x
-    -- 		end
-    -- 		local command = k:gsub("_$", "!")
-    -- 		local f = function(...) return vim.api.nvim_command(command.." "..table.concat({...}, " ")) end
-    -- 		mt[k] = f
-    -- 		return f
-    -- 	end
-    -- });
-  }, {
-    __index = function(self, k)
-      local mt = getmetatable(self)
-      local x = mt[k]
-      if x ~= nil then
-        return x
-      end
-      local f = vim.api['nvim_buf_'..k]
-      mt[k] = f
-      return f
-    end
-  });
-  ex = setmetatable({}, {
-    __index = function(self, k)
-      local mt = getmetatable(self)
-      local x = mt[k]
-      if x ~= nil then
-        return x
-      end
-      local command = k:gsub("_$", "!")
-      local f = function(...)
-        return vim.api.nvim_command(table.concat(vim.tbl_flatten {command, ...}, " "))
-      end
-      mt[k] = f
-      return f
-    end
-  });
-  g = setmetatable({}, {
-    __index = function(_, k)
-      return vim.api.nvim_get_var(k)
-    end;
-    __newindex = function(_, k, v)
-      if v == nil then
-        return vim.api.nvim_del_var(k)
-      else
-        return vim.api.nvim_set_var(k, v)
-      end
-    end;
-  });
-  v = setmetatable({}, {
-    __index = function(_, k)
-      return vim.api.nvim_get_vvar(k)
-    end;
-    __newindex = function(_, k, v)
-      return vim.api.nvim_set_vvar(k, v)
-    end
-  });
-  b = setmetatable({}, {
-    __index = function(_, k)
-      return vim.api.nvim_buf_get_var(0, k)
-    end;
-    __newindex = function(_, k, v)
-      if v == nil then
-        return vim.api.nvim_buf_del_var(0, k)
-      else
-        return vim.api.nvim_buf_set_var(0, k, v)
-      end
-    end
-  });
-  o = setmetatable({}, {
-    __index = function(_, k)
-      return vim.api.nvim_get_option(k)
-    end;
-    __newindex = function(_, k, v)
-      return vim.api.nvim_set_option(k, v)
-    end
-  });
-  bo = setmetatable({}, {
-    __index = function(_, k)
-      return vim.api.nvim_buf_get_option(0, k)
-    end;
-    __newindex = function(_, k, v)
-      return vim.api.nvim_buf_set_option(0, k, v)
-    end
-  });
-  env = setmetatable({}, {
-    __index = function(_, k)
-      return vim.api.nvim_call_function('getenv', {k})
-    end;
-    __newindex = function(_, k, v)
-      return vim.api.nvim_call_function('setenv', {k, v})
-    end
-  });
-}, {
-  __index = function(self, k)
-    local mt = getmetatable(self)
-    local x = mt[k]
-    if x ~= nil then
-      return x
-    end
-    local f = vim.api['nvim_'..k]
-    mt[k] = f
-    return f
-  end
-})
-
-nvim.option = nvim.o
-
----
--- Higher level text manipulation utilities
----
-
-function nvim_set_selection_lines(lines)
-  return nvim_buf_set_region_lines(nil, '<', '>', VISUAL_MODE.line, lines)
-end
-
--- Return the selection as a string
--- RETURNS: string
-function nvim_selection(mode)
-  return table.concat(nvim_buf_get_region_lines(nil, '<', '>', mode or VISUAL_MODE.char), "\n")
-end
-
--- TODO Use iskeyword
--- WORD_PATTERN = "[%w_]"
-
--- -- TODO accept buf or win as arguments?
--- function nvim_transform_cword(fn)
--- 	-- lua nvim_print(nvim.win_get_cursor(nvim.get_current_win()))
--- 	local win = vim.api.nvim_get_current_win()
--- 	local row, col = unpack(vim.api.nvim_win_get_cursor(win))
--- 	local buf = vim.api.nvim_get_current_buf()
--- 	-- local row, col = unpack(vim.api.nvim_buf_get_mark(buf, '.'))
--- 	local line = nvim_buf_get_region_lines(buf, row, row, VISUAL_MODE.line)[1]
--- 	local start_idx, end_idx
--- 	_, end_idx = line:find("^[%w_]+", col+1)
--- 	end_idx = end_idx or (col + 1)
--- 	if line:sub(col+1, col+1):match("[%w_]") then
--- 		_, start_idx = line:sub(1, col+1):reverse():find("^[%w_]+")
--- 		start_idx = col + 1 - (start_idx - 1)
--- 	else
--- 		start_idx = col + 1
--- 	end
--- 	local fragment = fn(line:sub(start_idx, end_idx))
--- 	local new_line = line:sub(1, start_idx-1)..fragment..line:sub(end_idx+1)
--- 	nvim_buf_set_region_lines(buf, row, row, VISUAL_MODE.line, {new_line})
--- end
-
--- Necessary glue for nvim_text_operator
--- Calls the lua function whose name is g:lua_fn_name and forwards its arguments
-vim.api.nvim_command [[
-function! LuaExprCallback(...) abort
-return luaeval(g:lua_expr, a:000)
-endfunction
-]]
-
-function nvim_text_operator(fn)
-  LUA_FUNCTION = fn
-  nvim.g.lua_expr = 'LUA_FUNCTION(_A[1])'
-  vim.api.nvim_set_option('opfunc', 'LuaExprCallback')
-  vim.api.nvim_feedkeys('g@', 'ni', false)
-end
-
-function nvim_text_operator_transform_selection(fn, forced_visual_mode)
-  return nvim_text_operator(function(visualmode)
-    nvim_buf_transform_region_lines(nil, "[", "]", forced_visual_mode or visualmode, function(lines)
-      return fn(lines, visualmode)
-    end)
-  end)
-end
-
-function nvim_visual_mode()
-  local visualmode = nvim.fn.visualmode()
-  if visualmode == 'v' then
-    return VISUAL_MODE.char
-  elseif visualmode == 'V' then
-    return VISUAL_MODE.line
-  else
-    return VISUAL_MODE.block
-  end
-end
-
-function nvim_transform_cword(fn)
-  nvim_text_operator_transform_selection(function(lines)
-    return {fn(lines[1])}
-  end)
-  vim.api.nvim_feedkeys('iw', 'ni', false)
-end
-
-function nvim_transform_cWORD(fn)
-  nvim_text_operator_transform_selection(function(lines)
-    return {fn(lines[1])}
-  end)
-  vim.api.nvim_feedkeys('iW', 'ni', false)
-end
-
-function nvim_source_current_buffer()
-  loadstring(table.concat(nvim_buf_get_region_lines(nil, 1, -1, VISUAL_MODE.line), '\n'))()
-end
-
-LUA_MAPPING = {}
-LUA_BUFFER_MAPPING = {}
-
-local function escape_keymap(key)
-  -- Prepend with a letter so it can be used as a dictionary key
-  return 'k'..key:gsub('.', string.byte)
-end
-
 local valid_modes = {
   n = 'n'; v = 'v'; x = 'x'; i = 'i';
   o = 'o'; t = 't'; c = 'c'; s = 's';
@@ -469,7 +10,13 @@ local valid_modes = {
   ['!'] = '!'; [' '] = '';
 }
 
--- TODO(ashkan) @feature Disable noremap if the rhs starts with <Plug>
+function map_cmd(cmd_string, buflocal)
+  return { ("<Cmd>%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
+end
+
+file_separator = is_windows and '\\' or '/'
+is_windows = vim.loop.os_uname().version:match("Windows")
+
 function nvim_apply_mappings(mappings, default_options)
   -- May or may not be used.
   local current_bufnr = vim.api.nvim_get_current_buf()
@@ -545,182 +92,340 @@ function nvim_apply_mappings(mappings, default_options)
   end
 end
 
-function nvim_create_augroups(definitions)
-  for group_name, definition in pairs(definitions) do
-    vim.api.nvim_command('augroup '..group_name)
-    vim.api.nvim_command('autocmd!')
-    for _, def in ipairs(definition) do
-      -- if type(def) == 'table' and type(def[#def]) == 'function' then
-      -- 	def[#def] = lua_callback(def[#def])
-      -- end
-      local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
-      vim.api.nvim_command(command)
-    end
-    vim.api.nvim_command('augroup END')
-  end
+
+function log(item)
+  print(vim.inspect(item))
 end
 
----
--- Things Lua should've had
----
-
-function string.startswith(s, n)
-  return s:sub(1, #n) == n
-end
-
-function string.endswith(self, str)
-  return self:sub(-#str) == str
-end
-
----
--- SPAWN UTILS
----
-
-local function clean_handles()
-  local n = 1
-  while n <= #HANDLES do
-    if HANDLES[n]:is_closing() then
-      table.remove(HANDLES, n)
-    else
-      n = n + 1
+--- Check if a file or directory exists in this path
+function exists(file)
+  local ok, err, code = os.rename(file, file)
+  if not ok then
+    if code == 13 then
+      -- Permission denied, but it exists
+      return true
     end
   end
+  return ok, err
 end
 
-HANDLES = {}
-
-function spawn(cmd, params, onexit)
-  local handle, pid
-  handle, pid = vim.loop.spawn(cmd, params, function(code, signal)
-    if type(onexit) == 'function' then onexit(code, signal) end
-    handle:close()
-    clean_handles()
-  end)
-  table.insert(HANDLES, handle)
-  return handle, pid
-end
-
---- MISC UTILS
-
-function epoch_ms()
-  local s, ns = vim.loop.gettimeofday()
-  return s * 1000 + math.floor(ns / 1000)
-end
-
-function epoch_ns()
-  local s, ns = vim.loop.gettimeofday()
-  return s * 1000000 + ns
+--- Check if a directory exists in this path
+function isdir(path)
+  -- "/" works on both Unix and Windows
+  return exists(path.."/")
 end
 
 
--- capturs stdout as a string
-function os.capture(cmd, raw)
-  local f = assert(io.popen(cmd, 'r'))
-  local s = assert(f:read('*a'))
-  f:close()
-  if raw then return s end
-  s = string.gsub(s, '^%s+', '')
-  s = string.gsub(s, '%s+$', '')
-  s = string.gsub(s, '[\n\r]+', ' ')
-  return s
+function getPath(str)
+  local s = str:gsub("%-","")
+  return s:match("(.*[/\\])")
 end
 
-
--- return name of git branch
-function gitBranch()
-  if is_windows then
-    return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
+-- Equivalent to `echo vim.inspect(...)`
+function nvim_print(...)
+  if select("#", ...) == 1 then
+    vim.api.nvim_out_write(vim.inspect((...)))
   else
-    return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+    vim.api.nvim_out_write(vim.inspect {...})
   end
+  vim.api.nvim_out_write("\n")
 end
 
--- returns short status of changes
-function gitStat()
-  if is_windows then
-    return os.capture("git diff --shortstat 2> NUL | tr -d '\n'")
-  else
-    return os.capture("git diff --shortstat 2> /dev/null | tr -d '\n'")
+--- Equivalent to `echo` EX command
+function nvim_echo(...)
+  for i = 1, select("#", ...) do
+    local part = select(i, ...)
+    vim.api.nvim_out_write(tostring(part))
+    -- vim.api.nvim_out_write("\n")
+    vim.api.nvim_out_write(" ")
   end
+  vim.api.nvim_out_write("\n")
 end
 
--- set options
-function setOptions(options)
-  for k, v in pairs(options) do
-    if v == true or v == false then
-      vim.api.nvim_command('set ' .. k)
-    elseif type(v) == 'table' then
-      local values = ''
-      for k2, v2 in pairs(v) do
-        if k2 == 1 then
-          values = values .. v2
+-- `nvim.$method(...)` redirects to `nvim.api.nvim_$method(...)`
+-- `nvim.fn.$method(...)` redirects to `vim.api.nvim_call_function($method, {...})`
+-- TODO `nvim.ex.$command(...)` is approximately `:$command {...}.join(" ")`
+-- `nvim.print(...)` is approximately `echo vim.inspect(...)`
+-- `nvim.echo(...)` is approximately `echo table.concat({...}, '\n')`
+-- Both methods cache the inital lookup in the metatable, but there is a small overhead regardless.
+nvim = setmetatable({
+  print = nvim_print;
+  echo = nvim_echo;
+  fn = setmetatable({}, {
+    __index = function(self, k)
+      local mt = getmetatable(self)
+      local x = mt[k]
+      if x ~= nil then
+        return x
+      end
+      local f = function(...) return vim.api.nvim_call_function(k, {...}) end
+      mt[k] = f
+      return f
+    end
+  });
+  buf = setmetatable({
+    -- current = setmetatable({}, {
+      -- 	__index = function(self, k)
+        -- 		local mt = getmetatable(self)
+        -- 		local x = mt[k]
+        -- 		if x ~= nil then
+        -- 			return x
+        -- 		end
+        -- 		local command = k:gsub("_$", "!")
+        -- 		local f = function(...) return vim.api.nvim_command(command.." "..table.concat({...}, " ")) end
+        -- 		mt[k] = f
+        -- 		return f
+        -- 	end
+        -- });
+      }, {
+        __index = function(self, k)
+          local mt = getmetatable(self)
+          local x = mt[k]
+          if x ~= nil then
+            return x
+          end
+          local f = vim.api['nvim_buf_'..k]
+          mt[k] = f
+          return f
+        end
+      });
+      ex = setmetatable({}, {
+        __index = function(self, k)
+          local mt = getmetatable(self)
+          local x = mt[k]
+          if x ~= nil then
+            return x
+          end
+          local command = k:gsub("_$", "!")
+          local f = function(...)
+            return vim.api.nvim_command(table.concat(vim.tbl_flatten {command, ...}, " "))
+          end
+          mt[k] = f
+          return f
+        end
+      });
+      g = setmetatable({}, {
+        __index = function(_, k)
+          return vim.api.nvim_get_var(k)
+        end;
+        __newindex = function(_, k, v)
+          if v == nil then
+            return vim.api.nvim_del_var(k)
+          else
+            return vim.api.nvim_set_var(k, v)
+          end
+        end;
+      });
+      v = setmetatable({}, {
+        __index = function(_, k)
+          return vim.api.nvim_get_vvar(k)
+        end;
+        __newindex = function(_, k, v)
+          return vim.api.nvim_set_vvar(k, v)
+        end
+      });
+      b = setmetatable({}, {
+        __index = function(_, k)
+          return vim.api.nvim_buf_get_var(0, k)
+        end;
+        __newindex = function(_, k, v)
+          if v == nil then
+            return vim.api.nvim_buf_del_var(0, k)
+          else
+            return vim.api.nvim_buf_set_var(0, k, v)
+          end
+        end
+      });
+      o = setmetatable({}, {
+        __index = function(_, k)
+          return vim.api.nvim_get_option(k)
+        end;
+        __newindex = function(_, k, v)
+          return vim.api.nvim_set_option(k, v)
+        end
+      });
+      bo = setmetatable({}, {
+        __index = function(_, k)
+          return vim.api.nvim_buf_get_option(0, k)
+        end;
+        __newindex = function(_, k, v)
+          return vim.api.nvim_buf_set_option(0, k, v)
+        end
+      });
+      env = setmetatable({}, {
+        __index = function(_, k)
+          return vim.api.nvim_call_function('getenv', {k})
+        end;
+        __newindex = function(_, k, v)
+          return vim.api.nvim_call_function('setenv', {k, v})
+        end
+      });
+    }, {
+      __index = function(self, k)
+        local mt = getmetatable(self)
+        local x = mt[k]
+        if x ~= nil then
+          return x
+        end
+        local f = vim.api['nvim_'..k]
+        mt[k] = f
+        return f
+      end
+    })
+
+    nvim.option = nvim.o
+
+    ---
+    -- Higher level text manipulation utilities
+    ---
+
+    -- Necessary glue for nvim_text_operator
+    -- Calls the lua function whose name is g:lua_fn_name and forwards its arguments
+    vim.api.nvim_command [[
+    function! LuaExprCallback(...) abort
+    return luaeval(g:lua_expr, a:000)
+    endfunction
+    ]]
+
+    LUA_MAPPING = {}
+    LUA_BUFFER_MAPPING = {}
+
+    local function escape_keymap(key)
+      -- Prepend with a letter so it can be used as a dictionary key
+      return 'k'..key:gsub('.', string.byte)
+    end
+
+
+    -- TODO(ashkan) @feature Disable noremap if the rhs starts with <Plug>
+
+    function nvim_create_augroups(definitions)
+      for group_name, definition in pairs(definitions) do
+        vim.api.nvim_command('augroup '..group_name)
+        vim.api.nvim_command('autocmd!')
+        for _, def in ipairs(definition) do
+          -- if type(def) == 'table' and type(def[#def]) == 'function' then
+          -- 	def[#def] = lua_callback(def[#def])
+          -- end
+          local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
+          vim.api.nvim_command(command)
+        end
+        vim.api.nvim_command('augroup END')
+      end
+    end
+
+    ---
+    -- Things Lua should've had
+    ---
+
+    function string.startswith(s, n)
+      return s:sub(1, #n) == n
+    end
+
+    function string.endswith(self, str)
+      return self:sub(-#str) == str
+    end
+
+    ---
+    -- SPAWN UTILS
+    ---
+
+    local function clean_handles()
+      local n = 1
+      while n <= #HANDLES do
+        if HANDLES[n]:is_closing() then
+          table.remove(HANDLES, n)
         else
-          values = values .. ',' .. v2
+          n = n + 1
         end
       end
-      vim.api.nvim_command('set ' .. k .. '=' .. values)
-    else
-      vim.api.nvim_command('set ' .. k .. '=' .. v)
     end
-  end
-end
 
+    HANDLES = {}
 
-function map_cmd(cmd_string, buflocal)
-  return { ("<Cmd>%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
-end
-
-function map_call(cmd_string, buflocal)
-  return { ("%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
-end
-
-function map_no_cr(cmd_string, buflocal)
-  return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
-end
-
-function readout(bufhandle)
-  return function(err, data)
-    if err then
-      api.nvim_put({api.nvim_replace_termcodes(err, true, true, true)}, "l", true, true)
+    function spawn(cmd, params, onexit)
+      local handle, pid
+      handle, pid = vim.loop.spawn(cmd, params, function(code, signal)
+        if type(onexit) == 'function' then onexit(code, signal) end
+        handle:close()
+        clean_handles()
+      end)
+      table.insert(HANDLES, handle)
+      return handle, pid
     end
-    if data then
-      api.nvim_put({api.nvim_replace_termcodes(data, true, true, true)}, "l", true, true)
+
+    --- MISC UTILS
+
+    -- capturs stdout as a string
+    function os.capture(cmd, raw)
+      local f = assert(io.popen(cmd, 'r'))
+      local s = assert(f:read('*a'))
+      f:close()
+      if raw then return s end
+      s = string.gsub(s, '^%s+', '')
+      s = string.gsub(s, '%s+$', '')
+      s = string.gsub(s, '[\n\r]+', ' ')
+      return s
     end
-  end
-end
 
-function openJobWindow()
-  local lines = api.nvim_get_option("lines")
-  local columns = api.nvim_get_option("columns")
-  local height = fn.float2nr((lines - 2) * 0.3)
-  local row = fn.float2nr((lines - height) / 2)
-  local width = fn.float2nr(columns * 0.6)
-  local col = fn.float2nr((columns - width) / 2)
-  local border_opts = {
-    relative = 'editor',
-    row = row - 1,
-    col = col - 2,
-    width = width + 4,
-    height = height + 2,
-    style = 'minimal'
-  }
 
-  local opts = {
-    relative = 'editor',
-    row = row - 4,
-    col = col,
-    width = width,
-    height = height,
-    style = 'minimal'
-  }
-  local top = string.format("╭%s╮", string.rep("─", width + 2))
-  local mid = string.format("│%s│",string.rep(" ", width + 2))
-  local bot = string.format("╰%s╯", string.rep("─", width + 2))
-  local bufLines = string.format("%s%s%s",top,string.rep(mid, height),bot)
-  local bbuf = api.nvim_create_buf(false, true)
-  api.nvim_buf_set_lines(bbuf, 0, -1, true, { bufLines })
-  -- api.nvim_open_win(bbuf, true, border_opts)
-  local buf = api.nvim_create_buf(false, true)
-  local window = api.nvim_open_win(buf, true, opts)
-  return { buf = buf, window = window }
-end
+    -- return name of git branch
+    function gitBranch()
+      if is_windows then
+        return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
+      else
+        return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+      end
+    end
+
+    -- returns short status of changes
+    function gitStat()
+      if is_windows then
+        return os.capture("git diff --shortstat 2> NUL | tr -d '\n'")
+      else
+        return os.capture("git diff --shortstat 2> /dev/null | tr -d '\n'")
+      end
+    end
+
+    function map_call(cmd_string, buflocal)
+      return { ("%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
+    end
+
+    function map_no_cr(cmd_string, buflocal)
+      return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
+    end
+
+    function openJobWindow()
+      local lines = api.nvim_get_option("lines")
+      local columns = api.nvim_get_option("columns")
+      local height = fn.float2nr((lines - 2) * 0.3)
+      local row = fn.float2nr((lines - height) / 2)
+      local width = fn.float2nr(columns * 0.6)
+      local col = fn.float2nr((columns - width) / 2)
+      local border_opts = {
+        relative = 'editor',
+        row = row - 1,
+        col = col - 2,
+        width = width + 4,
+        height = height + 2,
+        style = 'minimal'
+      }
+
+      local opts = {
+        relative = 'editor',
+        row = row - 4,
+        col = col,
+        width = width,
+        height = height,
+        style = 'minimal'
+      }
+      local top = string.format("╭%s╮", string.rep("─", width + 2))
+      local mid = string.format("│%s│",string.rep(" ", width + 2))
+      local bot = string.format("╰%s╯", string.rep("─", width + 2))
+      local bufLines = string.format("%s%s%s",top,string.rep(mid, height),bot)
+      local bbuf = api.nvim_create_buf(false, true)
+      api.nvim_buf_set_lines(bbuf, 0, -1, true, { bufLines })
+      -- api.nvim_open_win(bbuf, true, border_opts)
+      local buf = api.nvim_create_buf(false, true)
+      local window = api.nvim_open_win(buf, true, opts)
+      return { buf = buf, window = window }
+    end

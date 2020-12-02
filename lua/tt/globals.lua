@@ -100,7 +100,7 @@ vim.g.completion_chain_complete_list = {
     { mode = 'file'}
   },
   typescript = {
-    {complete_items = { 'lsp','path' }},
+    {complete_items = { 'tabnine', 'lsp','path' }},
     { mode = '<c-p>'},
     { mode = '<c-n>'},
     { mode = 'keyn'},
@@ -109,7 +109,7 @@ vim.g.completion_chain_complete_list = {
     { mode = 'defs'}
   },
   typescriptreact = {
-    {complete_items = { 'lsp','path' }},
+    {complete_items = { 'tabnine','lsp','path' }},
     { mode = '<c-p>'},
     { mode = '<c-n>'},
     { mode = 'keyn'},
@@ -118,10 +118,10 @@ vim.g.completion_chain_complete_list = {
     { mode = 'defs'}
   },
   lua = {
-    {complete_items = { 'ts', 'lsp' }}
+    {complete_items = { 'tabnine','ts', 'lsp' }}
   },
   default = {
-    {complete_items = { 'lsp', 'snippet', 'path' }},
+    {complete_items = { 'tabnine', 'lsp', 'snippet', 'path' }},
     { mode = '<c-p>'},
     { mode = '<c-n>'},
     { mode = 'keyn'},
@@ -130,14 +130,3 @@ vim.g.completion_chain_complete_list = {
   }
 }
 
-
-
--- let g:pear_tree_pairs = {
---       \   '(': {'closer': ')'},
---       \   '[': {'closer': ']'},
---       \   '{': {'closer': '}'},
---       \   "'": {'closer': "'"},
---       \   '"': {'closer': '"'},
---       \   '`': {'closer': '`'},
---       \   '/\*': {'closer': '\*/'}
---       \ }

@@ -6,7 +6,7 @@ set formatoptions+=o
 " setl omnifunc=v:lua.vim.lsp.omnifunc
 
 set suffixesadd+=.js,.jsx,.ts,.tsx
-lua require'user_lsp'.setMappings()
+lua require'tt.user_lsp'.setMappings()
 
 setlocal foldmethod=syntax
 setlocal foldlevelstart=99
@@ -14,12 +14,12 @@ setlocal foldlevel=99
 
 " TODO figure out why ale is not working on mono repos
 set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %m,%-G%.%#
-setlocal makeprg=yarn\ run\ --silent\ lint:compact\ --fix
+setlocal makeprg=yarn\ run\ --silent\ eslint\ --format\ compact\ --fix
 
 setlocal autoread
 " augroup JS
 "     autocmd! * <buffer>
-"     autocmd BufWritePost <buffer> silent make <afile> | checktime | silent redraw!
+"     autocmd BufWritePost <buffer> silent make <afile> | checktime | silent redraw! | copen
 " augroup END
 
 if !exists('b:did_typescript_setup')

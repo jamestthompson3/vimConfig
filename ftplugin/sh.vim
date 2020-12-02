@@ -1,1 +1,1 @@
-lua require'user_lsp'.setMappings()
+lua require'tt.user_lsp'.setMappings()
