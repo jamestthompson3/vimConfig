@@ -20,7 +20,28 @@ function M.configurePlugins()
 -- Doesn't work... :/
 nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
 nvim.command [[syntax match  AllTodo "(\ctodo\|fixme\|TODO\|FIXME):\?"]]
-
+local actions = require('telescope.actions')
+require('telescope').setup {
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = false,
+            override_file_sorter = true,
+        }
+    },
+    defaults = {
+      winblend = 10,
+      prompt_position = "top",
+      color_devicons = true,
+      layout_strategy = "center",
+      prompt_prefix = "🔎 ",
+      results_height = 8,
+    },
+    mappings = {
+      ["<CR>"] = actions.goto_file_selection_edit,
+      ["<esc>"] = actions.close
+    }
+}
+require('telescope').load_extension('fzy_native')
 end
 
 function M.openQuickfix()

@@ -8,6 +8,10 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 let g:vim_json_syntax_conceal = 0
+" changes const thing = require("thing-lib")
+" to import thing from \"thing-lib" -> the backlash isn't included in the
+" transform, I just need it for vim comments
+let @i = 'ceimportf=cf(from f)x'
 
 nnoremap <silent>K :call tools#ListTags()<CR>
 lua require'tt.user_lsp'.setMappings()

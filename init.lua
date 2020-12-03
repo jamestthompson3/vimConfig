@@ -190,10 +190,10 @@ local function core_options()
               {"BufNewFile",      "*.tsx",  "0r ~/vim/skeletons/skeleton.tsx"};
               {"BufNewFile",      "*.md",   "0r ~/vim/skeletons/skeleton.md"};
               {"VimLeavePre",     "*",      [[lua require'tt.tools'.saveSession()]]};
-              {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
-              {"TermEnter",       "*",      "set nonumber"};
+              -- {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
+              -- {"TermEnter",       "*",      "set nonumber"};
               {"UIEnter",          "*",     [[lua require'tt.tools'.configurePlugins()]]};
-              {"BufEnter",        "*",      [[lua require'completion'.on_attach()]]};
+              -- {"BufEnter",        "*",      [[lua require'completion'.on_attach()]]};
               {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
               {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
               {"QuickFixCmdPost", "[^l]*", [[nested lua require'tt.tools'.openQuickfix()]]};

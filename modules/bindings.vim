@@ -52,7 +52,7 @@ xnoremap <expr> A (mode()=~#'[vV]'?'<C-v>0o$A':'A')
 " endfunction
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+" inoremap <expr> <cr> pumvisible() ? '\<C-y>' : '\<cr>'
 " inoremap <silent><expr> <TAB> pumvisible() ? '\<C-n>' : <SID>checkBackspace() ? '\<Tab>' : completion#trigger_completion()
 
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>

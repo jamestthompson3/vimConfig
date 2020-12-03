@@ -33,9 +33,13 @@ end
 return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
   use 'thinca/vim-localrc'
-  use 'junegunn/fzf.vim'
   -- use {'aca/completion-tabnine', run = './install.sh'}
+  use {
+  'nvim-telescope/telescope.nvim',
+  requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+}
   use { 'nvim-lua/completion-nvim', { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}}
+  use 'nvim-telescope/telescope-fzy-native.nvim'
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'nvim-treesitter/nvim-treesitter', event = 'VimEnter *', config = function()
     require('tt.treesitter')
@@ -44,7 +48,6 @@ return require('packer').startup(function()
 use { 'nvim-treesitter/completion-treesitter', opt = true, event = 'UIEnter *' }
 use { 'andymass/vim-matchup', opt = true, event = 'UIEnter *' }
 use { 'dense-analysis/ale', opt = true, event = 'UIEnter *' }
-use { 'junegunn/fzf', run = './install --all'}
 use { 'ludovicchabant/vim-gutentags', opt = true, event = 'UIEnter *'  }
 use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
 use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
