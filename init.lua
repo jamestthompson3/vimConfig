@@ -224,9 +224,9 @@ local function core_options()
               {"BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF"};
               {"BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>"};
               {"BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>"};
+              {"BufReadPost",         "*.fugitiveblame", "set ft=fugitiveblame"};
             };
             ft_detect = {
-              {"BufReadPost",         "*.fugitiveblame", "set ft=fugitiveblame"};
               { "BufRead,BufNewFile",  "*.nginx", "set ft=nginx"};
               { "BufRead,BufNewFile", "nginx*.conf", "set ft=nginx"};
               { "BufRead,BufNewFile", "*nginx.conf","set ft=nginx"};

@@ -2,6 +2,14 @@ require('tt.nvim_utils')
 local M = {}
 
 function M.map()
+  function getFindCommand()
+    if 1 == vim.fn.executable("fd") then
+      find_command = { 'fd','--type', 'f', '--hidden', '-E', '.git'}
+    elseif 1 == vim.fn.executable("fdfind") then
+      find_command = { 'fdfind','--type', 'f', '--hidden', '-E', '.git' }
+    end
+    return {find_command = find_command }
+  end
   local mappings = {
     ["ijj"]            = {"<Esc>",  noremap = false},
     ['t<C-\\>']        = { [[<C-\><C-n>]], noremap = true},
@@ -55,7 +63,7 @@ function M.map()
     ["n<leader>jj"]    = map_cmd('ALENext'),
     ["n<leader>kk"]    = map_cmd('ALEPrevious'),
     ["n<leader>G"]     = map_cmd('SearchBuffers'),
-    ["n<C-p>"]         = map_cmd [[lua require'telescope.builtin'.find_files({find_command = { 'fd', '--type', 'f', '--hidden', '-E', '.git'}})]],
+    ["n<C-p>"]         = map_cmd [[lua require'telescope.builtin'.find_files(getFindCommand())]],
     ["n<C-b>"]         = map_cmd [[lua require'telescope.builtin'.buffers()]],
     ["n<leader>lt"]    = map_cmd [[lua require'tt.tools'.listTags()]],
     ["n<leader>F"]     = map_cmd [[lua require'tt.tools'.simpleMRU()]],
