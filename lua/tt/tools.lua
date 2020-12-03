@@ -34,7 +34,7 @@ require('telescope').setup {
       color_devicons = true,
       layout_strategy = "center",
       prompt_prefix = "🔎 ",
-      results_height = 8,
+      results_height = 6,
     },
     mappings = {
       ["<CR>"] = actions.goto_file_selection_edit,

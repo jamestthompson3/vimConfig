@@ -68,7 +68,7 @@ set.directory       = home .. "/.cache/Vim/swap"
 set.termguicolors  = true
 set.wrap           = false
 set.cursorline     = true
-set.statusline     = "%#StatusLineModified#%{&mod?FileName():''}%*%{&mod?'':FileName()}%<" .. "%=" .. "%<" .. "%r\\ %L"
+set.statusline     = "%#StatusLineModified#%{&mod?FileName():''}%*%{&mod?'':FileName()}%<" .. "%=" .. "%<" .. "%r %L"
 -- statusline     = setStatusLine()
 set.fillchars      = "stlnc:»,vert:║,fold:·"
 set.number         = true
