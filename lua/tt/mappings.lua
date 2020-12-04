@@ -64,6 +64,7 @@ function M.map()
     ["n<leader>kk"]    = map_cmd('ALEPrevious'),
     ["n<leader>G"]     = map_cmd('SearchBuffers'),
     ["n<C-p>"]         = map_cmd [[lua require'telescope.builtin'.find_files(getFindCommand())]],
+    ["nR"]             = map_cmd [[lua require'telescope.builtin'.live_grep()]],
     ["n<C-b>"]         = map_cmd [[lua require'telescope.builtin'.buffers()]],
     ["n<leader>lt"]    = map_cmd [[lua require'tt.tools'.listTags()]],
     ["n<leader>F"]     = map_cmd [[lua require'tt.tools'.simpleMRU()]],

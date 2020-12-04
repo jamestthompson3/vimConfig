@@ -34,6 +34,15 @@ return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
   use 'thinca/vim-localrc'
   -- use {'aca/completion-tabnine', run = './install.sh'}
+  use 'romainl/vim-cool'
+  use 'tmsvg/pear-tree'
+  use 'tpope/vim-apathy'
+  use 'tpope/vim-commentary'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-repeat'
+  use 'andymass/vim-matchup'
+  use 'dense-analysis/ale'
+  use 'ludovicchabant/vim-gutentags'
   use {
   'nvim-telescope/telescope.nvim',
   requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
@@ -41,23 +50,12 @@ return require('packer').startup(function()
   use { 'nvim-lua/completion-nvim', { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}}
   use 'nvim-telescope/telescope-fzy-native.nvim'
   use { 'wbthomason/packer.nvim', opt = true }
-  use { 'nvim-treesitter/nvim-treesitter', event = 'VimEnter *', config = function()
+  use { 'nvim-treesitter/nvim-treesitter', config = function()
     require('tt.treesitter')
   end
 }
-use { 'nvim-treesitter/completion-treesitter', opt = true, event = 'UIEnter *' }
-use { 'andymass/vim-matchup', opt = true, event = 'UIEnter *' }
-use { 'dense-analysis/ale', opt = true, event = 'UIEnter *' }
-use { 'ludovicchabant/vim-gutentags', opt = true, event = 'UIEnter *'  }
 use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
 use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
 use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
-use { 'romainl/vim-cool', opt = true, event = 'VimEnter *' }
-use { 'tmsvg/pear-tree', opt = true, event = 'VimEnter *' }
-use { 'tpope/vim-apathy', opt = true }
-use { 'tpope/vim-commentary',opt = true, event = 'UIEnter *' }
-use { 'tpope/vim-surround', opt = true, event = 'UIEnter *'  }
-use { 'tpope/vim-repeat', opt = true, event = 'UIEnter *' }
 
--- use packager#local('~/code/nvim-remote-containers', { 'type': 'opt' })
 end)

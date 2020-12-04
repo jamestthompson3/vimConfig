@@ -30,9 +30,7 @@ require('telescope').setup {
     },
     defaults = {
       winblend = 10,
-      prompt_position = "top",
       color_devicons = true,
-      layout_strategy = "center",
       prompt_prefix = "🔎 ",
       results_height = 6,
     },
