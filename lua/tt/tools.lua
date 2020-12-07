@@ -2,7 +2,7 @@ require('tt.nvim_utils')
 local api = vim.api
 local fn = vim.fn
 require('tt.navigation')
-local icons = require('tt.devicons')
+local icons = require('nvim-web-devicons')
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
@@ -15,18 +15,19 @@ function M.configurePlugins()
   vim.cmd [[packadd cfilter]]
 
   vim.fn['tools#loadCscope']()
+  icons.setup()
 
--- custom syntax since treesitter overrides nvim defaults
--- Doesn't work... :/
-nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
-nvim.command [[syntax match  AllTodo "(\ctodo\|fixme\|TODO\|FIXME):\?"]]
-local actions = require('telescope.actions')
-require('telescope').setup {
+  -- custom syntax since treesitter overrides nvim defaults
+  -- Doesn't work... :/
+  nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
+  nvim.command [[syntax match  AllTodo "(\ctodo\|fixme\|TODO\|FIXME):\?"]]
+  local actions = require('telescope.actions')
+  require('telescope').setup {
     extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true,
-        }
+      fzy_native = {
+        override_generic_sorter = false,
+        override_file_sorter = true,
+      }
     },
     defaults = {
       winblend = 10,
@@ -38,8 +39,8 @@ require('telescope').setup {
       ["<CR>"] = actions.goto_file_selection_edit,
       ["<esc>"] = actions.close
     }
-}
-require('telescope').load_extension('fzy_native')
+  }
+  require('telescope').load_extension('fzy_native')
 end
 
 function M.openQuickfix()
@@ -231,14 +232,24 @@ function M.asyncGrep(...)
 end
 
 
-function M.setStatusLine()
-  local statusline = ""
+function M.statuslineIcon()
   local fileName = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')
-  local icon = icons.deviconTable[vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')]
+  local extension = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':e')
+  local icon, icon_highlight = icons.get_icon(fileName, extension, {default = true})
   if icon ~= nil then
-    fileName = icon .. ' ' .. fileName
+    -- local iconHighlight = icons.get_highlight_name(icon)
+    -- TODO load dynamic parts of the statusline on augroups?
+    -- statusline = icon .. ' '
+      return icon .. ' '
   end
-  return fileName
+  return ""
+end
+
+function M.statuslineHighlight()
+  local fileName = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')
+  local extension = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':e')
+  local icon, icon_highlight = icons.get_icon(fileName, extension, {default = true})
+  return icon_highlight
 end
 
 function M.profile()

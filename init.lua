@@ -7,11 +7,13 @@ vim.g.mapleader = " "
 
 api.nvim_command [[colorscheme ghost_mono]]
 
+-- statusline fun
 api.nvim_command [[
-  function! FileName() abort
-    return luaeval("require'tt.tools'.setStatusLine()")
+  function! SL() abort
+    return "%#" . luaeval('require("tt.tools").statuslineHighlight()') . "#" . luaeval('require("tt.tools").statuslineIcon()') . "%#StatusLineModified#%{&mod?expand('%:p:t'):''}%*%{&mod?'':expand('%:p:t')}%<" .. "%=" .. "%<" .. "%r %L"
   endfunction
 ]]
+
 
 set.hidden          = true
 set.secure          = true
@@ -58,7 +60,7 @@ set.completeopt     = 'menuone,noinsert,noselect,longest'
 set.listchars       = 'tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿'
 set.complete        = '.,w,b,u'
 set.formatlistpat   = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
-set.wildignore      = '*/dist*/*,*/target/*,*/builds/*,tags,*/flow-typed/*,*/node_modules/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot'
+set.wildignore      = '*/dist*/*,*/target/*,*/builds/*,tags,*/flow-typed/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot'
 set.shortmess       = vim.o.shortmess .. 's'
 set.undodir         = home .. "/.cache/Vim/undofile"
 set.backupdir       = home .. "/.cache/Vim/backup"
@@ -68,7 +70,7 @@ set.directory       = home .. "/.cache/Vim/swap"
 set.termguicolors  = true
 set.wrap           = false
 set.cursorline     = true
-set.statusline     = "%#StatusLineModified#%{&mod?FileName():''}%*%{&mod?'':FileName()}%<" .. "%=" .. "%<" .. "%r %L"
+set.statusline     = "%!SL()"
 -- statusline     = setStatusLine()
 set.fillchars      = "stlnc:»,vert:║,fold:·"
 set.number         = true
@@ -157,6 +159,8 @@ local function core_options()
           endif
           endfunction
           ]]
+
+
 
           -- abbrevs
           api.nvim_command [[ cnoreabbrev csa cs add ]]
