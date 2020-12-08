@@ -78,6 +78,7 @@ highlight ALEVirtualTextError        guifg=Black       guibg=#ff4444  gui=NONE  
 highlight ALEVirtualTextWarning      guifg=Black       guibg=#f5ac46  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 
 " Language specific groups
+highlight typescriptCommentTodo          guifg=#f5ac46     guibg=White    gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
 highlight typescriptPromiseMethod        guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
 highlight typescriptPromiseStaticMethod  guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
 highlight typescriptES6SetMethod         guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
@@ -106,19 +107,3 @@ highlight TSCurrentScope   guifg=NONE        guibg=NONE     gui=NONE       cterm
 hi! link StatusLineModified   Todo
 hi! link Folded               DiffChange
 hi! link AllTodo              Todo
-
-" FZF
-let g:fzf_colors =
-      \ { "fg":      ["fg", "Normal"],
-      \ "bg":      ["bg", "Normal"],
-      \ "hl":      ["fg", "IncSearch"],
-      \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
-      \ "bg+":     ["bg", "CursorLine", "CursorColumn"],
-      \ "hl+":     ["fg", "IncSearch"],
-      \ "info":    ["fg", "IncSearch"],
-      \ "border":  ["fg", "Ignore"],
-      \ "prompt":  ["fg", "Comment"],
-      \ "pointer": ["fg", "IncSearch"],
-      \ "marker":  ["fg", "IncSearch"],
-      \ "spinner": ["fg", "IncSearch"],
-      \ "header":  ["fg", "WildMenu"] }

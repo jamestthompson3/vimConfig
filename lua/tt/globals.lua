@@ -37,14 +37,14 @@ vim.g.pear_tree_smart_backspace = 1
 vim.g.pear_tree_timeout = 60
 vim.g.pear_tree_repeatable_expand = 1
 vim.g.pear_tree_map_special_keys = 0
-vim.g.gutentags_file_list_command = 'fd . -c never'
-vim.g.gutentags_cache_dir = '~/.cache/'
-vim.g.gutentags_project_root = {'Cargo.toml'}
+vim.g.gutentags_file_list_command = 'fd --type f --hidden -E .git'
+-- vim.g.gutentags_cache_dir = '~/.cache/'
+vim.g.gutentags_project_root = {'Cargo.toml', 'package.json'}
+vim.g.gutentags_add_default_project_roots = 1
 vim.g.matchup_matchparen_deferred = 1
 vim.g.matchup_match_paren_timeout = 100
 vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
--- vim.g.fzf_layout = { window = 'lua NavigationFloatingWin()'}
 vim.g.completion_trigger_character = {'.', '::'}
 vim.g.completion_enable_auto_paren = 1
 vim.g.completion_matching_strategy_list = {'fuzzy', 'substring', 'exact'}
@@ -105,8 +105,6 @@ vim.g.completion_chain_complete_list = {
     { mode = '<c-n>'},
     { mode = 'keyn'},
     { mode = 'keyp'},
-    { mode = 'incl'},
-    { mode = 'defs'}
   },
   typescriptreact = {
     {complete_items = { 'lsp','path' }},
@@ -114,8 +112,6 @@ vim.g.completion_chain_complete_list = {
     { mode = '<c-n>'},
     { mode = 'keyn'},
     { mode = 'keyp'},
-    { mode = 'incl'},
-    { mode = 'defs'}
   },
   lua = {
     {complete_items = { 'ts', 'lsp' }}

@@ -30,6 +30,8 @@ set.smartcase       = true
 set.undofile        = true
 set.backup          = true
 set.magic           = true
+set.number          = true
+set.tags            = "" -- let gutentags handle this
 
 set.undolevels      = 1000
 set.ttimeoutlen     = 20
