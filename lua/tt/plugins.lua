@@ -41,18 +41,18 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
   use 'andymass/vim-matchup'
-  use 'dense-analysis/ale'
-  use 'ludovicchabant/vim-gutentags'
-  use {
+use 'dense-analysis/ale'
+use 'ludovicchabant/vim-gutentags'
+use {
   'nvim-telescope/telescope.nvim',
   requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
 }
-  use { 'nvim-lua/completion-nvim', { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}}
-  use 'nvim-telescope/telescope-fzy-native.nvim'
-  use { 'wbthomason/packer.nvim', opt = true }
-  use { 'nvim-treesitter/nvim-treesitter', config = function()
-    require('tt.treesitter')
-  end
+use { 'nvim-lua/completion-nvim', { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}}
+use 'nvim-telescope/telescope-fzy-native.nvim'
+use { 'wbthomason/packer.nvim', opt = true }
+use { 'nvim-treesitter/nvim-treesitter', config = function()
+  require('tt.treesitter')
+end
 }
 use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
 use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }

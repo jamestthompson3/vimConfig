@@ -31,6 +31,7 @@ highlight Whitespace       guifg=#2f343f       guibg=NONE          gui=NONE     
 highlight WildMenu         guifg=#121217       guibg=#d2cfcf       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
 highlight SpellBad         guifg=Red           guibg=NONE          gui=NONE       ctermfg=9      ctermbg=NONE   cterm=NONE
 highlight SpellRare        guifg=#198cff       guibg=NONE          gui=NONE       ctermfg=12     ctermbg=NONE   cterm=NONE
+highlight TabLineFill      guifg=Black         guibg=#005f5f       gui=NONE       ctermfg=0      ctermbg=23     cterm=NONE
 
 highlight Function         guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight Identifier       guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
@@ -106,4 +107,5 @@ highlight TSCurrentScope   guifg=NONE        guibg=NONE     gui=NONE       cterm
 " Links
 hi! link StatusLineModified   Todo
 hi! link Folded               DiffChange
+hi! link typescriptCall       Normal
 hi! link AllTodo              Todo

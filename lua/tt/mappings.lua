@@ -66,6 +66,7 @@ function M.map()
     ["n<C-p>"]         = map_cmd [[lua require'telescope.builtin'.find_files(getFindCommand())]],
     ["nR"]             = map_cmd [[lua require'telescope.builtin'.live_grep()]],
     ["n<C-b>"]         = map_cmd [[lua require'telescope.builtin'.buffers()]],
+    ["nT"]             = map_cmd [[lua require'telescope.builtin'.tags({ctags_file = vim.bo.tags})]],
     ["n<leader>lt"]    = map_cmd [[lua require'tt.tools'.listTags()]],
     ["n<leader>F"]     = map_cmd [[lua require'tt.tools'.simpleMRU()]],
     ["v<leader>g"]     = map_cmd("<C-U>call tools#HighlightRegion('Green')"),

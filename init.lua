@@ -58,11 +58,13 @@ set.virtualedit     = "block"
 set.inccommand      = "split"
 set.cscopequickfix  = "s-,c-,d-,i-,t-,e-"
 set.path            = '.,,,**'
+set.tabline         = gitBranch()
+set.showtabline     = 2
 set.completeopt     = 'menuone,noinsert,noselect,longest'
 set.listchars       = 'tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿'
 set.complete        = '.,w,b,u'
 set.formatlistpat   = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
-set.wildignore      = '*/dist*/*,*/target/*,*/builds/*,tags,*/flow-typed/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot'
+set.wildignore      = '*/dist*/*,*/target/*,*/builds/*,*/flow-typed/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot'
 set.shortmess       = vim.o.shortmess .. 's'
 set.undodir         = home .. "/.cache/Vim/undofile"
 set.backupdir       = home .. "/.cache/Vim/backup"
@@ -72,8 +74,6 @@ set.directory       = home .. "/.cache/Vim/swap"
 set.termguicolors  = true
 set.wrap           = false
 set.cursorline     = true
-set.statusline     = "%!SL()"
--- statusline     = setStatusLine()
 set.fillchars      = "stlnc:»,vert:║,fold:·"
 set.number         = true
 set.pumblend       = 20
@@ -204,6 +204,8 @@ local function core_options()
               {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
               {"QuickFixCmdPost", "[^l]*", [[nested lua require'tt.tools'.openQuickfix()]]};
               {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
+              { "FileType,BufWinEnter,BufReadPost,BufWritePost,BufEnter,WinEnter,FileChangedShellPost,VimResized" , "*", [[lua vim.wo.statusline = "%!SL()"]] };
+              {"WinLeave", "*", [[lua vim.wo.statusline = "%f"]]};
               {"CursorMoved",        "*",     [[lua require'tt.tools'.clearBlameVirtText()]]};
               {"CursorMovedI",        "*",     [[lua require'tt.tools'.clearBlameVirtText()]]};
               {"FocusGained,CursorMoved,CursorMovedI", "*", "checktime"};
