@@ -22,7 +22,7 @@ highlight StatusLine       guifg=#818e8e       guibg=NONE          gui=underline
 highlight StatusLineNc     guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
 highlight TabLine          guifg=#d2cfcf       guibg=#000000       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
 highlight Visual           guifg=#F0C30D       guibg=#787271       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
-highlight Todo             guifg=White         guibg=#fb7da7       gui=bold       ctermfg=15     ctermbg=201    cterm=NONE
+highlight Todo             guifg=White         guibg=#711283       gui=bold       ctermfg=15     ctermbg=201    cterm=NONE
 highlight Pmenu            guifg=#9c9695       guibg=#171616       gui=NONE       ctermfg=249    ctermbg=232    cterm=NONE
 highlight PmenuSel         guifg=#393636       guibg=#787271       gui=NONE       ctermfg=237    ctermbg=250    cterm=NONE
 highlight PmenuThumb       guifg=NONE          guibg=#393636       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
