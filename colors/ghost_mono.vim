@@ -4,7 +4,7 @@ syntax reset
 let g:colors_name = 'ghost_mono'
 
 
-highlight Comment          guifg=#f5ac46       guibg=NONE          gui=NONE     ctermfg=215    ctermbg=NONE   cterm=NONE
+highlight Comment          guifg=#F0C30D       guibg=NONE          gui=NONE     ctermfg=215    ctermbg=NONE   cterm=NONE
 highlight VertSplit        guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight CursorLineNR     guifg=NONE          guibg=NONE          gui=NONE       ctermfg=247    ctermbg=236    cterm=NONE
 highlight Cursor           guifg=#2f2f30       guibg=#198cff       gui=NONE       ctermfg=247    ctermbg=236    cterm=NONE
@@ -21,7 +21,7 @@ highlight TabLineFill      guifg=#d2cfcf       guibg=#000000       gui=NONE     
 highlight StatusLine       guifg=#818e8e       guibg=NONE          gui=underline  ctermfg=238    ctermbg=NONE   cterm=underline
 highlight StatusLineNc     guifg=#d2cfcf       guibg=#121217       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
 highlight TabLine          guifg=#d2cfcf       guibg=#000000       gui=NONE       ctermfg=255    ctermbg=0      cterm=NONE
-highlight Visual           guifg=#f5ac46       guibg=#787271       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
+highlight Visual           guifg=#F0C30D       guibg=#787271       gui=NONE       ctermfg=NONE   ctermbg=NONE   cterm=NONE
 highlight Todo             guifg=White         guibg=#fb7da7       gui=bold       ctermfg=15     ctermbg=201    cterm=NONE
 highlight Pmenu            guifg=#9c9695       guibg=#171616       gui=NONE       ctermfg=249    ctermbg=232    cterm=NONE
 highlight PmenuSel         guifg=#393636       guibg=#787271       gui=NONE       ctermfg=237    ctermbg=250    cterm=NONE
@@ -38,6 +38,7 @@ highlight Identifier       guifg=NONE         guibg=NONE     gui=NONE       cter
 highlight Include          guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=bold
 highlight Keyword          guifg=NONE         guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight PreProc          guifg=Magenta      guibg=NONE     gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
+highlight Macro            guifg=White        guibg=Black    gui=bold       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Question         guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight Number           guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight String           guifg=NONE         guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
@@ -68,25 +69,25 @@ highlight BlockQuote                 guifg=#648c9c     guibg=NONE     gui=NONE  
 highlight Callout                    guifg=#198cff     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight ALEError                   guifg=#ff4444     guibg=NONE     gui=undercurl  ctermfg=0    ctermbg=203   cterm=NONE
 highlight ALEInfo                    guifg=Black       guibg=White    gui=NONE       ctermfg=0    ctermbg=215   cterm=NONE
-highlight ALEWarning                 guifg=#f5ac46     guibg=NONE    gui=undercurl  ctermfg=0    ctermbg=214   cterm=NONE
+highlight ALEWarning                 guifg=#F0C30D     guibg=NONE    gui=undercurl  ctermfg=0    ctermbg=214   cterm=NONE
 highlight LspDiagnosticsError        guifg=#ff4444     guibg=NONE     gui=NONE       ctermfg=203  ctermbg=NONE  cterm=NONE
-highlight LspDiagnosticsWarning      guifg=#f5ac46     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
+highlight LspDiagnosticsWarning      guifg=#F0C30D     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsInformation  guifg=#0000ff     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsHint         guifg=#00afaf     guibg=NONE     gui=NONE       ctermfg=37   ctermbg=NONE  cterm=NONE
 highlight ALEErrorSign               guifg=#ff4444     guibg=NONE     gui=NONE       ctermfg=203  ctermbg=NONE  cterm=NONE
-highlight ALEWarningSign             guifg=#f5ac46     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
+highlight ALEWarningSign             guifg=#F0C30D     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
 highlight ALEVirtualTextError        guifg=Black       guibg=#ff4444  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
-highlight ALEVirtualTextWarning      guifg=Black       guibg=#f5ac46  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
+highlight ALEVirtualTextWarning      guifg=Black       guibg=#F0C30D  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 
 " Language specific groups
-highlight typescriptCommentTodo          guifg=#f5ac46     guibg=White    gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
+highlight typescriptCommentTodo          guifg=#F0C30D     guibg=White    gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
 highlight typescriptPromiseMethod        guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
 highlight typescriptPromiseStaticMethod  guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
 highlight typescriptES6SetMethod         guifg=#198cff     guibg=NONE     gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE
 highlight typescriptParens               guifg=#818e8e     guibg=NONE     gui=NONE      ctermfg=236   ctermbg=NONE    cterm=italic
 highlight typescriptBraces               guifg=#818e8e     guibg=NONE     gui=NONE      ctermfg=236   ctermbg=NONE    cterm=italic
-highlight tsxTag                         guifg=#f5ac46     guibg=NONE     gui=NONE      ctermfg=215   ctermbg=NONE    cterm=NONE
-highlight tsxCloseTag                    guifg=#f5ac46     guibg=NONE     gui=NONE      ctermfg=215   ctermbg=NONE    cterm=NONE
+highlight tsxTag                         guifg=#F0C30D     guibg=NONE     gui=NONE      ctermfg=215   ctermbg=NONE    cterm=NONE
+highlight tsxCloseTag                    guifg=#F0C30D     guibg=NONE     gui=NONE      ctermfg=215   ctermbg=NONE    cterm=NONE
 highlight tsxAttrib                      guifg=#b5ae7d     guibg=NONE     gui=NONE      ctermfg=144   ctermbg=NONE    cterm=NONE
 highlight tsxTagName                     guifg=#648c9c     guibg=NONE     gui=NONE      ctermfg=12    ctermbg=NONE    cterm=NONE
 highlight scalaInstanceDeclaration       guifg=#648c9c     guibg=NONE     gui=NONE      ctermfg=NONE  ctermbg=NONE    cterm=italic
@@ -97,11 +98,11 @@ highlight scalaSpecial                   guifg=#d2cfcf     guibg=#121217  gui=it
 
 " Treesitter
 highlight TSConstructor    guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
-highlight TSType           guifg=#88aa77     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
+highlight TSType           guifg=#61b5a4     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight TSMethod         guifg=#7788aa     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSOperator       guifg=#b5ae7d     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSPunctBracket   guifg=#818e8e     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
-highlight TSFunction       guifg=#9e3c3c     guibg=NONE     gui=NONE       ctermfg=137   ctermbg=NONE  cterm=NONE
+highlight TSFunction       guifg=#da6839     guibg=NONE     gui=NONE       ctermfg=137   ctermbg=NONE  cterm=NONE
 highlight TSCurrentScope   guifg=NONE        guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 
 " Links

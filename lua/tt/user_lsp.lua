@@ -32,7 +32,7 @@ function M.configureLSP()
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({})
   -- nvim_lsp.efm.setup({})
-  nvim_lsp.rls.setup({})
+  nvim_lsp.rust_analyzer.setup{}
   nvim_lsp.bashls.setup({})
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
