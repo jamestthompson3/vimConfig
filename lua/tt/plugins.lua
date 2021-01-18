@@ -32,8 +32,6 @@ end
 
 return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
-  use 'thinca/vim-localrc'
-  -- use {'aca/completion-tabnine', run = './install.sh'}
   use 'romainl/vim-cool'
   use 'tmsvg/pear-tree'
   use 'tpope/vim-apathy'
