@@ -52,7 +52,7 @@ use { 'nvim-treesitter/nvim-treesitter', config = function()
   require('tt.treesitter')
 end
 }
-use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact'} }
+use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact'} }
 use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
 use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
 

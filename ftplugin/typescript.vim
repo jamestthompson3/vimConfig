@@ -1,6 +1,10 @@
 let b:ale_linters = []
 let b:ale_fixers = ['prettier']
 
+inoremap <C-l> console.log()<esc>i
+inoremap <C-c> console.log('%c%o', 'color: ;')<esc>F%;la
+inoremap d<C-l> debugger
+
 set formatoptions+=o
 " temp
 " setl omnifunc=v:lua.vim.lsp.omnifunc

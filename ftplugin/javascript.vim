@@ -16,6 +16,10 @@ let @i = 'ceimportf=cf(from f)x'
 nnoremap <silent>K :call tools#ListTags()<CR>
 lua require'tt.user_lsp'.setMappings()
 
+inoremap <C-l> console.log()<esc>i
+inoremap <C-c> console.log('%c%o', 'color: ;')<esc>F%;la
+inoremap d<C-l> debugger
+
 
 setlocal suffixesadd+=.js,.jsx,.ts,.tsx
 setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\)

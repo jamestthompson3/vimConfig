@@ -1,6 +1,7 @@
 let b:ale_fixers = ['rustfmt']
 
 lua require'tt.user_lsp'.setMappings()
+inoremap <C-l> println!(\"{}\",)<esc>i
 
 set omnifunc=v:lua.vim.lsp.omnifunc
 
