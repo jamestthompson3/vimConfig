@@ -1,3 +1,11 @@
+vim.g.loaded_matchparen = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_gzip = 1
+vim.g.loaded_python_provider = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_matchit = 1
+
 require 'tt.nvim_utils'
 local set = vim.o
 local api = vim.api

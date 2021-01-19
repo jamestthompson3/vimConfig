@@ -2,12 +2,6 @@
 vim.g.did_install_default_menus = 1
 vim.g.remove_whitespace = 1
 vim.g.loaded_tutor_mode_plugin = 1
-vim.g.loaded_matchparen = 1
-vim.g.loaded_zipPlugin = 1
-vim.g.loaded_tarPlugin = 1
-vim.g.loaded_gzip = 1
-vim.g.loaded_python_provider = 1
-vim.g.loaded_matchit = 1
 vim.g.python3_host_prog = is_windows and 'C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe' or '/usr/local/bin/python3'
 
 

@@ -1,6 +1,11 @@
 highlight clear
-syntax reset
 
+if exists("syntax_on")
+  syntax reset
+endif
+if exists("colors_name")
+  finish
+endif
 let g:colors_name = 'ghost_mono'
 
 
