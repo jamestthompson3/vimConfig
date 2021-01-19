@@ -40,6 +40,12 @@ return require('packer').startup(function()
   use 'tpope/vim-repeat'
   use 'andymass/vim-matchup'
 use 'dense-analysis/ale'
+use {
+  'glepnir/galaxyline.nvim',
+    branch = 'main',
+    -- your statusline
+    config = function() require'tt.statusline' end,
+}
 use 'ludovicchabant/vim-gutentags'
 use {
   'nvim-telescope/telescope.nvim',
