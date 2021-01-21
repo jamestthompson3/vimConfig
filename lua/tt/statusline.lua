@@ -67,8 +67,10 @@ gls.left[1] = {
   FirstElement = {
     provider = function()
       vim.api.nvim_command('hi GalaxyFirstElement guifg='..mode_color())
-      return '⣿⣿ '
+      return '⣿⣿'
     end,
+    separator = " ",
+    separator_highlight = {colors.section_bg, colors.section_bg},
     highlight = { colors.bg, colors.section_bg }
   },
 }
@@ -76,7 +78,7 @@ gls.left[2] ={
   FileIcon = {
     provider = 'FileIcon',
     condition = buffer_not_empty,
-    highlight = { require('galaxyline.provider_fileinfo').get_file_icon_color, colors.bg },
+    highlight = { require('galaxyline.provider_fileinfo').get_file_icon_color, colors.section_bg },
   },
 }
 gls.left[3] = {
@@ -86,9 +88,9 @@ gls.left[3] = {
       return fn.expand("%f")
     end,
     condition = buffer_not_empty,
-    highlight = { colors.fg, colors.bg },
+    highlight = { colors.fg, colors.section_bg },
     separator = "  ",
-    separator_highlight = {colors.section_bg, colors.bg},
+    separator_highlight = {colors.section_bg, colors.section_bg},
   }
 }
 gls.left[4] = {

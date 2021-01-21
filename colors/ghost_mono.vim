@@ -9,7 +9,7 @@ endif
 let g:colors_name = 'ghost_mono'
 
 
-highlight Comment          guifg=Black         guibg=#ffce5b          gui=NONE     ctermfg=215    ctermbg=NONE   cterm=NONE
+highlight Comment          guifg=#b5ae7d       guibg=#393636       gui=NONE       ctermfg=215    ctermbg=NONE   cterm=NONE
 highlight VertSplit        guifg=#818e8e       guibg=NONE          gui=NONE       ctermfg=240    ctermbg=NONE   cterm=NONE
 highlight CursorLineNR     guifg=NONE          guibg=NONE          gui=NONE       ctermfg=247    ctermbg=236    cterm=NONE
 highlight Cursor           guifg=#2f2f30       guibg=#198cff       gui=NONE       ctermfg=247    ctermbg=236    cterm=NONE
