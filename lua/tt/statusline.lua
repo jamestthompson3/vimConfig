@@ -39,6 +39,10 @@ local buffer_not_empty = function()
   return not is_buffer_empty()
 end
 
+local buffer_not_term = function ()
+  return vim.startswith(vim.fn.expand('%:h'), 'term://') ~= true
+end
+
 local mode_color = function()
   local mode_colors = {
     n = colors.cyan,
@@ -71,6 +75,7 @@ gls.left[1] = {
     end,
     separator = " ",
     separator_highlight = {colors.section_bg, colors.section_bg},
+    condition = buffer_not_term,
     highlight = { colors.bg, colors.section_bg }
   },
 }
