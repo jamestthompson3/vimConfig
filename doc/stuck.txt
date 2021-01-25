@@ -1,0 +1,23 @@
+ *stuck* For that thing you want to do but forgot
+
+               +-+ +-+ +-+
+               |V| |I| |M|
+               +-+ +-+ +-+
+
+
+         A Handy Reference Guide to doing things in vim.
+====================================================================
+CONTENTS                                            *CheatSheetContents*
+
+    1. Delete Based on Pattern ................ |DeletePattern|
+
+====================================================================
+Section 1: Delete Based on Pattern                                       *DeletePattern*
+
+If you want to delete based on a pattern, (say remove all lines starting with `[`) you should use the |:g| command.
+
+Example: >
+
+:%g/^\]/d
+
+<
