@@ -21,7 +21,7 @@ function M.setMappings()
     ["n<leader>r"] = map_cmd [[lua vim.lsp.buf.references()]],
     ["n<leader>f"] = map_cmd [[lua vim.lsp.buf.formatting()]],
     ["n<leader>r"] = map_cmd [[lua vim.lsp.buf.rename()]],
-    ["nga"]        = map_cmd [[lua vim.lsp.buf.code_action()]]
+    ["nga"]        = map_cmd [[lua require'telescope.builtin'.lsp_code_actions()]]
   }
   nvim_apply_mappings(mappings, {silent = true})
 end

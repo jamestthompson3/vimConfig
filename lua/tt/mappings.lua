@@ -8,7 +8,7 @@ function M.map()
     elseif 1 == vim.fn.executable("fdfind") then
       find_command = { 'fdfind','--type', 'f', '--hidden', '-E', '.git' }
     end
-    return {find_command = find_command }
+    return require('telescope.themes').get_dropdown({find_command = find_command })
   end
   local mappings = {
     ["ijj"]            = {"<Esc>",  noremap = false},
