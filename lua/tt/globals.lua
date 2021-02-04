@@ -42,6 +42,7 @@ vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
 vim.g.completion_trigger_character = {'.', '::'}
 vim.g.completion_enable_auto_paren = 1
+vim.g.completion_enable_auto_hover = 0 -- doesn't work properly on Rust
 vim.g.completion_matching_strategy_list = {'fuzzy', 'substring', 'exact'}
 vim.g.completion_customize_lsp_label = {
   Function= ' [function]',
