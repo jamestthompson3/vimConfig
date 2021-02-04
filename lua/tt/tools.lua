@@ -149,9 +149,9 @@ function M.createSessionName()
   local sessionName = gitBranch()
   local currDir = os.getenv('PWD')
   if not sessionName == '' or sessionName == 'master' then
-    return "" --currDir
+    return "default" --currDir
   else
-    return sessionName
+    return sessionName:gusb("/", "-")
   end
 end
 
