@@ -279,6 +279,7 @@ local function core_options()
           nvim.command [[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']]
           nvim.command [[command! CSBuild call symbols#buildCscopeFiles()]]
           nvim.command [[command! MarkMargin call MarkMargin()]]
+          nvim.command [[command! Symbols lua require'telescope.builtin'.lsp_document_symbols()]]
           nvim.command [[command! -nargs=+ ListFiles lua require'tt.tools'.listFiles(<q-args>)]]
         end
 
