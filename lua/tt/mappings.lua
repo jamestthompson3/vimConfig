@@ -8,7 +8,7 @@ function M.map()
     elseif 1 == vim.fn.executable("fdfind") then
       find_command = { 'fdfind','--type', 'f', '--hidden', '-E', '.git' }
     end
-    return require('telescope.themes').get_dropdown({find_command = find_command })
+    return {find_command = find_command }
   end
   local mappings = {
     ["ijj"]            = {"<Esc>",  noremap = false},
@@ -68,6 +68,7 @@ function M.map()
     ["n<C-b>"]         = map_cmd [[lua require'telescope.builtin'.buffers()]],
     ["nT"]             = map_cmd [[lua require'telescope.builtin'.tags({ctags_file = vim.bo.tags})]],
     ["n<leader>lt"]    = map_cmd [[lua require'tt.tools'.listTags()]],
+    ["n<leader>t"]     = map_cmd [[vsp<CR>:exec("tag ".expand("<cword>"))]],
     ["n<leader>F"]     = map_cmd [[lua require'tt.tools'.simpleMRU()]],
     ["v<leader>g"]     = map_cmd("<C-U>call tools#HighlightRegion('Green')"),
     ["v<leader>G"]     = map_cmd('<C-U>call tools#UnHighlightRegion('),
