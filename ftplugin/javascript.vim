@@ -10,9 +10,12 @@ let g:vim_json_syntax_conceal = 0
 " transform, I just need it for vim comments
 let @i = 'ceimportf=cf(from f)x'
 
-nnoremap <silent>K :call tools#ListTags()<CR>
 lua require'tt.es'
 
+augroup JS
+  autocmd!
+  autocmd BufWritePost <buffer> lua require'tt.es'.import_sort()
+augroup end
 
 let &makeprg='node %'
 
