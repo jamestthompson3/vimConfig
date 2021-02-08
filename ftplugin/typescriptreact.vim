@@ -1,4 +1,3 @@
-
 runtime! ftplugin/typescript.vim
 " For andymass/vim-matchup plugin
 if exists("loaded_matchup")

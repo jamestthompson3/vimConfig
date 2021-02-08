@@ -151,7 +151,7 @@ function M.createSessionName()
   if not sessionName == '' or sessionName == 'master' then
     return "default" --currDir
   else
-    return sessionName:gusb("/", "-")
+    return sessionName:gsub("/", "-")
   end
 end
 

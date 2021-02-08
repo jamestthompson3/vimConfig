@@ -1,8 +1,5 @@
 scriptencoding utf-8
 
-let b:ale_linters = ['eslint']
-let b:ale_fixers = ['prettier']
-
 let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
@@ -14,19 +11,9 @@ let g:vim_json_syntax_conceal = 0
 let @i = 'ceimportf=cf(from f)x'
 
 nnoremap <silent>K :call tools#ListTags()<CR>
-lua require'tt.user_lsp'.setMappings()
-
-inoremap <C-l> console.log()<esc>i
-inoremap <C-c> console.log('%c%o', 'color: ;')<esc>F%;la
-inoremap d<C-l> debugger
+lua require'tt.es'
 
 
-setlocal suffixesadd+=.js,.jsx,.ts,.tsx
-setlocal include=^\\s*[^\/]\\+\\(from\\\|require(['\"]\\)
-setlocal define=class\\s
-setlocal foldmethod=syntax
-setlocal foldlevelstart=99
-setlocal foldlevel=99
 let &makeprg='node %'
 
 " Error: bar

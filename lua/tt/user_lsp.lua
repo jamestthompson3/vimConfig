@@ -28,11 +28,62 @@ end
 
 function M.configureLSP()
   local nvim_lsp = require 'lspconfig'
-  -- nvim_lsp.sumneko_lua.setup({})
+  local util = nvim_lsp.util
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({})
-  -- nvim_lsp.efm.setup({})
   nvim_lsp.rust_analyzer.setup{}
+  nvim_lsp.diagnosticls.setup ({
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "typescript.tsx",
+    },
+    root_dir = function(fname)
+      return util.root_pattern(".git")(fname)
+    end,
+    init_options = {
+      linters = {
+        eslint = {
+          command = "node_modules/.bin/eslint",
+          rootPatterns = {".eslintrc.cjs", ".eslintrc", ".eslintrc.json", ".eslintrc.js", ".git"},
+          debounce = 100,
+          args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
+          sourceName = "eslint",
+          parseJson = {
+            errorsRoot = "[0].messages",
+            line = "line",
+            column = "column",
+            endLine = "endLine",
+            endColumn = "endColumn",
+            message = "[eslint] ${message} [${ruleId}]",
+            security = "severity",
+          },
+          securities = {[2] = "error", [1] = "warning"},
+        },
+        formatters = {
+          sort_imports = {
+            command = "import-sort --write %filepath"
+          }
+        },
+        formatFiletypes = {
+          javascript = 'sort_imports',
+          javascriptreact = 'sort_imports',
+          typescript = 'sort_imports',
+          typescriptreact = 'sort_imports'
+        }
+      },
+      filetypes = {
+        javascript = "eslint",
+        javascriptreact = "eslint",
+        typescript = "eslint",
+        typescriptreact = "eslint",
+        ["typescript.tsx"] = "eslint",
+      },
+    },
+  })
+
   nvim_lsp.bashls.setup({})
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(

@@ -1,15 +1,1 @@
-let b:ale_fixers = ['rustfmt']
-
-lua require'tt.user_lsp'.setMappings()
-inoremap <C-l> println!("{}",)<esc>i
-
-set omnifunc=v:lua.vim.lsp.omnifunc
-
-nnoremap <silent> <leader>R :RustRun<CR>
-if has('Mac')
-  let g:rust_clip_command = 'pbcopy'
-else
-  let g:rust_clip_command = 'xclip -selection clipboard'
-endif
-
-compiler cargo
+lua require'tt.rust'

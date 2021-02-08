@@ -1,30 +1,13 @@
-let b:ale_linters = []
-let b:ale_fixers = ['prettier']
-
-inoremap <C-l> console.log()<esc>i
-inoremap <C-c> console.log('%c%o', 'color: ;')<esc>F%;la
-inoremap d<C-l> debugger
-
 set formatoptions+=o
-" temp
-" setl omnifunc=v:lua.vim.lsp.omnifunc
 
-set suffixesadd+=.js,.jsx,.ts,.tsx
-lua require'tt.user_lsp'.setMappings()
+lua require'tt.es'
 
-setlocal foldmethod=syntax
-setlocal foldlevelstart=99
-setlocal foldlevel=99
 
 " TODO figure out why ale is not working on mono repos
 set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %m,%-G%.%#
 setlocal makeprg=yarn\ run\ --silent\ eslint\ --format\ compact\ --fix
 
 setlocal autoread
-" augroup JS
-"     autocmd! * <buffer>
-"     autocmd BufWritePost <buffer> silent make <afile> | checktime | silent redraw! | copen
-" augroup END
 
 if !exists('b:did_typescript_setup')
   " node_modules
@@ -41,6 +24,7 @@ if !exists('b:did_typescript_setup')
       let $PATH = b:ts_node_modules[0] . ':' . $PATH
     endif
   endif
+
 
   " lint file on write
   " let &l:makeprg = 'tsc --noEmit --pretty false'
