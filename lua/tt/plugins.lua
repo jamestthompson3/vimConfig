@@ -40,6 +40,7 @@ return require('packer').startup(function()
   use 'tpope/vim-repeat'
   use 'andymass/vim-matchup'
   use 'hrsh7th/nvim-compe'
+  use 'hrsh7th/vim-vsnip'
 use 'dense-analysis/ale'
 use {
   'glepnir/galaxyline.nvim',
