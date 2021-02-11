@@ -5,7 +5,7 @@ vim.g.loaded_tutor_mode_plugin = 1
 vim.g.python3_host_prog = is_windows and 'C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe' or '/usr/local/bin/python3'
 
 
-vim.g.netrw_localrmdir = 'rm -r'
+vim.g.netrw_localrmdir = 'rm -rf'
 vim.g.netrw_banner=0
 vim.g.netrw_winsize=45
 vim.g.netrw_liststyle=3
@@ -20,7 +20,7 @@ vim.g.ale_lint_on_text_changed = 0
 vim.g.ale_list_window_size = 5
 vim.g.ale_virtualtext_cursor = 1
 vim.g.ale_javascript_prettier_use_local_config = 1
-vim.g.ale_fixers = {json = {"prettier"}}
+vim.g.ale_fixers = {json = {"prettier"}, html = {"prettier"}, css = {"prettier"}}
 vim.g.ale_echo_msg_format = '[%linter%] %s » %code%'
 vim.g.ale_echo_cursor = 0
 vim.g.ale_virtualtext_prefix = ''
@@ -56,7 +56,7 @@ vim.g.completion_customize_lsp_label = {
   Snippet= ' [snippet]',
   Operator= ' [operator]',
   Module= ' [module]',
-  Text= 'ﮜ[text]',
+  Text= 'ﮜ [text]',
   Class= ' [class]',
   Interface= ' [interface]'
 }

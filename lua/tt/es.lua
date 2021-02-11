@@ -3,22 +3,24 @@ require'tt.user_lsp'.setMappings()
 
 local fn = vim.fn
 
-vim.b.ale_fixers = {"prettier"}
-vim.b.ale_linters = {}
-vim.bo.suffixesadd = ".js",".jsx",".ts",".tsx"
-vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
-vim.bo.define = "class\\s"
-vim.wo.foldlevel = 99
-
-local mappings = {
-  ["i<C-l>"]  = {"console.log()<esc>i", noremap = true, buffer = true},
-  ["i<C-c>"]  = {"console.log('%c%o', 'color: ;')<esc>F%;la", noremap = true, buffer = true},
-  ["id<C-l>"] = {"debugger", noremap = true, buffer = true}
-}
-
-nvim_apply_mappings(mappings, {silent = true})
-
 local M = {}
+
+function M.bootstrap()
+  vim.bo.suffixesadd = ".js",".jsx",".ts",".tsx"
+  vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
+  vim.bo.define = "class\\s"
+  vim.wo.foldlevel = 99
+  vim.b.ale_fixers = {'prettier'}
+
+  local mappings = {
+    ["i<C-l>"]  = {"console.log()<esc>i", noremap = true, buffer = true},
+    ["i<C-c>"]  = {"console.log('%c%o', 'color: ;')<esc>F%;la", noremap = true, buffer = true},
+    ["id<C-l>"] = {"debugger", noremap = true, buffer = true}
+  }
+
+  nvim_apply_mappings(mappings, {silent = true})
+  nvim.command [[command! Sort lua require'tt.es'.import_sort()]]
+end
 
 local function find_executable()
   local import_sort_executable = fn.getcwd() .. "/node_modules/.bin/import-sort"
@@ -36,7 +38,7 @@ end
 
 local function onread(err, data)
   if err then
-    error("IMPORT_SORT:", err)
+    error("IMPORT_SORT: ", err)
   end
 end
 

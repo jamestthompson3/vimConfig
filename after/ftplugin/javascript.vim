@@ -7,5 +7,3 @@ let b:pear_tree_pairs = extend(deepcopy(g:pear_tree_pairs), {
       \         'not_like': '/$'
       \        }
       \ }, 'keep')
-
-set omnifunc=v:lua.vim.lsp.omnifunc

@@ -62,17 +62,6 @@ function M.configureLSP()
           },
           securities = {[2] = "error", [1] = "warning"},
         },
-        formatters = {
-          sort_imports = {
-            command = "import-sort --write %filepath"
-          }
-        },
-        formatFiletypes = {
-          javascript = 'sort_imports',
-          javascriptreact = 'sort_imports',
-          typescript = 'sort_imports',
-          typescriptreact = 'sort_imports'
-        }
       },
       filetypes = {
         javascript = "eslint",

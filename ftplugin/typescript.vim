@@ -1,11 +1,9 @@
+
 set formatoptions+=o
 
-lua require'tt.es'
+lua require'tt.user_lsp'.setMappings()
+lua require 'tt.es'.bootstrap()
 
-augroup TS
-  autocmd!
-  autocmd BufWritePost <buffer> lua require'tt.es'.import_sort()
-augroup end
 
 " TODO figure out why ale is not working on mono repos
 set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %m,%-G%.%#

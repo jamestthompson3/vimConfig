@@ -105,7 +105,7 @@ highlight scalaSpecial                   guifg=#d2cfcf     guibg=#121217  gui=it
 
 " Treesitter
 highlight TSConstructor    guifg=#72ffcf     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
-highlight TSType           guifg=#61b5a4     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
+highlight TSType           guifg=#59a8a4     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=NONE
 highlight TSMethod         guifg=#7788aa     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSOperator       guifg=#b5ae7d     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
 highlight TSPunctBracket   guifg=#818e8e     guibg=NONE     gui=NONE       ctermfg=NONE  ctermbg=NONE  cterm=italic
