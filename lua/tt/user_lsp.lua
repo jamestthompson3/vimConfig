@@ -29,9 +29,16 @@ end
 function M.configureLSP()
   local nvim_lsp = require 'lspconfig'
   local util = nvim_lsp.util
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
   nvim_lsp.cssls.setup({})
-  nvim_lsp.tsserver.setup({})
-  nvim_lsp.rust_analyzer.setup{}
+  nvim_lsp.tsserver.setup({
+    capabilities = capabilities
+  })
+  nvim_lsp.rust_analyzer.setup{
+    capabilities = capabilities
+  }
   nvim_lsp.diagnosticls.setup ({
     filetypes = {
       "javascript",
