@@ -45,16 +45,6 @@ nnoremap <silent><down>  :m .+1<cr>==
 xnoremap <expr> I (mode()=~#'[vV]'?'<C-v>^o^I':'I')
 xnoremap <expr> A (mode()=~#'[vV]'?'<C-v>0o$A':'A')
 
-" Completion:
-" function! s:checkBackspace() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1] =~ '\s'
-" endfunction
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <cr> pumvisible() ? '\<C-y>' : '\<cr>'
-" inoremap <silent><expr> <TAB> pumvisible() ? '\<C-n>' : <SID>checkBackspace() ? '\<Tab>' : completion#trigger_completion()
-
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " VimDev:
@@ -62,3 +52,8 @@ nnoremap <C-F> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> 
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })

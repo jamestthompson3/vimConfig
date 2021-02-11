@@ -39,6 +39,8 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
   use 'andymass/vim-matchup'
+  use 'hrsh7th/nvim-compe'
+  use 'hrsh7th/vim-vsnip'
 use 'dense-analysis/ale'
 use {
   'glepnir/galaxyline.nvim',
@@ -51,7 +53,7 @@ use {
   'nvim-telescope/telescope.nvim',
   requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
 }
-use { 'nvim-lua/completion-nvim', { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}}
+use  { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}
 use 'nvim-telescope/telescope-fzy-native.nvim'
 use { 'wbthomason/packer.nvim', opt = true }
 use { 'nvim-treesitter/nvim-treesitter', config = function()
