@@ -126,7 +126,6 @@ vim.g.completion_chain_complete_list = {
   }
 }
 
-
 require'compe'.setup {
   enabled = true;
   autocomplete = true;

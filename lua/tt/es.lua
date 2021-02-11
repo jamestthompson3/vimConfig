@@ -19,7 +19,7 @@ function M.bootstrap()
   }
 
   nvim_apply_mappings(mappings, {silent = true})
-  nvim.command [[command! Sort lua require'tt.es'.import_sort()]]
+  nvim.command [[command! Sort lua require'tt.es'.import_sort(true)]]
 end
 
 local function find_executable()
@@ -42,7 +42,7 @@ local function onread(err, data)
   end
 end
 
-function M.import_sort()
+function M.import_sort(async)
   local winview = fn.winsaveview()
   local path = fn.fnameescape(fn.expand("%:p"))
   local executable_path = find_executable()
@@ -51,24 +51,29 @@ function M.import_sort()
 
 
   if fn.executable(executable_path) then
-    handle = vim.loop.spawn(executable_path, {
-      args = {path, "--write"},
-      stdio = {stdout,stderr}
-    },
-    vim.schedule_wrap(function()
-      stdout:read_stop()
-      stderr:read_stop()
-      stdout:close()
-      stderr:close()
-      handle:close()
+    if true == async then
+      handle = vim.loop.spawn(executable_path, {
+        args = {path, "--write"},
+        stdio = {stdout,stderr}
+      },
+      vim.schedule_wrap(function()
+        stdout:read_stop()
+        stderr:read_stop()
+        stdout:close()
+        stderr:close()
+        handle:close()
+        vim.api.nvim_command[["checktime"]]
+        fn.winrestview(winview)
+      end
+      )
+      )
+      vim.loop.read_start(stdout, onread)
+      vim.loop.read_start(stderr, onread)
+    else
+      fn.system(executable_path .. " " .. path .. " " .. "--write")
       vim.api.nvim_command[["checktime"]]
-      vim.api.nvim_command[["redraw!"]]
       fn.winrestview(winview)
     end
-    )
-    )
-    vim.loop.read_start(stdout, onread)
-    vim.loop.read_start(stderr, onread)
   else
     error("Cannot find import-sort executable")
   end
