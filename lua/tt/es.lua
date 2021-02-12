@@ -11,6 +11,7 @@ function M.bootstrap()
   vim.bo.define = "class\\s"
   vim.wo.foldlevel = 99
   vim.b.ale_fixers = {'prettier'}
+  vim.b.ale_linters = {'eslint'}
 
   local mappings = {
     ["i<C-l>"]  = {"console.log()<esc>i", noremap = true, buffer = true},

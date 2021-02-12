@@ -39,46 +39,46 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
   nvim_lsp.rust_analyzer.setup{
     capabilities = capabilities
   }
-  nvim_lsp.diagnosticls.setup ({
-    filetypes = {
-      "javascript",
-      "javascriptreact",
-      "typescript",
-      "typescriptreact",
-      "typescript.tsx",
-    },
-    root_dir = function(fname)
-      return util.root_pattern(".git")(fname)
-    end,
-    init_options = {
-      linters = {
-        eslint = {
-          command = "node_modules/.bin/eslint",
-          rootPatterns = {".eslintrc.cjs", ".eslintrc", ".eslintrc.json", ".eslintrc.js", ".git"},
-          debounce = 100,
-          args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
-          sourceName = "eslint",
-          parseJson = {
-            errorsRoot = "[0].messages",
-            line = "line",
-            column = "column",
-            endLine = "endLine",
-            endColumn = "endColumn",
-            message = "[eslint] ${message} [${ruleId}]",
-            security = "severity",
-          },
-          securities = {[2] = "error", [1] = "warning"},
-        },
-      },
-      filetypes = {
-        javascript = "eslint",
-        javascriptreact = "eslint",
-        typescript = "eslint",
-        typescriptreact = "eslint",
-        ["typescript.tsx"] = "eslint",
-      },
-    },
-  })
+  -- nvim_lsp.diagnosticls.setup ({
+  --   filetypes = {
+  --     "javascript",
+  --     "javascriptreact",
+  --     "typescript",
+  --     "typescriptreact",
+  --     "typescript.tsx",
+  --   },
+  --   root_dir = function(fname)
+  --     return util.root_pattern(".git")(fname)
+  --   end,
+  --   init_options = {
+  --     linters = {
+  --       eslint = {
+  --         command = "node_modules/.bin/eslint",
+  --         rootPatterns = {".eslintrc.cjs", ".eslintrc", ".eslintrc.json", ".eslintrc.js", ".git"},
+  --         debounce = 100,
+  --         args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
+  --         sourceName = "eslint",
+  --         parseJson = {
+  --           errorsRoot = "[0].messages",
+  --           line = "line",
+  --           column = "column",
+  --           endLine = "endLine",
+  --           endColumn = "endColumn",
+  --           message = "[eslint] ${message} [${ruleId}]",
+  --           security = "severity",
+  --         },
+  --         securities = {[2] = "error", [1] = "warning"},
+  --       },
+  --     },
+  --     filetypes = {
+  --       javascript = "eslint",
+  --       javascriptreact = "eslint",
+  --       typescript = "eslint",
+  --       typescriptreact = "eslint",
+  --       ["typescript.tsx"] = "eslint",
+  --     },
+  --   },
+  -- })
 
   nvim_lsp.bashls.setup({})
 

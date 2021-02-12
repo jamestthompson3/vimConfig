@@ -9,7 +9,6 @@ vim.g.netrw_localrmdir = 'rm -rf'
 vim.g.netrw_banner=0
 vim.g.netrw_winsize=45
 vim.g.netrw_liststyle=3
-vim.g.ale_completion_delay = 20
 vim.g.ale_linters_explicit = 1
 vim.g.ale_sign_error = '!!'
 vim.g.ale_sign_warning = '◉'
@@ -40,91 +39,6 @@ vim.g.matchup_matchparen_deferred = 1
 vim.g.matchup_match_paren_timeout = 100
 vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
-vim.g.completion_trigger_character = {'.', '::'}
-vim.g.completion_enable_auto_paren = 1
--- vim.g.completion_enable_auto_hover = 0 -- doesn't work properly on Rust
-vim.g.completion_matching_strategy_list = {'fuzzy', 'substring', 'exact'}
-vim.g.completion_customize_lsp_label = {
-  Function= ' [function]',
-  Method= ' [method]',
-  Reference= ' [refrence]',
-  Enum= ' [enum]',
-  Field= 'ﰠ [field]',
-  Keyword= ' [key]',
-  Variable= ' [variable]',
-  Folder= ' [folder]',
-  Snippet= ' [snippet]',
-  Operator= ' [operator]',
-  Module= ' [module]',
-  Text= 'ﮜ [text]',
-  Class= ' [class]',
-  Interface= ' [interface]'
-}
-vim.g.completion_auto_change_source = 1
-
-vim.g.completion_chain_complete_list = {
-  c = {
-    { complete_items = { 'ts' }},
-    { mode = '<c-p>'},
-    { mode = '<c-n>'},
-    { mode = 'keyn'},
-    { mode = 'tags'},
-    { mode = 'keyp'},
-    { mode = 'incl'},
-    { mode = 'defs'},
-    { mode = 'file'}
-  },
-  html = {
-    { complete_items = { 'ts' }},
-    { mode = '<c-p>'},
-    { mode = '<c-n>'},
-    { mode = 'keyn'},
-    { mode = 'keyp'},
-    { mode = 'incl'},
-    { mode = 'tags'},
-    { mode = 'defs'},
-    { mode = 'file'}
-  },
-  python = {
-    { complete_items = { 'ts' }},
-    { mode = '<c-p>'},
-    { mode = '<c-n>'},
-    { mode = 'keyn'},
-    { mode = 'keyp'},
-    { mode = 'incl'},
-    { mode = 'defs'},
-    { mode = 'file'}
-  },
-  typescript = {
-    {complete_items = {'lsp'}},
-    { mode = '<c-p>'},
-    { mode = '<c-n>'},
-    { mode = 'keyn'},
-    { mode = 'keyp'},
-    { mode = 'tags'},
-    {complete_items = { 'path' }}
-  },
-  typescriptreact = {
-    {complete_items = { 'lsp' }},
-    { mode = '<c-p>'},
-    { mode = '<c-n>'},
-    { mode = 'keyn'},
-    { mode = 'keyp'},
-    { mode = 'tags'},
-    {complete_items = { 'path' }}
-  },
-  lua = {
-    {complete_items = { 'ts', 'lsp' }}
-  },
-  default = {
-    {complete_items = { 'lsp', 'snippet' }},
-    { mode = '<c-p>'},
-    { mode = '<c-n>'},
-    { mode = 'keyn'},
-    { mode = 'keyp'},
-    { mode = 'file'}
-  }
-}
 
 require'compe'.setup {
   enabled = true;
