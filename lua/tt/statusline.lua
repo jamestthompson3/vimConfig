@@ -55,7 +55,11 @@ local mode_color = function()
     R = colors.red,
   }
 
+  if mode_colors[vim.fn.mode()] then
   return mode_colors[vim.fn.mode()]
+  else
+    return colors.cyan
+  end
 end
 
 local mod = function()
