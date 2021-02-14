@@ -144,7 +144,9 @@ local function core_options()
   -- Global functions
   api.nvim_command [[
   function RemoveWhiteSpace() abort
-    if (g:remove_whitespace)
+    if exists('b:ale_fixers')
+      return
+    elseif(g:remove_whitespace)
       execute 'normal mz'
       %s/\s\+$//ge
       execute 'normal `z'
@@ -208,9 +210,10 @@ local function core_options()
               {"VimLeavePre",     "*",      [[lua require'tt.tools'.saveSession()]]};
               -- {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
               {"TermEnter",       "*",      "set nonumber"};
-              {"UIEnter",          "*",     [[lua require'tt.tools'.configurePlugins()]]};
-              {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
+              {"VimEnter",         "*",      [[lua require'tt.tools'.configurePlugins()]]};
+              {"Syntax",         "*",      [[lua require'tt.tools'.setCustomGroups()]]};
               {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
+              {"BufWritePre",     "*",      [[call RemoveWhiteSpace()]]};
               {"QuickFixCmdPost", "[^l]*", [[nested lua require'tt.tools'.openQuickfix()]]};
               {"CursorHold,BufWritePost,BufReadPost,BufLeave", "*", [[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]]};
               -- { "FileType,BufWinEnter,BufReadPost,BufWritePost,BufEnter,WinEnter,FileChangedShellPost,VimResized" , "*", [[lua vim.wo.statusline = "%!SL()"]] };

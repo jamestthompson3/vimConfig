@@ -85,6 +85,7 @@ highlight ALEVirtualTextError        guifg=Black       guibg=#ff4444  gui=NONE  
 highlight ALEVirtualTextWarning      guifg=Black       guibg=#F0C30D  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 highlight CurrentWord                guifg=#7244cf     guibg=NONE     gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 highlight InfoFloat                  guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
+highlight ExtraWhitespace            guifg=#005f5f     guibg=NONE     gui=NONE       ctermfg=0      ctermbg=23     cterm=NONE
 
 " Language specific groups
 highlight typescriptCommentTodo          guifg=#F0C30D     guibg=White    gui=NONE      ctermfg=107   ctermbg=NONE    cterm=NONE

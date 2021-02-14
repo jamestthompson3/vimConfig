@@ -9,18 +9,24 @@ local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
 local M = {}
 
+function M.setCustomGroups()
+  -- custom syntax since treesitter overrides nvim defaults
+  -- Doesn't work... :/
+  nvim.command [[match  AllTodo /\c@\?\(todo\|fixme\)/]]
+  nvim.command [[match  ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
+  -- this one works tho...
+  nvim.command [[match  ExtraWhitespace /\s\+$/]]
+end
+
 function M.configurePlugins()
   -- require 'navigation'
+  -- @todo(thing)
 
   vim.cmd [[packadd cfilter]]
 
   vim.fn['tools#loadCscope']()
   icons.setup()
 
-  -- custom syntax since treesitter overrides nvim defaults
-  -- Doesn't work... :/
-  nvim.command [[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
-  nvim.command [[syntax match  AllTodo "(\ctodo\|fixme\|TODO\|FIXME):\?"]]
   local actions = require('telescope.actions')
   require('telescope').setup {
     extensions = {
