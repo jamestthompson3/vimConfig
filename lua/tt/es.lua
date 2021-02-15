@@ -23,7 +23,7 @@ function M.bootstrap()
   nvim.command [[command! Sort lua require'tt.es'.import_sort(true)]]
   local autocmds = {
     ecmascript = {
-      {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};
+      -- {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};
     };
   }
   nvim_create_augroups(autocmds)
