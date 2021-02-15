@@ -17,9 +17,9 @@ api.nvim_command [[colorscheme ghost_mono]]
 
 -- statusline fun
 api.nvim_command [[
-  function! SL() abort
-    return "%#" . luaeval('require("tt.tools").statuslineHighlight()') . "#" . luaeval('require("tt.tools").statuslineIcon()') . "%#StatusLineModified#%{&mod?expand('%:p:t'):''}%*%{&mod?'':expand('%:p:t')}%<" .. "%=" .. "%<" .. "%r %L"
-  endfunction
+function! SL() abort
+return "%#" . luaeval('require("tt.tools").statuslineHighlight()') . "#" . luaeval('require("tt.tools").statuslineIcon()') . "%#StatusLineModified#%{&mod?expand('%:p:t'):''}%*%{&mod?'':expand('%:p:t')}%<" .. "%=" .. "%<" .. "%r %L"
+endfunction
 ]]
 
 
@@ -92,6 +92,8 @@ set.scrolloff      = 1
 set.sidescrolloff  = 5
 set.display        = "lastline"
 set.guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25"
+
+-- Custom highlight groups
 
 local function create_backup_dir()
   local data_dir = home .. '/.cache/Vim/'

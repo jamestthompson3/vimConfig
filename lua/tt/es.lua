@@ -21,6 +21,13 @@ function M.bootstrap()
 
   nvim_apply_mappings(mappings, {silent = true})
   nvim.command [[command! Sort lua require'tt.es'.import_sort(true)]]
+  local aucmds = {
+    format = {
+      {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.sort_import()]]};
+    }
+  }
+  nvim_create_augroups(autocmds)
+
 end
 
 local function find_executable()
