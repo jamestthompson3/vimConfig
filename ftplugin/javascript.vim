@@ -12,11 +12,6 @@ let @i = 'ceimportf=cf(from f)x'
 
 lua require 'tt.es'.bootstrap()
 
-" augroup JS
-"   autocmd!
-"   autocmd BufWritePost <buffer> lua require'tt.es'.import_sort()
-" augroup end
-
 let &makeprg='node %'
 
 " Error: bar

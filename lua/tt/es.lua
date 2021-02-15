@@ -21,10 +21,10 @@ function M.bootstrap()
 
   nvim_apply_mappings(mappings, {silent = true})
   nvim.command [[command! Sort lua require'tt.es'.import_sort(true)]]
-  local aucmds = {
-    format = {
-      {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.sort_import()]]};
-    }
+  local autocmds = {
+    ecmascript = {
+      {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};
+    };
   }
   nvim_create_augroups(autocmds)
 
@@ -78,6 +78,7 @@ function M.import_sort(async)
       vim.loop.read_start(stdout, onread)
       vim.loop.read_start(stderr, onread)
     else
+      log("SORTING...")
       fn.system(executable_path .. " " .. path .. " " .. "--write")
       vim.api.nvim_command[["checktime"]]
       fn.winrestview(winview)
