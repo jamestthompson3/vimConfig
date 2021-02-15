@@ -11,7 +11,7 @@ function M.bootstrap()
   vim.bo.define = "class\\s"
   vim.wo.foldlevel = 99
   vim.b.ale_fixers = {'prettier'}
-  vim.b.ale_linters = {'eslint'}
+  -- vim.b.ale_linters = {'eslint'}
 
   local mappings = {
     ["i<C-l>"]  = {"console.log()<esc>i", noremap = true, buffer = true},
@@ -21,9 +21,11 @@ function M.bootstrap()
 
   nvim_apply_mappings(mappings, {silent = true})
   nvim.command [[command! Sort lua require'tt.es'.import_sort(true)]]
+  nvim.command [[command! Eslint call setqflist([], 'r', {'title': 'eslint -- issues', 'lines': systemlist('eslint_d -f unix ' . expand('%p'))})|cwindow]]
   local autocmds = {
     ecmascript = {
       -- {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};
+      -- {"BufWritePost",       "<buffer>",      "call setqflist([], 'r', {'title': 'eslint -- issues', 'lines': systemlist('eslint_d -f unix ' . expand('%p'))})|cwindow"};
     };
   }
   nvim_create_augroups(autocmds)
@@ -87,5 +89,47 @@ function M.import_sort(async)
     error("Cannot find import-sort executable")
   end
 end
+
+local linterResults = {}
+local function readlint(err, data)
+  if data then
+      table.insert(linterResults, data)
+    -- local vals = vim.split(data, "\n")
+    -- for _, d in pairs(vals) do
+    --   if d == "" then goto continue end
+    --   table.insert(linterResults, d)
+    --   ::continue::
+    -- end
+  end
+end
+
+-- function M.linter_d()
+--   local winview = fn.winsaveview()
+--   local path = fn.fnameescape(fn.expand("%:p"))
+--   local stdout = vim.loop.new_pipe(false)
+--   local stderr = vim.loop.new_pipe(false)
+--   handle = vim.loop.spawn("eslint_d", {
+--     args = {path, "-f", "unix"},
+--     stdio = {stdout,stderr}
+--   },
+--   vim.schedule_wrap(function()
+--     stdout:read_stop()
+--     stderr:read_stop()
+--     stdout:close()
+--     stderr:close()
+--     handle:close()
+--     vim.api.nvim_command[["checktime"]]
+--     fn.winrestview(winview)
+--     -- fn.setqflist({}, 'r', {title = "eslint -- Issues", lines = linterResults, efm = "%f:%l:%c\\ %m"})
+--     log(linterResults)
+--     log(vim.tbl_islist(linterResults))
+--       fn.setqflist({}, 'a', {title = "eslint -- errors", lines = linterResults, efm = "%f:%l:%c\\ %m"})
+--     nvim.command[[cwindow]]
+--   end
+--   )
+--   )
+--   vim.loop.read_start(stdout, readlint)
+--   vim.loop.read_start(stderr, readlint)
+-- end
 
 return M

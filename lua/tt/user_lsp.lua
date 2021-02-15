@@ -26,11 +26,36 @@ function M.setMappings()
   nvim_apply_mappings(mappings, {silent = true})
 end
 
+local eslint = {
+  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+  lintStdin = true,
+  lintFormats = {"%f:%l:%c: %m"},
+  lintIgnoreExitCode = true,
+  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+  formatStdin = true
+}
+
+local function eslint_config_exists()
+  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
+
+  if not vim.tbl_isempty(eslintrc) then
+    return true
+  end
+
+  if vim.fn.filereadable("package.json") then
+    if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
+      return true
+    end
+  end
+
+  return false
+end
+
 function M.configureLSP()
   local nvim_lsp = require 'lspconfig'
   local util = nvim_lsp.util
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
 
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({
@@ -39,47 +64,32 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
   nvim_lsp.rust_analyzer.setup{
     capabilities = capabilities
   }
-  -- nvim_lsp.diagnosticls.setup ({
-  --   filetypes = {
-  --     "javascript",
-  --     "javascriptreact",
-  --     "typescript",
-  --     "typescriptreact",
-  --     "typescript.tsx",
-  --   },
-  --   root_dir = function(fname)
-  --     return util.root_pattern(".git")(fname)
-  --   end,
-  --   init_options = {
-  --     linters = {
-  --       eslint = {
-  --         command = "node_modules/.bin/eslint",
-  --         rootPatterns = {".eslintrc.cjs", ".eslintrc", ".eslintrc.json", ".eslintrc.js", ".git"},
-  --         debounce = 100,
-  --         args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
-  --         sourceName = "eslint",
-  --         parseJson = {
-  --           errorsRoot = "[0].messages",
-  --           line = "line",
-  --           column = "column",
-  --           endLine = "endLine",
-  --           endColumn = "endColumn",
-  --           message = "[eslint] ${message} [${ruleId}]",
-  --           security = "severity",
-  --         },
-  --         securities = {[2] = "error", [1] = "warning"},
-  --       },
-  --     },
-  --     filetypes = {
-  --       javascript = "eslint",
-  --       javascriptreact = "eslint",
-  --       typescript = "eslint",
-  --       typescriptreact = "eslint",
-  --       ["typescript.tsx"] = "eslint",
-  --     },
-  --   },
-  -- })
-
+  nvim_lsp.efm.setup({
+    root_dir = function()
+      if not eslint_config_exists() then
+        return nil
+      end
+      return vim.fn.getcwd()
+    end,
+    settings = {
+      languages = {
+        javascript = {eslint},
+        javascriptreact = {eslint},
+        ["javascript.jsx"] = {eslint},
+        typescript = {eslint},
+        ["typescript.tsx"] = {eslint},
+        typescriptreact = {eslint}
+      }
+    },
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescript.tsx",
+      "typescriptreact"
+    },
+  })
   nvim_lsp.bashls.setup({})
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
