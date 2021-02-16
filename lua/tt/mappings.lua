@@ -80,7 +80,7 @@ function M.map()
     ["ng_"]            = map_no_cr('g//#<Left><Left><C-R><C-W><CR>:'),
     ["n<leader>."]     = map_no_cr('Bs<space>'),
     ["nts"]            = map_no_cr('ts<space>/'),
-    ["n<leader>sp"]    = map_no_cr('SearchProject<space>')
+    ["n<leader>f"]    = map_no_cr('SearchProject<space>')
   }
 
   nvim_apply_mappings(mappings, {silent = true})

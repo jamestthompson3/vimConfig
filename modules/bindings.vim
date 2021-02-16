@@ -48,7 +48,7 @@ xnoremap <expr> A (mode()=~#'[vV]'?'<C-v>0o$A':'A')
 nnoremap z/ :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " VimDev:
-nnoremap <C-F> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+nnoremap <C-s> :echo 'hi<' . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
       \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
       \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
