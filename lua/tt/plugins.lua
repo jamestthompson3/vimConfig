@@ -41,6 +41,7 @@ return require('packer').startup(function()
   use 'andymass/vim-matchup'
   use 'hrsh7th/nvim-compe'
   use 'hrsh7th/vim-vsnip'
+  use {'tzachar/compe-tabnine',  run = './install.sh' }
 use 'dense-analysis/ale'
 use {
   'glepnir/galaxyline.nvim',
