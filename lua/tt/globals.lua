@@ -45,10 +45,10 @@ require'compe'.setup {
   autocomplete = true;
   debug = false;
   min_length = 1;
-  preselect = 'disable';
+  preselect = 'enabled';
   throttle_time = 80;
   source_timeout = 200;
-  incomplete_delay = 400;
+  incomplete_delay = 80;
   max_abbr_width = 100;
   max_kind_width = 100;
   max_menu_width = 100;
@@ -56,15 +56,14 @@ require'compe'.setup {
 
   source = {
     path = true;
-    tabnine = true;
     buffer = true;
-    calc = true;
-    vsnip = true;
+    vsnip = {priority = 1000};
     nvim_lsp = true;
     nvim_lua = true;
-    spell = true;
-    tags = true;
-    snippets_nvim = true;
     treesitter = true;
+    tags = true;
+    calc = false;
+    spell = false;
+    snippets_nvim = false;
   };
 }

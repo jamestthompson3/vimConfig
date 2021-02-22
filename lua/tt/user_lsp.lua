@@ -27,12 +27,8 @@ function M.setMappings()
 end
 
 local eslint = {
-  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+  lintCommand = "eslint_d -f unix ${INPUT}",
   lintStdin = true,
-  lintFormats = {"%f:%l:%c: %m"},
-  lintIgnoreExitCode = true,
-  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-  formatStdin = true
 }
 
 local function eslint_config_exists()
@@ -51,6 +47,19 @@ local function eslint_config_exists()
   return false
 end
 
+local prettier = {
+  formatCommand = ([[
+  ./node_modules/.bin/prettier
+  ${--config-precedence:configPrecedence}
+  ${--tab-width:tabWidth}
+  ${--single-quote:singleQuote}
+  ${--trailing-comma:trailingComma}
+  ]]):gsub(
+  "\n",
+  ""
+  )
+}
+
 function M.configureLSP()
   local nvim_lsp = require 'lspconfig'
   local util = nvim_lsp.util
@@ -59,18 +68,22 @@ function M.configureLSP()
 
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({
-    capabilities = capabilities
+    capabilities = capabilities,
+    init_options = {
+      documentFormatting = false
+    }
   })
   nvim_lsp.rust_analyzer.setup{
     capabilities = capabilities
   }
-  nvim_lsp.efm.setup({
+  nvim_lsp.efm.setup {
     root_dir = function()
       if not eslint_config_exists() then
         return nil
       end
       return vim.fn.getcwd()
     end,
+    init_options = {documentFormatting = true},
     settings = {
       languages = {
         javascript = {eslint},
@@ -89,7 +102,7 @@ function M.configureLSP()
       "typescript.tsx",
       "typescriptreact"
     },
-  })
+  }
   nvim_lsp.bashls.setup({})
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
