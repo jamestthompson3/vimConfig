@@ -26,24 +26,25 @@ function M.bootstrap()
     ecmascript = {
       -- {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};
       -- {"BufWritePost",       "<buffer>",      "call setqflist([], 'r', {'title': 'eslint -- issues', 'lines': systemlist('eslint_d -f unix ' . expand('%p'))})|cwindow"};
+      {"BufWritePost",       "<buffer>",      [[lua require'tt.es'.linter_d()]]};
     };
   }
   nvim_create_augroups(autocmds)
 
 end
 
-local function find_executable()
-  local import_sort_executable = fn.getcwd() .. "/node_modules/.bin/import-sort"
-  if 0 == fn.executable(import_sort_executable) then
+local function find_executable(binaryName)
+  local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
+  if 0 == fn.executable(executable) then
     local sub_cmd =  fn.system("git rev-parse --show-toplevel")
     local project_root_path = sub_cmd:gsub("\n","")
-    import_sort_executable = project_root_path .. "/node_modules/.bin/import-sort"
+    executable = project_root_path .. "/node_modules/.bin/" .. binaryName
   end
 
-  if 0 == fn.executable(import_sort_executable) then
-    import_sort_executable = "import-sort"
+  if 0 == fn.executable(executable) then
+    executable = binaryName
   end
-  return import_sort_executable
+  return executable
 end
 
 local function onread(err, data)
@@ -55,7 +56,7 @@ end
 function M.import_sort(async)
   local winview = fn.winsaveview()
   local path = fn.fnameescape(fn.expand("%:p"))
-  local executable_path = find_executable()
+  local executable_path = find_executable("import-sort")
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
 
@@ -90,46 +91,44 @@ function M.import_sort(async)
   end
 end
 
-local linterResults = {}
-local function readlint(err, data)
-  if data then
-      table.insert(linterResults, data)
-    -- local vals = vim.split(data, "\n")
-    -- for _, d in pairs(vals) do
-    --   if d == "" then goto continue end
-    --   table.insert(linterResults, d)
-    --   ::continue::
-    -- end
-  end
-end
 
--- function M.linter_d()
---   local winview = fn.winsaveview()
---   local path = fn.fnameescape(fn.expand("%:p"))
---   local stdout = vim.loop.new_pipe(false)
---   local stderr = vim.loop.new_pipe(false)
---   handle = vim.loop.spawn("eslint_d", {
---     args = {path, "-f", "unix"},
---     stdio = {stdout,stderr}
---   },
---   vim.schedule_wrap(function()
---     stdout:read_stop()
---     stderr:read_stop()
---     stdout:close()
---     stderr:close()
---     handle:close()
---     vim.api.nvim_command[["checktime"]]
---     fn.winrestview(winview)
---     -- fn.setqflist({}, 'r', {title = "eslint -- Issues", lines = linterResults, efm = "%f:%l:%c\\ %m"})
---     log(linterResults)
---     log(vim.tbl_islist(linterResults))
---       fn.setqflist({}, 'a', {title = "eslint -- errors", lines = linterResults, efm = "%f:%l:%c\\ %m"})
---     nvim.command[[cwindow]]
---   end
---   )
---   )
---   vim.loop.read_start(stdout, readlint)
---   vim.loop.read_start(stderr, readlint)
--- end
+function M.linter_d()
+  local winview = fn.winsaveview()
+  local path = fn.fnameescape(fn.expand("%:p"))
+  local executable_path = find_executable("eslint_d")
+  local stdout = vim.loop.new_pipe(false)
+  local stderr = vim.loop.new_pipe(false)
+  local linterResults = {}
+  local function readlint(err, data)
+    if data then
+      table.insert(linterResults, data)
+      local vals = vim.split(data, "\n")
+      for _, line in pairs(vals) do
+        if line and line ~= '' then
+          linterResults[#linterResults + 1] = line
+        end
+      end
+    end
+  end
+  handle = vim.loop.spawn(executable_path, {
+    args = {path, "-f", "compact"},
+    stdio = {stdout,stderr}
+  },
+  vim.schedule_wrap(function()
+    stdout:read_stop()
+    stderr:read_stop()
+    stdout:close()
+    stderr:close()
+    handle:close()
+    vim.api.nvim_command[["checktime"]]
+    fn.winrestview(winview)
+    fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
+    nvim.command[[cwindow]]
+  end
+  )
+  )
+  vim.loop.read_start(stdout, readlint)
+  vim.loop.read_start(stderr, readlint)
+end
 
 return M
