@@ -23,7 +23,7 @@ end
 -- Globals
 vim.g.markdown_fenced_languages = { 'html', 'typescript', 'javascript', 'js=javascript', 'bash=sh', 'rust' }
 
-vim.bo.foldlevel   =  1;
+vim.wo.foldlevel   =  1;
 
 local mappings = {
   ["nj"]            = {'gj', noremap = true, buffer = true},

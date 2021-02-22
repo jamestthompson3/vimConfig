@@ -42,7 +42,7 @@ function M.configurePlugins()
       results_height = 6,
     },
     mappings = {
-      ["<CR>"] = actions.goto_file_selection_edit,
+      ["<CR>"] = actions.select_default,
       ["<esc>"] = actions.close
     }
   }
