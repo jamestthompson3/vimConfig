@@ -21,7 +21,7 @@ function M.bootstrap()
 
   nvim_apply_mappings(mappings, {silent = true})
   nvim.command [[command! Sort lua require'tt.es'.import_sort(true)]]
-  nvim.command [[command! Eslint call setqflist([], 'r', {'title': 'eslint -- issues', 'lines': systemlist('eslint_d -f unix ' . expand('%p'))})|cwindow]]
+  nvim.command [[command! Eslint lua require'tt.es'.linter_d()]]
   local autocmds = {
     ecmascript = {
       -- {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};

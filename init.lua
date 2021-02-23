@@ -70,7 +70,6 @@ set.path            = '.,,,**'
 set.showtabline     = 0
 set.completeopt     = 'menuone,noinsert,noselect,longest'
 set.listchars       = 'tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿'
-set.complete        = '.,w,b,u,t'
 set.formatlistpat   = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart  = 99
 set.foldmethod      = "syntax"
