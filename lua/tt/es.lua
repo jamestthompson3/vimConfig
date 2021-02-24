@@ -26,10 +26,15 @@ function M.bootstrap()
     ecmascript = {
       -- {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};
       -- {"BufWritePost",       "<buffer>",      "call setqflist([], 'r', {'title': 'eslint -- issues', 'lines': systemlist('eslint_d -f unix ' . expand('%p'))})|cwindow"};
-      {"BufWritePost",       "<buffer>",      [[lua require'tt.es'.linter_d()]]};
+      -- {"BufWritePost",       "<buffer>",      [[lua require'tt.es'.sortAndLint()]]};
+      -- {"User", "ALEFixPost", "<buffer>", [[lua require'tt.es'.sortAndLint())]]}
     };
   }
   nvim_create_augroups(autocmds)
+  nvim.command('augroup CustomALE')
+  nvim.command('autocmd!')
+  nvim.command("autocmd User ALEFixPost lua require'tt.es'.sort_and_lint()")
+  nvim.command("augroup END")
 
 end
 
@@ -54,7 +59,6 @@ local function onread(err, data)
 end
 
 function M.import_sort(async)
-  local winview = fn.winsaveview()
   local path = fn.fnameescape(fn.expand("%:p"))
   local executable_path = find_executable("import-sort")
   local stdout = vim.loop.new_pipe(false)
@@ -74,17 +78,14 @@ function M.import_sort(async)
         stderr:close()
         handle:close()
         vim.api.nvim_command[["checktime"]]
-        fn.winrestview(winview)
       end
       )
       )
       vim.loop.read_start(stdout, onread)
       vim.loop.read_start(stderr, onread)
     else
-      log("SORTING...")
       fn.system(executable_path .. " " .. path .. " " .. "--write")
       vim.api.nvim_command[["checktime"]]
-      fn.winrestview(winview)
     end
   else
     error("Cannot find import-sort executable")
@@ -93,7 +94,6 @@ end
 
 
 function M.linter_d()
-  local winview = fn.winsaveview()
   local path = fn.fnameescape(fn.expand("%:p"))
   local executable_path = find_executable("eslint_d")
   local stdout = vim.loop.new_pipe(false)
@@ -111,7 +111,7 @@ function M.linter_d()
     end
   end
   handle = vim.loop.spawn(executable_path, {
-    args = {path, "-f", "compact"},
+    args = {path, "-f", "compact", "--fix"},
     stdio = {stdout,stderr}
   },
   vim.schedule_wrap(function()
@@ -121,7 +121,6 @@ function M.linter_d()
     stderr:close()
     handle:close()
     vim.api.nvim_command[["checktime"]]
-    fn.winrestview(winview)
     fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
     nvim.command[[cwindow]]
   end
@@ -129,6 +128,38 @@ function M.linter_d()
   )
   vim.loop.read_start(stdout, readlint)
   vim.loop.read_start(stderr, readlint)
+end
+
+function M.sort_and_lint()
+  local path = fn.fnameescape(fn.expand("%:p"))
+  local executable_path = find_executable("import-sort")
+  local stdout = vim.loop.new_pipe(false)
+  local stderr = vim.loop.new_pipe(false)
+  local function onread(err, data)
+    if err then
+      error("IMPORT_SORT: ", err)
+    end
+  end
+
+  if fn.executable(executable_path) then
+      handle = vim.loop.spawn(executable_path, {
+        args = {path, "--write"},
+        stdio = {stdout,stderr}
+      },
+      vim.schedule_wrap(function()
+        stdout:read_stop()
+        stderr:read_stop()
+        stdout:close()
+        stderr:close()
+        handle:close()
+        vim.api.nvim_command[["checktime"]]
+        M.linter_d()
+      end
+      )
+      )
+      vim.loop.read_start(stdout, onread)
+      vim.loop.read_start(stderr, onread)
+    end
 end
 
 return M
