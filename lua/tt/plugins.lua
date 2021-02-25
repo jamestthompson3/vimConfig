@@ -29,6 +29,7 @@ if not packer_exists then
   return
 end
 
+vim.cmd [[packadd cfilter]]
 
 return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
@@ -50,13 +51,14 @@ use {
 use 'ludovicchabant/vim-gutentags'
 use {
   'nvim-telescope/telescope.nvim',
-  requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+  requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+  config = function () require('tt.plugin.telescope') end
 }
 use  { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}
 use 'nvim-telescope/telescope-fzy-native.nvim'
 use { 'wbthomason/packer.nvim', opt = true }
 use { 'nvim-treesitter/nvim-treesitter', config = function()
-  require('tt.treesitter')
+  require('tt.plugin.treesitter')
 end
 }
 use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact'} }

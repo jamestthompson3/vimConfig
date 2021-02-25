@@ -1,0 +1,17 @@
+{
+  "name": "langservers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@fsouza/prettierd": "^0.9.3",
+    "eslint_d": "^10.0.3",
+    "import-sort-cli": "^6.0.0",
+    "import-sort-parser-babylon": "^6.0.0",
+    "import-sort-parser-typescript": "^6.0.0",
+    "import-sort-style-renke": "^6.0.0",
+    "typescript-language-server": "^0.5.1",
+    "vscode-css-languageserver-bin": "^1.4.0",
+    "vscode-html-languageserver-bin": "^1.4.0"
+  }
+}

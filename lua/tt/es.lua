@@ -2,6 +2,7 @@ require('tt.nvim_utils')
 require'tt.user_lsp'.setMappings()
 
 local fn = vim.fn
+require('tt.plugin.prettierd').setup_autofmt(fn.expand('<abuf>'))
 
 local M = {}
 
@@ -10,8 +11,6 @@ function M.bootstrap()
   vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
   vim.bo.define = "class\\s"
   vim.wo.foldlevel = 99
-  -- vim.b.ale_fixers = {'prettier'}
-  -- vim.b.ale_linters = {'eslint'}
 
   local mappings = {
     ["i<C-l>"]  = {"console.log()<esc>i", noremap = true, buffer = true},
@@ -24,7 +23,7 @@ function M.bootstrap()
   nvim.command [[command! Eslint lua require'tt.es'.linter_d()]]
   local autocmds = {
     ecmascript = {
-      {"BufWritePost <buffer>  lua require'tt.es'.sort_and_lint()"}
+      {"User prettierd_autofmt_" ..fn.bufnr() .. " lua require'tt.es'.import_sort(true)"}
     };
   }
   nvim_create_augroups(autocmds)
@@ -40,7 +39,7 @@ local function find_executable(binaryName)
   end
 
   if 0 == fn.executable(executable) then
-    executable = binaryName
+    executable = get_node_bin(binaryName)
   end
   return executable
 end

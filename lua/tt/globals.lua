@@ -3,6 +3,7 @@ vim.g.did_install_default_menus = 1
 vim.g.remove_whitespace = 1
 vim.g.loaded_tutor_mode_plugin = 1
 vim.g.python3_host_prog = is_windows and 'C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe' or '/usr/local/bin/python3'
+vim.g.autoformat = true
 
 
 vim.g.netrw_localrmdir = 'rm -rf'

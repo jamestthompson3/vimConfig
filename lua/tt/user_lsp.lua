@@ -28,8 +28,19 @@ function M.setMappings()
 end
 
 local eslint = {
-  lintCommand = "eslint_d -f unix ${INPUT}",
+  lintCommand = string.format('%s --stdin --stdin-filename ${INPUT} --format unix', get_node_bin('eslint_d')),
+  lintSource = "eslint",
   lintStdin = true,
+  rootMarkers = {
+    '.eslintrc.js';
+    '.eslintrc.cjs';
+    '.eslintrc.yaml';
+    '.eslintrc.yml';
+    '.eslintrc.json';
+    '.git';
+    'package.json';
+  },
+  lintFormats = {'%f:%l:%c: %m'}
 }
 
 local function eslint_config_exists()
@@ -77,33 +88,27 @@ function M.configureLSP()
   nvim_lsp.rust_analyzer.setup{
     capabilities = capabilities
   }
-  -- nvim_lsp.efm.setup {
-  --   root_dir = function()
-  --     if not eslint_config_exists() then
-  --       return nil
-  --     end
-  --     return vim.fn.getcwd()
-  --   end,
-  --   init_options = {documentFormatting = true},
-  --   settings = {
-  --     languages = {
-  --       javascript = {eslint},
-  --       javascriptreact = {eslint},
-  --       ["javascript.jsx"] = {eslint},
-  --       typescript = {eslint},
-  --       ["typescript.tsx"] = {eslint},
-  --       typescriptreact = {eslint}
-  --     }
-  --   },
-  --   filetypes = {
-  --     "javascript",
-  --     "javascriptreact",
-  --     "javascript.jsx",
-  --     "typescript",
-  --     "typescript.tsx",
-  --     "typescriptreact"
-  --   },
-  -- }
+  nvim_lsp.efm.setup {
+    init_options = {documentFormatting = false},
+    settings = {
+      languages = {
+        javascript = {eslint},
+        javascriptreact = {eslint},
+        ["javascript.jsx"] = {eslint},
+        typescript = {eslint},
+        ["typescript.tsx"] = {eslint},
+        typescriptreact = {eslint}
+      }
+    },
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescript.tsx",
+      "typescriptreact"
+    },
+  }
   nvim_lsp.bashls.setup({})
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(

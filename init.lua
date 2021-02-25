@@ -141,10 +141,8 @@ end
 
 
 
-local modules_folder = 'modules' .. file_separator
-api.nvim_command(string.format('runtime! %s*', modules_folder))
-
-
+vim.fn['tools#loadCscope']()
+require('nvim-web-devicons').setup()
 require('tt.core_opts')
 require('tt.autocmds')
 require('tt.globals')

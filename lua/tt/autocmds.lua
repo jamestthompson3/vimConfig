@@ -10,7 +10,6 @@ local autocmds = {
     {"VimLeavePre",     "*",      [[lua require'tt.tools'.saveSession()]]};
     -- {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
     {"TermEnter",       "*",      "set nonumber"};
-    {"VimEnter",        "*",      [[lua require'tt.tools'.configurePlugins()]]};
     {"Syntax",          "*",      [[lua require'tt.tools'.setCustomGroups()]]};
     {"BufWritePre",     "*",      [[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]]};
     {"BufWritePre",     "*",      [[lua require'tt.tools'.removeWhitespace()]]};

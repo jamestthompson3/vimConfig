@@ -356,3 +356,7 @@ nvim = setmetatable({
       return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
     end
 
+    -- find vim related node_modules
+    function get_node_bin(bin)
+      return fn.stdpath('config') .. "/langservers/node_modules/.bin/" .. bin
+    end
