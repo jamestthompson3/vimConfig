@@ -19,8 +19,7 @@ vim.g.ale_lint_on_insert_leave = 0
 vim.g.ale_lint_on_text_changed = 0
 vim.g.ale_list_window_size = 5
 vim.g.ale_virtualtext_cursor = 1
-vim.g.ale_javascript_prettier_use_local_config = 1
-vim.g.ale_fixers = {json = {"prettier"}, html = {"prettier"}, css = {"prettier"}}
+vim.g.ale_fixers = {json = {"prettier"}}
 vim.g.ale_echo_msg_format = '[%linter%] %s » %code%'
 vim.g.ale_echo_cursor = 0
 vim.g.ale_virtualtext_prefix = ''
