@@ -14,8 +14,8 @@ function map_cmd(cmd_string, buflocal)
   return { ("<Cmd>%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
 end
 
-file_separator = is_windows and '\\' or '/'
 is_windows = vim.loop.os_uname().version:match("Windows")
+file_separator = is_windows and '\\' or '/'
 
 function nvim_apply_mappings(mappings, default_options)
   -- May or may not be used.
@@ -121,27 +121,6 @@ function getPath(str)
   return s:match("(.*[/\\])")
 end
 
--- Equivalent to `echo vim.inspect(...)`
-function nvim_print(...)
-  if select("#", ...) == 1 then
-    vim.api.nvim_out_write(vim.inspect((...)))
-  else
-    vim.api.nvim_out_write(vim.inspect {...})
-  end
-  vim.api.nvim_out_write("\n")
-end
-
---- Equivalent to `echo` EX command
-function nvim_echo(...)
-  for i = 1, select("#", ...) do
-    local part = select(i, ...)
-    vim.api.nvim_out_write(tostring(part))
-    -- vim.api.nvim_out_write("\n")
-    vim.api.nvim_out_write(" ")
-  end
-  vim.api.nvim_out_write("\n")
-end
-
 -- `nvim.$method(...)` redirects to `nvim.api.nvim_$method(...)`
 -- `nvim.fn.$method(...)` redirects to `vim.api.nvim_call_function($method, {...})`
 -- TODO `nvim.ex.$command(...)` is approximately `:$command {...}.join(" ")`
@@ -149,8 +128,6 @@ end
 -- `nvim.echo(...)` is approximately `echo table.concat({...}, '\n')`
 -- Both methods cache the inital lookup in the metatable, but there is a small overhead regardless.
 nvim = setmetatable({
-  print = nvim_print;
-  echo = nvim_echo;
   fn = setmetatable({}, {
     __index = function(self, k)
       local mt = getmetatable(self)
@@ -165,17 +142,17 @@ nvim = setmetatable({
   });
   buf = setmetatable({
     -- current = setmetatable({}, {
-      -- 	__index = function(self, k)
-        -- 		local mt = getmetatable(self)
-        -- 		local x = mt[k]
-        -- 		if x ~= nil then
-        -- 			return x
-        -- 		end
-        -- 		local command = k:gsub("_$", "!")
-        -- 		local f = function(...) return vim.api.nvim_command(command.." "..table.concat({...}, " ")) end
-        -- 		mt[k] = f
-        -- 		return f
-        -- 	end
+      --  __index = function(self, k)
+        --    local mt = getmetatable(self)
+        --    local x = mt[k]
+        --    if x ~= nil then
+        --      return x
+        --    end
+        --    local command = k:gsub("_$", "!")
+        --    local f = function(...) return vim.api.nvim_command(command.." "..table.concat({...}, " ")) end
+        --    mt[k] = f
+        --    return f
+        --  end
         -- });
       }, {
         __index = function(self, k)
@@ -273,19 +250,9 @@ nvim = setmetatable({
       end
     })
 
-    nvim.option = nvim.o
-
     ---
     -- Higher level text manipulation utilities
     ---
-
-    -- Necessary glue for nvim_text_operator
-    -- Calls the lua function whose name is g:lua_fn_name and forwards its arguments
-    vim.api.nvim_command [[
-    function! LuaExprCallback(...) abort
-    return luaeval(g:lua_expr, a:000)
-    endfunction
-    ]]
 
     LUA_MAPPING = {}
     LUA_BUFFER_MAPPING = {}
@@ -296,16 +263,11 @@ nvim = setmetatable({
     end
 
 
-    -- TODO(ashkan) @feature Disable noremap if the rhs starts with <Plug>
-
     function nvim_create_augroups(definitions)
       for group_name, definition in pairs(definitions) do
         vim.api.nvim_command('augroup '..group_name)
         vim.api.nvim_command('autocmd!')
         for _, def in ipairs(definition) do
-          -- if type(def) == 'table' and type(def[#def]) == 'function' then
-          -- 	def[#def] = lua_callback(def[#def])
-          -- end
           local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
           vim.api.nvim_command(command)
         end
@@ -394,38 +356,3 @@ nvim = setmetatable({
       return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
     end
 
-    function openJobWindow()
-      local lines = api.nvim_get_option("lines")
-      local columns = api.nvim_get_option("columns")
-      local height = fn.float2nr((lines - 2) * 0.3)
-      local row = fn.float2nr((lines - height) / 2)
-      local width = fn.float2nr(columns * 0.6)
-      local col = fn.float2nr((columns - width) / 2)
-      local border_opts = {
-        relative = 'editor',
-        row = row - 1,
-        col = col - 2,
-        width = width + 4,
-        height = height + 2,
-        style = 'minimal'
-      }
-
-      local opts = {
-        relative = 'editor',
-        row = row - 4,
-        col = col,
-        width = width,
-        height = height,
-        style = 'minimal'
-      }
-      local top = string.format("╭%s╮", string.rep("─", width + 2))
-      local mid = string.format("│%s│",string.rep(" ", width + 2))
-      local bot = string.format("╰%s╯", string.rep("─", width + 2))
-      local bufLines = string.format("%s%s%s",top,string.rep(mid, height),bot)
-      local bbuf = api.nvim_create_buf(false, true)
-      api.nvim_buf_set_lines(bbuf, 0, -1, true, { bufLines })
-      -- api.nvim_open_win(bbuf, true, border_opts)
-      local buf = api.nvim_create_buf(false, true)
-      local window = api.nvim_open_win(buf, true, opts)
-      return { buf = buf, window = window }
-    end

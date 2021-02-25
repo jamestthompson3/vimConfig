@@ -39,6 +39,12 @@ vim.g.matchup_matchparen_deferred = 1
 vim.g.matchup_match_paren_timeout = 100
 vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = {method = 'popup'}
+vim.g.vsnip_snippet_dir = vim.fn.stdpath('config') .. '/snippets'
+
+vim.g.vsnip_filetypes = {
+  javascriptreact = {'react'},
+  typescriptreact = {'react'}
+}
 
  require'compe'.setup {
    enabled = true;

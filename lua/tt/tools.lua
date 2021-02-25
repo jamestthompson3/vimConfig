@@ -20,8 +20,6 @@ end
 
 function M.configurePlugins()
   -- require 'navigation'
-  -- @todo(thing)
-
   vim.cmd [[packadd cfilter]]
 
   vim.fn['tools#loadCscope']()
@@ -144,6 +142,34 @@ function M.fastFind(pattern)
   end
 end
 
+function M.winMove(key)
+  local currentWindow = fn.winnr()
+  nvim.command("wincmd " .. key)
+  if fn.winnr() == currentWindow  then
+    if key == 'j' or key == 'k' then
+      nvim.command("wincmd s")
+    else
+      nvim.command("wincmd v")
+    end
+    nvim.command("wincmd " .. key)
+  end
+end
+
+function M.markMargin()
+  if 1 == fn.exists('b:MarkMargin') then
+    fn.matchadd('ErrorMsg', '\\%>' .. vim.b.MarkMargin .. 'v\\s*\\zs\\S', 0)
+  end
+end
+
+function M.removeWhitespace()
+  if 1 == fn.exists('b:ale_fixers') then
+    return
+  elseif 1 == vim.g.remove_whitespace then
+    api.nvim_exec("normal mz", false)
+    nvim.command("%s/\\s\\+$//ge")
+    api.nvim_exec("normal `z", false)
+  end
+end
 
 function M.grepBufs(term)
   local cmd = string.format("silent bufdo vimgrepadd %s %", term)
@@ -175,7 +201,7 @@ end
 
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = getPath(api.nvim_exec('pwd', true))
+  local cwd = os.getenv('PWD')
   for _, file in ipairs(files) do
     if not vim.startswith(file, 'term://') and string.match(getPath(file), cwd) then
       local splitvals = vim.split(file, "/")
@@ -246,7 +272,7 @@ function M.statuslineIcon()
     -- local iconHighlight = icons.get_highlight_name(icon)
     -- TODO load dynamic parts of the statusline on augroups?
     -- statusline = icon .. ' '
-      return icon .. ' '
+    return icon .. ' '
   end
   return ""
 end

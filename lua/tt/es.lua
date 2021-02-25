@@ -10,7 +10,7 @@ function M.bootstrap()
   vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
   vim.bo.define = "class\\s"
   vim.wo.foldlevel = 99
-  vim.b.ale_fixers = {'prettier'}
+  -- vim.b.ale_fixers = {'prettier'}
   -- vim.b.ale_linters = {'eslint'}
 
   local mappings = {
@@ -24,17 +24,10 @@ function M.bootstrap()
   nvim.command [[command! Eslint lua require'tt.es'.linter_d()]]
   local autocmds = {
     ecmascript = {
-      -- {"BufWritePre",     "<buffer>",      [[lua require'tt.es'.import_sort()]]};
-      -- {"BufWritePost",       "<buffer>",      "call setqflist([], 'r', {'title': 'eslint -- issues', 'lines': systemlist('eslint_d -f unix ' . expand('%p'))})|cwindow"};
-      -- {"BufWritePost",       "<buffer>",      [[lua require'tt.es'.sortAndLint()]]};
-      -- {"User", "ALEFixPost", "<buffer>", [[lua require'tt.es'.sortAndLint())]]}
+      {"BufWritePost <buffer>  lua require'tt.es'.sort_and_lint()"}
     };
   }
   nvim_create_augroups(autocmds)
-  nvim.command('augroup CustomALE')
-  nvim.command('autocmd!')
-  nvim.command("autocmd User ALEFixPost lua require'tt.es'.sort_and_lint()")
-  nvim.command("augroup END")
 
 end
 

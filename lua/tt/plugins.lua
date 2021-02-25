@@ -45,7 +45,6 @@ use 'dense-analysis/ale'
 use {
   'glepnir/galaxyline.nvim',
     branch = 'main',
-    -- your statusline
     config = function() require'tt.statusline' end,
 }
 use 'ludovicchabant/vim-gutentags'
