@@ -19,11 +19,11 @@ function M.bootstrap()
   }
 
   nvim_apply_mappings(mappings, {silent = true})
-  nvim.command [[command! Sort lua require'tt.es'.import_sort(true)]]
-  nvim.command [[command! Eslint lua require'tt.es'.linter_d()]]
+  nvim.command [[command! Sort lua require'tt.ft.ecma'.import_sort(true)]]
+  nvim.command [[command! Eslint lua require'tt.ft.ecma'.linter_d()]]
   local autocmds = {
     ecmascript = {
-      {"User prettierd_autofmt_" ..fn.bufnr() .. " lua require'tt.es'.import_sort(true)"}
+      {"User prettierd_autofmt lua require'tt.ft.ecma'.sort_and_lint()"}
     };
   }
   nvim_create_augroups(autocmds)
@@ -40,6 +40,9 @@ local function find_executable(binaryName)
 
   if 0 == fn.executable(executable) then
     executable = get_node_bin(binaryName)
+  end
+  if 0 == fn.executable(executable) then
+    log(string.format("Could not find: %s", executable))
   end
   return executable
 end

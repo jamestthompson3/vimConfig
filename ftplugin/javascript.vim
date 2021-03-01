@@ -10,7 +10,7 @@ let g:vim_json_syntax_conceal = 0
 " transform, I just need it for vim comments
 let @i = 'ceimportf=cf(from f)x'
 
-lua require 'tt.es'.bootstrap()
+lua require 'tt.ft.ecma'.bootstrap()
 
 let &makeprg='node %'
 

@@ -13,36 +13,12 @@ local home = os.getenv("HOME")
 
 vim.g.mapleader = " "
 
-api.nvim_command [[colorscheme ghost_mono]]
-
 -- statusline fun
 api.nvim_command [[
 function! SL() abort
 return "%#" . luaeval('require("tt.tools").statuslineHighlight()') . "#" . luaeval('require("tt.tools").statuslineIcon()') . "%#StatusLineModified#%{&mod?expand('%:p:t'):''}%*%{&mod?'':expand('%:p:t')}%<" .. "%=" .. "%<" .. "%r %L"
 endfunction
 ]]
-
-local function create_backup_dir()
-  local data_dir = home .. '/.cache/Vim/'
-  local backup_dir = data_dir .. 'backup'
-  local swap_dir = data_dir .. 'swap'
-  local undo_dir = data_dir .. 'undofile'
-  if not isdir(data_dir) then
-    os.execute("mkdir" .. data_dir)
-  end
-  if not isdir(backup_dir) then
-    os.execute("mkdir" .. backup_dir)
-  end
-  if not isdir(swap_dir) then
-    os.execute("mkdir" .. swap_dir)
-  end
-  if not isdir(undo_dir) then
-    os.execute("mkdir" .. undo_dir)
-  end
-end
-
-create_backup_dir()
-
 
 set.hidden          = true
 set.secure          = true
@@ -77,18 +53,14 @@ set.showbreak       = string.rep(' ', 3) -- Make it so that long lines wrap smar
 
 set.mouse           = "nv"
 set.foldopen        = "search"
-set.encoding        = "UTF-8"
 set.fileformat      = 'unix'
 set.diffopt         = "hiddenoff,iwhiteall,algorithm:patience"
 set.nrformats       = "bin,hex,alpha"
-set.wildmode        = "full"
 set.grepprg         = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit     = "block"
 set.inccommand      = "split"
 set.cscopequickfix  = "s-,c-,d-,i-,t-,e-"
 set.path            = '.,,,**'
--- set.tabline         = gitBranch()
-set.showtabline     = 0
 set.completeopt     = 'menuone,noselect'
 set.listchars       = 'tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿'
 set.formatlistpat   = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
@@ -96,9 +68,6 @@ set.foldlevelstart  = 99
 set.foldmethod      = "syntax"
 set.wildignore      = '*/dist*/*,*/target/*,*/builds/*,*/node_modules/*,*/flow-typed/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot'
 set.shortmess       = vim.o.shortmess .. 's'
-set.undodir         = home .. "/.cache/Vim/undofile"
-set.backupdir       = home .. "/.cache/Vim/backup"
-set.directory       = home .. "/.cache/Vim/swap"
 
 -- UI OPTS
 set.termguicolors  = true
@@ -110,7 +79,6 @@ set.pumblend       = 20
 set.pumheight      = 15
 set.scrolloff      = 1
 set.sidescrolloff  = 5
-set.display        = "lastline"
 set.guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25"
 
 
@@ -142,9 +110,10 @@ end
 
 
 vim.fn['tools#loadCscope']()
-require('nvim-web-devicons').setup()
 require('tt.core_opts')
 require('tt.autocmds')
 require('tt.globals')
 require('tt.plugins')
 require('tt.mappings')
+
+api.nvim_command [[colorscheme ghost_mono]]

@@ -14,6 +14,7 @@ function M.setCustomGroups()
   nvim.command [[match  AllTodo /\c@\?\(todo\|fixme\)/]]
   nvim.command [[match  ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
   -- this one works tho...
+  -- @todo: thing
   nvim.command [[match  ExtraWhitespace /\s\+$/]]
 end
 

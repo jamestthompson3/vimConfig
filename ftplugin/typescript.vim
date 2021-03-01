@@ -2,7 +2,7 @@
 set formatoptions+=o
 
 lua require'tt.user_lsp'.setMappings()
-lua require 'tt.es'.bootstrap()
+lua require 'tt.ft.ecma'.bootstrap()
 
 
 " TODO figure out why ale is not working on mono repos

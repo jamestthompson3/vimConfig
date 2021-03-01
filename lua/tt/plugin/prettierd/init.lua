@@ -25,8 +25,10 @@ local function load_state()
 end
 
 local function start_server()
-  local exec_path = string.format('%s/langservers/node_modules/.bin/prettierd',
-                                  vfn.stdpath('config'))
+  local exec_path = string.format('%s/langservers/node_modules/.bin/prettierd', vfn.stdpath('config'))
+  if 0 == vfn.executable(exec_path) then
+    error("CANNOT FIND PRETTIER_D")
+  end
   cmd.run(exec_path, {args = {'start'}}, nil, function(result)
     if result.exit_status ~= 0 then
       error(string.format('failed to start prettierd - %d: %s', result.exit_status, result.stderr))
@@ -143,14 +145,16 @@ local function autofmt_and_write(bufnr)
   end)
 end
 
+nvim.command [[command! Pretty lua require'tt.plugin.prettierd'.format()]]
+
 function M.setup_autofmt(bufnr)
-  helpers.augroup('User prettierd_autofmt_' .. bufnr, {
+  helpers.augroup('prettierd_autofmt_' .. bufnr, {
     {
       events = {'BufWritePost'};
       targets = {string.format('<buffer=%d>', bufnr)};
       command = helpers.fn_cmd(function()
         autofmt_and_write(bufnr)
-        nvim.command("doautocmd User prettierd_autofmt_" .. bufnr)
+        nvim.command("doautocmd User prettierd_autofmt")
       end);
     };
   })

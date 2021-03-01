@@ -1,1 +1,1 @@
-lua require'tt.rust'
+lua require'tt.ft.rust'

@@ -29,7 +29,6 @@ if not packer_exists then
   return
 end
 
-vim.cmd [[packadd cfilter]]
 
 return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
@@ -40,29 +39,34 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
   use 'andymass/vim-matchup'
-  use 'hrsh7th/nvim-compe'
-  use 'hrsh7th/vim-vsnip'
-use 'dense-analysis/ale'
-use {
-  'glepnir/galaxyline.nvim',
+  use 'ludovicchabant/vim-gutentags'
+  use {
+    'hrsh7th/nvim-compe',
+    config = function() require('tt.plugin.compe') end,
+    requires = {{'hrsh7th/vim-vsnip'}}
+  }
+  use {
+    'glepnir/galaxyline.nvim',
     branch = 'main',
     config = function() require'tt.statusline' end,
-}
-use 'ludovicchabant/vim-gutentags'
-use {
-  'nvim-telescope/telescope.nvim',
-  requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
-  config = function () require('tt.plugin.telescope') end
-}
-use  { 'neovim/nvim-lspconfig', config = function() require('tt.user_lsp').configureLSP() end}
-use 'nvim-telescope/telescope-fzy-native.nvim'
-use { 'wbthomason/packer.nvim', opt = true }
-use { 'nvim-treesitter/nvim-treesitter', config = function()
-  require('tt.plugin.treesitter')
-end
-}
+  }
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}, {'nvim-telescope/telescope-fzy-native.nvim'}},
+    config = function () require('tt.plugin.telescope') end
+  }
+  use  {
+    'neovim/nvim-lspconfig',
+    config = function() require('tt.user_lsp').configureLSP() end
+  }
+  use { 'wbthomason/packer.nvim', opt = true }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    config = function() require('tt.plugin.treesitter') end
+  }
 use { 'majutsushi/tagbar', opt = true, ft = {'c', 'cpp', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact'} }
 use { 'norcalli/nvim-colorizer.lua', opt = true, ft = {'html', 'css', 'vim'} }
 use { 'reedes/vim-wordy', opt = true, ft = {'txt', 'md', 'markdown', 'text'} }
+use {'dense-analysis/ale', opt = true, ft = {'c', 'cpp', 'go', 'rust', 'scala', 'python', 'objcpp', 'objc', 'reason'}}
 
 end)

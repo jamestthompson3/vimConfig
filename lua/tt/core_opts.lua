@@ -2,6 +2,7 @@ require 'tt.nvim_utils'
 local api = vim.api
 
 if not is_windows then api.nvim_command('set shell=bash') end
+vim.cmd [[packadd cfilter]]
 
 -- abbrevs
 nvim.command [[ cnoreabbrev csa cs add ]]

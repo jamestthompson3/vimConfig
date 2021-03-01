@@ -88,28 +88,28 @@ function M.configureLSP()
   nvim_lsp.rust_analyzer.setup{
     capabilities = capabilities
   }
-  nvim_lsp.efm.setup {
-    init_options = {documentFormatting = false},
-    settings = {
-      languages = {
-        javascript = {eslint},
-        javascriptreact = {eslint},
-        ["javascript.jsx"] = {eslint},
-        typescript = {eslint},
-        ["typescript.tsx"] = {eslint},
-        typescriptreact = {eslint}
-      }
-    },
-    filetypes = {
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "typescript",
-      "typescript.tsx",
-      "typescriptreact"
-    },
-  }
-  nvim_lsp.bashls.setup({})
+  -- nvim_lsp.efm.setup {
+  --   init_options = {documentFormatting = false},
+  --   settings = {
+  --     languages = {
+  --       javascript = {eslint},
+  --       javascriptreact = {eslint},
+  --       ["javascript.jsx"] = {eslint},
+  --       typescript = {eslint},
+  --       ["typescript.tsx"] = {eslint},
+  --       typescriptreact = {eslint}
+  --     }
+  --   },
+  --   filetypes = {
+  --     "javascript",
+  --     "javascriptreact",
+  --     "javascript.jsx",
+  --     "typescript",
+  --     "typescript.tsx",
+  --     "typescriptreact"
+  --   },
+  -- }
+  -- nvim_lsp.bashls.setup({})
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
