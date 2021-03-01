@@ -116,4 +116,5 @@ require('tt.globals')
 require('tt.plugins')
 require('tt.mappings')
 
-api.nvim_command [[colorscheme ghost_mono]]
+nvim.command [[colorscheme ghost_mono]]
+require'tt.tools'.setCustomGroups()

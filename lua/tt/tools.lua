@@ -189,31 +189,29 @@ function M.listTags()
   api.nvim_command [[ lwindow ]]
 end
 
-local results = {}
-local function onread(err, data)
-  if err then
-    -- print('ERROR: ', err)
-    -- TODO handle err
-  end
-  if data then
-    local vals = vim.split(data, "\n")
-    for _, d in pairs(vals) do
-      if d == "" then goto continue end
-      table.insert(results, d)
-      ::continue::
-    end
-  end
-end
 
 function M.asyncGrep(...)
   local terms = {...}
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
+  local results = {}
+  local function onread(err, data)
+    if err then
+      -- print('ERROR: ', err)
+      -- TODO handle err
+    end
+    if data then
+      local vals = vim.split(data, "\n")
+      for _, d in pairs(vals) do
+        if d == "" then goto continue end
+        table.insert(results, d)
+        ::continue::
+      end
+    end
+  end
   local function setQF()
     fn.setqflist({}, 'r', {title = 'Search Results', lines = results})
     api.nvim_command [[ cwindow ]]
-    local count = #results
-    for i=0, count do results[i]=nil end -- clear the table
   end
   args = fn.extend(terms, {'--vimgrep', '--smart-case', '--block-buffered'})
   handle = vim.loop.spawn('rg', {
