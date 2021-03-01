@@ -9,6 +9,7 @@ vim.g.loaded_matchit = 1
 require 'tt.nvim_utils'
 local set = vim.o
 local api = vim.api
+local fn  = vim.fn
 local home = os.getenv("HOME")
 
 vim.g.mapleader = " "
@@ -33,7 +34,6 @@ set.shiftround      = true
 set.ignorecase      = true
 set.smartcase       = true
 set.undofile        = true
-set.backup          = true
 set.magic           = true
 set.number          = true
 set.tags            = "" -- let gutentags handle this
@@ -68,6 +68,7 @@ set.foldlevelstart  = 99
 set.foldmethod      = "syntax"
 set.wildignore      = '*/dist*/*,*/target/*,*/builds/*,*/node_modules/*,*/flow-typed/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot'
 set.shortmess       = vim.o.shortmess .. 's'
+set.undodir         = home .. "/.cache/Vim/undofile"
 
 -- UI OPTS
 set.termguicolors  = true
