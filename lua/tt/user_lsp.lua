@@ -18,11 +18,12 @@ function M.setMappings()
     ["ngh"]        = map_cmd [[lua vim.lsp.buf.hover()]],
     ["n[e"]        = map_cmd [[lua vim.lsp.diagnostic.goto_next()]],
     ["n]e"]        = map_cmd [[lua vim.lsp.diagnostic.goto_prev()]],
+    ["nga"]        = map_cmd [[lua require'telescope.builtin'.lsp_code_actions()]],
+    ["ngs"]        = map_cmd [[vsplit|lua vim.lsp.buf.definition()]],
     ["n<leader>r"] = map_cmd [[lua vim.lsp.buf.references()]],
     ["n<leader>f"] = map_cmd [[lua vim.lsp.buf.formatting()]],
     ["n<leader>n"] = map_cmd [[lua vim.lsp.buf.rename()]],
-    ["n<leader>l"] = map_cmd [[lua vim.lsp.util.show_line_diagnostics()]],
-    ["nga"]        = map_cmd [[lua require'telescope.builtin'.lsp_code_actions()]]
+    ["n<leader>l"] = map_cmd [[lua vim.lsp.util.show_line_diagnostics()]]
   }
   nvim_apply_mappings(mappings, {silent = true})
 end
