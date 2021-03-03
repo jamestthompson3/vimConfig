@@ -24,6 +24,31 @@ function M.openQuickfix()
   api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
 
+function M.splashscreen()
+  local curr_buf = api.nvim_get_current_buf()
+  local args = vim.fn.argc()
+  local offset = api.nvim_buf_get_offset(curr_buf, 1)
+  local currDir = os.getenv('PWD')
+  if offset == -1 and args == 0 then
+    api.nvim_create_buf(false, true)
+    nvim.command [[ silent! r ~/vim/skeletons/start.screen ]]
+    nvim.command(string.format("chdir %s", currDir))
+    vim.bo[0].bufhidden='wipe'
+    vim.bo[0].buflisted=false
+    vim.bo[0].matchpairs=''
+    nvim.command [[setl nonumber]]
+    nvim.command [[setl nocursorline]]
+    vim.wo[0].cursorcolumn=false
+    require('tt.tools').simpleMRU()
+    nvim.command [[:34]]
+    api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
+    vim.bo[0].modified=false
+    vim.bo[0].modifiable=false
+  else
+  end
+
+end
+
 function M.blameVirtText()
   local ft = fn.expand('%:h:t')
   if ft == '' then

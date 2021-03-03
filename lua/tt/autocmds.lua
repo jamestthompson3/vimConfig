@@ -63,4 +63,4 @@ local autocmds = {
     { "BufRead,BufNewFile", "*.[Dd]ockerfile","set ft=Dockerfile"};
   };
 }
-nvim_create_augroups(autocmds)
+vim.schedule(function()nvim_create_augroups(autocmds)end)

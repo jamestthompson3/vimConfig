@@ -160,7 +160,6 @@ function M.map()
   nvim_apply_mappings(visual_mode, {silent = true})
   nvim_apply_mappings(command_mode, {silent = true})
 
-
 end
 
-M.map()
+return M

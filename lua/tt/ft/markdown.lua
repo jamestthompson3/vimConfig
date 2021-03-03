@@ -1,6 +1,5 @@
 require 'tt.nvim_utils'
 require 'tt.navigation'
-require('tt.plugin.prettierd').setup_autofmt(fn.expand('<abuf>'))
 local api = vim.api
 local M = {}
 local setWriterline = false

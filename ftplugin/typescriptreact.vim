@@ -39,9 +39,6 @@ let g:tagbar_type_typescript = {
 
 let g:tagbar_type_typescriptreact = 1
 
-lua require'tt.user_lsp'.setMappings()
-lua require 'tt.ft.ecma'.bootstrap()
-
 " For andymass/vim-matchup plugin
 if exists("loaded_matchup")
   setlocal matchpairs=(:),{:},[:],<:>

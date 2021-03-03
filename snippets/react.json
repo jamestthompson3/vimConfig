@@ -1,0 +1,50 @@
+{
+  "Create a stateless component": {
+    "prefix": "scomp",
+    "description": "A stateless component",
+    "body": [
+      "import React from 'react';",
+      "\nconst ${1:ComponentName} = () => {",
+      "\treturn (",
+      "\t\t$0",
+      "\t);",
+      "};",
+      "\nexport default ${1:ComponentName};"
+    ]
+  },
+  "Create a stateless component with the file name": {
+    "prefix": "fscomp",
+    "description": "A stateless component with the same name as the file",
+    "body": [
+      "import React from 'react';",
+      "\nconst $TM_FILENAME_BASE = () => {",
+      "\treturn (",
+      "\t\t$0",
+      "\t);",
+      "};",
+      "\nexport default $TM_FILENAME_BASE;"
+    ]
+  },
+  "Create only a styled-component with the file name": {
+    "prefix": "fstyle",
+    "description": "A styled component with the same name as the current buffer",
+    "body": [
+      "import styled from 'styled-components';",
+      "\nconst $TM_FILENAME_BASE = styled($0)(({theme}) => ({",
+      "\t$1",
+      "}));",
+      "\nexport default $TM_FILENAME_BASE;"
+    ]
+  },
+  "useState's hook creation": {
+    "prefix": "useState",
+    "description": "The creation of useState's hook",
+    "body": "const [${1:value}, ${2:setValue}] = useState<${3:type}>(${0:defaultValue});"
+  },
+
+  "useCallback hook creation": {
+    "prefix": "useCallback",
+    "description": "The creation of useCallback hook",
+    "body": "React.useCallback(() => {$1}, [$2])"
+  }
+}

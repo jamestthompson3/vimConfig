@@ -82,9 +82,6 @@ function M.configureLSP()
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({
     capabilities = capabilities,
-    init_options = {
-      documentFormatting = false
-    }
   })
   nvim_lsp.rust_analyzer.setup{
     capabilities = capabilities
