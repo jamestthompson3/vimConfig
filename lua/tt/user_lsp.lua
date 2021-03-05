@@ -29,7 +29,7 @@ function M.setMappings()
 end
 
 local eslint = {
-  lintCommand = string.format('%s --stdin --stdin-filename ${INPUT} --format unix', get_node_bin('eslint_d')),
+  lintCommand = string.format('%s ${INPUT} --format unix', get_node_bin('eslint_d')),
   lintSource = "eslint",
   lintStdin = true,
   rootMarkers = {
@@ -73,6 +73,15 @@ local prettier = {
   )
 }
 
+local function organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = {vim.api.nvim_buf_get_name(0)},
+    title = ""
+  }
+  vim.lsp.buf.execute_command(params)
+end
+
 function M.configureLSP()
   local nvim_lsp = require 'lspconfig'
   local util = nvim_lsp.util
@@ -82,22 +91,18 @@ function M.configureLSP()
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({
     capabilities = capabilities,
+    commands = {
+      OrganizeImports = {
+        organize_imports,
+        description = "Organize Imports"
+      }
+    }
   })
   nvim_lsp.rust_analyzer.setup{
     capabilities = capabilities
   }
   -- nvim_lsp.efm.setup {
   --   init_options = {documentFormatting = false},
-  --   settings = {
-  --     languages = {
-  --       javascript = {eslint},
-  --       javascriptreact = {eslint},
-  --       ["javascript.jsx"] = {eslint},
-  --       typescript = {eslint},
-  --       ["typescript.tsx"] = {eslint},
-  --       typescriptreact = {eslint}
-  --     }
-  --   },
   --   filetypes = {
   --     "javascript",
   --     "javascriptreact",

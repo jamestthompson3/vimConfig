@@ -20,95 +20,52 @@ function M.bootstrap()
   nvim_apply_mappings(mappings, {silent = true})
   nvim.command [[command! Sort lua require'tt.ft.ecma'.import_sort(true)]]
   nvim.command [[command! Eslint lua require'tt.ft.ecma'.linter_d()]]
+  nvim.command [[command! Lint lua require'tt.ft.ecma'.lint_project()]]
   local autocmds = {
-      ecmascript = {
-          {"User prettierd_autofmt lua require'tt.ft.ecma'.sort_and_lint()"}
-        };
-      }
-      nvim_create_augroups(autocmds)
+    ecmascript = {
+      {"User prettierd_autofmt lua require'tt.ft.ecma'.import_sort(true, function() vim.lsp.buf_attach_client(0,1)end)"},
+      -- {"BufWritePost <buffer> lua require'tt.ft.ecma'.sort_and_lint()"}
+    };
+  }
+  nvim_create_augroups(autocmds)
 
-    end
+end
 
-    local function find_executable(binaryName)
-      local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
-      if 0 == fn.executable(executable) then
-        local sub_cmd =  fn.system("git rev-parse --show-toplevel")
-        local project_root_path = sub_cmd:gsub("\n","")
-        executable = project_root_path .. "/node_modules/.bin/" .. binaryName
-      end
+local function find_executable(binaryName)
+  local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
+  if 0 == fn.executable(executable) then
+    local sub_cmd =  fn.system("git rev-parse --show-toplevel")
+    local project_root_path = sub_cmd:gsub("\n","")
+    executable = project_root_path .. "/node_modules/.bin/" .. binaryName
+  end
 
-      if 0 == fn.executable(executable) then
-        executable = get_node_bin(binaryName)
-      end
-      if 0 == fn.executable(executable) then
-        log(string.format("Could not find: %s", executable))
-      end
-      return executable
-    end
+  if 0 == fn.executable(executable) then
+    executable = get_node_bin(binaryName)
+  end
+  if 0 == fn.executable(executable) then
+    log(string.format("Could not find: %s", executable))
+  end
+  return executable
+end
 
-    local function onread(err, data)
-      if err then
-        error("IMPORT_SORT: ", err)
-      end
-    end
+local function onread(err, data)
+  if err then
+    error("IMPORT_SORT: ", err)
+  end
+end
 
-    function M.import_sort(async, cb)
-      local path = fn.fnameescape(fn.expand("%:p"))
-      local executable_path = find_executable("import-sort")
-      local stdout = vim.loop.new_pipe(false)
-      local stderr = vim.loop.new_pipe(false)
-
-
-      if fn.executable(executable_path) then
-        if true == async then
-          handle = vim.loop.spawn(executable_path, {
-            args = {path, "--write"},
-            stdio = {stdout,stderr}
-          },
-          vim.schedule_wrap(function()
-            stdout:read_stop()
-            stderr:read_stop()
-            stdout:close()
-            stderr:close()
-            handle:close()
-            vim.api.nvim_command[["checktime"]]
-            if cb ~= nil then
-              cb()
-            end
-          end
-          )
-          )
-          vim.loop.read_start(stdout, onread)
-          vim.loop.read_start(stderr, onread)
-        else
-          fn.system(executable_path .. " " .. path .. " " .. "--write")
-          vim.api.nvim_command[["checktime"]]
-        end
-      else
-        error("Cannot find import-sort executable")
-      end
-    end
+function M.import_sort(async, cb)
+  local view = fn.winsaveview()
+  local path = fn.fnameescape(fn.expand("%:p"))
+  local executable_path = find_executable("import-sort")
+  local stdout = vim.loop.new_pipe(false)
+  local stderr = vim.loop.new_pipe(false)
 
 
-    function M.linter_d()
-      local path = fn.fnameescape(fn.expand("%:p"))
-      local executable_path = find_executable("eslint_d")
-      local stdout = vim.loop.new_pipe(false)
-      local stderr = vim.loop.new_pipe(false)
-      local linterResults = {}
-      local function readlint(err, data)
-        if data then
-          table.insert(linterResults, data)
-          local vals = vim.split(data, "\n")
-          for _, line in pairs(vals) do
-            if line and line ~= '' then
-              linterResults[#linterResults + 1] = line
-            end
-          end
-        end
-      end
+  if fn.executable(executable_path) then
+    if true == async then
       handle = vim.loop.spawn(executable_path, {
-        args = {path, "-f", "compact", "--fix"},
+        args = {path, "--write"},
         stdio = {stdout,stderr}
       },
       vim.schedule_wrap(function()
@@ -118,17 +75,106 @@ function M.bootstrap()
         stderr:close()
         handle:close()
         vim.api.nvim_command[["checktime"]]
-        fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
-        nvim.command[[cwindow]]
+        fn.winrestview(view)
+        if cb ~= nil then
+          cb()
+        end
       end
       )
       )
-      vim.loop.read_start(stdout, readlint)
-      vim.loop.read_start(stderr, readlint)
+      vim.loop.read_start(stdout, onread)
+      vim.loop.read_start(stderr, onread)
+    else
+      fn.system(executable_path .. " " .. path .. " " .. "--write")
+      vim.api.nvim_command[["checktime"]]
+      fn.winrestview(view)
+      if cb ~= nil then
+        cb()
+      end
     end
+  else
+    error("Cannot find import-sort executable")
+  end
+end
 
-    function M.sort_and_lint()
-      M.import_sort(true, M.linter_d)
+function M.lint_project()
+  local executable_path = find_executable("eslint_d")
+  local stdout = vim.loop.new_pipe(false)
+  local stderr = vim.loop.new_pipe(false)
+  local linterResults = {}
+  local function readlint(err, data)
+    if data then
+      table.insert(linterResults, data)
+      local vals = vim.split(data, "\n")
+      for _, line in pairs(vals) do
+        if line and line ~= '' then
+          linterResults[#linterResults + 1] = line
+        end
+      end
     end
+  end
+----ext .js,.ts,.tsx --max-warnings=0
+  handle = vim.loop.spawn(executable_path, {
+    args = {".", "--ext", ".js,.ts,.tsx,.jsx", "--max-warnings=0", "-f", "compact", "--fix"},
+    stdio = {stdout,stderr}
+  },
+  vim.schedule_wrap(function()
+    stdout:read_stop()
+    stderr:read_stop()
+    stdout:close()
+    stderr:close()
+    handle:close()
+    fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
+    nvim.command[[cwindow]]
+  end
+  )
+  )
+  vim.loop.read_start(stdout, readlint)
+  vim.loop.read_start(stderr, readlint)
+end
 
-    return M
+
+function M.linter_d()
+  local view = fn.winsaveview()
+  local path = fn.fnameescape(fn.expand("%:p"))
+  local executable_path = find_executable("eslint_d")
+  local stdout = vim.loop.new_pipe(false)
+  local stderr = vim.loop.new_pipe(false)
+  local linterResults = {}
+  local function readlint(err, data)
+    if data then
+      table.insert(linterResults, data)
+      local vals = vim.split(data, "\n")
+      for _, line in pairs(vals) do
+        if line and line ~= '' then
+          linterResults[#linterResults + 1] = line
+        end
+      end
+    end
+  end
+  handle = vim.loop.spawn(executable_path, {
+    args = {path, "-f", "compact", "--fix"},
+    stdio = {stdout,stderr}
+  },
+  vim.schedule_wrap(function()
+    stdout:read_stop()
+    stderr:read_stop()
+    stdout:close()
+    stderr:close()
+    handle:close()
+    vim.api.nvim_command[["checktime"]]
+    fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
+    nvim.command[[cwindow]]
+    fn.winrestview(view)
+  end
+  )
+  )
+  vim.loop.read_start(stdout, readlint)
+  vim.loop.read_start(stderr, readlint)
+end
+
+function M.sort_and_lint()
+  M.import_sort(true, M.linter_d)
+end
+
+return M
