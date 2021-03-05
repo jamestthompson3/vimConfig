@@ -55,7 +55,6 @@ local function onread(err, data)
 end
 
 function M.import_sort(async, cb)
-  local view = fn.winsaveview()
   local path = fn.fnameescape(fn.expand("%:p"))
   local executable_path = find_executable("import-sort")
   local stdout = vim.loop.new_pipe(false)
@@ -75,7 +74,6 @@ function M.import_sort(async, cb)
         stderr:close()
         handle:close()
         vim.api.nvim_command[["checktime"]]
-        fn.winrestview(view)
         if cb ~= nil then
           cb()
         end
@@ -87,7 +85,6 @@ function M.import_sort(async, cb)
     else
       fn.system(executable_path .. " " .. path .. " " .. "--write")
       vim.api.nvim_command[["checktime"]]
-      fn.winrestview(view)
       if cb ~= nil then
         cb()
       end
@@ -135,7 +132,6 @@ end
 
 
 function M.linter_d()
-  local view = fn.winsaveview()
   local path = fn.fnameescape(fn.expand("%:p"))
   local executable_path = find_executable("eslint_d")
   local stdout = vim.loop.new_pipe(false)
@@ -165,7 +161,6 @@ function M.linter_d()
     vim.api.nvim_command[["checktime"]]
     fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
     nvim.command[[cwindow]]
-    fn.winrestview(view)
   end
   )
   )
