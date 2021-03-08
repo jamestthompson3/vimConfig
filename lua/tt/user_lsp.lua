@@ -18,17 +18,18 @@ function M.setMappings()
     ["ngh"]        = map_cmd [[lua vim.lsp.buf.hover()]],
     ["n[e"]        = map_cmd [[lua vim.lsp.diagnostic.goto_next()]],
     ["n]e"]        = map_cmd [[lua vim.lsp.diagnostic.goto_prev()]],
+    ["nga"]        = map_cmd [[lua require'telescope.builtin'.lsp_code_actions()]],
+    ["ngs"]        = map_cmd [[vsplit|lua vim.lsp.buf.definition()]],
     ["n<leader>r"] = map_cmd [[lua vim.lsp.buf.references()]],
     ["n<leader>f"] = map_cmd [[lua vim.lsp.buf.formatting()]],
     ["n<leader>n"] = map_cmd [[lua vim.lsp.buf.rename()]],
-    ["n<leader>l"] = map_cmd [[lua vim.lsp.util.show_line_diagnostics()]],
-    ["nga"]        = map_cmd [[lua require'telescope.builtin'.lsp_code_actions()]]
+    ["n<leader>l"] = map_cmd [[lua vim.lsp.util.show_line_diagnostics()]]
   }
   nvim_apply_mappings(mappings, {silent = true})
 end
 
 local eslint = {
-  lintCommand = string.format('%s --stdin --stdin-filename ${INPUT} --format unix', get_node_bin('eslint_d')),
+  lintCommand = string.format('%s ${INPUT} --format unix', get_node_bin('eslint_d')),
   lintSource = "eslint",
   lintStdin = true,
   rootMarkers = {
@@ -72,6 +73,15 @@ local prettier = {
   )
 }
 
+local function organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = {vim.api.nvim_buf_get_name(0)},
+    title = ""
+  }
+  vim.lsp.buf.execute_command(params)
+end
+
 function M.configureLSP()
   local nvim_lsp = require 'lspconfig'
   local util = nvim_lsp.util
@@ -81,8 +91,11 @@ function M.configureLSP()
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({
     capabilities = capabilities,
-    init_options = {
-      documentFormatting = false
+    commands = {
+      OrganizeImports = {
+        organize_imports,
+        description = "Organize Imports"
+      }
     }
   })
   nvim_lsp.rust_analyzer.setup{
@@ -93,16 +106,6 @@ function M.configureLSP()
   }
   -- nvim_lsp.efm.setup {
   --   init_options = {documentFormatting = false},
-  --   settings = {
-  --     languages = {
-  --       javascript = {eslint},
-  --       javascriptreact = {eslint},
-  --       ["javascript.jsx"] = {eslint},
-  --       typescript = {eslint},
-  --       ["typescript.tsx"] = {eslint},
-  --       typescriptreact = {eslint}
-  --     }
-  --   },
   --   filetypes = {
   --     "javascript",
   --     "javascriptreact",

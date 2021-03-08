@@ -123,6 +123,7 @@ gls.left[6] = {
     highlight = {colors.red,colors.section_bg}
   }
 }
+
 gls.left[7] = {
   Space = {
     provider = function () return ' ' end,
@@ -152,8 +153,17 @@ gls.left[10] = {
 }
 
 -- Right side
-gls.right[1] = {
+gls.right[1] ={
+  GetLspClient = {
+    provider = 'GetLspClient',
+    condition = buffer_not_empty,
+    highlight = { require('galaxyline.provider_fileinfo').get_file_icon_color, colors.section_bg },
+  },
+}
+
+gls.right[2] = {
   LineInfo = {
+    separator = " ",
     provider = 'LineColumn',
     highlight = { colors.fg, colors.section_bg },
     separator_highlight = { colors.bg, colors.section_bg },
@@ -178,4 +188,4 @@ gls.short_line_right[1] = {
 }
 
 -- Force manual load so that nvim boots with a status line
-gl.load_galaxyline()
+vim.schedule(gl.load_galaxyline)

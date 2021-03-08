@@ -1,6 +1,5 @@
 require 'tt.nvim_utils'
 require 'tt.navigation'
-require('tt.plugin.prettierd').setup_autofmt(fn.expand('<abuf>'))
 local api = vim.api
 local M = {}
 local setWriterline = false
@@ -29,8 +28,8 @@ vim.wo.foldlevel   =  1;
 local mappings = {
   ["nj"]            = {'gj', noremap = true, buffer = true},
   ["nk"]            = {'gk', noremap = true, buffer = true},
-  ["ngh"]           = map_cmd("lua require'tt.markdown'.previewLinkedPage()", true),
-  ["n<leader>r"]    = map_cmd("lua require'tt.markdown'.asyncDocs()", true),
+  ["ngh"]           = map_cmd("lua require'tt.ft.markdown'.previewLinkedPage()", true),
+  ["n<leader>r"]    = map_cmd("lua require'tt.ft.markdown'.asyncDocs()", true),
   ["n<leader><CR>"] = map_cmd("call waikiki#FollowLink()", true)
 }
 
@@ -77,7 +76,7 @@ function M.previewLinkedPage()
 end
 end
 
-nvim.command [[command! Compose lua require'tt.markdown'.composer()]]
+nvim.command [[command! Compose lua require'tt.ft.markdown'.composer()]]
 
 nvim_apply_mappings(mappings)
 
