@@ -100,7 +100,10 @@ function M.configureLSP()
     }
   })
   nvim_lsp.rust_analyzer.setup{
-    capabilities = capabilities
+    capabilities = capabilities,
+    init_options = {
+      documentFormatting = true
+    }
   }
   -- nvim_lsp.efm.setup {
   --   init_options = {documentFormatting = false},
