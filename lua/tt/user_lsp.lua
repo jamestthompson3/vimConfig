@@ -91,6 +91,7 @@ function M.configureLSP()
   nvim_lsp.cssls.setup({})
   nvim_lsp.tsserver.setup({
     capabilities = capabilities,
+    cmd = {get_node_bin("typescript-language-server"), "--stdio"},
     commands = {
       OrganizeImports = {
         organize_imports,
