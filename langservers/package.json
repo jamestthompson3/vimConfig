@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@fsouza/prettierd": "^0.9.3",
+    "bash-language-server": "^1.17.0",
     "eslint_d": "^10.0.3",
     "import-sort-cli": "^6.0.0",
     "import-sort-parser-babylon": "^6.0.0",

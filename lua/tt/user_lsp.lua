@@ -88,7 +88,13 @@ function M.configureLSP()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-  nvim_lsp.cssls.setup({})
+  nvim_lsp.cssls.setup({
+    cmd = {get_node_bin("vscode-css-languageserver"), "--stdio"}
+  })
+  nvim_lsp.html.setup({
+    capabilities = capabilities,
+    cmd = {get_node_bin("vscode-html-languageserver-bin"), "--stdio"}
+  })
   nvim_lsp.tsserver.setup({
     capabilities = capabilities,
     cmd = {get_node_bin("typescript-language-server"), "--stdio"},
@@ -116,7 +122,9 @@ function M.configureLSP()
   --     "typescriptreact"
   --   },
   -- }
-  -- nvim_lsp.bashls.setup({})
+  nvim_lsp.bashls.setup({
+    cmd = {get_node_bin("bash-language-server"), "start"}
+  })
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
