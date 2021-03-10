@@ -57,22 +57,14 @@ end
 function M.import_sort(async, cb)
   local path = fn.fnameescape(fn.expand("%:p"))
   local executable_path = find_executable("import-sort")
-  local stdout = vim.loop.new_pipe(false)
-  local stderr = vim.loop.new_pipe(false)
-
 
   if fn.executable(executable_path) then
     if true == async then
-      handle = vim.loop.spawn(executable_path, {
-        args = {path, "--write"},
-        stdio = {stdout,stderr}
+      spawn(executable_path, {
+        args = {path, "--write"}
       },
+      {stdout = onread, stderr = onread},
       vim.schedule_wrap(function()
-        stdout:read_stop()
-        stderr:read_stop()
-        stdout:close()
-        stderr:close()
-        handle:close()
         vim.api.nvim_command[["checktime"]]
         if cb ~= nil then
           cb()
@@ -80,8 +72,6 @@ function M.import_sort(async, cb)
       end
       )
       )
-      vim.loop.read_start(stdout, onread)
-      vim.loop.read_start(stderr, onread)
     else
       fn.system(executable_path .. " " .. path .. " " .. "--write")
       vim.api.nvim_command[["checktime"]]
@@ -96,8 +86,6 @@ end
 
 function M.lint_project()
   local executable_path = find_executable("eslint_d")
-  local stdout = vim.loop.new_pipe(false)
-  local stderr = vim.loop.new_pipe(false)
   local linterResults = {}
   local function readlint(err, data)
     if data then
@@ -110,32 +98,23 @@ function M.lint_project()
       end
     end
   end
-----ext .js,.ts,.tsx --max-warnings=0
-  handle = vim.loop.spawn(executable_path, {
-    args = {".", "--ext", ".js,.ts,.tsx,.jsx", "--max-warnings=0", "-f", "compact", "--fix"},
-    stdio = {stdout,stderr}
+  ----ext .js,.ts,.tsx --max-warnings=0
+  spawn(executable_path, {
+    args = {".", "--ext", ".js,.ts,.tsx,.jsx", "--max-warnings=0", "-f", "compact", "--fix"}
   },
+  {stdout = readlint, stderr = readlint},
   vim.schedule_wrap(function()
-    stdout:read_stop()
-    stderr:read_stop()
-    stdout:close()
-    stderr:close()
-    handle:close()
     fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
     nvim.command[[cwindow]]
   end
   )
   )
-  vim.loop.read_start(stdout, readlint)
-  vim.loop.read_start(stderr, readlint)
 end
 
 
 function M.linter_d()
   local path = fn.fnameescape(fn.expand("%:p"))
   local executable_path = find_executable("eslint_d")
-  local stdout = vim.loop.new_pipe(false)
-  local stderr = vim.loop.new_pipe(false)
   local linterResults = {}
   local function readlint(err, data)
     if data then
@@ -148,24 +127,17 @@ function M.linter_d()
       end
     end
   end
-  handle = vim.loop.spawn(executable_path, {
-    args = {path, "-f", "compact", "--fix"},
-    stdio = {stdout,stderr}
+  spawn(executable_path, {
+    args = {path, "-f", "compact", "--fix"}
   },
+  {stdout = readlint, stderr = readlint},
   vim.schedule_wrap(function()
-    stdout:read_stop()
-    stderr:read_stop()
-    stdout:close()
-    stderr:close()
-    handle:close()
     vim.api.nvim_command[["checktime"]]
     fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
     nvim.command[[cwindow]]
   end
   )
   )
-  vim.loop.read_start(stdout, readlint)
-  vim.loop.read_start(stderr, readlint)
 end
 
 function M.sort_and_lint()

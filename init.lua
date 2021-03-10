@@ -72,16 +72,16 @@ set.guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25"
 
 
 do
-  require('tt.globals') -- gutentags can't read cache dir
+  require('tt.globals') -- gutentags can't read cache dir off main loop
   local schedule = vim.schedule
   nvim.command [[colorscheme ghost_mono]]
-  schedule(vim.fn['tools#loadCscope'])
   schedule(function()
+    vim.fn['tools#loadCscope']()
     require'tt.tools'.setCustomGroups()
     require('tt.plugins')
     require('tt.core_opts')
     require('tt.autocmds')
     require('tt.mappings').map()
+    require'tt.tools'.splashscreen()
   end)
-  schedule(require'tt.tools'.splashscreen)
 end

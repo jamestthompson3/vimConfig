@@ -3,28 +3,22 @@ local api = vim.api
 local helpers = require 'tt.plugin.prettierd.lib.nvim_helpers'
 
 if not is_windows then api.nvim_command('set shell=bash') end
-vim.cmd [[packadd cfilter]]
+nvim.command [[packadd cfilter]]
 
 -- abbrevs
-nvim.command [[ cnoreabbrev csa cs add ]]
-nvim.command [[ cnoreabbrev csf cs find ]]
-nvim.command [[ cnoreabbrev csk cs kill ]]
-nvim.command [[ cnoreabbrev csr cs reset ]]
--- api.nvim_command [[ cnoreabbrev css cs show ]]
-nvim.command [[ cnoreabbrev csh cs help ]]
 -- Common mistakes
-nvim.command [[iabbrev retrun  return]]
-nvim.command [[iabbrev pritn   print]]
-nvim.command [[iabbrev cosnt   const]]
-nvim.command [[iabbrev imoprt  import]]
-nvim.command [[iabbrev imprt   import]]
-nvim.command [[iabbrev iomprt  import]]
-nvim.command [[iabbrev improt  import]]
-nvim.command [[iabbrev slef    self]]
-nvim.command [[iabbrev teh     the]]
-nvim.command [[iabbrev tehn    then]]
-nvim.command [[iabbrev hadnler handler]]
-nvim.command [[iabbrev bunlde  bundle]]
+iabbrev("retrun", "return")
+iabbrev("pritn",  "print")
+iabbrev("cosnt",  "const")
+iabbrev("imoprt", "import")
+iabbrev("imprt",  "import")
+iabbrev("iomprt", "import")
+iabbrev("improt", "import")
+iabbrev("slef",   "self")
+iabbrev("teh",    "the")
+iabbrev("tehn",   "then")
+iabbrev("hadnler", "handler")
+iabbrev("bunlde",  "bundle")
 
 nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject lua require'tt.tools'.asyncGrep(<q-args>)]]
 -- nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <q-args>]]

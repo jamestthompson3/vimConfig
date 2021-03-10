@@ -217,8 +217,6 @@ end
 
 function M.asyncGrep(...)
   local terms = {...}
-  local stdout = vim.loop.new_pipe(false)
-  local stderr = vim.loop.new_pipe(false)
   local results = {}
   local function onread(err, data)
     if err then
@@ -239,22 +237,16 @@ function M.asyncGrep(...)
     api.nvim_command [[ cwindow ]]
   end
   args = fn.extend(terms, {'--vimgrep', '--smart-case', '--block-buffered'})
-  handle = vim.loop.spawn('rg', {
+  spawn('rg', {
     args = args,
     stdio = {stdout,stderr}
   },
+  {stdout = onread, stderr = onread},
   vim.schedule_wrap(function()
-    stdout:read_stop()
-    stderr:read_stop()
-    stdout:close()
-    stderr:close()
-    handle:close()
     setQF()
   end
   )
   )
-  vim.loop.read_start(stdout, onread)
-  vim.loop.read_start(stderr, onread)
 end
 
 

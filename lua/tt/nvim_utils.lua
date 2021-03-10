@@ -2,6 +2,7 @@
 vim = vim or {}
 api = vim.api
 fn = vim.fn
+loop = vim.loop
 
 local valid_modes = {
   n = 'n'; v = 'v'; x = 'x'; i = 'i';
@@ -14,7 +15,16 @@ function map_cmd(cmd_string, buflocal)
   return { ("<Cmd>%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
 end
 
-is_windows = vim.loop.os_uname().version:match("Windows")
+function map_call(cmd_string, buflocal)
+  return { ("%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
+end
+
+function map_no_cr(cmd_string, buflocal)
+  return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
+end
+
+
+is_windows = loop.os_uname().version:match("Windows")
 file_separator = is_windows and '\\' or '/'
 
 function nvim_apply_mappings(mappings, default_options)
@@ -141,222 +151,209 @@ nvim = setmetatable({
     end
   });
   buf = setmetatable({
-    -- current = setmetatable({}, {
-      --  __index = function(self, k)
-        --    local mt = getmetatable(self)
-        --    local x = mt[k]
-        --    if x ~= nil then
-        --      return x
-        --    end
-        --    local command = k:gsub("_$", "!")
-        --    local f = function(...) return vim.api.nvim_command(command.." "..table.concat({...}, " ")) end
-        --    mt[k] = f
-        --    return f
-        --  end
-        -- });
-      }, {
-        __index = function(self, k)
-          local mt = getmetatable(self)
-          local x = mt[k]
-          if x ~= nil then
-            return x
-          end
-          local f = vim.api['nvim_buf_'..k]
-          mt[k] = f
-          return f
-        end
-      });
-      ex = setmetatable({}, {
-        __index = function(self, k)
-          local mt = getmetatable(self)
-          local x = mt[k]
-          if x ~= nil then
-            return x
-          end
-          local command = k:gsub("_$", "!")
-          local f = function(...)
-            return vim.api.nvim_command(table.concat(vim.tbl_flatten {command, ...}, " "))
-          end
-          mt[k] = f
-          return f
-        end
-      });
-      g = setmetatable({}, {
-        __index = function(_, k)
-          return vim.api.nvim_get_var(k)
-        end;
-        __newindex = function(_, k, v)
-          if v == nil then
-            return vim.api.nvim_del_var(k)
-          else
-            return vim.api.nvim_set_var(k, v)
-          end
-        end;
-      });
-      v = setmetatable({}, {
-        __index = function(_, k)
-          return vim.api.nvim_get_vvar(k)
-        end;
-        __newindex = function(_, k, v)
-          return vim.api.nvim_set_vvar(k, v)
-        end
-      });
-      b = setmetatable({}, {
-        __index = function(_, k)
-          return vim.api.nvim_buf_get_var(0, k)
-        end;
-        __newindex = function(_, k, v)
-          if v == nil then
-            return vim.api.nvim_buf_del_var(0, k)
-          else
-            return vim.api.nvim_buf_set_var(0, k, v)
-          end
-        end
-      });
-      o = setmetatable({}, {
-        __index = function(_, k)
-          return vim.api.nvim_get_option(k)
-        end;
-        __newindex = function(_, k, v)
-          return vim.api.nvim_set_option(k, v)
-        end
-      });
-      bo = setmetatable({}, {
-        __index = function(_, k)
-          return vim.api.nvim_buf_get_option(0, k)
-        end;
-        __newindex = function(_, k, v)
-          return vim.api.nvim_buf_set_option(0, k, v)
-        end
-      });
-      env = setmetatable({}, {
-        __index = function(_, k)
-          return vim.api.nvim_call_function('getenv', {k})
-        end;
-        __newindex = function(_, k, v)
-          return vim.api.nvim_call_function('setenv', {k, v})
-        end
-      });
-    }, {
-      __index = function(self, k)
-        local mt = getmetatable(self)
-        local x = mt[k]
-        if x ~= nil then
-          return x
-        end
-        local f = vim.api['nvim_'..k]
-        mt[k] = f
-        return f
+  }, {
+    __index = function(self, k)
+      local mt = getmetatable(self)
+      local x = mt[k]
+      if x ~= nil then
+        return x
       end
-    })
-
-    ---
-    -- Higher level text manipulation utilities
-    ---
-
-    LUA_MAPPING = {}
-    LUA_BUFFER_MAPPING = {}
-
-    local function escape_keymap(key)
-      -- Prepend with a letter so it can be used as a dictionary key
-      return 'k'..key:gsub('.', string.byte)
+      local f = vim.api['nvim_buf_'..k]
+      mt[k] = f
+      return f
     end
-
-
-    function nvim_create_augroups(definitions)
-      for group_name, definition in pairs(definitions) do
-        vim.api.nvim_command('augroup '..group_name)
-        vim.api.nvim_command('autocmd!')
-        for _, def in ipairs(definition) do
-          local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
-          vim.api.nvim_command(command)
-        end
-        vim.api.nvim_command('augroup END')
+  });
+  ex = setmetatable({}, {
+    __index = function(self, k)
+      local mt = getmetatable(self)
+      local x = mt[k]
+      if x ~= nil then
+        return x
       end
-    end
-
-    ---
-    -- Things Lua should've had
-    ---
-
-    function string.startswith(s, n)
-      return s:sub(1, #n) == n
-    end
-
-    function string.endswith(self, str)
-      return self:sub(-#str) == str
-    end
-
-    ---
-    -- SPAWN UTILS
-    ---
-
-    local function clean_handles()
-      local n = 1
-      while n <= #HANDLES do
-        if HANDLES[n]:is_closing() then
-          table.remove(HANDLES, n)
-        else
-          n = n + 1
-        end
+      local command = k:gsub("_$", "!")
+      local f = function(...)
+        return vim.api.nvim_command(table.concat(vim.tbl_flatten {command, ...}, " "))
       end
+      mt[k] = f
+      return f
     end
-
-    HANDLES = {}
-
-    function spawn(cmd, params, onexit)
-      local handle, pid
-      handle, pid = vim.loop.spawn(cmd, params, function(code, signal)
-        if type(onexit) == 'function' then onexit(code, signal) end
-        handle:close()
-        clean_handles()
-      end)
-      table.insert(HANDLES, handle)
-      return handle, pid
-    end
-
-    --- MISC UTILS
-
-    -- capturs stdout as a string
-    function os.capture(cmd, raw)
-      local f = assert(io.popen(cmd, 'r'))
-      local s = assert(f:read('*a'))
-      f:close()
-      if raw then return s end
-      s = string.gsub(s, '^%s+', '')
-      s = string.gsub(s, '%s+$', '')
-      s = string.gsub(s, '[\n\r]+', ' ')
-      return s
-    end
-
-
-    -- return name of git branch
-    function gitBranch()
-      if is_windows then
-        return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
+  });
+  g = setmetatable({}, {
+    __index = function(_, k)
+      return vim.api.nvim_get_var(k)
+    end;
+    __newindex = function(_, k, v)
+      if v == nil then
+        return vim.api.nvim_del_var(k)
       else
-        return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+        return vim.api.nvim_set_var(k, v)
       end
+    end;
+  });
+  v = setmetatable({}, {
+    __index = function(_, k)
+      return vim.api.nvim_get_vvar(k)
+    end;
+    __newindex = function(_, k, v)
+      return vim.api.nvim_set_vvar(k, v)
     end
-
-    -- returns short status of changes
-    function gitStat()
-      if is_windows then
-        return os.capture("git diff --shortstat 2> NUL | tr -d '\n'")
+  });
+  b = setmetatable({}, {
+    __index = function(_, k)
+      return vim.api.nvim_buf_get_var(0, k)
+    end;
+    __newindex = function(_, k, v)
+      if v == nil then
+        return vim.api.nvim_buf_del_var(0, k)
       else
-        return os.capture("git diff --shortstat 2> /dev/null | tr -d '\n'")
+        return vim.api.nvim_buf_set_var(0, k, v)
       end
     end
-
-    function map_call(cmd_string, buflocal)
-      return { ("%s<CR>"):format(cmd_string), noremap = true; buffer = buflocal;}
+  });
+  o = setmetatable({}, {
+    __index = function(_, k)
+      return vim.api.nvim_get_option(k)
+    end;
+    __newindex = function(_, k, v)
+      return vim.api.nvim_set_option(k, v)
     end
-
-    function map_no_cr(cmd_string, buflocal)
-      return { (":%s"):format(cmd_string), noremap = true; buffer = buflocal;}
+  });
+  bo = setmetatable({}, {
+    __index = function(_, k)
+      return vim.api.nvim_buf_get_option(0, k)
+    end;
+    __newindex = function(_, k, v)
+      return vim.api.nvim_buf_set_option(0, k, v)
     end
-
-    -- find vim related node_modules
-    function get_node_bin(bin)
-      return fn.stdpath('config') .. "/langservers/node_modules/.bin/" .. bin
+  });
+  env = setmetatable({}, {
+    __index = function(_, k)
+      return vim.api.nvim_call_function('getenv', {k})
+    end;
+    __newindex = function(_, k, v)
+      return vim.api.nvim_call_function('setenv', {k, v})
     end
+  });
+}, {
+  __index = function(self, k)
+    local mt = getmetatable(self)
+    local x = mt[k]
+    if x ~= nil then
+      return x
+    end
+    local f = vim.api['nvim_'..k]
+    mt[k] = f
+    return f
+  end
+})
+
+---
+-- Higher level text manipulation utilities
+---
+
+LUA_MAPPING = {}
+LUA_BUFFER_MAPPING = {}
+
+local function escape_keymap(key)
+  -- Prepend with a letter so it can be used as a dictionary key
+  return 'k'..key:gsub('.', string.byte)
+end
+
+
+function nvim_create_augroups(definitions)
+  for group_name, definition in pairs(definitions) do
+    vim.api.nvim_command('augroup '..group_name)
+    vim.api.nvim_command('autocmd!')
+    for _, def in ipairs(definition) do
+      local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
+      vim.api.nvim_command(command)
+    end
+    vim.api.nvim_command('augroup END')
+  end
+end
+
+---
+-- Things Lua should've had
+---
+
+function string.startswith(s, n)
+  return s:sub(1, #n) == n
+end
+
+function string.endswith(self, str)
+  return self:sub(-#str) == str
+end
+
+---
+-- SPAWN UTILS
+---
+--
+function safe_close(handle)
+  if not loop.is_closing(handle) then
+    loop.close(handle)
+  end
+end
+
+function spawn(cmd, opts, input, onexit)
+  local input = input or {stdout = function() end, stderr = function() end}
+  local handle, pid
+  local stdout = loop.new_pipe(false)
+  local stderr = loop.new_pipe(false)
+  handle, pid = loop.spawn(cmd, vim.tbl_extend("force", opts, {stdio = {stdout; stderr;}}), function(code, signal)
+    if type(onexit) == 'function' then onexit(code, signal) end
+    loop.read_stop(stdout)
+    loop.read_stop(stderr)
+    safe_close(handle)
+    safe_close(stdout)
+    safe_close(stderr)
+  end)
+  loop.read_start(stdout, input.stdout)
+  loop.read_start(stderr, input.stderr)
+end
+
+--- MISC UTILS
+
+-- capturs stdout as a string
+function os.capture(cmd, raw)
+  local f = assert(io.popen(cmd, 'r'))
+  local s = assert(f:read('*a'))
+  f:close()
+  if raw then return s end
+  s = string.gsub(s, '^%s+', '')
+  s = string.gsub(s, '%s+$', '')
+  s = string.gsub(s, '[\n\r]+', ' ')
+  return s
+end
+
+
+-- return name of git branch
+function gitBranch()
+  if is_windows then
+    return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
+  else
+    return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+  end
+end
+
+-- returns short status of changes
+function gitStat()
+  if is_windows then
+    return os.capture("git diff --shortstat 2> NUL | tr -d '\n'")
+  else
+    return os.capture("git diff --shortstat 2> /dev/null | tr -d '\n'")
+  end
+end
+
+-- find vim related node_modules
+function get_node_bin(bin)
+  return fn.stdpath('config') .. "/langservers/node_modules/.bin/" .. bin
+end
+
+function iabbrev(src, target, buffer)
+  if buffer == nil then
+    nvim.command("iabbrev " .. src .. " " .. target)
+  else
+    nvim.command("iabbrev <buffer> " .. src .. " " .. target)
+  end
+
+end
