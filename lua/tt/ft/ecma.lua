@@ -23,8 +23,8 @@ function M.bootstrap()
   nvim.command [[command! Lint lua require'tt.ft.ecma'.lint_project()]]
   local autocmds = {
     ecmascript = {
-      {"User prettierd_autofmt lua require'tt.ft.ecma'.import_sort(true, function() vim.lsp.buf_attach_client(0,1)end)"},
-      -- {"User prettierd_autofmt lua require'tt.ft.ecma'.sort_and_lint()"}
+      -- {"User prettierd_autofmt lua require'tt.ft.ecma'.import_sort(true, function() vim.lsp.buf_attach_client(0,1)end)"},
+      {"User prettierd_autofmt lua require'tt.ft.ecma'.sort_and_lint()"}
     };
   }
   nvim_create_augroups(autocmds)
@@ -104,8 +104,10 @@ function M.lint_project()
   },
   {stdout = readlint, stderr = readlint},
   vim.schedule_wrap(function()
-    fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
-    nvim.command[[cwindow]]
+    if not vim.tbl_isempty(linterResults) then
+      fn.setloclist(fn.winnr(), {}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
+      nvim.command[[lwindow]]
+    end
   end
   )
   )
@@ -133,8 +135,11 @@ function M.linter_d()
   {stdout = readlint, stderr = readlint},
   vim.schedule_wrap(function()
     vim.api.nvim_command[["checktime"]]
-    fn.setqflist({}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
-    nvim.command[[cwindow]]
+    if not vim.tbl_isempty(linterResults) then
+      fn.setloclist(fn.winnr(), {}, ' ', {title = "eslint -- errors", lines = linterResults, efm = "%f: line %l\\, col %c\\, %m,%-G%.%#"})
+      nvim.command[[lwindow]]
+    end
+    vim.lsp.buf_attach_client(0,1)
   end
   )
   )
