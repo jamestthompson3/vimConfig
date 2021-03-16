@@ -7,10 +7,11 @@ require('telescope').setup {
     }
   },
   defaults = {
-    winblend = 10,
+    winblend = 15,
     color_devicons = true,
-    prompt_prefix = "🔎 ",
+    prompt_prefix = "🔭 ",
     results_height = 6,
+    selection_caret = " ❯ ",
   },
   mappings = {
     ["<CR>"] = actions.select_default,
