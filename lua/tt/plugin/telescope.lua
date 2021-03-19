@@ -9,9 +9,8 @@ require('telescope').setup {
   defaults = {
     winblend = 15,
     color_devicons = true,
-    prompt_prefix = "🔭 ",
+    prompt_prefix = require "nvim-nonicons".get("telescope") .. " ",
     results_height = 6,
-    selection_caret = " ❯ ",
   },
   mappings = {
     ["<CR>"] = actions.select_default,
