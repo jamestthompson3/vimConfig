@@ -76,7 +76,6 @@ do
   local schedule = vim.schedule
   nvim.command [[colorscheme ghost_mono]]
   schedule(function()
-    vim.fn['tools#loadCscope']()
     require'tt.tools'.setCustomGroups()
     require('tt.plugins')
     require('tt.core_opts')
