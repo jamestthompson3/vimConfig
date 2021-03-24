@@ -126,3 +126,4 @@ hi! link LspDiagnosticsFloatingError        LspDiagnosticsError
 hi! link LspDiagnosticsFloatingWarning      LspDiagnosticsWarning
 hi! link LspDiagnosticsFloatingInformation  LspDiagnosticsInformation
 hi! link LspDiagnosticsFloatingHint         LspDiagnosticsHint
+hi! link TelescopePromptPrefix              PreProc

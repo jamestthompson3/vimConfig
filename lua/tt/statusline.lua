@@ -86,6 +86,8 @@ gls.left[1] = {
 gls.left[2] ={
   FileIcon = {
     provider = 'FileIcon',
+    separator = " ",
+    separator_highlight = {colors.section_bg, colors.section_bg},
     condition = buffer_not_empty,
     highlight = { require('galaxyline.provider_fileinfo').get_file_icon_color, colors.section_bg },
   },

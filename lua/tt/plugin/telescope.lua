@@ -10,6 +10,7 @@ require('telescope').setup {
     winblend = 15,
     color_devicons = true,
     prompt_prefix = require "nvim-nonicons".get("telescope") .. " ",
+    entry_prefix = "",
     results_height = 6,
   },
   mappings = {
