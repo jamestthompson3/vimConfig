@@ -70,6 +70,7 @@ local function setup_prettierd()
     'typescript';
     'css';
     'html';
+    'svelte';
     'typescriptreact';
     'javascriptreact';
     'yaml';
