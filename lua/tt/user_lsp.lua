@@ -55,10 +55,11 @@ require('vim.lsp.protocol').CompletionItemKind = symbols
 -- require('vim.lsp.protocol').CompletionItemKind = kind_symbols
 
 if not sign_defined then
-  vim.fn.sign_define('LspDiagnosticsSignError', {text='💥', texthl='LspDiagnosticsSignError', linehl='', numhl=''})
-  vim.fn.sign_define('LspDiagnosticsSignWarning', {text='◉', texthl='LspDiagnosticsSignWarning', linehl='', numhl=''})
-  vim.fn.sign_define('LspDiagnosticsSignInfo', {text='🙃', texthl='LspDiagnosticsSignInfo', linehl='', numhl=''})
-  vim.fn.sign_define('LspDiagnosticsSignHint', {text='💡', texthl='LspDiagnosticsSignHint', linehl='', numhl=''})
+  vim.fn.sign_define('LspDiagnosticsSignError', {text='', texthl='LspDiagnosticsSignError', linehl='', numhl=''})
+  vim.fn.sign_define('LspDiagnosticsSignWarning', {text='', texthl='LspDiagnosticsSignWarning', linehl='', numhl=''})
+  vim.fn.sign_define('LspDiagnosticsSignInfo', {text='', texthl='LspDiagnosticsSignInfo', linehl='', numhl=''})
+  vim.fn.sign_define('LspDiagnosticsSignHint', {text='', texthl='LspDiagnosticsSignHint', linehl='', numhl=''})
+  vim.fn.sign_define('LspDiagnosticsSignOther', {text='﫠', texthl='LspDiagnosticsSignOther', linehl='', numhl=''})
   sign_defined = true
 end
 

@@ -75,7 +75,7 @@ highlight Callout                    guifg=#198cff     guibg=NONE     gui=NONE  
 highlight ALEError                   guifg=#ff4444     guibg=NONE     gui=undercurl  ctermfg=0    ctermbg=203   cterm=NONE
 highlight ALEInfo                    guifg=Black       guibg=White    gui=NONE       ctermfg=0    ctermbg=215   cterm=NONE
 highlight ALEWarning                 guifg=#F0C30D     guibg=NONE    gui=undercurl  ctermfg=0    ctermbg=214   cterm=NONE
-highlight LspDiagnosticsError        guifg=#ff4444     guibg=NONE     gui=NONE       ctermfg=203  ctermbg=NONE  cterm=NONE
+highlight LspDiagnosticsError        guifg=#ff4444     guibg=NONE     gui=undercurl       ctermfg=203  ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsWarning      guifg=#F0C30D     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsInformation  guifg=#0000ff     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsHint         guifg=#00afaf     guibg=NONE     gui=NONE       ctermfg=37   ctermbg=NONE  cterm=NONE

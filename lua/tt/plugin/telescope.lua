@@ -11,6 +11,7 @@ require('telescope').setup {
     color_devicons = true,
     prompt_prefix = require "nvim-nonicons".get("telescope") .. " ",
     entry_prefix = "   ",
+    shorten_path = true,
     results_height = 6,
   },
   mappings = {
