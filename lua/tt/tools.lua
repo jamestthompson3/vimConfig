@@ -239,7 +239,7 @@ function M.asyncGrep(...)
   args = fn.extend(terms, {'--vimgrep', '--smart-case', '--block-buffered'})
   spawn('rg', {
     args = args,
-    stdio = {stdout,stderr}
+    stdio = {nil, stdout,stderr}
   },
   {stdout = onread, stderr = onread},
   vim.schedule_wrap(function()

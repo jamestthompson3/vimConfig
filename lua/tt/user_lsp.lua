@@ -161,6 +161,14 @@ function M.configureLSP()
     capabilities = capabilities,
     init_options = {
       documentFormatting = true
+    },
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = {
+          enabled = true,
+          command = "clippy"
+        }
+      }
     }
   }
   -- nvim_lsp.efm.setup {
