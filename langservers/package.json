@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@fsouza/prettierd": "^0.9.3",
+    "@fsouza/prettierd": "^0.11.1",
     "bash-language-server": "^1.17.0",
-    "eslint_d": "^10.0.3",
+    "eslint_d": "^10.1.0",
     "import-sort-cli": "^6.0.0",
     "import-sort-parser-babylon": "^6.0.0",
     "import-sort-parser-typescript": "^6.0.0",
