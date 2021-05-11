@@ -1,6 +1,5 @@
 local autocmds = {
   load_core = {
-    {"VimEnter",        "*",      [[lua splashscreen()]]};
     {"VimEnter",        "*",      [[nested lua require'tt.tools'.openQuickfix()]]};
     {"SwapExists",      "*",      "call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)"};
     {"TextYankPost",    "*",      [[silent! lua require'vim.highlight'.on_yank()]]};

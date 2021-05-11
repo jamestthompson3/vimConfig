@@ -1,1 +1,1 @@
-lua require'tt.ft.rust'
+lua require'tt.ft.rust'.bootstrap()

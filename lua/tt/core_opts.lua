@@ -27,6 +27,7 @@ nvim.command [[command! -nargs=1 -complete=file_in_path Find lua require'tt.tool
 nvim.command [[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]]
 nvim.command [[command! Diff call git#diff()]]
 nvim.command [[command! TDiff call git#threeWayDiff()]]
+nvim.command [[command! Ftc let @+=expand("%")]] -- filename to clipboard
 nvim.command [[command! Gblame lua require'tt.tools'.blameVirtText() ]]
 nvim.command [[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]]
 nvim.command [[command! -bang -nargs=+ ReplaceQF lua require'tt.tools'.replaceQf(<f-args>)]]
@@ -70,6 +71,7 @@ local function setup_prettierd()
     'typescript';
     'css';
     'html';
+    'svelte';
     'typescriptreact';
     'javascriptreact';
     'yaml';

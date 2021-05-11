@@ -32,6 +32,7 @@ end
 
 return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
+  use 'yamatsum/nvim-web-nonicons'
   use 'romainl/vim-cool'
   use 'tmsvg/pear-tree'
   use 'tpope/vim-apathy'
