@@ -69,6 +69,7 @@ local function setup_prettierd()
     'json';
     'javascript';
     'typescript';
+    'markdown';
     'css';
     'html';
     'svelte';

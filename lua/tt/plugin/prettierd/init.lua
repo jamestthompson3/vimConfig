@@ -62,7 +62,7 @@ function M.format(bufnr, cb, is_retry)
   end
 
   local changed_tick = api.nvim_buf_get_changedtick(bufnr)
-  local fname = api.nvim_buf_get_name(bufnr)
+  local fname = vim.uri_from_fname(api.nvim_buf_get_name(bufnr))
   local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local cwd = loop.cwd()
   table.insert(lines, 1, string.format('%s %s %s', state.token, cwd,
