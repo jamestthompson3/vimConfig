@@ -79,7 +79,7 @@ function M.map()
     ["t<C-\\>"]        = {'<C-\\><C-n>', noremap = true},
     ["nwq"]            = map_cmd('close'),
     ["ncc"]            = map_cmd('cclose'),
-    ["nlc"]            = map_cmd('lclose'),
+    ["ncl"]            = map_cmd('lclose'),
     ["ngl"]            = map_cmd('pc'),
     ["n<leader><tab>"] = map_cmd('bn'),
     ["n<leader>h"]     = map_cmd("call tools#switchSourceHeader()"),
