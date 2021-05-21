@@ -29,7 +29,6 @@ if not packer_exists then
   return
 end
 
-
 return require('packer').startup(function()
   use 'justinmk/vim-dirvish'
   use 'yamatsum/nvim-web-nonicons'
@@ -38,6 +37,7 @@ return require('packer').startup(function()
   use 'tpope/vim-apathy'
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
+  use 'sindrets/diffview.nvim'
   use 'tpope/vim-repeat'
   use 'andymass/vim-matchup'
   use 'ludovicchabant/vim-gutentags'
