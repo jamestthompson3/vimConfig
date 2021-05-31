@@ -1,11 +1,5 @@
 local actions = require('telescope.actions')
 require('telescope').setup {
-  extensions = {
-    fzy_native = {
-      override_generic_sorter = false,
-      override_file_sorter = true,
-    }
-  },
   defaults = {
     winblend = 15,
     color_devicons = true,
