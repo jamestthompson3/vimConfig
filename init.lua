@@ -74,7 +74,7 @@ set.guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25"
 do
   require('tt.globals') -- gutentags can't read cache dir off main loop
   local schedule = vim.schedule
-  nvim.command [[colorscheme ghost_mono]]
+  nvim.command [[colorscheme jazzy]]
   schedule(function()
     require'tt.tools'.setCustomGroups()
     require('tt.plugins')
