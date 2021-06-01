@@ -63,7 +63,6 @@ local amulet        = hsl("#88aa77")
 local springgreen   = hsl("#1fff5c")
 local copperrust    = hsl("#9C524C")
 local coralred      = hsl("#ff4444")
-local mongoose      = hsl("#b5ae7d")
 local buttercup     = hsl("#F0C30D")
 
 local theme = lush(function()
@@ -110,7 +109,7 @@ local theme = lush(function()
     -- MsgArea      { }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     -- MoreMsg      { }, -- |more-prompt|
-    NonText      { fg = mongoose }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+    NonText      { fg = buttercup.desaturate(70) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     Normal       { fg = alto, bg = black }, -- normal text
     -- NormalFloat  { }, -- Normal text in floating windows.
     NormalNC     { fg = alto, bg = woodsmoke }, -- normal text in non-current windows
@@ -136,7 +135,6 @@ local theme = lush(function()
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     -- WarningMsg   { }, -- warning messages
     Whitespace   { fg = tuna }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
-    ExtraWhitespace { fg = blumine },
     WildMenu     { fg = woodsmoke, bg = alto  }, -- current match in 'wildmenu' completion
 
     -- These groups are not listed as default vim groups,
@@ -145,7 +143,7 @@ local theme = lush(function()
     -- default,
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Constant       { fg = mongoose }, -- (preferred) any constant
+    Constant       { fg = buttercup.desaturate(70) }, -- (preferred) any constant
     String         { }, --   a string constant: "this is a string"
    -- Character      { }, --  a character constant: 'c', '\n'
     Number         { }, --   a number constant: 234, 0xff
@@ -191,7 +189,10 @@ local theme = lush(function()
     -- Error          { }, -- (preferred) any erroneous construct
 
     Todo           { bg = royalpurple, fg = alto }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    -- Custom Groups
     AllTodo           { bg = royalpurple, fg = alto }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    ExtraWhitespace   { fg = blumine },
+    Callout           { fg = dodgerblue },
 
     -- These groups are for the native LSP client. Some other LSP clients may
     -- use these groups, or use their own. Consult your LSP client's
@@ -257,7 +258,7 @@ local theme = lush(function()
     -- TSNamespace          { };    -- For identifiers referring to modules and namespaces.
     -- TSNone               { };    -- TODO: docs
     -- TSNumber             { };    -- For all numbers
-    TSOperator           { fg = mongoose };    -- For any operator: `+`, but also `->` and `*` in C.
+    TSOperator           { fg = buttercup.desaturate(70) };    -- For any operator: `+`, but also `->` and `*` in C.
     -- TSParameter          { };    -- For parameters of a function.
     -- TSParameterReference { };    -- For references to parameters of a function.
     -- TSProperty           { };    -- Same as `TSField`.
