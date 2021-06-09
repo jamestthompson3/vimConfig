@@ -89,9 +89,9 @@ local theme = lush(function()
 		CursorLine({ bg = tuna }), -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
 		-- Directory    { }, -- directory names (and other special names in listings)
 		DiffAdd({ bg = amulet, fg = shark }), -- diff mode: Added line |diff.txt|
-		DiffChange({ fg = bermudagray }), -- diff mode: Changed line |diff.txt|
+		DiffChange({ fg = amulet }), -- diff mode: Changed line |diff.txt|
 		DiffDelete({ fg = copperrust }), -- diff mode: Deleted line |diff.txt|
-		DiffText({ fg = bermudagray }), -- diff mode: Changed text within a changed line |diff.txt|
+		DiffText({ fg = dodgerblue, bg = tuna }), -- diff mode: Changed text within a changed line |diff.txt|
 		EndOfBuffer({ fg = mineshaft }), -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal
@@ -128,7 +128,7 @@ local theme = lush(function()
 		-- StatusLine   { }, -- status line of current window
 		-- StatusLineNC { }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 		-- TabLine      { }, -- tab pages line, not active tab page label
-		-- TabLineFill  { }, -- tab pages line, where there are no labels
+		TabLineFill  { fg = black, bg = blumine }, -- tab pages line, where there are no labels
 		-- TabLineSel   { }, -- tab pages line, active tab page label
 		-- Title        { }, -- titles for output from ":set all", ":autocmd" etc.
 		Visual({ fg = buttercup, bg = boulder }), -- Visual mode selection

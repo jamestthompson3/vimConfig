@@ -13,4 +13,4 @@ require("telescope").setup({
 		["<esc>"] = actions.close,
 	},
 })
-require("telescope").load_extension("fzy_native")
+-- require("telescope").load_extension("fzy_native")
