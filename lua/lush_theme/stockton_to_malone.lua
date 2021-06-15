@@ -119,7 +119,7 @@ local theme = lush(function()
 		PmenuThumb({ bg = mineshaft }), -- Popup menu: Thumb of the scrollbar.
 		-- Question     { }, -- |hit-enter| prompt and yes/no questions
 		QuickFixLine({ fg = copperrust }), -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-		Search({ fg = woodsmoke, bg = springgreen }), -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+		Search({ bg = alto, fg = dodgerblue }), -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
 		-- SpecialKey   { }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
 		-- SpellBad     { }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
 		-- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
