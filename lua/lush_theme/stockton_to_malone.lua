@@ -79,47 +79,47 @@ local theme = lush(function()
 		-- styling for that group (meaning they mostly get styled as Normal)
 		-- or leave them commented to apply vims default colouring or linking.
 
-		Comment({ fg = buttercup }), -- any comment
+		Comment         { fg = buttercup }, -- any comment
 		-- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
 		-- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
-		Cursor({ fg = shark, bg = alto }), -- character under the cursor
+		Cursor          { fg = shark, bg = alto }, -- character under the cursor
 		-- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
 		-- CursorColumn { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-		CursorLine({ bg = tuna }), -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+		CursorLine      { bg = tuna }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
 		-- Directory    { }, -- directory names (and other special names in listings)
-		DiffAdd({ bg = amulet, fg = shark }), -- diff mode: Added line |diff.txt|
-		DiffChange({ fg = amulet }), -- diff mode: Changed line |diff.txt|
-		DiffDelete({ fg = copperrust }), -- diff mode: Deleted line |diff.txt|
-		DiffText({ fg = dodgerblue, bg = tuna }), -- diff mode: Changed text within a changed line |diff.txt|
-		EndOfBuffer({ fg = mineshaft }), -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
+		DiffAdd         { bg = amulet, fg = shark }, -- diff mode: Added line |diff.txt|
+		DiffChange      { fg = amulet }, -- diff mode: Changed line |diff.txt|
+		DiffDelete      { fg = copperrust }, -- diff mode: Deleted line |diff.txt|
+		DiffText        { fg = dodgerblue, bg = tuna }, -- diff mode: Changed text within a changed line |diff.txt|
+		EndOfBuffer     { fg = mineshaft }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal
-		ErrorMsg({ bg = coralred, fg = black }), -- error messages on the command line
-		VertSplit({ fg = gunsmoke }), -- the column separating vertically split windows
-		Folded({ fg = bermudagray }), -- line used for closed folds
+		ErrorMsg        { bg = coralred, fg = black }, -- error messages on the command line
+		VertSplit       { fg = gunsmoke }, -- the column separating vertically split windows
+		Folded          { fg = bermudagray }, -- line used for closed folds
 		-- FoldColumn   { }, -- 'foldcolumn'
-		SignColumn({ bg = black, fg = black }), -- column where |signs| are displayed
-		IncSearch({ fg = springgreen }), -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+		SignColumn      { bg = black, fg = black }, -- column where |signs| are displayed
+		IncSearch       { fg = springgreen }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 		-- Substitute   { }, -- |:substitute| replacement text highlighting
-		LineNr({ fg = gunsmoke }), -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-		CursorLineNr({ fg = buttercup }), -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		MatchParen({ fg = black, bg = blumine }), -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		LineNr          { fg = gunsmoke }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+		CursorLineNr    { fg = buttercup }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+		MatchParen      { fg = black, bg = blumine }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		-- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
 		-- MsgArea      { }, -- Area for messages and cmdline
 		-- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
 		-- MoreMsg      { }, -- |more-prompt|
-		NonText({ fg = buttercup.desaturate(70) }), -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-		Normal({ fg = alto, bg = black }), -- normal text
+		NonText         { fg = buttercup.desaturate(70) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+		Normal          { fg = alto, bg = black }, -- normal text
 		-- NormalFloat  { }, -- Normal text in floating windows.
-		NormalNC({ fg = alto, bg = woodsmoke }), -- normal text in non-current windows
-		Pmenu({ fg = dustygray, bg = woodsmoke }), -- Popup menu: normal item.
-		PmenuSel({ fg = mineshaft, bg = boulder }), -- Popup menu: selected item.
+		NormalNC        { fg = alto, bg = woodsmoke }, -- normal text in non-current windows
+		Pmenu           { fg = dustygray, bg = woodsmoke }, -- Popup menu: normal item.
+		PmenuSel        { fg = mineshaft, bg = amulet }, -- Popup menu: selected item.
 		-- PmenuSbar    {   }, -- Popup menu: scrollbar.
-		PmenuThumb({ bg = mineshaft }), -- Popup menu: Thumb of the scrollbar.
+		PmenuThumbo     { bg = mineshaft }, -- Popup menu: Thumb of the scrollbar.
 		-- Question     { }, -- |hit-enter| prompt and yes/no questions
-		QuickFixLine({ fg = copperrust }), -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-		Search({ fg = woodsmoke, bg = springgreen }), -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+		QuickFixLine    { fg = copperrust }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+		Search          { bg = alto, fg = dodgerblue }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
 		-- SpecialKey   { }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
 		-- SpellBad     { }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
 		-- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
@@ -128,14 +128,14 @@ local theme = lush(function()
 		-- StatusLine   { }, -- status line of current window
 		-- StatusLineNC { }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 		-- TabLine      { }, -- tab pages line, not active tab page label
-		TabLineFill  { fg = black, bg = blumine }, -- tab pages line, where there are no labels
+		TabLineFill     { fg = black, bg = blumine }, -- tab pages line, where there are no labels
 		-- TabLineSel   { }, -- tab pages line, active tab page label
 		-- Title        { }, -- titles for output from ":set all", ":autocmd" etc.
-		Visual({ fg = buttercup, bg = boulder }), -- Visual mode selection
+		Visual          { fg = buttercup, bg = boulder }, -- Visual mode selection
 		-- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
 		-- WarningMsg   { }, -- warning messages
-		Whitespace({ fg = tuna }), -- "nbsp", "space", "tab" and "trail" in 'listchars'
-		WildMenu({ fg = woodsmoke, bg = alto }), -- current match in 'wildmenu' completion
+		Whitespace      { fg = tuna }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+		WildMenu        { fg = woodsmoke, bg = alto }, -- current match in 'wildmenu' completion
 
 		-- These groups are not listed as default vim groups,
 		-- but they are defacto standard group names for syntax highlighting.
@@ -143,7 +143,7 @@ local theme = lush(function()
 		-- default,
 		-- Uncomment and edit if you want more specific syntax highlighting.
 
-		Constant({ fg = buttercup.desaturate(70) }), -- (preferred) any constant
+		Constant    { fg = buttercup.desaturate(70) }, -- (preferred) any constant
 		String({}), --   a string constant: "this is a string"
 		-- Character      { }, --  a character constant: 'c', '\n'
 		Number({}), --   a number constant: 234, 0xff
@@ -161,13 +161,13 @@ local theme = lush(function()
 		Keyword({}), --  any other keyword
 		-- Exception      { }, --  try, catch, throw
 
-		PreProc({ fg = magenta }), -- (preferred) generic Preprocessor
-		Include({ fg = alto }), --  preprocessor #include
-		-- Define         { fg = alto }, --   preprocessor #define
-		Macro({ fg = alto }), --    same as Define
+		PreProc  { fg = magenta }, -- (preferred) generic Preprocessor
+		Include  { fg = alto }, --  preprocessor #include
+		Define   { fg = alto }, --   preprocessor #define
+		Macro    { fg = alto }, --    same as Define
 		-- PreCondit      { }, --  preprocessor #if, #else, #endif, etc.
 
-		Type({ fg = royalpurple.rotate(45) }), -- (preferred) int, long, char, etc.
+		Type     { fg = royalpurple.rotate(45) }, -- (preferred) int, long, char, etc.
 		-- StorageClass   { }, -- static, register, volatile, etc.
 		-- Structure      { }, --  struct, union, enum, etc.
 		-- Typedef        { }, --  A typedef
@@ -188,24 +188,24 @@ local theme = lush(function()
 
 		-- Error          { }, -- (preferred) any erroneous construct
 
-		Todo({ bg = royalpurple, fg = alto }), -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+		Todo             { bg = royalpurple, fg = alto }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 		-- Custom Groups
-		AllTodo({ bg = royalpurple, fg = alto }), -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
-		ExtraWhitespace({ fg = blumine }),
-		Callout({ fg = dodgerblue }),
+		AllTodo          { Todo }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+		ExtraWhitespace  { fg = blumine },
+		Callout          { fg = dodgerblue },
 
 		-- These groups are for the native LSP client. Some other LSP clients may
 		-- use these groups, or use their own. Consult your LSP client's
 		-- documentation.
 
-		LspReferenceText({ fg = royalpurple }), -- used for highlighting "text" references
-		LspReferenceRead({ fg = royalpurple }), -- used for highlighting "read" references
-		LspReferenceWrite({ fg = royalpurple }), -- used for highlighting "write" references
+		LspReferenceText  { fg = royalpurple }, -- used for highlighting "text" references
+		LspReferenceRead  { fg = royalpurple }, -- used for highlighting "read" references
+		LspReferenceWrite { fg = royalpurple }, -- used for highlighting "write" references
 
-		LspDiagnosticsDefaultError({ fg = coralred, gui = "underline" }), -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-		LspDiagnosticsDefaultWarning({ fg = buttercup }), -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-		LspDiagnosticsDefaultInformation({ fg = dodgerblue }), -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
-		LspDiagnosticsDefaultHint({ fg = blumine }), -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+		LspDiagnosticsDefaultError       { fg = coralred, gui = "underline" }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+		LspDiagnosticsDefaultWarning     { fg = buttercup }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+		LspDiagnosticsDefaultInformation { fg = dodgerblue }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
+		LspDiagnosticsDefaultHint        { fg = blumine }, -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
 
 		-- LspDiagnosticsVirtualTextError       { }, -- Used for "Error" diagnostic virtual text
 		-- LspDiagnosticsVirtualTextWarning     { }, -- Used for "Warning" diagnostic virtual text
@@ -233,7 +233,7 @@ local theme = lush(function()
 		-- TSError -> Error for example, so you do not have to define these unless
 		-- you explicitly want to support Treesitter's improved syntax awareness.
 
-		-- TSAnnotation         { };    -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
+		TSAnnotation            { };    -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
 		-- TSAttribute          { };    -- (unstable) TODO: docs
 		-- TSBoolean            { };    -- For booleans.
 		-- TSCharacter          { };    -- For characters.
@@ -247,35 +247,35 @@ local theme = lush(function()
 		-- TSException          { };    -- For exception related keywords.
 		-- TSField              { };    -- For fields.
 		-- TSFloat              { };    -- For floats.
-		TSFunction({ fg = copperrust.rotate(180) }), -- For function (calls and definitions).
+		TSFunction              { fg = copperrust.rotate(180) }, -- For function (calls and definitions).
 		-- TSFuncBuiltin        { };    -- For builtin functions: `table.insert` in Lua.
 		-- TSFuncMacro          { };    -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
 		-- TSInclude            { };    -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
 		-- TSKeyword            { };    -- For keywords that don't fall in previous categories.
 		-- TSKeywordFunction    { };    -- For keywords used to define a fuction.
 		-- TSLabel              { };    -- For labels: `label:` in C and `:label:` in Lua.
-		TSMethod({ fg = copperrust }), -- For method calls and definitions.
+		TSMethod                { fg = copperrust }, -- For method calls and definitions.
 		-- TSNamespace          { };    -- For identifiers referring to modules and namespaces.
 		-- TSNone               { };    -- TODO: docs
 		-- TSNumber             { };    -- For all numbers
-		TSOperator({ fg = buttercup.desaturate(70) }), -- For any operator: `+`, but also `->` and `*` in C.
+		TSOperator              { fg = buttercup.desaturate(70) }, -- For any operator: `+`, but also `->` and `*` in C.
 		-- TSParameter          { };    -- For parameters of a function.
 		-- TSParameterReference { };    -- For references to parameters of a function.
 		-- TSProperty           { };    -- Same as `TSField`.
 		-- TSPunctDelimiter     { };    -- For delimiters ie: `.`
-		TSPunctBracket({ fg = gunsmoke }), -- For brackets and parens.
+		TSPunctBracket          { fg = gunsmoke }, -- For brackets and parens.
 		-- TSPunctSpecial       { };    -- For special punctutation that does not fall in the catagories before.
 		-- TSRepeat             { };    -- For keywords related to loops.
 		-- TSString             { };    -- For strings.
 		-- TSStringRegex        { };    -- For regexes.
 		-- TSStringEscape       { };    -- For escape characters within a string.
 		-- TSSymbol             { };    -- For identifiers referring to symbols or atoms.
-		TSType({ Type }), -- For types.
-		TSTypeBuiltin({ gui = "bold", fg = dodgerblue }), -- For builtin types.
+		TSType                  { Type }, -- For types.
+		TSTypeBuiltin           { gui = "bold", fg = dodgerblue }, -- For builtin types.
 		-- TSVariable           { };    -- Any variable name that does not have another highlight.
 		-- TSVariableBuiltin    { };    -- Variable names that are defined by the languages, like `this` or `self`.
 
-		TSTag({ fg = bermudagray }), -- Tags like html tag names.
+		TSTag                   { fg = bermudagray }, -- Tags like html tag names.
 		-- TSTagDelimiter       { };    -- Tag delimiter like `<` `>` `/`
 		-- TSText               { };    -- For strings considered text in a markup language.
 		-- TSEmphasis           { };    -- For text to be represented with emphasis.
