@@ -106,7 +106,7 @@ function M.setMappings()
 		["ngh"] = map_cmd([[lua vim.lsp.buf.hover()]]),
 		["n[e"] = map_cmd([[lua vim.lsp.diagnostic.goto_next()]]),
 		["n]e"] = map_cmd([[lua vim.lsp.diagnostic.goto_prev()]]),
-		["nga"] = map_cmd([[lua require'telescope.builtin'.lsp_code_actions()]]),
+		["nga"] = map_cmd([[lua vim.lsp.buf.code_action()]]),
 		["ngs"] = map_cmd([[vsplit|lua vim.lsp.buf.definition()]]),
 		["n<leader>r"] = map_cmd([[lua vim.lsp.buf.references()]]),
 		["n<leader>f"] = map_cmd([[lua vim.lsp.buf.formatting()]]),
