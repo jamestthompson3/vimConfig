@@ -111,7 +111,7 @@ local theme = lush(function()
 		-- MoreMsg      { }, -- |more-prompt|
 		NonText         { fg = buttercup.desaturate(70) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
 		Normal          { fg = alto, bg = black }, -- normal text
-		-- NormalFloat  { }, -- Normal text in floating windows.
+		NormalFloat  { fg = alto, bg = tuna }, -- Normal text in floating windows.
 		NormalNC        { fg = alto, bg = woodsmoke }, -- normal text in non-current windows
 		Pmenu           { fg = dustygray, bg = woodsmoke }, -- Popup menu: normal item.
 		PmenuSel        { fg = mineshaft, bg = amulet }, -- Popup menu: selected item.
@@ -161,7 +161,7 @@ local theme = lush(function()
 		Keyword({}), --  any other keyword
 		-- Exception      { }, --  try, catch, throw
 
-		PreProc  { fg = magenta }, -- (preferred) generic Preprocessor
+		PreProc  { fg = bermudagray }, -- (preferred) generic Preprocessor
 		Include  { fg = alto }, --  preprocessor #include
 		Define   { fg = alto }, --   preprocessor #define
 		Macro    { fg = alto }, --    same as Define
