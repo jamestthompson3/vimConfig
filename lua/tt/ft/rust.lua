@@ -1,4 +1,3 @@
-require("tt.user_lsp").setMappings()
 require("tt.nvim_utils")
 
 local M = {}

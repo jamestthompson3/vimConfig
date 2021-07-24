@@ -1,4 +1,3 @@
-local util = require("vim.lsp.util")
 local icons = require("nvim-nonicons")
 require("tt.nvim_utils")
 local fmt = string.format
@@ -57,6 +56,7 @@ local kind_order = {
 }
 local symbols = {}
 local len = 25
+local with_text
 if with_text == true or with_text == nil then
   for i = 1, len do
     local name = kind_order[i]
@@ -75,6 +75,7 @@ require("vim.lsp.protocol").CompletionItemKind = symbols
 
 -- require('vim.lsp.protocol').CompletionItemKind = kind_symbols
 
+local sign_defined = false
 if not sign_defined then
   vim.fn.sign_define(
   "LspDiagnosticsSignError",
@@ -111,7 +112,6 @@ function M.setMappings()
     ["n<leader>r"] = map_cmd([[lua vim.lsp.buf.references()]]),
     ["n<leader>f"] = map_cmd([[lua vim.lsp.buf.formatting()]]),
     ["n<leader>n"] = map_cmd([[lua vim.lsp.buf.rename()]]),
-    ["n<leader>l"] = map_cmd([[lua vim.lsp.util.show_line_diagnostics()]]),
   }
   nvim_apply_mappings(mappings, { silent = true })
 end

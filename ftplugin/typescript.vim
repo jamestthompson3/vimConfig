@@ -1,7 +1,6 @@
 
 set formatoptions+=o
 
-lua require'tt.user_lsp'.setMappings()
 lua require 'tt.ft.ecma'.bootstrap()
 
 

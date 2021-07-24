@@ -1,5 +1,4 @@
 M = {}
-local api = vim.api
 
 -- Check if the packer tool exists
 local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
@@ -45,7 +44,7 @@ return require("packer").startup(function()
     end,
     requires = { { "hrsh7th/vim-vsnip" } },
   })
-  use ({'mfussenegger/nvim-dap', config = function()
+  use ({'mfussenegger/nvim-dap', opt = true, ft = { "typescript",  "javascript" }, config = function()
     local dap =  require('dap')
     dap.adapters.node2 = {
       type = 'executable',
@@ -85,19 +84,20 @@ return require("packer").startup(function()
   -- Maybe use this when it supports things like tag search.
   -- use('camspiers/snap')
   -- use({
-  --   	"nvim-telescope/telescope.nvim",
-  --   	requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope-fzy-native.nvim" } },
-  --   	config = function()
-  --     		require("tt.plugin.telescope")
-  --     	end,
-  --     })
--- use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    --   	"nvim-telescope/telescope.nvim",
+    --   	requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope-fzy-native.nvim" } },
+    --   	config = function()
+      --     		require("tt.plugin.telescope")
+      --     	end,
+      --     })
+      -- use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
       use('junegunn/fzf.vim')
       use('junegunn/fzf')
       use({
         "neovim/nvim-lspconfig",
         config = function()
           require("tt.user_lsp").configureLSP()
+          require("tt.user_lsp").setMappings()
         end,
       })
       use({ "wbthomason/packer.nvim", opt = true })

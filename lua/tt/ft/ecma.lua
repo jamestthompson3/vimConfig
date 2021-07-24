@@ -1,12 +1,11 @@
 require("tt.nvim_utils")
-require("tt.user_lsp").setMappings()
 
 local fn = vim.fn
 
 local M = {}
 
 function M.bootstrap()
-	vim.bo.suffixesadd = ".js", ".jsx", ".ts", ".tsx"
+	vim.bo.suffixesadd = {".js", ".jsx", ".ts", ".tsx"}
 	vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
 	vim.bo.define = "class\\s"
 	vim.wo.foldlevel = 99
@@ -49,7 +48,7 @@ local function find_executable(binaryName)
 	return executable
 end
 
-local function onread(err, data)
+local function onread(err, _)
 	if err then
 		error("IMPORT_SORT: ", err)
 	end
@@ -89,7 +88,7 @@ end
 function M.lint_project()
 	local executable_path = find_executable("eslint_d")
 	local linterResults = {}
-	local function readlint(err, data)
+	local function readlint(_, data)
 		if data then
 			table.insert(linterResults, data)
 			local vals = vim.split(data, "\n")
@@ -122,7 +121,7 @@ function M.linter_d()
 	local path = fn.fnameescape(fn.expand("%:p"))
 	local executable_path = find_executable("eslint_d")
 	local linterResults = {}
-	local function readlint(err, data)
+	local function readlint(_, data)
 		if data then
 			table.insert(linterResults, data)
 			local vals = vim.split(data, "\n")
