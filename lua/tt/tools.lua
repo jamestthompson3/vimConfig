@@ -220,7 +220,7 @@ function M.asyncGrep(...)
   local results = {}
   local function onread(err, data)
     if err then
-      -- print('ERROR: ', err)
+      print('GREP ERROR: ', err)
       -- TODO handle err
     end
     if data then
@@ -236,10 +236,10 @@ function M.asyncGrep(...)
     fn.setqflist({}, 'r', {title = 'Search Results', lines = results})
     api.nvim_command [[ cwindow ]]
   end
-  args = fn.extend(terms, {'--vimgrep', '--smart-case', '--block-buffered'})
+  local args = fn.extend(terms, {'--vimgrep', '--smart-case', '--block-buffered'})
   spawn('rg', {
     args = args,
-    stdio = {nil, stdout,stderr}
+    stdio = {nil, _,_}
   },
   {stdout = onread, stderr = onread},
   vim.schedule_wrap(function()

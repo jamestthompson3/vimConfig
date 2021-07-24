@@ -106,7 +106,7 @@ function M.map()
     ["nss"] = map_cmd("so ~/sessions/"),
     ["nssb"] = map_cmd([[lua require'tt.tools'.sourceSession()]]),
     ["nM"] = map_cmd("silent make"),
-    ["ngh"] = map_cmd("call symbols#ShowDeclaration(0)"),
+    -- ["ngh"] = map_cmd("call symbols#ShowDeclaration(0)"),
     ["nsd"] = map_cmd("call symbols#PreviewWord()"),
     ["n<F7>"] = map_cmd('so "%"'),
     ["n<F1>"] = map_cmd([[lua require'tt.tools'.profile()]]),
