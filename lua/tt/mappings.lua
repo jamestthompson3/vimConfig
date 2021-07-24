@@ -1,9 +1,9 @@
 require("tt.nvim_utils")
 
-local map = vim.api.nvim_set_keymap
 local M = {}
 
 function M.map()
+  local find_command
   function getFindCommand()
     if 1 == vim.fn.executable("fd") then
       find_command = { "fd", "--type", "f", "--hidden", "-E", ".git" }
@@ -118,13 +118,13 @@ function M.map()
     ["n<leader>jj"] = map_cmd("ALENext"),
     ["n<leader>kk"] = map_cmd("ALEPrevious"),
     ["n<leader>G"] = map_cmd("SearchBuffers"),
-    -- ["n<C-p>"] = map_cmd([[lua require'telescope.builtin'.find_files(getFindCommand())]]),
-    ["n<C-p>"] = map_cmd("Files"),
+    ["n<C-p>"] = map_cmd([[lua require'telescope.builtin'.find_files(getFindCommand())]]),
+    -- ["n<C-p>"] = map_cmd("Files"),
     -- ["nR"] = map_cmd([[lua require'telescope.builtin'.live_grep()]]),
-    -- ["n<C-b>"] = map_cmd([[lua require'telescope.builtin'.buffers()]]),
-    ["n<C-b>"] = map_cmd("Buffers"),
-    -- ["nT"] = map_cmd([[lua require'telescope.builtin'.tags({ctags_file = vim.bo.tags})]]),
-    ["nT"] = map_cmd("Tags"),
+    ["n<C-b>"] = map_cmd([[lua require'telescope.builtin'.buffers()]]),
+    -- ["n<C-b>"] = map_cmd("Buffers"),
+    ["nT"] = map_cmd([[lua require'telescope.builtin'.tags({ctags_file = vim.bo.tags})]]),
+    -- ["nT"] = map_cmd("Tags"),
     ["n<leader>lt"] = map_cmd([[lua require'tt.tools'.listTags()]]),
     ["n<leader>t"] = map_cmd([[vsp<CR>:exec("tag ".expand("<cword>"))]]),
     ["n<leader>F"] = map_cmd([[lua require'tt.tools'.simpleMRU()]]),
