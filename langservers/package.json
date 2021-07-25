@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@fsouza/prettierd": "^0.13.0",
+    "@fsouza/prettierd": "^0.14.2",
     "bash-language-server": "^1.17.0",
     "eslint_d": "^10.1.0",
     "import-sort-cli": "^6.0.0",

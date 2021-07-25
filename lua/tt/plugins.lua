@@ -110,7 +110,7 @@ return require("packer").startup(function()
       use({
         "majutsushi/tagbar",
         opt = true,
-        ft = { "c", "cpp", "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        ft = { "c", "cpp", "typescript", "typescriptreact", "javascript", "javascriptreact", "rust" },
       })
       use({ "norcalli/nvim-colorizer.lua", opt = true, ft = { "html", "css", "vim" } })
       use({ "reedes/vim-wordy", opt = true, ft = { "txt", "md", "markdown", "text" } })
