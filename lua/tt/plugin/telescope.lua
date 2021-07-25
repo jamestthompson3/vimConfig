@@ -1,6 +1,6 @@
 local actions = require("telescope.actions")
 require("telescope").setup({
-  defaults = {
+  config = {
     winblend = 15,
     color_devicons = true,
     prompt_prefix = require("nvim-nonicons").get("telescope") .. " ",

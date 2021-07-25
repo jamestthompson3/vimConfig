@@ -1,4 +1,3 @@
-require("tt.user_lsp").setMappings()
 require("tt.nvim_utils")
 
 local M = {}
@@ -9,12 +8,7 @@ function M.bootstrap()
 	}
 
 	vim.compiler = "cargo"
-	local autocmds = {
-		rust = {
-			{ "BufWritePre lua vim.lsp.buf.formatting_sync()" },
-		},
-	}
-	nvim_create_augroups(autocmds)
+  vim.api.nvim_command[[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)]]
 
 	nvim_apply_mappings(mappings, { silent = true })
 end

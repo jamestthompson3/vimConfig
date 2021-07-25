@@ -22,8 +22,9 @@ iabbrev("tehn", "then")
 iabbrev("hadnler", "handler")
 iabbrev("bunlde", "bundle")
 
-nvim.command([[command! -nargs=+ -complete=dir -bar SearchProject lua require'tt.tools'.asyncGrep(<q-args>)]])
--- nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <q-args>]]
+-- FIXME this is flakey :(
+-- nvim.command([[command! -nargs=+ -complete=dir -bar SearchProject lua require'tt.tools'.asyncGrep(<q-args>)]])
+nvim.command [[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <q-args>]]
 nvim.command([[command! Scratch lua require'tools'.makeScratch()]])
 nvim.command([[command! -nargs=1 -complete=file_in_path Find lua require'tt.tools'.fastFind(<f-args>) ]])
 nvim.command([[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]])
