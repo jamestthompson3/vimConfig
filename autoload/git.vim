@@ -50,7 +50,7 @@ function! git#threeWayDiff() abort
 endfunction
 
 function! git#blame() abort
-  execute ':Redir %Gblame'
+  execute ':Redir echo system("git blame "..expand("%"))'
   vertical resize 40
   silent! setlocal nomodifiable nonumber
   set filetype=fugitive

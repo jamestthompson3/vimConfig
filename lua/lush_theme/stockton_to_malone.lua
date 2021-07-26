@@ -88,10 +88,10 @@ local theme = lush(function()
 		-- CursorColumn { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine      { bg = tuna }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
 		-- Directory    { }, -- directory names (and other special names in listings)
-		DiffAdd         { bg = amulet, fg = shark }, -- diff mode: Added line |diff.txt|
-		DiffChange      { fg = amulet }, -- diff mode: Changed line |diff.txt|
-		DiffDelete      { fg = copperrust }, -- diff mode: Deleted line |diff.txt|
-		DiffText        { fg = dodgerblue, bg = tuna }, -- diff mode: Changed text within a changed line |diff.txt|
+		-- DiffAdd         { bg = amulet, fg = shark }, -- diff mode: Added line |diff.txt|
+		-- DiffChange      { fg = amulet }, -- diff mode: Changed line |diff.txt|
+		-- DiffDelete      { fg = copperrust }, -- diff mode: Deleted line |diff.txt|
+		-- DiffText        { fg = dodgerblue, bg = tuna }, -- diff mode: Changed text within a changed line |diff.txt|
 		EndOfBuffer     { fg = mineshaft }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal
@@ -104,7 +104,7 @@ local theme = lush(function()
 		-- Substitute   { }, -- |:substitute| replacement text highlighting
 		LineNr          { fg = gunsmoke }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
 		CursorLineNr    { fg = buttercup }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		MatchParen      { fg = black, bg = blumine }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		-- MatchParen      { fg = black, bg = blumine }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		-- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
 		-- MsgArea      { }, -- Area for messages and cmdline
 		-- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -193,6 +193,7 @@ local theme = lush(function()
 		AllTodo          { Todo }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 		ExtraWhitespace  { fg = blumine },
 		Callout          { fg = dodgerblue },
+    GitLens          { fg = gunsmoke },
 
 		-- These groups are for the native LSP client. Some other LSP clients may
 		-- use these groups, or use their own. Consult your LSP client's
