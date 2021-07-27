@@ -9,7 +9,7 @@ local autocmds = {
 		{ "VimLeavePre", "*", [[lua require'tt.tools'.saveSession()]] },
 		-- {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
 		{ "TermEnter", "*", "set nonumber" },
-		{ "Syntax", "*", [[lua require'tt.tools'.setCustomGroups()]] },
+		-- { "Syntax", "*", [[lua require'tt.tools'.setCustomGroups()]] },
 		{
 			"BufWritePre",
 			"*",

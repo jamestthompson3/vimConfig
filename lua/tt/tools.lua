@@ -8,16 +8,6 @@ local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
 local M = {}
 
-function M.setCustomGroups()
-  -- custom syntax since treesitter overrides nvim defaults
-  -- Doesn't work... :/
-  nvim.command [[match  AllTodo /\c@\?\(todo\|fixme\)/]]
-  nvim.command [[match  ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']]
-  -- this one works tho...
-  -- @todo: thing
-  nvim.command [[match  ExtraWhitespace /\s\+$/]]
-end
-
 function M.openQuickfix()
   local qflen = fn.len(fn.getqflist())
   local qfheight = math.min(10, qflen)

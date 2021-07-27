@@ -76,7 +76,6 @@ do
   local schedule = vim.schedule
   nvim.command [[colorscheme jazzy]]
   schedule(function()
-    require'tt.tools'.setCustomGroups()
     require('tt.plugins')
     require('tt.core_opts')
     require('tt.autocmds')

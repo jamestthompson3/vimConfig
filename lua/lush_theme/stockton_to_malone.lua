@@ -82,7 +82,7 @@ local theme = lush(function()
 		Comment         { fg = buttercup }, -- any comment
 		-- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
 		-- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
-		Cursor          { fg = shark, bg = alto }, -- character under the cursor
+		-- Cursor          { fg = shark, bg = alto }, -- character under the cursor
 		-- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
 		-- CursorColumn { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
@@ -104,7 +104,7 @@ local theme = lush(function()
 		-- Substitute   { }, -- |:substitute| replacement text highlighting
 		LineNr          { fg = gunsmoke }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
 		CursorLineNr    { fg = buttercup }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		-- MatchParen      { fg = black, bg = blumine }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		MatchParen      { fg = black, bg = blumine }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		-- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
 		-- MsgArea      { }, -- Area for messages and cmdline
 		-- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
@@ -112,6 +112,7 @@ local theme = lush(function()
 		NonText         { fg = buttercup.desaturate(70) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
 		Normal          { fg = alto, bg = black }, -- normal text
 		NormalFloat  { fg = alto, bg = tuna }, -- Normal text in floating windows.
+		-- NormalFloat  { fg = alto, bg = tuna }, -- Normal text in floating windows.
 		NormalNC        { fg = alto, bg = woodsmoke }, -- normal text in non-current windows
 		Pmenu           { fg = dustygray, bg = woodsmoke }, -- Popup menu: normal item.
 		PmenuSel        { fg = mineshaft, bg = amulet }, -- Popup menu: selected item.
@@ -234,7 +235,7 @@ local theme = lush(function()
 		-- TSError -> Error for example, so you do not have to define these unless
 		-- you explicitly want to support Treesitter's improved syntax awareness.
 
-		TSAnnotation            { };    -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
+		-- TSAnnotation            { };    -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
 		-- TSAttribute          { };    -- (unstable) TODO: docs
 		-- TSBoolean            { };    -- For booleans.
 		-- TSCharacter          { };    -- For characters.
