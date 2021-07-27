@@ -12,8 +12,9 @@
     "import-sort-parser-typescript": "6.0.0",
     "import-sort-style-renke": "6.0.0",
     "typescript": "4.3.5",
-    "typescript-language-server": "0.5.1",
+    "typescript-language-server": "0.5.4",
     "vscode-css-languageserver-bin": "1.4.0",
     "vscode-html-languageserver-bin": "1.4.0"
-  }
+  },
+  "packageManager": "yarn@3.0.0"
 }
