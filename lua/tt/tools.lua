@@ -86,6 +86,11 @@ function M.lazyGit()
   api.nvim_input('i')
 end
 
+function M.restoreFile()
+  local cmd = "git restore "..fn.expand("%")
+  api.nvim_command("!"..cmd)
+end
+
 function M.renameFile()
   local oldName = api.nvim_get_current_line()
   local input_cmd = string.format("input('Rename: ', '%s', 'file')", oldName)

@@ -85,6 +85,7 @@ return require("packer").startup(function()
   -- use('camspiers/snap')
   use({
       	"nvim-telescope/telescope.nvim",
+        module_pattern = "telescope.*",
       	requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope-fzy-native.nvim" } },
       	config = function()
           		require("tt.plugin.telescope")
@@ -103,6 +104,7 @@ return require("packer").startup(function()
       use({ "wbthomason/packer.nvim", opt = true })
       use({
         "nvim-treesitter/nvim-treesitter",
+        module_pattern = "nvim-treesitter.*",
         config = function()
           require("tt.plugin.treesitter")
         end,
@@ -110,9 +112,10 @@ return require("packer").startup(function()
       use({
         "majutsushi/tagbar",
         opt = true,
+        cmd = "Tagbar",
         ft = { "c", "cpp", "typescript", "typescriptreact", "javascript", "javascriptreact", "rust" },
       })
       use({ "norcalli/nvim-colorizer.lua", opt = true, ft = { "html", "css", "vim" } })
       use({ "reedes/vim-wordy", opt = true, ft = { "txt", "md", "markdown", "text" } })
-      use({ "dense-analysis/ale", opt = true, ft = { "c", "cpp", "go", "rust", "scala", "python", "objcpp", "objc", "reason" } })
+      use({ "dense-analysis/ale", opt = true, ft = { "c", "cpp", "go", "scala", "python", "objcpp", "objc", "reason" } })
     end)
