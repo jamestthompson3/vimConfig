@@ -1,7 +1,16 @@
 local actions = require("telescope.actions")
 require("telescope").setup({
 	defaults = {
-		path_display = { shorten = 2 },
+		--{ shorten = 2 },
+		path_display = function(opts, path)
+			local len = string.len(path)
+			if len > 80 then
+				local tail = require("telescope.utils").path_tail(path)
+				return string.format("%s (%s)", tail, path)
+			else
+				return path
+			end
+		end,
 		winblend = 15,
 		color_devicons = true,
 		prompt_prefix = require("nvim-nonicons").get("telescope") .. " ",
