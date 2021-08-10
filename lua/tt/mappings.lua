@@ -91,6 +91,8 @@ function M.map()
     ["n]a"] = map_cmd("next"),
     ["n[q"] = map_cmd("cnext"),
     ["n]q"] = map_cmd("cprev"),
+    ["n[t"] = map_cmd("tnext"),
+    ["n]t"] = map_cmd("tprev"),
     ["n[Q"] = map_cmd("cnfile"),
     ["n]Q"] = map_cmd("cpfile"),
     ["n<F3>"] = map_cmd("Vex"),

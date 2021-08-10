@@ -19,6 +19,7 @@ ts_config.setup({
     "html",
     "javascript",
     "json",
+    "java",
     "scala",
     "python",
     "rust",
