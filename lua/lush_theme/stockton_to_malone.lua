@@ -224,10 +224,10 @@ local theme = lush(function()
 		-- LspDiagnosticsFloatingInformation    { }, -- Used to color "Information" diagnostic messages in diagnostics float
 		-- LspDiagnosticsFloatingHint           { }, -- Used to color "Hint" diagnostic messages in diagnostics float
 
-		-- LspDiagnosticsSignError              { }, -- Used for "Error" signs in sign column
-		-- LspDiagnosticsSignWarning            { }, -- Used for "Warning" signs in sign column
-		-- LspDiagnosticsSignInformation        { }, -- Used for "Information" signs in sign column
-		-- LspDiagnosticsSignHint               { }, -- Used for "Hint" signs in sign column
+		LspDiagnosticsSignError              { fg = coralred }, -- Used for "Error" signs in sign column
+		LspDiagnosticsSignWarning            { fg = buttercup }, -- Used for "Warning" signs in sign column
+		LspDiagnosticsSignInformation        { fg = dodgerblue }, -- Used for "Information" signs in sign column
+		LspDiagnosticsSignHint               { fg = blumine }, -- Used for "Hint" signs in sign column
 
 		-- These groups are for the neovim tree-sitter highlights.
 		-- As of writing, tree-sitter support is a WIP, group names may change.
