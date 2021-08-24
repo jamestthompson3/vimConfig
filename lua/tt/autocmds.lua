@@ -39,10 +39,10 @@ local autocmds = {
 		{ "FileType dirvish nnoremap <buffer> r :lua require'tt.tools'.renameFile()<CR>" },
 		{ "FileType netrw nnoremap <buffer> q :close<CR>" },
 	},
-	windows = {
-		{ "WinEnter", "*", "set number" },
-		{ "WinLeave", "*", "set nonumber" },
-	},
+	-- windows = {
+	-- 	{ "WinEnter", "*", "set number" },
+	-- 	{ "WinLeave", "*", "set nonumber" },
+	-- },
 	bufs = {
 		{ "BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>" },
 		{ "BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF" },
