@@ -47,23 +47,11 @@ local icons = {
 
 local colors = {
 	main = "#ff87ff",
-	bg_alt = "#0B0C15",
 	main_bg = "#121217",
-	lightbg = "#21252B",
-	commented = "#5c6370",
 	grey = "#3c4048",
-	line_bg = "#282c34",
-	creamydark = "#282c34",
-	purple = "#252930",
-	cyan = "#00FFFF",
-	nord = "#81A1C1",
 	lightblue = "#81a1c1",
-	darkblue = "#61afef",
 	blue = "#61afef",
-	limegreen = "#bbe67e",
 	green = "#7ed491",
-	fg_green = "#65a380",
-	creamygreen = "#a3be8c",
 	yellow = "#cccc00",
 	creamyorange = "#ff8800",
 	orange = "#FF8800",
@@ -76,8 +64,7 @@ local colors = {
 	greenYel = "#EBCB8B",
 	white = "#d8dee9",
 	brown = "#91684a",
-	teal = "#23D4AC",
-	blue2 = "#5c5c81",
+	blue2 = "#093B61",
 	icon_inactive = "#9896AA",
 }
 
@@ -142,7 +129,7 @@ local checkwidth = function()
 end
 
 local function file_name(is_active, highlight_group)
-	local normal_fg = is_active and fileinfo.get_file_icon_color() or colors.blue2
+	local normal_fg = is_active and fileinfo.get_file_icon_color() or colors.blue
 	local modified_fg = is_active and "#ff0000" or "#cc8800"
 	if vim.bo.modifiable then
 		if vim.bo.modified then
