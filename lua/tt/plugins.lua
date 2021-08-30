@@ -84,8 +84,6 @@ return require("packer").startup(function()
 			require("tt.statusline")
 		end,
 	})
-	-- Maybe use this when it supports things like tag search.
-	-- use('camspiers/snap')
 	use({
 		"nvim-telescope/telescope.nvim",
 		module_pattern = "telescope.*",
@@ -99,13 +97,10 @@ return require("packer").startup(function()
 		end,
 	})
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-	-- use('junegunn/fzf.vim')
-	-- use('junegunn/fzf')
 	use({
 		"neovim/nvim-lspconfig",
 		config = function()
-			require("tt.user_lsp").configureLSP()
-			require("tt.user_lsp").setMappings()
+			require("tt.lsp").configureLSP()
 		end,
 	})
 	use({ "wbthomason/packer.nvim", opt = true })
