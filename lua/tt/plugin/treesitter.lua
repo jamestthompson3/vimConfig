@@ -15,6 +15,7 @@ ts_config.setup({
     "c",
     "cpp",
     "lua",
+    "go",
     "css",
     "html",
     "javascript",

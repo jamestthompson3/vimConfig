@@ -1,6 +1,5 @@
 require("tt.nvim_utils")
 local api = vim.api
-local helpers = require("tt.plugin.prettierd.lib.nvim_helpers")
 
 if not is_windows then
 	api.nvim_command("set shell=bash")
@@ -64,30 +63,3 @@ function! SL() abort
   return "%#" . luaeval('require("tt.tools").statuslineHighlight()') . "#" . luaeval('require("tt.tools").statuslineIcon()') . "%#StatusLineModified#%{&mod?expand('%:p:t'):''}%*%{&mod?'':expand('%:p:t')}%<" .. "%=" .. "%<" .. "%r %L"
 endfunction
 ]])
-
--- setup autoformatting
-local function setup_prettierd()
-	local auto_fmt_fts = {
-		"json",
-		"javascript",
-		"typescript",
-		"markdown",
-		"css",
-		"html",
-		"svelte",
-		"typescriptreact",
-		"javascriptreact",
-		"yaml",
-	}
-	helpers.augroup("auto_prettierd", {
-		{
-			events = { "FileType" },
-			targets = auto_fmt_fts,
-			command = helpers.fn_cmd(function()
-				require("tt.plugin.prettierd").setup_autofmt(vim.fn.expand("<abuf>"))
-			end),
-		},
-	})
-end
-
-vim.schedule(setup_prettierd)

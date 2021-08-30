@@ -26,7 +26,7 @@ function M.bootstrap()
 			-- 	"User prettierd_autofmt lua require'tt.ft.ecma'.import_sort(true, function() vim.lsp.buf_attach_client(0,1)end)",
 			-- },
 			-- {"User prettierd_autofmt lua require'tt.ft.ecma'.sort_and_lint()"}
-			{"User prettierd_autofmt lua vim.lsp.buf_attach_client(0,1)"}
+			-- {"User prettierd_autofmt lua vim.lsp.buf_attach_client(0,1)"}
 		},
 	}
 	nvim_create_augroups(autocmds)

@@ -1,6 +1,7 @@
 local icons = require("nvim-nonicons")
 require("tt.nvim_utils")
 local fmt = string.format
+local formatting = require("tt.formatting")
 
 local M = {}
 
@@ -151,8 +152,19 @@ function M.configureLSP()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	require("lspconfig").efm.setup({
+		on_attach = formatting.fmt_on_attach,
 		init_options = { documentFormatting = true },
-		filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
+		filetypes = {
+			"javascript",
+			"typescript",
+			"typescriptreact",
+			"javascriptreact",
+			"css",
+			"json",
+			"html",
+			"yaml",
+			"markdown",
+		},
 		-- root_dir = function(fname)
 		-- 	return util.root_pattern("tsconfig.json")(fname)
 		-- 		or util.root_pattern(".eslintrc.js", ".git", ".eslintrc")(fname)
@@ -164,13 +176,18 @@ function M.configureLSP()
 				typescript = { prettier, eslintd },
 				javascriptreact = { prettier, eslintd },
 				typescriptreact = { prettier, eslintd },
+				json = { prettier },
+				html = { prettier },
+				css = { prettier },
+				markdown = { prettier },
+				yaml = { prettier },
 			},
 		},
 	})
 
-	nvim_lsp.cssls.setup({
-		cmd = { get_node_bin("vscode-css-languageserver"), "--stdio" },
-	})
+	-- nvim_lsp.cssls.setup({
+	-- 	cmd = { get_node_bin("vscode-css-languageserver"), "--stdio" },
+	-- })
 	nvim_lsp.html.setup({
 		capabilities = capabilities,
 		cmd = { get_node_bin("vscode-html-languageserver-bin"), "--stdio" },
@@ -263,42 +280,6 @@ function M.configureLSP()
 		virtual_text = false,
 		signs = true,
 	})
-end
-
-function M.select_client(method, name)
-	local clients = vim.tbl_values(vim.lsp.buf_get_clients())
-	clients = vim.tbl_filter(function(client)
-		return client.supports_method(method)
-	end, clients)
-
-	for i = 1, #clients do
-		if clients[i].name == name then
-			return clients[i]
-		end
-	end
-
-	return nil
-end
-
-function M.formatting_sync(options, timeout_ms, format_client)
-	local util = vim.lsp.util
-	local client = M.select_client("textDocument/formatting", format_client)
-	if client == nil then
-		return
-	end
-
-	local params = util.make_formatting_params(options)
-	local result, err = client.request_sync(
-		"textDocument/formatting",
-		params,
-		timeout_ms,
-		vim.api.nvim_get_current_buf()
-	)
-	if result and result.result then
-		util.apply_text_edits(result.result)
-	elseif err then
-		vim.notify("vim.lsp.buf.formatting_sync: " .. err, vim.log.levels.WARN)
-	end
 end
 
 return M

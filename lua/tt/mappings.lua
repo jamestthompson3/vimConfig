@@ -6,9 +6,9 @@ function M.map()
   local find_command
   function getFindCommand()
     if 1 == vim.fn.executable("fd") then
-      find_command = { "fd", "--type", "f", "--hidden", "-E", ".git" }
+      find_command = { "fd", "--type", "f", "--hidden", "-E", ".git", "-E", ".yarn" }
     elseif 1 == vim.fn.executable("fdfind") then
-      find_command = { "fdfind", "--type", "f", "--hidden", "-E", ".git" }
+      find_command = { "fdfind", "--type", "f", "--hidden", "-E", ".git", "-E", ".yarn"}
     end
     return { find_command = find_command }
   end
