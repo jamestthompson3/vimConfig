@@ -77,14 +77,18 @@ require("vim.lsp.protocol").CompletionItemKind = symbols
 
 local sign_defined = false
 if not sign_defined then
-	vim.fn.sign_define(
-		"LspDiagnosticsSignError",
-		{ text = "", texthl = "LspDiagnosticsSignError", linehl = "", numhl = "" }
-	)
-	vim.fn.sign_define(
-		"LspDiagnosticsSignWarning",
-		{ text = "", texthl = "LspDiagnosticsSignWarning", linehl = "", numhl = "" }
-	)
+	vim.fn.sign_define("LspDiagnosticsSignError", {
+		text = "",
+		texthl = "LspDiagnosticsSignError",
+		linehl = "",
+		numhl = "",
+	})
+	vim.fn.sign_define("LspDiagnosticsSignWarning", {
+		text = "",
+		texthl = "LspDiagnosticsSignWarning",
+		linehl = "",
+		numhl = "",
+	})
 	vim.fn.sign_define(
 		"LspDiagnosticsSignInfo",
 		{ text = "", texthl = "LspDiagnosticsSignInfo", linehl = "", numhl = "" }
@@ -93,10 +97,12 @@ if not sign_defined then
 		"LspDiagnosticsSignHint",
 		{ text = "", texthl = "LspDiagnosticsSignHint", linehl = "", numhl = "" }
 	)
-	vim.fn.sign_define(
-		"LspDiagnosticsSignOther",
-		{ text = "﫠", texthl = "LspDiagnosticsSignOther", linehl = "", numhl = "" }
-	)
+	vim.fn.sign_define("LspDiagnosticsSignOther", {
+		text = "﫠",
+		texthl = "LspDiagnosticsSignOther",
+		linehl = "",
+		numhl = "",
+	})
 	sign_defined = true
 end
 
@@ -116,24 +122,18 @@ function M.setMappings()
 	nvim_apply_mappings(mappings, { silent = true })
 end
 
-
 local eslintd = {
 	lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
 	lintStdin = true,
 	lintFormats = { "%f:%l:%c: %m" },
 	lintIgnoreExitCode = true,
-	formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-	formatStdin = true,
+	-- formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+	-- formatStdin = true,
 }
 
 local prettier = {
-	formatCommand = ([[
-  ./node_modules/.bin/prettier
-  ${--config-precedence:configPrecedence}
-  ${--tab-width:tabWidth}
-  ${--single-quote:singleQuote}
-  ${--trailing-comma:trailingComma}
-  ]]):gsub("\n", ""),
+	formatCommand = get_node_bin("prettier") .. ' "${INPUT}"',
+	fmtStdin = true,
 }
 
 local function organize_imports()
@@ -147,22 +147,23 @@ end
 
 function M.configureLSP()
 	local nvim_lsp = require("lspconfig")
-	local util = nvim_lsp.util
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	require("lspconfig").efm.setup({
 		init_options = { documentFormatting = true },
 		filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
-		root_dir = function(fname)
-			return util.root_pattern("tsconfig.json")(fname)
-				or util.root_pattern(".eslintrc.js", ".git", ".eslintrc")(fname)
-		end,
+		-- root_dir = function(fname)
+		-- 	return util.root_pattern("tsconfig.json")(fname)
+		-- 		or util.root_pattern(".eslintrc.js", ".git", ".eslintrc")(fname)
+		-- end,
 		settings = {
-			rootMarkers = { ".eslintrc.js", ".git/", ".eslintrc" },
+			rootMarkers = { "package.json" },
 			languages = {
-				javascript = { eslintd },
-				typescript = { eslintd },
+				javascript = { prettier, eslintd },
+				typescript = { prettier, eslintd },
+				javascriptreact = { prettier, eslintd },
+				typescriptreact = { prettier, eslintd },
 			},
 		},
 	})
@@ -198,18 +199,17 @@ function M.configureLSP()
 			},
 		},
 	})
-	nvim_lsp.gopls.setup({})
-	-- nvim_lsp.efm.setup {
-	--   init_options = {documentFormatting = false},
-	--   filetypes = {
-	--     "javascript",
-	--     "javascriptreact",
-	--     "javascript.jsx",
-	--     "typescript",
-	--     "typescript.tsx",
-	--     "typescriptreact"
-	--   },
-	-- }
+	nvim_lsp.gopls.setup({
+		cmd = { "gopls", "serve" },
+		settings = {
+			gopls = {
+				analyses = {
+					unusedparams = true,
+				},
+				staticcheck = true,
+			},
+		},
+	})
 	local system_name
 	if vim.fn.has("mac") == 1 then
 		system_name = "macOS"
@@ -263,6 +263,42 @@ function M.configureLSP()
 		virtual_text = false,
 		signs = true,
 	})
+end
+
+function M.select_client(method, name)
+	local clients = vim.tbl_values(vim.lsp.buf_get_clients())
+	clients = vim.tbl_filter(function(client)
+		return client.supports_method(method)
+	end, clients)
+
+	for i = 1, #clients do
+		if clients[i].name == name then
+			return clients[i]
+		end
+	end
+
+	return nil
+end
+
+function M.formatting_sync(options, timeout_ms, format_client)
+	local util = vim.lsp.util
+	local client = M.select_client("textDocument/formatting", format_client)
+	if client == nil then
+		return
+	end
+
+	local params = util.make_formatting_params(options)
+	local result, err = client.request_sync(
+		"textDocument/formatting",
+		params,
+		timeout_ms,
+		vim.api.nvim_get_current_buf()
+	)
+	if result and result.result then
+		util.apply_text_edits(result.result)
+	elseif err then
+		vim.notify("vim.lsp.buf.formatting_sync: " .. err, vim.log.levels.WARN)
+	end
 end
 
 return M
