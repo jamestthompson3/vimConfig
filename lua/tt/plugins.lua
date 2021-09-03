@@ -5,6 +5,7 @@ local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
 
 if not packer_exists then
 	-- TODO: Maybe handle windows better?
+  -- FIXME: sdf
 	if vim.fn.input("Download Packer? (y for yes)") ~= "y" then
 		return
 	end
@@ -119,5 +120,4 @@ return require("packer").startup(function()
 	})
 	use({ "norcalli/nvim-colorizer.lua", opt = true, ft = { "html", "css", "vim" } })
 	use({ "reedes/vim-wordy", opt = true, ft = { "txt", "md", "markdown", "text" } })
-	use({ "dense-analysis/ale", opt = true, ft = { "c", "cpp", "go", "scala", "python", "objcpp", "objc", "reason" } })
 end)
