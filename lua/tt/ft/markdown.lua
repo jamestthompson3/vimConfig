@@ -8,7 +8,7 @@ function M.composer()
 	vim.wo[0].wrap = true
 	vim.wo[0].linebreak = true
 	vim.wo[0].spell = true
-	vim.bo[0].textwidth = 0
+	vim.bo[0].textwidth = 120
 	if setWriterline then
 		return
 	else

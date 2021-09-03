@@ -33,7 +33,7 @@ set.synmaxcol       = 200
 set.cmdheight       = 2
 set.updatetime      = 200
 -- auto break at 80 chars
-set.textwidth       = 80
+set.textwidth       = 100
 set.conceallevel    = 2
 set.cscopetagorder  = 0
 set.cscopepathcomp  = 3

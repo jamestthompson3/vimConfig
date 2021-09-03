@@ -53,6 +53,7 @@ local violet          = hsl("#1A0D38")
 local tuna            = hsl("#2f343f")
 local gunsmoke        = hsl("#818e8e")
 local carolinablue    = hsl("#17A4EB")
+local malibu          = hsl("#79c0ff")
 local indigo          = hsl("#093B61")
 local royalpurple     = hsl("#6C3E96")
 local sapphire        = hsl("#245069")
@@ -61,6 +62,7 @@ local umber           = hsl("#7E6551")
 local wisteria        = hsl("#d2a8ff")
 local amulet          = hsl("#88aa77")
 local copperrust      = hsl("#9C524C")
+local reddish         = hsl("#ff7b74")
 local coralred        = hsl("#ff4444")
 local buttercup       = hsl("#F0C30D")
 
@@ -78,7 +80,7 @@ local theme = lush(function()
 		-- styling for that group (meaning they mostly get styled as Normal)
 		-- or leave them commented to apply vims default colouring or linking.
 
-		Comment         { fg = copperrust }, -- any comment
+		Comment         { fg = coralred }, -- any comment
 		-- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
 		-- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
 		-- Cursor          { fg = shark, bg = alto }, -- character under the cursor
@@ -86,7 +88,7 @@ local theme = lush(function()
 		-- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
 		-- CursorColumn { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine      { bg = tuna }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
-		Directory       { fg = alto }, -- directory names (and other special names in listings)
+		Directory       { fg = space }, -- directory names (and other special names in listings)
 		DiffAdd         { bg = amulet, fg = dark }, -- diff mode: Added line |diff.txt|
 		DiffChange      { fg = amulet }, -- diff mode: Changed line |diff.txt|
 		DiffDelete      { fg = copperrust }, -- diff mode: Deleted line |diff.txt|
@@ -142,7 +144,7 @@ local theme = lush(function()
 		-- default,
 		-- Uncomment and edit if you want more specific syntax highlighting.
 
-		Constant    { fg = umber }, -- (preferred) any constant
+		Constant    { fg = reddish }, -- (preferred) any constant
 		String({}), --   a string constant: "this is a string"
 		-- Character      { }, --  a character constant: 'c', '\n'
 		Number({}), --   a number constant: 234, 0xff
@@ -166,7 +168,7 @@ local theme = lush(function()
 		Macro    { fg = alto }, --    same as Define
 		-- PreCondit      { }, --  preprocessor #if, #else, #endif, etc.
 
-		Type     { fg = umber }, -- (preferred) int, long, char, etc.
+		Type     { fg = malibu }, -- (preferred) int, long, char, etc.
 		-- StorageClass   { }, -- static, register, volatile, etc.
 		-- Structure      { }, --  struct, union, enum, etc.
 		-- Typedef        { }, --  A typedef
@@ -175,7 +177,7 @@ local theme = lush(function()
 		-- SpecialChar    { }, --  special character in a constant
 		-- Tag            { }, --    you can use CTRL-] on this
 		-- Delimiter      { }, --  character that needs attention
-		-- SpecialComment { }, -- special things inside a comment
+		SpecialComment {  bg = royalpurple, fg = alto  }, -- special things inside a comment
 		-- Debug          { }, --    debugging statements
 
 		-- Underlined { gui = "underline" }, -- (preferred) text that stands out, HTML links
@@ -237,7 +239,7 @@ local theme = lush(function()
 		-- TSAttribute          { };    -- (unstable) TODO: docs
 		-- TSBoolean            { };    -- For booleans.
 		-- TSCharacter          { };    -- For characters.
-		-- TSComment            { };    -- For comment blocks.
+		TSComment            { Comment };    -- For comment blocks.
 		-- TSConstructor        {};    -- For constructor calls and definitions: ` { }` in Lua, and Java constructors.
 		-- TSConditional        { };    -- For keywords related to conditionnals.
 		-- TSConstant           { };    -- For constants
@@ -258,7 +260,7 @@ local theme = lush(function()
 		-- TSNamespace          { };    -- For identifiers referring to modules and namespaces.
 		-- TSNone               { };    -- TODO: docs
 		-- TSNumber             { };    -- For all numbers
-		TSOperator              { fg = umber }, -- For any operator: `+`, but also `->` and `*` in C.
+		TSOperator              { fg = malibu }, -- For any operator: `+`, but also `->` and `*` in C.
 		-- TSParameter          { };    -- For parameters of a function.
 		-- TSParameterReference { };    -- For references to parameters of a function.
 		-- TSProperty           { };    -- Same as `TSField`.
