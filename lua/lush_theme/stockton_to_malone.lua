@@ -189,7 +189,7 @@ local theme = lush(function()
 
 		-- Error          { }, -- (preferred) any erroneous construct
 
-		Todo             { bg = royalpurple, fg = alto }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+		Todo             { bg = buttercup, fg = dark }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 		-- Custom Groups
 		AllTodo          { Todo }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 		ExtraWhitespace  { fg = indigo },

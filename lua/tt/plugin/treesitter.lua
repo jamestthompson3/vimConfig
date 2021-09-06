@@ -1,7 +1,11 @@
 local ts_config = require("nvim-treesitter.configs")
 local function setCustomGroups()
-	-- custom syntax
+	-- custom syntax since treesitter overrides nvim defaults
+	-- Doesn't work... :/
+	api.nvim_command([[match Todo /\c@\?\(todo\|fixme\)/]])
 	api.nvim_command([[match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$']])
+	-- this one works tho...
+	-- @todo: thing
 	api.nvim_command([[match ExtraWhitespace /\s\+$/]])
 end
 
