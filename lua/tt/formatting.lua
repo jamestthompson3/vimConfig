@@ -38,7 +38,7 @@ local function autofmt(client, bufnr)
 	local util = vim.lsp.util
 	pcall(function()
 		local changed_tick = api.nvim_buf_get_changedtick(bufnr)
-		fmt_buf(client, bufnr, function(_, _, result, _)
+		fmt_buf(client, bufnr, function(_, result)
 			if changed_tick ~= api.nvim_buf_get_changedtick(bufnr) then
 				return
 			end
