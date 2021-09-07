@@ -80,7 +80,7 @@ local theme = lush(function()
 		-- styling for that group (meaning they mostly get styled as Normal)
 		-- or leave them commented to apply vims default colouring or linking.
 
-		Comment         { fg = coralred }, -- any comment
+		Comment         { fg = copperrust }, -- any comment
 		-- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
 		-- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
 		-- Cursor          { fg = shark, bg = alto }, -- character under the cursor
@@ -131,10 +131,10 @@ local theme = lush(function()
 		-- TabLine      { }, -- tab pages line, not active tab page label
 		TabLineFill     { fg = dark, bg = sapphire }, -- tab pages line, where there are no labels
 		-- TabLineSel   { }, -- tab pages line, active tab page label
-		-- Title        { }, -- titles for output from ":set all", ":autocmd" etc.
+		Title        { fg = wisteria, bg = woodsmoke }, -- titles for output from ":set all", ":autocmd" etc.
 		Visual          { fg = carolinablue, bg = tuna }, -- Visual mode selection
 		-- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
-		-- WarningMsg   { }, -- warning messages
+		-- WarningMsg   { bg = coralred, fg = dark }, -- warning messages
 		Whitespace      { fg = space }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
 		WildMenu        { fg = woodsmoke, bg = alto }, -- current match in 'wildmenu' completion
 
@@ -177,7 +177,7 @@ local theme = lush(function()
 		-- SpecialChar    { }, --  special character in a constant
 		-- Tag            { }, --    you can use CTRL-] on this
 		-- Delimiter      { }, --  character that needs attention
-		SpecialComment {  bg = royalpurple, fg = alto  }, -- special things inside a comment
+		SpecialComment {  bg = buttercup, fg = dark  }, -- special things inside a comment
 		-- Debug          { }, --    debugging statements
 
 		-- Underlined { gui = "underline" }, -- (preferred) text that stands out, HTML links
@@ -191,7 +191,6 @@ local theme = lush(function()
 
 		Todo             { bg = buttercup, fg = dark }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 		-- Custom Groups
-		AllTodo          { Todo }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 		ExtraWhitespace  { fg = indigo },
 		Callout          { fg = carolinablue },
     GitLens          { fg = gunsmoke },
@@ -240,6 +239,7 @@ local theme = lush(function()
 		-- TSBoolean            { };    -- For booleans.
 		-- TSCharacter          { };    -- For characters.
 		TSComment            { Comment };    -- For comment blocks.
+		TSDanger             { Todo };    -- For comment blocks.
 		-- TSConstructor        {};    -- For constructor calls and definitions: ` { }` in Lua, and Java constructors.
 		-- TSConditional        { };    -- For keywords related to conditionnals.
 		-- TSConstant           { };    -- For constants
