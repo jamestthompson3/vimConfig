@@ -14,12 +14,13 @@ require("compe").setup({
 
 	source = {
 		path = true,
+    tabnine = { priority = 1 },
 		buffer = { priority = 1 },
-		vsnip = { priority = 4 },
-		nvim_lsp = { priority = 100 },
+		vsnip = { priority = 3 },
+		nvim_lsp = { priority = 2 },
 		nvim_lua = true,
 		treesitter = true,
-		tags = { priority = 2 },
+		tags = { priority = 3 },
 		calc = false,
 		spell = false,
 		snippets_nvim = false,
