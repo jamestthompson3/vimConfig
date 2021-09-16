@@ -58,10 +58,12 @@ local indigo          = hsl("#093B61")
 local royalpurple     = hsl("#6C3E96")
 local sapphire        = hsl("#245069")
 local space           = hsl("#466362")
-local umber           = hsl("#7E6551")
 local wisteria        = hsl("#d2a8ff")
 local amulet          = hsl("#88aa77")
+local forest          = hsl("#244032")
 local copperrust      = hsl("#9C524C")
+local burntumber      = hsl("#341A00")
+local wine            = hsl("#462C32")
 local reddish         = hsl("#ff7b74")
 local coralred        = hsl("#ff4444")
 local buttercup       = hsl("#F0C30D")
@@ -89,10 +91,10 @@ local theme = lush(function()
 		-- CursorColumn { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine      { bg = tuna }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
 		Directory       { fg = space }, -- directory names (and other special names in listings)
-		DiffAdd         { bg = amulet, fg = dark }, -- diff mode: Added line |diff.txt|
-		DiffChange      { fg = amulet }, -- diff mode: Changed line |diff.txt|
-		DiffDelete      { fg = copperrust }, -- diff mode: Deleted line |diff.txt|
-		DiffText        { fg = carolinablue, bg = tuna }, -- diff mode: Changed text within a changed line |diff.txt|
+		DiffAdd         { bg = forest, fg = amulet }, -- diff mode: Added line |diff.txt|
+		DiffChange      { bg = burntumber, fg = buttercup }, -- diff mode: Changed line |diff.txt|
+		DiffDelete      { bg = wine, fg = reddish }, -- diff mode: Deleted line |diff.txt|
+		DiffText        { fg = alto, bg = burntumber }, -- diff mode: Changed text within a changed line |diff.txt|
 		EndOfBuffer     { fg = gunsmoke }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal

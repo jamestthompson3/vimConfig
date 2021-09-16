@@ -5,7 +5,7 @@ function M.setMappings()
 	local mappings = {
 		["nge"] = map_cmd([[lua vim.lsp.diagnostic.show_line_diagnostics()]]),
 		["ngd"] = map_cmd([[lua vim.lsp.buf.definition()]]),
-		["ngh"] = map_cmd([[lua vim.lsp.buf.hover()]]),
+		["nK"]  = map_cmd([[lua vim.lsp.buf.hover()]]),
 		["n[e"] = map_cmd([[lua vim.lsp.diagnostic.goto_next()]]),
 		["n]e"] = map_cmd([[lua vim.lsp.diagnostic.goto_prev()]]),
 		["nga"] = map_cmd([[lua vim.lsp.buf.code_action()]]),
