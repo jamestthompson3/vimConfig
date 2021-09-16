@@ -179,7 +179,7 @@ local theme = lush(function()
 		-- SpecialChar    { }, --  special character in a constant
 		-- Tag            { }, --    you can use CTRL-] on this
 		-- Delimiter      { }, --  character that needs attention
-		SpecialComment {  bg = buttercup, fg = dark  }, -- special things inside a comment
+		SpecialComment {  bg = wine, fg = wisteria  }, -- special things inside a comment
 		-- Debug          { }, --    debugging statements
 
 		-- Underlined { gui = "underline" }, -- (preferred) text that stands out, HTML links
@@ -191,7 +191,7 @@ local theme = lush(function()
 
 		-- Error          { }, -- (preferred) any erroneous construct
 
-		Todo             { bg = buttercup, fg = dark }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+		Todo             { bg = wine, fg = wisteria }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 		-- Custom Groups
 		ExtraWhitespace  { fg = indigo },
 		Callout          { fg = carolinablue },
