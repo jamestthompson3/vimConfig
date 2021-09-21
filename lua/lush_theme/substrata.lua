@@ -136,7 +136,7 @@ local theme = lush(function()
 		TabLine         { StatusLineNC }, -- tab pages line, not active tab page label
 		TabLineFill     { StatusLineNC }, -- tab pages line, where there are no labels
 		TabLineSel      { StatusLine }, -- tab pages line, active tab page label
-		Title           { fg = base8 }, -- titles for output from ":set all", ":autocmd" etc.
+		Title           { fg = light_pink }, -- titles for output from ":set all", ":autocmd" etc.
 		Visual          { bg = base3 }, -- Visual mode selection
 		VisualNOS       { Visual }, -- Visual mode selection when vim is "Not Owning the Selection".
 		WarningMsg      { fg = light_yellow }, -- warning messages
@@ -185,9 +185,9 @@ local theme = lush(function()
 		SpecialComment    { fg = base8, gui = "bold" }, -- special things inside a comment
 		-- Debug          { }, --    debugging statements
 
-		-- Underlined { gui = "underline" }, -- (preferred) text that stands out, HTML links
-		-- Bold       { gui = "bold" },
-		-- Italic     { gui = "italic" },
+		Underlined { fg = blue, gui = "underline" }, -- (preferred) text that stands out, HTML links
+		Bold       { gui = "bold" },
+		Italic     { gui = "italic" },
 
 		-- ("Ignore", below, may be invisible...)
 		-- Ignore         { }, -- (preferred) left blank, hidden  |hl-Ignore|
