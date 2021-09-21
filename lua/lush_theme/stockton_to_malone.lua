@@ -47,6 +47,7 @@ local hsl = lush.hsl
 -- Color names provided by https://chir.ag/projects/name-that-color/
 local alto            = hsl("#d2cfcf")
 local dark            = hsl("#010409")
+local black           = hsl("#000000")
 local xiketic         = hsl("#060017")
 local woodsmoke       = hsl("#0d1117")
 local violet          = hsl("#1A0D38")
@@ -114,9 +115,10 @@ local theme = lush(function()
 		-- MoreMsg      { }, -- |more-prompt|
 		NonText         { fg = buttercup.desaturate(70) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
 		Normal          { fg = alto, bg = dark }, -- normal text
-		NormalFloat     { fg = alto, bg = xiketic }, -- Normal text in floating windows.
+		NormalFloat     { fg = alto, bg = black }, -- Normal text in floating windows.
+		FloatBorder     { fg = forest, bg = black }, -- Floating border.
 		NormalNC        { fg = alto, bg = woodsmoke }, -- normal text in non-current windows
-		Pmenu           { fg = alto, bg = xiketic }, -- Popup menu: normal item.
+		Pmenu           { fg = alto, bg = black }, -- Popup menu: normal item.
 		PmenuSel        { fg = dark, bg = carolinablue }, -- Popup menu: selected item.
 		-- PmenuSbar    {   }, -- Popup menu: scrollbar.
 		PmenuThumb      { bg = woodsmoke }, -- Popup menu: Thumb of the scrollbar.

@@ -74,41 +74,37 @@ function M.autocompleteSymbols()
 	require("vim.lsp.protocol").CompletionItemKind = symbols
 end
 
-local sign_defined = false
 function M.diagnosticSigns()
-	if not sign_defined then
-		vim.fn.sign_define("LspDiagnosticsSignError", {
-			text = "",
-			texthl = "LspDiagnosticsSignError",
-			linehl = "",
-			numhl = "",
-		})
-		vim.fn.sign_define("LspDiagnosticsSignWarning", {
-			text = "",
-			texthl = "LspDiagnosticsSignWarning",
-			linehl = "",
-			numhl = "",
-		})
-		vim.fn.sign_define("LspDiagnosticsSignInfo", {
-			text = "",
-			texthl = "LspDiagnosticsSignInfo",
-			linehl = "",
-			numhl = "",
-		})
-		vim.fn.sign_define("LspDiagnosticsSignHint", {
-			text = "",
-			texthl = "LspDiagnosticsSignHint",
-			linehl = "",
-			numhl = "",
-		})
-		vim.fn.sign_define("LspDiagnosticsSignOther", {
-			text = "﫠",
-			texthl = "LspDiagnosticsSignOther",
-			linehl = "",
-			numhl = "",
-		})
-		sign_defined = true
-	end
+	vim.fn.sign_define("DiagnosticSignError", {
+		text = "",
+		texthl = "LspDiagnosticsSignError",
+		linehl = "",
+		numhl = "",
+	})
+	vim.fn.sign_define("DiagnosticSignWarning", {
+		text = "",
+		texthl = "LspDiagnosticsSignWarning",
+		linehl = "",
+		numhl = "",
+	})
+	vim.fn.sign_define("DiagnosticSignInfo", {
+		text = "",
+		texthl = "LspDiagnosticsSignInfo",
+		linehl = "",
+		numhl = "",
+	})
+	vim.fn.sign_define("DiagnosticSignHint", {
+		text = "",
+		texthl = "LspDiagnosticsSignHint",
+		linehl = "",
+		numhl = "",
+	})
+	vim.fn.sign_define("DiagnosticSignOther", {
+		text = "﫠",
+		texthl = "LspDiagnosticsSignOther",
+		linehl = "",
+		numhl = "",
+	})
 end
 
 return M

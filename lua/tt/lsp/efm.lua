@@ -14,9 +14,12 @@ local prettier = {
 	fmtStdin = true,
 }
 
-function M.setup()
+function M.setup(opts)
 	require("lspconfig").efm.setup({
-		on_attach = formatting.fmt_on_attach,
+		on_attach = function(client, bufnr)
+			opts.on_attach()
+			formatting.fmt_on_attach(client, bufnr)
+		end,
 		init_options = { documentFormatting = true },
 		filetypes = {
 			"javascript",
@@ -30,13 +33,19 @@ function M.setup()
 			"markdown",
 		},
 		settings = {
-			rootMarkers = { "package.json" },
+			rootMarkers = { "package.json", ".git/" },
 			languages = {
 				javascript = { prettier, eslintd },
 				typescript = { prettier, eslintd },
 				javascriptreact = { prettier, eslintd },
 				typescriptreact = { prettier, eslintd },
-				json = { prettier },
+				json = {
+					{
+						formatCommand = "prettier --parser json",
+						lintCommand = "jq .",
+						lintStdin = true,
+					},
+				},
 				html = { prettier },
 				css = { prettier },
 				markdown = { prettier },

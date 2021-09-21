@@ -5,7 +5,7 @@ local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
 
 if not packer_exists then
 	-- TODO: Maybe handle windows better?
-  -- FIXME: sdf
+	-- FIXME: sdf
 	if vim.fn.input("Download Packer? (y for yes)") ~= "y" then
 		return
 	end
@@ -37,12 +37,20 @@ return require("packer").startup(function()
 	use("andymass/vim-matchup")
 	use("ludovicchabant/vim-gutentags")
 	use({
-		"hrsh7th/nvim-compe",
+		"hrsh7th/nvim-cmp",
 		config = function()
 			require("tt.plugin.compe")
 		end,
-		requires = { { "hrsh7th/vim-vsnip" } },
+		requires = {
+			{ "hrsh7th/cmp-vsnip" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-buffer" },
+			{ "hrsh7th/cmp-path" },
+			{ "ray-x/cmp-treesitter" },
+		  { "hrsh7th/vim-vsnip" },
+		},
 	})
+
 	use({
 		"mfussenegger/nvim-dap",
 		opt = true,

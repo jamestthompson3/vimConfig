@@ -2,7 +2,7 @@ local actions = require("telescope.actions")
 require("telescope").setup({
 	defaults = {
 		--{ shorten = 2 },
-    path_display = { "smart" },
+    path_display = { "truncate" },
 		-- path_display = function(opts, path)
 		-- 	local len = string.len(path)
 		-- 	if len > 80 then
