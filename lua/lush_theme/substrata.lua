@@ -115,12 +115,12 @@ local theme = lush(function()
 		-- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
 		MoreMsg         { fg = light_blue }, -- |more-prompt|
 		NonText         { Conceal }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-		Normal          { fg = base8, bg = base0.darken(35) }, -- normal text
+		Normal          { fg = base8, bg = base0.darken(40) }, -- normal text
 		NormalFloat     { fg = base7, bg = base0 }, -- Normal text in floating windows.
 		FloatBorder     { fg = yellow, bg = base1 }, -- Floating border.
 		NormalNC        { Normal }, -- normal text in non-current windows
-		Pmenu           { fg = base6, bg = base2 }, -- Popup menu: normal item.
-		PmenuSel        { fg = base8, bg = base3 }, -- Popup menu: selected item.
+		Pmenu           { fg = base8, bg = base2 }, -- Popup menu: normal item.
+		PmenuSel        { fg = base0, bg = light_cyan }, -- Popup menu: selected item.
 		PmenuSbar       { fg= base2, bg = base2   }, -- Popup menu: scrollbar.
 		PmenuThumb      { fg = base1, bg = base1 }, -- Popup menu: Thumb of the scrollbar.
 		Question        { fg = light_blue }, -- |hit-enter| prompt and yes/no questions
@@ -137,7 +137,7 @@ local theme = lush(function()
 		TabLineFill     { StatusLineNC }, -- tab pages line, where there are no labels
 		TabLineSel      { StatusLine }, -- tab pages line, active tab page label
 		Title           { fg = light_pink }, -- titles for output from ":set all", ":autocmd" etc.
-		Visual          { bg = base3 }, -- Visual mode selection
+		Visual          { bg = base4 }, -- Visual mode selection
 		VisualNOS       { Visual }, -- Visual mode selection when vim is "Not Owning the Selection".
 		WarningMsg      { fg = light_yellow }, -- warning messages
 		Whitespace      { Conceal }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
