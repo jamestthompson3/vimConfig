@@ -3,11 +3,11 @@ require("tt.nvim_utils")
 
 function M.setMappings()
 	local mappings = {
-		["nge"] = map_cmd([[lua vim.lsp.diagnostic.show_line_diagnostics()]]),
+		["nge"] = map_cmd([[lua vim.diagnostic.show_line_diagnostics()]]),
 		["ngd"] = map_cmd([[lua vim.lsp.buf.definition()]]),
 		["nK"]  = map_cmd([[lua vim.lsp.buf.hover()]]),
-		["n[e"] = map_cmd([[lua vim.lsp.diagnostic.goto_next()]]),
-		["n]e"] = map_cmd([[lua vim.lsp.diagnostic.goto_prev()]]),
+		["n[e"] = map_cmd([[lua vim.diagnostic.goto_next()]]),
+		["n]e"] = map_cmd([[lua vim.diagnostic.goto_prev()]]),
 		["nga"] = map_cmd([[lua vim.lsp.buf.code_action()]]),
 		["ngs"] = map_cmd([[vsplit|lua vim.lsp.buf.definition()]]),
 		["n<leader>r"] = map_cmd([[lua vim.lsp.buf.references()]]),

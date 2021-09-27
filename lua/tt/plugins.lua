@@ -5,7 +5,6 @@ local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
 
 if not packer_exists then
 	-- TODO: Maybe handle windows better?
-	-- FIXME: sdf
 	if vim.fn.input("Download Packer? (y for yes)") ~= "y" then
 		return
 	end
@@ -25,6 +24,7 @@ if not packer_exists then
 end
 
 return require("packer").startup(function()
+	use("nathom/filetype.nvim")
 	use("justinmk/vim-dirvish")
 	use("yamatsum/nvim-web-nonicons")
 	use("romainl/vim-cool")
@@ -42,12 +42,12 @@ return require("packer").startup(function()
 			require("tt.plugin.compe")
 		end,
 		requires = {
-			{ "hrsh7th/cmp-vsnip" },
-			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "hrsh7th/cmp-buffer" },
-			{ "hrsh7th/cmp-path" },
-			{ "ray-x/cmp-treesitter" },
-		  { "hrsh7th/vim-vsnip" },
+			{ "hrsh7th/cmp-vsnip", module_pattern = "cmp*" },
+			{ "hrsh7th/cmp-nvim-lsp",  module = "cmp_nvim_lsp" },
+			{ "hrsh7th/cmp-buffer",  module_pattern = "cmp*" },
+			{ "hrsh7th/cmp-path", module_pattern = "cmp*" },
+			{ "ray-x/cmp-treesitter", module_pattern = "cmp*" },
+			{ "hrsh7th/vim-vsnip", module_pattern = "cmp*" },
 		},
 	})
 
@@ -108,11 +108,28 @@ return require("packer").startup(function()
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 	use({
 		"neovim/nvim-lspconfig",
+		opt = true,
+		ft = {
+			"typescript",
+			"typescriptreact",
+			"javascript",
+			"javascriptreact",
+			"rust",
+			"html",
+			"css",
+			"json",
+			"go",
+			"bash",
+			"yaml",
+			"markdown",
+			"lua",
+		},
 		config = function()
 			require("tt.lsp").configureLSP()
 		end,
 	})
 	use({ "wbthomason/packer.nvim", opt = true })
+	-- use("nvim-treesitter/playground")
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		module_pattern = "nvim-treesitter.*",
