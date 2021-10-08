@@ -9,6 +9,7 @@ local check_back_space = function()
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 end
 
+
 cmp.setup({
 	snippet = {
 		expand = function(args)
@@ -24,11 +25,12 @@ cmp.setup({
 			select = true,
 		}),
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if vim.fn.pumvisible() == 1 then
+			if cmp.visible() then
+        log("gotcha!")
 				if vim.fn["vsnip#available"]() == 1 then
-					return vim.fn.feedkeys(t("<Plug>(vsnip-expand-or-jump)"))
+					return vim.api.nvim_feedkeys(t("<Plug>(vsnip-expand-or-jump)"), "i")
 				end
-				vim.fn.feedkeys(t("<C-n>"), "n")
+				cmp.select_next_item()
 			elseif check_back_space() then
 				vim.fn.feedkeys(t("<tab>"), "n")
 			else
@@ -39,12 +41,12 @@ cmp.setup({
 			"s",
 		}),
 		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if vim.fn.pumvisible() == 1 then
-				vim.fn.feedkeys(t("<C-p>"), "n")
+			if cmp.visible() then
+				cmp.select_prev_item()
 			else
 				fallback()
 			end
-		end, {
+    end, {
 			"i",
 			"s",
 		}),
