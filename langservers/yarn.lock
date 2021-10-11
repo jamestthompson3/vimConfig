@@ -280,16 +280,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fsouza/prettierd@npm:0.15.0":
-  version: 0.15.0
-  resolution: "@fsouza/prettierd@npm:0.15.0"
+"@fsouza/prettierd@npm:0.17.0":
+  version: 0.17.0
+  resolution: "@fsouza/prettierd@npm:0.17.0"
   dependencies:
     core_d: ^3.2.0
     nanolru: ^1.0.0
-    prettier: ^2.2.1
+    prettier: ^2.3.2
   bin:
     prettierd: bin/prettierd
-  checksum: 576f4aea24a516f69546568c73f6ced1f0f5c71e02f952b30941eec5710c119239c409aaf4e5e724b7d78722309e74cbceae972dcae96778cfd3fb7207a29b55
+  checksum: 47b5248c3f95768a0e3b2f6cf728a88aab8269719a028aaeeec235f3543e07a405b8077042ccea6b89e0d6998347038809c17fe2de4a5dbdf388307e895c70f1
   languageName: node
   linkType: hard
 
@@ -1057,7 +1057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core_d@npm:^3.1.0, core_d@npm:^3.2.0":
+"core_d@npm:^3.2.0":
   version: 3.2.0
   resolution: "core_d@npm:3.2.0"
   dependencies:
@@ -1534,17 +1534,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint_d@npm:10.1.3":
-  version: 10.1.3
-  resolution: "eslint_d@npm:10.1.3"
+"eslint_d@npm:11.0.0":
+  version: 11.0.0
+  resolution: "eslint_d@npm:11.0.0"
   dependencies:
-    core_d: ^3.1.0
+    core_d: ^3.2.0
     eslint: ^7.3.0
     nanolru: ^1.0.0
     optionator: ^0.9.1
   bin:
     eslint_d: bin/eslint_d.js
-  checksum: 01e30a88305cfad27fd17eec914a9bc98c14080aa12804a185677726454fa8c94cfb305665182c4de5597aa875d10e4851fe260f76b03b42fad1f86040612ce0
+  checksum: 1bce0d0e8c92a249fd57ffaeedff6a33539306aacaf0a420271b5ef15ebd60a26bdb0e971ee24ea27faa61a501be81f70dbabbce7f5a9946facc49d9da50fd39
   languageName: node
   linkType: hard
 
@@ -2839,16 +2839,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "langservers@workspace:."
   dependencies:
-    "@fsouza/prettierd": 0.15.0
+    "@fsouza/prettierd": 0.17.0
     bash-language-server: 2.0.0
-    eslint_d: 10.1.3
+    eslint_d: 11.0.0
     import-sort-cli: 6.0.0
     import-sort-parser-babylon: 6.0.0
     import-sort-parser-typescript: 6.0.0
     import-sort-style-renke: 6.0.0
-    prettier: ^2.3.2
-    typescript: 4.4.2
-    typescript-language-server: 0.6.2
+    prettier: ^2.4.1
+    typescript: 4.4.3
+    typescript-language-server: 0.6.3
     vscode-css-languageserver-bin: 1.4.0
     vscode-html-languageserver-bin: 1.4.0
   languageName: unknown
@@ -3492,12 +3492,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.2.1, prettier@npm:^2.3.2":
+"prettier@npm:^2.3.2":
   version: 2.3.2
   resolution: "prettier@npm:2.3.2"
   bin:
     prettier: bin-prettier.js
   checksum: 17ce5784ac67621c292df58e2da60b2ee150c2d6aebea22a6ad9e52fcd6a5e66c349d0a8436ea3bd8ff9d778920a5f68000d7625b74f43558718a49755aa5259
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "prettier@npm:2.4.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: cc6830588b401b0d742862fe9c46bc9118204fb307c3abe0e49e95b35ed23629573807ffdf9cdd65289c252a0bb51fc0171437f6626ee36378dea80f0ee80b91
   languageName: node
   linkType: hard
 
@@ -4386,9 +4395,9 @@ resolve@^1.8.1:
   languageName: node
   linkType: hard
 
-"typescript-language-server@npm:0.6.2":
-  version: 0.6.2
-  resolution: "typescript-language-server@npm:0.6.2"
+"typescript-language-server@npm:0.6.3":
+  version: 0.6.3
+  resolution: "typescript-language-server@npm:0.6.3"
   dependencies:
     command-exists: ^1.2.6
     commander: ^7.2.0
@@ -4401,17 +4410,17 @@ resolve@^1.8.1:
     vscode-uri: ^1.0.5
   bin:
     typescript-language-server: lib/cli.js
-  checksum: 2f9fd179a65b1a4d2549a053b721de73f406c58936bb062181eecceee044d24ea085380b7cf28367db412a9016b160146d29f255709a3dbdffefad329cc9ceac
+  checksum: eb31d592f5f5649525456d8998ef252a90dbc24f37f998eb7a8eb5f3ea0c686ae929ce1d29180d99abe8feed7ff8679b60c3760c3ad30cde53572f2f786bb513
   languageName: node
   linkType: hard
 
-typescript@4.4.2:
-  version: 4.4.2
-  resolution: "typescript@npm:4.4.2"
+typescript@4.4.3:
+  version: 4.4.3
+  resolution: "typescript@npm:4.4.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 194e08e9d1971d667d6fd1a0554616b7022312a2319d70e81a64e502a265992061ee7817ed9a69b52bbabe7a9b85e7938cb8c11c433e40a516b277f8c4dacd51
+  checksum: 05823f21796d450531a7e4ab299715d38fd9ded0e4ce7400876053f4b5166ca3dde7a68cecfe72d9086039f03c0b6edba36516fb10ed83c5837d9600532ea4c2
   languageName: node
   linkType: hard
 
@@ -4435,13 +4444,13 @@ typescript@^3.2.4:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.4.2#~builtin<compat/typescript>":
-  version: 4.4.2
-  resolution: "typescript@patch:typescript@npm%3A4.4.2#~builtin<compat/typescript>::version=4.4.2&hash=d8b4e7"
+"typescript@patch:typescript@4.4.3#~builtin<compat/typescript>":
+  version: 4.4.3
+  resolution: "typescript@patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=d8b4e7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 11d6ab6e868117908c388401e2ac06d503c5c8709115ab80ee69a1a6352c1f98471d1e595636bfe6a2d6b20b03a44df6bb2d3d198cea97c0c328968cd18d2b70
+  checksum: 215a59742afb7e0c3668e2c50ca19813deb24b3cc0d16ac3591990e033728050aaa99e159a72b54cb43653f16c778a5cf9dfeed1f51c3b105710ae082c064af7
   languageName: node
   linkType: hard
 

@@ -2,6 +2,7 @@ require('tt.nvim_utils')
 local api = vim.api
 local fn = vim.fn
 require('tt.navigation')
+local icons = require("nvim-nonicons")
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
@@ -277,5 +278,28 @@ function M.profile()
     api.nvim_command('profile file *')
   end
 end
+
+M.kind_symbols = {
+	Text = " Text",
+	Method = "ƒ Method",
+	Function = icons.get("pulse") .. " Func",
+	Constructor = " Constructor",
+	Variable = icons.get("variable") .. " Var",
+	Class = icons.get("class") .. " Class",
+	Interface = "ﰮ" .. " Interface",
+	Module = icons.get("package") .. " Module",
+	Property = " Property",
+	Unit = " Unit",
+	Value = icons.get("ellipsis") .. " Value",
+	Enum = icons.get("workflow") .. " Enum",
+	Keyword = " Keyword",
+	Snippet = "﬌ Snippet",
+	Color = " Color",
+	File = icons.get("file") .. " File",
+	Folder = icons.get("file-directory-outline") .. " Folder",
+	EnumMember = " EnumMember",
+	Constant = icons.get("constant") .. " Constant",
+	Struct = icons.get("struct") .. " Struct",
+}
 
 return M

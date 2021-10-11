@@ -1,4 +1,5 @@
 local cmp = require("cmp")
+local kind_symbols = require('tt.tools').kind_symbols
 
 local t = function(str)
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -55,5 +56,18 @@ cmp.setup({
 		{ name = "treesitter" },
 		{ name = "path" },
 		{ name = "buffer" },
+	},
+
+	documentation = {
+		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+	-- 	winhighlight = "FloatBorder",
+	},
+
+	formatting = {
+		format = function(entry, vim_item)
+      local completeKind = kind_symbols[vim_item.kind]
+			vim_item.kind = completeKind
+			return vim_item
+		end,
 	},
 })

@@ -24,7 +24,7 @@ if not packer_exists then
 end
 
 return require("packer").startup(function()
-	use("nathom/filetype.nvim")
+	-- use("nathom/filetype.nvim")
 	use("justinmk/vim-dirvish")
 	use("yamatsum/nvim-web-nonicons")
 	use("romainl/vim-cool")
@@ -108,22 +108,21 @@ return require("packer").startup(function()
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 	use({
 		"neovim/nvim-lspconfig",
-		opt = true,
-		ft = {
-			"typescript",
-			"typescriptreact",
-			"javascript",
-			"javascriptreact",
-			"rust",
-			"html",
-			"css",
-			"json",
-			"go",
-			"bash",
-			"yaml",
-			"markdown",
-			"lua",
-		},
+		-- ft = {
+		-- 	"typescript",
+		-- 	"typescriptreact",
+		-- 	"javascript",
+		-- 	"javascriptreact",
+		-- 	"rust",
+		-- 	"html",
+		-- 	"css",
+		-- 	"json",
+		-- 	"go",
+		-- 	"bash",
+		-- 	"yaml",
+		-- 	"markdown",
+		-- 	"lua",
+		-- },
 		config = function()
 			require("tt.lsp").configureLSP()
 		end,

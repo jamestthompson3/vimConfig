@@ -33,7 +33,7 @@ local on_attach = function(client, bufnr)
 end
 
 function M.configureLSP()
-	ui.autocompleteSymbols()
+	-- ui.autocompleteSymbols()
 	ui.diagnosticSigns()
 	maps.setMappings()
 	local nvim_lsp = require("lspconfig")
@@ -42,7 +42,6 @@ function M.configureLSP()
 	-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	-- individual langserver setup
-	efm.setup({on_attach = on_attach})
 	sumneko.setup()
 
 	nvim_lsp.html.setup({
@@ -100,6 +99,7 @@ function M.configureLSP()
 		signs = true,
     border = border,
 	})
+	efm.setup()
 end
 
 return M

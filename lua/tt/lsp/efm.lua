@@ -17,7 +17,6 @@ local prettier = {
 function M.setup(opts)
 	require("lspconfig").efm.setup({
 		on_attach = function(client, bufnr)
-			opts.on_attach()
 			formatting.fmt_on_attach(client, bufnr)
 		end,
 		init_options = { documentFormatting = true },
