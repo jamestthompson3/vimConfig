@@ -27,7 +27,6 @@ cmp.setup({
 		}),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
-        log("gotcha!")
 				if vim.fn["vsnip#available"]() == 1 then
 					return vim.api.nvim_feedkeys(t("<Plug>(vsnip-expand-or-jump)"), "i")
 				end

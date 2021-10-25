@@ -836,7 +836,7 @@ end
 
 local loaded = false
 
-local function setup(opts)
+local function set_icon(opts)
 	loaded = true
 
 	local user_icons = opts or {}
@@ -866,7 +866,7 @@ end
 
 local function get_icon(name, ext, opts)
 	if not loaded then
-		setup()
+		set_icon()
 	end
 
 	local icon_data = icons[name]
@@ -890,7 +890,8 @@ end
 
 return {
 	get_icon = get_icon,
-	setup = setup,
+	set_icon = set_icon,
+	set_default_icon = set_icon,
 	get_highlight_name = get_highlight_name,
 	has_loaded = function()
 		return loaded
