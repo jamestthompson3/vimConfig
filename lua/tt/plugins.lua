@@ -43,7 +43,7 @@ return require("packer").startup(function()
 		end,
 		requires = {
 			{ "hrsh7th/cmp-vsnip", module_pattern = "cmp*" },
-			{ "hrsh7th/cmp-nvim-lsp",  module = "cmp_nvim_lsp" },
+			{ "hrsh7th/cmp-nvim-lsp", module_pattern = "cmp*" },
 			{ "hrsh7th/cmp-buffer",  module_pattern = "cmp*" },
 			{ "hrsh7th/cmp-path", module_pattern = "cmp*" },
 			{ "ray-x/cmp-treesitter", module_pattern = "cmp*" },
@@ -108,21 +108,21 @@ return require("packer").startup(function()
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 	use({
 		"neovim/nvim-lspconfig",
-		-- ft = {
-		-- 	"typescript",
-		-- 	"typescriptreact",
-		-- 	"javascript",
-		-- 	"javascriptreact",
-		-- 	"rust",
-		-- 	"html",
-		-- 	"css",
-		-- 	"json",
-		-- 	"go",
-		-- 	"bash",
-		-- 	"yaml",
-		-- 	"markdown",
-		-- 	"lua",
-		-- },
+		ft = {
+			"typescript",
+			"typescriptreact",
+			"javascript",
+			"javascriptreact",
+			"rust",
+			"html",
+			"css",
+			"json",
+			"go",
+			"bash",
+			"yaml",
+			"markdown",
+			"lua",
+		},
 		config = function()
 			require("tt.lsp").configureLSP()
 		end,
