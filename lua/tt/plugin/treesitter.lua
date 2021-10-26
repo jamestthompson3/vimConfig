@@ -11,7 +11,7 @@ end
 
 ts_config.setup({
 	ensure_installed = {
-    "comment",
+		"comment",
 		"bash",
 		"c",
 		"cpp",

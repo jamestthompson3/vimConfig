@@ -3,9 +3,9 @@ require("tt.nvim_utils")
 
 function M.setMappings()
 	local mappings = {
-		["nge"] = map_cmd([[lua vim.diagnostic.show_line_diagnostics()]]),
+		["nge"] = map_cmd([[lua vim.diagnostic.open_float(0, { scope = "cursor" })]]),
 		["ngd"] = map_cmd([[lua vim.lsp.buf.definition()]]),
-		["nK"]  = map_cmd([[lua vim.lsp.buf.hover()]]),
+		["nK"] = map_cmd([[lua vim.lsp.buf.hover()]]),
 		["n[e"] = map_cmd([[lua vim.diagnostic.goto_next()]]),
 		["n]e"] = map_cmd([[lua vim.diagnostic.goto_prev()]]),
 		["nga"] = map_cmd([[lua vim.lsp.buf.code_action()]]),

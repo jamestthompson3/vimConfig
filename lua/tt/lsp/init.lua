@@ -16,20 +16,20 @@ local function organize_imports()
 end
 
 local border = {
-      {"🭽", "FloatBorder"},
-      {"▔", "FloatBorder"},
-      {"🭾", "FloatBorder"},
-      {"▕", "FloatBorder"},
-      {"🭿", "FloatBorder"},
-      {"▁", "FloatBorder"},
-      {"🭼", "FloatBorder"},
-      {"▏", "FloatBorder"},
+	{ "🭽", "FloatBorder" },
+	{ "▔", "FloatBorder" },
+	{ "🭾", "FloatBorder" },
+	{ "▕", "FloatBorder" },
+	{ "🭿", "FloatBorder" },
+	{ "▁", "FloatBorder" },
+	{ "🭼", "FloatBorder" },
+	{ "▏", "FloatBorder" },
 }
 
 -- LSP settings
 local on_attach = function(client, bufnr)
-  vim.lsp.handlers["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = border})
-  vim.lsp.handlers["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = border})
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 end
 
 function M.configureLSP()
@@ -38,19 +38,19 @@ function M.configureLSP()
 	maps.setMappings()
 	local nvim_lsp = require("lspconfig")
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+	capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 	-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	-- individual langserver setup
 	sumneko.setup()
 
 	nvim_lsp.html.setup({
-    on_attach = on_attach,
+		on_attach = on_attach,
 		capabilities = capabilities,
 		cmd = { get_node_bin("vscode-html-languageserver-bin"), "--stdio" },
 	})
 	nvim_lsp.tsserver.setup({
-    on_attach = on_attach,
+		on_attach = on_attach,
 		capabilities = capabilities,
 		cmd = { get_node_bin("typescript-language-server"), "--stdio" },
 		commands = {
@@ -61,7 +61,7 @@ function M.configureLSP()
 		},
 	})
 	nvim_lsp.rust_analyzer.setup({
-    on_attach = on_attach,
+		on_attach = on_attach,
 		capabilities = capabilities,
 		init_options = {
 			documentFormatting = true,
@@ -76,7 +76,7 @@ function M.configureLSP()
 		},
 	})
 	nvim_lsp.gopls.setup({
-    on_attach = on_attach,
+		on_attach = on_attach,
 		cmd = { "gopls", "serve" },
 		settings = {
 			gopls = {
@@ -89,15 +89,15 @@ function M.configureLSP()
 	})
 
 	nvim_lsp.bashls.setup({
-    on_attach = on_attach,
+		on_attach = on_attach,
 		cmd = { get_node_bin("bash-language-server"), "start" },
 	})
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 		underline = true,
-		virtual_text = true,
+		virtual_text = false,
 		signs = true,
-    border = border,
+		border = border,
 	})
 	efm.setup()
 end

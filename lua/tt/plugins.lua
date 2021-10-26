@@ -13,9 +13,11 @@ if not packer_exists then
 
 	vim.fn.mkdir(directory, "p")
 
-	local out = vim.fn.system(
-		string.format("git clone %s %s", "https://github.com/wbthomason/packer.nvim", directory .. "/packer.nvim")
-	)
+	local out = vim.fn.system(string.format(
+		"git clone %s %s",
+		"https://github.com/wbthomason/packer.nvim",
+		directory .. "/packer.nvim"
+	))
 
 	print(out)
 	print("Downloading packer.nvim...")
@@ -44,7 +46,7 @@ return require("packer").startup(function()
 		requires = {
 			{ "hrsh7th/cmp-vsnip", module_pattern = "cmp*" },
 			{ "hrsh7th/cmp-nvim-lsp", module_pattern = "cmp*" },
-			{ "hrsh7th/cmp-buffer",  module_pattern = "cmp*" },
+			{ "hrsh7th/cmp-buffer", module_pattern = "cmp*" },
 			{ "hrsh7th/cmp-path", module_pattern = "cmp*" },
 			{ "ray-x/cmp-treesitter", module_pattern = "cmp*" },
 			{ "hrsh7th/vim-vsnip", module_pattern = "cmp*" },

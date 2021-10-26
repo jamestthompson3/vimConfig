@@ -1,5 +1,5 @@
 local cmp = require("cmp")
-local kind_symbols = require('tt.tools').kind_symbols
+local kind_symbols = require("tt.tools").kind_symbols
 
 local t = function(str)
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -9,7 +9,6 @@ local check_back_space = function()
 	local col = vim.fn.col(".") - 1
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 end
-
 
 cmp.setup({
 	snippet = {
@@ -46,7 +45,7 @@ cmp.setup({
 			else
 				fallback()
 			end
-    end, {
+		end, {
 			"i",
 			"s",
 		}),
@@ -61,12 +60,12 @@ cmp.setup({
 
 	documentation = {
 		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-	-- 	winhighlight = "FloatBorder",
+		-- 	winhighlight = "FloatBorder",
 	},
 
 	formatting = {
 		format = function(entry, vim_item)
-      local completeKind = kind_symbols[vim_item.kind]
+			local completeKind = kind_symbols[vim_item.kind]
 			vim_item.kind = completeKind
 			return vim_item
 		end,

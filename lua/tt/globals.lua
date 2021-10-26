@@ -17,7 +17,17 @@ vim.g.netrw_localrmdir = "rm -rf"
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 45
 vim.g.netrw_liststyle = 3
-vim.g.markdown_fenced_languages = {'html', 'typescript', 'javascript', 'js=javascript', 'ts=typscript', 'rust', 'css', 'vim', 'lua'}
+vim.g.markdown_fenced_languages = {
+	"html",
+	"typescript",
+	"javascript",
+	"js=javascript",
+	"ts=typscript",
+	"rust",
+	"css",
+	"vim",
+	"lua",
+}
 
 vim.g.ale_linters_explicit = 1
 vim.g.ale_sign_error = "!!"
