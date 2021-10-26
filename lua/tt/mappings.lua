@@ -6,7 +6,7 @@ function M.map()
   local find_command
   function getFindCommand()
     if 1 == vim.fn.executable("fd") then
-      find_command = { "fd", "--type", "f", "--hidden", "-E", ".git", "-E", ".yarn" }
+      find_command = { "fd", "--hidden", "--type", "f", "-E", ".git" }
     elseif 1 == vim.fn.executable("fdfind") then
       find_command = { "fdfind", "--type", "f", "--hidden", "-E", ".git", "-E", ".yarn"}
     end
@@ -70,7 +70,7 @@ function M.map()
     ["n<leader>jj"] = map_cmd("ALENext"),
     ["n<leader>kk"] = map_cmd("ALEPrevious"),
     ["n<leader>G"] = map_cmd("SearchBuffers"),
-    ["n<C-p>"] = map_cmd([[lua require'telescope.builtin'.git_files()]]),
+    ["n<C-p>"] = map_cmd([[lua require'telescope.builtin'.find_files(getFindCommand())]]),
     ["n<C-b>"] = map_cmd([[lua require'telescope.builtin'.buffers()]]),
     ["nT"] = map_cmd([[lua require'telescope.builtin'.tags({ctags_file = vim.bo.tags})]]),
     ["n<leader>lt"] = map_cmd([[lua require'tt.tools'.listTags()]]),

@@ -2,5 +2,3 @@ pack
 tags
 cscope.*
 node_modules
-
-plugin/packer_compiled.vim
