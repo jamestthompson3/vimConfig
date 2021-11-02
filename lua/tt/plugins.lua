@@ -49,6 +49,7 @@ return require("packer").startup(function()
 			{ "hrsh7th/cmp-buffer", module_pattern = "cmp*" },
 			{ "hrsh7th/cmp-path", module_pattern = "cmp*" },
 			{ "ray-x/cmp-treesitter", module_pattern = "cmp*" },
+      { "quangnguyen30192/cmp-nvim-tags", module_pattern = "cmp*" },
 			{ "hrsh7th/vim-vsnip", module_pattern = "cmp*" },
 		},
 	})

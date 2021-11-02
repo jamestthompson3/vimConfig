@@ -13,7 +13,6 @@ set.title           = true
 set.lazyredraw      = true
 set.splitright      = true
 set.modeline        = false
-set.ttimeout        = true
 set.wildignorecase  = true
 set.expandtab       = true
 set.shiftround      = true
@@ -35,8 +34,6 @@ set.updatetime      = 200
 -- auto break at 100 chars
 set.textwidth       = 100
 set.conceallevel    = 2
-set.cscopetagorder  = 0
-set.cscopepathcomp  = 3
 set.showbreak       = string.rep(' ', 3) -- Make it so that long lines wrap smartly
 
 set.mouse           = "nv"
@@ -70,7 +67,6 @@ set.pumheight      = 15
 set.scrolloff      = 1
 set.sidescrolloff  = 5
 set.guicursor      = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25"
-
 
 
 do
