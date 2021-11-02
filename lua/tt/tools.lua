@@ -81,12 +81,6 @@ function M.openTerminalDrawer(floating)
   api.nvim_input('i')
 end
 
-function M.lazyGit()
-  NavigationFloatingWin()
-  api.nvim_command [[ term lazygit ]]
-  api.nvim_input('i')
-end
-
 function M.restoreFile()
   local cmd = "git restore "..fn.expand("%")
   api.nvim_command("!"..cmd)
@@ -106,32 +100,12 @@ function M.deleteFile()
   api.nvim_input('R')
 end
 
-function M.listFiles(pattern)
-  fn.setqflist({}, 'r', {title = 'Files', lines = results, efm = '%f'})
-  nvim.command[[copen]]
-end
-
 function M.makeScratch()
   api.nvim_command [[enew]]
   vim.bo[0].buftype='nofile'
   vim.bo[0].bufhidden='hide'
   vim.bo[0].swapfile=false
   api.nvim_buf_set_keymap(0, 'n', 'q', ':bd<CR>', {noremap = true, silent = true})
-end
-
-
-function M.replaceQf(term1, term2)
-  local replaceString = string.format("\\<%s\\>/%s/g", term1, term2)
-  local cmd = "silent cfdo %s/" .. replaceString .. ' | update'
-  api.nvim_command(cmd)
-end
-
-function M.fastFind(pattern)
-  local found = fn.systemlist("fd --color never --type f "..pattern)
-  local foundlen = fn.len(found)
-  if foundlen > 0 then
-    api.nvim_command('edit '..found[1])
-  end
 end
 
 function M.winMove(key)

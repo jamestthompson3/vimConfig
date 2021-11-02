@@ -36,7 +36,6 @@ function M.map()
 		["n<leader>h"] = map_cmd("call tools#switchSourceHeader()"),
 		["n<leader>e"] = { ":e <C-R>=expand('%:p:h') . '/'<CR>", noremap = true, silent = false },
 		["n<leader>-"] = map_cmd('echo expand("%")'),
-		["n<leader>g"] = map_cmd([[lua require'tt.tools'.lazyGit()]]),
 		["nz/"] = { ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>", noremap = true },
 		["n[a"] = map_cmd("prev"),
 		["n]a"] = map_cmd("next"),

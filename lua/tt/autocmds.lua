@@ -7,9 +7,7 @@ local autocmds = {
 		{ "BufNewFile", "*.tsx", "0r ~/vim/skeletons/skeleton.tsx" },
 		{ "BufNewFile", "*.md", "0r ~/vim/skeletons/skeleton.md" },
 		{ "VimLeavePre", "*", [[lua require'tt.tools'.saveSession()]] },
-		-- {"TermClose",       "*",      [[lua vim.api.nvim_input("i<esc>") ]]};
 		{ "TermEnter", "*", "set nonumber" },
-		-- { "Syntax", "*", [[lua require'tt.tools'.setCustomGroups()]] },
 		{
 			"BufWritePre",
 			"*",
@@ -22,8 +20,6 @@ local autocmds = {
 			"*",
 			[[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]],
 		},
-		-- { "FileType,BufWinEnter,BufReadPost,BufWritePost,BufEnter,WinEnter,FileChangedShellPost,VimResized" , "*", [[lua vim.wo.statusline = "%!SL()"]] };
-		-- {"WinLeave", "*", [[lua vim.wo.statusline = "%f"]]};
 		{ "CursorMoved", "*", [[lua require'tt.tools'.clearBlameVirtText()]] },
 		{ "CursorMovedI", "*", [[lua require'tt.tools'.clearBlameVirtText()]] },
 		{ "FocusGained,CursorMoved,CursorMovedI", "*", "checktime" },
@@ -39,13 +35,8 @@ local autocmds = {
 		{ "FileType dirvish nnoremap <buffer> r :lua require'tt.tools'.renameFile()<CR>" },
 		{ "FileType netrw nnoremap <buffer> q :close<CR>" },
 	},
-	-- windows = {
-	-- 	{ "WinEnter", "*", "set number" },
-	-- 	{ "WinLeave", "*", "set nonumber" },
-	-- },
 	bufs = {
 		{ "BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>" },
-		{ "BufReadPost quickfix nnoremap <buffer>rq :ReplaceQF" },
 		{ "BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>" },
 		{ "BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>" },
 		{ "BufReadPost", "*.fugitiveblame", "set ft=fugitiveblame" },
