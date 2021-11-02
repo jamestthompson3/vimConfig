@@ -205,14 +205,6 @@ function s:MonotoneColors(color, secondary_hue_offset, emphasize_comments, contr
 
   hi! link StatusLineModified Todo
 
-	" ALE
-	hi ALEError            guisp=#ff4444 gui=undercurl ctermfg=203 cterm=bold,underline
-	hi ALEWarning          guisp=#dd9922 gui=undercurl ctermfg=214 cterm=bold,underline
-	hi ALEErrorSign        guifg=#ff4444 ctermfg=203
-	hi ALEWarningSign      guifg=#dd9922 ctermfg=214
-  hi ALEVirtualTextError guifg=#ff4444 ctermfg=203
-  hi! link ALEVirtualTextInfo  Comment
-
 	" QuickScope
 	hi QuickScopePrimary gui=underline guisp=#ff4444
 	hi QuickScopeSecondary gui=underline guisp=#ff4444

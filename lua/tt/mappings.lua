@@ -66,8 +66,6 @@ function M.map()
 		["n<leader>b"] = map_cmd("Gblame"),
 		["n<leader>B"] = map_cmd([[silent call git#blame()]]),
 		["n<leader>w"] = map_cmd("MatchupWhereAmI"),
-		["n<leader>jj"] = map_cmd("ALENext"),
-		["n<leader>kk"] = map_cmd("ALEPrevious"),
 		["n<leader>G"] = map_cmd("SearchBuffers"),
 		["n<C-p>"] = map_cmd([[lua require'telescope.builtin'.find_files(getFindCommand())]]),
 		["n<C-b>"] = map_cmd([[lua require'telescope.builtin'.buffers()]]),

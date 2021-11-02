@@ -88,10 +88,6 @@ hi! Visual ctermbg=236 guibg=#272c42
 hi! WildMenu ctermbg=255 ctermfg=234 guibg=#d4d5db guifg=#17171b
 hi! diffAdded ctermfg=150 guifg=#b4be82
 hi! diffRemoved ctermfg=203 guifg=#e27878
-hi! ALEErrorSign ctermbg=235 ctermfg=203 guibg=#1e2132 guifg=#e27878
-hi! ALEWarningSign ctermbg=235 ctermfg=216 guibg=#1e2132 guifg=#e2a478
-hi! ALEVirtualTextError ctermfg=203 guifg=#e27878
-hi! ALEVirtualTextWarning ctermfg=216 guifg=#e2a478
 hi! icebergALAccentRed ctermfg=203 guifg=#e27878
 
 hi! link StatusLineModified ALEWarningSign

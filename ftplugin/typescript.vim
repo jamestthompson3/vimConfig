@@ -4,7 +4,6 @@ set formatoptions+=o
 lua require 'tt.ft.ecma'.bootstrap()
 
 
-" TODO figure out why ale is not working on mono repos
 set errorformat+=%f:\ line\ %l\\,\ col\ %c\\,\ %m,%-G%.%#
 setlocal makeprg=yarn\ run\ --silent\ eslint\ --format\ compact\ --fix
 

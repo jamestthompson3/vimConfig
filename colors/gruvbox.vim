@@ -165,12 +165,6 @@ if &background ==# 'dark'
     finish
   endif
   if get(g:, "gruvbox_plugin_hi_groups", 0)
-    hi ALEError ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE guisp=#fb4934 cterm=NONE,underline gui=NONE,undercurl
-    hi ALEWarning ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE guisp=#fb4934 cterm=NONE,underline gui=NONE,undercurl
-    hi ALEInfo ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE guisp=#83a598 cterm=NONE,underline gui=NONE,undercurl
-    hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#fb4934 guibg=#3c3836 guisp=NONE cterm=NONE gui=NONE
-    hi ALEWarningSign ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=#3c3836 guisp=NONE cterm=NONE gui=NONE
-    hi ALEInfoSign ctermfg=109 ctermbg=237 guifg=#83a598 guibg=#3c3836 guisp=NONE cterm=NONE gui=NONE
     hi DirvishPathTail ctermfg=107 ctermbg=NONE guifg=#8ec07c guibg=NONE guisp=NONE cterm=NONE gui=NONE
     hi DirvishArg ctermfg=214 ctermbg=NONE guifg=#fabd2f guibg=NONE guisp=NONE cterm=NONE gui=NONE
     hi! link EasyMotionTarget Search
@@ -701,12 +695,6 @@ if !(get(g:, 'gruvbox_plugin_hi_groups', 0) || get(g:, 'gruvbox_filetype_hi_grou
   finish
 endif
 if get(g:, 'gruvbox_plugin_hi_groups', 0)
-  hi ALEError ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE guisp=#9d0006 cterm=NONE,underline gui=NONE,undercurl
-  hi ALEWarning ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE guisp=#9d0006 cterm=NONE,underline gui=NONE,undercurl
-  hi ALEInfo ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE guisp=#076678 cterm=NONE,underline gui=NONE,undercurl
-  hi ALEErrorSign ctermfg=124 ctermbg=187 guifg=#9d0006 guibg=#ebdbb2 guisp=NONE cterm=NONE gui=NONE
-  hi ALEWarningSign ctermfg=172 ctermbg=187 guifg=#b57614 guibg=#ebdbb2 guisp=NONE cterm=NONE gui=NONE
-  hi ALEInfoSign ctermfg=23 ctermbg=187 guifg=#076678 guibg=#ebdbb2 guisp=NONE cterm=NONE gui=NONE
   hi DirvishPathTail ctermfg=29 ctermbg=NONE guifg=#427b58 guibg=NONE guisp=NONE cterm=NONE gui=NONE
   hi DirvishArg ctermfg=172 ctermbg=NONE guifg=#b57614 guibg=NONE guisp=NONE cterm=NONE gui=NONE
   hi! link EasyMotionTarget Search
@@ -1221,12 +1209,6 @@ finish
 " Warnings                         orange bg0     reverse
 " TermCursor        -> Cursor
 " TermCursorNC         bg1            fg1
-" ALEError                         none   none    t=underline g=undercurl s=red
-" ALEWarning                       none   none    t=underline g=undercurl s=red
-" ALEInfo                          none   none    t=underline g=undercurl s=blue
-" ALEErrorSign                     red    bg1
-" ALEWarningSign                   yellow bg1
-" ALEInfoSign                      blue   bg1
 " DirvishPathTail                  aqua   none
 " DirvishArg                       yellow none
 " EasyMotionTarget              -> Search
@@ -1699,12 +1681,6 @@ finish
 " Warnings                         orange bg0     reverse
 " TermCursor        -> Cursor
 " TermCursorNC         bg1            fg1
-" ALEError                         none   none    t=underline g=undercurl s=red
-" ALEWarning                       none   none    t=underline g=undercurl s=red
-" ALEInfo                          none   none    t=underline g=undercurl s=blue
-" ALEErrorSign                     red    bg1
-" ALEWarningSign                   yellow bg1
-" ALEInfoSign                      blue   bg1
 " DirvishPathTail                  aqua   none
 " DirvishArg                       yellow none
 " EasyMotionTarget              -> Search

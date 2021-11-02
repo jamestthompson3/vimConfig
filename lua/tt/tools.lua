@@ -154,9 +154,7 @@ function M.markMargin()
 end
 
 function M.removeWhitespace()
-  if 1 == fn.exists('b:ale_fixers') then
-    return
-  elseif 1 == vim.g.remove_whitespace then
+  if 1 == vim.g.remove_whitespace then
     api.nvim_exec("normal mz", false)
     nvim.command("%s/\\s\\+$//ge")
     api.nvim_exec("normal `z", false)

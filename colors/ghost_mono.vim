@@ -72,17 +72,10 @@ highlight DiffText         guifg=#7788aa         guibg=NONE      gui=underline  
 highlight CodeBlock                  guifg=#88aa77     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight BlockQuote                 guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight Callout                    guifg=#198cff     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
-highlight ALEError                   guifg=#ff4444     guibg=NONE     gui=undercurl  ctermfg=0    ctermbg=203   cterm=NONE
-highlight ALEInfo                    guifg=Black       guibg=White    gui=NONE       ctermfg=0    ctermbg=215   cterm=NONE
-highlight ALEWarning                 guifg=#F0C30D     guibg=NONE     gui=undercurl  ctermfg=0    ctermbg=214   cterm=NONE
 highlight LspDiagnosticsError        guifg=#ff4444     guibg=NONE     gui=NONE       ctermfg=203  ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsWarning      guifg=#F0C30D     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsInformation  guifg=#0000ff     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight LspDiagnosticsHint         guifg=#00afaf     guibg=NONE     gui=NONE       ctermfg=37   ctermbg=NONE  cterm=NONE
-highlight ALEErrorSign               guifg=#ff4444     guibg=NONE     gui=NONE       ctermfg=203  ctermbg=NONE  cterm=NONE
-highlight ALEWarningSign             guifg=#F0C30D     guibg=NONE     gui=NONE       ctermfg=214  ctermbg=NONE  cterm=NONE
-highlight ALEVirtualTextError        guifg=Black       guibg=#ff4444  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
-highlight ALEVirtualTextWarning      guifg=Black       guibg=#F0C30D  gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 highlight CurrentWord                guifg=#6C3E96     guibg=NONE     gui=NONE       ctermfg=0    ctermbg=203   cterm=NONE
 highlight InfoFloat                  guifg=#648c9c     guibg=NONE     gui=NONE       ctermfg=12   ctermbg=NONE  cterm=NONE
 highlight ExtraWhitespace            guifg=#005f5f     guibg=NONE     gui=NONE       ctermfg=0      ctermbg=23     cterm=NONE

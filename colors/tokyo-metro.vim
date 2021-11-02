@@ -95,9 +95,6 @@ hi! Visual ctermbg=236 guibg=#373e5e
 hi! WildMenu guibg=#6788cc ctermbg=68
 hi! diffAdded ctermfg=180 guifg=#bca375
 hi! diffRemoved ctermfg=196 guifg=#e24240
-hi! ALEErrorSign ctermbg=235 ctermfg=196 guibg=#1e2132 guifg=#e24240
-hi! ALEVirtualTextError  ctermfg=196  guifg=#ff9796 cterm=italic gui=italic
-hi! ALEVirtualTextWarning ctermfg=215 guifg=#fccf7b cterm=italic gui=italic
 
 hi! link StatusLineModified Todo
 hi! link cssBraces Delimiter

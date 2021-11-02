@@ -1,4 +1,7 @@
 -- Globals
+--
+-- Do not source the default filetype.vim
+vim.g.did_load_filetypes = 1
 vim.g.loaded_matchparen = 1
 vim.g.loaded_zipPlugin = 1
 vim.g.loaded_tarPlugin = 1
@@ -28,21 +31,6 @@ vim.g.markdown_fenced_languages = {
 	"vim",
 	"lua",
 }
-
-vim.g.ale_linters_explicit = 1
-vim.g.ale_sign_error = "!!"
-vim.g.ale_sign_warning = "◉"
-vim.g.ale_close_preview_on_insert = 1
-vim.g.ale_fix_on_save = true
-vim.g.ale_lint_on_insert_leave = 0
-vim.g.ale_lint_on_text_changed = 0
-vim.g.ale_list_window_size = 5
-vim.g.ale_virtualtext_cursor = 1
-vim.g.ale_fixers = { json = { "prettier" } }
-vim.g.ale_echo_msg_format = "[%linter%] %s » %code%"
-vim.g.ale_echo_cursor = 0
-vim.g.ale_virtualtext_prefix = ""
-vim.g.ale_sign_column_always = 0
 
 vim.g.dirvish_relative_paths = 1
 
