@@ -14,7 +14,6 @@ function M.map()
 	end
 
 	local insert_mode = {
-		-- INSERT MODE
 		["ijj"] = { "<Esc>", noremap = false },
 	}
 	local normal_mode = {
@@ -45,7 +44,6 @@ function M.map()
 		["n]t"] = map_cmd("tprev"),
 		["n[Q"] = map_cmd("cnfile"),
 		["n]Q"] = map_cmd("cpfile"),
-		["n<F3>"] = map_cmd("Vex"),
 		["n<C-J>"] = map_cmd([[lua require'tt.tools'.winMove('j')]]),
 		["n<C-L>"] = map_cmd([[lua require'tt.tools'.winMove('l')]]),
 		["n<C-H>"] = map_cmd([[lua require'tt.tools'.winMove('h')]]),
@@ -66,33 +64,24 @@ function M.map()
 		["n<leader>B"] = map_cmd([[silent call git#blame()]]),
 		["n<leader>w"] = map_cmd("MatchupWhereAmI"),
 		["n<leader>G"] = map_cmd("SearchBuffers"),
-		["n<C-p>"] = map_cmd([[lua require'telescope.builtin'.find_files(getFindCommand())]]),
-		["n<C-b>"] = map_cmd([[lua require'telescope.builtin'.buffers()]]),
+		["n<leader>,"] = map_cmd([[lua require'telescope.builtin'.find_files(getFindCommand())]]),
+		["n<leader>."] = map_cmd([[lua require'telescope.builtin'.buffers()]]),
 		["nT"] = map_cmd([[lua require'telescope.builtin'.tags({ctags_file = vim.bo.tags})]]),
 		["n<leader>lt"] = map_cmd([[lua require'tt.tools'.listTags()]]),
 		["n<leader>t"] = map_cmd([[vsp<CR>:exec("tag ".expand("<cword>"))]]),
-		["n<leader>F"] = map_cmd([[lua require'tt.tools'.simpleMRU()]]),
 		["nS"] = map_no_cr("%s//g<LEFT><LEFT>"),
-		["n<leader>,"] = map_no_cr("Find<space>"),
 		["n,"] = map_no_cr("find<space>"),
 		["nsb"] = map_no_cr("g//#<Left><Left>"),
 		["ng_"] = map_no_cr("g//#<Left><Left><C-R><C-W><CR>:"),
-		["n<leader>."] = map_no_cr("Bs<space>"),
+		-- ["n<leader>."] = map_no_cr("Bs<space>"),
 		["n<C-f>"] = map_no_cr("SearchProject<space>"),
 		["nts"] = map_no_cr("ts<space>/"),
 		["n<up>"] = { ":m .-2<cr>==", noremap = true },
 		["n<down>"] = { ":m .+1<cr>==", noremap = true },
-		-- echo the current vim highlight group under the cursor:
-		["n<C-s>"] = {
-			':echo \'hi<\' . synIDattr(synID(line("."),col("."),1),"name") . \'> trans<\' . synIDattr(synID(line("."),col("."),0),"name") . \'> lo<\'  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . \'>\'<CR>',
-			noremap = true,
-		},
 	}
 	local visual_mode = {
 		["x<leader>y"] = { '"+y', noremap = true },
 		["x<leader>d"] = { '"+d', noremap = true },
-		["v<leader>g"] = map_cmd("<C-U>call tools#HighlightRegion('Green')"),
-		["v<leader>G"] = map_cmd("<C-U>call tools#UnHighlightRegion("),
 		["vs"] = map_no_cr("s//g<LEFT><LEFT>"),
 		["x<leader>b"] = map_cmd("Gblame"),
 		["xI"] = { "(mode()=~#'[vV]'?'<C-v>^o^I':'I')", noremap = true, expr = true },

@@ -15,6 +15,11 @@ function M.openQuickfix()
   api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
 
+function M.compile_theme()
+  local lines = require("lush").compile(require("lush_theme.substrata"))
+  vim.fn.writefile(lines, "colors/substrata.vim")
+end
+
 function M.splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = vim.fn.argc()
@@ -27,8 +32,8 @@ function M.splashscreen()
     vim.bo[0].bufhidden='wipe'
     vim.bo[0].buflisted=false
     vim.bo[0].matchpairs=''
-    nvim.command [[setl nonumber]]
-    nvim.command [[setl nocursorline]]
+    nvim.command [[setl relativenumber]]
+    -- nvim.command [[setl nocursorline]]
     vim.wo[0].cursorcolumn=false
     require('tt.tools').simpleMRU()
     nvim.command [[:34]]
@@ -181,7 +186,6 @@ function M.listTags()
   api.nvim_command('ltag '..cword)
   api.nvim_command [[ lwindow ]]
 end
-
 
 function M.asyncGrep(...)
   local terms = {...}

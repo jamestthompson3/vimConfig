@@ -74,19 +74,6 @@ function! tools#redir(cmd)
   call setline(1, split(output, "\n"))
 endfunction
 
-function! tools#HighlightRegion(color)
-  let l_start = line("'<")
-  let l_end = line("'>") + 1
-  execute 'syntax region '.a:color.' start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'
-endfunction
-
-function! tools#UnHighlightRegion()
-  let l_start = line("'<")
-  let l_end = line("'>") + 1
-  execute 'syntax off start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'
-  execute 'syntax on start=/\%'.l_start.'l/ end=/\%'.l_end.'l/'
-endfunction
-
 function! tools#BufSel(pattern) abort
   let bufcount = bufnr('$')
   let currbufnr = 1

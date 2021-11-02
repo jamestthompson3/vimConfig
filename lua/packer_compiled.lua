@@ -42,10 +42,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/cmp-vsnip"
   },
-  ["filetype.nvim"] = {
-    loaded = true,
-    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/filetype.nvim"
-  },
   ["galaxyline.nvim"] = {
     config = { "\27LJ\2\n-\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\18tt.statusline\frequire\0" },
     loaded = true,
@@ -70,7 +66,7 @@ _G.packer_plugins = {
     path = "/home/taylor/.local/share/nvim/site/pack/packer/opt/nvim-colorizer.lua"
   },
   ["nvim-dap"] = {
-    config = { "\27LJ\2\n­\4\0\0\a\0\19\0$6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\2\4\0004\3\3\0006\4\5\0009\4\6\4'\6\a\0B\4\2\2'\5\b\0&\4\5\4>\4\1\3=\3\t\2=\2\3\0019\1\n\0004\2\3\0005\3\f\0006\4\r\0009\4\14\0049\4\15\4B\4\1\2=\4\16\3>\3\1\2=\2\v\0019\1\n\0004\2\3\0005\3\18\0006\4\r\0009\4\14\0049\4\15\4B\4\1\2=\4\16\3>\3\1\2=\2\17\1K\0\1\0\1\0\6\frequest\vlaunch\fconsole\23integratedTerminal\rprotocol\14inspector\15sourceMaps\2\ttype\nnode2\fprogram\f${file}\15typescript\bcwd\vgetcwd\afn\bvim\1\0\6\frequest\vlaunch\fconsole\23integratedTerminal\rprotocol\14inspector\15sourceMaps\2\ttype\nnode2\fprogram\f${file}\15javascript\19configurations\targsF/.config/nvim/langservers/vscode-node-debug2/out/src/nodeDebug.js\tHOME\vgetenv\aos\1\0\2\fcommand\tnode\ttype\15executable\nnode2\radapters\bdap\frequire\0" },
+    config = { "\27LJ\2\n­\4\0\0\a\0\19\0$6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\2\4\0004\3\3\0006\4\5\0009\4\6\4'\6\a\0B\4\2\2'\5\b\0&\4\5\4>\4\1\3=\3\t\2=\2\3\0019\1\n\0004\2\3\0005\3\f\0006\4\r\0009\4\14\0049\4\15\4B\4\1\2=\4\16\3>\3\1\2=\2\v\0019\1\n\0004\2\3\0005\3\18\0006\4\r\0009\4\14\0049\4\15\4B\4\1\2=\4\16\3>\3\1\2=\2\17\1K\0\1\0\1\0\6\fprogram\f${file}\15sourceMaps\2\rprotocol\14inspector\fconsole\23integratedTerminal\frequest\vlaunch\ttype\nnode2\15typescript\bcwd\vgetcwd\afn\bvim\1\0\6\fprogram\f${file}\15sourceMaps\2\rprotocol\14inspector\fconsole\23integratedTerminal\frequest\vlaunch\ttype\nnode2\15javascript\19configurations\targsF/.config/nvim/langservers/vscode-node-debug2/out/src/nodeDebug.js\tHOME\vgetenv\aos\1\0\2\fcommand\tnode\ttype\15executable\nnode2\radapters\bdap\frequire\0" },
     loaded = false,
     needs_bufread = false,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/opt/nvim-dap"
@@ -169,12 +165,12 @@ _G.packer_plugins = {
   }
 }
 
--- Config for: nvim-treesitter
-try_loadstring("\27LJ\2\n4\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\25tt.plugin.treesitter\frequire\0", "config", "nvim-treesitter")
 -- Config for: galaxyline.nvim
 try_loadstring("\27LJ\2\n-\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\18tt.statusline\frequire\0", "config", "galaxyline.nvim")
 -- Config for: telescope.nvim
 try_loadstring("\27LJ\2\n3\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\24tt.plugin.telescope\frequire\0", "config", "telescope.nvim")
+-- Config for: nvim-treesitter
+try_loadstring("\27LJ\2\n4\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\25tt.plugin.treesitter\frequire\0", "config", "nvim-treesitter")
 -- Config for: nvim-cmp
 try_loadstring("\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20tt.plugin.compe\frequire\0", "config", "nvim-cmp")
 
@@ -184,23 +180,23 @@ vim.cmd [[command! -nargs=* -range -bang -complete=file Tagbar lua require("pack
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
-vim.cmd [[au FileType css ++once lua require("packer.load")({'nvim-colorizer.lua', 'nvim-lspconfig'}, { ft = "css" }, _G.packer_plugins)]]
-vim.cmd [[au FileType yaml ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "yaml" }, _G.packer_plugins)]]
-vim.cmd [[au FileType c ++once lua require("packer.load")({'tagbar'}, { ft = "c" }, _G.packer_plugins)]]
-vim.cmd [[au FileType lua ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "lua" }, _G.packer_plugins)]]
-vim.cmd [[au FileType json ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "json" }, _G.packer_plugins)]]
 vim.cmd [[au FileType vim ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "vim" }, _G.packer_plugins)]]
-vim.cmd [[au FileType typescript ++once lua require("packer.load")({'nvim-dap', 'tagbar', 'nvim-lspconfig'}, { ft = "typescript" }, _G.packer_plugins)]]
-vim.cmd [[au FileType cpp ++once lua require("packer.load")({'tagbar'}, { ft = "cpp" }, _G.packer_plugins)]]
-vim.cmd [[au FileType rust ++once lua require("packer.load")({'tagbar', 'nvim-lspconfig'}, { ft = "rust" }, _G.packer_plugins)]]
-vim.cmd [[au FileType html ++once lua require("packer.load")({'nvim-colorizer.lua', 'nvim-lspconfig'}, { ft = "html" }, _G.packer_plugins)]]
 vim.cmd [[au FileType go ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "go" }, _G.packer_plugins)]]
-vim.cmd [[au FileType bash ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "bash" }, _G.packer_plugins)]]
-vim.cmd [[au FileType typescriptreact ++once lua require("packer.load")({'tagbar', 'nvim-lspconfig'}, { ft = "typescriptreact" }, _G.packer_plugins)]]
-vim.cmd [[au FileType md ++once lua require("packer.load")({'vim-wordy'}, { ft = "md" }, _G.packer_plugins)]]
-vim.cmd [[au FileType text ++once lua require("packer.load")({'vim-wordy'}, { ft = "text" }, _G.packer_plugins)]]
-vim.cmd [[au FileType javascript ++once lua require("packer.load")({'nvim-dap', 'tagbar', 'nvim-lspconfig'}, { ft = "javascript" }, _G.packer_plugins)]]
-vim.cmd [[au FileType javascriptreact ++once lua require("packer.load")({'tagbar', 'nvim-lspconfig'}, { ft = "javascriptreact" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-wordy', 'nvim-lspconfig'}, { ft = "markdown" }, _G.packer_plugins)]]
+vim.cmd [[au FileType yaml ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "yaml" }, _G.packer_plugins)]]
+vim.cmd [[au FileType typescriptreact ++once lua require("packer.load")({'nvim-lspconfig', 'tagbar'}, { ft = "typescriptreact" }, _G.packer_plugins)]]
+vim.cmd [[au FileType text ++once lua require("packer.load")({'vim-wordy'}, { ft = "text" }, _G.packer_plugins)]]
+vim.cmd [[au FileType md ++once lua require("packer.load")({'vim-wordy'}, { ft = "md" }, _G.packer_plugins)]]
 vim.cmd [[au FileType txt ++once lua require("packer.load")({'vim-wordy'}, { ft = "txt" }, _G.packer_plugins)]]
+vim.cmd [[au FileType javascriptreact ++once lua require("packer.load")({'nvim-lspconfig', 'tagbar'}, { ft = "javascriptreact" }, _G.packer_plugins)]]
+vim.cmd [[au FileType lua ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "lua" }, _G.packer_plugins)]]
+vim.cmd [[au FileType css ++once lua require("packer.load")({'nvim-colorizer.lua', 'nvim-lspconfig'}, { ft = "css" }, _G.packer_plugins)]]
+vim.cmd [[au FileType html ++once lua require("packer.load")({'nvim-colorizer.lua', 'nvim-lspconfig'}, { ft = "html" }, _G.packer_plugins)]]
+vim.cmd [[au FileType javascript ++once lua require("packer.load")({'nvim-dap', 'nvim-lspconfig', 'tagbar'}, { ft = "javascript" }, _G.packer_plugins)]]
+vim.cmd [[au FileType bash ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "bash" }, _G.packer_plugins)]]
+vim.cmd [[au FileType cpp ++once lua require("packer.load")({'tagbar'}, { ft = "cpp" }, _G.packer_plugins)]]
+vim.cmd [[au FileType c ++once lua require("packer.load")({'tagbar'}, { ft = "c" }, _G.packer_plugins)]]
+vim.cmd [[au FileType rust ++once lua require("packer.load")({'nvim-lspconfig', 'tagbar'}, { ft = "rust" }, _G.packer_plugins)]]
+vim.cmd [[au FileType typescript ++once lua require("packer.load")({'nvim-dap', 'nvim-lspconfig', 'tagbar'}, { ft = "typescript" }, _G.packer_plugins)]]
+vim.cmd [[au FileType json ++once lua require("packer.load")({'nvim-lspconfig'}, { ft = "json" }, _G.packer_plugins)]]
 vim.cmd("augroup END")

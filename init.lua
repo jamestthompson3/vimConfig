@@ -54,15 +54,12 @@ set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
 set.cscopequickfix = "s-,c-,d-,i-,t-,e-"
--- TODO set per project.
-set.path = "src/**,libs/**,.config/"
+set.path = vim.fn.system("git ls-files | tr '\n' ','")
 set.completeopt = "menuone,noselect"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart = 99
 set.foldmethod = "syntax"
-set.wildignore =
-	"*/dist*/*,*/target/*,*/builds/*,*/node_modules/*,*/flow-typed/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = home .. "/.cache/Vim/undofile"
 
