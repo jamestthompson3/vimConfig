@@ -58,8 +58,10 @@ set.path = vim.fn.system("git ls-files | tr '\n' ','")
 set.completeopt = "menuone,noselect"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
-set.foldlevelstart = 99
-set.foldmethod = "syntax"
+set.foldlevelstart = 1
+set.foldlevel = 1
+set.foldmethod = "expr"
+set.foldexpr = "nvim_treesitter#foldexpr()"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = home .. "/.cache/Vim/undofile"
 
