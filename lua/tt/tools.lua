@@ -28,12 +28,12 @@ function M.splashscreen()
   if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
     nvim.command [[ silent! r ~/vim/skeletons/start.screen ]]
-    nvim.command(string.format("chdir %s", currDir))
+    -- nvim.command(string.format("chdir %s", currDir))
     vim.bo[0].bufhidden='wipe'
     vim.bo[0].buflisted=false
     vim.bo[0].matchpairs=''
     nvim.command [[setl relativenumber]]
-    -- nvim.command [[setl nocursorline]]
+    nvim.command [[setl nocursorline]]
     vim.wo[0].cursorcolumn=false
     require('tt.tools').simpleMRU()
     nvim.command [[:34]]
