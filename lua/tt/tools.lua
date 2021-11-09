@@ -20,6 +20,13 @@ function M.compile_theme()
   vim.fn.writefile(lines, "colors/substrata.vim")
 end
 
+function M.cheatsheet()
+    NavigationFloatingWin()
+  api.nvim_command [[ term ]]
+  api.nvim_input('icht<CR>')
+  -- api.nvim_feedkeys("cht", 'i', false)
+end
+
 function M.splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = vim.fn.argc()
@@ -27,16 +34,16 @@ function M.splashscreen()
   local currDir = os.getenv('PWD')
   if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
-    nvim.command [[ silent! r ~/vim/skeletons/start.screen ]]
+    api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
     -- nvim.command(string.format("chdir %s", currDir))
     vim.bo[0].bufhidden='wipe'
     vim.bo[0].buflisted=false
     vim.bo[0].matchpairs=''
-    nvim.command [[setl relativenumber]]
-    nvim.command [[setl nocursorline]]
+    api.nvim_command [[setl relativenumber]]
+    api.nvim_command [[setl nocursorline]]
     vim.wo[0].cursorcolumn=false
     require('tt.tools').simpleMRU()
-    nvim.command [[:34]]
+    api.nvim_command [[:34]]
     api.nvim_buf_set_keymap(0, 'n', '<CR>', 'gf', {noremap = true})
     vim.bo[0].modified=false
     vim.bo[0].modifiable=false
@@ -115,14 +122,14 @@ end
 
 function M.winMove(key)
   local currentWindow = fn.winnr()
-  nvim.command("wincmd " .. key)
+  api.nvim_command("wincmd " .. key)
   if fn.winnr() == currentWindow  then
     if key == 'j' or key == 'k' then
-      nvim.command("wincmd s")
+      api.nvim_command("wincmd s")
     else
-      nvim.command("wincmd v")
+      api.nvim_command("wincmd v")
     end
-    nvim.command("wincmd " .. key)
+    api.nvim_command("wincmd " .. key)
   end
 end
 
@@ -135,7 +142,7 @@ end
 function M.removeWhitespace()
   if 1 == vim.g.remove_whitespace then
     api.nvim_exec("normal mz", false)
-    nvim.command("%s/\\s\\+$//ge")
+    api.nvim_command("%s/\\s\\+$//ge")
     api.nvim_exec("normal `z", false)
   end
 end

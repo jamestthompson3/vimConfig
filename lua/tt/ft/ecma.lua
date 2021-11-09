@@ -1,6 +1,7 @@
 require("tt.nvim_utils")
 
 local fn = vim.fn
+local api = vim.api
 
 local M = {}
 
@@ -17,9 +18,9 @@ function M.bootstrap()
 	}
 
 	nvim_apply_mappings(mappings, { silent = true })
-	nvim.command([[command! Sort lua require'tt.ft.ecma'.import_sort(true)]])
-	nvim.command([[command! Eslint lua require'tt.ft.ecma'.linter_d()]])
-	nvim.command([[command! Lint lua require'tt.ft.ecma'.lint_project()]])
+	api.nvim_command([[command! Sort lua require'tt.ft.ecma'.import_sort(true)]])
+	api.nvim_command([[command! Eslint lua require'tt.ft.ecma'.linter_d()]])
+	api.nvim_command([[command! Lint lua require'tt.ft.ecma'.lint_project()]])
 end
 
 local function find_executable(binaryName)
@@ -103,7 +104,7 @@ function M.lint_project()
 				lines = linterResults,
 				efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
 			})
-			nvim.command([[lwindow]])
+			api.nvim_command([[lwindow]])
 		end)
 	)
 end
@@ -136,7 +137,7 @@ function M.linter_d()
 				lines = linterResults,
 				efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
 			})
-			nvim.command([[lwindow]])
+			api.nvim_command([[lwindow]])
 			vim.lsp.buf_attach_client(0, 1)
 		end)
 	)

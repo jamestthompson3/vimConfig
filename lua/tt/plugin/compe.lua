@@ -51,12 +51,12 @@ cmp.setup({
 		}),
 	},
 	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "tags" },
+    { name = "buffer", priority = 1 },
+		{ name = "nvim_lsp", priority = 2 },
+		{ name = "tags", priority = 2 },
 		{ name = "vsnip" },
 		{ name = "treesitter" },
 		{ name = "path" },
-		{ name = "buffer" },
 	},
 
 	documentation = {

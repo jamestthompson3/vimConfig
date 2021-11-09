@@ -88,7 +88,7 @@ function M.previewLinkedPage()
 	end
 end
 
-nvim.command([[command! Compose lua require'tt.ft.markdown'.composer()]])
+api.nvim_command([[command! Compose lua require'tt.ft.markdown'.composer()]])
 
 nvim_apply_mappings(mappings)
 

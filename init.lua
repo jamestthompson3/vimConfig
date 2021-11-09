@@ -54,11 +54,11 @@ set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
 set.cscopequickfix = "s-,c-,d-,i-,t-,e-"
-set.path = table.concat(vim.fn.systemlist("git ls-tree -d HEAD:./ --name-only"),"/**,") -- set path to recurse down all top level dirs tracked by git.
+set.path = table.concat(vim.fn.systemlist("git ls-files"),",") -- set path to recurse down all top level dirs tracked by git.
 set.completeopt = "menuone,noselect"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
-set.foldlevelstart = 1
+set.foldlevelstart = 99
 set.foldlevel = 1
 set.foldmethod = "expr"
 set.foldexpr = "nvim_treesitter#foldexpr()"
@@ -75,12 +75,12 @@ set.pumblend = 20
 set.pumheight = 15
 set.scrolloff = 1
 set.sidescrolloff = 5
-set.guicursor = "n:blinkwait60-blinkon175-blinkoff175,i-ci-ve:ver25"
+set.guicursor = "n:blinkwait60-blinkon175-blinkoff175-Cursor/lCursor,i-ci-ve:ver25"
 
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
-	nvim.command([[colorscheme substrata]])
+	api.nvim_command([[colorscheme substrata]])
 	schedule(function()
 		require("tt.plugins")
 		require("tt.core_opts")

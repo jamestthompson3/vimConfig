@@ -4,7 +4,7 @@ local api = vim.api
 if not is_windows then
 	api.nvim_command("set shell=bash")
 end
-nvim.command([[packadd cfilter]])
+api.nvim_command([[packadd cfilter]])
 
 -- abbrevs
 -- Common mistakes
@@ -23,22 +23,23 @@ iabbrev("bunlde", "bundle")
 
 -- FIXME this is flakey :(
 -- nvim.command([[command! -nargs=+ -complete=dir -bar SearchProject lua require'tt.tools'.asyncGrep(<q-args>)]])
-nvim.command([[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <q-args>]])
-nvim.command([[command! Scratch lua require'tt.tools'.makeScratch()]])
-nvim.command([[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]])
-nvim.command([[command! Diff call git#diff()]])
-nvim.command([[command! TDiff call git#threeWayDiff()]])
-nvim.command([[command! Ftc let @+=expand("%")]]) -- filename to clipboard
-nvim.command([[command! Gblame lua require'tt.tools'.blameVirtText() ]])
-nvim.command([[command! Restore lua require'tt.tools'.restoreFile() ]])
-nvim.command([[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]])
-nvim.command([[command! -bang SearchBuffers lua require'tt.tools'.grepBufs(<q-args>)]])
-nvim.command([[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']])
-nvim.command([[command! MarkMargin lua require'tt.tools'.markMargin()]])
-nvim.command([[command! Symbols lua require'telescope.builtin'.lsp_document_symbols()]])
+api.nvim_command([[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <q-args>]])
+api.nvim_command([[command! Scratch lua require'tt.tools'.makeScratch()]])
+api.nvim_command([[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]])
+api.nvim_command([[command! Diff call git#diff()]])
+api.nvim_command([[command! TDiff call git#threeWayDiff()]])
+api.nvim_command([[command! Ftc let @+=expand("%")]]) -- filename to clipboard
+api.nvim_command([[command! Gblame lua require'tt.tools'.blameVirtText() ]])
+api.nvim_command([[command! Restore lua require'tt.tools'.restoreFile() ]])
+api.nvim_command([[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]])
+api.nvim_command([[command! -bang SearchBuffers lua require'tt.tools'.grepBufs(<q-args>)]])
+api.nvim_command([[command! ShowConsts match ConstStrings '\<\([A-Z]\{2,}_\?\)\+\>']])
+api.nvim_command([[command! MarkMargin lua require'tt.tools'.markMargin()]])
+api.nvim_command([[command! Symbols lua require'telescope.builtin'.lsp_document_symbols()]])
+api.nvim_command([[command! Cheat lua require'tt.tools'.cheatsheet()]])
 
 -- Global Vim functions
-nvim.command([[
+api.nvim_command([[
 function! HLNext (blinktime) abort
   let target_pat = '\c\%#'.@/
   let ring = matchadd('ErrorMsg', target_pat, 101)

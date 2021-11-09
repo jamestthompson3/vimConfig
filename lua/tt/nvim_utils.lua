@@ -64,7 +64,7 @@ function nvim_apply_mappings(mappings, default_options)
 					-- local repeat_expr = mapping
 					-- repeat_expr = vim.api.nvim_replace_termcodes(repeat_expr, true, true, true)
 					-- nvim.fn["repeat#set"](repeat_expr, nvim.v.count)
-					nvim.fn["repeat#set"](nvim.replace_termcodes(key_mapping, true, true, true), nvim.v.count)
+					vim.fn["repeat#set"](vim.api.nvim_replace_termcodes(key_mapping, true, true, true), nvim.v.count)
 				end
 				options.dot_repeat = nil
 			end
@@ -135,123 +135,6 @@ function getPath(str)
 	return s:match("(.*[/\\])")
 end
 
--- `nvim.$method(...)` redirects to `nvim.api.nvim_$method(...)`
--- `nvim.fn.$method(...)` redirects to `vim.api.nvim_call_function($method, {...})`
--- TODO `nvim.ex.$command(...)` is approximately `:$command {...}.join(" ")`
--- `nvim.print(...)` is approximately `echo vim.inspect(...)`
--- `nvim.echo(...)` is approximately `echo table.concat({...}, '\n')`
--- Both methods cache the inital lookup in the metatable, but there is a small overhead regardless.
-nvim = setmetatable({
-	fn = setmetatable({}, {
-		__index = function(self, k)
-			local mt = getmetatable(self)
-			local x = mt[k]
-			if x ~= nil then
-				return x
-			end
-			local f = function(...)
-				return vim.api.nvim_call_function(k, { ... })
-			end
-			mt[k] = f
-			return f
-		end,
-	}),
-	buf = setmetatable({}, {
-		__index = function(self, k)
-			local mt = getmetatable(self)
-			local x = mt[k]
-			if x ~= nil then
-				return x
-			end
-			local f = vim.api["nvim_buf_" .. k]
-			mt[k] = f
-			return f
-		end,
-	}),
-	ex = setmetatable({}, {
-		__index = function(self, k)
-			local mt = getmetatable(self)
-			local x = mt[k]
-			if x ~= nil then
-				return x
-			end
-			local command = k:gsub("_$", "!")
-			local f = function(...)
-				return vim.api.nvim_command(table.concat(vim.tbl_flatten({ command, ... }), " "))
-			end
-			mt[k] = f
-			return f
-		end,
-	}),
-	g = setmetatable({}, {
-		__index = function(_, k)
-			return vim.api.nvim_get_var(k)
-		end,
-		__newindex = function(_, k, v)
-			if v == nil then
-				return vim.api.nvim_del_var(k)
-			else
-				return vim.api.nvim_set_var(k, v)
-			end
-		end,
-	}),
-	v = setmetatable({}, {
-		__index = function(_, k)
-			return vim.api.nvim_get_vvar(k)
-		end,
-		__newindex = function(_, k, v)
-			return vim.api.nvim_set_vvar(k, v)
-		end,
-	}),
-	b = setmetatable({}, {
-		__index = function(_, k)
-			return vim.api.nvim_buf_get_var(0, k)
-		end,
-		__newindex = function(_, k, v)
-			if v == nil then
-				return vim.api.nvim_buf_del_var(0, k)
-			else
-				return vim.api.nvim_buf_set_var(0, k, v)
-			end
-		end,
-	}),
-	o = setmetatable({}, {
-		__index = function(_, k)
-			return vim.api.nvim_get_option(k)
-		end,
-		__newindex = function(_, k, v)
-			return vim.api.nvim_set_option(k, v)
-		end,
-	}),
-	bo = setmetatable({}, {
-		__index = function(_, k)
-			return vim.api.nvim_buf_get_option(0, k)
-		end,
-		__newindex = function(_, k, v)
-			return vim.api.nvim_buf_set_option(0, k, v)
-		end,
-	}),
-	env = setmetatable({}, {
-		__index = function(_, k)
-			return vim.api.nvim_call_function("getenv", { k })
-		end,
-		__newindex = function(_, k, v)
-			return vim.api.nvim_call_function("setenv", { k, v })
-		end,
-	}),
-}, {
-	__index = function(self, k)
-		local mt = getmetatable(self)
-		local x = mt[k]
-		if x ~= nil then
-			return x
-		end
-		local f = vim.api["nvim_" .. k]
-		mt[k] = f
-		return f
-	end,
-})
-
 ---
 -- Higher level text manipulation utilities
 ---
@@ -299,9 +182,7 @@ function safe_close(handle)
 end
 
 function spawn(cmd, opts, input, onexit)
-	local input = input or { stdout = function()
-	end, stderr = function()
-	end }
+	local input = input or { stdout = function() end, stderr = function() end }
 	local handle, pid
 	local stdout = loop.new_pipe(false)
 	local stderr = loop.new_pipe(false)
@@ -360,9 +241,9 @@ end
 
 function iabbrev(src, target, buffer)
 	if buffer == nil then
-		nvim.command("iabbrev " .. src .. " " .. target)
+		api.nvim_command("iabbrev " .. src .. " " .. target)
 	else
-		nvim.command("iabbrev <buffer> " .. src .. " " .. target)
+		api.nvim_command("iabbrev <buffer> " .. src .. " " .. target)
 	end
 end
 
@@ -370,13 +251,15 @@ function augroup(name, commands)
 	vim.cmd("augroup " .. name)
 	vim.cmd("autocmd!")
 	for _, c in ipairs(commands) do
-		vim.cmd(string.format(
-			"autocmd %s %s %s %s",
-			table.concat(c.events, ","),
-			table.concat(c.targets or {}, ","),
-			table.concat(c.modifiers or {}, " "),
-			c.command
-		))
+		vim.cmd(
+			string.format(
+				"autocmd %s %s %s %s",
+				table.concat(c.events, ","),
+				table.concat(c.targets or {}, ","),
+				table.concat(c.modifiers or {}, " "),
+				c.command
+			)
+		)
 	end
 	vim.cmd("augroup END")
 end
