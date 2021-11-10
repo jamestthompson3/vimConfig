@@ -51,7 +51,8 @@ cmp.setup({
 		}),
 	},
 	sources = {
-    { name = "buffer", priority = 1 },
+		{ name = "buffer", priority = 3 },
+		{ name = "cmp_tabnine", priority = 1 },
 		{ name = "nvim_lsp", priority = 2 },
 		{ name = "tags", priority = 2 },
 		{ name = "vsnip" },
@@ -71,4 +72,12 @@ cmp.setup({
 			return vim_item
 		end,
 	},
+})
+local tabnine = require("cmp_tabnine.config")
+tabnine:setup({
+	max_lines = 1000,
+	max_num_results = 20,
+	sort = true,
+	run_on_every_keystroke = true,
+	snippet_placeholder = "..",
 })

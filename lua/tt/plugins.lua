@@ -25,6 +25,7 @@ return require("packer").startup({
 				{ "hrsh7th/cmp-nvim-lsp", module_pattern = "cmp*" },
 				{ "hrsh7th/cmp-buffer", module_pattern = "cmp*" },
 				{ "hrsh7th/cmp-path", module_pattern = "cmp*" },
+				{ "tzachar/cmp-tabnine", run = "./install.sh", module_pattern = "cmp*" },
 				{ "ray-x/cmp-treesitter", module_pattern = "cmp*" },
 				{ "quangnguyen30192/cmp-nvim-tags", module_pattern = "cmp*" },
 				{ "hrsh7th/vim-vsnip", module_pattern = "cmp*" },
@@ -79,7 +80,6 @@ return require("packer").startup({
 			requires = {
 				{ "nvim-lua/popup.nvim" },
 				{ "nvim-lua/plenary.nvim" },
-				{ "nvim-telescope/telescope-fzy-native.nvim" },
 			},
 			config = function()
 				require("tt.plugin.telescope")
