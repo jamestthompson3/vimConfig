@@ -107,6 +107,7 @@ return require("packer").startup({
 				require("tt.lsp").configureLSP()
 			end,
 		})
+    use ({"rust-lang/rust.vim", ft = {"rust"}})
 		use({ "wbthomason/packer.nvim", opt = true })
 		-- use("nvim-treesitter/playground")
 		use({
@@ -125,7 +126,4 @@ return require("packer").startup({
 		use({ "norcalli/nvim-colorizer.lua", opt = true, ft = { "html", "css", "vim" } })
 		use({ "reedes/vim-wordy", opt = true, ft = { "txt", "md", "markdown", "text" } })
 	end,
-	config = {
-		compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
-	},
 })

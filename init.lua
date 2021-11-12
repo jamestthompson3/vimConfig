@@ -5,8 +5,6 @@ if require("tt.bootstrap")() then
 	return
 end
 
-require("packer_compiled")
-
 require("tt.nvim_utils")
 local set = vim.o
 local api = vim.api
