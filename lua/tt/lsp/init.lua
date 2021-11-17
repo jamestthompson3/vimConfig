@@ -52,7 +52,7 @@ function M.configureLSP()
 	nvim_lsp.tsserver.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
-		cmd = { get_node_bin("typescript-language-server"), "--stdio" },
+		cmd = { find_node_executable("typescript-language-server"), "--stdio" },
 		commands = {
 			OrganizeImports = {
 				organize_imports,

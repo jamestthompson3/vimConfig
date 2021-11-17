@@ -1,16 +1,17 @@
 local formatting = require("tt.formatting")
+require("tt.nvim_utils")
 
 local M = {}
 
 local eslintd = {
-	lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+	lintCommand = find_node_executable("eslint_d") .. " -f unix --stdin --stdin-filename ${INPUT}",
 	lintStdin = true,
 	lintFormats = { "%f:%l:%c: %m" },
 	lintIgnoreExitCode = true,
 }
 
 local prettier = {
-	formatCommand = get_node_bin("prettier") .. ' "${INPUT}"',
+	formatCommand = find_node_executable("prettier") .. ' "${INPUT}"',
 	fmtStdin = true,
 }
 

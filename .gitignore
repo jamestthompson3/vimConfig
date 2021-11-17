@@ -2,3 +2,10 @@ pack
 tags
 cscope.*
 node_modules
+*packer_compiled*
+langservers/.yarn/*
+!langservers/.yarn/patches
+!langservers/.yarn/releases
+!langservers/.yarn/plugins
+!langservers/.yarn/sdks
+!langservers/.yarn/versions

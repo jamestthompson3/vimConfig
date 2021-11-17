@@ -280,16 +280,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fsouza/prettierd@npm:0.17.0":
-  version: 0.17.0
-  resolution: "@fsouza/prettierd@npm:0.17.0"
+"@fsouza/prettierd@npm:0.18.0":
+  version: 0.18.0
+  resolution: "@fsouza/prettierd@npm:0.18.0"
   dependencies:
     core_d: ^3.2.0
     nanolru: ^1.0.0
     prettier: ^2.3.2
   bin:
     prettierd: bin/prettierd
-  checksum: 47b5248c3f95768a0e3b2f6cf728a88aab8269719a028aaeeec235f3543e07a405b8077042ccea6b89e0d6998347038809c17fe2de4a5dbdf388307e895c70f1
+  checksum: cb951652ed20988f119cee5a79fed9c9283633829f3251854d855535d1969c80c3518553b1733b632e9e523ef193b764096df9651feb5953017520d9e4dc964f
   languageName: node
   linkType: hard
 
@@ -1534,9 +1534,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint_d@npm:11.0.0":
-  version: 11.0.0
-  resolution: "eslint_d@npm:11.0.0"
+"eslint_d@npm:11.1.0":
+  version: 11.1.0
+  resolution: "eslint_d@npm:11.1.0"
   dependencies:
     core_d: ^3.2.0
     eslint: ^7.3.0
@@ -1544,7 +1544,7 @@ __metadata:
     optionator: ^0.9.1
   bin:
     eslint_d: bin/eslint_d.js
-  checksum: 1bce0d0e8c92a249fd57ffaeedff6a33539306aacaf0a420271b5ef15ebd60a26bdb0e971ee24ea27faa61a501be81f70dbabbce7f5a9946facc49d9da50fd39
+  checksum: d5da9b962501e44b5be206d4e25da6c67656e236a3fbcaba6a699f55a07399a02e196b3b0670c071869735e3a03b99875f9b516205e66f987b001c5d1a588bb0
   languageName: node
   linkType: hard
 
@@ -2839,16 +2839,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "langservers@workspace:."
   dependencies:
-    "@fsouza/prettierd": 0.17.0
+    "@fsouza/prettierd": 0.18.0
     bash-language-server: 2.0.0
-    eslint_d: 11.0.0
+    eslint_d: 11.1.0
     import-sort-cli: 6.0.0
     import-sort-parser-babylon: 6.0.0
     import-sort-parser-typescript: 6.0.0
     import-sort-style-renke: 6.0.0
     prettier: ^2.4.1
-    typescript: 4.4.3
-    typescript-language-server: 0.6.3
+    typescript: 4.4.4
+    typescript-language-server: 0.7.1
     vscode-css-languageserver-bin: 1.4.0
     vscode-html-languageserver-bin: 1.4.0
   languageName: unknown
@@ -3833,7 +3833,7 @@ resolve@^1.8.1:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.2.1":
+"semver@npm:^7.2.1, semver@npm:^7.3.5":
   version: 7.3.5
   resolution: "semver@npm:7.3.5"
   dependencies:
@@ -4395,14 +4395,15 @@ resolve@^1.8.1:
   languageName: node
   linkType: hard
 
-"typescript-language-server@npm:0.6.3":
-  version: 0.6.3
-  resolution: "typescript-language-server@npm:0.6.3"
+"typescript-language-server@npm:0.7.1":
+  version: 0.7.1
+  resolution: "typescript-language-server@npm:0.7.1"
   dependencies:
     command-exists: ^1.2.6
     commander: ^7.2.0
     fs-extra: ^10.0.0
     p-debounce: ^2.1.0
+    semver: ^7.3.5
     tempy: ^1.0.1
     vscode-languageserver: ^7.0.0
     vscode-languageserver-protocol: ^3.16.0
@@ -4410,17 +4411,17 @@ resolve@^1.8.1:
     vscode-uri: ^1.0.5
   bin:
     typescript-language-server: lib/cli.js
-  checksum: eb31d592f5f5649525456d8998ef252a90dbc24f37f998eb7a8eb5f3ea0c686ae929ce1d29180d99abe8feed7ff8679b60c3760c3ad30cde53572f2f786bb513
+  checksum: 0db4792cb17d7a3a49c8a446cddb4b1ca38979421fe042bb194d1e6aaf5370a09b95e0cd9098fb97efaaed7df0e801c1fbd3f67adc0bd6dc2e191e1d88fb3adf
   languageName: node
   linkType: hard
 
-typescript@4.4.3:
-  version: 4.4.3
-  resolution: "typescript@npm:4.4.3"
+typescript@4.4.4:
+  version: 4.4.4
+  resolution: "typescript@npm:4.4.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 05823f21796d450531a7e4ab299715d38fd9ded0e4ce7400876053f4b5166ca3dde7a68cecfe72d9086039f03c0b6edba36516fb10ed83c5837d9600532ea4c2
+  checksum: 89ecb8436bb48ef5594d49289f5f89103071716b6e4844278f4fb3362856e31203e187a9c76d205c3f0b674d221a058fd28310dbcbcf5d95e9a57229bb5203f1
   languageName: node
   linkType: hard
 
@@ -4444,13 +4445,13 @@ typescript@^3.2.4:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.4.3#~builtin<compat/typescript>":
-  version: 4.4.3
-  resolution: "typescript@patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=d8b4e7"
+"typescript@patch:typescript@4.4.4#~builtin<compat/typescript>":
+  version: 4.4.4
+  resolution: "typescript@patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=d8b4e7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 215a59742afb7e0c3668e2c50ca19813deb24b3cc0d16ac3591990e033728050aaa99e159a72b54cb43653f16c778a5cf9dfeed1f51c3b105710ae082c064af7
+  checksum: 4a639b6886be13616582ab82abdb4ffbbf5b0458069d13c10cd5d44fc1cafa33eab005e8ac8691ad8fae249fee85844bb7d523263c4568fe9a2ca31cd3c91c3d
   languageName: node
   linkType: hard
 
