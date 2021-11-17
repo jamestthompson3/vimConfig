@@ -239,6 +239,24 @@ function get_node_bin(bin)
 	return fn.stdpath("config") .. "/langservers/node_modules/.bin/" .. bin
 end
 
+function find_node_executable(binaryName)
+	local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
+	if 0 == fn.executable(executable) then
+		local sub_cmd = fn.system("git rev-parse --show-toplevel")
+		local project_root_path = sub_cmd:gsub("\n", "")
+		executable = project_root_path .. "/node_modules/.bin/" .. binaryName
+	end
+
+	if 0 == fn.executable(executable) then
+		executable = get_node_bin(binaryName)
+	end
+	if 0 == fn.executable(executable) then
+    log("Could not find " .. executable)
+    return
+	end
+    return executable
+end
+
 function iabbrev(src, target, buffer)
 	if buffer == nil then
 		api.nvim_command("iabbrev " .. src .. " " .. target)
