@@ -21,14 +21,14 @@ return require("packer").startup({
 				require("tt.plugin.compe")
 			end,
 			requires = {
-				{ "hrsh7th/cmp-vsnip", module_pattern = "cmp*" },
-				{ "hrsh7th/cmp-nvim-lsp", module_pattern = "cmp*" },
-				{ "hrsh7th/cmp-buffer", module_pattern = "cmp*" },
-				{ "hrsh7th/cmp-path", module_pattern = "cmp*" },
-				{ "tzachar/cmp-tabnine", run = "./install.sh", module_pattern = "cmp*" },
-				{ "ray-x/cmp-treesitter", module_pattern = "cmp*" },
-				{ "quangnguyen30192/cmp-nvim-tags", module_pattern = "cmp*" },
-				{ "hrsh7th/vim-vsnip", module_pattern = "cmp*" },
+				{ "hrsh7th/cmp-vsnip"},
+				{ "hrsh7th/cmp-nvim-lsp"},
+				{ "hrsh7th/cmp-buffer"},
+				{ "hrsh7th/cmp-path"},
+				{ "tzachar/cmp-tabnine", run = "./install.sh"},
+				{ "ray-x/cmp-treesitter"},
+				{ "quangnguyen30192/cmp-nvim-tags"},
+				{ "hrsh7th/vim-vsnip"},
 			},
 		})
 
@@ -112,7 +112,6 @@ return require("packer").startup({
 		-- use("nvim-treesitter/playground")
 		use({
 			"nvim-treesitter/nvim-treesitter",
-			module_pattern = "nvim-treesitter.*",
 			config = function()
 				require("tt.plugin.treesitter")
 			end,
