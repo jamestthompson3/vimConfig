@@ -6,6 +6,13 @@ if require("tt.bootstrap")() then
 end
 
 require("tt.nvim_utils")
+local setPath = function()
+  if gitBranch() ~= "" then
+    return table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"),",") .. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ",") -- grab both the dirs and the top level files
+  else
+    return vim.o.path
+  end
+end
 local set = vim.o
 local api = vim.api
 local fn = vim.fn
@@ -52,7 +59,7 @@ set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
 set.cscopequickfix = "s-,c-,d-,i-,t-,e-"
-set.path = table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"),",") .. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ",") -- grab both the dirs and the top level files
+set.path = setPath()
 set.completeopt = "menuone,noselect"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"

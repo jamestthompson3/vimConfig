@@ -8,13 +8,14 @@ return require("packer").startup({
 		use("yamatsum/nvim-web-nonicons")
 		use("romainl/vim-cool")
 		use("tmsvg/pear-tree")
-		use("tpope/vim-apathy")
+		-- use("tpope/vim-apathy")
 		use("tpope/vim-commentary")
 		use("rktjmp/lush.nvim")
 		use("tpope/vim-surround")
 		use("tpope/vim-repeat")
 		use("andymass/vim-matchup")
 		use("ludovicchabant/vim-gutentags")
+
 		use({
 			"hrsh7th/nvim-cmp",
 			config = function()
@@ -72,13 +73,13 @@ return require("packer").startup({
 				}
 			end,
 		})
-		use({
-			"glepnir/galaxyline.nvim",
-			branch = "main",
-			config = function()
-				require("tt.statusline")
-			end,
-		})
+		-- use({
+		-- 	"glepnir/galaxyline.nvim",
+		-- 	branch = "main",
+		-- 	config = function()
+		-- 		require("tt.statusline")
+		-- 	end,
+		-- })
 		use({
 			"nvim-telescope/telescope.nvim",
 			module_pattern = "telescope.*",
@@ -114,7 +115,7 @@ return require("packer").startup({
 		})
 		use({ "rust-lang/rust.vim", ft = { "rust" } })
 		use({ "wbthomason/packer.nvim", opt = true })
-		-- use("nvim-treesitter/playground")
+		use("nvim-treesitter/playground")
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			config = function()

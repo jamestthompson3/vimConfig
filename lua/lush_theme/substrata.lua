@@ -131,7 +131,7 @@ local theme = lush(function()
 		-- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
 		-- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
 		-- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
-		StatusLine      { fg = base0, bg = base6 }, -- status line of current window
+		StatusLine      { fg = cyan, bg = base0 }, -- status line of current window
 		StatusLineNC    { fg = base5, bg = base2 }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 		TabLine         { StatusLineNC }, -- tab pages line, not active tab page label
 		TabLineFill     { StatusLineNC }, -- tab pages line, where there are no labels
