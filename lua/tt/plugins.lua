@@ -22,17 +22,22 @@ return require("packer").startup({
 				require("tt.plugin.compe")
 			end,
 			requires = {
-				{ "hrsh7th/cmp-vsnip"},
-				{ "hrsh7th/cmp-nvim-lsp"},
-				{ "hrsh7th/cmp-buffer"},
-				{ "hrsh7th/cmp-path"},
-				{ "tzachar/cmp-tabnine", run = "./install.sh"},
-				{ "ray-x/cmp-treesitter"},
-				{ "quangnguyen30192/cmp-nvim-tags"},
-				{ "hrsh7th/vim-vsnip"},
+				{ "hrsh7th/cmp-nvim-lsp" },
+				{ "hrsh7th/cmp-buffer" },
+				{ "hrsh7th/cmp-path" },
+				{ "saadparwaiz1/cmp_luasnip" },
+				{ "tzachar/cmp-tabnine", run = "./install.sh" },
+				{ "ray-x/cmp-treesitter" },
+				{ "quangnguyen30192/cmp-nvim-tags" },
 			},
 		})
 
+		use({
+			"L3MON4D3/LuaSnip",
+			config = function()
+				require("tt.plugin.snippets")
+			end,
+		})
 		use({
 			"mfussenegger/nvim-dap",
 			opt = true,
