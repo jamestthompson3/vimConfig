@@ -1,4 +1,4 @@
-require("impatient")
+pcall(require, "impatient")
 
 -- no need to continue if we don't have any plugins loaded, as the config here will throw errors.
 if require("tt.bootstrap")() then
