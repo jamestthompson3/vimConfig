@@ -33,7 +33,7 @@ set.ignorecase = true
 set.smartcase = true
 set.undofile = true
 set.magic = true
-set.number = true
+set.relativenumber = true
 set.tags = "" -- let gutentags handle this
 
 set.undolevels = 1000

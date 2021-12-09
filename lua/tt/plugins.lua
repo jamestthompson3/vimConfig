@@ -115,7 +115,7 @@ return require("packer").startup({
 		})
 		use({ "rust-lang/rust.vim", ft = { "rust" } })
 		use({ "wbthomason/packer.nvim", opt = true })
-		use("nvim-treesitter/playground")
+		use("nvim-treesitter/nvim-treesitter-textobjects")
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			config = function()
