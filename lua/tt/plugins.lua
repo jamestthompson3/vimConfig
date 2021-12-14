@@ -73,13 +73,13 @@ return require("packer").startup({
 				}
 			end,
 		})
-		use({
-			"glepnir/galaxyline.nvim",
-			branch = "main",
-			config = function()
-				require("tt.statusline")
-			end,
-		})
+		-- use({
+		-- 	"glepnir/galaxyline.nvim",
+		-- 	branch = "main",
+		-- 	config = function()
+		-- 		require("tt.statusline")
+		-- 	end,
+		-- })
 		use({
 			"nvim-telescope/telescope.nvim",
 			module_pattern = "telescope.*",

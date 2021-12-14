@@ -999,17 +999,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"command-exists@npm:^1.2.6":
-  version: 1.2.9
-  resolution: "command-exists@npm:1.2.9"
-  checksum: 729ae3d88a2058c93c58840f30341b7f82688a573019535d198b57a4d8cb0135ced0ad7f52b591e5b28a90feb2c675080ce916e56254a0f7c15cb2395277cac3
-  languageName: node
-  linkType: hard
-
-"commander@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "commander@npm:7.2.0"
-  checksum: 53501cbeee61d5157546c0bef0fedb6cdfc763a882136284bed9a07225f09a14b82d2a84e7637edfd1a679fb35ed9502fd58ef1d091e6287f60d790147f68ddc
+"commander@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "commander@npm:8.3.0"
+  checksum: 0f82321821fc27b83bd409510bb9deeebcfa799ff0bf5d102128b500b7af22872c0c92cb6a0ebc5a4cf19c6b550fba9cedfa7329d18c6442a625f851377bacf0
   languageName: node
   linkType: hard
 
@@ -1527,9 +1520,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint_d@npm:11.1.0":
-  version: 11.1.0
-  resolution: "eslint_d@npm:11.1.0"
+"eslint_d@npm:11.1.1":
+  version: 11.1.1
+  resolution: "eslint_d@npm:11.1.1"
   dependencies:
     core_d: ^3.2.0
     eslint: ^7.3.0
@@ -1537,7 +1530,7 @@ __metadata:
     optionator: ^0.9.1
   bin:
     eslint_d: bin/eslint_d.js
-  checksum: d5da9b962501e44b5be206d4e25da6c67656e236a3fbcaba6a699f55a07399a02e196b3b0670c071869735e3a03b99875f9b516205e66f987b001c5d1a588bb0
+  checksum: c09c74846d33bde477ffe15dfcd54681871946e5ac4cd1064a44934b30ffc950ebf6f9a04706b554ceff68d19276aab9ed4f389bb9aa10d82c89ba5152ec95bb
   languageName: node
   linkType: hard
 
@@ -2834,14 +2827,14 @@ __metadata:
   dependencies:
     "@fsouza/prettierd": 0.18.0
     bash-language-server: 2.0.0
-    eslint_d: 11.1.0
+    eslint_d: 11.1.1
     import-sort-cli: 6.0.0
     import-sort-parser-babylon: 6.0.0
     import-sort-parser-typescript: 6.0.0
     import-sort-style-renke: 6.0.0
-    prettier: ^2.4.1
-    typescript: 4.4.4
-    typescript-language-server: 0.7.1
+    prettier: ^2.5.1
+    typescript: 4.5.3
+    typescript-language-server: 0.8.1
     vscode-css-languageserver-bin: 1.4.0
     vscode-html-languageserver-bin: 1.4.0
   languageName: unknown
@@ -3457,6 +3450,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pkg-up@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "pkg-up@npm:3.1.0"
+  dependencies:
+    find-up: ^3.0.0
+  checksum: 5bac346b7c7c903613c057ae3ab722f320716199d753f4a7d053d38f2b5955460f3e6ab73b4762c62fd3e947f58e04f1343e92089e7bb6091c90877406fcd8c8
+  languageName: node
+  linkType: hard
+
 "pn@npm:^1.1.0":
   version: 1.1.0
   resolution: "pn@npm:1.1.0"
@@ -3485,12 +3487,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.3.2, prettier@npm:^2.4.1":
+"prettier@npm:^2.3.2":
   version: 2.4.1
   resolution: "prettier@npm:2.4.1"
   bin:
     prettier: bin-prettier.js
   checksum: cc6830588b401b0d742862fe9c46bc9118204fb307c3abe0e49e95b35ed23629573807ffdf9cdd65289c252a0bb51fc0171437f6626ee36378dea80f0ee80b91
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "prettier@npm:2.5.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
   languageName: node
   linkType: hard
 
@@ -4378,33 +4389,34 @@ resolve@^1.8.1:
   languageName: node
   linkType: hard
 
-"typescript-language-server@npm:0.7.1":
-  version: 0.7.1
-  resolution: "typescript-language-server@npm:0.7.1"
+"typescript-language-server@npm:0.8.1":
+  version: 0.8.1
+  resolution: "typescript-language-server@npm:0.8.1"
   dependencies:
-    command-exists: ^1.2.6
-    commander: ^7.2.0
+    commander: ^8.3.0
     fs-extra: ^10.0.0
     p-debounce: ^2.1.0
+    pkg-up: ^3.1.0
     semver: ^7.3.5
     tempy: ^1.0.1
     vscode-languageserver: ^7.0.0
     vscode-languageserver-protocol: ^3.16.0
     vscode-languageserver-textdocument: ^1.0.1
-    vscode-uri: ^1.0.5
+    vscode-uri: ^3.0.2
+    which: ^2.0.2
   bin:
     typescript-language-server: lib/cli.js
-  checksum: 0db4792cb17d7a3a49c8a446cddb4b1ca38979421fe042bb194d1e6aaf5370a09b95e0cd9098fb97efaaed7df0e801c1fbd3f67adc0bd6dc2e191e1d88fb3adf
+  checksum: 29a118aa7554fab5fa286224500c7cbb604e0884e8c7d6833f69ef0509b4903775432122587a7bac9fb3f498822e8962ed97fe941e549cdf95192a122498ec31
   languageName: node
   linkType: hard
 
-typescript@4.4.4:
-  version: 4.4.4
-  resolution: "typescript@npm:4.4.4"
+typescript@4.5.3:
+  version: 4.5.3
+  resolution: "typescript@npm:4.5.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 89ecb8436bb48ef5594d49289f5f89103071716b6e4844278f4fb3362856e31203e187a9c76d205c3f0b674d221a058fd28310dbcbcf5d95e9a57229bb5203f1
+  checksum: 2ac278c20418882816789ad94a5d9e7f11969db7a2a23fa09e61f2fedf3814265cbd4f89d7f5b6e1f0e7be2b5f169becf5dab913d0da255b073ea3c8c324e6d4
   languageName: node
   linkType: hard
 
@@ -4428,13 +4440,13 @@ typescript@^3.2.4:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.4.4#~builtin<compat/typescript>":
-  version: 4.4.4
-  resolution: "typescript@patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=d8b4e7"
+"typescript@patch:typescript@4.5.3#~builtin<compat/typescript>":
+  version: 4.5.3
+  resolution: "typescript@patch:typescript@npm%3A4.5.3#~builtin<compat/typescript>::version=4.5.3&hash=d8b4e7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 4a639b6886be13616582ab82abdb4ffbbf5b0458069d13c10cd5d44fc1cafa33eab005e8ac8691ad8fae249fee85844bb7d523263c4568fe9a2ca31cd3c91c3d
+  checksum: 79fc9800039394632978ef088cb0142e2f1672d1446f19199ff65783c8678e70e97349f69b89638c0ead15ba1ed46af794f6e182d8da7c97d832c173535eaa1e
   languageName: node
   linkType: hard
 
@@ -4708,6 +4720,13 @@ typescript@^3.2.4:
   languageName: node
   linkType: hard
 
+"vscode-uri@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "vscode-uri@npm:3.0.2"
+  checksum: 5ed2c95a483a43398df40c31d23e44f138e9c8bed384fa4edf0fd97396ce18ae8dae173c5d55e69b47205e2108e165cb165b12843a74e8b35c066d9f3810fb6c
+  languageName: node
+  linkType: hard
+
 "w3c-hr-time@npm:^1.0.1":
   version: 1.0.2
   resolution: "w3c-hr-time@npm:1.0.2"
@@ -4787,7 +4806,7 @@ typescript@^3.2.4:
   languageName: node
   linkType: hard
 
-"which@npm:^2.0.1":
+"which@npm:^2.0.1, which@npm:^2.0.2":
   version: 2.0.2
   resolution: "which@npm:2.0.2"
   dependencies:
