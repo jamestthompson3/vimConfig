@@ -3,15 +3,6 @@ require("tt.nvim_utils")
 local M = {}
 
 function M.map()
-	local find_command
-	function getFindCommand()
-		if 1 == vim.fn.executable("fd") then
-			find_command = { "fd", "--hidden", "--type", "f", "-E", ".git" }
-		elseif 1 == vim.fn.executable("fdfind") then
-			find_command = { "fdfind", "--type", "f", "--hidden", "-E", ".git", "-E", ".yarn" }
-		end
-		return { find_command = find_command }
-	end
 
 	local insert_mode = {
 		["ijj"] = { "<Esc>", noremap = false },
@@ -64,9 +55,6 @@ function M.map()
 		["n<leader>B"] = map_cmd([[silent call git#blame()]]),
 		["n<leader>w"] = map_cmd("MatchupWhereAmI"),
 		["n<leader>G"] = map_cmd("SearchBuffers"),
-		["n<leader>,"] = map_cmd([[lua require'telescope.builtin'.find_files(getFindCommand())]]),
-		-- ["n<leader>."] = map_cmd([[lua require'telescope.builtin'.buffers()]]),
-		["nT"] = map_cmd([[lua require'telescope.builtin'.tags({ctags_file = vim.bo.tags})]]),
 		["n<leader>lt"] = map_cmd([[lua require'tt.tools'.listTags()]]),
 		["n<leader>t"] = map_cmd([[vsp<CR>:exec("tag ".expand("<cword>"))]]),
 		["nS"] = map_no_cr("%s//g<LEFT><LEFT>"),

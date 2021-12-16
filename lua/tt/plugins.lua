@@ -73,25 +73,6 @@ return require("packer").startup({
 				}
 			end,
 		})
-		-- use({
-		-- 	"glepnir/galaxyline.nvim",
-		-- 	branch = "main",
-		-- 	config = function()
-		-- 		require("tt.statusline")
-		-- 	end,
-		-- })
-		use({
-			"nvim-telescope/telescope.nvim",
-			module_pattern = "telescope.*",
-			requires = {
-				{ "nvim-lua/popup.nvim" },
-				{ "nvim-lua/plenary.nvim" },
-			},
-			config = function()
-				require("tt.plugin.telescope")
-			end,
-		})
-		use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 		use({
 			"neovim/nvim-lspconfig",
 			ft = {
