@@ -12,7 +12,7 @@ function M.composer()
 	if setWriterline then
 		return
 	else
-		api.nvim_command([[ set statusline+=\ %{wordcount().words}\ words ]])
+		-- api.nvim_command([[ set statusline+=\ %{wordcount().words}\ words ]])
 		setWriterline = true
 	end
 end
@@ -30,7 +30,6 @@ local mappings = {
 	["nk"] = { "gk", noremap = true, buffer = true },
 	["ngh"] = map_cmd("lua require'tt.ft.markdown'.previewLinkedPage()", true),
 	["n<leader>r"] = map_cmd("lua require'tt.ft.markdown'.asyncDocs()", true),
-	["n<leader><CR>"] = map_cmd("call waikiki#FollowLink()", true),
 }
 
 function M.asyncDocs()
