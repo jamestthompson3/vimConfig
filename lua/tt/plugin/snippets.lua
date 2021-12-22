@@ -19,3 +19,10 @@ local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
 require("luasnip/loaders/from_vscode").load({ include = { "python", "javascript", "typescript", "rust" } })
 
+local shared = require("tt.snippets")
+
+local snippets = {}
+
+snippets.go = shared.make(require("tt.snippets.ft.go"))
+
+ls.snippets = snippets

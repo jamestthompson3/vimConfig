@@ -48,10 +48,10 @@ cmp.setup({
 	},
 	sources = {
 		{ name = "buffer" },
+    { name = "luasnip", priority = 15 },
     { name = "tags", priority = 5 },
     { name = "nvim_lsp", priority = 10},
 		{ name = "cmp_tabnine" },
-		{ name = "luasnip" },
 		{ name = "treesitter" },
 		{ name = "path" },
 	},

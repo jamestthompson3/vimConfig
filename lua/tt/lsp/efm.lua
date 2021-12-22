@@ -15,6 +15,11 @@ local prettier = {
 	fmtStdin = true,
 }
 
+local gofmt = {
+  formatCommand = "gofmt",
+  formatStdin = true,
+}
+
 function M.setup(opts)
 	require("lspconfig").efm.setup({
 		on_attach = function(client, bufnr)
@@ -22,15 +27,16 @@ function M.setup(opts)
 		end,
 		init_options = { documentFormatting = true },
 		filetypes = {
+			"css",
+			"html",
 			"javascript",
+			"javascriptreact",
+			"json",
+			"markdown",
 			"typescript",
 			"typescriptreact",
-			"javascriptreact",
-			"css",
-			"json",
-			"html",
 			"yaml",
-			"markdown",
+      "go",
 		},
 		settings = {
 			rootMarkers = { "package.json", ".git/" },
@@ -50,6 +56,7 @@ function M.setup(opts)
 				css = { prettier },
 				markdown = { prettier },
 				yaml = { prettier },
+        go = { gofmt },
 			},
 		},
 	})
