@@ -8,7 +8,7 @@ end
 require("tt.nvim_utils")
 local setPath = function()
   if gitBranch() ~= "" then
-    return table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"),",,") .. "," .. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("./", "") -- grab both the dirs and the top level files
+    return table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"),",") .. "," .. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("./", "") -- grab both the dirs and the top level files
   else
     return vim.o.path
   end
