@@ -65,6 +65,7 @@ cmp.setup({
 		format = function(entry, vim_item)
 			local completeKind = kind_symbols[vim_item.kind]
 			vim_item.kind = completeKind
+			vim_item.dup = { buffer = 1, path = 1, nvim_lsp = 0 }
 			return vim_item
 		end,
 	},
