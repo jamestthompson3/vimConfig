@@ -11,6 +11,7 @@ function M.setMappings()
 		["nga"] = map_cmd([[lua vim.lsp.buf.code_action()]]),
 		["ngs"] = map_cmd([[vsplit|lua vim.lsp.buf.definition()]]),
 		["n<leader>r"] = map_cmd([[lua vim.lsp.buf.references()]]),
+		["n<leader>i"] = map_cmd([[lua vim.lsp.buf.implementation()]]),
 		["n<leader>f"] = map_cmd([[lua vim.lsp.buf.formatting()]]),
 		["n<leader>n"] = map_cmd([[lua vim.lsp.buf.rename()]]),
 	}
