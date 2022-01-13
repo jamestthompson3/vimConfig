@@ -26,12 +26,12 @@ GLOBALS = { }
 if is_windows then
   GLOBALS.home  = os.getenv("HOMEPATH")
   GLOBALS.cwd  = function()
-    os.getenv("cd")
+    return os.getenv("cd")
   end
 else
   GLOBALS.home = os.getenv("HOME")
   GLOBALS.cwd  = function()
-    os.getenv("PWD")
+    return os.getenv("PWD")
   end
 end
 
