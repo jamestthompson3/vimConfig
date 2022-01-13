@@ -10,7 +10,7 @@ else
 	print("Unsupported system for sumneko")
 end
 
-local sumneko_root_path = os.getenv("HOME") .. "/programs/lua-language-server"
+local sumneko_root_path = GLOBALS.home .. "/programs/lua-language-server"
 local sumneko_binary = sumneko_root_path .. "/bin/" .. system_name .. "/lua-language-server"
 
 local runtime_path = vim.split(package.path, ";")

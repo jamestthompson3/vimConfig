@@ -31,7 +31,7 @@ function M.splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = vim.fn.argc()
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
-  local currDir = os.getenv('PWD')
+  local currDir = GLOBALS.cwd()
   if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
@@ -155,7 +155,7 @@ end
 -- Session Management
 function M.createSessionName()
   local sessionName = gitBranch()
-  local currDir = os.getenv('PWD')
+  local currDir = GLOBALS.cwd()
   if not sessionName == '' or sessionName == 'master' then
     return "default" --currDir
   else
@@ -177,7 +177,7 @@ end
 
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = os.getenv('PWD')
+  local cwd = GLOBALS.cwd()
   for _, file in ipairs(files) do
     if not vim.startswith(file, 'term://') and string.match(getPath(file), cwd) then
       local splitvals = vim.split(file, "/")
@@ -229,19 +229,6 @@ function M.asyncGrep(...)
 end
 
 
-function M.statuslineIcon()
-  local fileName = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')
-  local extension = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':e')
-  local icon, icon_highlight = icons.get_icon(fileName, extension, {default = true})
-  if icon ~= nil then
-    -- local iconHighlight = icons.get_highlight_name(icon)
-    -- TODO load dynamic parts of the statusline on augroups?
-    -- statusline = icon .. ' '
-    return icon .. ' '
-  end
-  return ""
-end
-
 function M.statuslineHighlight()
   local fileName = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':p:t')
   local extension = vim.fn.fnamemodify(api.nvim_buf_get_name(0),':e')
@@ -263,7 +250,7 @@ function M.profile()
 end
 
 M.kind_symbols = {
-	Text = " Text",
+  Text = " Text",
 	Method = "ƒ Method",
 	Function = icons.get("pulse") .. " Func",
 	Constructor = " Constructor",

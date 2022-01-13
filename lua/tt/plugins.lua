@@ -47,7 +47,7 @@ return require("packer").startup({
 				dap.adapters.node2 = {
 					type = "executable",
 					command = "node",
-					args = { os.getenv("HOME") .. "/.config/nvim/langservers/vscode-node-debug2/out/src/nodeDebug.js" },
+					args = { GLOBALS.home .. "/.config/nvim/langservers/vscode-node-debug2/out/src/nodeDebug.js" },
 				}
 				dap.configurations.javascript = {
 					{

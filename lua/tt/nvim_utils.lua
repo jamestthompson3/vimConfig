@@ -18,6 +18,23 @@ local valid_modes = {
 	[" "] = "",
 }
 
+is_windows = loop.os_uname().version:match("Windows")
+file_separator = is_windows and "\\" or "/"
+
+GLOBALS = { }
+
+if is_windows then
+  GLOBALS.home  = os.getenv("HOMEPATH")
+  GLOBALS.cwd  = function()
+    os.getenv("cd")
+  end
+else
+  GLOBALS.home = os.getenv("HOME")
+  GLOBALS.cwd  = function()
+    os.getenv("PWD")
+  end
+end
+
 function map_cmd(cmd_string, buflocal)
 	return { ("<Cmd>%s<CR>"):format(cmd_string), noremap = true, buffer = buflocal }
 end
@@ -30,8 +47,6 @@ function map_no_cr(cmd_string, buflocal)
 	return { (":%s"):format(cmd_string), noremap = true, buffer = buflocal }
 end
 
-is_windows = loop.os_uname().version:match("Windows")
-file_separator = is_windows and "\\" or "/"
 
 function nvim_apply_mappings(mappings, default_options)
 	-- May or may not be used.

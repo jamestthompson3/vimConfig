@@ -16,7 +16,6 @@ end
 local set = vim.o
 local api = vim.api
 local fn = vim.fn
-local home = os.getenv("HOME")
 
 vim.g.mapleader = " "
 
@@ -68,7 +67,7 @@ set.foldlevel = 1
 set.foldmethod = "expr"
 set.foldexpr = "nvim_treesitter#foldexpr()"
 set.shortmess = vim.o.shortmess .. "s"
-set.undodir = home .. "/.cache/Vim/undofile"
+set.undodir = GLOBALS.home .. "/.cache/Vim/undofile"
 
 -- UI OPTS
 set.termguicolors = true
