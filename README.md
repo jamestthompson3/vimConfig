@@ -4,4 +4,4 @@ Necessary external binaries:
 
 - ripgrep
 - ctags
-- cscope
+- fd
