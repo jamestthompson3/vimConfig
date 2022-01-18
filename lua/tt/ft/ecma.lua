@@ -15,6 +15,7 @@ function M.bootstrap()
 		["i<C-l>"] = { "console.log()<esc>i", noremap = true, buffer = true },
 		["i<C-c>"] = { "console.log('%c%o', 'color: ;')<esc>F%;la", noremap = true, buffer = true },
 		["id<C-l>"] = { "debugger", noremap = true, buffer = true },
+		["n<leader>i"] = { "biimport {<esc>ea} from ''<esc>i", noremap = true, buffer = true },
 	}
 
 	nvim_apply_mappings(mappings, { silent = true })
