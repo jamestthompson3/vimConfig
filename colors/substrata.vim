@@ -58,9 +58,9 @@ highlight Type guifg=#A18DB0 guibg=NONE guisp=NONE gui=NONE blend=NONE
 highlight TSFunction guifg=#A18DB0 guibg=NONE guisp=NONE gui=NONE blend=NONE
 highlight FloatBorder guifg=#A9904C guibg=#20222D guisp=NONE gui=NONE blend=NONE
 highlight Question guifg=#A1BAD9 guibg=NONE guisp=NONE gui=NONE blend=NONE
-highlight! link GitLens Conceal
 highlight! link TSComment Comment
 highlight TSTag guifg=#75A064 guibg=NONE guisp=NONE gui=NONE blend=NONE
+highlight! link GitLens  TSTag
 highlight TSTypeBuiltin guifg=#8296B0 guibg=NONE guisp=NONE gui=bold blend=NONE
 highlight! link TSType Type
 highlight! link TSDanger Todo
