@@ -198,7 +198,7 @@ local theme = lush(function()
 		-- Custom Groups
 		ExtraWhitespace  { fg = light_cyan },
 		Callout          { fg = light_blue },
-    GitLens          { Conceal  },
+    GitLens          { fg = light_green  },
 
 		-- These groups are for the native LSP client. Some other LSP clients may
 		-- use these groups, or use their own. Consult your LSP client's
