@@ -24,6 +24,7 @@ ts_config.setup({
 		"java",
 		"scala",
 		"python",
+    "graphql",
 		"rust",
 		"typescript",
 		"tsx",
