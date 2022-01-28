@@ -2,7 +2,6 @@ require('tt.nvim_utils')
 local api = vim.api
 local fn = vim.fn
 require('tt.navigation')
-local icons = require("nvim-nonicons")
 
 local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
 
@@ -15,9 +14,9 @@ function M.openQuickfix()
   api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
 
-function M.compile_theme()
-  local lines = require("lush").compile(require("lush_theme.substrata"))
-  vim.fn.writefile(lines, "colors/substrata.vim")
+function M.compile_theme(theme)
+  local lines = require("lush").compile(require("lush_theme." .. theme))
+  vim.fn.writefile(lines, "colors/" .. theme .. ".vim")
 end
 
 function M.cheatsheet()
@@ -249,27 +248,35 @@ function M.profile()
   end
 end
 
-M.kind_symbols = {
-  Text = " Text",
-	Method = "ƒ Method",
-	Function = icons.get("pulse") .. " Func",
-	Constructor = " Constructor",
-	Variable = icons.get("variable") .. " Var",
-	Class = icons.get("class") .. " Class",
-	Interface = "ﰮ" .. " Interface",
-	Module = icons.get("package") .. " Module",
-	Property = " Property",
-	Unit = " Unit",
-	Value = icons.get("ellipsis") .. " Value",
-	Enum = icons.get("workflow") .. " Enum",
-	Keyword = " Keyword",
-	Snippet = "﬌ Snippet",
-	Color = " Color",
-	File = icons.get("file") .. " File",
-	Folder = icons.get("file-directory-outline") .. " Folder",
-	EnumMember = " EnumMember",
-	Constant = icons.get("constant") .. " Constant",
-	Struct = icons.get("struct") .. " Struct",
-}
+M.kind_symbols = function ()
+  local icons_present = pcall(require, "nvim-nonicons")
+  if icons_present then
+    local icons = require'nvim-nonicons'
+    return {
+      Text = " Text",
+      Method = "ƒ Method",
+      Function = icons.get("pulse") .. " Func",
+      Constructor = " Constructor",
+      Variable = icons.get("variable") .. " Var",
+      Class = icons.get("class") .. " Class",
+      Interface = "ﰮ" .. " Interface",
+      Module = icons.get("package") .. " Module",
+      Property = " Property",
+      Unit = " Unit",
+      Value = icons.get("ellipsis") .. " Value",
+      Enum = icons.get("workflow") .. " Enum",
+      Keyword = " Keyword",
+      Snippet = "﬌ Snippet",
+      Color = " Color",
+      File = icons.get("file") .. " File",
+      Folder = icons.get("file-directory-outline") .. " Folder",
+      EnumMember = " EnumMember",
+      Constant = icons.get("constant") .. " Constant",
+      Struct = icons.get("struct") .. " Struct",
+    }
+  else
+    return {}
+  end
+end
 
 return M

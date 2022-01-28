@@ -1,6 +1,6 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local kind_symbols = require("tt.tools").kind_symbols
+local kind_symbols = require("tt.tools").kind_symbols()
 
 local has_words_before = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
