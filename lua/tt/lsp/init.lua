@@ -94,7 +94,7 @@ function M.configureLSP()
 	})
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-		underline = true,
+		underline = false,
 		virtual_text = false,
 		signs = true,
 		border = border,

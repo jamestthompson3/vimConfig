@@ -84,7 +84,7 @@ set.guicursor = "n:blinkwait60-blinkon175-blinkoff175-Cursor/lCursor,i-ci-ve:ver
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
-	api.nvim_command([[colorscheme substrata]])
+	api.nvim_command([[colorscheme tropics]])
 	schedule(function()
 		require("tt.plugins")
 		require("tt.core_opts")

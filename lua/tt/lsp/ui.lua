@@ -6,7 +6,7 @@ function M.diagnosticSigns()
 		text = "",
 		texthl = "LspDiagnosticsSignError",
 		linehl = "",
-		numhl = "",
+		numhl = "LspDiagnosticsUnderlineError",
 	})
 	vim.fn.sign_define("DiagnosticSignWarning", {
 		text = "",
