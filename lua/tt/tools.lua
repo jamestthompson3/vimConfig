@@ -1,10 +1,9 @@
-require('tt.nvim_utils')
+local globals = require("tt.nvim_utils").GLOBALS
 local api = vim.api
 local fn = vim.fn
 require('tt.navigation')
 
-local sessionPath = '~'.. file_separator .. 'sessions' .. file_separator
-
+local sessionPath = globals.home .. globals.file_separator .. 'sessions' .. globals.file_separator
 
 local M = {}
 
@@ -30,7 +29,7 @@ function M.splashscreen()
   local curr_buf = api.nvim_get_current_buf()
   local args = vim.fn.argc()
   local offset = api.nvim_buf_get_offset(curr_buf, 1)
-  local currDir = GLOBALS.cwd()
+  local currDir = globals.cwd()
   if offset == -1 and args == 0 then
     api.nvim_create_buf(false, true)
     api.nvim_command [[ silent! r ~/vim/skeletons/start.screen ]]
@@ -154,7 +153,7 @@ end
 -- Session Management
 function M.createSessionName()
   local sessionName = gitBranch()
-  local currDir = GLOBALS.cwd()
+  local currDir = globals.cwd()
   if not sessionName == '' or sessionName == 'master' then
     return "default" --currDir
   else
@@ -176,7 +175,7 @@ end
 
 function M.simpleMRU()
   local files = vim.v.oldfiles
-  local cwd = GLOBALS.cwd()
+  local cwd = globals.cwd()
   for _, file in ipairs(files) do
     if not vim.startswith(file, 'term://') and string.match(getPath(file), cwd) then
       local splitvals = vim.split(file, "/")

@@ -1,5 +1,5 @@
-require("tt.nvim_utils")
 require("tt.navigation")
+local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local api = vim.api
 local M = {}
 local setWriterline = false
@@ -17,20 +17,17 @@ function M.composer()
 	end
 end
 
-function M.createFile()
-end
+function M.createFile() end
 
 -- Globals
 vim.g.markdown_fenced_languages = { "html", "typescript", "javascript", "js=javascript", "bash=sh", "rust" }
 
 vim.wo.foldlevel = 1
 
-local mappings = {
-	["nj"] = { "gj", noremap = true, buffer = true },
-	["nk"] = { "gk", noremap = true, buffer = true },
-	["ngh"] = map_cmd("lua require'tt.ft.markdown'.previewLinkedPage()", true),
-	["n<leader>r"] = map_cmd("lua require'tt.ft.markdown'.asyncDocs()", true),
-}
+buf_nnoremap({ "nj", "gj" })
+buf_nnoremap({ "k", "gk" })
+buf_nnoremap({ "gh", require("tt.ft.markdown").previewLinkedPage })
+buf_nnoremap({ "<leader>r", require("tt.ft.markdown").asyncDocs })
 
 function M.asyncDocs()
 	local shortname = vim.fn.expand("%:t:r")
@@ -88,7 +85,5 @@ function M.previewLinkedPage()
 end
 
 api.nvim_command([[command! Compose lua require'tt.ft.markdown'.composer()]])
-
-nvim_apply_mappings(mappings)
 
 return M

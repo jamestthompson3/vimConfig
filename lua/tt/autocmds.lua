@@ -1,3 +1,5 @@
+local create_augroups = require("tt.nvim_utils").vim_util.create_augroups
+
 local autocmds = {
 	load_core = {
 		{ "VimEnter", "*", [[nested lua require'tt.tools'.openQuickfix()]] },
@@ -59,5 +61,5 @@ local autocmds = {
 	},
 }
 vim.schedule(function()
-	nvim_create_augroups(autocmds)
+	create_augroups(autocmds)
 end)

@@ -5,7 +5,7 @@ if require("tt.bootstrap")() then
 	return
 end
 
-require("tt.nvim_utils")
+local globals = require("tt.nvim_utils").GLOBALS
 local setPath = function()
   if gitBranch() ~= "" then
     return ".," .. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"),","):gsub("%./", "") .. "," .. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
@@ -67,7 +67,7 @@ set.foldlevel = 1
 set.foldmethod = "expr"
 set.foldexpr = "nvim_treesitter#foldexpr()"
 set.shortmess = vim.o.shortmess .. "s"
-set.undodir = GLOBALS.home .. "/.cache/Vim/undofile"
+set.undodir = globals.home .. "/.cache/Vim/undofile"
 
 -- UI OPTS
 set.termguicolors = true
@@ -86,10 +86,10 @@ do
 	local schedule = vim.schedule
 	api.nvim_command([[colorscheme tropics]])
 	schedule(function()
+		require("tt.mappings")
 		require("tt.plugins")
 		require("tt.core_opts")
 		require("tt.autocmds")
-		require("tt.mappings").map()
 		require("tt.tools").splashscreen()
 	end)
 end

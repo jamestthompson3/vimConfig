@@ -1,6 +1,6 @@
-require("tt.nvim_utils")
+require("tt.lsp.mappings")
+local node = require("tt.nvim_utils").nodejs
 local ui = require("tt.lsp.ui")
-local maps = require("tt.lsp.mappings")
 local efm = require("tt.lsp.efm")
 local sumneko = require("tt.lsp.sumneko")
 
@@ -35,24 +35,23 @@ end
 function M.configureLSP()
 	-- ui.autocompleteSymbols()
 	ui.diagnosticSigns()
-	maps.setMappings()
 	local nvim_lsp = require("lspconfig")
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 	-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	-- individual langserver setup
-	sumneko.setup()
+	-- sumneko.setup()
 
 	nvim_lsp.html.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
-		cmd = { get_node_bin("vscode-html-languageserver-bin"), "--stdio" },
+		cmd = { node.get_node_bin("vscode-html-languageserver-bin"), "--stdio" },
 	})
 	nvim_lsp.tsserver.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
-		cmd = { find_node_executable("typescript-language-server"), "--stdio" },
+		cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
 		commands = {
 			OrganizeImports = {
 				organize_imports,
@@ -90,7 +89,7 @@ function M.configureLSP()
 
 	nvim_lsp.bashls.setup({
 		on_attach = on_attach,
-		cmd = { get_node_bin("bash-language-server"), "start" },
+		cmd = { node.get_node_bin("bash-language-server"), "start" },
 	})
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

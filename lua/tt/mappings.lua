@@ -1,7 +1,20 @@
-require("tt.nvim_utils")
-local ls = require("luasnip")
+local nnore = require("tt.nvim_utils").keys.nnore
+local inore = require("tt.nvim_utils").keys.inore
+local tnore = require("tt.nvim_utils").keys.tnore
+local nmap = require("tt.nvim_utils").keys.nmap
+local nmap_cmd = require("tt.nvim_utils").keys.nmap_cmd
+local nmap_nocr = require("tt.nvim_utils").keys.nmap_nocr
+local nmap_call = require("tt.nvim_utils").keys.nmap_call
+local xmap = require("tt.nvim_utils").keys.xmap
+local xmap_cmd = require("tt.nvim_utils").keys.xmap_cmd
+local xnore = require("tt.nvim_utils").keys.xnore
+local vmap = require("tt.nvim_utils").keys.vmap
+local vnore = require("tt.nvim_utils").keys.vnore
+local vmap_nocr = require("tt.nvim_utils").keys.vmap_nocr
+local cmap = require("tt.nvim_utils").keys.cmap
 
-local M = {}
+local ls = require("luasnip")
+local tools = require("tt.tools")
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
 	if ls.expand_or_jumpable() then
@@ -17,91 +30,108 @@ vim.keymap.set({ "i", "s" }, "<c-j>", function()
 	end
 end, { silent = true })
 
-function M.map()
-
-	local insert_mode = {
-		["ijj"] = { "<Esc>", noremap = false },
-	}
-	local normal_mode = {
-		["t<C-\\>"] = { [[<C-\><C-n>]], noremap = true },
-		["n'"] = { "`", noremap = true },
-		["nY"] = { "y$", noremap = true },
-		["n;"] = { ":", noremap = true },
-		["n:"] = { ";", noremap = true },
-		["n/"] = { "ms/", noremap = true },
-		["n<leader>p"] = { '"+p', noremap = true },
-		["n<leader>P"] = { '"+P', noremap = true },
-		["n<C-]>"] = { "g<C-]>", noremap = true },
-		["t<C-\\>"] = { "<C-\\><C-n>", noremap = true },
-		["nwq"] = map_cmd("close"),
-		["ncc"] = map_cmd("cclose"),
-		["ncl"] = map_cmd("lclose"),
-		["ngl"] = map_cmd("pc"),
-		["n<leader><tab>"] = map_cmd("bn"),
-		["n<leader>h"] = map_cmd("call tools#switchSourceHeader()"),
-		["n<leader>e"] = { ":e <C-R>=expand('%:p:h') . '/'<CR>", noremap = true, silent = false },
-		["n<leader>-"] = map_cmd('echo expand("%")'),
-		["nz/"] = { ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>", noremap = true },
-		["n[a"] = map_cmd("prev"),
-		["n]a"] = map_cmd("next"),
-		["n[q"] = map_cmd("cnext"),
-		["n]q"] = map_cmd("cprev"),
-		["n[t"] = map_cmd("tnext"),
-		["n]t"] = map_cmd("tprev"),
-		["n[Q"] = map_cmd("cnfile"),
-		["n]Q"] = map_cmd("cpfile"),
-		["n<C-J>"] = map_cmd([[lua require'tt.tools'.winMove('j')]]),
-		["n<C-L>"] = map_cmd([[lua require'tt.tools'.winMove('l')]]),
-		["n<C-H>"] = map_cmd([[lua require'tt.tools'.winMove('h')]]),
-		["n<C-K>"] = map_cmd([[lua require'tt.tools'.winMove('k')]]),
-		["nmks"] = map_cmd("mks! ~/sessions/"),
-		["nn"] = map_call("n:call HLNext(0.1)"),
-		["nN"] = map_call("N:call HLNext(0.1)"),
-		["nss"] = map_cmd("so ~/sessions/"),
-		["nssb"] = map_cmd([[lua require'tt.tools'.sourceSession()]]),
-		["nM"] = map_cmd("silent make"),
-		-- ["ngh"] = map_cmd("call symbols#ShowDeclaration(0)"),
-		["nsd"] = map_cmd("call symbols#PreviewWord()"),
-		["n<F7>"] = map_cmd('so "%"'),
-		["n<F1>"] = map_cmd([[lua require'tt.tools'.profile()]]),
-		["n<leader>d"] = map_cmd([[lua require'tt.tools'.openTerminalDrawer(0)]]),
-		["n<leader>D"] = map_cmd([[lua require'tt.tools'.openTerminalDrawer(1)]]),
-		["n<leader>b"] = map_cmd("Gblame"),
-		["n<leader>B"] = map_cmd([[silent call git#blame()]]),
-		["n<leader>w"] = map_cmd("MatchupWhereAmI"),
-		["n<leader>G"] = map_cmd("SearchBuffers"),
-		["n<leader>lt"] = map_cmd([[lua require'tt.tools'.listTags()]]),
-		["n<leader>t"] = map_cmd([[vsp<CR>:exec("tag ".expand("<cword>"))]]),
-		["nS"] = map_no_cr("%s//g<LEFT><LEFT>"),
-		["n,"] = map_no_cr("find<space>"),
-		["nsb"] = map_no_cr("g//#<Left><Left>"),
-		["ng_"] = map_no_cr("g//#<Left><Left><C-R><C-W><CR>:"),
-		["n<leader>."] = map_no_cr("buffer<space>"),
-		["n<C-f>"] = map_no_cr("SearchProject<space>"),
-		["nts"] = map_no_cr("ts<space>/"),
-		["n<up>"] = { ":m .-2<cr>==", noremap = true },
-		["n<down>"] = { ":m .+1<cr>==", noremap = true },
-	}
-	local visual_mode = {
-		["x<leader>y"] = { '"+y', noremap = true },
-		["x<leader>d"] = { '"+d', noremap = true },
-		["vs"] = map_no_cr("s//g<LEFT><LEFT>"),
-		["x<leader>b"] = map_cmd("Gblame"),
-		["xI"] = { "(mode()=~#'[vV]'?'<C-v>^o^I':'I')", noremap = true, expr = true },
-		["xA"] = { "(mode()=~#'[vV]'?'<C-v>0o$A':'A')", noremap = true, expr = true },
-		["v<up>"] = { ":m '<-2<cr>gv=gv", noremap = true },
-		["v<down>"] = { ":m '>+1<cr>gv=gv", noremap = true },
-		-- Don't trash current register when pasting in visual mode
-		["xp"] = { "p:if v:register == '\"'<Bar>let @@=@0<Bar>endif<cr>", noremap = true },
-	}
-	local command_mode = {
-		["c<CR>"] = { "tools#CCR()", noremap = true, expr = true },
-	}
-
-	nvim_apply_mappings(normal_mode, { silent = true })
-	nvim_apply_mappings(insert_mode, { silent = true })
-	nvim_apply_mappings(visual_mode, { silent = true })
-	nvim_apply_mappings(command_mode, { silent = true })
-end
-
-return M
+-- INSERT MODE
+inore("jj", "<Esc>")
+-- TERMINAL MODE
+tnore("<Esc>", "[[<C-><C-n>]]")
+-- NORMAL MODE
+nnore("<up>", ":m .-2<cr>==")
+nnore("<down>", ":m .+1<cr>==")
+nnore("'", "`")
+nnore("Y", "y$")
+nnore(";", ":")
+nnore(":", ";")
+nnore("/", "ms/")
+nnore("<leader>p", '"+p')
+nnore("<leader>P", '"+P')
+nnore("<C-]>", "g<C-]>")
+nnore("<C-\\>", "<C-\\><C-n>")
+nnore("z/", ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>")
+nmap({ "<leader>e", ":e <C-R>=expand('%:p:h') . '/'<CR>", { noremap = true, silent = false } })
+nmap({
+	"<C-J>",
+	function()
+		tools.winMove("j")
+	end,
+})
+nmap({
+	"<C-L>",
+	function()
+		tools.winMove("l")
+	end,
+})
+nmap({
+	"<C-H>",
+	function()
+		tools.winMove("h")
+	end,
+})
+nmap({
+	"<C-K>",
+	function()
+		tools.winMove("k")
+	end,
+})
+nmap({ "ssb", tools.sourceSession })
+nmap({ "<F1>", tools.profile })
+nmap({
+	"<leader>d",
+	function()
+		tools.openTerminalDrawer(0)
+	end,
+})
+nmap({
+	"<leader>D",
+	function()
+		tools.openTerminalDrawer(1)
+	end,
+})
+nmap({ "<leader>lt", tools.listTags })
+nmap_call("n", "n:call HLNext(0.15)")
+nmap_call("N", "N:call HLNext(0.15)")
+nmap_cmd("wq", "close")
+nmap_cmd("cc", "cclose")
+nmap_cmd("cl", "lclose")
+nmap_cmd("gl", "pc")
+nmap_cmd("<leader><tab>", "bn")
+nmap_cmd("<leader>h", "call tools#switchSourceHeader()")
+nmap_cmd("<leader>-", 'echo expand("%")')
+nmap_cmd("[a", "prev")
+nmap_cmd("]a", "next")
+nmap_cmd("[q", "cnext")
+nmap_cmd("]q", "cprev")
+nmap_cmd("[t", "tnext")
+nmap_cmd("]t", "tprev")
+nmap_cmd("[Q", "cnfile")
+nmap_cmd("]Q", "cpfile")
+nmap_cmd("mks", "mks! ~/sessions/")
+nmap_cmd("ss", "so ~/sessions/")
+nmap_cmd("M", "silent make")
+nmap_cmd("gh", "call symbols#ShowDeclaration(0)")
+nmap_cmd("sd", "call symbols#PreviewWord()")
+nmap_cmd("<F7>", 'so "%"')
+nmap_cmd("<leader>b", "Gblame")
+nmap_cmd("<leader>B", "silent call git#blame()")
+nmap_cmd("<leader>w", "MatchupWhereAmI")
+nmap_cmd("<leader>G", "SearchBuffers")
+nmap_cmd("<leader>t", 'vsp<CR>:exec("tag ".expand("<cword>")')
+nmap_nocr("S", "%s//g<LEFT><LEFT>")
+nmap_nocr(",", "find<space>")
+nmap_nocr("sb", "g//#<Left><Left>")
+nmap_nocr("g_", "g//#<Left><Left><C-R><C-W><CR>:")
+nmap_nocr("<leader>.", "buffer<space>")
+nmap_nocr("<C-f>", "SearchProject<space>")
+nmap_nocr("ts", "ts<space>/")
+-- VISUAL MODE
+xnore("<leader>y", '"+y')
+xnore("<leader>d", '"+d')
+-- Don't trash current register when pasting in visual mode
+xnore("p", "p:if v:register == '\"'<Bar>let @@=@0<Bar>endif<cr>")
+xmap({ "I", "(mode()=~#'[vV]'?'<C-v>^o^I':'I')", { noremap = true, expr = true } })
+xmap({ "A", "(mode()=~#'[vV]'?'<C-v>0o$A':'A')", { noremap = true, expr = true } })
+vnore("<up>", ":m '<-2<cr>gv=gv")
+vnore("<down>", ":m '>+1<cr>gv=gv")
+vmap_nocr("s", "s//g<LEFT><LEFT>")
+xmap_cmd("<leader>b", "Gblame")
+-- COMMAND MODE
+cmap({ "<CR>", "tools#CCR()", { noremap = true, expr = true } })

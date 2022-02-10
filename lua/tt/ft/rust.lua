@@ -1,4 +1,4 @@
-require("tt.nvim_utils")
+local vim_util = require("tt.nvim_utils").vim_util
 
 local M = {}
 
@@ -9,7 +9,7 @@ function M.bootstrap()
     }
   }
   vim.api.nvim_command([[command! Check silent make! check]])
-	nvim_create_augroups(autocmds)
+	vim_util.create_augroups(autocmds)
 end
 
 return M

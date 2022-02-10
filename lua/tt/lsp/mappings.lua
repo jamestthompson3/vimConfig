@@ -1,22 +1,16 @@
-local M = {}
-require("tt.nvim_utils")
+local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 
-function M.setMappings()
-	local mappings = {
-		["nge"] = map_cmd([[lua vim.diagnostic.open_float(0, { scope = "cursor" })]]),
-		["ngd"] = map_cmd([[lua vim.lsp.buf.definition()]]),
-		["ngt"] = map_cmd([[lua vim.lsp.buf.type_definition()]]),
-		["nK"] = map_cmd([[lua vim.lsp.buf.hover()]]),
-		["n[e"] = map_cmd([[lua vim.diagnostic.goto_next()]]),
-		["n]e"] = map_cmd([[lua vim.diagnostic.goto_prev()]]),
-		["nga"] = map_cmd([[lua vim.lsp.buf.code_action()]]),
-		["ngs"] = map_cmd([[vsplit|lua vim.lsp.buf.definition()]]),
-		["n<leader>r"] = map_cmd([[lua vim.lsp.buf.references()]]),
-		["n<leader>i"] = map_cmd([[lua vim.lsp.buf.implementation()]]),
-		["n<leader>f"] = map_cmd([[lua vim.lsp.buf.formatting()]]),
-		["n<leader>n"] = map_cmd([[lua vim.lsp.buf.rename()]]),
-	}
-	nvim_apply_mappings(mappings, { silent = true })
-end
-
-return M
+buf_nnoremap({"ge", function()
+	vim.diagnostic.open_float(0, { scope = "cursor" })
+end})
+buf_nnoremap({"gd", vim.lsp.buf.definition})
+buf_nnoremap({"gt", vim.lsp.buf.type_definition})
+buf_nnoremap({"K", vim.lsp.buf.hover})
+buf_nnoremap({"[e", vim.diagnostic.goto_next})
+buf_nnoremap({"]e", vim.diagnostic.goto_prev})
+buf_nnoremap({"ga", vim.lsp.buf.code_action})
+buf_nnoremap({"gs", "vsplit|lua vim.lsp.buf.definition"})
+buf_nnoremap({"<leader>r", vim.lsp.buf.references})
+buf_nnoremap({"<leader>i", vim.lsp.buf.implementation})
+buf_nnoremap({"<leader>f", vim.lsp.buf.formatting})
+buf_nnoremap({"<leader>n", vim.lsp.buf.rename})

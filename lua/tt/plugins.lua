@@ -38,41 +38,41 @@ return require("packer").startup({
 				require("tt.plugin.luasnip")
 			end,
 		})
-		use({
-			"mfussenegger/nvim-dap",
-			opt = true,
-			ft = { "typescript", "javascript" },
-			config = function()
-				local dap = require("dap")
-				dap.adapters.node2 = {
-					type = "executable",
-					command = "node",
-					args = { GLOBALS.home .. "/.config/nvim/langservers/vscode-node-debug2/out/src/nodeDebug.js" },
-				}
-				dap.configurations.javascript = {
-					{
-						type = "node2",
-						request = "launch",
-						program = "${file}",
-						cwd = vim.fn.getcwd(),
-						sourceMaps = true,
-						protocol = "inspector",
-						console = "integratedTerminal",
-					},
-				}
-				dap.configurations.typescript = {
-					{
-						type = "node2",
-						request = "launch",
-						program = "${file}",
-						cwd = vim.fn.getcwd(),
-						sourceMaps = true,
-						protocol = "inspector",
-						console = "integratedTerminal",
-					},
-				}
-			end,
-		})
+		-- use({
+		-- 	"mfussenegger/nvim-dap",
+		-- 	opt = true,
+		-- 	ft = { "typescript", "javascript" },
+		-- 	config = function()
+		-- 		local dap = require("dap")
+		-- 		dap.adapters.node2 = {
+		-- 			type = "executable",
+		-- 			command = "node",
+		-- 			args = { require"tt.nvim_utils".GLOBALS.home .. "/.config/nvim/langservers/vscode-node-debug2/out/src/nodeDebug.js" },
+		-- 		}
+		-- 		dap.configurations.javascript = {
+		-- 			{
+		-- 				type = "node2",
+		-- 				request = "launch",
+		-- 				program = "${file}",
+		-- 				cwd = vim.fn.getcwd(),
+		-- 				sourceMaps = true,
+		-- 				protocol = "inspector",
+		-- 				console = "integratedTerminal",
+		-- 			},
+		-- 		}
+		-- 		dap.configurations.typescript = {
+		-- 			{
+		-- 				type = "node2",
+		-- 				request = "launch",
+		-- 				program = "${file}",
+		-- 				cwd = vim.fn.getcwd(),
+		-- 				sourceMaps = true,
+		-- 				protocol = "inspector",
+		-- 				console = "integratedTerminal",
+		-- 			},
+		-- 		}
+		-- 	end,
+		-- })
 		use({
 			"neovim/nvim-lspconfig",
 			ft = {

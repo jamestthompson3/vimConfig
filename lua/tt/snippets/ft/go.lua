@@ -136,6 +136,12 @@ local M = {
 
 	-- TODO: Fix this up so that it actually uses the tree sitter thing
 	ie = { "if err != nil {", "\treturn err", i(0), "}" },
+  l = {
+    fmt("fmt.Println({})", {i(1)})
+  },
+  ex = {
+    t("os.Exit(1)\n")
+  }
 }
 
 return M

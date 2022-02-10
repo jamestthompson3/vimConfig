@@ -1,4 +1,5 @@
-require("tt.nvim_utils")
+local node = require("tt.nvim_utils").nodejs
+local spawn = require("tt.nvim_utils").spawn
 
 local fn = vim.fn
 local api = vim.api
@@ -24,7 +25,7 @@ end
 
 function M.import_sort(async, cb)
 	local path = fn.fnameescape(fn.expand("%:p"))
-	local executable_path = find_node_executable("import-sort")
+	local executable_path = node.find_node_executable("import-sort")
 
 	if fn.executable(executable_path) then
 		if true == async then
@@ -54,7 +55,7 @@ function M.import_sort(async, cb)
 end
 
 function M.lint_project()
-	local executable_path = find_node_executable("eslint_d")
+	local executable_path = node.find_node_executable("eslint_d")
 	local linterResults = {}
 	local function readlint(_, data)
 		if data then
@@ -87,7 +88,7 @@ end
 
 function M.linter_d()
 	local path = fn.fnameescape(fn.expand("%:p"))
-	local executable_path = find_node_executable("eslint_d")
+	local executable_path = node.find_node_executable("eslint_d")
 	local linterResults = {}
 	local function readlint(_, data)
 		if data then

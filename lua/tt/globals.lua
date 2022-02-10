@@ -1,4 +1,4 @@
--- Globals
+local globals = require('tt.nvim_utils').GLOBALS
 --
 -- Do not source the default filetype.vim
 -- vim.g.did_load_filetypes = 1
@@ -12,9 +12,7 @@ vim.g.loaded_matchit = 1
 vim.g.did_install_default_menus = 1
 vim.g.remove_whitespace = 1
 vim.g.loaded_tutor_mode_plugin = 1
-vim.g.python3_host_prog = is_windows
-		and "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
-	or "/usr/local/bin/python3"
+vim.g.python3_host_prog = globals.python_host
 vim.g.autoformat = true
 vim.g.netrw_localrmdir = "rm -rf"
 vim.g.netrw_banner = 0
@@ -51,9 +49,3 @@ vim.g.matchup_matchparen_deferred = 1
 vim.g.matchup_match_paren_timeout = 100
 vim.g.matchup_matchparen_stopline = 200
 vim.g.matchup_matchparen_offscreen = { method = "popup" }
-
-vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
-vim.g.vsnip_filetypes = {
-	javascriptreact = { "react" },
-	typescriptreact = { "react" },
-}

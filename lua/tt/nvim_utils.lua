@@ -1,8 +1,10 @@
 --- NVIM SPECIFIC SHORTCUTS
-vim = vim or {}
-api = vim.api
-fn = vim.fn
-loop = vim.loop
+local vim = vim or {}
+local api = vim.api
+local fn = vim.fn
+local loop = vim.loop
+
+local M = {}
 
 local valid_modes = {
 	n = "n",
@@ -19,108 +21,134 @@ local valid_modes = {
 }
 
 is_windows = loop.os_uname().version:match("Windows")
-file_separator = is_windows and "\\" or "/"
-
-GLOBALS = { }
+-- set up globals based on current env
+local GLOBALS = {}
 
 if is_windows then
-  GLOBALS.home  = os.getenv("HOMEPATH")
-  GLOBALS.cwd  = function()
-    return os.getenv("cd")
-  end
-else
-  GLOBALS.home = os.getenv("HOME")
-  GLOBALS.cwd  = function()
-    return os.getenv("PWD")
-  end
-end
-
-function map_cmd(cmd_string, buflocal)
-	return { ("<Cmd>%s<CR>"):format(cmd_string), noremap = true, buffer = buflocal }
-end
-
-function map_call(cmd_string, buflocal)
-	return { ("%s<CR>"):format(cmd_string), noremap = true, buffer = buflocal }
-end
-
-function map_no_cr(cmd_string, buflocal)
-	return { (":%s"):format(cmd_string), noremap = true, buffer = buflocal }
-end
-
-
-function nvim_apply_mappings(mappings, default_options)
-	-- May or may not be used.
-	local current_bufnr = vim.api.nvim_get_current_buf()
-	for key, options in pairs(mappings) do
-		options = vim.tbl_extend("keep", options, default_options or {})
-		local bufnr = current_bufnr
-		-- TODO allow passing bufnr through options.buffer?
-		-- protect against specifying 0, since it denotes current buffer in api by convention
-		if type(options.buffer) == "number" and options.buffer ~= 0 then
-			bufnr = options.buffer
-		end
-		local mode, mapping = key:match("^(.)(.+)$")
-		assert(mode, "nvim_apply_mappings: invalid mode specified for keymapping " .. key)
-		assert(valid_modes[mode], "nvim_apply_mappings: invalid mode specified for keymapping. mode=" .. mode)
-		mode = valid_modes[mode]
-		local rhs = options[1]
-		-- Remove this because we're going to pass it straight to nvim_set_keymap
-		options[1] = nil
-		if type(rhs) == "function" then
-			-- Use a value that won't be misinterpreted below since special keys
-			-- like <CR> can be in key, and escaping those isn't easy.
-			local escaped = escape_keymap(key)
-			local key_mapping
-			if options.dot_repeat then
-				local key_function = rhs
-				rhs = function()
-					key_function()
-					-- -- local repeat_expr = key_mapping
-					-- local repeat_expr = mapping
-					-- repeat_expr = vim.api.nvim_replace_termcodes(repeat_expr, true, true, true)
-					-- nvim.fn["repeat#set"](repeat_expr, nvim.v.count)
-					vim.fn["repeat#set"](vim.api.nvim_replace_termcodes(key_mapping, true, true, true), nvim.v.count)
-				end
-				options.dot_repeat = nil
-			end
-			if options.buffer then
-				-- Initialize and establish cleanup
-				if not LUA_BUFFER_MAPPING[bufnr] then
-					LUA_BUFFER_MAPPING[bufnr] = {}
-					-- Clean up our resources.
-					vim.api.nvim_buf_attach(bufnr, false, {
-						on_detach = function()
-							LUA_BUFFER_MAPPING[bufnr] = nil
-						end,
-					})
-				end
-				LUA_BUFFER_MAPPING[bufnr][escaped] = rhs
-				-- TODO HACK figure out why <Cmd> doesn't work in visual mode.
-				if mode == "x" or mode == "v" then
-					key_mapping = (":<C-u>lua LUA_BUFFER_MAPPING[%d].%s()<CR>"):format(bufnr, escaped)
-				else
-					key_mapping = ("<Cmd>lua LUA_BUFFER_MAPPING[%d].%s()<CR>"):format(bufnr, escaped)
-				end
-			else
-				LUA_MAPPING[escaped] = rhs
-				-- TODO HACK figure out why <Cmd> doesn't work in visual mode.
-				if mode == "x" or mode == "v" then
-					key_mapping = (":<C-u>lua LUA_MAPPING.%s()<CR>"):format(escaped)
-				else
-					key_mapping = ("<Cmd>lua LUA_MAPPING.%s()<CR>"):format(escaped)
-				end
-			end
-			rhs = key_mapping
-			options.noremap = true
-			options.silent = true
-		end
-		if options.buffer then
-			options.buffer = nil
-			vim.api.nvim_buf_set_keymap(bufnr, mode, mapping, rhs, options)
-		else
-			vim.api.nvim_set_keymap(mode, mapping, rhs, options)
-		end
+	GLOBALS.home = os.getenv("HOMEPATH")
+	GLOBALS.cwd = function()
+		return os.getenv("cd")
 	end
+	GLOBALS.python_host = "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
+	GLOBALS.file_separator = "\\"
+else
+	GLOBALS.home = os.getenv("HOME")
+	GLOBALS.cwd = function()
+		return os.getenv("PWD")
+	end
+	GLOBALS.python_host = "/usr/local/bin/python3"
+	GLOBALS.file_separator = "/"
+end
+
+M.GLOBALS = GLOBALS
+
+M.keys = {}
+
+local function set(mode, tbl)
+	assert(valid_modes[mode], "keymap set: invalid mode specified for keymapping. mode=" .. mode)
+	vim.keymap.set(mode, tbl[1], tbl[2], tbl[3])
+end
+
+local function set_nore(mode, lhs, rhs, opts)
+	assert(valid_modes[mode], "keymap set: invalid mode specified for keymapping. mode=" .. mode)
+	vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", { noremap = true }, opts or {}))
+end
+
+function M.keys.map_cmd(mode, lhs, cmd_string, opts)
+	formatted_cmd = ("<Cmd>%s<CR>"):format(cmd_string)
+	set_nore(mode, lhs, formatted_cmd, vim.tbl_extend("force", { silent = true }, opts or {}))
+end
+
+function M.keys.map_no_cr(mode, lhs, cmd_string)
+	formatted_cmd = (":%s"):format(cmd_string)
+	set_nore(mode, lhs, formatted_cmd)
+end
+
+function M.keys.map_call(mode, lhs, cmd_string)
+	formatted_cmd = ("%s<CR>"):format(cmd_string)
+	set_nore(mode, lhs, formatted_cmd)
+end
+
+function M.keys.nmap_call(lhs, cmd_string)
+	M.keys.map_call("n", lhs, cmd_string)
+end
+
+function M.keys.nmap_cmd(lhs, cmd_string, opts)
+	M.keys.map_cmd("n", lhs, cmd_string, opts)
+end
+
+function M.keys.xmap_cmd(lhs, cmd_string)
+	M.keys.map_cmd("x", lhs, cmd_string)
+end
+
+function M.keys.nmap_nocr(lhs, cmd_string)
+	M.keys.map_no_cr("n", lhs, cmd_string)
+end
+
+function M.keys.vmap_nocr(lhs, cmd_string)
+	M.keys.map_no_cr("v", lhs, cmd_string)
+end
+
+function M.keys.nnore(lhs, rhs)
+	set_nore("n", lhs, rhs)
+end
+
+function M.keys.inore(lhs, rhs)
+	set_nore("i", lhs, rhs)
+end
+
+function M.keys.xnore(lhs, rhs)
+	set_nore("x", lhs, rhs)
+end
+
+function M.keys.vnore(lhs, rhs)
+	set_nore("v", lhs, rhs)
+end
+
+function M.keys.tnore(lhs, rhs)
+	set_nore("t", lhs, rhs)
+end
+
+function M.keys.imap(tbl)
+	set("i", tbl)
+end
+
+function M.keys.nmap(tbl)
+	set("n", tbl)
+end
+
+function M.keys.vmap(tbl)
+	set("v", tbl)
+end
+
+function M.keys.xmap(tbl)
+	set("x", tbl)
+end
+
+function M.keys.cmap(tbl)
+	set("c", tbl)
+end
+
+function M.keys.tmap(tbl)
+	set("t", tbl)
+end
+
+function M.keys.buf_nnoremap(opts)
+	if opts[3] == nil then
+		opts[3] = {}
+	end
+	opts[3].buffer = 0
+
+	M.keys.nmap(opts)
+end
+
+function M.keys.buf_inoremap(opts)
+	if opts[3] == nil then
+		opts[3] = {}
+	end
+	opts[3].buffer = 0
+
+	M.keys.imap(opts)
 end
 
 function log(item)
@@ -150,19 +178,9 @@ function getPath(str)
 	return s:match("(.*[/\\])")
 end
 
----
--- Higher level text manipulation utilities
----
+M.vim_util = {}
 
-LUA_MAPPING = {}
-LUA_BUFFER_MAPPING = {}
-
-local function escape_keymap(key)
-	-- Prepend with a letter so it can be used as a dictionary key
-	return "k" .. key:gsub(".", string.byte)
-end
-
-function nvim_create_augroups(definitions)
+function M.vim_util.create_augroups(definitions)
 	for group_name, definition in pairs(definitions) do
 		vim.api.nvim_command("augroup " .. group_name)
 		vim.api.nvim_command("autocmd!")
@@ -190,13 +208,13 @@ end
 -- SPAWN UTILS
 ---
 --
-function safe_close(handle)
+local function safe_close(handle)
 	if not loop.is_closing(handle) then
 		loop.close(handle)
 	end
 end
 
-function spawn(cmd, opts, input, onexit)
+function M.spawn(cmd, opts, input, onexit)
 	local input = input or { stdout = function() end, stderr = function() end }
 	local handle, pid
 	local stdout = loop.new_pipe(false)
@@ -249,12 +267,14 @@ function gitStat()
 	end
 end
 
+M.nodejs = {}
+
 -- find vim related node_modules
-function get_node_bin(bin)
+function M.nodejs.get_node_bin(bin)
 	return fn.stdpath("config") .. "/langservers/node_modules/.bin/" .. bin
 end
 
-function find_node_executable(binaryName)
+function M.nodejs.find_node_executable(binaryName)
 	local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
 	if 0 == fn.executable(executable) then
 		local sub_cmd = fn.system("git rev-parse --show-toplevel")
@@ -263,16 +283,16 @@ function find_node_executable(binaryName)
 	end
 
 	if 0 == fn.executable(executable) then
-		executable = get_node_bin(binaryName)
+		executable = M.nodejs.get_node_bin(binaryName)
 	end
 	if 0 == fn.executable(executable) then
-    log("Could not find " .. executable)
-    return
+		log("Could not find " .. executable)
+		return
 	end
-    return executable
+	return executable
 end
 
-function iabbrev(src, target, buffer)
+function M.vim_util.iabbrev(src, target, buffer)
 	if buffer == nil then
 		api.nvim_command("iabbrev " .. src .. " " .. target)
 	else
@@ -296,3 +316,5 @@ function augroup(name, commands)
 	end
 	vim.cmd("augroup END")
 end
+
+return M

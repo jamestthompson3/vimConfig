@@ -1,4 +1,4 @@
-require("tt.nvim_utils")
+local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 
 if not is_windows then
