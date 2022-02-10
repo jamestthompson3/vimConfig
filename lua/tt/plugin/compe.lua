@@ -12,8 +12,6 @@ cmp.setup({
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
 			elseif has_words_before() then
 				cmp.complete()
 			else
@@ -27,8 +25,6 @@ cmp.setup({
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
 			else
 				fallback()
 			end
@@ -48,9 +44,9 @@ cmp.setup({
 	},
 	sources = {
 		{ name = "buffer" },
-    { name = "luasnip", priority = 15 },
-    { name = "tags", priority = 5 },
-    { name = "nvim_lsp", priority = 10},
+		{ name = "luasnip", priority = 15 },
+		{ name = "tags", priority = 5 },
+		{ name = "nvim_lsp", priority = 10 },
 		{ name = "cmp_tabnine" },
 		{ name = "treesitter" },
 		{ name = "path" },
@@ -68,6 +64,10 @@ cmp.setup({
 			vim_item.dup = { buffer = 1, path = 1, nvim_lsp = 0 }
 			return vim_item
 		end,
+	},
+
+	experimental = {
+		native_menu = false,
 	},
 })
 local tabnine = require("cmp_tabnine.config")

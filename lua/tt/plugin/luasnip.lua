@@ -17,12 +17,40 @@ local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
-require("luasnip/loaders/from_vscode").load({ include = { "python", "javascript", "typescript", "rust" } })
 
 local shared = require("tt.snippets")
+local ecma = require("tt.snippets.ft.ecmascript")
+local ts = require("tt.snippets.ft.typescript")
+
 
 local snippets = {}
 
 snippets.go = shared.make(require("tt.snippets.ft.go"))
+snippets.javascript = ecma
+snippets.typescript = ts
+snippets.lua = require("tt.snippets.ft.lua")
+snippets.rust = require("tt.snippets.ft.rust")
+
+ls.filetype_extend("typescript", {"javascript"})
+ls.filetype_extend("typescriptreact", {"typescript"})
+ls.filetype_extend("javascriptreact", {"javascript"})
 
 ls.snippets = snippets
+
+
+-- testing
+vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/tt/plugin/luasnip.lua<CR>")
+
+ls.config.set_config({
+	enable_autosnippets = true,
+  updateevents = "TextChanged,TextChangedI",
+	ext_opts = {
+		[types.choiceNode] = {
+			active = {
+				virt_text = {
+					{ "←", "Error" },
+				},
+			},
+		},
+	},
+})

@@ -11,14 +11,6 @@ function M.bootstrap()
 	vim.bo.define = "class\\s"
 	vim.wo.foldlevel = 99
 
-	local mappings = {
-		["i<C-l>"] = { "console.log()<esc>i", noremap = true, buffer = true },
-		["i<C-c>"] = { "console.log('%c%o', 'color: ;')<esc>F%;la", noremap = true, buffer = true },
-		["id<C-l>"] = { "debugger", noremap = true, buffer = true },
-		["n<leader>i"] = { "biimport {<esc>ea} from ''<esc>i", noremap = true, buffer = true },
-	}
-
-	nvim_apply_mappings(mappings, { silent = true })
 	api.nvim_command([[command! Sort lua require'tt.ft.ecma'.import_sort(true)]])
 	api.nvim_command([[command! Eslint lua require'tt.ft.ecma'.linter_d()]])
 	api.nvim_command([[command! Lint lua require'tt.ft.ecma'.lint_project()]])

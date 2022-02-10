@@ -35,7 +35,7 @@ return require("packer").startup({
 		use({
 			"L3MON4D3/LuaSnip",
 			config = function()
-				require("tt.plugin.snippets")
+				require("tt.plugin.luasnip")
 			end,
 		})
 		use({

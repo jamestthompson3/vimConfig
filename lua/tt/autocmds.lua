@@ -4,7 +4,6 @@ local autocmds = {
 		{ "SwapExists", "*", "call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)" },
 		{ "TextYankPost", "*", [[silent! lua require'vim.highlight'.on_yank()]] },
 		{ "BufNewFile", "*.html", "0r ~/vim/skeletons/skeleton.html" },
-		{ "BufNewFile", "*.tsx", "0r ~/vim/skeletons/skeleton.tsx" },
 		{ "BufNewFile", "*.md", "0r ~/vim/skeletons/skeleton.md" },
 		{ "VimLeavePre", "*", [[lua require'tt.tools'.saveSession()]] },
 		{ "TermEnter", "*", "set nonumber" },
@@ -26,7 +25,6 @@ local autocmds = {
 	},
 	ft = {
 		{ "FileType netrw au BufLeave netrw close" },
-		{ "FileType lua inoremap <C-l> log()<esc>i" },
 		{ "FileType dirvish nnoremap <buffer> <silent>D :lua require'tt.tools'.deleteFile()<CR>" },
 		{ "FileType dirvish nnoremap <buffer><leader>n :e %" },
 		{ "FileType dirvish nnoremap <buffer> r :lua require'tt.tools'.renameFile()<CR>" },
