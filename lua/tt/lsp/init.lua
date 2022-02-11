@@ -1,4 +1,3 @@
-require("tt.lsp.mappings")
 local node = require("tt.nvim_utils").nodejs
 local ui = require("tt.lsp.ui")
 local efm = require("tt.lsp.efm")
@@ -28,6 +27,7 @@ local border = {
 
 -- LSP settings
 local on_attach = function(client, bufnr)
+	require("tt.lsp.mappings")
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 end
