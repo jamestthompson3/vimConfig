@@ -32,7 +32,7 @@ snippets.lua = require("tt.snippets.ft.lua")
 snippets.rust = require("tt.snippets.ft.rust")
 
 ls.filetype_extend("typescript", {"javascript"})
-ls.filetype_extend("typescriptreact", {"typescript"})
+ls.filetype_extend("typescriptreact", {"typescript", "javascript"})
 ls.filetype_extend("javascriptreact", {"javascript"})
 
 ls.snippets = snippets

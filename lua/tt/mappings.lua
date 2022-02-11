@@ -35,8 +35,8 @@ inore("jj", "<Esc>")
 -- TERMINAL MODE
 tnore("<Esc>", "<C-\\><C-n>")
 -- NORMAL MODE
-nnore("<up>", ":m .-2<cr>==")
-nnore("<down>", ":m .+1<cr>==")
+nnore("<up>", ":m .-2<cr>==", {silent = true})
+nnore("<down>", ":m .+1<cr>==", {silent = true})
 nnore("'", "`")
 nnore("Y", "y$")
 nnore(";", ":")
@@ -46,7 +46,7 @@ nnore("<leader>p", '"+p')
 nnore("<leader>P", '"+P')
 nnore("<C-]>", "g<C-]>")
 nnore("<C-\\>", "<C-\\><C-n>")
-nnore("z/", ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>")
+nnore("z/", ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>", {silent = true})
 nmap({ "<leader>e", ":e <C-R>=expand('%:p:h') . '/'<CR>", { noremap = true, silent = false } })
 nmap({
 	"<C-J>",
@@ -87,8 +87,8 @@ nmap({
 	end,
 })
 nmap({ "<leader>lt", tools.listTags })
-nmap_call("n", "n:call HLNext(0.15)")
-nmap_call("N", "N:call HLNext(0.15)")
+nmap_call("n", "n:call HLNext(0.15)", {silent = true})
+nmap_call("N", "N:call HLNext(0.15)", {silent = true})
 nmap_cmd("wq", "close")
 nmap_cmd("cc", "cclose")
 nmap_cmd("cl", "lclose")

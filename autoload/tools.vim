@@ -19,10 +19,10 @@ endfunction
 " allows for easy jumping using commands like ili, ls, dli, etc.
 function! tools#CCR()
   let cmdline = getcmdline()
-  if cmdline =~ '\v\C^(ls|files|buffers)'
-    " like :ls but prompts for a buffer command
-    return "\<CR>:b"
-  elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+  " if cmdline =~ '\v\C^(ls|files|buffers)'
+  "   " like :ls but prompts for a buffer command
+  "   return \"\<CR>:b"
+  if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
     " like :g//# but prompts for a command
     return "\<CR>:"
   elseif cmdline =~ '\v\C^(dli|il)'

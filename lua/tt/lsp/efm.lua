@@ -16,8 +16,18 @@ local prettier = {
 }
 
 local gofmt = {
-  formatCommand = "gofmt",
-  formatStdin = true,
+	formatCommand = "gofmt",
+	formatStdin = true,
+}
+
+local rustfmt = {
+	formatCommand = "rustfmt" .. ' "${INPUT}"' .. " --emit=stdout",
+	formatStdin = true,
+}
+
+local stylua = {
+	formatCommand = 'stylua --stdin-filepath "${INPUT}" -',
+	formatStdin = true,
 }
 
 function M.setup(opts)
@@ -36,10 +46,12 @@ function M.setup(opts)
 			"typescript",
 			"typescriptreact",
 			"yaml",
-      "go",
+			"rust",
+			"lua",
+			"go",
 		},
 		settings = {
-			rootMarkers = { "package.json", ".git/" },
+			rootMarkers = { "package.json", ".git/", "Cargo.toml", "go.mod" },
 			languages = {
 				javascript = { prettier, eslintd },
 				typescript = { prettier, eslintd },
@@ -56,7 +68,9 @@ function M.setup(opts)
 				css = { prettier },
 				markdown = { prettier },
 				yaml = { prettier },
-        go = { gofmt },
+				go = { gofmt },
+				rust = { rustfmt },
+				lua = { stylua },
 			},
 		},
 	})
