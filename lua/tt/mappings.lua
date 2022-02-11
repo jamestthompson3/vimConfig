@@ -33,7 +33,7 @@ end, { silent = true })
 -- INSERT MODE
 inore("jj", "<Esc>")
 -- TERMINAL MODE
-tnore("<Esc>", "[[<C-><C-n>]]")
+tnore("<Esc>", "<C-\\><C-n>")
 -- NORMAL MODE
 nnore("<up>", ":m .-2<cr>==")
 nnore("<down>", ":m .+1<cr>==")
