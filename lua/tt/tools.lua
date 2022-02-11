@@ -269,7 +269,7 @@ M.kind_symbols = function ()
       Color = " Color",
       File = icons.get("file") .. " File",
       Folder = icons.get("file-directory-outline") .. " Folder",
-      EnumMember = " EnumMember",
+      EnumMember = icons.get("list-unordered") .. " EnumMember",
       Constant = icons.get("constant") .. " Constant",
       Struct = icons.get("struct") .. " Struct",
     }

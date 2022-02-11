@@ -51,7 +51,7 @@ end
 
 local function set_nore(mode, lhs, rhs, opts)
 	assert(valid_modes[mode], "keymap set: invalid mode specified for keymapping. mode=" .. mode)
-	vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", { noremap = true }, opts or {}))
+	vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("keep", { noremap = true }, opts or {}))
 end
 
 function M.keys.map_cmd(mode, lhs, cmd_string, opts)
@@ -64,13 +64,13 @@ function M.keys.map_no_cr(mode, lhs, cmd_string)
 	set_nore(mode, lhs, formatted_cmd)
 end
 
-function M.keys.map_call(mode, lhs, cmd_string)
+function M.keys.map_call(mode, lhs, cmd_string, opts)
 	formatted_cmd = ("%s<CR>"):format(cmd_string)
-	set_nore(mode, lhs, formatted_cmd)
+	set_nore(mode, lhs, formatted_cmd, opts)
 end
 
-function M.keys.nmap_call(lhs, cmd_string)
-	M.keys.map_call("n", lhs, cmd_string)
+function M.keys.nmap_call(lhs, cmd_string, opts)
+	M.keys.map_call("n", lhs, cmd_string, opts)
 end
 
 function M.keys.nmap_cmd(lhs, cmd_string, opts)
