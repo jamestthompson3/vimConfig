@@ -1,16 +1,25 @@
 local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 
-buf_nnoremap({"ge", function()
-	vim.diagnostic.open_float(0, { scope = "cursor" })
-end})
-buf_nnoremap({"gd", vim.lsp.buf.definition})
-buf_nnoremap({"gt", vim.lsp.buf.type_definition})
-buf_nnoremap({"K", vim.lsp.buf.hover})
-buf_nnoremap({"[e", vim.diagnostic.goto_next})
-buf_nnoremap({"]e", vim.diagnostic.goto_prev})
-buf_nnoremap({"ga", vim.lsp.buf.code_action})
-buf_nnoremap({"gs", "vsplit|lua vim.lsp.buf.definition"})
-buf_nnoremap({"<leader>r", vim.lsp.buf.references})
-buf_nnoremap({"<leader>i", vim.lsp.buf.implementation})
-buf_nnoremap({"<leader>f", vim.lsp.buf.formatting})
-buf_nnoremap({"<leader>n", vim.lsp.buf.rename})
+local M = {}
+
+local function bufmap(rhs, lhs, bufnr)
+	buf_nnoremap({ rhs, lhs, { buffer = bufnr } })
+end
+function M.setMappings(bufnr)
+	bufmap("ge", function()
+		vim.diagnostic.open_float(0, { scope = "cursor" })
+	end, bufnr)
+	bufmap("gd", vim.lsp.buf.definition, bufnr)
+	bufmap("gt", vim.lsp.buf.type_definition, bufnr)
+	bufmap("K", vim.lsp.buf.hover, bufnr)
+	bufmap("[e", vim.diagnostic.goto_next, bufnr)
+	bufmap("]e", vim.diagnostic.goto_prev, bufnr)
+	bufmap("ga", vim.lsp.buf.code_action, bufnr)
+	bufmap("gs", ":vsplit|lua vim.lsp.buf.definition()<CR>", bufnr)
+	bufmap("<leader>r", vim.lsp.buf.references, bufnr)
+	bufmap("<leader>i", vim.lsp.buf.implementation, bufnr)
+	bufmap("<leader>f", vim.lsp.buf.formatting, bufnr)
+	bufmap("<leader>n", vim.lsp.buf.rename, bufnr)
+end
+
+return M

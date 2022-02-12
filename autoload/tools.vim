@@ -20,7 +20,7 @@ endfunction
 function! tools#CCR()
   let cmdline = getcmdline()
   if cmdline =~ '\v\C^(ls|files|buffers)'
-    " like :ls but prompts for a buffer command
+  "   " like :ls but prompts for a buffer command
     return "\<CR>:b"
   elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
     " like :g//# but prompts for a command
