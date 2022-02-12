@@ -85,7 +85,7 @@ return require("packer").startup({
 				"css",
 				"json",
 				"go",
-				"bash",
+				-- "bash",
 				"yaml",
 				"markdown",
 				"lua",

@@ -46,8 +46,13 @@ function M.configureLSP()
 	nvim_lsp.html.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
-		cmd = { node.get_node_bin("vscode-html-languageserver-bin"), "--stdio" },
+		cmd = { node.get_node_bin("html-languageserver"), "--stdio" },
 	})
+  nvim_lsp.css.setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+		cmd = { node.get_node_bin("css-languageserver"), "--stdio" },
+  })
 	nvim_lsp.tsserver.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
