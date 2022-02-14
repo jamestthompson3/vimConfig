@@ -45,7 +45,7 @@ local function autofmt(client, bufnr)
 			if result then
 				api.nvim_buf_call(bufnr, function()
 					rewrite_wrap(function()
-						util.apply_text_edits(result, bufnr, "utf-8")
+						util.apply_text_edits(result, bufnr, client.offset_encoding)
 					end)
 					vim.cmd("update")
 				end)

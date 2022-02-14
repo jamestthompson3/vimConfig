@@ -10,7 +10,7 @@ local t = ls.text_node
 local M = {
 	snippet("l", fmt('println!("{}");', { i(1) })),
 	snippet("fn", fmt("fn {}({}) -> {} {{\n\t{}\n}}", { i(1), i(2), i(3), i(4) })),
-	snippet("tst", t("#[cfg(test)]\nmod tests {{\nuse super::*;\n\n#[test]\n"), fmt("fn {}() {{\n\t{}\n}}", {i(1), i(2)})),
+	snippet("tst", fmt("#[cfg(test)]\nmod tests {{\nuse super::*;\n\n#[test]\nfn {}() {{\n\t{}\n}}}}", { i(1), i(2) })),
 }
 
 return M

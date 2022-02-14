@@ -21,7 +21,7 @@ local gofmt = {
 }
 
 local rustfmt = {
-	formatCommand = "rustfmt" .. ' "${INPUT}"' .. " --emit=stdout",
+	formatCommand = "rustfmt" .. ' "${INPUT}"' .. " --emit=stdout -q",
 	formatStdin = true,
 }
 
@@ -46,7 +46,7 @@ function M.setup(opts)
 			"typescript",
 			"typescriptreact",
 			"yaml",
-			"rust",
+			-- "rust",
 			"lua",
 			"go",
 		},
@@ -69,7 +69,7 @@ function M.setup(opts)
 				markdown = { prettier },
 				yaml = { prettier },
 				go = { gofmt },
-				rust = { rustfmt },
+				-- rust = { rustfmt },
 				lua = { stylua },
 			},
 		},

@@ -24,11 +24,6 @@ vim.g.markdown_fenced_languages = { "html", "typescript", "javascript", "js=java
 
 vim.wo.foldlevel = 1
 
-buf_nnoremap({ "nj", "gj" })
-buf_nnoremap({ "k", "gk" })
-buf_nnoremap({ "gh", require("tt.ft.markdown").previewLinkedPage })
-buf_nnoremap({ "<leader>r", require("tt.ft.markdown").asyncDocs })
-
 function M.asyncDocs()
 	local shortname = vim.fn.expand("%:t:r")
 	local fullname = api.nvim_buf_get_name(0)
@@ -85,5 +80,10 @@ function M.previewLinkedPage()
 end
 
 api.nvim_command([[command! Compose lua require'tt.ft.markdown'.composer()]])
+
+buf_nnoremap({ "nj", "gj" })
+buf_nnoremap({ "k", "gk" })
+buf_nnoremap({ "gh", M.previewLinkedPage })
+buf_nnoremap({ "<leader>r", M.asyncDocs })
 
 return M
