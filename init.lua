@@ -7,8 +7,9 @@ end
 
 local globals = require("tt.nvim_utils").GLOBALS
 local vim_utils = require("tt.nvim_utils").vim_util
+local git = require("tt.git")
 local setPath = function()
-	if gitBranch() ~= "" then
+	if git.branch() ~= "" then
 		return ".,"
 			.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
 			.. ","
@@ -56,7 +57,7 @@ set.mouse = "nv"
 set.foldopen = "search"
 set.fileformat = "unix"
 set.jumpoptions = "stack"
-set.diffopt = "hiddenoff,iwhiteall,algorithm:patience"
+set.diffopt = "hiddenoff,iwhiteall,algorithm:patience,internal,closeoff,indent-heuristic"
 set.nrformats = "bin,hex,alpha"
 set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
@@ -89,11 +90,11 @@ set.statusline = "%f %m %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_l
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
-	api.nvim_command([[colorscheme tropics-light]])
+	api.nvim_command([[colorscheme tropics]])
 	schedule(function()
+		require("tt.core_opts")
 		require("tt.mappings")
 		require("tt.plugins")
-		require("tt.core_opts")
 		require("tt.autocmds")
 		require("tt.tools").splashscreen()
 	end)

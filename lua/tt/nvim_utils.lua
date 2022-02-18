@@ -204,6 +204,13 @@ function M.vim_util.get_lsp_clients()
 	return table.concat(clients, " • ")
 end
 
+function M.vim_util.shell_to_buf(opts)
+	local buf = api.nvim_create_buf(false, true)
+	local lines = vim.split(os.capture(table.concat(opts, " "), true), "\n")
+	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
+	return buf
+end
+
 ---
 -- Things Lua should've had
 ---
@@ -248,35 +255,19 @@ end
 --- MISC UTILS
 
 -- capturs stdout as a string
-function os.capture(cmd, raw)
+function os.capture(cmd, raw, nosub)
 	local f = assert(io.popen(cmd, "r"))
 	local s = assert(f:read("*a"))
 	f:close()
 	if raw then
 		return s
 	end
-	s = string.gsub(s, "^%s+", "")
-	s = string.gsub(s, "%s+$", "")
-	s = string.gsub(s, "[\n\r]+", " ")
+	if nosub == nil then
+		s = string.gsub(s, "^%s+", "")
+		s = string.gsub(s, "%s+$", "")
+		s = string.gsub(s, "[\n\r]+", " ")
+	end
 	return s
-end
-
--- return name of git branch
-function gitBranch()
-	if is_windows then
-		return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
-	else
-		return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
-	end
-end
-
--- returns short status of changes
-function gitStat()
-	if is_windows then
-		return os.capture("git diff --shortstat 2> NUL | tr -d '\n'")
-	else
-		return os.capture("git diff --shortstat 2> /dev/null | tr -d '\n'")
-	end
 end
 
 M.nodejs = {}

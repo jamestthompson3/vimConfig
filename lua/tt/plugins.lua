@@ -103,6 +103,7 @@ return require("packer").startup({
 				require("tt.plugin.treesitter")
 			end,
 		})
+
 		use({
 			"majutsushi/tagbar",
 			opt = true,

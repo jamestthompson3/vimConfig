@@ -15,6 +15,7 @@ local cmap = require("tt.nvim_utils").keys.cmap
 
 local ls = require("luasnip")
 local tools = require("tt.tools")
+local git = require("tt.git")
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
 	if ls.expand_or_jumpable() then
@@ -74,6 +75,8 @@ nmap({
 })
 nmap({ "ssb", tools.sourceSession })
 nmap({ "<F1>", tools.profile })
+nmap({ "<leader>B", git.blame_file })
+nmap({ "<leader>b", git.blame })
 nmap({
 	"<leader>d",
 	function()
@@ -110,8 +113,6 @@ nmap_cmd("M", "silent make")
 nmap_cmd("gh", "call symbols#ShowDeclaration(0)")
 nmap_cmd("sd", "call symbols#PreviewWord()")
 nmap_cmd("<F7>", 'so "%"')
-nmap_cmd("<leader>b", "Gblame")
-nmap_cmd("<leader>B", "silent call git#blame()")
 nmap_cmd("<leader>w", "MatchupWhereAmI")
 nmap_cmd("<leader>G", "SearchBuffers")
 nmap_cmd("<leader>t", 'vsp<CR>:exec("tag ".expand("<cword>")')
@@ -119,7 +120,7 @@ nmap_nocr("S", "%s//g<LEFT><LEFT>")
 nmap_nocr(",", "find<space>")
 nmap_nocr("sb", "g//#<Left><Left>")
 nmap_nocr("g_", "g//#<Left><Left><C-R><C-W><CR>:")
-nmap_nocr("<leader>.", "buffer<space>")
+nmap_nocr("<leader>.", ":Bs")
 nmap_nocr("<C-f>", "SearchProject<space>")
 nmap_nocr("ts", "ts<space>/")
 -- VISUAL MODE

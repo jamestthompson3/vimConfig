@@ -21,8 +21,8 @@ local autocmds = {
 			"*",
 			[[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]],
 		},
-		{ "CursorMoved", "*", [[lua pcall(require'tt.tools'.clearBlameVirtText)]] },
-		{ "CursorMovedI", "*", [[lua pcall(require'tt.tools'.clearBlameVirtText)]] },
+		{ "CursorMoved", "*", [[lua pcall(require'tt.git'.clear_blame)]] },
+		{ "CursorMovedI", "*", [[lua pcall(require'tt.git'.clear_blame)]] },
 		{ "FocusGained,CursorMoved,CursorMovedI", "*", "checktime" },
 	},
 	ft = {
