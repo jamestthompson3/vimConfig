@@ -22,7 +22,6 @@ local shared = require("tt.snippets")
 local ecma = require("tt.snippets.ft.ecmascript")
 local ts = require("tt.snippets.ft.typescript")
 
-
 local snippets = {}
 
 snippets.go = shared.make(require("tt.snippets.ft.go"))
@@ -31,19 +30,18 @@ snippets.typescript = ts
 snippets.lua = require("tt.snippets.ft.lua")
 snippets.rust = require("tt.snippets.ft.rust")
 
-ls.filetype_extend("typescript", {"javascript"})
-ls.filetype_extend("typescriptreact", {"typescript", "javascript"})
-ls.filetype_extend("javascriptreact", {"javascript"})
+ls.filetype_extend("typescript", { "javascript" })
+ls.filetype_extend("typescriptreact", { "typescript", "javascript" })
+ls.filetype_extend("javascriptreact", { "javascript" })
 
 ls.snippets = snippets
 
-
 -- testing
-vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/tt/plugin/luasnip.lua<CR>")
+-- vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/tt/plugin/luasnip.lua<CR>")
 
 ls.config.set_config({
 	enable_autosnippets = true,
-  updateevents = "TextChanged,TextChangedI",
+	updateevents = "TextChanged,TextChangedI",
 	ext_opts = {
 		[types.choiceNode] = {
 			active = {

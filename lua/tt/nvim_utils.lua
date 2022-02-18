@@ -192,6 +192,18 @@ function M.vim_util.create_augroups(definitions)
 	end
 end
 
+function M.vim_util.get_lsp_clients()
+	local lsp = vim.lsp
+	if vim.tbl_isempty(lsp.buf_get_clients(0)) then
+		return ""
+	end
+	local clients = {}
+	for _, client in ipairs(vim.lsp.buf_get_clients(0)) do
+		table.insert(clients, client.name)
+	end
+	return table.concat(clients, " • ")
+end
+
 ---
 -- Things Lua should've had
 ---

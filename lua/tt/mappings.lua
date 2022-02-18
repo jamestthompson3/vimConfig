@@ -35,8 +35,8 @@ inore("jj", "<Esc>")
 -- TERMINAL MODE
 tnore("<Esc>", "<C-\\><C-n>")
 -- NORMAL MODE
-nnore("<up>", ":m .-2<cr>==", { silent = true })
-nnore("<down>", ":m .+1<cr>==", { silent = true })
+nnore("<up>", ":m .-2<cr>==", { silent = true, expr = true })
+nnore("<down>", ":m .+1<cr>==", { silent = true, expr = true })
 nnore("'", "`")
 nnore("Y", "y$")
 nnore(";", ":")

@@ -44,28 +44,29 @@
 
 local lush = require("lush")
 local hsl = lush.hsl
+local hsluv = lush.hsluv
 
-local base0 = hsl("#000000")
-local base1 = hsl("#20222d")
-local base2 = hsl("#272935")
-local base3 = hsl("#2e313d")
+local base8 = hsl("#000000")
+local base7 = hsl("#20222d")
+local base6 = hsl("#272935")
+local base5 = hsl("#2e313d")
 local base4 = hsl("#3c3f4e")
-local base5 = hsl("#5b5f71")
-local base6 = hsl("#6c6f82")
-local base7 = hsl("#b5b4c9")
-local base8 = hsl("#f0ecfe")
+local base3 = hsl("#5b5f71")
+local base2 = hsl("#6c6f82")
+local base1 = hsl("#b5b4c9")
+local base0 = hsl("#f0ecfe")
 -- Color pallette taken from https://github.com/catppuccin/nvim
-local mauve = hsl("#DDB6F2")
-local pink = hsl("#F5C2E7")
-local red = hsl("#F28FAD")
-local maroon = hsl("#E8A2AF")
-local peach = hsl("#F8BD96")
-local yellow = hsl("#FAE3B0")
-local green = hsl("#ABE9B3")
-local blue = hsl("#96CDFB")
-local sky = hsl("#89DCEB")
-local teal = hsl("#B5E8E0")
-local lavender = hsl("#C9CBFF")
+local mauve = hsl("#343b58")
+local pink = hsl("#563a41")
+local red = hsl("#ef152f")
+local maroon = hsl("#81628c")
+local peach = hsl("#965027")
+local yellow = hsl("#8f5e15")
+local green = hsl("#104f6b")
+local blue = hsl("#34548a")
+local sky = hsl("#166775")
+local teal = hsl("#33635c")
+local lavender = hsl("#5a4a78")
 
 local theme = lush(function()
 	return {
@@ -84,8 +85,8 @@ local theme = lush(function()
 		Comment({ fg = peach, gui = "italic" }), -- any comment
 		ColorColumn({ bg = base1 }), -- used for the columns set with 'colorcolumn'
 		Conceal({ fg = base5 }), -- placeholder characters substituted for concealed text (see 'conceallevel')
-		Cursor({ fg = base8, bg = base0 }), -- character under the cursor
-		-- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
+		Cursor({ fg = base0, bg = base2 }), -- character under the cursor
+		lCursor({ Cursor }), -- the character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
 		CursorColumn({ bg = base1 }), -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine({ bg = base1 }), -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
@@ -106,35 +107,35 @@ local theme = lush(function()
 		-- Substitute   { }, -- |:substitute| replacement text highlighting
 		LineNr({ fg = base5 }), -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
 		CursorLineNr({ fg = base6, bg = base1 }), -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		MatchParen({ fg = base8, bg = base3, gui = "bold" }), -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		MatchParen({ fg = base8, bg = blue }), -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		ModeMsg({ fg = base5 }), -- 'showmode' message (e.g., "-- INSERT -- ")
 		-- MsgArea      { }, -- Area for messages and cmdline
 		-- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
 		MoreMsg({ fg = teal }), -- |more-prompt|
 		NonText({ Conceal }), -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-		Normal({ fg = base8, bg = base0.darken(70) }), -- normal text
+		Normal({ fg = base8, bg = base0 }), -- normal text
 		NormalFloat({ fg = base7, bg = base0 }), -- Normal text in floating windows.
-		FloatBorder({ fg = yellow, bg = base1 }), -- Floating border.
+		FloatBorder({ fg = green, bg = base0 }), -- Floating border.
 		NormalNC({ Normal }), -- normal text in non-current windows
 		Pmenu({ fg = base8, bg = base2 }), -- Popup menu: normal item.
 		PmenuSel({ fg = base0, bg = blue }), -- Popup menu: selected item.
 		PmenuSbar({ fg = base2, bg = base2 }), -- Popup menu: scrollbar.
 		PmenuThumb({ fg = base1, bg = base1 }), -- Popup menu: Thumb of the scrollbar.
 		Question({ fg = teal }), -- |hit-enter| prompt and yes/no questions
-		QuickFixLine({ bg = base4 }), -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+		QuickFixLine({ bg = base1 }), -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
 		Search({ fg = base0, bg = blue }), -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
 		SpecialKey({ Conceal }), -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
 		-- SpellBad     { }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
 		-- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
 		-- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
 		-- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
-		StatusLine({ fg = green }), -- status line of current window
+		StatusLine({ fg = teal, bg = base1 }), -- status line of current window
 		StatusLineNC({ fg = base5, bg = base2 }), -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 		TabLine({ StatusLineNC }), -- tab pages line, not active tab page label
 		TabLineFill({ StatusLineNC }), -- tab pages line, where there are no labels
 		TabLineSel({ StatusLine }), -- tab pages line, active tab page label
 		Title({ fg = blue }), -- titles for output from ":set all", ":autocmd" etc.
-		Visual({ bg = base4 }), -- Visual mode selection
+		Visual({ bg = base8, fg = base1 }), -- Visual mode selection
 		VisualNOS({ Visual }), -- Visual mode selection when vim is "Not Owning the Selection".
 		WarningMsg({ fg = yellow }), -- warning messages
 		Whitespace({ Conceal }), -- "nbsp", "space", "tab" and "trail" in 'listchars'
@@ -164,13 +165,13 @@ local theme = lush(function()
 		Keyword({}), -- any other keyword
 		-- Exception     { }, --  try, catch, throw
 
-		PreProc({ fg = base5, gui = "bold" }), -- (preferred) generic Preprocessor
+		PreProc({ fg = base5 }), -- (preferred) generic Preprocessor
 		Include({ PreProc }), --  preprocessor #include
 		Define({ PreProc }), --   preprocessor #define
 		Macro({ PreProc }), --    same as Define
 		PreCondit({ PreProc }), --  preprocessor #if, #else, #endif, etc.
 
-		Type({ fg = blue.mix(base6, 60).de(15) }), -- (preferred) int, long, char, etc.
+		Type({ fg = blue.mix(base6, 60) }), -- (preferred) int, long, char, etc.
 		-- StorageClass  { }, -- static, register, volatile, etc.
 		-- Structure      { }, --  struct, union, enum, etc.
 		-- Typedef        { }, --  A typedef
@@ -251,7 +252,7 @@ local theme = lush(function()
 		-- TSException          { };    -- For exception related keywords.
 		-- TSField              { };    -- For fields.
 		-- TSFloat              { };    -- For floats.
-		TSFunction({ fg = maroon.de(25) }), -- For function (calls and definitions).
+		TSFunction({ fg = blue }), -- For function (calls and definitions).
 		-- TSFuncBuiltin        { };    -- For builtin functions: `table.insert` in Lua.
 		-- TSFuncMacro          { };    -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
 		-- TSInclude            { };    -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
@@ -275,11 +276,11 @@ local theme = lush(function()
 		-- TSStringEscape       { };    -- For escape characters within a string.
 		-- TSSymbol             { };    -- For identifiers referring to symbols or atoms.
 		TSType({ Type }), -- For types.
-		TSTypeBuiltin({ fg = lavender.mix(base7, 50).de(20) }), -- For builtin types.
+		TSTypeBuiltin({ fg = lavender.mix(base7, 50) }), -- For builtin types.
 		-- TSVariable           { };    -- Any variable name that does not have another highlight.
 		-- TSVariableBuiltin    { };    -- Variable names that are defined by the languages, like `this` or `self`.
 
-		TSTag({ fg = lavender }), -- Tags like html tag names.
+		TSTag({ fg = sky }), -- Tags like html tag names.
 		TSTagDelimiter({ TSPunctDelimiter }), -- Tag delimiter like `<` `>` `/`
 		-- TSText               { };    -- For strings considered text in a markup language.
 		-- TSEmphasis           { };    -- For text to be represented with emphasis.

@@ -6,12 +6,16 @@ if require("tt.bootstrap")() then
 end
 
 local globals = require("tt.nvim_utils").GLOBALS
+local vim_utils = require("tt.nvim_utils").vim_util
 local setPath = function()
-  if gitBranch() ~= "" then
-    return ".," .. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"),","):gsub("%./", "") .. "," .. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
-  else
-    return vim.o.path
-  end
+	if gitBranch() ~= "" then
+		return ".,"
+			.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
+			.. ","
+			.. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
+	else
+		return vim.o.path
+	end
 end
 local set = vim.o
 local api = vim.api
@@ -80,11 +84,12 @@ set.pumheight = 15
 set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n:blinkwait60-blinkon175-blinkoff175-Cursor/lCursor,i-ci-ve:ver25"
+set.statusline = "%f %m %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')} (%c)"
 
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
-	api.nvim_command([[colorscheme tropics]])
+	api.nvim_command([[colorscheme tropics-light]])
 	schedule(function()
 		require("tt.mappings")
 		require("tt.plugins")
