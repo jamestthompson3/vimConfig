@@ -8,7 +8,6 @@ return require("packer").startup({
 		use("yamatsum/nvim-web-nonicons")
 		use("romainl/vim-cool")
 		use("tmsvg/pear-tree")
-		-- use("tpope/vim-apathy")
 		use("tpope/vim-commentary")
 		use("rktjmp/lush.nvim")
 		use("tpope/vim-surround")

@@ -11,8 +11,9 @@ function M.diff()
 	api.nvim_command("wincmd v")
 	api.nvim_win_set_buf(0, buf)
 	api.nvim_command("set ft=" .. ext)
-	api.nvim_command("diffthis")
 	api.nvim_command("wincmd h")
+	api.nvim_command("diffthis")
+	api.nvim_command("wincmd l")
 	api.nvim_command("diffthis")
 end
 

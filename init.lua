@@ -84,13 +84,13 @@ set.pumblend = 20
 set.pumheight = 15
 set.scrolloff = 1
 set.sidescrolloff = 5
-set.guicursor = "n:blinkwait60-blinkon175-blinkoff175-Cursor/lCursor,i-ci-ve:ver25"
+set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-IncSearch"
 set.statusline = "%f %m %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')} (%c)"
 
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
-	api.nvim_command([[colorscheme tropics]])
+	api.nvim_command([[colorscheme tropics-light]])
 	schedule(function()
 		require("tt.core_opts")
 		require("tt.mappings")

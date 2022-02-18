@@ -82,6 +82,7 @@ local theme = lush(function()
 		-- styling for that group (meaning they mostly get styled as Normal)
 		-- or leave them commented to apply vims default colouring or linking.
 
+		Normal({ fg = base8, bg = base0 }), -- normal text
 		Comment({ fg = peach, gui = "italic" }), -- any comment
 		ColorColumn({ bg = base1 }), -- used for the columns set with 'colorcolumn'
 		Conceal({ fg = base5 }), -- placeholder characters substituted for concealed text (see 'conceallevel')
@@ -91,10 +92,10 @@ local theme = lush(function()
 		CursorColumn({ bg = base1 }), -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine({ bg = base1 }), -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
 		Directory({ fg = blue }), -- directory names (and other special names in listings)
-		DiffAdd({ fg = sky, bg = sky.darken(80) }), -- diff mode: Added line |diff.txt|
-		DiffChange({ bg = base2, fg = yellow }), -- diff mode: Changed line |diff.txt|
-		DiffDelete({ fg = mauve, bg = mauve.darken(80) }), -- diff mode: Deleted line |diff.txt|
-		DiffText({ fg = lavender, bg = lavender.darken(80) }), -- diff mode: Changed text within a changed line |diff.txt|
+		DiffAdd({ fg = base0, bg = sky.darken(10) }), -- diff mode: Added line |diff.txt|
+		DiffChange({ Normal }), -- diff mode: Changed line |diff.txt|
+		DiffDelete({ fg = base0, bg = lavender }), -- diff mode: Deleted line |diff.txt|
+		DiffText({ fg = base0, bg = mauve }), -- diff mode: Changed text within a changed line |diff.txt|
 		EndOfBuffer({ Conceal }), -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal
@@ -107,13 +108,12 @@ local theme = lush(function()
 		-- Substitute   { }, -- |:substitute| replacement text highlighting
 		LineNr({ fg = base5 }), -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
 		CursorLineNr({ fg = base6, bg = base1 }), -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-		MatchParen({ fg = base8, bg = blue }), -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+		MatchParen({ fg = base0, bg = blue }), -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 		ModeMsg({ fg = base5 }), -- 'showmode' message (e.g., "-- INSERT -- ")
 		-- MsgArea      { }, -- Area for messages and cmdline
 		-- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
 		MoreMsg({ fg = teal }), -- |more-prompt|
 		NonText({ Conceal }), -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-		Normal({ fg = base8, bg = base0 }), -- normal text
 		NormalFloat({ fg = base7, bg = base0 }), -- Normal text in floating windows.
 		FloatBorder({ fg = green, bg = base0 }), -- Floating border.
 		NormalNC({ Normal }), -- normal text in non-current windows
@@ -135,7 +135,7 @@ local theme = lush(function()
 		TabLineFill({ StatusLineNC }), -- tab pages line, where there are no labels
 		TabLineSel({ StatusLine }), -- tab pages line, active tab page label
 		Title({ fg = blue }), -- titles for output from ":set all", ":autocmd" etc.
-		Visual({ bg = base8, fg = base1 }), -- Visual mode selection
+		Visual({ bg = teal.mix(base3, 50), fg = base0 }), -- Visual mode selection
 		VisualNOS({ Visual }), -- Visual mode selection when vim is "Not Owning the Selection".
 		WarningMsg({ fg = yellow }), -- warning messages
 		Whitespace({ Conceal }), -- "nbsp", "space", "tab" and "trail" in 'listchars'
