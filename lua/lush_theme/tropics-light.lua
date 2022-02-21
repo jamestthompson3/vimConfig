@@ -202,9 +202,9 @@ local theme = lush(function()
 		-- use these groups, or use their own. Consult your LSP client's
 		-- documentation.
 
-		-- LspReferenceText  { fg = royalmauve }, -- used for highlighting "text" references
-		-- LspReferenceRead  { fg = royalmauve }, -- used for highlighting "read" references
-		-- LspReferenceWrite { fg = royalmauve }, -- used for highlighting "write" references
+		LspReferenceText({ fg = mauve }), -- used for highlighting "text" references
+		LspReferenceRead({ fg = mauve }), -- used for highlighting "read" references
+		LspReferenceWrite({ fg = mauve }), -- used for highlighting "write" references
 
 		LspDiagnosticsDefaultError({ ErrorMsg }), -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
 		LspDiagnosticsDefaultWarning({ WarningMsg }), -- Used as the base highlight group. Other LspDiagnostic highlights link to this by default (except Underline)
