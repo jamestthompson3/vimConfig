@@ -120,7 +120,7 @@ nmap_nocr("S", "%s//g<LEFT><LEFT>")
 nmap_nocr(",", "find<space>")
 nmap_nocr("sb", "g//#<Left><Left>")
 nmap_nocr("g_", "g//#<Left><Left><C-R><C-W><CR>:")
-nmap_nocr("<leader>.", ":Bs")
+nmap_nocr("<leader>.", "Bs<space>")
 nmap_nocr("<C-f>", "SearchProject<space>")
 nmap_nocr("ts", "ts<space>/")
 -- VISUAL MODE
