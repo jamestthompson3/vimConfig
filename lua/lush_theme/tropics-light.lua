@@ -85,7 +85,7 @@ local theme = lush(function()
 		Normal({ fg = base8, bg = base0 }), -- normal text
 		Comment({ fg = peach, gui = "italic" }), -- any comment
 		ColorColumn({ bg = base1 }), -- used for the columns set with 'colorcolumn'
-		Conceal({ fg = base5 }), -- placeholder characters substituted for concealed text (see 'conceallevel')
+		Conceal({ fg = base4.mix(sky, 60) }), -- placeholder characters substituted for concealed text (see 'conceallevel')
 		Cursor({ fg = base0, bg = base2 }), -- character under the cursor
 		lCursor({ Cursor }), -- the character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
