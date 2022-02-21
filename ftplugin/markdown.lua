@@ -1,8 +1,13 @@
 require("tt.navigation")
 local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
+local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 local M = {}
 local setWriterline = false
+
+api.nvim_command("match Callout '@w+.?w+'")
+
+iabbrev("<expr> dateheader", vim.fn.strftime("%Y %b %d"), true)
 
 function M.composer()
 	vim.wo[0].wrap = true

@@ -1,0 +1,1 @@
+vim.wo.list = true
