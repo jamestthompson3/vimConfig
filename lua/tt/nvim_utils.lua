@@ -27,7 +27,12 @@ local GLOBALS = {}
 if is_windows then
 	GLOBALS.home = os.getenv("HOMEPATH")
 	GLOBALS.cwd = function()
-		return os.getenv("cd")
+		local env_var = os.getenv("cd")
+		if env_var ~= nil then
+			return env_var
+		else
+			return os.capture("echo %CD%")
+		end
 	end
 	GLOBALS.python_host = "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
 	GLOBALS.file_separator = "\\"
@@ -300,14 +305,20 @@ end
 
 function M.nodejs.find_node_executable(binaryName)
 	local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
+	local normalized_bin_name
+	if is_windows then
+		normalized_bin_name = binaryName .. ".cmd"
+	else
+		normalized_bin_name = binaryName
+	end
 	if 0 == fn.executable(executable) then
 		local sub_cmd = fn.system("git rev-parse --show-toplevel")
 		local project_root_path = sub_cmd:gsub("\n", "")
-		executable = project_root_path .. "/node_modules/.bin/" .. binaryName
+		executable = project_root_path .. "/node_modules/.bin/" .. normalized_bin_name
 	end
 
 	if 0 == fn.executable(executable) then
-		executable = M.nodejs.get_node_bin(binaryName)
+		executable = M.nodejs.get_node_bin(normalized_bin_name)
 	end
 	if 0 == fn.executable(executable) then
 		log("Could not find " .. executable)
