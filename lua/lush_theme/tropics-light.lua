@@ -92,10 +92,10 @@ local theme = lush(function()
 		CursorColumn({ bg = base1 }), -- Screen-column at the cursor, when 'cursorcolumn' is set.
 		CursorLine({ bg = base1 }), -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
 		Directory({ fg = blue }), -- directory names (and other special names in listings)
-		DiffAdd({ fg = base0, bg = sky.darken(10) }), -- diff mode: Added line |diff.txt|
-		DiffChange({ Normal }), -- diff mode: Changed line |diff.txt|
+		DiffAdd({ fg = base0, bg = yellow.darken(10) }), -- diff mode: Added line |diff.txt|
+		DiffChange({ bg = teal, fg = base0 }), -- diff mode: Changed line |diff.txt|
 		DiffDelete({ fg = base0, bg = lavender }), -- diff mode: Deleted line |diff.txt|
-		DiffText({ fg = base0, bg = mauve }), -- diff mode: Changed text within a changed line |diff.txt|
+		DiffText({ fg = peach.darken(50), bg = teal }), -- diff mode: Changed text within a changed line |diff.txt|
 		EndOfBuffer({ Conceal }), -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal

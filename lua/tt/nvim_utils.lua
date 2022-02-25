@@ -288,11 +288,9 @@ function os.capture(cmd, raw, nosub)
 	if raw then
 		return s
 	end
-	if nosub == nil then
-		s = string.gsub(s, "^%s+", "")
-		s = string.gsub(s, "%s+$", "")
-		s = string.gsub(s, "[\n\r]+", " ")
-	end
+	s = string.gsub(s, "^%s+", "")
+	s = string.gsub(s, "%s+$", "")
+	s = string.gsub(s, "[\n\r]+", " ")
 	return s
 end
 

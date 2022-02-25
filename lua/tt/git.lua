@@ -4,6 +4,14 @@ local stb = require("tt.nvim_utils").vim_util.shell_to_buf
 local api = vim.api
 local fn = vim.fn
 
+local function cmd(cmd)
+	if is_windows then
+		return "git " .. cmd .. " 2> NUL | tr -d '\n'"
+	else
+		return "git " .. cmd .. " 2> /dev/null | tr -d '\n'"
+	end
+end
+
 function M.diff()
 	local fileName = fn.expand("%")
 	local ext = fn.expand("%:e")
@@ -67,11 +75,17 @@ end
 
 -- returns short status of changes
 function M.stat()
-	if is_windows then
-		return os.capture("git diff --shortstat 2> NUL | tr -d '\n'")
-	else
-		return os.capture("git diff --shortstat 2> /dev/null | tr -d '\n'")
+	return os.capture(cmd("diff --shortstat"))
+end
+
+function M.changedFiles()
+	local files = fn.systemlist("git diff --name-only --no-color")
+	local qfFiles = {}
+	for _, file in ipairs(files) do
+		table.insert(qfFiles, { filename = file, lnum = 1 })
 	end
+	fn.setqflist(qfFiles, "r")
+	api.nvim_command("copen")
 end
 
 return M
