@@ -78,14 +78,33 @@ function M.stat()
 	return os.capture(cmd("diff --shortstat"))
 end
 
-function M.changedFiles()
-	local files = fn.systemlist("git diff --name-only --no-color")
+local function listChangedFiles()
+	return fn.systemlist("git diff --name-only --no-color")
+end
+
+local function jumpToDiff()
+  api.nvim_command("silent only")
+	api.nvim_command("vsplit <cfile>")
+  M.diff()
+	api.nvim_command("wincmd h")
+	api.nvim_command("wincmd h")
+end
+
+function M.QfFiles()
+  local files = listChangedFiles()
 	local qfFiles = {}
 	for _, file in ipairs(files) do
 		table.insert(qfFiles, { filename = file, lnum = 1 })
 	end
 	fn.setqflist(qfFiles, "r")
-	api.nvim_command("copen")
+end
+
+function M.changedFiles()
+	api.nvim_command("tabnew")
+  local buf = stb({"git", "diff", "--name-only", "--no-color"})
+	api.nvim_win_set_buf(0, buf)
+  buf_nnoremap({"<CR>", jumpToDiff, { buffer = buf}})
+  buf_nnoremap({"Q", ":tabclose<CR>", { buffer = buf}})
 end
 
 return M

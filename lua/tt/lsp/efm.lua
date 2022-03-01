@@ -47,7 +47,7 @@ function M.setup(opts)
 			"typescriptreact",
 			"yaml",
 			-- "rust",
-			"lua",
+			-- "lua",
 			"go",
 		},
 		settings = {
