@@ -9,14 +9,19 @@ local globals = require("tt.nvim_utils").GLOBALS
 local vim_utils = require("tt.nvim_utils").vim_util
 local git = require("tt.git")
 local setPath = function()
-	if git.branch() ~= "" then
-		return ".,"
-			.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
-			.. ","
-			.. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
-	else
-		return vim.o.path
+	-- If we aren't using git, then we should still put a root marker in the current dir so that we
+	-- can index tags with gutentags, and maybe do other stuff.
+	if git.branch() == "" then
+		vim.loop.fs_open("root_marker", vim.loop.constants.O_CREAT, 438, function(err, fd)
+			if err then
+				vim.notify("ERR", err)
+			end
+		end)
 	end
+	return ".,"
+		.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
+		.. ","
+		.. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
 end
 local set = vim.o
 local api = vim.api
