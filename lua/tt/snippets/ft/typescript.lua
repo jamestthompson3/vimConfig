@@ -1,4 +1,3 @@
-
 local ls = require("luasnip")
 
 local snippet = ls.s

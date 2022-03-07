@@ -1,9 +1,9 @@
-vim.bo.formatoptions = vim.bo.formatoptions .. o
+vim.bo.formatoptions = vim.bo.formatoptions .. "o"
 local bootstrap = require("tt.ft.ecma").bootstrap
 
 --TAGBAR:
 if vim.g.tagbar_type_typescript == nil then
-	g.tagbar_type_typescript = {
+	vim.g.tagbar_type_typescript = {
 		{ ctagstype = "typescript" },
 		{
 			kinds = {

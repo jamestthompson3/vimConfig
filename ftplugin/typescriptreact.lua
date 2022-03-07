@@ -1,4 +1,5 @@
 local g = vim.g
+local bootstrap = require("tt.ft.ecma").bootstrap
 g.tagbar_type_typescript = {
 	{ ctagstype = "typescript" },
 	{
@@ -52,3 +53,4 @@ if vim.g.loaded_matchup then
 	vim.b.match_words = "<@<=([^/][^ \t>]*)g{hlend}[^>]*%(/@<!>|$):<@<=/\1>"
 	vim.b.match_skip = "s:comment|string"
 end
+bootstrap()

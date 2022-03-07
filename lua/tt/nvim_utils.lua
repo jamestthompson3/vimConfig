@@ -27,7 +27,12 @@ local GLOBALS = {}
 if is_windows then
 	GLOBALS.home = os.getenv("HOMEPATH")
 	GLOBALS.cwd = function()
-		return os.getenv("cd")
+		local env_var = os.getenv("cd")
+		if env_var ~= nil then
+			return env_var
+		else
+			return os.capture("echo %CD%")
+		end
 	end
 	GLOBALS.python_host = "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
 	GLOBALS.file_separator = "\\"
@@ -204,6 +209,27 @@ function M.vim_util.get_lsp_clients()
 	return table.concat(clients, " • ")
 end
 
+function M.vim_util.get_diagnostics()
+	local diags = vim.diagnostic.get(0)
+	local warnings = 0
+	local errors = 0
+	if diags == nil then
+		return ""
+	end
+	for _, diag in ipairs(diags) do
+		if diag.severity == 1 then
+			errors = errors + 1
+		elseif diag.severity == 2 then
+			warnings = warnings + 1
+		end
+	end
+	if errors == 0 and warnings == 0 then
+		return ""
+	else
+		return "(" .. errors .. "E" .. " • " .. warnings .. "W)"
+	end
+end
+
 function M.vim_util.shell_to_buf(opts)
 	local buf = api.nvim_create_buf(false, true)
 	local lines = vim.split(os.capture(table.concat(opts, " "), true), "\n")
@@ -262,11 +288,9 @@ function os.capture(cmd, raw, nosub)
 	if raw then
 		return s
 	end
-	if nosub == nil then
-		s = string.gsub(s, "^%s+", "")
-		s = string.gsub(s, "%s+$", "")
-		s = string.gsub(s, "[\n\r]+", " ")
-	end
+	s = string.gsub(s, "^%s+", "")
+	s = string.gsub(s, "%s+$", "")
+	s = string.gsub(s, "[\n\r]+", " ")
 	return s
 end
 
@@ -279,14 +303,20 @@ end
 
 function M.nodejs.find_node_executable(binaryName)
 	local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
+	local normalized_bin_name
+	if is_windows then
+		normalized_bin_name = binaryName .. ".cmd"
+	else
+		normalized_bin_name = binaryName
+	end
 	if 0 == fn.executable(executable) then
 		local sub_cmd = fn.system("git rev-parse --show-toplevel")
 		local project_root_path = sub_cmd:gsub("\n", "")
-		executable = project_root_path .. "/node_modules/.bin/" .. binaryName
+		executable = project_root_path .. "/node_modules/.bin/" .. normalized_bin_name
 	end
 
 	if 0 == fn.executable(executable) then
-		executable = M.nodejs.get_node_bin(binaryName)
+		executable = M.nodejs.get_node_bin(normalized_bin_name)
 	end
 	if 0 == fn.executable(executable) then
 		log("Could not find " .. executable)

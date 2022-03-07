@@ -24,6 +24,7 @@ iabbrev("bunlde", "bundle")
 api.nvim_command([[command! -nargs=+ -complete=dir -bar SearchProject silent grep! <q-args>]])
 api.nvim_command([[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]])
 api.nvim_command([[command! Diff lua require'tt.git'.diff()]])
+api.nvim_command([[command! Changed lua require'tt.git'.changedFiles()]])
 api.nvim_command([[command! Ftc let @+=expand("%")]]) -- filename to clipboard
 api.nvim_command([[command! Restore lua require'tt.tools'.restoreFile() ]])
 api.nvim_command([[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]])
