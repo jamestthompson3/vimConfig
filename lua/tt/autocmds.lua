@@ -1,63 +1,142 @@
 local create_augroups = require("tt.nvim_utils").vim_util.create_augroups
+local nnore = require("tt.nvim_utils").keys.nmap
+local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
+local git = require("tt.git")
+
+local au = vim.api.nvim_create_autocmd
+local ag = vim.api.nvim_create_augroup
 
 local autocmds = {
 	load_core = {
-		{ "VimEnter", "*", [[nested lua require'tt.tools'.openQuickfix()]] },
-		{ "SwapExists", "*", "call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)" },
-		{ "TextYankPost", "*", [[silent! lua require'vim.highlight'.on_yank()]] },
-		{ "BufNewFile", "*.html", "0r ~/vim/skeletons/skeleton.html" },
-		{ "BufNewFile", "*.md", "0r ~/vim/skeletons/skeleton.md" },
-		{ "VimLeavePre", "*", [[lua require'tt.tools'.saveSession()]] },
-		{ "TermEnter", "*", "set nonumber" },
+		{ "VimEnter", { callback = require("tt.tools").openQuickfix } },
+		{ "SwapExists", { command = "call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)" } },
+		{
+			"TextYankPost",
+			{
+				callback = function()
+					require("vim.highlight").on_yank({ higroup = "Search", timeout = 100 })
+				end,
+			},
+		},
+		{ "BufNewFile", { pattern = "*.html", command = "0r ~/vim/skeletons/skeleton.html" } },
+		{ "BufNewFile", { pattern = "*.md", command = "0r ~/vim/skeletons/skeleton.md" } },
+		{ "VimLeavePre", { callback = require("tt.tools").saveSession } },
+		{ "TermEnter", {
+			callback = function()
+				vim.wo.rnu = false
+			end,
+		} },
 		{
 			"BufWritePre",
-			"*",
-			[[if !isdirectory(expand("<afile>:p:h"))|call mkdir(expand("<afile>:p:h"), "p")|endif]],
+			{ command = "if !isdirectory(expand('<afile>:p:h'))|call mkdir(expand('<afile>:p:h'), 'p')|endif" },
 		},
-		{ "BufWritePre", "*", [[lua require'tt.tools'.removeWhitespace()]] },
-		{ "QuickFixCmdPost", "[^l]*", [[nested lua require'tt.tools'.openQuickfix()]] },
+		{ "BufWritePre", { callback = require("tt.tools").removeWhitespace } },
+		{ "QuickFixCmdPost", { pattern = "[^l]*", nested = true, callback = require("tt.tools").openQuickfix } },
 		{
 			"CursorHold,BufWritePost,BufReadPost,BufLeave",
-			"*",
-			[[if isdirectory(expand("<amatch>:h"))|let &swapfile = &modified|endif]],
+			{ command = "if isdirectory(expand('<amatch>:h'))|let &swapfile = &modified|endif" },
 		},
-		{ "CursorMoved", "*", [[lua pcall(require'tt.git'.clear_blame)]] },
-		{ "CursorMovedI", "*", [[lua pcall(require'tt.git'.clear_blame)]] },
-		{ "FocusGained,CursorMoved,CursorMovedI", "*", "checktime" },
+		{ "CursorMoved", {
+			callback = function()
+				git.clear_blame()
+			end,
+		} },
+		{ "CursorMovedI", {
+			callback = function()
+				git.clear_blame()
+			end,
+		} },
+		{ "FocusGained,CursorMoved,CursorMovedI", { command = "checktime" } },
 	},
 	ft = {
-		{ "FileType netrw au BufLeave netrw close" },
-		{ "FileType dirvish nnoremap <buffer> <silent>D :lua require'tt.tools'.deleteFile()<CR>" },
-		{ "FileType dirvish nnoremap <buffer><leader>n :e %" },
-		{ "FileType dirvish nnoremap <buffer> r :lua require'tt.tools'.renameFile()<CR>" },
-		{ "FileType netrw nnoremap <buffer> q :close<CR>" },
+		{ "FileType", { pattern = "netrw", command = "au BufLeave netrw close" } },
+		{
+			"FileType",
+			{
+				pattern = "dirvish",
+				callback = function()
+					buf_nnoremap({ "D", require("tt.tools").deleteFile, { silent = true } })
+				end,
+			},
+		},
+		{
+			"FileType",
+			{
+				pattern = "dirvish",
+				callback = function()
+					buf_nnoremap({ "<leader>n", ":e %" })
+				end,
+			},
+		},
+		{
+			"FileType",
+			{
+				pattern = "dirvish",
+				callback = function()
+					buf_nnoremap({ "r", require("tt.tools").renameFile })
+				end,
+			},
+		},
+		{
+			"FileType",
+			{
+				pattern = "netrw",
+				callback = function()
+					buf_nnoremap({ "q", ":close<CR>" })
+				end,
+			},
+		},
 	},
 	bufs = {
-		{ "BufReadPost quickfix nnoremap <buffer><silent>ra :ReplaceAll<CR>" },
-		{ "BufReadPost quickfix nnoremap <buffer>R  :Cfilter!<space>" },
-		{ "BufReadPost quickfix nnoremap <buffer>K  :Cfilter<space>" },
-		{ "BufReadPost", "*.fugitiveblame", "set ft=fugitiveblame" },
+		{
+			"BufReadPost",
+			{
+				pattern = "quickfix",
+				callback = function()
+					buf_nnoremap({"ra", ":ReplaceAll<CR>", { silent = true }})
+				end,
+			},
+		},
+		{
+			"BufReadPost",
+			{
+				pattern = "quickfix",
+				callback = function()
+					buf_nnoremap({"R", ":Cfilter!<space>"})
+				end,
+			},
+		},
+		{
+			"BufReadPost",
+			{
+				pattern = "quickfix",
+				callback = function()
+					buf_nnoremap({"K", ":Cfilter<space>"})
+				end,
+			},
+		},
+		{ "BufReadPost", { pattern = "*.fugitiveblame", command = "set ft=fugitiveblame" } },
 	},
 	ft_detect = {
-		{ "BufRead,BufNewFile", "*.nginx", "set ft=nginx" },
-		{ "BufRead,BufNewFile", "nginx*.conf", "set ft=nginx" },
-		{ "BufRead,BufNewFile", "*nginx.conf", "set ft=nginx" },
-		{ "BufRead,BufNewFile", "*/etc/nginx/*", "set ft=nginx" },
-		{ "BufRead,BufNewFile", "*/usr/local/nginx/conf/*", "set ft=nginx" },
-		{ "BufRead,BufNewFile", "*/nginx/*.conf", "set ft=nginx" },
-		{ "BufNewFile,BufRead", "*.bat,*.sys", "set ft=dosbatch" },
-		{ "BufNewFile,BufRead", "*.mm,*.m", "set ft=objc" },
-		{ "BufNewFile,BufRead", "*.h,*.m,*.mm", "set tags+=~/global-objc-tags" },
-		{ "BufNewFile,BufRead", "*.tsx", "setlocal commentstring=//%s" },
-		{ "BufNewFile,BufRead", "*.svelte", "setfiletype html" },
-		{ "BufNewFile,BufRead", "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc", "set ft=json" },
-		{ "BufNewFile,BufRead", "*.pcss", "set ft=css" },
-		{ "BufNewFile,BufRead", "*.wiki", "set ft=wiki" },
-		{ "BufRead,BufNewFile", "[Dd]ockerfile", "set ft=Dockerfile" },
-		{ "BufRead,BufNewFile", "Dockerfile*", "set ft=Dockerfile" },
-		{ "BufRead,BufNewFile", "[Dd]ockerfile.vim", "set ft=vim" },
-		{ "BufRead,BufNewFile", "*.dock", "set ft=Dockerfile" },
-		{ "BufRead,BufNewFile", "*.[Dd]ockerfile", "set ft=Dockerfile" },
+		{ "BufRead,BufNewFile", { pattern = "*.nginx", command = "set ft=nginx" } },
+		{ "BufRead,BufNewFile", { pattern = "nginx*.conf", command = "set ft=nginx" } },
+		{ "BufRead,BufNewFile", { pattern = "*nginx.conf", command = "set ft=nginx" } },
+		{ "BufRead,BufNewFile", { pattern = "*/etc/nginx/*", command = "set ft=nginx" } },
+		{ "BufRead,BufNewFile", { pattern = "*/usr/local/nginx/conf/*", command = "set ft=nginx" } },
+		{ "BufRead,BufNewFile", { pattern = "*/nginx/*.conf", command = "set ft=nginx" } },
+		{ "BufNewFile,BufRead", { pattern = "*.bat,*.sys", command = "set ft=dosbatch" } },
+		{ "BufNewFile,BufRead", { pattern = "*.mm,*.m", command = "set ft=objc" } },
+		{ "BufNewFile,BufRead", { pattern = "*.h,*.m,*.mm", command = "set tags+=~/global-objc-tags" } },
+		{ "BufNewFile,BufRead", { pattern = "*.tsx", command = "setlocal commentstring=//%s" } },
+		{ "BufNewFile,BufRead", { pattern = "*.svelte", command = "setfiletype html" } },
+		{ "BufNewFile,BufRead", { pattern = "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc", command = "set ft=json" } },
+		{ "BufNewFile,BufRead", { pattern = "*.pcss", command = "set ft=css" } },
+		{ "BufNewFile,BufRead", { pattern = "*.wiki", command = "set ft=wiki" } },
+		{ "BufRead,BufNewFile", { pattern = "[Dd]ockerfile", command = "set ft=Dockerfile" } },
+		{ "BufRead,BufNewFile", { pattern = "Dockerfile*", command = "set ft=Dockerfile" } },
+		{ "BufRead,BufNewFile", { pattern = "[Dd]ockerfile.vim", command = "set ft=vim" } },
+		{ "BufRead,BufNewFile", { pattern = "*.dock", command = "set ft=Dockerfile" } },
+		{ "BufRead,BufNewFile", { pattern = "*.[Dd]ockerfile", command = "set ft=Dockerfile" } },
 	},
 }
 vim.schedule(function()

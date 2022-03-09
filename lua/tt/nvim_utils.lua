@@ -187,13 +187,10 @@ M.vim_util = {}
 
 function M.vim_util.create_augroups(definitions)
 	for group_name, definition in pairs(definitions) do
-		vim.api.nvim_command("augroup " .. group_name)
-		vim.api.nvim_command("autocmd!")
+		vim.api.nvim_create_augroup(group_name, {clear = true})
 		for _, def in ipairs(definition) do
-			local command = table.concat(vim.tbl_flatten({ "autocmd", def }), " ")
-			vim.api.nvim_command(command)
+      vim.api.nvim_create_autocmd(def[1], def[2])
 		end
-		vim.api.nvim_command("augroup END")
 	end
 end
 

@@ -5,7 +5,16 @@ local M = {}
 function M.bootstrap()
 	local autocmds = {
 		rust = {
-			{ "BufWritePost", "<buffer>", "lua vim.lsp.buf.formatting_sync(nil, 500)" },
+			{
+				"BufWritePost",
+				{
+					pattern = ".rs",
+					buffer = true,
+					callback = function()
+						vim.lsp.buf.formatting_sync(nil, 500)
+					end,
+				},
+			},
 		},
 	}
 	vim.api.nvim_command([[command! Check silent make! check]])
