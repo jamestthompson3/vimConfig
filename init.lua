@@ -11,17 +11,20 @@ local git = require("tt.git")
 local setPath = function()
 	-- If we aren't using git, then we should still put a root marker in the current dir so that we
 	-- can index tags with gutentags, and maybe do other stuff.
-	if git.branch() == "" then
+	if git.branch() == "" and globals.cwd() ~= globals.home then
 		vim.loop.fs_open("root_marker", vim.loop.constants.O_CREAT, 438, function(err, fd)
 			if err then
 				vim.notify("ERR", err)
 			end
 		end)
 	end
+  -- TODO: make the list of dirs we don't index configurable
+  if globals.cwd() ~= globals.home then
 	return ".,"
 		.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
 		.. ","
 		.. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
+  end
 end
 local set = vim.o
 local api = vim.api

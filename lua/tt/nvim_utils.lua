@@ -27,7 +27,7 @@ local GLOBALS = {}
 if is_windows then
 	GLOBALS.home = os.getenv("HOMEPATH")
 	GLOBALS.cwd = function()
-		local env_var = os.getenv("cd")
+		local env_var = os.getenv("PWD")
 		if env_var ~= nil then
 			return env_var
 		else
