@@ -16,9 +16,10 @@ local M = {
 	-- React stuff
 	snippet("fco", fmt("function {} ({{{}}}) {{\n\t{}\n}}\n\nexport default {}", { i(1), i(2), i(3), rep(1) })),
 	snippet("cco", fmt("const {} = ({{{}}}) => {{\n\t{}\n}}\n\nexport default {}", { i(1), i(2), i(3), rep(1) })),
+	snippet("usee", fmt("useEffect(() => {{\n\t{}\n}}, [{}])", { i(0), i(1) })),
 	-- Testing
 	snippet("tst", fmt('describe("{}", () => {{\n\t it("{}", () => {{\n\t{}\n\t}}) \n}})', { i(1), i(2), i(3) })),
-  snippet("its", fmt('it("{}", () => {{\n\t{}\n}})', {i(1), i(2)}))
+	snippet("its", fmt('it("{}", () => {{\n\t{}\n}})', { i(1), i(2) })),
 }
 
 return M
