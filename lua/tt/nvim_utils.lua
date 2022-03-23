@@ -185,11 +185,39 @@ end
 
 M.vim_util = {}
 
+function M.vim_util.treesitter_sl()
+	local type_patterns = {
+		"class",
+		"function",
+		"method",
+		"interface",
+		"type_spec",
+		"table",
+		"if_statement",
+		"for_statement",
+		"for_in_statement",
+		"call_expression",
+		"comment",
+	}
+
+	if vim.o.ft == "json" then
+		type_patterns = { "object", "pair" }
+	end
+
+	local f = require("nvim-treesitter").statusline({
+		indicator_size = 30,
+		type_patterns = type_patterns,
+	})
+  if f == nil then
+    return ""
+  end
+	return string.format("%s", f)
+end
 function M.vim_util.create_augroups(definitions)
 	for group_name, definition in pairs(definitions) do
-		vim.api.nvim_create_augroup(group_name, {clear = true})
+		vim.api.nvim_create_augroup(group_name, { clear = true })
 		for _, def in ipairs(definition) do
-      vim.api.nvim_create_autocmd(def[1], def[2])
+			vim.api.nvim_create_autocmd(def[1], def[2])
 		end
 	end
 end

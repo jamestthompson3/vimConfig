@@ -18,13 +18,13 @@ local setPath = function()
 			end
 		end)
 	end
-  -- TODO: make the list of dirs we don't index configurable
-  if globals.cwd() ~= globals.home then
-	return ".,"
-		.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
-		.. ","
-		.. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
-  end
+	-- TODO: make the list of dirs we don't index configurable
+	if globals.cwd() ~= globals.home then
+		return ".,"
+			.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
+			.. ","
+			.. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
+	end
 end
 local set = vim.o
 local api = vim.api
@@ -93,7 +93,8 @@ set.pumheight = 15
 set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-IncSearch"
-set.statusline = "%f %m %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
+set.statusline =
+	"%f %#Error#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
