@@ -48,11 +48,11 @@ function M.configureLSP()
 		capabilities = capabilities,
 		cmd = { node.get_node_bin("html-languageserver"), "--stdio" },
 	})
-  nvim_lsp.css.setup({
+	nvim_lsp.css.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
 		cmd = { node.get_node_bin("css-languageserver"), "--stdio" },
-  })
+	})
 	nvim_lsp.tsserver.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
@@ -95,6 +95,10 @@ function M.configureLSP()
 	nvim_lsp.bashls.setup({
 		on_attach = on_attach,
 		cmd = { node.get_node_bin("bash-language-server"), "start" },
+	})
+
+	nvim_lsp.clangd.setup({
+		on_attach = on_attach,
 	})
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
