@@ -11,7 +11,7 @@ local git = require("tt.git")
 local setPath = function()
 	-- If we aren't using git, then we should still put a root marker in the current dir so that we
 	-- can index tags with gutentags, and maybe do other stuff.
-	if git.branch() == "" and globals.cwd() ~= globals.home then
+	if git.branch() == "" and globals.cwd() ~= globals.home and vim.o.ft ~= "gitcommit" then
 		vim.loop.fs_open("root_marker", vim.loop.constants.O_CREAT, 438, function(err, fd)
 			if err then
 				vim.notify("ERR", err)
@@ -94,7 +94,7 @@ set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-IncSearch"
 set.statusline =
-	"%f %#Error#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
+	"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule

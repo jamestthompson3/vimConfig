@@ -137,6 +137,7 @@ local autocmds = {
 		{ "BufRead,BufNewFile", { pattern = "[Dd]ockerfile.vim", command = "set ft=vim" } },
 		{ "BufRead,BufNewFile", { pattern = "*.dock", command = "set ft=Dockerfile" } },
 		{ "BufRead,BufNewFile", { pattern = "*.[Dd]ockerfile", command = "set ft=Dockerfile" } },
+		{ "BufRead,BufNewFile", { pattern = "gitcommit", command = "set spell" } },
 	},
 }
 vim.schedule(function()
