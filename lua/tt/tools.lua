@@ -1,4 +1,5 @@
 local globals = require("tt.nvim_utils").GLOBALS
+local buf_map = require("tt.nvim_utils").keys.buf_nnoremap
 local git = require("tt.git")
 local api = vim.api
 local fn = vim.fn
@@ -41,9 +42,21 @@ function M.splashscreen()
 		api.nvim_command([[setl relativenumber]])
 		api.nvim_command([[setl nocursorline]])
 		vim.wo[0].cursorcolumn = false
-		require("tt.tools").simpleMRU()
+		M.simpleMRU()
 		api.nvim_command([[:34]])
-		api.nvim_buf_set_keymap(0, "n", "<CR>", "gf", { noremap = true })
+		buf_map({ "<CR>", "gf", { noremap = true } })
+		for i = 1, 9, 1 do
+			buf_map({
+				string.format("%d", i),
+				function()
+					api.nvim_feedkeys(string.format("%dj", i - 1), "n", false)
+					api.nvim_feedkeys("gf", "n", false)
+				end,
+				{
+					noremap = true,
+				},
+			})
+		end
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
 	else
@@ -131,12 +144,12 @@ end
 function M.simpleMRU()
 	local files = vim.v.oldfiles
 	local cwd = globals.cwd()
-	for _, file in ipairs(files) do
-		if not vim.startswith(file, "term://") and string.match(getPath(file), cwd) then
-			local splitvals = vim.split(file, "/")
-			local fname = splitvals[#splitvals]
-			api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(fname)))
-		end
+	local filteredFiles = vim.tbl_filter(function(file)
+		return vim.startswith(file, cwd) and vim.fn.filereadable(file) == 1 and not string.find(file, "COMMIT_MESSAGE")
+	end, files)
+	for i, file in ipairs(filteredFiles) do
+		local fname = vim.fn.fnamemodify(file, ":.")
+		api.nvim_command(string.format('call append(line("$") -1, "%s [%d]")', vim.trim(fname), i))
 	end
 	api.nvim_command([[:1]])
 end
