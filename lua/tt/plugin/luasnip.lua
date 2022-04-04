@@ -21,14 +21,16 @@ local conds = require("luasnip.extras.expand_conditions")
 local shared = require("tt.snippets")
 local ecma = require("tt.snippets.ft.ecmascript")
 local ts = require("tt.snippets.ft.typescript")
+local lua = require("tt.snippets.ft.lua")
+local rust = require("tt.snippets.ft.rust")
 
 local snippets = {}
 
-snippets.go = shared.make(require("tt.snippets.ft.go"))
-snippets.javascript = ecma
-snippets.typescript = ts
-snippets.lua = require("tt.snippets.ft.lua")
-snippets.rust = require("tt.snippets.ft.rust")
+ls.add_snippets("go", shared.make(require("tt.snippets.ft.go")))
+ls.add_snippets("javascript", ecma)
+ls.add_snippets("typescript", ts)
+ls.add_snippets("lua", lua)
+ls.add_snippets("rust", rust)
 
 ls.filetype_extend("typescript", { "javascript" })
 ls.filetype_extend("typescriptreact", { "typescript", "javascript" })
@@ -37,7 +39,7 @@ ls.filetype_extend("javascriptreact", { "javascript" })
 ls.snippets = snippets
 
 -- testing
--- vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/tt/plugin/luasnip.lua<CR>")
+vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/tt/plugin/luasnip.lua<CR>")
 
 ls.config.set_config({
 	enable_autosnippets = true,
