@@ -46,6 +46,7 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "luasnip", priority = 15 },
 		{ name = "tags", priority = 5 },
+		{ name = "nvim_lsp_signature_help", priority = 12 },
 		{ name = "nvim_lsp", priority = 10 },
 		{ name = "cmp_tabnine" },
 		{ name = "treesitter" },
@@ -77,4 +78,5 @@ tabnine:setup({
 	sort = true,
 	run_on_every_keystroke = true,
 	snippet_placeholder = "~>",
+	show_prediction_strength = true,
 })

@@ -9,7 +9,6 @@ return require("packer").startup({
 		use("romainl/vim-cool")
 		use("tmsvg/pear-tree")
 		use("tpope/vim-commentary")
-		use("rktjmp/lush.nvim")
 		use("tpope/vim-surround")
 		use("tpope/vim-repeat")
 		use("andymass/vim-matchup")
@@ -22,6 +21,7 @@ return require("packer").startup({
 			end,
 			requires = {
 				{ "hrsh7th/cmp-nvim-lsp" },
+				{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 				{ "hrsh7th/cmp-buffer" },
 				{ "hrsh7th/cmp-path" },
 				{ "saadparwaiz1/cmp_luasnip" },
@@ -97,6 +97,8 @@ return require("packer").startup({
 				require("tt.lsp").configureLSP()
 			end,
 		})
+
+		use({"rktjmp/lush.nvim", ft = {"lua"}})
 		use({ "rust-lang/rust.vim", ft = { "rust" } })
 		use({ "wbthomason/packer.nvim", opt = true })
 		use("nvim-treesitter/nvim-treesitter-textobjects")
