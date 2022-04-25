@@ -53,8 +53,10 @@ cmp.setup({
 		{ name = "path" },
 	},
 
-	documentation = {
-		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+	window = {
+		documentation = cmp.config.window.bordered(),
+		completion = cmp.config.window.bordered(),
+		--{ "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
 		-- 	winhighlight = "FloatBorder",
 	},
 
@@ -68,7 +70,7 @@ cmp.setup({
 	},
 
 	experimental = {
-		native_menu = false,
+		-- native_menu = true,
 	},
 })
 local tabnine = require("cmp_tabnine.config")
