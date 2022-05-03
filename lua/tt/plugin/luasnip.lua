@@ -26,7 +26,7 @@ local rust = require("tt.snippets.ft.rust")
 
 local snippets = {}
 
-ls.add_snippets("go", shared.make(require("tt.snippets.ft.go")))
+-- ls.add_snippets("go", shared.make(require("tt.snippets.ft.go")))
 ls.add_snippets("javascript", ecma)
 ls.add_snippets("typescript", ts)
 ls.add_snippets("lua", lua)

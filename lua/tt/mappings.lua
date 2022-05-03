@@ -13,23 +13,8 @@ local vnore = require("tt.nvim_utils").keys.vnore
 local vmap_nocr = require("tt.nvim_utils").keys.vmap_nocr
 local cmap = require("tt.nvim_utils").keys.cmap
 
-local ls = require("luasnip")
 local tools = require("tt.tools")
 local git = require("tt.git")
-
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
-	if ls.expand_or_jumpable() then
-		ls.expand_or_jump()
-	end
-end, {
-	silent = true,
-})
-
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
-	if ls.jumpable(-1) then
-		ls.jump(-1)
-	end
-end, { silent = true })
 
 -- INSERT MODE
 inore("jj", "<Esc>")

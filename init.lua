@@ -1,5 +1,23 @@
 pcall(require, "impatient")
 
+-- Don't need these, don't load these
+vim.g.loaded_matchparen = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_gzip = 1
+vim.g.loaded_python_provider = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_getscript = 1
+vim.g.loaded_getscriptPlugin = 1
+vim.g.loaded_vimball = 1
+vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_logiPat = 1
+vim.g.loaded_rrhelper = 1
+vim.g.loaded_tutor_mode_plugin = 1
+
 -- no need to continue if we don't have any plugins loaded, as the config here will throw errors.
 if require("tt.bootstrap")() then
 	return

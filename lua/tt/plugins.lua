@@ -1,5 +1,3 @@
-M = {}
-
 return require("packer").startup({
 	function()
 		-- use("nathom/filetype.nvim")
@@ -17,7 +15,7 @@ return require("packer").startup({
 		use({
 			"hrsh7th/nvim-cmp",
 			config = function()
-				require("tt.plugin.compe")
+				require("tt.plugin.compe").init()
 			end,
 			requires = {
 				{ "hrsh7th/cmp-nvim-lsp" },
@@ -37,41 +35,6 @@ return require("packer").startup({
 				require("tt.plugin.luasnip")
 			end,
 		})
-		-- use({
-		-- 	"mfussenegger/nvim-dap",
-		-- 	opt = true,
-		-- 	ft = { "typescript", "javascript" },
-		-- 	config = function()
-		-- 		local dap = require("dap")
-		-- 		dap.adapters.node2 = {
-		-- 			type = "executable",
-		-- 			command = "node",
-		-- 			args = { require"tt.nvim_utils".GLOBALS.home .. "/.config/nvim/langservers/vscode-node-debug2/out/src/nodeDebug.js" },
-		-- 		}
-		-- 		dap.configurations.javascript = {
-		-- 			{
-		-- 				type = "node2",
-		-- 				request = "launch",
-		-- 				program = "${file}",
-		-- 				cwd = vim.fn.getcwd(),
-		-- 				sourceMaps = true,
-		-- 				protocol = "inspector",
-		-- 				console = "integratedTerminal",
-		-- 			},
-		-- 		}
-		-- 		dap.configurations.typescript = {
-		-- 			{
-		-- 				type = "node2",
-		-- 				request = "launch",
-		-- 				program = "${file}",
-		-- 				cwd = vim.fn.getcwd(),
-		-- 				sourceMaps = true,
-		-- 				protocol = "inspector",
-		-- 				console = "integratedTerminal",
-		-- 			},
-		-- 		}
-		-- 	end,
-		-- })
 		use({
 			"neovim/nvim-lspconfig",
 			ft = {
@@ -84,10 +47,10 @@ return require("packer").startup({
 				"css",
 				"json",
 				"go",
-        "cpp",
-        "c",
-        "objc",
-        "obcpp",
+				"cpp",
+				"c",
+				"objc",
+				"obcpp",
 				-- "bash",
 				"yaml",
 				"markdown",
@@ -98,15 +61,18 @@ return require("packer").startup({
 			end,
 		})
 
-		use({"rktjmp/lush.nvim", ft = {"lua"}})
+		use({ "rktjmp/lush.nvim", ft = { "lua" } })
 		use({ "rust-lang/rust.vim", ft = { "rust" } })
 		use({ "wbthomason/packer.nvim", opt = true })
-		use("nvim-treesitter/nvim-treesitter-textobjects")
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			config = function()
-				require("tt.plugin.treesitter")
+				require("tt.plugin.treesitter").init()
 			end,
+			ft = require("tt.plugin.treesitter").supported_langs,
+      requires = {
+        { "windwp/nvim-ts-autotag" }
+      }
 		})
 
 		use({
