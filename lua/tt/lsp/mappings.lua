@@ -18,7 +18,7 @@ function M.setMappings(bufnr)
 	bufmap("gs", ":vsplit|lua vim.lsp.buf.definition()<CR>", bufnr)
 	bufmap("<leader>r", vim.lsp.buf.references, bufnr)
 	bufmap("<leader>i", vim.lsp.buf.implementation, bufnr)
-	bufmap("<leader>f", vim.lsp.buf.formatting, bufnr)
+	bufmap("<leader>f", vim.lsp.buf.format, bufnr)
 	bufmap("<leader>n", vim.lsp.buf.rename, bufnr)
 end
 

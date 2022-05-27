@@ -140,6 +140,7 @@ local theme = lush(function()
 		WarningMsg     { fg = yellow }, -- warning messages
 		Whitespace     { Conceal }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
 		WildMenu       { fg = base0, bg = base7 }, -- current match in 'wildmenu' completion
+    WinBar         { fg = green, bg = base0, gui = "bold" },
 
 		-- These groups are not listed as default vim groups,
 		-- but they are defacto standard group names for syntax highlighting.

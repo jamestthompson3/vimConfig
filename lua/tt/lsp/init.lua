@@ -48,11 +48,11 @@ function M.configureLSP()
 		capabilities = capabilities,
 		cmd = { node.get_node_bin("html-languageserver"), "--stdio" },
 	})
-	nvim_lsp.css.setup({
-		on_attach = on_attach,
-		capabilities = capabilities,
-		cmd = { node.get_node_bin("css-languageserver"), "--stdio" },
-	})
+	-- nvim_lsp.css.setup({
+	-- 	on_attach = on_attach,
+	-- 	capabilities = capabilities,
+	-- 	cmd = { node.get_node_bin("css-languageserver"), "--stdio" },
+	-- })
 	nvim_lsp.tsserver.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
@@ -67,9 +67,9 @@ function M.configureLSP()
 	nvim_lsp.rust_analyzer.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
-		init_options = {
-			documentFormatting = true,
-		},
+		-- init_options = {
+		-- 	documentFormatting = true,
+		-- },
 		settings = {
 			["rust-analyzer"] = {
 				checkOnSave = {
