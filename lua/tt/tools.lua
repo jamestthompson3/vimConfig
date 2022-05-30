@@ -3,6 +3,7 @@ local buf_map = require("tt.nvim_utils").keys.buf_nnoremap
 local git = require("tt.git")
 local api = vim.api
 local fn = vim.fn
+local lazy_load = require("tt.nvim_utils").vim_util.lazy_load
 require("tt.navigation")
 
 local sessionPath = globals.home .. globals.file_separator .. "sessions" .. globals.file_separator
@@ -51,6 +52,8 @@ function M.splashscreen()
 				function()
 					api.nvim_feedkeys(string.format("%dj", i - 1), "n", false)
 					api.nvim_feedkeys("gf", "n", false)
+          lazy_load("nvim-cmp")
+          lazy_load("vim-matchup")
 				end,
 				{
 					noremap = true,

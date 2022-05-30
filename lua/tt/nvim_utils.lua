@@ -208,11 +208,16 @@ function M.vim_util.treesitter_sl()
 		indicator_size = 30,
 		type_patterns = type_patterns,
 	})
-  if f == nil then
-    return ""
-  end
+	if f == nil then
+		return ""
+	end
 	return string.format("%s", f)
 end
+
+function M.vim_util.lazy_load(plugin)
+	require("packer").loader(plugin)
+end
+
 function M.vim_util.create_augroups(definitions)
 	for group_name, definition in pairs(definitions) do
 		vim.api.nvim_create_augroup(group_name, { clear = true })

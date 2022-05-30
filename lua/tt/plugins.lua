@@ -9,23 +9,25 @@ return require("packer").startup({
 		use("tpope/vim-commentary")
 		use("tpope/vim-surround")
 		use("tpope/vim-repeat")
-		use("andymass/vim-matchup")
 		use("ludovicchabant/vim-gutentags")
+
+		use({"andymass/vim-matchup", opt = true})
 
 		use({
 			"hrsh7th/nvim-cmp",
 			config = function()
 				require("tt.plugin.compe").init()
 			end,
+			opt = true,
 			requires = {
-				{ "hrsh7th/cmp-nvim-lsp" },
-				{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-				{ "hrsh7th/cmp-buffer" },
-				{ "hrsh7th/cmp-path" },
-				{ "saadparwaiz1/cmp_luasnip" },
-				{ "tzachar/cmp-tabnine", run = "./install.sh" },
-				{ "ray-x/cmp-treesitter" },
-				{ "quangnguyen30192/cmp-nvim-tags" },
+				{ "hrsh7th/cmp-nvim-lsp", opt = true },
+				{ "hrsh7th/cmp-nvim-lsp-signature-help", opt = true },
+				{ "hrsh7th/cmp-buffer", opt = true },
+				{ "hrsh7th/cmp-path", opt = true },
+				{ "saadparwaiz1/cmp_luasnip", opt = true },
+				{ "tzachar/cmp-tabnine", run = "./install.sh", opt = true },
+				{ "ray-x/cmp-treesitter", opt = true },
+				{ "quangnguyen30192/cmp-nvim-tags", opt = true },
 			},
 		})
 
@@ -34,6 +36,8 @@ return require("packer").startup({
 			config = function()
 				require("tt.plugin.luasnip")
 			end,
+			opt = true,
+			after = "nvim-cmp",
 		})
 		use({
 			"neovim/nvim-lspconfig",
@@ -70,9 +74,6 @@ return require("packer").startup({
 				require("tt.plugin.treesitter").init()
 			end,
 			ft = require("tt.plugin.treesitter").supported_langs,
-      requires = {
-        { "windwp/nvim-ts-autotag" }
-      }
 		})
 
 		use({

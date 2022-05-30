@@ -2,6 +2,7 @@ local node = require("tt.nvim_utils").nodejs
 local ui = require("tt.lsp.ui")
 local efm = require("tt.lsp.efm")
 local sumneko = require("tt.lsp.sumneko")
+local lazy_load = require("tt.nvim_utils").vim_util.lazy_load
 
 local M = {}
 
@@ -37,6 +38,11 @@ function M.configureLSP()
 	ui.diagnosticSigns()
 	local nvim_lsp = require("lspconfig")
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	local present = pcall(require, "cmp_nvim_lsp")
+	if not present then
+		return
+	end
+
 	capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 	-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 

@@ -2,6 +2,7 @@ local M = {}
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local kind_symbols = require("tt.tools").kind_symbols()
+local lazy_load = require("tt.nvim_utils").vim_util.lazy_load
 
 local has_words_before = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -9,6 +10,15 @@ local has_words_before = function()
 end
 
 function M.init()
+	lazy_load("LuaSnip")
+	lazy_load("cmp-nvim-lsp")
+	lazy_load("cmp-nvim-lsp-signature-help")
+	lazy_load("cmp-buffer")
+	lazy_load("cmp-path")
+	lazy_load("cmp_luasnip")
+	lazy_load("cmp-tabnine")
+	lazy_load("cmp-treesitter")
+	lazy_load("cmp-nvim-tags")
 	cmp.setup({
 		mapping = {
 			["<Tab>"] = cmp.mapping(function(fallback)
