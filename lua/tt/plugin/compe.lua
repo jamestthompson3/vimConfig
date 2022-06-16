@@ -1,6 +1,5 @@
 local M = {}
 local cmp = require("cmp")
-local luasnip = require("luasnip")
 local kind_symbols = require("tt.tools").kind_symbols()
 local lazy_load = require("tt.nvim_utils").vim_util.lazy_load
 
@@ -19,6 +18,7 @@ function M.init()
 	lazy_load("cmp-tabnine")
 	lazy_load("cmp-treesitter")
 	lazy_load("cmp-nvim-tags")
+  local luasnip = require("luasnip")
 	cmp.setup({
 		mapping = {
 			["<Tab>"] = cmp.mapping(function(fallback)

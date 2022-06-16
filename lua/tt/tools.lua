@@ -40,28 +40,27 @@ function M.splashscreen()
 		vim.bo[0].bufhidden = "wipe"
 		vim.bo[0].buflisted = false
 		vim.bo[0].matchpairs = ""
+		vim.opt.laststatus = 0
 		api.nvim_command([[setl relativenumber]])
 		api.nvim_command([[setl nocursorline]])
 		vim.wo[0].cursorcolumn = false
 		M.simpleMRU()
 		api.nvim_command([[:34]])
 		buf_map({ "<CR>", "gf", { noremap = true } })
-		for i = 1, 9, 1 do
-			buf_map({
-				string.format("%d", i),
-				function()
-					api.nvim_feedkeys(string.format("%dj", i - 1), "n", false)
-					api.nvim_feedkeys("gf", "n", false)
-          lazy_load("nvim-cmp")
-          lazy_load("vim-matchup")
-				end,
-				{
-					noremap = true,
-				},
-			})
-		end
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
+		vim.api.nvim_create_autocmd("BufUnload", {
+			buffer = 0,
+			callback = function()
+				lazy_load("nvim-cmp")
+				lazy_load("vim-matchup")
+				lazy_load("nvim-treesitter")
+				vim.opt.laststatus = 2
+				vim.opt.statusline =
+					"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
+				-- vim.opt.winbar = "%=%m %f"
+			end,
+		})
 	else
 	end
 end
@@ -150,9 +149,9 @@ function M.simpleMRU()
 	local filteredFiles = vim.tbl_filter(function(file)
 		return vim.startswith(file, cwd) and vim.fn.filereadable(file) == 1 and not string.find(file, "COMMIT_MESSAGE")
 	end, files)
-	for i, file in ipairs(filteredFiles) do
+	for _, file in ipairs(filteredFiles) do
 		local fname = vim.fn.fnamemodify(file, ":.")
-		api.nvim_command(string.format('call append(line("$") -1, "%s [%d]")', vim.trim(fname), i))
+		api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(fname)))
 	end
 	api.nvim_command([[:1]])
 end
