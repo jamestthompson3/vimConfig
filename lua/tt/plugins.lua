@@ -3,7 +3,6 @@ return require("packer").startup({
 		-- use("nathom/filetype.nvim")
 		use("lewis6991/impatient.nvim")
 		use("justinmk/vim-dirvish")
-		use("yamatsum/nvim-web-nonicons")
 		use("romainl/vim-cool")
 		use("tmsvg/pear-tree")
 		use("tpope/vim-commentary")
@@ -11,7 +10,7 @@ return require("packer").startup({
 		use("tpope/vim-repeat")
 		use("ludovicchabant/vim-gutentags")
 
-		use({"andymass/vim-matchup", opt = true})
+		use({ "andymass/vim-matchup", opt = true })
 
 		use({
 			"hrsh7th/nvim-cmp",

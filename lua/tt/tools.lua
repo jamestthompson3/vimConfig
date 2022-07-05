@@ -183,34 +183,28 @@ function M.profile()
 end
 
 M.kind_symbols = function()
-	local icons_present = pcall(require, "nvim-nonicons")
-	if icons_present then
-		local icons = require("nvim-nonicons")
 		return {
-			Text = " Text",
-			Method = "ƒ Method",
-			Function = icons.get("pulse") .. " Func",
-			Constructor = " Constructor",
-			Variable = icons.get("variable") .. " Var",
-			Class = icons.get("class") .. " Class",
-			Interface = "ﰮ" .. " Interface",
-			Module = icons.get("package") .. " Module",
-			Property = " Property",
-			Unit = " Unit",
-			Value = icons.get("ellipsis") .. " Value",
-			Enum = icons.get("workflow") .. " Enum",
-			Keyword = " Keyword",
-			Snippet = "﬌ Snippet",
-			Color = " Color",
-			File = icons.get("file") .. " File",
-			Folder = icons.get("file-directory-outline") .. " Folder",
-			EnumMember = icons.get("list-unordered") .. " EnumMember",
-			Constant = icons.get("constant") .. " Constant",
-			Struct = icons.get("struct") .. " Struct",
+			Text = "␂ Text",
+			Method = "🜜  Method",
+			Function = "⎔ Func",
+			Constructor = "⌂ Constructor",
+			Variable = "⊷ Var",
+			Class = "⌻ Class",
+			Interface = "∮ Interface",
+			Module = "⌘ Module",
+			Property = " ∴ Property",
+			Unit = "⍚ Unit",
+			Value = "⋯ Value",
+			Enum = "⎆ Enum",
+			Keyword = "⚿  Keyword",
+			Snippet = "⮑  Snippet",
+			Color = "🜚 Color",
+			File = "𐂧 File",
+			Folder = "𐂽 Folder",
+			EnumMember = "⍆ EnumMember",
+			Constant = "🜛 Constant",
+			Struct = "⨊ Struct",
 		}
-	else
-		return {}
-	end
 end
 
 return M
