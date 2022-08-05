@@ -215,7 +215,7 @@ function M.vim_util.treesitter_sl()
 end
 
 function M.vim_util.lazy_load(plugin)
-	require("packer").loader(plugin)
+	vim.cmd [["PackerLoad " .. plugin]]
 end
 
 function M.vim_util.create_augroups(definitions)
