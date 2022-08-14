@@ -52,9 +52,9 @@ function M.splashscreen()
 		vim.api.nvim_create_autocmd("BufUnload", {
 			buffer = 0,
 			callback = function()
-				lazy_load("nvim-cmp")
-				lazy_load("vim-matchup")
-				lazy_load("nvim-treesitter")
+				-- lazy_load("nvim-cmp")
+				-- lazy_load("vim-matchup")
+				-- lazy_load("nvim-treesitter")
 				vim.opt.laststatus = 2
 				vim.opt.statusline =
 					"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"

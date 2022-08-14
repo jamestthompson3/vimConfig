@@ -9,15 +9,6 @@ local has_words_before = function()
 end
 
 function M.init()
-	lazy_load("LuaSnip")
-	lazy_load("cmp-nvim-lsp")
-	lazy_load("cmp-nvim-lsp-signature-help")
-	lazy_load("cmp-buffer")
-	lazy_load("cmp-path")
-	lazy_load("cmp_luasnip")
-	lazy_load("cmp-tabnine")
-	lazy_load("cmp-treesitter")
-	lazy_load("cmp-nvim-tags")
   local luasnip = require("luasnip")
 	cmp.setup({
 		mapping = {
