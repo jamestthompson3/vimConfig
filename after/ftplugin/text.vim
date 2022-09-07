@@ -1,7 +1,7 @@
 setlocal wrap
 setlocal linebreak
 setlocal spell
-setlocal textwidth=120
+" setlocal textwidth=120
 
 syntax region CodeFence start=+```\w\++ end=+```+ contains=@NoSpell
 syntax region CodeBlock start=+`\w\++ end=+`+ contains=@NoSpell

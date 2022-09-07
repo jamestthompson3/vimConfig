@@ -75,7 +75,7 @@ set.synmaxcol = 200
 set.cmdheight = 2
 set.updatetime = 200
 -- auto break at 100 chars
-set.textwidth = 100
+-- set.textwidth = 100
 set.conceallevel = 2
 set.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 
