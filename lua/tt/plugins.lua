@@ -4,7 +4,7 @@ return require("packer").startup({
 		use("lewis6991/impatient.nvim")
 		use("justinmk/vim-dirvish")
 		use("romainl/vim-cool")
-		use("tmsvg/pear-tree")
+    use("windwp/nvim-autopairs")
 		use("tpope/vim-commentary")
 		use("tpope/vim-surround")
 		use("tpope/vim-repeat")

@@ -9,7 +9,7 @@ local has_words_before = function()
 end
 
 function M.init()
-  local luasnip = require("luasnip")
+	local luasnip = require("luasnip")
 	cmp.setup({
 		mapping = {
 			["<Tab>"] = cmp.mapping(function(fallback)
@@ -85,6 +85,9 @@ function M.init()
 		snippet_placeholder = "~>",
 		show_prediction_strength = true,
 	})
+	require("nvim-autopairs").setup()
+	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 end
 
 return M
