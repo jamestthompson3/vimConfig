@@ -296,6 +296,7 @@ local theme = lush(function()
 		htmlTag                   { fg = sky  }, -- Tags like html tag names.
     tsxIntrinsicTagName       { fg = sky },
     tsxTagName                { fg = sky },
+    TreesitterContext { fg = mauve.sa(70), bg  = base1 }
 	}
 end)
 

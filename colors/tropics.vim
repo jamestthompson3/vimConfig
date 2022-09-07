@@ -11,7 +11,6 @@ highlight! link NonText Conceal
 highlight! link SpecialKey Conceal
 highlight! link Whitespace Conceal
 highlight Constant guifg=#98CEFB guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight Cursor guifg=#F0ECFE guibg=#000000 guisp=NONE blend=NONE gui=NONE
 highlight CursorColumn guifg=NONE guibg=#20222D guisp=NONE blend=NONE gui=NONE
 highlight CursorLine guifg=NONE guibg=#20222D guisp=NONE blend=NONE gui=NONE
 highlight CursorLineNr guifg=#6D7083 guibg=#20222D guisp=NONE blend=NONE gui=NONE
@@ -45,6 +44,7 @@ highlight MoreMsg guifg=#B5E8E1 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight NormalFloat guifg=#B6B5C9 guibg=#000000 guisp=NONE blend=NONE gui=NONE
 highlight Number guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Pmenu guifg=#F0ECFE guibg=#272935 guisp=NONE blend=NONE gui=NONE
+highlight! link TreesitterContext Pmenu
 highlight PmenuSbar guifg=#272935 guibg=#272935 guisp=NONE blend=NONE gui=NONE
 highlight PmenuSel guifg=#000000 guibg=#98CEFB guisp=NONE blend=NONE gui=NONE
 highlight PmenuThumb guifg=#20222D guibg=#20222D guisp=NONE blend=NONE gui=NONE

@@ -15,7 +15,7 @@ highlight Constant guifg=#82628D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Cursor guifg=#F0ECFE guibg=#945153 guisp=NONE blend=NONE gui=NONE
 highlight! link lCursor Cursor
 highlight CursorColumn guifg=NONE guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
-highlight CursorLine guifg=NONE guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
+highlight CursorLine guifg=#272935 guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
 highlight CursorLineNr guifg=#272935 guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
 highlight DiffAdd guifg=#FFFFFF guibg=#1C8092 guisp=NONE blend=NONE gui=bold,italic
 highlight DiffDelete guifg=#FFFFFF guibg=#5A4A78 guisp=NONE blend=NONE gui=bold,italic
@@ -82,6 +82,7 @@ highlight TSTypeBuiltin guifg=#000000 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Title guifg=#345389 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Todo guifg=#F0ECFE guibg=#345389 guisp=NONE blend=NONE gui=NONE
 highlight! link TSDanger Todo
+highlight TreesitterContext guifg=#0F257B guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
 highlight Type guifg=#303B54 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link TSType Type
 highlight Underlined guifg=#5A4A78 guibg=NONE guisp=NONE blend=NONE gui=underline

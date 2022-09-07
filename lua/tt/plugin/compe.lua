@@ -51,7 +51,7 @@ function M.init()
 			{ name = "tags", priority = 5 },
 			{ name = "nvim_lsp_signature_help", priority = 12 },
 			{ name = "nvim_lsp", priority = 10 },
-			{ name = "cmp_tabnine" },
+			-- { name = "cmp_tabnine" },
 			{ name = "treesitter" },
 			{ name = "path" },
 		},
@@ -76,18 +76,18 @@ function M.init()
 			-- native_menu = true,
 		},
 	})
-	local tabnine = require("cmp_tabnine.config")
-	tabnine:setup({
-		max_lines = 1000,
-		max_num_results = 20,
-		sort = true,
-		run_on_every_keystroke = true,
-		snippet_placeholder = "~>",
-		show_prediction_strength = true,
-	})
 	require("nvim-autopairs").setup()
 	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+	-- local tabnine = require("cmp_tabnine.config")
+	-- tabnine:setup({
+	-- 	max_lines = 1000,
+	-- 	max_num_results = 20,
+	-- 	sort = true,
+	-- 	run_on_every_keystroke = true,
+	-- 	snippet_placeholder = "~>",
+	-- 	show_prediction_strength = true,
+	-- })
 end
 
 return M

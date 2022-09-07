@@ -84,7 +84,7 @@ local theme = lush(function()
 		Comment({ fg = peach, gui = "italic" }), -- any comment
 		ColorColumn({ bg = base1 }), -- used for the columns set with 'colorcolumn'
 		Conceal({ fg = base5 }), -- placeholder characters substituted for concealed text (see 'conceallevel')
-		Cursor({ fg = base8, bg = base0 }), -- character under the cursor
+		-- Cursor({ fg = base8, bg = base0 }), -- character under the cursor
 		-- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
 		CursorColumn({ bg = base1 }), -- Screen-column at the cursor, when 'cursorcolumn' is set.
@@ -288,6 +288,7 @@ local theme = lush(function()
 		-- TSTitle              { };    -- Text that is part of a title.
 		-- TSLiteral            { };    -- Literal text.
 		-- TSURI                { };    -- Any URI like a link or email.
+    TreesitterContext {Pmenu}
 	}
 end)
 
