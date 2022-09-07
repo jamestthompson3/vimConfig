@@ -71,6 +71,9 @@ return require("packer").startup({
 				require("tt.plugin.treesitter").init()
 			end,
 			ft = require("tt.plugin.treesitter").supported_langs,
+      requires = {
+        { "nvim-treesitter/nvim-treesitter-context" }
+      }
 		})
 
 		use({
