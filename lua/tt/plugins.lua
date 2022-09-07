@@ -62,6 +62,7 @@ return require("packer").startup({
 		})
 
 		use({ "rktjmp/lush.nvim", ft = { "lua" } })
+		use({ "rktjmp/shipwright.nvim", ft = { "lua" } })
 		use({ "rust-lang/rust.vim", ft = { "rust" } })
 		use({ "wbthomason/packer.nvim", opt = true })
 		use({

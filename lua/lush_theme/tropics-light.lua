@@ -60,7 +60,7 @@ local mauve = hsl("#343b58")
 local pink = hsl("#563a41")
 local red = hsl("#ef152f")
 local maroon = hsl("#81628c")
-local peach = hsl("#965027")
+local peach = hsl("#965253")
 local yellow = hsl("#8f5e15")
 local green = hsl("#104f6b")
 local blue = hsl("#34548a")
@@ -83,14 +83,14 @@ local theme = lush(function()
 		-- or leave them commented to apply vims default colouring or linking.
 
 		Normal         { fg = base8, bg = base0 }, -- normal text
-		Comment        { fg = peach, gui = "italic" }, -- any comment
+		Comment        { fg = blue.lighten(10), gui = "italic,bold" }, -- any comment
 		ColorColumn    { bg = base1 }, -- used for the columns set with 'colorcolumn'
 		Conceal        { fg = base4.mix(sky, 60) }, -- placeholder characters substituted for concealed text (see 'conceallevel')
 		Cursor         { fg = base0, bg = peach }, -- character under the cursor
 		lCursor        { Cursor }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
 		-- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
 		CursorColumn   { bg = base1 }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-		CursorLine     { bg = base1 }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+		CursorLine     { bg = base1, fg = base6 }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
 		Directory      { fg = blue }, -- directory names (and other special names in listings)
 		DiffAdd        {fg = sky.lighten(10).readable(), bg = sky.lighten(10), gui = "italic, bold" }, -- diff mode: Added line |diff.txt|,
 		DiffChange     { Normal }, -- diff mode: Changed line |diff.txt|
@@ -99,7 +99,7 @@ local theme = lush(function()
 		EndOfBuffer    { Conceal }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal
-		ErrorMsg       { fg = red }, -- error messages on the command line
+		ErrorMsg       { bg = red, fg = base8 }, -- error messages on the command line
 		VertSplit      { fg = base4 }, -- the column separating vertically split windows
 		Folded         { fg = base6, bg = base2 }, -- line used for closed folds
 		FoldColumn     { fg = base4 }, -- 'foldcolumn'
@@ -148,7 +148,7 @@ local theme = lush(function()
 		-- default,
 		-- Uncomment and edit if you want more specific syntax highlighting.
 
-		Constant          { fg = blue }, -- (preferred) any constant
+		Constant          { fg = maroon  }, -- (preferred) any constant
 		String            { }, --   a string constant: "this is a string"
 		-- Character      { }, --  a character constant: 'c', '\n'
 		Number            { }, --   a number constant: 234, 0xff
@@ -166,7 +166,7 @@ local theme = lush(function()
 		-- Keyword   {}, -- any other keyword
 		-- Exception     { }, --  try, catch, throw
 
-		PreProc           { fg = base5, gui= "bold" }, -- (preferred) generic Preprocessor
+		PreProc           { fg = base5 }, -- (preferred) generic Preprocessor
 		Include           { PreProc }, --  preprocessor #include
 		Define            { PreProc }, --   preprocessor #define
 		Macro             { PreProc }, --    same as Define
@@ -177,7 +177,7 @@ local theme = lush(function()
 		-- Structure      { }, --  struct, union, enum, etc.
 		-- Typedef        { }, --  A typedef
 
-		Special           { fg = pink }, -- (preferred) any special symbol
+		Special           { fg = base8, gui = "bold" }, -- (preferred) any special symbol
 		-- SpecialChar    { }, --  special character in a constant
 		-- Tag            { }, --    you can use CTRL-] on this
 		-- Delimiter      { }, --  character that needs attention
@@ -253,7 +253,7 @@ local theme = lush(function()
 		-- TSException          { };    -- For exception related keywords.
 		-- TSField              { };    -- For fields.
 		-- TSFloat              { };    -- For floats.
-		TSFunction              { fg = blue }, -- For function (calls and definitions).
+		TSFunction              { fg = base8, gui = "bold" }, -- For function (calls and definitions).
 		-- TSFuncBuiltin        { };    -- For builtin functions: `table.insert` in Lua.
 		-- TSFuncMacro          { };    -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
 		-- TSInclude            { };    -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
@@ -277,7 +277,7 @@ local theme = lush(function()
 		-- TSStringEscape       { };    -- For escape characters within a string.
 		-- TSSymbol             { };    -- For identifiers referring to symbols or atoms.
 		TSType                  { Type }, -- For types.
-		TSTypeBuiltin           { fg = lavender.mix(base7, 50) }, -- For builtin types.
+		TSTypeBuiltin           { fg = base8 }, -- For builtin types.
 		-- TSVariable           { };    -- Any variable name that does not have another highlight.
 		-- TSVariableBuiltin    { };    -- Variable names that are defined by the languages, like `this` or `self`.
 
@@ -290,6 +290,12 @@ local theme = lush(function()
 		-- TSTitle              { };    -- Text that is part of a title.
 		-- TSLiteral            { };    -- Literal text.
 		-- TSURI                { };    -- Any URI like a link or email.
+
+
+    -- Custom
+		htmlTag                   { fg = sky  }, -- Tags like html tag names.
+    tsxIntrinsicTagName       { fg = sky },
+    tsxTagName                { fg = sky },
 	}
 end)
 

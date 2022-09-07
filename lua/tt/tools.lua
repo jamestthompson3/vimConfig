@@ -16,10 +16,6 @@ function M.openQuickfix()
 	api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
 
-function M.compile_theme(theme)
-	local lines = require("lush").compile(require("lush_theme." .. theme))
-	vim.fn.writefile(lines, "colors/" .. theme .. ".vim")
-end
 
 function M.cheatsheet()
 	NavigationFloatingWin()
