@@ -4,15 +4,15 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@fsouza/prettierd": "0.21.1",
+    "@fsouza/prettierd": "0.22.2",
     "eslint_d": "12.2.0",
     "import-sort-cli": "6.0.0",
     "import-sort-parser-babylon": "6.0.0",
     "import-sort-parser-typescript": "6.0.0",
     "import-sort-style-renke": "6.0.0",
     "prettier": "2.7.1",
-    "typescript": "4.7.4",
-    "typescript-language-server": "1.1.1",
+    "typescript": "4.8.3",
+    "typescript-language-server": "1.2.0",
     "vscode-css-languageserver-bin": "1.4.0",
     "vscode-html-languageserver-bin": "1.4.0"
   },

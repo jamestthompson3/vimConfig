@@ -1,28 +1,28 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@fsouza/prettierd': 0.21.1
+  '@fsouza/prettierd': 0.22.2
   eslint_d: 12.2.0
   import-sort-cli: 6.0.0
   import-sort-parser-babylon: 6.0.0
   import-sort-parser-typescript: 6.0.0
   import-sort-style-renke: 6.0.0
   prettier: 2.7.1
-  typescript: 4.7.4
-  typescript-language-server: 1.1.1
+  typescript: 4.8.3
+  typescript-language-server: 1.2.0
   vscode-css-languageserver-bin: 1.4.0
   vscode-html-languageserver-bin: 1.4.0
 
 dependencies:
-  '@fsouza/prettierd': 0.21.1
+  '@fsouza/prettierd': 0.22.2
   eslint_d: 12.2.0
   import-sort-cli: 6.0.0
   import-sort-parser-babylon: 6.0.0
   import-sort-parser-typescript: 6.0.0
   import-sort-style-renke: 6.0.0
   prettier: 2.7.1
-  typescript: 4.7.4
-  typescript-language-server: 1.1.1
+  typescript: 4.8.3
+  typescript-language-server: 1.2.0
   vscode-css-languageserver-bin: 1.4.0
   vscode-html-languageserver-bin: 1.4.0
 
@@ -246,8 +246,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fsouza/prettierd/0.21.1:
-    resolution: {integrity: sha512-xLGvk2csfCqTT3MZfXC7uGxdAy0HkMiYoVz2vCQbxNHCLSLBEoejNcbNh+MPWulRPSVBYN8jJJge6yychCU5KA==}
+  /@fsouza/prettierd/0.22.2:
+    resolution: {integrity: sha512-Y6EjF4zfS4oY4xadHFIR+cVt9rwmNraexQzhZ0367ghiT5kDdrawhpWoErDAseR4oz919GrN8h2kz7ysO0BCGg==}
     hasBin: true
     dependencies:
       core_d: 5.0.1
@@ -2874,8 +2874,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
-  /typescript-language-server/1.1.1:
-    resolution: {integrity: sha512-06nAh6bsrIJlJ8fPwMEVKXz+Yi26+uyJEDkNbbUdfolSwwsBaiFt90yOTgnNTULGzFM/+WQ+dba8I/6YxSEgVA==}
+  /typescript-language-server/1.2.0:
+    resolution: {integrity: sha512-Ahxko4dKgOY/pGTMdzeVw/NTIZC4z33OqEs7xlR3VEV36IZX12OfJ8uwXSbmTJlCh1QQ12dpQgwUuNvSfbWB4w==}
     engines: {node: '>=14.16'}
     hasBin: true
     dependencies:
@@ -2889,7 +2889,7 @@ packages:
       vscode-jsonrpc: 5.0.1
       vscode-languageserver: 8.0.2
       vscode-languageserver-protocol: 3.17.2
-      vscode-languageserver-textdocument: 1.0.5
+      vscode-languageserver-textdocument: 1.0.7
       vscode-uri: 3.0.3
       which: 2.0.2
     dev: false
@@ -2906,8 +2906,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.7.4:
-    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
+  /typescript/4.8.3:
+    resolution: {integrity: sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -3035,8 +3035,8 @@ packages:
       vscode-languageserver-types: 3.17.2
     dev: false
 
-  /vscode-languageserver-textdocument/1.0.5:
-    resolution: {integrity: sha512-1ah7zyQjKBudnMiHbZmxz5bYNM9KKZYz+5VQLj+yr8l+9w3g+WAhCkUkWbhMEdC5u0ub4Ndiye/fDyS8ghIKQg==}
+  /vscode-languageserver-textdocument/1.0.7:
+    resolution: {integrity: sha512-bFJH7UQxlXT8kKeyiyu41r22jCZXG8kuuVVA33OEJn1diWOZK5n8zBSPZFHVBOu8kXZ6h0LIRhf5UnCo61J4Hg==}
     dev: false
 
   /vscode-languageserver-types/3.17.2:
