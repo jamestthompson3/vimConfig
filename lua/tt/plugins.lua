@@ -1,6 +1,7 @@
 return require("packer").startup({
 	function()
 		-- use("nathom/filetype.nvim")
+    use('ja-ford/delaytrain.nvim')
 		use("lewis6991/impatient.nvim")
 		use("justinmk/vim-dirvish")
 		use("romainl/vim-cool")
@@ -27,6 +28,13 @@ return require("packer").startup({
 				{ "ray-x/cmp-treesitter" },
 				{ "quangnguyen30192/cmp-nvim-tags" },
 			},
+		})
+		use({
+			"akinsho/git-conflict.nvim",
+			tag = "*",
+			config = function()
+				require("git-conflict").setup()
+			end,
 		})
 
 		use({

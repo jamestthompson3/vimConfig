@@ -121,6 +121,13 @@ do
 	else
 		api.nvim_command([[colorscheme tropics-light]])
 	end
+  require('delaytrain').setup {
+    delay_ms = 1500,
+    grace_period = 2,
+    keys = {
+      ['nv'] = {'h', 'j', 'k', 'l'}
+    }
+  }
 	schedule(function()
 		require("tt.core_opts")
 		require("tt.mappings")
