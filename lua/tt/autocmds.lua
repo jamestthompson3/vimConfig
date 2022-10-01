@@ -56,24 +56,8 @@ local autocmds = {
 				pattern = "dirvish",
 				callback = function()
 					buf_nnoremap({ "D", require("tt.tools").deleteFile, { silent = true } })
-				end,
-			},
-		},
-		{
-			"FileType",
-			{
-				pattern = "dirvish",
-				callback = function()
-					buf_nnoremap({ "<leader>n", ":e %" })
-				end,
-			},
-		},
-		{
-			"FileType",
-			{
-				pattern = "dirvish",
-				callback = function()
 					buf_nnoremap({ "r", require("tt.tools").renameFile })
+					buf_nnoremap({ "<leader>n", ":e %" })
 				end,
 			},
 		},
@@ -93,7 +77,7 @@ local autocmds = {
 			{
 				pattern = "quickfix",
 				callback = function()
-					buf_nnoremap({"ra", ":ReplaceAll<CR>", { silent = true }})
+					buf_nnoremap({ "ra", ":ReplaceAll<CR>", { silent = true } })
 				end,
 			},
 		},
@@ -102,7 +86,7 @@ local autocmds = {
 			{
 				pattern = "quickfix",
 				callback = function()
-					buf_nnoremap({"R", ":Cfilter!<space>"})
+					buf_nnoremap({ "R", ":Cfilter!<space>" })
 				end,
 			},
 		},
@@ -111,7 +95,7 @@ local autocmds = {
 			{
 				pattern = "quickfix",
 				callback = function()
-					buf_nnoremap({"K", ":Cfilter<space>"})
+					buf_nnoremap({ "K", ":Cfilter<space>" })
 				end,
 			},
 		},
@@ -129,7 +113,10 @@ local autocmds = {
 		{ "BufNewFile,BufRead", { pattern = "*.h,*.m,*.mm", command = "set tags+=~/global-objc-tags" } },
 		{ "BufNewFile,BufRead", { pattern = "*.tsx", command = "setlocal commentstring=//%s" } },
 		{ "BufNewFile,BufRead", { pattern = "*.svelte", command = "setfiletype html" } },
-		{ "BufNewFile,BufRead", { pattern = "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc", command = "set ft=json" } },
+		{
+			"BufNewFile,BufRead",
+			{ pattern = "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc", command = "set ft=json" },
+		},
 		{ "BufNewFile,BufRead", { pattern = "*.pcss", command = "set ft=css" } },
 		{ "BufNewFile,BufRead", { pattern = "*.wiki", command = "set ft=wiki" } },
 		{ "BufRead,BufNewFile", { pattern = "[Dd]ockerfile", command = "set ft=Dockerfile" } },
