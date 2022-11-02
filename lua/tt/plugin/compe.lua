@@ -51,7 +51,7 @@ function M.init()
 			{ name = "tags", priority = 5 },
 			{ name = "nvim_lsp_signature_help", priority = 12 },
 			{ name = "nvim_lsp", priority = 10 },
-			-- { name = "cmp_tabnine" },
+			{ name = "cmp_tabnine", priority = 11 },
 			{ name = "treesitter" },
 			{ name = "path" },
 		},

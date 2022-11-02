@@ -64,6 +64,11 @@ function M.keys.map_cmd(mode, lhs, cmd_string, opts)
 	set_nore(mode, lhs, formatted_cmd, vim.tbl_extend("force", { silent = true }, opts or {}))
 end
 
+function M.keys.map_plug(mode, lhs, plug_string, opts)
+	formatted_cmd = ("<Plug>%s"):format(cmd_string)
+	set_nore(mode, lhs, formatted_cmd, vim.tbl_extend("force", { silent = true }, opts or {}))
+end
+
 function M.keys.map_no_cr(mode, lhs, cmd_string)
 	formatted_cmd = (":%s"):format(cmd_string)
 	set_nore(mode, lhs, formatted_cmd)
@@ -80,6 +85,10 @@ end
 
 function M.keys.nmap_cmd(lhs, cmd_string, opts)
 	M.keys.map_cmd("n", lhs, cmd_string, opts)
+end
+
+function M.keys.nmap_plug(lhs, cmd_string, opts)
+	M.keys.map_plug("n", lhs, cmd_string, opts)
 end
 
 function M.keys.xmap_cmd(lhs, cmd_string)

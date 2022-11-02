@@ -83,7 +83,7 @@ local theme = lush(function()
 		-- or leave them commented to apply vims default colouring or linking.
 
 		Normal         { fg = base8, bg = base0 }, -- normal text
-		Comment        { fg = blue.lighten(10), gui = "italic,bold" }, -- any comment
+		Comment        { fg = teal.lighten(30), gui = "italic,bold" }, -- any comment
 		ColorColumn    { bg = base1 }, -- used for the columns set with 'colorcolumn'
 		Conceal        { fg = base4.mix(sky, 60) }, -- placeholder characters substituted for concealed text (see 'conceallevel')
 		Cursor         { fg = base0, bg = peach }, -- character under the cursor

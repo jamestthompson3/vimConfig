@@ -76,6 +76,7 @@ set.cmdheight = 2
 set.updatetime = 200
 -- auto break at 100 chars
 -- set.textwidth = 100
+set.splitkeep = "topline"
 set.conceallevel = 2
 set.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 
@@ -121,13 +122,6 @@ do
 	else
 		api.nvim_command([[colorscheme tropics-light]])
 	end
-  require('delaytrain').setup {
-    delay_ms = 1500,
-    grace_period = 2,
-    keys = {
-      ['nv'] = {'h', 'j', 'k', 'l'}
-    }
-  }
 	schedule(function()
 		require("tt.core_opts")
 		require("tt.mappings")

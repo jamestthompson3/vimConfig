@@ -3,6 +3,7 @@ local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local stb = require("tt.nvim_utils").vim_util.shell_to_buf
 local api = vim.api
 local fn = vim.fn
+local namespace = api.nvim_create_namespace("git_lens")
 
 local function cmd(cmd)
 	if is_windows then
@@ -58,11 +59,13 @@ function M.blame()
 			text = "Not Committed Yet"
 		end
 	end
-	api.nvim_buf_set_virtual_text(0, 99, line[1] - 1, { { text, "GitLens" } }, {})
+	api.nvim_buf_set_extmark(0, namespace, line[1] - 1, line[2], {
+		virt_text = { { string.format("%s", text), "GitLens" } },
+	})
 end
 
 function M.clear_blame()
-	api.nvim_buf_clear_namespace(0, 99, 0, -1)
+	api.nvim_buf_clear_namespace(0, namespace, 0, -1)
 end
 
 function M.branch()
@@ -83,15 +86,15 @@ local function listChangedFiles()
 end
 
 local function jumpToDiff()
-  api.nvim_command("silent only")
+	api.nvim_command("silent only")
 	api.nvim_command("vsplit <cfile>")
-  M.diff()
+	M.diff()
 	api.nvim_command("wincmd h")
 	api.nvim_command("wincmd h")
 end
 
 function M.QfFiles()
-  local files = listChangedFiles()
+	local files = listChangedFiles()
 	local qfFiles = {}
 	for _, file in ipairs(files) do
 		table.insert(qfFiles, { filename = file, lnum = 1 })
@@ -101,10 +104,10 @@ end
 
 function M.changedFiles()
 	api.nvim_command("tabnew")
-  local buf = stb({"git", "diff", "--name-only", "--no-color"})
+	local buf = stb({ "git", "diff", "--name-only", "--no-color" })
 	api.nvim_win_set_buf(0, buf)
-  buf_nnoremap({"<CR>", jumpToDiff, { buffer = buf}})
-  buf_nnoremap({"Q", ":tabclose<CR>", { buffer = buf}})
+	buf_nnoremap({ "<CR>", jumpToDiff, { buffer = buf } })
+	buf_nnoremap({ "Q", ":tabclose<CR>", { buffer = buf } })
 end
 
 return M

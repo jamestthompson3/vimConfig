@@ -3,6 +3,7 @@ local inore = require("tt.nvim_utils").keys.inore
 local tnore = require("tt.nvim_utils").keys.tnore
 local nmap = require("tt.nvim_utils").keys.nmap
 local nmap_cmd = require("tt.nvim_utils").keys.nmap_cmd
+local nmap_plug = require("tt.nvim_utils").keys.nmap_plug
 local nmap_nocr = require("tt.nvim_utils").keys.nmap_nocr
 local nmap_call = require("tt.nvim_utils").keys.nmap_call
 local xmap = require("tt.nvim_utils").keys.xmap
@@ -86,6 +87,7 @@ nmap_cmd("<leader>h", "call tools#switchSourceHeader()")
 nmap_cmd("<leader>-", 'echo expand("%")')
 nmap_cmd("[a", "prev")
 nmap_cmd("]a", "next")
+
 nmap_cmd("[q", "cnext")
 nmap_cmd("]q", "cprev")
 nmap_cmd("[t", "tnext")

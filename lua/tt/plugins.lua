@@ -1,18 +1,18 @@
 return require("packer").startup({
 	function()
 		-- use("nathom/filetype.nvim")
-    use('ja-ford/delaytrain.nvim')
+		-- use('ja-ford/delaytrain.nvim')
 		use("lewis6991/impatient.nvim")
 		use("justinmk/vim-dirvish")
 		use("romainl/vim-cool")
-    use("windwp/nvim-autopairs")
+		use("windwp/nvim-autopairs")
 		use("tpope/vim-commentary")
 		use("tpope/vim-surround")
 		use("tpope/vim-repeat")
 		use("ludovicchabant/vim-gutentags")
+		-- use("ggandor/leap.nvim")
 
 		use("andymass/vim-matchup")
-
 		use({
 			"hrsh7th/nvim-cmp",
 			config = function()
@@ -79,9 +79,9 @@ return require("packer").startup({
 				require("tt.plugin.treesitter").init()
 			end,
 			ft = require("tt.plugin.treesitter").supported_langs,
-      requires = {
-        { "nvim-treesitter/nvim-treesitter-context" }
-      }
+			requires = {
+				{ "nvim-treesitter/nvim-treesitter-context" },
+			},
 		})
 
 		use({
