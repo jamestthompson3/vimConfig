@@ -21,6 +21,7 @@ local autocmds = {
 		{ "BufNewFile", { pattern = "*.html", command = "0r ~/vim/skeletons/skeleton.html" } },
 		{ "BufNewFile", { pattern = "*.md", command = "0r ~/vim/skeletons/skeleton.md" } },
 		{ "VimLeavePre", { callback = require("tt.tools").saveSession } },
+		{ "VimResume", { command = "checktime" } },
 		{ "TermEnter", {
 			callback = function()
 				vim.wo.rnu = false

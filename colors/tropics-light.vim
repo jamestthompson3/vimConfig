@@ -4,7 +4,7 @@ highlight! link NormalNC Normal
 highlight Bold guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight Callout guifg=#32625B guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight ColorColumn guifg=NONE guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
-highlight Comment guifg=#3C609F guibg=NONE guisp=NONE blend=NONE gui=bold,italic
+highlight Comment guifg=#57A89C guibg=NONE guisp=NONE blend=NONE gui=bold,italic
 highlight! link TSComment Comment
 highlight Conceal guifg=#265664 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link EndOfBuffer Conceal
@@ -17,6 +17,7 @@ highlight! link lCursor Cursor
 highlight CursorColumn guifg=NONE guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
 highlight CursorLine guifg=#272935 guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
 highlight CursorLineNr guifg=#272935 guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
+highlight DiagnosticHint guifg=#104F6A guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight DiffAdd guifg=#FFFFFF guibg=#1C8092 guisp=NONE blend=NONE gui=bold,italic
 highlight DiffDelete guifg=#FFFFFF guibg=#5A4A78 guisp=NONE blend=NONE gui=bold,italic
 highlight DiffText guifg=#FFFFFF guibg=#345389 guisp=NONE blend=NONE gui=NONE

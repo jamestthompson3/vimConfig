@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@fsouza/prettierd': 0.22.2
+  '@fsouza/prettierd': 0.22.4
   eslint_d: 12.2.1
   import-sort-cli: 6.0.0
   import-sort-parser-babylon: 6.0.0
@@ -9,12 +9,12 @@ specifiers:
   import-sort-style-renke: 6.0.0
   prettier: 2.7.1
   typescript: 4.8.4
-  typescript-language-server: 2.0.0
+  typescript-language-server: 2.1.0
   vscode-css-languageserver-bin: 1.4.0
   vscode-html-languageserver-bin: 1.4.0
 
 dependencies:
-  '@fsouza/prettierd': 0.22.2
+  '@fsouza/prettierd': 0.22.4
   eslint_d: 12.2.1
   import-sort-cli: 6.0.0
   import-sort-parser-babylon: 6.0.0
@@ -22,7 +22,7 @@ dependencies:
   import-sort-style-renke: 6.0.0
   prettier: 2.7.1
   typescript: 4.8.4
-  typescript-language-server: 2.0.0
+  typescript-language-server: 2.1.0
   vscode-css-languageserver-bin: 1.4.0
   vscode-html-languageserver-bin: 1.4.0
 
@@ -246,8 +246,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fsouza/prettierd/0.22.2:
-    resolution: {integrity: sha512-Y6EjF4zfS4oY4xadHFIR+cVt9rwmNraexQzhZ0367ghiT5kDdrawhpWoErDAseR4oz919GrN8h2kz7ysO0BCGg==}
+  /@fsouza/prettierd/0.22.4:
+    resolution: {integrity: sha512-6WPsJwLbg1BJmsD7mH8H80DiA5ry5nJzs9hJUcTbP/qT07roxLDXYbRy+viWGx65FtwzKzHOMZ8xIEVvPbxWyA==}
     hasBin: true
     dependencies:
       core_d: 5.0.1
@@ -2537,8 +2537,8 @@ packages:
     hasBin: true
     dev: false
 
-  /semver/7.3.7:
-    resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
+  /semver/7.3.8:
+    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -2883,8 +2883,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
-  /typescript-language-server/2.0.0:
-    resolution: {integrity: sha512-wBV3iSt2498Wl6wMozCRDyPrL0KsFtthvYqVZ3JFRyreBGlxEe3bfK2bnLSwtRwYAZuO9n1roi/NNn94rT5Y+w==}
+  /typescript-language-server/2.1.0:
+    resolution: {integrity: sha512-4l/pEcIauf48Mbojqhis+HLH42HpFtNbrYgXbvaDi4Szkk3iKKZa1ydoj2qk1y6+Bp1Rq18EdubitxGhwj/flA==}
     engines: {node: '>=14.16'}
     hasBin: true
     dependencies:
@@ -2893,7 +2893,7 @@ packages:
       fs-extra: 10.1.0
       p-debounce: 4.0.0
       pkg-up: 4.0.0
-      semver: 7.3.7
+      semver: 7.3.8
       tempy: 3.0.0
       vscode-jsonrpc: 5.0.1
       vscode-languageserver: 8.0.2
