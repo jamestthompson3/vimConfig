@@ -1,3 +1,22 @@
+local lsp_supported_files = {
+	"typescript",
+	"typescriptreact",
+	"javascript",
+	"javascriptreact",
+	"rust",
+	"html",
+	"css",
+	"json",
+	"go",
+	"cpp",
+	"c",
+	"objc",
+	"obcpp",
+	-- "bash",
+	"yaml",
+	"markdown",
+	"lua",
+}
 return require("packer").startup({
 	function()
 		-- use("nathom/filetype.nvim")
@@ -45,25 +64,7 @@ return require("packer").startup({
 		})
 		use({
 			"neovim/nvim-lspconfig",
-			ft = {
-				"typescript",
-				"typescriptreact",
-				"javascript",
-				"javascriptreact",
-				"rust",
-				"html",
-				"css",
-				"json",
-				"go",
-				"cpp",
-				"c",
-				"objc",
-				"obcpp",
-				-- "bash",
-				"yaml",
-				"markdown",
-				"lua",
-			},
+			ft = lsp_supported_files,
 			config = function()
 				require("tt.lsp").configureLSP()
 			end,
@@ -85,10 +86,12 @@ return require("packer").startup({
 		})
 
 		use({
-			"majutsushi/tagbar",
+			"simrat39/symbols-outline.nvim",
 			opt = true,
-			cmd = "Tagbar",
-			ft = { "c", "cpp", "typescript", "typescriptreact", "javascript", "javascriptreact", "rust" },
+			ft = lsp_supported_files,
+			config = function()
+				require("symbols-outline").setup()
+			end,
 		})
 		use({ "norcalli/nvim-colorizer.lua", opt = true, ft = { "html", "css", "vim" } })
 		use({ "reedes/vim-wordy", opt = true, ft = { "txt", "md", "markdown", "text" } })

@@ -63,7 +63,7 @@ local maroon = hsl("#81628c")
 local peach = hsl("#965253")
 local yellow = hsl("#8f5e15")
 local green = hsl("#104f6b")
-local blue = hsl("#34548a")
+local blue = hsl("#000eef")
 local sky = hsl("#166775")
 local teal = hsl("#33635c")
 local lavender = hsl("#5a4a78")
@@ -83,7 +83,7 @@ local theme = lush(function()
 		-- or leave them commented to apply vims default colouring or linking.
 
 		Normal         { fg = base8, bg = base0 }, -- normal text
-		Comment        { fg = teal.lighten(30), gui = "italic,bold" }, -- any comment
+		Comment        { fg = blue, gui = "italic,bold" }, -- any comment
 		ColorColumn    { bg = base1 }, -- used for the columns set with 'colorcolumn'
 		Conceal        { fg = base4.mix(sky, 60) }, -- placeholder characters substituted for concealed text (see 'conceallevel')
 		Cursor         { fg = base0, bg = peach }, -- character under the cursor
@@ -95,7 +95,7 @@ local theme = lush(function()
 		DiffAdd        {fg = sky.lighten(10).readable(), bg = sky.lighten(10), gui = "italic, bold" }, -- diff mode: Added line |diff.txt|,
 		DiffChange     { Normal }, -- diff mode: Changed line |diff.txt|
 		DiffDelete     { fg = lavender.readable(), bg = lavender, gui = "italic,bold" }, -- diff mode: Deleted line |diff.txt|
-		DiffText       { fg = blue.readable(), bg = blue }, -- diff mode: Changed text within a changed line |diff.txt|
+		DiffText       { fg = base0, bg = blue }, -- diff mode: Changed text within a changed line |diff.txt|
 		EndOfBuffer    { Conceal }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		-- TermCursor   { }, -- cursor in a focused terminal
 		-- TermCursorNC { }, -- cursor in an unfocused terminal
