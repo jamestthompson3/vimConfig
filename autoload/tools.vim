@@ -106,10 +106,3 @@ function! tools#CombineSelection(line1, line2, cp)
   execute 'let char = "\u'.a:cp.'"'
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
-
-function! tools#loadCscope() abort
-  try
-    silent cscope add cscope.out
-  catch /^Vim\%((\a\+)\)\=:E/
-  endtry
-endfunction
