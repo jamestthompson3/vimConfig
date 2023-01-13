@@ -36,7 +36,7 @@ api.nvim_command([[command! Cheat lua require'tt.tools'.cheatsheet()]])
 api.nvim_command([[
 function! HLNext (blinktime) abort
   let target_pat = '\c\%#'.@/
-  let ring = matchadd('ErrorMsg', target_pat, 101)
+  let ring = matchadd('DiffDelete', target_pat, 101)
   redraw
   exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
   call matchdelete(ring)

@@ -70,7 +70,7 @@ end
 
 function M.branch()
 	if is_windows then
-		return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'")
+		return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL"):gsub("\\n", "")
 	else
 		return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
 	end

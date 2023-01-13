@@ -89,7 +89,6 @@ set.nrformats = "bin,hex,alpha"
 set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
-set.cscopequickfix = "s-,c-,d-,i-,t-,e-"
 set.path = setPath()
 set.completeopt = "menuone,noselect"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
@@ -120,7 +119,9 @@ do
 	if  timeOfDay > 20 or timeOfDay < 7 then
 		api.nvim_command([[colorscheme tropics]])
 	else
-		api.nvim_command([[colorscheme tropics-light]])
+    -- FIXME: Cursor color is somehow b0rked for all colorschemes
+		-- api.nvim_command([[colorscheme tropics-light]])
+		api.nvim_command([[colorscheme tropics]])
 	end
 	schedule(function()
 		require("tt.core_opts")

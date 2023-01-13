@@ -87,3 +87,6 @@ highlight WarningMsg guifg=#FAE3B2 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link LspDiagnosticsDefaultWarning WarningMsg
 highlight! link LspDiagnosticsSignWarning WarningMsg
 highlight WildMenu guifg=#000000 guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
+highlight htmlTag guifg=#89DCEB guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight tsxIntrinsicTagName guifg=#89DCEB guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight tsxTagName guifg=#89DCEB guibg=NONE guisp=NONE blend=NONE gui=NONE
