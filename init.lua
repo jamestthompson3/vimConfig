@@ -117,11 +117,11 @@ do
 	local schedule = vim.schedule
   local timeOfDay = tonumber(vim.fn.strftime("%H"))
 	if  timeOfDay > 20 or timeOfDay < 7 then
-		api.nvim_command([[colorscheme tropics]])
+		api.nvim_command([[colorscheme lunaperche]])
 	else
     -- FIXME: Cursor color is somehow b0rked for all colorschemes
 		-- api.nvim_command([[colorscheme tropics-light]])
-		api.nvim_command([[colorscheme tropics]])
+		api.nvim_command([[colorscheme lunaperche]])
 	end
 	schedule(function()
 		require("tt.core_opts")
