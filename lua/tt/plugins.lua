@@ -38,9 +38,9 @@ require("lazy").setup({
 	"tpope/vim-commentary",
 	"tpope/vim-surround",
 	"tpope/vim-repeat",
-	"ludovicchabant/vim-gutentags",
 	"andymass/vim-matchup",
 	"rafamadriz/friendly-snippets",
+	{"ludovicchabant/vim-gutentags", lazy = true},
 	{
 		"hrsh7th/nvim-cmp",
 		config = function()
@@ -68,7 +68,7 @@ require("lazy").setup({
 
 	{
 		"L3MON4D3/LuaSnip",
-    lazy = true,
+		lazy = true,
 		config = function()
 			require("tt.plugin.luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
@@ -97,6 +97,7 @@ require("lazy").setup({
 
 	{
 		"simrat39/symbols-outline.nvim",
+    lazy = true,
 		ft = lsp_supported_files,
 		config = function()
 			require("symbols-outline").setup()
@@ -105,10 +106,28 @@ require("lazy").setup({
 	{ "norcalli/nvim-colorizer.lua", ft = { "html", "css", "vim" } },
 	{ "reedes/vim-wordy", ft = { "txt", "md", "markdown", "text" } },
 }, {
--- defaults = { lazy = true },
+	-- defaults = { lazy = true },
 	performance = {
 		cache = {
 			enabled = true,
+		},
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"rplugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+				"getscript",
+				"vimball",
+				"logiPat",
+				"rrhelper",
+				"python_provider",
+			},
 		},
 	},
 })
