@@ -60,7 +60,7 @@ require("lazy").setup({
 	{
 		"akinsho/git-conflict.nvim",
 		version = "*",
-    lazy = true,
+		lazy = true,
 		config = function()
 			require("git-conflict").setup()
 		end,
@@ -68,6 +68,7 @@ require("lazy").setup({
 
 	{
 		"L3MON4D3/LuaSnip",
+    lazy = true,
 		config = function()
 			require("tt.plugin.luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
@@ -103,4 +104,11 @@ require("lazy").setup({
 	},
 	{ "norcalli/nvim-colorizer.lua", ft = { "html", "css", "vim" } },
 	{ "reedes/vim-wordy", ft = { "txt", "md", "markdown", "text" } },
+}, {
+-- defaults = { lazy = true },
+	performance = {
+		cache = {
+			enabled = true,
+		},
+	},
 })

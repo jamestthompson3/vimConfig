@@ -121,8 +121,8 @@ do
 	schedule(function()
 		require("tt.core_opts")
 		require("tt.mappings")
-		require("tt.plugins")
 		require("tt.autocmds")
+		require("tt.plugins")
 		require("tt.tools").splashscreen()
 	end)
 end
