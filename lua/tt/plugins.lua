@@ -17,83 +17,90 @@ local lsp_supported_files = {
 	"markdown",
 	"lua",
 }
-return require("packer").startup({
-	function()
-		-- use("nathom/filetype.nvim")
-		-- use('ja-ford/delaytrain.nvim')
-		use("lewis6991/impatient.nvim")
-		use("justinmk/vim-dirvish")
-		use("romainl/vim-cool")
-		use("windwp/nvim-autopairs")
-		use("tpope/vim-commentary")
-		use("tpope/vim-surround")
-		use("tpope/vim-repeat")
-		use("ludovicchabant/vim-gutentags")
-		-- use("ggandor/leap.nvim")
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
 
-		use("andymass/vim-matchup")
-		use({
-			"hrsh7th/nvim-cmp",
-			config = function()
-				require("tt.plugin.compe").init()
-			end,
-			requires = {
-				{ "hrsh7th/cmp-nvim-lsp" },
-				{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-				{ "hrsh7th/cmp-buffer" },
-				{ "hrsh7th/cmp-path" },
-				{ "saadparwaiz1/cmp_luasnip" },
-				{ "tzachar/cmp-tabnine", run = "./install.sh" },
-				{ "ray-x/cmp-treesitter" },
-				{ "quangnguyen30192/cmp-nvim-tags" },
-			},
-		})
-		use({
-			"akinsho/git-conflict.nvim",
-			tag = "*",
-			config = function()
-				require("git-conflict").setup()
-			end,
-		})
+require("lazy").setup({
+	"lewis6991/impatient.nvim",
+	"justinmk/vim-dirvish",
+	"romainl/vim-cool",
+	"windwp/nvim-autopairs",
+	"tpope/vim-commentary",
+	"tpope/vim-surround",
+	"tpope/vim-repeat",
+	"ludovicchabant/vim-gutentags",
+	"andymass/vim-matchup",
+	"rafamadriz/friendly-snippets",
+	{
+		"hrsh7th/nvim-cmp",
+		config = function()
+			require("tt.plugin.compe").init()
+		end,
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			{ "saadparwaiz1/cmp_luasnip", build = "make install_jsregexp" },
+			{ "tzachar/cmp-tabnine", build = "./install.sh" },
+			"ray-x/cmp-treesitter",
+			"quangnguyen30192/cmp-nvim-tags",
+		},
+	},
+	{
+		"akinsho/git-conflict.nvim",
+		version = "*",
+    lazy = true,
+		config = function()
+			require("git-conflict").setup()
+		end,
+	},
 
-		use({
-			"L3MON4D3/LuaSnip",
-			config = function()
-				require("tt.plugin.luasnip")
-			end,
-		})
-		use({
-			"neovim/nvim-lspconfig",
-			ft = lsp_supported_files,
-			config = function()
-				require("tt.lsp").configureLSP()
-			end,
-		})
+	{
+		"L3MON4D3/LuaSnip",
+		config = function()
+			require("tt.plugin.luasnip")
+			require("luasnip.loaders.from_vscode").lazy_load()
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		ft = lsp_supported_files,
+		config = function()
+			require("tt.lsp").configureLSP()
+		end,
+	},
+	{ "rktjmp/lush.nvim", ft = { "lua" } },
+	{ "rktjmp/shipwright.nvim", ft = { "lua" } },
+	{ "rust-lang/rust.vim", ft = { "rust" } },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("tt.plugin.treesitter").init()
+		end,
+		ft = require("tt.plugin.treesitter").supported_langs,
+		dependencies = {
+			{ "nvim-treesitter/nvim-treesitter-context" },
+		},
+	},
 
-		use({ "rktjmp/lush.nvim", ft = { "lua" } })
-		use({ "rktjmp/shipwright.nvim", ft = { "lua" } })
-		use({ "rust-lang/rust.vim", ft = { "rust" } })
-		use({ "wbthomason/packer.nvim", opt = true })
-		use({
-			"nvim-treesitter/nvim-treesitter",
-			config = function()
-				require("tt.plugin.treesitter").init()
-			end,
-			ft = require("tt.plugin.treesitter").supported_langs,
-			requires = {
-				{ "nvim-treesitter/nvim-treesitter-context" },
-			},
-		})
-
-		use({
-			"simrat39/symbols-outline.nvim",
-			opt = true,
-			ft = lsp_supported_files,
-			config = function()
-				require("symbols-outline").setup()
-			end,
-		})
-		use({ "norcalli/nvim-colorizer.lua", opt = true, ft = { "html", "css", "vim" } })
-		use({ "reedes/vim-wordy", opt = true, ft = { "txt", "md", "markdown", "text" } })
-	end,
+	{
+		"simrat39/symbols-outline.nvim",
+		ft = lsp_supported_files,
+		config = function()
+			require("symbols-outline").setup()
+		end,
+	},
+	{ "norcalli/nvim-colorizer.lua", ft = { "html", "css", "vim" } },
+	{ "reedes/vim-wordy", ft = { "txt", "md", "markdown", "text" } },
 })

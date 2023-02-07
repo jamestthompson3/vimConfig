@@ -18,11 +18,6 @@ vim.g.loaded_logiPat = 1
 vim.g.loaded_rrhelper = 1
 vim.g.loaded_tutor_mode_plugin = 1
 
--- no need to continue if we don't have any plugins loaded, as the config here will throw errors.
-if require("tt.bootstrap")() then
-	return
-end
-
 local globals = require("tt.nvim_utils").GLOBALS
 local vim_utils = require("tt.nvim_utils").vim_util
 local git = require("tt.git")
