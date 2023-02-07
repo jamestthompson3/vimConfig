@@ -2,6 +2,7 @@ local M = {}
 
 M.supported_langs = {
 	"comment",
+  "fish",
 	"bash",
 	"c",
 	"cpp",
