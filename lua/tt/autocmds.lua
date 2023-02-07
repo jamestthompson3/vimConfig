@@ -115,8 +115,11 @@ local autocmds = {
 		{ "BufNewFile,BufRead", { pattern = "*.tsx", command = "setlocal commentstring=//%s" } },
 		{ "BufNewFile,BufRead", { pattern = "*.svelte", command = "setfiletype html" } },
 		{
-			"BufNewFile,BufRead",
-			{ pattern = "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc", command = "set ft=json" },
+			"BufRead,BufNewFile",
+			{
+				pattern = "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc,*.swcrc,.swcrc,.eslintrc,.babelrc,.prettierrc",
+				command = "set ft=json",
+			},
 		},
 		{ "BufNewFile,BufRead", { pattern = "*.pcss", command = "set ft=css" } },
 		{ "BufNewFile,BufRead", { pattern = "*.wiki", command = "set ft=wiki" } },
