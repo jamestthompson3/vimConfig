@@ -32,6 +32,9 @@ local autocmds = {
 			{ command = "if !isdirectory(expand('<afile>:p:h'))|call mkdir(expand('<afile>:p:h'), 'p')|endif" },
 		},
 		{ "BufWritePre", { callback = require("tt.tools").removeWhitespace } },
+    -- TODO: ASYNC
+		{ "BufWritePost", { pattern = "*.fish", command = "silent !fish_indent -w %"} },
+
 		{ "QuickFixCmdPost", { pattern = "[^l]*", nested = true, callback = require("tt.tools").openQuickfix } },
 		{
 			"CursorHold,BufWritePost,BufReadPost,BufLeave",

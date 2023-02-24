@@ -203,4 +203,9 @@ M.kind_symbols = function()
 		}
 end
 
+function M.setupWiki()
+  vim.bo.noexpandtab = true
+  vim.bo.list = true
+end
+
 return M
