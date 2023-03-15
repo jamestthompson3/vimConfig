@@ -148,8 +148,8 @@ local theme = lush(function()
 		-- default,
 		-- Uncomment and edit if you want more specific syntax highlighting.
 
-		Constant          { fg = maroon  }, -- (preferred) any constant
-		String            { }, --   a string constant: "this is a string"
+		Constant          { fg = lavender.rotate(30), gui = "bold"  }, -- (preferred) any constant
+		String            { gui = "italic" }, --   a string constant: "this is a string"
 		-- Character      { }, --  a character constant: 'c', '\n'
 		Number            { }, --   a number constant: 234, 0xff
 		-- Boolean        { }, --  a boolean constant: TRUE, false
@@ -159,11 +159,11 @@ local theme = lush(function()
 		Function        {}, -- function name (also: methods for classes)
 
 		Statement       {}, -- (preferred) any statement
-		-- Conditional   { }, --  if, then, else, endif, switch, etc.
+		Conditional     { fg = peach }, --  if, then, else, endif, switch, etc.
 		-- Repeat        { }, --   for, do, while, etc.
 		-- Label         { }, --    case, default, etc.
 		-- Operator      { }, -- "sizeof", "+", "*", etc.
-		-- Keyword   {}, -- any other keyword
+		Keyword          { gui = "bold" }, -- any other keyword
 		-- Exception     { }, --  try, catch, throw
 
 		PreProc           { fg = base5 }, -- (preferred) generic Preprocessor
@@ -258,7 +258,7 @@ local theme = lush(function()
 		-- TSFuncBuiltin        { };    -- For builtin functions: `table.insert` in Lua.
 		-- TSFuncMacro          { };    -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
 		-- TSInclude            { };    -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
-		-- TSKeyword            { };    -- For keywords that don't fall in previous categories.
+		TSKeyword               { Keyword };    -- For keywords that don't fall in previous categories.
 		-- TSKeywordFunction    { };    -- For keywords used to define a fuction.
 		-- TSLabel              { };    -- For labels: `label:` in C and `:label:` in Lua.
 		TSMethod                { TSFunction }, -- For method calls and definitions.
@@ -273,7 +273,7 @@ local theme = lush(function()
 		TSPunctBracket          { fg = base5 }, -- For brackets and parens.
 		-- TSPunctSpecial       { };    -- For special punctutation that does not fall in the catagories before.
 		-- TSRepeat             { };    -- For keywords related to loops.
-		-- TSString             { };    -- For strings.
+		TSString                { String };    -- For strings.
 		-- TSStringRegex        { };    -- For regexes.
 		-- TSStringEscape       { };    -- For escape characters within a string.
 		-- TSSymbol             { };    -- For identifiers referring to symbols or atoms.

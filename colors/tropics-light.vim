@@ -11,7 +11,8 @@ highlight! link EndOfBuffer Conceal
 highlight! link NonText Conceal
 highlight! link SpecialKey Conceal
 highlight! link Whitespace Conceal
-highlight Constant guifg=#82628D guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight Conditional guifg=#945153 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight Constant guifg=#714A78 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight Cursor guifg=#F0ECFE guibg=#945153 guisp=NONE blend=NONE gui=NONE
 highlight! link lCursor Cursor
 highlight CursorColumn guifg=NONE guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
@@ -34,6 +35,8 @@ highlight GitLens guifg=#333A57 guibg=#B6B5C9 guisp=NONE blend=NONE gui=NONE
 highlight Identifier guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight IncSearch guifg=#F0ECFE guibg=#20222D guisp=NONE blend=NONE gui=NONE
 highlight Italic guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight Keyword guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight! link TSKeyword Keyword
 highlight LineNr guifg=#2E313D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight LspDiagnosticsDefaultHint guifg=#104F6A guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight LspDiagnosticsDefaultInformation guifg=#104F6A guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -71,7 +74,8 @@ highlight! link TabLineSel StatusLine
 highlight StatusLineNC guifg=#2E313D guibg=#6D7083 guisp=NONE blend=NONE gui=NONE
 highlight! link TabLine StatusLineNC
 highlight! link TabLineFill StatusLineNC
-highlight String guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight String guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight! link TSString String
 highlight TSFunction guifg=#000000 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight! link TSMethod TSFunction
 highlight TSOperator guifg=#2E313D guibg=NONE guisp=NONE blend=NONE gui=NONE

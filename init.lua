@@ -93,14 +93,13 @@ set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Curso
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
-  local timeOfDay = tonumber(vim.fn.strftime("%H"))
-	if  timeOfDay > 20 or timeOfDay < 7 then
-		api.nvim_command([[colorscheme lunaperche]])
-	else
-    -- FIXME: Cursor color is somehow b0rked for all colorschemes
-		-- api.nvim_command([[colorscheme tropics-light]])
-		api.nvim_command([[colorscheme lunaperche]])
-	end
+	local timeOfDay = tonumber(vim.fn.strftime("%H"))
+	-- if timeOfDay > 20 or timeOfDay < 7 then
+	-- 	api.nvim_command([[colorscheme lunaperche]])
+	-- else
+	-- FIXME: Cursor color is somehow b0rked for all colorschemes
+	api.nvim_command([[colorscheme tropics-light]])
+	-- end
 	schedule(function()
 		require("tt.core_opts")
 		require("tt.mappings")

@@ -69,6 +69,7 @@ function M.setup(opts)
 				markdown = { prettier },
 				yaml = { prettier },
 				go = { gofmt },
+				fish = { fishIndent },
 				-- rust = { rustfmt },
 				lua = { stylua },
 			},

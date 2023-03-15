@@ -40,7 +40,7 @@ require("lazy").setup({
 	"tpope/vim-repeat",
 	"andymass/vim-matchup",
 	"rafamadriz/friendly-snippets",
-	{"ludovicchabant/vim-gutentags", lazy = true},
+	{ "ludovicchabant/vim-gutentags", lazy = true },
 	{
 		"hrsh7th/nvim-cmp",
 		config = function()
@@ -68,7 +68,6 @@ require("lazy").setup({
 
 	{
 		"L3MON4D3/LuaSnip",
-		lazy = true,
 		config = function()
 			require("tt.plugin.luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
@@ -97,7 +96,7 @@ require("lazy").setup({
 
 	{
 		"simrat39/symbols-outline.nvim",
-    lazy = true,
+		lazy = true,
 		ft = lsp_supported_files,
 		config = function()
 			require("symbols-outline").setup()
