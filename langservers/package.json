@@ -10,9 +10,9 @@
     "import-sort-parser-babylon": "6.0.0",
     "import-sort-parser-typescript": "6.0.0",
     "import-sort-style-renke": "6.0.0",
-    "prettier": "2.8.7",
+    "prettier": "2.8.8",
     "typescript": "5.0.4",
-    "typescript-language-server": "3.3.1",
+    "typescript-language-server": "3.3.2",
     "vscode-css-languageserver-bin": "1.4.0",
     "vscode-html-languageserver-bin": "1.4.0"
   },
