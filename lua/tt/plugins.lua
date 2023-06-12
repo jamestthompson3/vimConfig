@@ -74,6 +74,13 @@ require("lazy").setup({
 		end,
 	},
 	{
+		"jake-stewart/jfind.nvim",
+		branch = "1.0",
+		config = function()
+			require("tt.plugin.jfind").init()
+		end,
+	},
+	{
 		"neovim/nvim-lspconfig",
 		ft = lsp_supported_files,
 		config = function()

@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@fsouza/prettierd": "0.23.3",
+    "@fsouza/prettierd": "0.23.4",
     "eslint_d": "12.2.1",
     "import-sort-cli": "6.0.0",
     "import-sort-parser-babylon": "6.0.0",

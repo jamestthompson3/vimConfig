@@ -1,12 +1,12 @@
 -- From here: https://gabrielpoca.com/2019-11-13-a-bit-more-lua-in-your-vim/
 function NavigationFloatingWin()
 	-- get the editor's max width and height
-	local width = vim.api.nvim_get_option("columns")
-	local height = vim.api.nvim_get_option("lines")
+	local width = vim.api.nvim_get_option_value("columns")
+	local height = vim.api.nvim_get_option_value("lines")
 
 	-- create a new, scratch buffer, for fzf
 	local buf = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
+	vim.api.nvim_buf_set_option_value(buf, "buftype", "nofile")
 
 	-- if the editor is big enough
 	if width > 150 or height > 35 then

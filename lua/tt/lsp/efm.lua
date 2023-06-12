@@ -33,7 +33,9 @@ local stylua = {
 function M.setup(opts)
 	require("lspconfig").efm.setup({
 		on_attach = function(client, bufnr)
-			formatting.fmt_on_attach(client, bufnr)
+			if not vim.g.noAutoFmt then
+				formatting.fmt_on_attach(client, bufnr)
+			end
 		end,
 		init_options = { documentFormatting = true },
 		filetypes = {
@@ -59,7 +61,7 @@ function M.setup(opts)
 				typescriptreact = { prettier, eslintd },
 				json = {
 					{
-						formatCommand = "prettier --parser json",
+						formatCommand = "prettierd --parser json",
 						lintCommand = "jq .",
 						lintStdin = true,
 					},

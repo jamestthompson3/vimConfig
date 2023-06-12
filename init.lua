@@ -1,4 +1,6 @@
 pcall(require, "impatient")
+-- This needs to be set before plugins so that plugin init codes can read the mapleader key
+vim.g.mapleader = " "
 require("tt.plugins")
 
 local globals = require("tt.nvim_utils").GLOBALS
@@ -26,7 +28,6 @@ local set = vim.o
 local api = vim.api
 local fn = vim.fn
 
-vim.g.mapleader = " "
 
 set.hidden = true
 set.secure = true
@@ -98,7 +99,7 @@ do
 	-- 	api.nvim_command([[colorscheme lunaperche]])
 	-- else
 	-- FIXME: Cursor color is somehow b0rked for all colorschemes
-	api.nvim_command([[colorscheme tropics-light]])
+	api.nvim_command([[colorscheme lunaperche]])
 	-- end
 	schedule(function()
 		require("tt.core_opts")

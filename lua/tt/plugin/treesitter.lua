@@ -17,6 +17,7 @@ M.supported_langs = {
 	"python",
 	"graphql",
 	"rust",
+  "svelte",
 	"typescript",
 	"tsx",
 }
