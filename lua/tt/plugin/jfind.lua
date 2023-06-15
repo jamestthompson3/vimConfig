@@ -23,6 +23,15 @@ function M.init()
 		},
 		border = "shadow",
 	})
+  local function get_files()
+    local files = {}
+    local path = vim.fn.globpath(vim.o.path, "*", 0, 1)
+		for _, buf_hndl in ipairs(path) do
+      table.insert(files, buf_hndl)
+    end
+    return files
+  end
+
 	local function get_buffers()
 		local buffers = {}
 		for i, buf_hndl in ipairs(vim.api.nvim_list_bufs()) do
@@ -39,8 +48,9 @@ function M.init()
 
 	-- Keymaps
 	vim.keymap.set("n", ",", function()
-		jfind.findFile({
-			formatPaths = true,
+		jfind.jfind({
+			hints = false,
+      input = get_files(),
 			callback = {
 				[key.DEFAULT] = vim.cmd.edit,
 				[key.CTRL_S] = vim.cmd.split,
