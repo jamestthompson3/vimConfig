@@ -27,6 +27,7 @@ function M.init()
     local files = {}
     local path = vim.fn.globpath(vim.o.path, "*", 0, 1)
 		for _, buf_hndl in ipairs(path) do
+      table.insert(files, jfind.formatPath(buf_hndl))
       table.insert(files, buf_hndl)
     end
     return files
@@ -49,7 +50,7 @@ function M.init()
 	-- Keymaps
 	vim.keymap.set("n", ",", function()
 		jfind.jfind({
-			hints = false,
+			hints = true,
       input = get_files(),
 			callback = {
 				[key.DEFAULT] = vim.cmd.edit,
