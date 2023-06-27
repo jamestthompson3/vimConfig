@@ -1,5 +1,7 @@
 local node = require("tt.nvim_utils").nodejs
 local spawn = require("tt.nvim_utils").spawn
+local jfind = require("jfind")
+local key = require("jfind.key")
 
 local fn = vim.fn
 local api = vim.api
@@ -15,6 +17,7 @@ function M.bootstrap()
 	api.nvim_command([[command! Sort lua require'tt.ft.ecma'.import_sort(true)]])
 	api.nvim_command([[command! Eslint lua require'tt.ft.ecma'.linter_d()]])
 	api.nvim_command([[command! Lint lua require'tt.ft.ecma'.lint_project()]])
+	api.nvim_command([[command! Run lua require'tt.ft.ecma'.run_yarn()]])
 end
 
 local function onread(err, _)
@@ -122,6 +125,28 @@ end
 
 function M.sort_and_lint()
 	M.import_sort(true, M.linter_d)
+end
+
+function M.run_yarn()
+	local function getscripts()
+		local vals = vim.system({ "jq", ".scripts | keys", "package.json", "-a" }):wait()
+		result = vim.json.decode(vals.stdout)
+		return result
+	end
+
+	local function execScript(cmd)
+		log(cmd)
+		api.nvim_command([[ copen ]])
+		api.nvim_command([[ term ]])
+		api.nvim_input("yarn " .. cmd .. "<CR>")
+	end
+
+	jfind.jfind({
+		input = getscripts(),
+		callback = {
+			[key.DEFAULT] = execScript,
+		},
+	})
 end
 
 return M
