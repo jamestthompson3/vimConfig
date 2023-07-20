@@ -82,7 +82,6 @@ require("lazy").setup({
 	},
 	{
 		"neovim/nvim-lspconfig",
-		ft = lsp_supported_files,
 		config = function()
 			require("tt.lsp").configureLSP()
 		end,
