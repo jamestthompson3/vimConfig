@@ -39,7 +39,7 @@ require("lazy").setup({
 	"tpope/vim-surround",
 	"tpope/vim-repeat",
 	"andymass/vim-matchup",
-	"rafamadriz/friendly-snippets",
+	{ "rafamadriz/friendly-snippets", lazy = true },
 	{ "ludovicchabant/vim-gutentags", lazy = true },
 	{
 		"hrsh7th/nvim-cmp",
@@ -68,6 +68,7 @@ require("lazy").setup({
 
 	{
 		"L3MON4D3/LuaSnip",
+		lazy = true,
 		config = function()
 			require("tt.plugin.luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
@@ -82,11 +83,11 @@ require("lazy").setup({
 	},
 	{
 		"neovim/nvim-lspconfig",
-		config = function()
-			require("tt.lsp").configureLSP()
-		end,
+		lazy = true,
+		ft = lsp_supported_files,
+    config = require("tt.lsp").configureLSP
 	},
-	{ "rktjmp/lush.nvim", ft = { "lua" } },
+	{ "rktjmp/lush.nvim", lazy = true, ft = { "lua" } },
 	{ "rktjmp/shipwright.nvim", ft = { "lua" } },
 	{ "rust-lang/rust.vim", ft = { "rust" } },
 	{
@@ -109,7 +110,7 @@ require("lazy").setup({
 		end,
 	},
 	{ "norcalli/nvim-colorizer.lua", ft = { "html", "css", "vim" } },
-	{ "reedes/vim-wordy", ft = { "txt", "md", "markdown", "text" } },
+	{ "reedes/vim-wordy", lazy = true, ft = { "txt", "md", "markdown", "text" } },
 }, {
 	-- defaults = { lazy = true },
 	performance = {
