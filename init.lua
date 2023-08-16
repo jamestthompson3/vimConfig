@@ -28,7 +28,6 @@ local set = vim.o
 local api = vim.api
 local fn = vim.fn
 
-
 set.hidden = true
 set.secure = true
 set.title = true
@@ -79,6 +78,17 @@ set.foldexpr = "nvim_treesitter#foldexpr()"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
 
+in_wsl = os.getenv("WSL_DISTRO_NAME") ~= nil
+
+if in_wsl then
+	vim.g.clipboard = {
+		name = "wsl clipboard",
+		copy = { ["+"] = { "clip.exe" }, ["*"] = { "clip.exe" } },
+		paste = { ["+"] = { "nvim_paste" }, ["*"] = { "nvim_paste" } },
+		cache_enabled = true,
+	}
+end
+
 -- UI OPTS
 set.termguicolors = true
 set.wrap = false
@@ -95,12 +105,10 @@ do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
 	local timeOfDay = tonumber(vim.fn.strftime("%H"))
-	-- if timeOfDay > 20 or timeOfDay < 7 then
-	-- 	api.nvim_command([[colorscheme lunaperche]])
-	-- else
-	-- FIXME: Cursor color is somehow b0rked for all colorschemes
-	api.nvim_command([[colorscheme lunaperche]])
+	-- if timeOfDay < 20 or timeOfDay > 7 then
+	-- 	set.background = "light"
 	-- end
+	api.nvim_command([[colorscheme lunaperche]])
 	schedule(function()
 		require("tt.core_opts")
 		require("tt.mappings")
