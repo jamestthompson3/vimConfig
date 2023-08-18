@@ -38,7 +38,6 @@ require("lazy").setup({
 	"tpope/vim-commentary",
 	"tpope/vim-surround",
 	"tpope/vim-repeat",
-	"andymass/vim-matchup",
 	{ "rafamadriz/friendly-snippets", lazy = true },
 	{ "ludovicchabant/vim-gutentags", lazy = true },
 	{
