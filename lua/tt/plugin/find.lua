@@ -21,7 +21,7 @@ function M.init()
 			"*.iml",
 			"*.meta",
 		},
-		border = "shadow",
+		border = "rounded",
 	})
 	local function get_files()
 		local files = {}
@@ -39,8 +39,11 @@ function M.init()
 			if vim.api.nvim_buf_is_loaded(buf_hndl) then
 				local path = vim.api.nvim_buf_get_name(buf_hndl)
 				if path ~= nil and path ~= "" then
-					table.insert(buffers, jfind.formatPath(path))
-					table.insert(buffers, path)
+          -- Ignore jfind buffers
+					if string.find(path, "term://") == nil then
+						table.insert(buffers, jfind.formatPath(path))
+						table.insert(buffers, path)
+					end
 				end
 			end
 		end
