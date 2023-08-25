@@ -18,7 +18,7 @@ local lsp_supported_files = {
 	"lua",
 }
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -77,7 +77,7 @@ require("lazy").setup({
 		"jake-stewart/jfind.nvim",
 		branch = "1.0",
 		config = function()
-			require("tt.plugin.jfind").init()
+			require("tt.plugin.find").init()
 		end,
 	},
 	{

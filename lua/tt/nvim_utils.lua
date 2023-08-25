@@ -2,7 +2,7 @@
 local vim = vim or {}
 local api = vim.api
 local fn = vim.fn
-local loop = vim.loop
+local loop = vim.uv
 
 local M = {}
 

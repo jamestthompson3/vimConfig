@@ -7,10 +7,7 @@ vim.g.did_install_default_menus = 1
 vim.g.remove_whitespace = 1
 vim.g.python3_host_prog = globals.python_host
 vim.g.autoformat = true
-vim.g.netrw_localrmdir = "rm -rf"
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 45
-vim.g.netrw_liststyle = 3
+vim.g.loaded_netrwPlugin = 1
 vim.g.markdown_fenced_languages = {
 	"html",
 	"typescript",

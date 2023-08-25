@@ -10,7 +10,7 @@ local setPath = function()
 	-- If we aren't using git, then we should still put a root marker in the current dir so that we
 	-- can index tags with gutentags, and maybe do other stuff.
 	if git.branch() == "" and globals.cwd() ~= globals.home and vim.o.ft ~= "gitcommit" then
-		vim.loop.fs_open("root_marker", vim.loop.constants.O_CREAT, 438, function(err, fd)
+		vim.uv.fs_open("root_marker", vim.uv.constants.O_CREAT, 438, function(err, fd)
 			if err then
 				vim.notify("ERR", err)
 			end
