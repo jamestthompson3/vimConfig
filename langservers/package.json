@@ -11,7 +11,7 @@
     "import-sort-parser-typescript": "6.0.0",
     "import-sort-style-renke": "6.0.0",
     "prettier": "3.0.2",
-    "typescript": "5.1.6",
+    "typescript": "5.2.2",
     "typescript-language-server": "3.3.2",
     "vscode-css-languageserver-bin": "1.4.0",
     "vscode-html-languageserver-bin": "1.4.0"
