@@ -33,7 +33,7 @@ local stylua = {
 function M.setup(opts)
 	require("lspconfig").efm.setup({
 		on_attach = function(client, bufnr)
-			if not vim.g.noAutoFmt then
+			if vim.g.autoformat then
 				formatting.fmt_on_attach(client, bufnr)
 			end
 		end,

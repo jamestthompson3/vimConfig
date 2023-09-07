@@ -73,18 +73,25 @@ require("lazy").setup({
 			require("luasnip.loaders.from_vscode").lazy_load()
 		end,
 	},
-	{
-		"jake-stewart/jfind.nvim",
-		branch = "1.0",
-		config = function()
+{
+  "ibhagwan/fzf-lua",
+  config = function()
 			require("tt.plugin.find").init()
-		end,
-	},
+  end
+},
+	-- {
+	-- 	"nvim-telescope/telescope.nvim",
+	-- 	tag = "0.1.2",
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	config = function()
+	-- 		require("tt.plugin.find").init()
+	-- 	end,
+	-- },
 	{
 		"neovim/nvim-lspconfig",
 		lazy = true,
 		ft = lsp_supported_files,
-    config = require("tt.lsp").configureLSP
+		config = require("tt.lsp").configureLSP,
 	},
 	{ "rktjmp/lush.nvim", lazy = true, ft = { "lua" } },
 	{ "rktjmp/shipwright.nvim", ft = { "lua" } },

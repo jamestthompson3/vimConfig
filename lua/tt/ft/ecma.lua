@@ -1,7 +1,5 @@
 local node = require("tt.nvim_utils").nodejs
 local spawn = require("tt.nvim_utils").spawn
-local jfind = require("jfind")
-local key = require("jfind.key")
 
 local fn = vim.fn
 local api = vim.api
@@ -141,12 +139,12 @@ function M.run_yarn()
 		api.nvim_input("yarn " .. cmd .. "<CR>")
 	end
 
-	jfind.jfind({
-		input = getscripts(),
-		callback = {
-			[key.DEFAULT] = execScript,
-		},
-	})
+	-- jfind.jfind({
+	-- 	input = getscripts(),
+	-- 	callback = {
+	-- 		[key.DEFAULT] = execScript,
+	-- 	},
+	-- })
 end
 
 return M

@@ -889,6 +889,7 @@ local function get_icon(name, ext, opts)
 end
 
 return {
+  setup = function() end,
 	get_icon = get_icon,
 	set_icon = set_icon,
 	set_default_icon = set_icon,
