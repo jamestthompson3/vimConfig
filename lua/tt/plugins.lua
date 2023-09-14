@@ -51,7 +51,7 @@ require("lazy").setup({
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			{ "saadparwaiz1/cmp_luasnip", build = "make install_jsregexp" },
-			{ "tzachar/cmp-tabnine", build = "./install.sh" },
+			-- { "tzachar/cmp-tabnine", build = "./install.sh" },
 			"ray-x/cmp-treesitter",
 			"quangnguyen30192/cmp-nvim-tags",
 		},
