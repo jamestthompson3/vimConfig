@@ -29,7 +29,7 @@ function M.splashscreen()
 	local args = vim.fn.argc()
 	local offset = api.nvim_buf_get_offset(curr_buf, 1)
 	local currDir = globals.cwd()
-	if offset == -1 and args == 0 then
+	if args == 0 then
 		api.nvim_create_buf(false, true)
 		api.nvim_command([[ silent! r ~/vim/skeletons/start.screen ]])
 		-- nvim.command(string.format("chdir %s", currDir))
@@ -45,18 +45,6 @@ function M.splashscreen()
 		buf_map({ "<CR>", "gf", { noremap = true } })
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
-		vim.api.nvim_create_autocmd("BufUnload", {
-			buffer = 0,
-			callback = function()
-				-- lazy_load("nvim-cmp")
-				-- lazy_load("vim-matchup")
-				-- lazy_load("nvim-treesitter")
-				vim.opt.laststatus = 2
-				vim.opt.statusline =
-					"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
-				-- vim.opt.winbar = "%=%m %f"
-			end,
-		})
 	else
 	end
 end

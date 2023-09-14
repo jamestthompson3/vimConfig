@@ -70,7 +70,7 @@ require("lazy").setup({
 		lazy = true,
 		config = function()
 			require("tt.plugin.luasnip")
-			require("luasnip.loaders.from_vscode").lazy_load()
+			-- require("luasnip.loaders.from_vscode").lazy_load()
 		end,
 	},
 {
@@ -79,14 +79,6 @@ require("lazy").setup({
 			require("tt.plugin.find").init()
   end
 },
-	-- {
-	-- 	"nvim-telescope/telescope.nvim",
-	-- 	tag = "0.1.2",
-	-- 	dependencies = { "nvim-lua/plenary.nvim" },
-	-- 	config = function()
-	-- 		require("tt.plugin.find").init()
-	-- 	end,
-	-- },
 	{
 		"neovim/nvim-lspconfig",
 		lazy = true,

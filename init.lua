@@ -114,5 +114,8 @@ do
 		require("tt.mappings")
 		require("tt.autocmds")
 		require("tt.tools").splashscreen()
+				vim.opt.laststatus = 2
+				vim.opt.statusline =
+					"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
 	end)
 end
