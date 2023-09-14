@@ -29,7 +29,7 @@ function M.splashscreen()
 	local args = vim.fn.argc()
 	local offset = api.nvim_buf_get_offset(curr_buf, 1)
 	local currDir = globals.cwd()
-	if args == 0 then
+	if args == 0 and offset <= 1 then
 		api.nvim_create_buf(false, true)
 		api.nvim_command([[ silent! r ~/vim/skeletons/start.screen ]])
 		-- nvim.command(string.format("chdir %s", currDir))
