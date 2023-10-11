@@ -36,10 +36,6 @@ local autocmds = {
 		{ "BufWritePost", { pattern = "*.fish", command = "silent !fish_indent -w %" } },
 
 		{ "QuickFixCmdPost", { pattern = "[^l]*", nested = true, callback = require("tt.tools").openQuickfix } },
-		{
-			"CursorHold,BufWritePost,BufReadPost,BufLeave",
-			{ command = "if isdirectory(expand('<amatch>:h'))|let &swapfile = &modified|endif" },
-		},
 		{ "CursorMoved", {
 			callback = function()
 				git.clear_blame()
@@ -50,7 +46,7 @@ local autocmds = {
 				git.clear_blame()
 			end,
 		} },
-		{ "FocusGained,CursorMoved,CursorMovedI", { command = "checktime" } },
+		{ { "FocusGained", "CursorMoved", "CursorMovedI" }, { command = "checktime" } },
 	},
 	ft = {
 		{ "FileType", { pattern = "netrw", command = "au BufLeave netrw close" } },
@@ -106,33 +102,31 @@ local autocmds = {
 		{ "BufReadPost", { pattern = "*.fugitiveblame", command = "set ft=fugitiveblame" } },
 	},
 	ft_detect = {
-		{ "BufRead,BufNewFile", { pattern = "*.nginx", command = "set ft=nginx" } },
-		{ "BufRead,BufNewFile", { pattern = "nginx*.conf", command = "set ft=nginx" } },
-		{ "BufRead,BufNewFile", { pattern = "*nginx.conf", command = "set ft=nginx" } },
-		{ "BufRead,BufNewFile", { pattern = "*/etc/nginx/*", command = "set ft=nginx" } },
-		{ "BufRead,BufNewFile", { pattern = "*/usr/local/nginx/conf/*", command = "set ft=nginx" } },
-		{ "BufRead,BufNewFile", { pattern = "*/nginx/*.conf", command = "set ft=nginx" } },
-		{ "BufNewFile,BufRead", { pattern = "*.bat,*.sys", command = "set ft=dosbatch" } },
-		{ "BufNewFile,BufRead", { pattern = "*.mm,*.m", command = "set ft=objc" } },
-		{ "BufNewFile,BufRead", { pattern = "*.h,*.m,*.mm", command = "set tags+=~/global-objc-tags" } },
-		{ "BufNewFile,BufRead", { pattern = "*.tsx", command = "setlocal commentstring=//%s" } },
-		{ "BufNewFile,BufRead", { pattern = "*.svelte", command = "setfiletype html" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "*.nginx", command = "set ft=nginx" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "nginx*.conf", command = "set ft=nginx" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "*nginx.conf", command = "set ft=nginx" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "*/etc/nginx/*", command = "set ft=nginx" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "*/usr/local/nginx/conf/*", command = "set ft=nginx" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "*/nginx/*.conf", command = "set ft=nginx" } },
+		{ { "BufNewFile", "BufRead" }, { pattern = "*.bat,*.sys", command = "set ft=dosbatch" } },
+		{ { "BufNewFile", "BufRead" }, { pattern = "*.mm,*.m", command = "set ft=objc" } },
+		{ { "BufNewFile", "BufRead" }, { pattern = "*.h,*.m,*.mm", command = "set tags+=~/global-objc-tags" } },
+		{ { "BufNewFile", "BufRead" }, { pattern = "*.tsx", command = "setlocal commentstring=//%s" } },
+		{ { "BufNewFile", "BufRead" }, { pattern = "*.svelte", command = "setfiletype html" } },
 		{
-			"BufRead,BufNewFile",
+			{ "BufRead", "BufNewFile" },
 			{
 				pattern = "*.eslintrc,*.babelrc,*.prettierrc,*.huskyrc,*.swcrc,.swcrc,.eslintrc,.babelrc,.prettierrc",
 				command = "set ft=json",
 			},
 		},
-		{ "BufNewFile,BufRead", { pattern = "*.pcss", command = "set ft=css" } },
-		{ "BufNewFile,BufRead", { pattern = "*.wiki", command = "set ft=wiki" } },
-		{ "BufRead,BufNewFile", { pattern = "[Dd]ockerfile", command = "set ft=Dockerfile" } },
-		{ "BufRead,BufNewFile", { pattern = "Dockerfile*", command = "set ft=Dockerfile" } },
-		{ "BufRead,BufNewFile", { pattern = "[Dd]ockerfile.vim", command = "set ft=vim" } },
-		{ "BufRead,BufNewFile", { pattern = "*.dock", command = "set ft=Dockerfile" } },
-		{ "BufRead,BufNewFile", { pattern = "*.[Dd]ockerfile", command = "set ft=Dockerfile" } },
+		{ { "BufNewFile", "BufRead" }, { pattern = "*.pcss", command = "set ft=css" } },
+		{ { "BufNewFile", "BufRead" }, { pattern = "*.wiki", command = "set ft=wiki" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "[Dd]ockerfile", command = "set ft=Dockerfile" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "Dockerfile*", command = "set ft=Dockerfile" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "[Dd]ockerfile.vim", command = "set ft=vim" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "*.dock", command = "set ft=Dockerfile" } },
+		{ { "BufRead", "BufNewFile" }, { pattern = "*.[Dd]ockerfile", command = "set ft=Dockerfile" } },
 	},
 }
-vim.schedule(function()
-	create_augroups(autocmds)
-end)
+create_augroups(autocmds)

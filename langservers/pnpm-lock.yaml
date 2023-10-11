@@ -1,26 +1,26 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@fsouza/prettierd': 0.24.2
+  '@fsouza/prettierd': 0.25.1
   eslint_d: 12.2.1
   import-sort-cli: 6.0.0
   import-sort-parser-babylon: 6.0.0
   import-sort-parser-typescript: 6.0.0
   import-sort-style-renke: 6.0.0
-  prettier: 3.0.2
+  prettier: 3.0.3
   typescript: 5.2.2
   typescript-language-server: 3.3.2
   vscode-css-languageserver-bin: 1.4.0
   vscode-html-languageserver-bin: 1.4.0
 
 dependencies:
-  '@fsouza/prettierd': 0.24.2_typescript@5.2.2
+  '@fsouza/prettierd': 0.25.1_typescript@5.2.2
   eslint_d: 12.2.1
   import-sort-cli: 6.0.0
   import-sort-parser-babylon: 6.0.0
   import-sort-parser-typescript: 6.0.0
   import-sort-style-renke: 6.0.0
-  prettier: 3.0.2
+  prettier: 3.0.3
   typescript: 5.2.2
   typescript-language-server: 3.3.2
   vscode-css-languageserver-bin: 1.4.0
@@ -156,10 +156,22 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: false
 
+  /@babel/helper-string-parser/7.22.5:
+    resolution: {integrity: sha512-mM4COjgZox8U+JcXQwPijIZLElkgEpO5rsERVDJTc2qfCDfERyob6k5WegS14SX18IIjv+XD+GrqNumY5JRCDw==}
+    engines: {node: '>=6.9.0'}
+    dev: false
+    optional: true
+
   /@babel/helper-validator-identifier/7.19.1:
     resolution: {integrity: sha512-awrNfaMtnHUr653GgGEs++LlAvW6w+DcPrOliSMXWCKo597CwL5Acf/wWdNkf/tfEQE3mjkeD1YOVZOUV/od1w==}
     engines: {node: '>=6.9.0'}
     dev: false
+
+  /@babel/helper-validator-identifier/7.22.20:
+    resolution: {integrity: sha512-Y4OZ+ytlatR8AI+8KZfKuL5urKp7qey08ha31L8b3BwewJAoJamTzyvxPR/5D+KkdJCGPq/+8TukHBlY10FX9A==}
+    engines: {node: '>=6.9.0'}
+    dev: false
+    optional: true
 
   /@babel/helper-validator-option/7.18.6:
     resolution: {integrity: sha512-XO7gESt5ouv/LRJdrVjkShckw6STTaB7l9BrpBaAHDeF5YZT+01PCwmR0SJHnkW6i8OwW/EVWRShfi4j2x+KQw==}
@@ -194,13 +206,13 @@ packages:
       '@babel/types': 7.20.7
     dev: false
 
-  /@babel/parser/7.22.11:
-    resolution: {integrity: sha512-R5zb8eJIBPJriQtbH/htEQy4k7E2dHWlD2Y2VT07JCzwYZHBxV5ZYtM0UhXSNMT74LyxuM+b1jdL7pSesXbC/g==}
+  /@babel/parser/7.23.0:
+    resolution: {integrity: sha512-vvPKKdMemU85V9WE/l5wZEmImpCtLqbnTvqDS2U1fJ96KrxoW7KrXhNsNCblQlg8Ck4b85yxdTyelsMUgFUXiw==}
     engines: {node: '>=6.0.0'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.23.0
     dev: false
     optional: true
 
@@ -240,6 +252,16 @@ packages:
       to-fast-properties: 2.0.0
     dev: false
 
+  /@babel/types/7.23.0:
+    resolution: {integrity: sha512-0oIyUfKoI3mSqMvsxBdclDwxXKXAUA8v/apZbc+iSyARYou1o8ZGDxbUYyLFoW2arqS2jDGqJuZvv1d/io1axg==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/helper-string-parser': 7.22.5
+      '@babel/helper-validator-identifier': 7.22.20
+      to-fast-properties: 2.0.0
+    dev: false
+    optional: true
+
   /@eslint/eslintrc/1.4.1:
     resolution: {integrity: sha512-XXrH9Uarn0stsyldqDYq8r++mROmWRI1xKMXa640Bb//SY1+ECYX6VzT6Lcx5frD0V30XieqJ0oX9I2Xj5aoMA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -257,15 +279,15 @@ packages:
       - supports-color
     dev: false
 
-  /@fsouza/prettierd/0.24.2_typescript@5.2.2:
-    resolution: {integrity: sha512-W1IJ4w7Q490h3QsY//+Ec9ngJRScYCMInVL/XIGXNXOljlFp1LWqQLLHbbSEgiV1UDBsM8QOa5oZ2QzALGokvQ==}
+  /@fsouza/prettierd/0.25.1_typescript@5.2.2:
+    resolution: {integrity: sha512-lMSzAahmmW9gVaqmUNP34p1SLALq2mpmzRGboH0asJ2U3/MNQdLteHeegpuGOHjS2AuNW9kwe2izBbRF6owC8g==}
     hasBin: true
     dependencies:
-      core_d: 5.0.1
-      prettier: 2.8.8
+      core_d: 6.0.0
+      prettier: 3.0.3
     optionalDependencies:
-      '@babel/parser': 7.22.11
-      '@typescript-eslint/typescript-estree': 6.4.1_typescript@5.2.2
+      '@babel/parser': 7.23.0
+      '@typescript-eslint/typescript-estree': 6.7.3_typescript@5.2.2
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -378,14 +400,14 @@ packages:
     resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
     dev: false
 
-  /@typescript-eslint/types/6.4.1:
-    resolution: {integrity: sha512-zAAopbNuYu++ijY1GV2ylCsQsi3B8QvfPHVqhGdDcbx/NK5lkqMnCGU53amAjccSpk+LfeONxwzUhDzArSfZJg==}
+  /@typescript-eslint/types/6.7.3:
+    resolution: {integrity: sha512-4g+de6roB2NFcfkZb439tigpAMnvEIg3rIjWQ+EM7IBaYt/CdJt6em9BJ4h4UpdgaBWdmx2iWsafHTrqmgIPNw==}
     engines: {node: ^16.0.0 || >=18.0.0}
     dev: false
     optional: true
 
-  /@typescript-eslint/typescript-estree/6.4.1_typescript@5.2.2:
-    resolution: {integrity: sha512-xF6Y7SatVE/OyV93h1xGgfOkHr2iXuo8ip0gbfzaKeGGuKiAnzS+HtVhSPx8Www243bwlW8IF7X0/B62SzFftg==}
+  /@typescript-eslint/typescript-estree/6.7.3_typescript@5.2.2:
+    resolution: {integrity: sha512-YLQ3tJoS4VxLFYHTw21oe1/vIZPRqAO91z6Uv0Ss2BKm/Ag7/RVQBcXTGcXhgJMdA4U+HrKuY5gWlJlvoaKZ5g==}
     engines: {node: ^16.0.0 || >=18.0.0}
     requiresBuild: true
     peerDependencies:
@@ -394,24 +416,24 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/types': 6.4.1
-      '@typescript-eslint/visitor-keys': 6.4.1
+      '@typescript-eslint/types': 6.7.3
+      '@typescript-eslint/visitor-keys': 6.7.3
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.5.4
-      ts-api-utils: 1.0.1_typescript@5.2.2
+      ts-api-utils: 1.0.3_typescript@5.2.2
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
     dev: false
     optional: true
 
-  /@typescript-eslint/visitor-keys/6.4.1:
-    resolution: {integrity: sha512-y/TyRJsbZPkJIZQXrHfdnxVnxyKegnpEvnRGNam7s3TRR2ykGefEWOhaef00/UUN3IZxizS7BTO3svd3lCOJRQ==}
+  /@typescript-eslint/visitor-keys/6.7.3:
+    resolution: {integrity: sha512-HEVXkU9IB+nk9o63CeICMHxFWbHWr3E1mpilIQBe9+7L/lH97rleFLVtYsfnWB+JVMaiFnEaxvknvmIzX+CqVg==}
     engines: {node: ^16.0.0 || >=18.0.0}
     dependencies:
-      '@typescript-eslint/types': 6.4.1
+      '@typescript-eslint/types': 6.7.3
       eslint-visitor-keys: 3.4.3
     dev: false
     optional: true
@@ -777,6 +799,12 @@ packages:
 
   /core_d/5.0.1:
     resolution: {integrity: sha512-37lZyhJY1hzgFbfU4LzY4zL09QPwPfV2W/3YBOtN7mkdvVaeP1OVnDZI6zxggtlPwG/BuE5wIr0xptlVJk5EPA==}
+    dependencies:
+      supports-color: 8.1.1
+    dev: false
+
+  /core_d/6.0.0:
+    resolution: {integrity: sha512-r0d8vUgwRyf6Ln45YrJUYXBTrEdrj5XrljmdY5DpLuN+xQ2I5SKZ3iSTnnxEfSxnrhUmyiPIRr6WfRYqVT2huA==}
     dependencies:
       supports-color: 8.1.1
     dev: false
@@ -1235,8 +1263,8 @@ packages:
       - supports-color
     dev: false
 
-  /fast-glob/3.3.0:
-    resolution: {integrity: sha512-ChDuvbOypPuNjO8yIDf36x7BlZX1smcUMTTcyoIjycexOxd6DFsKsg21qVBzEmr3G7fUKIRy2/psii+CIUt7FA==}
+  /fast-glob/3.3.1:
+    resolution: {integrity: sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==}
     engines: {node: '>=8.6.0'}
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -1452,7 +1480,7 @@ packages:
     dependencies:
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.3.0
+      fast-glob: 3.3.1
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 3.0.0
@@ -2363,14 +2391,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: false
 
-  /prettier/2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-    dev: false
-
-  /prettier/3.0.2:
-    resolution: {integrity: sha512-o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==}
+  /prettier/3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: false
@@ -2828,8 +2850,8 @@ packages:
       safe-regex: 1.1.0
     dev: false
 
-  /ts-api-utils/1.0.1_typescript@5.2.2:
-    resolution: {integrity: sha512-lC/RGlPmwdrIBFTX59wwNzqh7aR2otPNPR/5brHZm/XKFYKsfqxihXUe9pU3JI+3vGkl+vyCoNNnPhJn3aLK1A==}
+  /ts-api-utils/1.0.3_typescript@5.2.2:
+    resolution: {integrity: sha512-wNMeqtMz5NtwpT/UZGY5alT+VoKdSsOOP/kqHFcUW1P/VRhH2wJ48+DN2WwUliNbQ976ETwDL0Ifd2VVvgonvg==}
     engines: {node: '>=16.13.0'}
     peerDependencies:
       typescript: '>=4.2.0'

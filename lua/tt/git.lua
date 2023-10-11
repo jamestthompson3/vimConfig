@@ -15,8 +15,10 @@ end
 
 function M.diff()
 	local fileName = fn.expand("%")
+	local sub_cmd = fn.system("git rev-parse --show-toplevel")
+	local project_root_path = sub_cmd:gsub("\n", "/")
 	local ext = fn.expand("%:e")
-	local buf = stb({ "git", "show", "HEAD:" .. fileName })
+	local buf = stb({ "git", "show", "HEAD:" .. project_root_path .. fileName })
 	api.nvim_command("wincmd v")
 	api.nvim_win_set_buf(0, buf)
 	api.nvim_command("set ft=" .. ext)
