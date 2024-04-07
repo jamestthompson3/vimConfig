@@ -224,8 +224,8 @@ function M.vim_util.treesitter_sl()
 end
 
 function M.vim_util.lazy_load(plugin)
-  log("loading... " .. plugin)
-	vim.cmd [["packadd " .. plugin]]
+	log("loading... " .. plugin)
+	vim.cmd([["packadd " .. plugin]])
 end
 
 function M.vim_util.create_augroups(definitions)
@@ -272,7 +272,8 @@ end
 
 function M.vim_util.shell_to_buf(opts)
 	local buf = api.nvim_create_buf(false, true)
-	local lines = vim.split(os.capture(table.concat(opts, " "), true), "\n")
+	local cmd = table.concat(opts, " ")
+	local lines = vim.split(os.capture(cmd, true), "\n")
 	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
 	return buf
 end

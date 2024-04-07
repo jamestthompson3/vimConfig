@@ -29,6 +29,7 @@ local api = vim.api
 local fn = vim.fn
 
 set.hidden = true
+set.exrc = true
 set.secure = true
 set.title = true
 set.lazyredraw = true

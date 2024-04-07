@@ -1,10 +1,14 @@
-local create_augroups = require("tt.nvim_utils").vim_util.create_augroups
-local nnore = require("tt.nvim_utils").keys.nmap
-local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
+local utils = require("tt.nvim_utils")
+local create_augroups = utils.vim_util.create_augroups
+local node = utils.nodejs
+local keys = utils.keys
+local nnore = keys.nmap
+local buf_nnoremap = keys.buf_nnoremap
 local git = require("tt.git")
 
 local au = vim.api.nvim_create_autocmd
 local ag = vim.api.nvim_create_augroup
+local fn = vim.fn
 
 local autocmds = {
 	load_core = {

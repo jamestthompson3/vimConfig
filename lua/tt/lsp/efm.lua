@@ -33,25 +33,12 @@ local stylua = {
 function M.setup(opts)
 	require("lspconfig").efm.setup({
 		on_attach = function(client, bufnr)
-			if vim.g.autoformat then
+			if vim.g.autoformat == true then
 				formatting.fmt_on_attach(client, bufnr)
 			end
 		end,
 		init_options = { documentFormatting = true },
-		filetypes = {
-			"css",
-			"html",
-			"javascript",
-			"javascriptreact",
-			"json",
-			"markdown",
-			"typescript",
-			"typescriptreact",
-			"yaml",
-			"rust",
-			-- "lua",
-			"go",
-		},
+		filetypes = vim.g.autoformat_ft,
 		settings = {
 			rootMarkers = { "package.json", ".git/", "Cargo.toml", "go.mod" },
 			languages = {

@@ -20,6 +20,21 @@ vim.g.markdown_fenced_languages = {
 	"lua",
 }
 
+vim.g.autoformat_ft = {
+			"css",
+			"html",
+			"javascript",
+			"javascriptreact",
+			"json",
+			"markdown",
+			"typescript",
+			"typescriptreact",
+			"yaml",
+			"rust",
+			-- "lua",
+			"go",
+}
+
 vim.g.dirvish_relative_paths = 1
 
 vim.g.gutentags_file_list_command = "fd --type f --hidden -E .git"

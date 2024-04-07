@@ -2,7 +2,7 @@ local M = {}
 
 M.supported_langs = {
 	"comment",
-  "fish",
+	"fish",
 	"bash",
 	"c",
 	"cpp",
@@ -17,7 +17,7 @@ M.supported_langs = {
 	"python",
 	"graphql",
 	"rust",
-  "svelte",
+	"svelte",
 	"typescript",
 	"tsx",
 }
@@ -101,6 +101,8 @@ function M.init()
 			enable = true,
 		},
 		autopairs = { enable = true },
+		auto_install = true,
+		disable = { "prisma" }, -- langs where the plugin is better
 		textobjects = {
 			select = {
 				enable = true,

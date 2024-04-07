@@ -12,6 +12,8 @@ local lsp_supported_files = {
 	"c",
 	"objc",
 	"obcpp",
+	"tsx",
+	"prisma",
 	-- "bash",
 	"yaml",
 	"markdown",
@@ -73,21 +75,30 @@ require("lazy").setup({
 			-- require("luasnip.loaders.from_vscode").lazy_load()
 		end,
 	},
-{
-  "ibhagwan/fzf-lua",
-  config = function()
+	{
+		"ibhagwan/fzf-lua",
+		config = function()
 			require("tt.plugin.find").init()
-  end
-},
+		end,
+	},
 	{
 		"neovim/nvim-lspconfig",
 		lazy = true,
 		ft = lsp_supported_files,
 		config = require("tt.lsp").configureLSP,
 	},
+	{ "prisma/vim-prisma", lazy = true, ft = { "prisma" } },
 	{ "rktjmp/lush.nvim", lazy = true, ft = { "lua" } },
 	{ "rktjmp/shipwright.nvim", ft = { "lua" } },
 	{ "rust-lang/rust.vim", ft = { "rust" } },
+	{
+		"mfussenegger/nvim-dap",
+		lazy = true,
+		ft = { "c", "cpp" },
+		config = function()
+			require("tt.plugin.dap").init()
+		end,
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
