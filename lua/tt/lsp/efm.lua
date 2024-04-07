@@ -3,34 +3,33 @@ local node = require("tt.nvim_utils").nodejs
 
 local M = {}
 
-local eslintd = {
-	lintCommand = node.find_node_executable("eslint_d") .. " -f unix --stdin --stdin-filename ${INPUT}",
-	lintStdin = true,
-	lintFormats = { "%f:%l:%c: %m" },
-	lintIgnoreExitCode = true,
-}
-
-local prettier = {
-	formatCommand = node.find_node_executable("prettier") .. ' "${INPUT}"',
-	fmtStdin = true,
-}
-
-local gofmt = {
-	formatCommand = "gofmt",
-	formatStdin = true,
-}
-
-local rustfmt = {
-	formatCommand = "rustfmt" .. ' "${INPUT}"' .. " --emit=stdout -q",
-	formatStdin = true,
-}
-
-local stylua = {
-	formatCommand = 'stylua --stdin-filepath "${INPUT}" -',
-	formatStdin = true,
-}
-
 function M.setup(opts)
+	local eslintd = {
+		lintCommand = node.find_node_executable("eslint_d") .. " -f unix --stdin --stdin-filename ${INPUT}",
+		lintStdin = true,
+		lintFormats = { "%f:%l:%c: %m" },
+		lintIgnoreExitCode = true,
+	}
+
+	local prettier = {
+		formatCommand = node.find_node_executable("prettier") .. ' "${INPUT}"',
+		fmtStdin = true,
+	}
+
+	local gofmt = {
+		formatCommand = "gofmt",
+		formatStdin = true,
+	}
+
+	local rustfmt = {
+		formatCommand = "rustfmt" .. ' "${INPUT}"' .. " --emit=stdout -q",
+		formatStdin = true,
+	}
+
+	local stylua = {
+		formatCommand = 'stylua --stdin-filepath "${INPUT}" -',
+		formatStdin = true,
+	}
 	require("lspconfig").efm.setup({
 		on_attach = function(client, bufnr)
 			if vim.g.autoformat == true then

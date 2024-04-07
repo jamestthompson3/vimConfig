@@ -37,27 +37,28 @@ require("lazy").setup({
 	"justinmk/vim-dirvish",
 	"romainl/vim-cool",
 	"windwp/nvim-autopairs",
-	"tpope/vim-commentary",
 	"tpope/vim-surround",
 	"tpope/vim-repeat",
 	{ "rafamadriz/friendly-snippets", lazy = true },
-	{ "ludovicchabant/vim-gutentags", lazy = true },
-	{
-		"hrsh7th/nvim-cmp",
-		config = function()
-			require("tt.plugin.compe").init()
-		end,
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			{ "saadparwaiz1/cmp_luasnip", build = "make install_jsregexp" },
-			-- { "tzachar/cmp-tabnine", build = "./install.sh" },
-			"ray-x/cmp-treesitter",
-			"quangnguyen30192/cmp-nvim-tags",
-		},
-	},
+	{ "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
+  -- TODO: See if I can get this working with LSP...
+	{ "echasnovski/mini.completion", version = "*", config = function() require("tt.plugin.compe").init() end },
+	-- {
+	-- 	"hrsh7th/nvim-cmp",
+	-- 	config = function()
+	-- 		require("tt.plugin.compe").init()
+	-- 	end,
+	-- 	dependencies = {
+	-- 		"hrsh7th/cmp-nvim-lsp",
+	-- 		"hrsh7th/cmp-nvim-lsp-signature-help",
+	-- 		"hrsh7th/cmp-buffer",
+	-- 		"hrsh7th/cmp-path",
+	-- 		{ "saadparwaiz1/cmp_luasnip", build = "make install_jsregexp" },
+	-- 		-- { "tzachar/cmp-tabnine", build = "./install.sh" },
+	-- 		"ray-x/cmp-treesitter",
+	-- 		"quangnguyen30192/cmp-nvim-tags",
+	-- 	},
+	-- },
 	{
 		"akinsho/git-conflict.nvim",
 		version = "*",
