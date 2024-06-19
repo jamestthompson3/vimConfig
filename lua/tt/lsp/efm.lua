@@ -1,9 +1,9 @@
-local formatting = require("tt.formatting")
 local node = require("tt.nvim_utils").nodejs
+local formatting = require("tt.formatting")
 
 local M = {}
 
-function M.setup(opts)
+function M.setup()
 	local eslintd = {
 		lintCommand = node.find_node_executable("eslint_d") .. " -f unix --stdin --stdin-filename ${INPUT}",
 		lintStdin = true,
@@ -12,7 +12,15 @@ function M.setup(opts)
 	}
 
 	local prettier = {
-		formatCommand = node.find_node_executable("prettier") .. ' "${INPUT}"',
+		formatCommand = string.format(
+			"%s '${INPUT}'",
+			node.find_node_executable("prettier")
+		),
+		fmtStdin = true,
+	}
+
+	local prettier_html = {
+		formatCommand = string.format("%s, --parser html '${INPUT}'", node.find_node_executable("prettier")),
 		fmtStdin = true,
 	}
 
@@ -27,13 +35,19 @@ function M.setup(opts)
 	}
 
 	local stylua = {
-		formatCommand = 'stylua --stdin-filepath "${INPUT}" -',
-		formatStdin = true,
+		formatCommand = "stylua --color Never '${INPUT}'",
+		formatStdin = false,
 	}
 	require("lspconfig").efm.setup({
 		on_attach = function(client, bufnr)
 			if vim.g.autoformat == true then
-				formatting.fmt_on_attach(client, bufnr)
+        -- formatting.fmt_on_attach(client, bufnr)
+				-- vim.api.nvim_create_autocmd("BufWritePost", {
+				-- 	buffer = bufnr,
+				-- 	callback = function()
+				-- 		vim.lsp.buf.format({ async = false, id = client.id })
+				-- 	end,
+				-- })
 			end
 		end,
 		init_options = { documentFormatting = true },
@@ -43,6 +57,7 @@ function M.setup(opts)
 			languages = {
 				javascript = { prettier, eslintd },
 				typescript = { prettier, eslintd },
+				eta = { prettier },
 				javascriptreact = { prettier, eslintd },
 				typescriptreact = { prettier, eslintd },
 				json = {
@@ -57,8 +72,7 @@ function M.setup(opts)
 				markdown = { prettier },
 				yaml = { prettier },
 				go = { gofmt },
-				fish = { fishIndent },
-				-- rust = { rustfmt },
+				rust = { rustfmt },
 				lua = { stylua },
 			},
 		},

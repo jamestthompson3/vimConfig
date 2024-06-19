@@ -75,7 +75,7 @@ function M.fmt_on_attach(client, bufnr)
 end
 
 function M.select_client(method, name)
-	local clients = vim.tbl_values(vim.lsp.buf_get_clients())
+	local clients = vim.tbl_values(vim.lsp.get_clients({bufnr = 0}))
 	clients = vim.tbl_filter(function(client)
 		return client.supports_method(method)
 	end, clients)

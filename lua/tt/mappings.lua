@@ -109,7 +109,7 @@ nmap_nocr("sb", "g//#<Left><Left>")
 nmap_nocr("g_", "g//#<Left><Left><C-R><C-W><CR>:")
 -- nmap_nocr("<leader>.", "Bs<space>")
 nmap_nocr("<C-f>", "silent grep!<space>")
-nmap_nocr("ts", "ts<space>/")
+nmap_cmd("ts", "FzfLua lsp_workspace_symbols")
 -- VISUAL MODE
 xnore("<leader>y", '"+y')
 xnore("<leader>d", '"+d')

@@ -1,6 +1,7 @@
 require("tt.navigation")
 local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
+local spawn = require('tt.nvim_utils').spawn
 local api = vim.api
 local M = {}
 local setWriterline = false
@@ -24,10 +25,8 @@ end
 
 function M.createFile() end
 
--- Globals
-vim.g.markdown_fenced_languages = { "html", "typescript", "javascript", "js=javascript", "bash=sh", "rust" }
-
 vim.wo.foldlevel = 1
+vim.wo.conceallevel = 0
 
 function M.asyncDocs()
 	local shortname = vim.fn.expand("%:t:r")

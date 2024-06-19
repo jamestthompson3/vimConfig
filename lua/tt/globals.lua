@@ -11,6 +11,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.markdown_fenced_languages = {
 	"html",
 	"typescript",
+  "markdown",
 	"javascript",
 	"js=javascript",
 	"ts=typscript",
