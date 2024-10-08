@@ -35,14 +35,10 @@ local on_attach = function(_, bufnr)
   require("tt.lsp.mappings").setMappings(bufnr)
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
-  -- vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave" }, {
-  -- 	buffer = 0,
-  -- 	desc = "refresh code lens",
-  -- 	callback = vim.lsp.codelens.refresh,
-  -- })
 end
 
 function M.configureLSP()
+  vim.diagnostic.config({ jump = { float = true } })
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
       local bufnr = args.buf
@@ -74,9 +70,14 @@ function M.configureLSP()
     on_attach = on_attach,
     capabilities = capabilities,
   })
+  nvim_lsp.sqls.setup({
+    on_attach = function(client, bufnr)
+      require("sqls").on_aa_attach(client, bufnr)
+    end
+  })
   nvim_lsp.html.setup({
     on_attach = function(client, bufnr)
-      if vim.g.autoformat == true then
+      if vim.tbl_contains(vim.g.autoformat_ft, "html") then
         vim.api.nvim_create_autocmd("BufWritePost", {
           buffer = bufnr,
           callback = function()
@@ -104,6 +105,7 @@ function M.configureLSP()
   -- 	capabilities = capabilities,
   -- 	cmd = { node.get_node_bin("css-languageserver"), "--stdio" },
   -- })
+  --
   nvim_lsp.biome.setup {
     cmd = { node.get_node_bin("biome"), "lsp-proxy" },
     on_attach = function(client, bufnr)
@@ -112,20 +114,14 @@ function M.configureLSP()
           buffer = bufnr,
           callback = function()
             vim.lsp.buf.format({
-              filter = function(client) return client.name ~= "tsserver" end
+              filter = function(client) return client.name ~= "ts_ls" end
             })
-            -- vim.system({
-            --   require("tt.nvim_utils").nodejs.find_node_executable("biome"),
-            --   "format",
-            --   "--write",
-            --   vim.fn.expand("%"),
-            -- }, { text = true }, on_exit)
           end,
         })
       end
     end,
   }
-  nvim_lsp.tsserver.setup({
+  nvim_lsp.ts_ls.setup({
     on_attach = function(client, bufnr)
       client.server_capabilities.documentFormattingProvider = false
       client.server_capabilities.documentRangeFormattingProvider = false

@@ -2,7 +2,11 @@ local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 
 if not is_windows then
-	api.nvim_command("set shell=bash")
+  if vim.fn.executable("fish") then
+    api.nvim_command("set shell=fish")
+  else
+    api.nvim_command("set shell=bash")
+  end
 end
 api.nvim_command([[packadd cfilter]])
 

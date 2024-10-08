@@ -26,9 +26,10 @@ local autocmds = {
 		{ "BufNewFile", { pattern = "*.md", command = "0r ~/vim/skeletons/skeleton.md" } },
 		{ "VimLeavePre", { callback = require("tt.tools").saveSession } },
 		{ "VimResume", { command = "checktime" } },
-		{ "TermEnter", {
+		{ "TermOpen", {
 			callback = function()
-				vim.wo.rnu = false
+				vim.wo.relativenumber = false
+        vim.wo.number = false
 			end,
 		} },
 		{
@@ -38,6 +39,20 @@ local autocmds = {
 		{ "BufWritePre", { callback = require("tt.tools").removeWhitespace } },
 		-- TODO: ASYNC
 		{ "BufWritePost", { pattern = "*.fish", command = "silent !fish_indent -w %" } },
+		-- {
+		-- 	"BufWritePost",
+		-- 	{
+		-- 		pattern = "*.eta",
+		-- 		callback = function()
+		-- 			local path = fn.fnameescape(fn.expand("%:p"))
+		-- 			local exec_path = node.find_node_executable("prettier")
+		-- 			if fn.executable(exec_path) then
+		-- 				fn.system(exec_path .. " " .. path .. " --parser html " .. "--write")
+		-- 				vim.api.nvim_command([["checktime"]])
+		-- 			end
+		-- 		end,
+		-- 	},
+		-- },
 
 		{ "QuickFixCmdPost", { pattern = "[^l]*", nested = true, callback = require("tt.tools").openQuickfix } },
 		{ "CursorMoved", {

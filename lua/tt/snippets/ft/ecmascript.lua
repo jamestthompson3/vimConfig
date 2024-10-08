@@ -14,24 +14,41 @@ local M = {
   snippet("fn", fmt("function {} ({}) {{\n\t{}\n}}", { i(1), i(2), i(3) })),
   snippet("cn", fmt("const {} = ({}) => {{\n\t{}\n}}", { i(1), i(2), i(3) })),
   snippet("eaf", fmt("export async function {} ({}) {{\n\t{}\n}}", { i(1), i(2), i(3) })),
+  -- express/prisma stuff
   snippet("dbf",
     fmt(
       [[export async function {} ({}) {{
-      return tracer.startActiveSpan('{}', async (span) => {{
-        try {{
-          const {} = await prisma.{}.{}
-          span.end();
-          return[{}, undefined]
-        }} catch(e) {{
-         console.error("[DB] Could not query {} - ", e);
-         span.setAttribute("error.msg", JSON.stringify(e));
-         span.end();
-         return [undefined, e];
-        }}
-        }});
-      }}
+        return q.run("{}", "{}", {{
+        {}
+      }});
+  }}
       ]],
-      { i(1), i(2), rep(1), i(3), i(4), i(5), rep(3), i(6)  })),
+      { i(1), i(2), rep(1), i(3), i(4) })),
+  snippet("nro",
+    fmt(
+      [[import {{Router}} from "express";
+
+     export const {} = Router({{mergeParams: true}});
+    ]],
+      { i(1) }
+    )
+  ),
+  snippet("nrd",
+    fmt(
+      [[
+  {}.{}("{}", async (req, res, next) => {{
+    {}
+  }})
+]],
+      { i(1), i(2), i(3), i(4) }
+    )
+  ),
+  snippet("ier", fmt(
+    [[if({}) {{
+     return next(new InternalServerError())
+   }}
+   ]], { i(1) }
+  )),
   -- React stuff
   snippet("fco", fmt("function {} ({{{}}}) {{\n\t{}\n}}\n\nexport default {}", { i(1), i(2), i(3), rep(1) })),
   snippet("cco", fmt("const {} = ({{{}}}) => {{\n\t{}\n}}\n\nexport default {}", { i(1), i(2), i(3), rep(1) })),
@@ -42,25 +59,3 @@ local M = {
 }
 
 return M
-
--- export async function findVendorByServiceCategory(serviceCategory) {
---   return tracer.startActiveSpan(
---     "findVendorByServiceCategory ",
---     async (span) => {
---       try {
---         const vendors = await prisma.company.findMany({
---           where: {
---             serviceCategory,
---           },
---         });
---         span.end();
---         return [vendors, undefined];
---       } catch (e) {
---         console.error("[DB] Could not query vendors - ", e);
---         span.setAttribute("error.msg", JSON.stringify(e));
---         span.end();
---         return [undefined, e];
---       }
---     },
---   );
--- }

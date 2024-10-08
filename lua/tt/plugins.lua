@@ -7,6 +7,7 @@ local lsp_supported_files = {
   "html",
   "css",
   "json",
+  "sql",
   "go",
   "cpp",
   "c",
@@ -42,37 +43,6 @@ require("lazy").setup({
   "tpope/vim-repeat",
   { "rafamadriz/friendly-snippets", lazy = true },
   { "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
-  -- {
-  --   "elentok/format-on-save.nvim",
-  --   config = function()
-  --     local format_on_save = require("format-on-save")
-  --     local formatters = require("format-on-save.formatters")
-  --     format_on_save.setup({
-  --       exclude_path_patterns = {
-  --         "/node_modules/",
-  --         ".local/share/nvim/lazy",
-  --       },
-  --       formatter_by_ft = {
-  --         css = formatters.lsp,
-  --         -- html = formatters.lsp,
-  --         java = formatters.lsp,
-  --         javascript = formatters.lsp,
-  --         json = formatters.lsp,
-  --         lua = formatters.lsp,
-  --         markdown = formatters.lsp,
-  --         python = formatters.black,
-  --         rust = formatters.lsp,
-  --         scss = formatters.lsp,
-  --         sh = formatters.shfmt,
-  --         terraform = formatters.lsp,
-  --         typescript = formatters.lsp,
-  --         typescriptreact = formatters.lsp,
-  --         yaml = formatters.lsp,
-  --       }
-  --     })
-  --   end
-  -- },
-  -- { "echasnovski/mini.completion", version = "*", config = function() require("tt.plugin.compe").init() end },
   {
     "hrsh7th/nvim-cmp",
     config = function()
@@ -84,22 +54,21 @@ require("lazy").setup({
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       { "saadparwaiz1/cmp_luasnip", build = "make install_jsregexp" },
-      -- { "tzachar/cmp-tabnine", build = "./install.sh" },
       "ray-x/cmp-treesitter",
       "quangnguyen30192/cmp-nvim-tags",
     },
   },
-  {
-    "supermaven-inc/supermaven-nvim",
-    config = function()
-      require("supermaven-nvim").setup({
-        color = {
-          suggestion_color = "#BADA55",
-          cterm = 244
-        }
-      })
-    end,
-  },
+  -- {
+  --   "supermaven-inc/supermaven-nvim",
+  --   config = function()
+  --     require("supermaven-nvim").setup({
+  --       color = {
+  --         suggestion_color = "#BADA55",
+  --         cterm = 244
+  --       }
+  --     })
+  --   end,
+  -- },
   {
     "akinsho/git-conflict.nvim",
     version = "*",
@@ -138,6 +107,7 @@ require("lazy").setup({
   { "rktjmp/lush.nvim",       lazy = true,    ft = { "lua" } },
   { "rktjmp/shipwright.nvim", ft = { "lua" } },
   { "rust-lang/rust.vim",     ft = { "rust" } },
+  { "nanotee/sqls.nvim",      lazy = true,    ft = { "sql" } },
   {
     "mfussenegger/nvim-dap",
     lazy = true,
@@ -157,14 +127,6 @@ require("lazy").setup({
     },
   },
 
-  -- {
-  -- 	"simrat39/symbols-outline.nvim",
-  -- 	lazy = true,
-  -- 	ft = lsp_supported_files,
-  -- 	config = function()
-  -- 		require("symbols-outline").setup()
-  -- 	end,
-  -- },
   { "norcalli/nvim-colorizer.lua", ft = { "html", "css", "vim" } },
   { "reedes/vim-wordy",            lazy = true,                  ft = { "txt", "md", "markdown", "text" } },
 }, {
