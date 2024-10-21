@@ -10,3 +10,4 @@ lazy-lock.json
 !langservers/.yarn/plugins
 !langservers/.yarn/sdks
 !langservers/.yarn/versions
+.DS_Store

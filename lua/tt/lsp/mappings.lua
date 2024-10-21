@@ -15,6 +15,7 @@ function M.setMappings(bufnr)
   bufmap("<leader>k", vim.lsp.codelens.run)
 	bufmap("<leader>i", vim.lsp.buf.implementation, bufnr)
 	bufmap("<leader>f", vim.lsp.buf.format, bufnr)
+  bufmap("<leader>t", vim.lsp.buf.document_symbol, bufnr)
 end
 
 return M

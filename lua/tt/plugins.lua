@@ -42,7 +42,7 @@ require("lazy").setup({
   "tpope/vim-surround",
   "tpope/vim-repeat",
   { "rafamadriz/friendly-snippets", lazy = true },
-  { "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
+  -- { "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
   {
     "hrsh7th/nvim-cmp",
     config = function()
@@ -50,6 +50,7 @@ require("lazy").setup({
     end,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-document-symbol",
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -81,6 +82,7 @@ require("lazy").setup({
   {
     "L3MON4D3/LuaSnip",
     lazy = true,
+    run = "make install_jsregexp",
     config = function()
       require("tt.plugin.luasnip")
       -- require("luasnip.loaders.from_vscode").lazy_load()
