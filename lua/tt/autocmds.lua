@@ -36,7 +36,6 @@ local autocmds = {
       "BufWritePre",
       { command = "if !isdirectory(expand('<afile>:p:h'))|call mkdir(expand('<afile>:p:h'), 'p')|endif" },
     },
-    { "BufWritePre",     { callback = require("tt.tools").removeWhitespace } },
     -- TODO: ASYNC
     { "BufWritePost",    { pattern = "*.fish", command = "silent !fish_indent -w %" } },
     -- {

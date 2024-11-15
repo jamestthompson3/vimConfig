@@ -16,7 +16,6 @@ function M.openQuickfix()
 	api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
 
-
 function M.cheatsheet()
 	NavigationFloatingWin()
 	api.nvim_command([[ term ]])
@@ -144,13 +143,6 @@ function M.listTags()
 	local cword = fn.expand("<cword>")
 	api.nvim_command("ltag " .. cword)
 	api.nvim_command([[ lwindow ]])
-end
-
-function M.statuslineHighlight()
-	local fileName = vim.fn.fnamemodify(api.nvim_buf_get_name(0), ":p:t")
-	local extension = vim.fn.fnamemodify(api.nvim_buf_get_name(0), ":e")
-	local icon, icon_highlight = icons.get_icon(fileName, extension, { default = true })
-	return icon_highlight
 end
 
 function M.profile()

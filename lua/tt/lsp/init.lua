@@ -173,7 +173,7 @@ function M.configureLSP()
     signs = true,
     border = border,
   })
-  -- efm.setup()
+  efm.setup()
   -- Start Lsp immediately after config
   vim.api.nvim_command("LspStart")
 end

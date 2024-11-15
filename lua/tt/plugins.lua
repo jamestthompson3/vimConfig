@@ -35,6 +35,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "lewis6991/impatient.nvim",
+  "sindrets/diffview.nvim",
   "justinmk/vim-dirvish",
   "romainl/vim-cool",
   "windwp/nvim-autopairs",
@@ -42,7 +43,7 @@ require("lazy").setup({
   "tpope/vim-surround",
   "tpope/vim-repeat",
   { "rafamadriz/friendly-snippets", lazy = true },
-  -- { "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
+  { "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
   {
     "hrsh7th/nvim-cmp",
     config = function()

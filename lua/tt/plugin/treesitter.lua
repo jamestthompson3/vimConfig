@@ -6,6 +6,8 @@ M.supported_langs = {
   "bash",
   "c",
   "cpp",
+  "objc",
+  "objcpp",
   "lua",
   "go",
   "css",
