@@ -34,15 +34,19 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  "lewis6991/impatient.nvim",
   "sindrets/diffview.nvim",
   "justinmk/vim-dirvish",
   "romainl/vim-cool",
   "windwp/nvim-autopairs",
   "windwp/nvim-ts-autotag",
-  "tpope/vim-surround",
-  "tpope/vim-repeat",
-  { "rafamadriz/friendly-snippets", lazy = true },
+  {
+    'echasnovski/mini.surround',
+    version = false,
+    config = function()
+      require('mini.surround').setup()
+    end
+  },
+  { "rafamadriz/friendly-snippets" },
   { "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
   {
     "hrsh7th/nvim-cmp",
@@ -72,21 +76,12 @@ require("lazy").setup({
   --   end,
   -- },
   {
-    "akinsho/git-conflict.nvim",
-    version = "*",
-    lazy = true,
-    config = function()
-      require("git-conflict").setup()
-    end,
-  },
-
-  {
     "L3MON4D3/LuaSnip",
     lazy = true,
     run = "make install_jsregexp",
     config = function()
       require("tt.plugin.luasnip")
-      -- require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
   {
@@ -107,8 +102,6 @@ require("lazy").setup({
     }
   },
   { "prisma/vim-prisma",      lazy = true,    ft = { "prisma" } },
-  { "rktjmp/lush.nvim",       lazy = true,    ft = { "lua" } },
-  { "rktjmp/shipwright.nvim", ft = { "lua" } },
   { "rust-lang/rust.vim",     ft = { "rust" } },
   { "nanotee/sqls.nvim",      lazy = true,    ft = { "sql" } },
   {

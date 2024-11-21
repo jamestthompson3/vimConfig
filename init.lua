@@ -1,4 +1,4 @@
-pcall(require, "impatient")
+vim.loader.enable()
 -- This needs to be set before plugins so that plugin init codes can read the mapleader key
 vim.g.mapleader = " "
 require("tt.plugins")
