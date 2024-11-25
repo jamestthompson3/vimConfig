@@ -2,6 +2,9 @@ local M = {}
 local fmt = string.format
 
 function M.diagnosticSigns()
+  vim.api.nvim_command([[
+    highlight link DiagnosticUnnecessary WildMenu
+  ]])
   vim.diagnostic.config({
     signs = {
       text = {
