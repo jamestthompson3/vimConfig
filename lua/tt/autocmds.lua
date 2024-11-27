@@ -118,6 +118,16 @@ local autocmds = {
       },
     },
     { "BufReadPost", { pattern = "*.fugitiveblame", command = "set ft=fugitiveblame" } },
+    { { "InsertLeave", "TextChanged" }, {
+      pattern = "*",
+      callback = function()
+        local buf = vim.api.nvim_get_current_buf()
+        if fn.getbufvar(buf, "&modifiable") == 1 and
+            fn.getbufvar(buf, "&filetype") ~= "" then
+          vim.cmd("write")
+        end
+      end
+    } },
   },
   ft_detect = {
     { { "BufRead", "BufNewFile" }, { pattern = "*.nginx", command = "set ft=nginx" } },
