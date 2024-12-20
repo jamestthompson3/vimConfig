@@ -1,25 +1,3 @@
-local lsp_supported_files = {
-  "typescript",
-  "typescriptreact",
-  "javascript",
-  "javascriptreact",
-  "rust",
-  "html",
-  "css",
-  "json",
-  "sql",
-  "go",
-  "cpp",
-  "c",
-  "objc",
-  "obcpp",
-  "tsx",
-  "prisma",
-  -- "bash",
-  "yaml",
-  "markdown",
-  "lua",
-}
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
@@ -37,32 +15,61 @@ require("lazy").setup({
   "sindrets/diffview.nvim",
   "justinmk/vim-dirvish",
   "romainl/vim-cool",
-  "windwp/nvim-autopairs",
+  { "windwp/nvim-autopairs",        config = true },
   "windwp/nvim-ts-autotag",
   {
-    'echasnovski/mini.surround',
+    "echasnovski/mini.surround",
     version = false,
     config = function()
-      require('mini.surround').setup()
-    end
+      require("mini.surround").setup()
+    end,
   },
   { "rafamadriz/friendly-snippets" },
-  { "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
+  { "ludovicchabant/vim-gutentags", lazy = true,  event = "VimEnter" },
   {
-    "hrsh7th/nvim-cmp",
-    config = function()
-      require("tt.plugin.compe").init()
-    end,
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lsp-document-symbol",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      { "saadparwaiz1/cmp_luasnip", build = "make install_jsregexp" },
-      "ray-x/cmp-treesitter",
-      "quangnguyen30192/cmp-nvim-tags",
-    },
+    "saghen/blink.cmp",
+    version = "0.7.6",
+    opts = {
+      snippets = {
+        expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
+        active = function(filter)
+          if filter and filter.direction then
+            return require('luasnip').jumpable(filter.direction)
+          end
+          return require('luasnip').in_snippet()
+        end,
+        jump = function(direction) require('luasnip').jump(direction) end,
+      },
+      completion = {
+        documentation = {
+          auto_show = true
+        }
+      },
+      appearance = {
+        kind_icons = {
+          Text = "␂ Text",
+          Method = "🜜  Method",
+          Function = "⎔ Func",
+          Constructor = "⌂ Constructor",
+          Variable = "⊷ Var",
+          Class = "⌻ Class",
+          Interface = "∮ Interface",
+          Module = "⌘ Module",
+          Property = " ∴ Property",
+          Unit = "⍚ Unit",
+          Value = "⋯ Value",
+          Enum = "⎆ Enum",
+          Keyword = "⚿  Keyword",
+          Snippet = "⮑  Snippet",
+          Color = "🜚 Color",
+          File = "𐂧 File",
+          Folder = "𐂽 Folder",
+          EnumMember = "⍆ EnumMember",
+          Constant = "🜛 Constant",
+          Struct = "⨊ Struct",
+        }
+      }
+    }
   },
   -- {
   --   "supermaven-inc/supermaven-nvim",
@@ -90,20 +97,9 @@ require("lazy").setup({
       require("tt.plugin.find").init()
     end,
   },
-  {
-    "neovim/nvim-lspconfig",
-    lazy = true,
-    ft = lsp_supported_files,
-    config = require("tt.lsp").configureLSP,
-    opts = {
-      inlay_hints = {
-        enabled = true
-      }
-    }
-  },
-  { "prisma/vim-prisma",      lazy = true,    ft = { "prisma" } },
-  { "rust-lang/rust.vim",     ft = { "rust" } },
-  { "nanotee/sqls.nvim",      lazy = true,    ft = { "sql" } },
+  { "prisma/vim-prisma",  lazy = true,    ft = { "prisma" } },
+  { "rust-lang/rust.vim", ft = { "rust" } },
+  { "nanotee/sqls.nvim",  lazy = true,    ft = { "sql" } },
   {
     "mfussenegger/nvim-dap",
     lazy = true,
