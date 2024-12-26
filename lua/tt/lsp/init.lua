@@ -136,25 +136,28 @@ vim.lsp.config.rust_analyzer = {
   -- init_options = {
   -- 	documentFormatting = true,
   -- },
-  settings = {
-    ["rust-analyzer"] = {
       checkOnSave = {
         enabled = true,
         command = "clippy",
       },
-    },
   },
 }
 vim.lsp.config.gopls = {
-  on_attach = on_attach,
-  cmd = { "gopls", "serve" },
   filetypes = { "go" },
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
-      },
-      staticcheck = true,
+  cmd = { "gopls", "serve" },
+        analyses = {
+          unusedparams = true,
+        staticcheck = true,
+    on_attach = function(client, bufnr)
+      if vim.g.autoformat == true then
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format()
+          end,
+        })
+      end
+    end,
     },
   },
 }
