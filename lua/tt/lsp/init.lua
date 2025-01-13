@@ -40,7 +40,7 @@ ui.diagnosticSigns()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.semanticTokens.multilineTokenSupport = true
-capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
+capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 vim.lsp.config("*", {
   root_markers = { ".git", "root_marker" },
   capabilities = capabilities,
@@ -115,7 +115,7 @@ vim.lsp.config.biome = {
     "typescriptreact",
     "vue",
   },
-  on_attach = function(client, bufnr)
+  on_attach = function(_, bufnr)
     if vim.g.autoformat == true then
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
@@ -133,32 +133,31 @@ vim.lsp.config.biome = {
 vim.lsp.config.rust_analyzer = {
   on_attach = on_attach,
   cmd = { "rust-analyzer" },
+  filetypes = { "rust" },
   -- init_options = {
   -- 	documentFormatting = true,
   -- },
-      checkOnSave = {
-        enabled = true,
-        command = "clippy",
-      },
+  checkOnSave = {
+    enabled = true,
+    command = "clippy",
   },
 }
 vim.lsp.config.gopls = {
   filetypes = { "go" },
   cmd = { "gopls", "serve" },
-        analyses = {
-          unusedparams = true,
-        staticcheck = true,
-    on_attach = function(client, bufnr)
-      if vim.g.autoformat == true then
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format()
-          end,
-        })
-      end
-    end,
-    },
+  on_attach = function(_, bufnr)
+    if vim.g.autoformat == true then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format()
+        end,
+      })
+    end
+  end,
+  analyses = {
+    unusedparams = true,
+    staticcheck = true,
   },
 }
 
@@ -197,7 +196,7 @@ vim.lsp.config.ts_ls = {
 vim.lsp.config.ctags_lsp = {
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   cmd = { "ctags-lsp" },
-  on_attach = on_attach
+  on_attach = on_attach,
 }
 efm.setup()
 vim.lsp.enable({

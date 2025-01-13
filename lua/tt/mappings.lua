@@ -3,15 +3,12 @@ local inore = require("tt.nvim_utils").keys.inore
 local tnore = require("tt.nvim_utils").keys.tnore
 local nmap = require("tt.nvim_utils").keys.nmap
 local nmap_cmd = require("tt.nvim_utils").keys.nmap_cmd
-local nmap_plug = require("tt.nvim_utils").keys.nmap_plug
 local nmap_nocr = require("tt.nvim_utils").keys.nmap_nocr
 local nmap_call = require("tt.nvim_utils").keys.nmap_call
 local xmap = require("tt.nvim_utils").keys.xmap
 local xmap_cmd = require("tt.nvim_utils").keys.xmap_cmd
 local xnore = require("tt.nvim_utils").keys.xnore
-local vmap = require("tt.nvim_utils").keys.vmap
 local vnore = require("tt.nvim_utils").keys.vnore
-local vmap_nocr = require("tt.nvim_utils").keys.vmap_nocr
 local cmap = require("tt.nvim_utils").keys.cmap
 
 local tools = require("tt.tools")
@@ -26,8 +23,6 @@ nnore("<up>", ":m .-2<cr>==", { silent = true, expr = true })
 nnore("<down>", ":m .+1<cr>==", { silent = true, expr = true })
 nnore("'", "`")
 nnore("Y", "y$")
--- nnore(";", ":")
--- nnore(":", ";")
 nnore("/", "ms/")
 nnore("<leader>p", '"+p')
 nnore("<leader>P", '"+P')
