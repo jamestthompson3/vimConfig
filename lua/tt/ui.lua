@@ -1,0 +1,7 @@
+vim.cmd("hi Comment guifg=#f4118e")
+vim.cmd("hi Function gui=bold guifg=#83a598")
+vim.cmd("hi @function.method gui=bold guifg=#83a598")
+vim.cmd("hi Type guifg=#ffaf00")
+vim.cmd("hi link TreesitterContext Comment")
+vim.cmd("hi @tag guifg=#ffaf00")
+vim.cmd("hi @string guifg=lightred")

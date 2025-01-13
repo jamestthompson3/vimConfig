@@ -31,6 +31,7 @@ require("lazy").setup({
     version = "0.7.6",
     opts = {
       snippets = {
+        keymap = {},
         expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
         active = function(filter)
           if filter and filter.direction then
