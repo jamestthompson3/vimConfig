@@ -45,7 +45,7 @@ set.undofile = true
 set.magic = true
 set.relativenumber = true
 set.tags = "" -- let gutentags handle this
-vim.g.mopt = 'history:500'
+set.mopt = 'wait:200,history:500'
 
 set.undolevels = 1000
 set.ttimeoutlen = 20
