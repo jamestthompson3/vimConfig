@@ -31,49 +31,48 @@ nnore("<C-\\>", "<C-\\><C-n>")
 nnore("z/", ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>", { silent = true })
 nmap({ "<leader>e", ":e <C-R>=expand('%:p:h') . '/'<CR>", { noremap = true, silent = false } })
 nmap({
-	"<C-J>",
-	function()
-		tools.winMove("j")
-	end,
+  "<C-J>",
+  function()
+    tools.winMove("j")
+  end,
 })
 nmap({
-	"<C-L>",
-	function()
-		tools.winMove("l")
-	end,
+  "<C-L>",
+  function()
+    tools.winMove("l")
+  end,
 })
 nmap({
-	"<C-H>",
-	function()
-		tools.winMove("h")
-	end,
+  "<C-H>",
+  function()
+    tools.winMove("h")
+  end,
 })
 nmap({
-	"<C-K>",
-	function()
-		tools.winMove("k")
-	end,
+  "<C-K>",
+  function()
+    tools.winMove("k")
+  end,
 })
 nmap({ "ssb", tools.sourceSession })
 nmap({ "<F1>", tools.profile })
 nmap({ "<leader>B", git.blame_file })
 nmap({ "<leader>b", git.blame })
 nmap({
-	"<leader>d",
-	function()
-		tools.openTerminalDrawer(0)
-	end,
+  "<leader>d",
+  function()
+    tools.openTerminalDrawer(0)
+  end,
 })
 nmap({
-	"<leader>D",
-	function()
-		tools.openTerminalDrawer(1)
-	end,
+  "<leader>D",
+  function()
+    tools.openTerminalDrawer(1)
+  end,
 })
 nmap({ "<leader>lt", tools.listTags })
 nmap_call("n", "n:call HLNext(0.15)", { silent = true })
 nmap_call("N", "N:call HLNext(0.15)", { silent = true })
--- nmap_cmd("wq", "close")
 nmap_cmd("cc", "cclose")
 nmap_cmd("cl", "lclose")
 nmap_cmd("gl", "pc")
@@ -87,6 +86,7 @@ nmap_cmd("gh", "call symbols#ShowDeclaration(0)")
 nmap_cmd("<F7>", 'so "%"')
 nmap_cmd("<leader>w", "MatchupWhereAmI")
 nmap_cmd("<leader>G", "SearchBuffers")
+nmap_cmd("-", "Oil")
 nmap_nocr("S", "%s//g<LEFT><LEFT>")
 -- nmap_nocr(",", "find<space>")
 nmap_nocr("sb", "g//#<Left><Left>")

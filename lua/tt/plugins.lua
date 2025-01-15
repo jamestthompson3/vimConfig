@@ -13,9 +13,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "sindrets/diffview.nvim",
-  "justinmk/vim-dirvish",
+  -- "justinmk/vim-dirvish",
   "romainl/vim-cool",
-  { "windwp/nvim-autopairs",        config = true },
+  { "windwp/nvim-autopairs",       config = true },
   "windwp/nvim-ts-autotag",
   {
     "echasnovski/mini.surround",
@@ -25,7 +25,13 @@ require("lazy").setup({
     end,
   },
   { "rafamadriz/friendly-snippets" },
-  { "ludovicchabant/vim-gutentags", lazy = true,  event = "VimEnter" },
+  {
+    "stevearc/oil.nvim",
+    config = function()
+      require("oil").setup()
+    end
+  },
+  { "ludovicchabant/vim-gutentags", lazy = true,    event = "VimEnter" },
   {
     "saghen/blink.cmp",
     version = "0.7.6",
@@ -98,9 +104,9 @@ require("lazy").setup({
       require("tt.plugin.find").init()
     end,
   },
-  { "prisma/vim-prisma",  lazy = true,    ft = { "prisma" } },
-  { "rust-lang/rust.vim", ft = { "rust" } },
-  { "nanotee/sqls.nvim",  lazy = true,    ft = { "sql" } },
+  { "prisma/vim-prisma",            lazy = true,    ft = { "prisma" } },
+  { "rust-lang/rust.vim",           ft = { "rust" } },
+  { "nanotee/sqls.nvim",            lazy = true,    ft = { "sql" } },
   {
     "mfussenegger/nvim-dap",
     lazy = true,
