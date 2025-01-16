@@ -4,7 +4,6 @@ vim.g.mapleader = " "
 require("tt.plugins")
 
 local globals = require("tt.nvim_utils").GLOBALS
-local vim_utils = require("tt.nvim_utils").vim_util
 local git = require("tt.git")
 local setPath = function()
   -- If we aren't using git, then we should still put a root marker in the current dir so that we
@@ -26,8 +25,6 @@ local setPath = function()
   end
 end
 local set = vim.o
-local api = vim.api
-local fn = vim.fn
 
 set.hidden = true
 set.exrc = true
@@ -45,7 +42,7 @@ set.undofile = true
 set.magic = true
 set.relativenumber = true
 set.tags = "" -- let gutentags handle this
-set.mopt = 'wait:200,history:500'
+set.mopt = 'hit-enter,history:500'
 
 set.undolevels = 1000
 set.ttimeoutlen = 20
