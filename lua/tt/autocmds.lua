@@ -27,12 +27,6 @@ local autocmds = {
     { "BufNewFile",  { pattern = "*.md", command = "0r ~/vim/skeletons/skeleton.md" } },
     { "VimLeavePre", { callback = require("tt.tools").saveSession } },
     { "VimResume",   { command = "checktime" } },
-    { "TermOpen", {
-      callback = function()
-        vim.wo.relativenumber = false
-        vim.wo.number = false
-      end,
-    } },
     {
       "BufWritePre",
       { command = "if !isdirectory(expand('<afile>:p:h'))|call mkdir(expand('<afile>:p:h'), 'p')|endif" },
