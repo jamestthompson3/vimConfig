@@ -29,6 +29,7 @@ vim.g.autoformat_ft = {
 			"json",
 			"markdown",
 			"typescript",
+      "astro",
 			"typescriptreact",
 			"yaml",
 			"rust",

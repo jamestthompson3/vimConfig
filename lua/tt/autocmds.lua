@@ -27,6 +27,10 @@ local autocmds = {
     { "BufNewFile",  { pattern = "*.md", command = "0r ~/vim/skeletons/skeleton.md" } },
     { "VimLeavePre", { callback = require("tt.tools").saveSession } },
     { "VimResume",   { command = "checktime" } },
+    -- {
+    --   "BufWritePre",
+    --   { command = "if !isdirectory(expand('<afile>:p:h'))|call mkdir(expand('<afile>:p:h'), 'p')|endif" },
+    -- },
     -- TODO: ASYNC
     { "BufWritePost",    { pattern = "*.fish", command = "silent !fish_indent -w %" } },
     -- {
