@@ -53,7 +53,6 @@ function M.setup()
     cmd = { "efm-langserver" },
     on_attach = function(client, bufnr)
       if vim.g.autoformat == true then
-        formatting.fmt_on_attach(client, bufnr)
         vim.api.nvim_create_autocmd("BufWritePost", {
           buffer = bufnr,
           callback = function()

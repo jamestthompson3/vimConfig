@@ -99,41 +99,41 @@ vim.lsp.config.html = {
 -- 	cmd = { node.get_node_bin("css-languageserver"), "--stdio" },
 -- })
 --
--- vim.lsp.config.biome = {
--- 	cmd = { node.get_node_bin("biome"), "lsp-proxy" },
--- 	root_markers = {
--- 		"biome.json",
--- 		"biome.jsonc",
--- 	},
--- 	filetypes = {
--- 		"astro",
--- 		"css",
--- 		"graphql",
--- 		"javascript",
--- 		"javascriptreact",
--- 		"json",
--- 		"jsonc",
--- 		"svelte",
--- 		"typescript",
--- 		"typescript.tsx",
--- 		"typescriptreact",
--- 		"vue",
--- 	},
--- 	on_attach = function(_, bufnr)
--- 		if vim.g.autoformat == true then
--- 			vim.api.nvim_create_autocmd("BufWritePre", {
--- 				buffer = bufnr,
--- 				callback = function()
--- 					vim.lsp.buf.format({
--- 						filter = function(client)
--- 							return client.name ~= "ts_ls"
--- 						end,
--- 					})
--- 				end,
--- 			})
--- 		end
--- 	end,
--- }
+vim.lsp.config.biome = {
+	cmd = { node.get_node_bin("biome"), "lsp-proxy" },
+	root_markers = {
+		"biome.json",
+		"biome.jsonc",
+	},
+	filetypes = {
+		"astro",
+		"css",
+		"graphql",
+		"javascript",
+		"javascriptreact",
+		"json",
+		"jsonc",
+		"svelte",
+		"typescript",
+		"typescript.tsx",
+		"typescriptreact",
+		"vue",
+	},
+	on_attach = function(_, bufnr)
+		if vim.g.autoformat == true then
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({
+						filter = function(client)
+							return client.name ~= "ts_ls"
+						end,
+					})
+				end,
+			})
+		end
+	end,
+}
 vim.lsp.config.rust_analyzer = {
 	on_attach = on_attach,
 	cmd = { "rust-analyzer" },

@@ -361,7 +361,7 @@ function M.nodejs.find_node_executable(binaryName)
   end
   if 0 == fn.executable(executable) then
     log("Could not find " .. executable)
-    return
+    return ""
   end
   return executable
 end
