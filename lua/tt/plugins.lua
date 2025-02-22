@@ -33,62 +33,32 @@ require("lazy").setup({
   },
   { "ludovicchabant/vim-gutentags", lazy = true,    event = "VimEnter" },
   {
-    "saghen/blink.cmp",
-    version = "0.7.6",
-    opts = {
-      snippets = {
-        keymap = {},
-        expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
-        active = function(filter)
-          if filter and filter.direction then
-            return require('luasnip').jumpable(filter.direction)
-          end
-          return require('luasnip').in_snippet()
-        end,
-        jump = function(direction) require('luasnip').jump(direction) end,
-      },
-      completion = {
-        documentation = {
-          auto_show = true
-        }
-      },
-      appearance = {
-        kind_icons = {
-          Text = "␂ Text",
-          Method = "🜜  Method",
-          Function = "⎔ Func",
-          Constructor = "⌂ Constructor",
-          Variable = "⊷ Var",
-          Class = "⌻ Class",
-          Interface = "∮ Interface",
-          Module = "⌘ Module",
-          Property = " ∴ Property",
-          Unit = "⍚ Unit",
-          Value = "⋯ Value",
-          Enum = "⎆ Enum",
-          Keyword = "⚿  Keyword",
-          Snippet = "⮑  Snippet",
-          Color = "🜚 Color",
-          File = "𐂧 File",
-          Folder = "𐂽 Folder",
-          EnumMember = "⍆ EnumMember",
-          Constant = "🜛 Constant",
-          Struct = "⨊ Struct",
-        }
-      }
-    }
+    "hrsh7th/nvim-cmp",
+    config = function()
+      require("tt.plugin.compe").init()
+    end,
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-document-symbol",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      { "saadparwaiz1/cmp_luasnip", build = "make install_jsregexp" },
+      "ray-x/cmp-treesitter",
+      "quangnguyen30192/cmp-nvim-tags",
+    },
   },
-  -- {
-  --   "supermaven-inc/supermaven-nvim",
-  --   config = function()
-  --     require("supermaven-nvim").setup({
-  --       color = {
-  --         suggestion_color = "#BADA55",
-  --         cterm = 244
-  --       }
-  --     })
-  --   end,
-  -- },
+  {
+    "supermaven-inc/supermaven-nvim",
+    config = function()
+      require("supermaven-nvim").setup({
+        color = {
+          suggestion_color = "#BADA55",
+          cterm = 244
+        }
+      })
+    end,
+  },
   {
     "L3MON4D3/LuaSnip",
     lazy = true,

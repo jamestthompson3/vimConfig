@@ -37,10 +37,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 ui.diagnosticSigns()
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.semanticTokens.multilineTokenSupport = true
-capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- capabilities.textDocument.semanticTokens.multilineTokenSupport = true
 vim.lsp.config("*", {
 	root_markers = { ".git", "root_marker" },
 	capabilities = capabilities,
@@ -209,9 +209,9 @@ vim.lsp.enable({
 	"gopls",
 	"rust_analyzer",
 	"clangd",
-	"efm",
+	-- "efm",
 	"sqls",
-	-- "biome",
+	"biome",
 	"html",
 	"lua_ls",
 	"ctags_lsp",

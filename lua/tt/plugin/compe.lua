@@ -27,7 +27,6 @@ local M = {}
 
 local cmp = require("cmp")
 local kind_symbols = require("tt.tools").kind_symbols()
-local lazy_load = require("tt.nvim_utils").vim_util.lazy_load
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -35,7 +34,6 @@ local has_words_before = function()
 end
 
 function M.init()
-  local luasnip = require("luasnip")
   cmp.setup({
     mapping = {
       ["<C-n>"] = cmp.mapping(function(fallback)
