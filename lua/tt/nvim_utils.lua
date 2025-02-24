@@ -360,7 +360,7 @@ function M.nodejs.find_node_executable(binaryName)
     executable = M.nodejs.get_node_bin(normalized_bin_name)
   end
   if 0 == fn.executable(executable) then
-    log("Could not find " .. executable)
+    -- log("Could not find " .. executable)
     return ""
   end
   return executable

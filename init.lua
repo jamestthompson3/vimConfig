@@ -104,6 +104,7 @@ set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Curso
 do
   require("tt.globals") -- gutentags can't read cache dir off main loop
   local schedule = vim.schedule
+  set.background = "light"
   vim.cmd("colorscheme quiet")
   require('tt.ui')
   schedule(function()

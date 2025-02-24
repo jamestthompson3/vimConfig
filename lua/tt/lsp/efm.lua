@@ -15,7 +15,8 @@ function M.setup()
     formatCommand = string.format("%s '${INPUT}'", node.find_node_executable("prettier")),
     fmtStdin = true,
     rootMarkers = {
-      ".prettierrc", ".prettierrc.json",
+      ".prettierrc",
+      ".prettierrc.json",
       ".prettierrc.js",
       ".prettierrc.yml",
       ".prettierrc.yaml",
@@ -64,7 +65,7 @@ function M.setup()
     init_options = { documentFormatting = true },
     filetypes = vim.g.autoformat_ft,
     settings = {
-      rootMarkers = { "package.json", ".git/", "Cargo.toml", "go.mod" },
+      -- rootMarkers = { "package.json", ".git/", "Cargo.toml", "go.mod" },
       languages = {
         javascript = { prettier, eslintd },
         typescript = { prettier, eslintd },
