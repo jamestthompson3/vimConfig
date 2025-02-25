@@ -43,6 +43,7 @@ set.magic = true
 set.relativenumber = true
 set.tags = "" -- let gutentags handle this
 set.mopt = 'hit-enter,history:500'
+set.foldenable = false
 
 set.undolevels = 1000
 set.ttimeoutlen = 20
@@ -73,8 +74,8 @@ set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart = 99
 set.foldlevel = 1
-set.foldmethod = "expr"
-set.foldexpr = "nvim_treesitter#foldexpr()"
+-- set.foldmethod = "expr"
+-- set.foldexpr = "nvim_treesitter#foldexpr()"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
 

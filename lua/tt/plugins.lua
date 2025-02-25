@@ -33,6 +33,13 @@ require("lazy").setup({
   },
   { "ludovicchabant/vim-gutentags", lazy = true,    event = "VimEnter" },
   {
+    'stevearc/conform.nvim',
+    opts = {},
+    config = function()
+      require("tt.plugin.conform")
+    end
+  },
+  {
     "saghen/blink.cmp",
     version = "0.7.6",
     opts = {

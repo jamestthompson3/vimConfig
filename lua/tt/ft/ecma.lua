@@ -6,6 +6,27 @@ local api = vim.api
 
 local M = {}
 
+local prettier_roots = {
+  ".prettierrc",
+  ".prettierrc.json",
+  ".prettierrc.js",
+  ".prettierrc.yml",
+  ".prettierrc.yaml",
+  ".prettierrc.json5",
+  ".prettierrc.mjs",
+  ".prettierrc.cjs",
+  ".prettierrc.toml",
+}
+
+local eslint_roots = {
+  "eslint.config.js",
+  "eslint.config.mjs",
+  "eslint.config.cjs",
+  "eslint.config.ts",
+  "eslint.config.mts",
+  "eslint.config.cts",
+}
+
 function M.bootstrap()
   vim.bo.suffixesadd = ".js,.jsx,.ts,.tsx"
   vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
@@ -17,6 +38,17 @@ function M.bootstrap()
   api.nvim_command([[command! Lint lua require'tt.ft.ecma'.lint_project()]])
   api.nvim_command([[command! Run lua require'tt.ft.ecma'.run_yarn()]])
 
+  -- optionally enable formatters/linters
+  if vim.fs.root(0, vim.lsp.config.biome.root_markers) then
+    vim.lsp.start(vim.lsp.config.biome)
+  end
+  if vim.fs.root(0, eslint_roots) then
+    vim.lsp.start(vim.lsp.config.efm)
+  end
+
+  if vim.fs.root(0, prettier_roots) then
+    vim.b.autoformat = true
+  end
 end
 
 local function onread(err, _)

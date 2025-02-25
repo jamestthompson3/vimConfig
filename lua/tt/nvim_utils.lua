@@ -41,7 +41,7 @@ else
   GLOBALS.cwd = function()
     return os.getenv("PWD")
   end
-  GLOBALS.python_host = "/usr/local/bin/python3"
+  GLOBALS.python_host = "/opt/homebrew/bin/python3"
   GLOBALS.file_separator = "/"
 end
 

@@ -1,8 +1,8 @@
 local node = require("tt.nvim_utils").nodejs
-local formatting = require("tt.formatting")
 
 local M = {}
 
+local prettierbin = node.find_node_executable("prettier")
 function M.setup()
   local eslintd = {
     lintCommand = node.find_node_executable("eslint_d") .. " -f unix --stdin --stdin-filename ${INPUT}",
@@ -11,26 +11,6 @@ function M.setup()
     lintIgnoreExitCode = true,
   }
 
-  local prettier = {
-    formatCommand = string.format("%s '${INPUT}'", node.find_node_executable("prettier")),
-    fmtStdin = true,
-    rootMarkers = {
-      ".prettierrc",
-      ".prettierrc.json",
-      ".prettierrc.js",
-      ".prettierrc.yml",
-      ".prettierrc.yaml",
-      ".prettierrc.json5",
-      ".prettierrc.mjs",
-      ".prettierrc.cjs",
-      ".prettierrc.toml",
-    }
-  }
-
-  local prettier_html = {
-    formatCommand = string.format("%s, --parser html '${INPUT}'", node.find_node_executable("prettier")),
-    fmtStdin = true,
-  }
 
   local gofmt = {
     formatCommand = "gofmt",
@@ -42,10 +22,6 @@ function M.setup()
     formatStdin = true,
   }
 
-  local stylua = {
-    formatCommand = "stylua --color Never '${INPUT}'",
-    formatStdin = false,
-  }
   local clangfmt = {
     formatCommand = "clang-format ${INPUT}",
     formatStdin = true,
@@ -63,30 +39,23 @@ function M.setup()
       end
     end,
     init_options = { documentFormatting = true },
-    filetypes = vim.g.autoformat_ft,
     settings = {
       -- rootMarkers = { "package.json", ".git/", "Cargo.toml", "go.mod" },
       languages = {
-        javascript = { prettier, eslintd },
-        typescript = { prettier, eslintd },
-        -- eta = { prettier },
-        javascriptreact = { prettier, eslintd },
-        typescriptreact = { prettier, eslintd },
+        javascript = { eslintd },
+        typescript = { eslintd },
+        javascriptreact = { eslintd },
+        typescriptreact = { eslintd },
         json = {
           {
-            formatCommand = "prettierd --parser json",
+            formatCommand = string.format("%s, --parser json --stdin-filepath", node.find_node_executable("prettier"),
+              vim.api.nvim_buf_get_name(0)),
             lintCommand = "jq .",
             lintStdin = true,
           },
         },
-        html = { prettier_html },
-        astro = { prettier },
-        css = { prettier },
-        markdown = { prettier },
-        yaml = { prettier },
         go = { gofmt },
         rust = { rustfmt },
-        lua = { stylua },
         cpp = { clangfmt },
         objc = { clangfmt },
         objcpp = { clangfmt },

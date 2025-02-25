@@ -26,6 +26,7 @@ local M = {}
 -- end
 
 local cmp = require("cmp")
+local luasnip = require("luasnip")
 local kind_symbols = require("tt.tools").kind_symbols()
 
 local has_words_before = function()
@@ -48,7 +49,6 @@ function M.init()
         "i",
         "s",
       }),
-
       ["<C-p>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()

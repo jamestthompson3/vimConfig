@@ -9,35 +9,17 @@ vim.g.python3_host_prog = globals.python_host
 vim.g.autoformat = true
 vim.g.loaded_netrwPlugin = 1
 vim.g.markdown_fenced_languages = {
-	"html",
-	"typescript",
+  "html",
+  "typescript",
   "markdown",
-	"javascript",
-	"js=javascript",
-	"ts=typscript",
-	"rust",
-	"css",
-	"vim",
-	"lua",
+  "javascript",
+  "js=javascript",
+  "ts=typscript",
+  "rust",
+  "css",
+  "vim",
+  "lua",
 }
-
-vim.g.autoformat_ft = {
-			"css",
-			"html",
-			"javascript",
-			"javascriptreact",
-			"json",
-			"markdown",
-			"typescript",
-      "astro",
-			"typescriptreact",
-			"yaml",
-			"rust",
-			-- "lua",
-			"go",
-}
-
-vim.g.dirvish_relative_paths = 1
 
 vim.g.gutentags_file_list_command = "fd --type f --hidden -E .git"
 vim.g.gutentags_cache_dir = "~/.cache/"
