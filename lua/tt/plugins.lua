@@ -12,7 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	"sindrets/diffview.nvim",
+	-- "sindrets/diffview.nvim",
 	"romainl/vim-cool",
 	{ "windwp/nvim-autopairs", config = true },
 	"windwp/nvim-ts-autotag",

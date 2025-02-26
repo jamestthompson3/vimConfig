@@ -159,33 +159,28 @@ function M.profile()
 end
 
 M.kind_symbols = function()
-		return {
-			Text = "␂ Text",
-			Method = "🜜  Method",
-			Function = "⎔ Func",
-			Constructor = "⌂ Constructor",
-			Variable = "⊷ Var",
-			Class = "⌻ Class",
-			Interface = "∮ Interface",
-			Module = "⌘ Module",
-			Property = " ∴ Property",
-			Unit = "⍚ Unit",
-			Value = "⋯ Value",
-			Enum = "⎆ Enum",
-			Keyword = "⚿  Keyword",
-			Snippet = "⮑  Snippet",
-			Color = "🜚 Color",
-			File = "𐂧 File",
-			Folder = "𐂽 Folder",
-			EnumMember = "⍆ EnumMember",
-			Constant = "🜛 Constant",
-			Struct = "⨊ Struct",
-		}
-end
-
-function M.setupWiki()
-  vim.bo.noexpandtab = true
-  vim.bo.list = true
+	return {
+		Text = "␂ Text",
+		Method = "🜜  Method",
+		Function = "⎔ Func",
+		Constructor = "⌂ Constructor",
+		Variable = "⊷ Var",
+		Class = "⌻ Class",
+		Interface = "∮ Interface",
+		Module = "⌘ Module",
+		Property = " ∴ Property",
+		Unit = "⍚ Unit",
+		Value = "⋯ Value",
+		Enum = "⎆ Enum",
+		Keyword = "⚿  Keyword",
+		Snippet = "⮑  Snippet",
+		Color = "🜚 Color",
+		File = "𐂧 File",
+		Folder = "𐂽 Folder",
+		EnumMember = "⍆ EnumMember",
+		Constant = "🜛 Constant",
+		Struct = "⨊ Struct",
+	}
 end
 
 return M

@@ -2,11 +2,11 @@ local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 
 if not is_windows then
-  if vim.fn.executable("fish") then
-    api.nvim_command("set shell=fish")
-  else
-    api.nvim_command("set shell=bash")
-  end
+	if vim.fn.executable("fish") then
+		api.nvim_command("set shell=fish")
+	else
+		api.nvim_command("set shell=bash")
+	end
 end
 api.nvim_command([[packadd cfilter]])
 
@@ -34,7 +34,6 @@ api.nvim_command([[command! Restore lua require'tt.tools'.restoreFile() ]])
 api.nvim_command([[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]])
 api.nvim_command([[command! -bang SearchBuffers lua require'tt.tools'.grepBufs(<q-args>)]])
 api.nvim_command([[command! Cheat lua require'tt.tools'.cheatsheet()]])
-api.nvim_command([[command! WikiMode lua require'tt.tools'.setupWiki()]])
 
 -- Global Vim functions
 api.nvim_command([[
