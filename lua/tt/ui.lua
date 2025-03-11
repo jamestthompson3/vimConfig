@@ -2,6 +2,7 @@
 -- vim.cmd("hi @function.method gui=bold guifg=#83a598")
 -- vim.cmd("hi Type guifg=#ffaf00")
 vim.cmd("hi link TreesitterContext Pmenu")
+
 -- vim.cmd("hi @tag guifg=#ffaf00")
 -- vim.cmd("hi @string guifg=#9dbf5f")
 -- DarkMode:
@@ -12,8 +13,9 @@ vim.cmd("hi link TreesitterContext Pmenu")
 -- vim.cmd("hi PmenuMatchSel gui=bold guifg=none guibg=none")
 -- LightMode
 vim.cmd("hi Pmenu guifg=#000000 guibg=white")
-vim.cmd("hi! link PmenuSel Visual")
-vim.cmd("hi PmenuMatch guifg=#a52a2a guibg=#b2b2b2")
+-- vim.cmd("hi PmenuMatch guifg=#a52a2a")
+vim.cmd("hi! link PmenuSel Search")
+vim.cmd("hi! link PmenuMatchSel Visual")
 vim.cmd("hi Comment guifg=#0000ff")
 vim.cmd("hi LineNr guifg=#4f4f4f")
 vim.cmd("hi Cursor gui=none guifg=#e4e4e4 guibg=#2e8b57")
