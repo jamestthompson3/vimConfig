@@ -17,5 +17,5 @@
     "vscode-css-languageserver-bin": "1.4.0",
     "vscode-html-languageserver-bin": "1.4.0"
   },
-  "packageManager": "yarn@4.3.0"
+  "packageManager": "yarn@4.7.0"
 }

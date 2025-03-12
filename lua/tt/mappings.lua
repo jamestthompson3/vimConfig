@@ -72,6 +72,7 @@ nmap({
 })
 nmap({ "<leader>lt", tools.listTags })
 nmap_call("n", "n:call HLNext(0.15)", { silent = true })
+nmap_call("<Esc>", ":nohlsearch", {silent = true})
 nmap_call("N", "N:call HLNext(0.15)", { silent = true })
 nmap_cmd("cc", "cclose")
 nmap_cmd("cl", "lclose")
