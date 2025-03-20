@@ -82,12 +82,12 @@ require("lazy").setup({
 	--     })
 	--   end,
 	-- },
-	-- {
-	-- 	"ibhagwan/fzf-lua",
-	-- 	config = function()
-	-- 		require("tt.plugin.find").init()
-	-- 	end,
-	-- },
+	{
+		"ibhagwan/fzf-lua",
+		config = function()
+			require("tt.plugin.find").init()
+		end,
+	},
 	{ "prisma/vim-prisma", lazy = true, ft = { "prisma" } },
 	{
 		"nvim-treesitter/nvim-treesitter",
