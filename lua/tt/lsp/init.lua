@@ -41,7 +41,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.semanticTokens.multilineTokenSupport = true
-capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+-- capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 vim.lsp.config("*", {
 	root_markers = { ".git", "root_marker" },
 	capabilities = capabilities,

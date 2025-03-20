@@ -32,6 +32,7 @@ local biome_roots = {
 }
 
 function M.bootstrap()
+	require("tt.snippets.ft.ecmascript")
 	vim.bo.suffixesadd = ".js,.jsx,.ts,.tsx"
 	vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
 	vim.bo.define = "class\\s"

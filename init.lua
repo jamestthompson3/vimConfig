@@ -67,7 +67,7 @@ set.nrformats = "bin,hex,alpha"
 set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
--- set.path = setPath()
+set.path = setPath()
 set.completeopt = "menuone,noselect,popup"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
@@ -104,14 +104,15 @@ set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Curso
 do
 	require("tt.globals") -- gutentags can't read cache dir off main loop
 	local schedule = vim.schedule
-	set.background = "light"
-	vim.cmd("colorscheme quiet")
-	require("tt.ui")
+	-- set.background = "light"
+	vim.cmd("colorscheme quiet-modified")
+	require("tt.ui").darkMode()
 	schedule(function()
 		require("tt.core_opts")
 		require("tt.mappings")
 		require("tt.autocmds")
 		require("tt.tools").splashscreen()
+		require("tt.snippets")
 		vim.opt.laststatus = 2
 		vim.opt.statusline =
 			"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
