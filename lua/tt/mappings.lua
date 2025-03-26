@@ -16,6 +16,11 @@ local git = require("tt.git")
 
 -- INSERT MODE
 inore("jj", "<Esc>")
+inore("<C-T>", "<C-X><C-]>")
+inore("<C-F>", "<C-X><C-F>")
+inore("<C-D>", "<C-X><C-D>")
+inore("<C-L>", "<C-X><C-L>")
+
 -- TERMINAL MODE
 tnore("<Esc>", "<C-\\><C-n>")
 -- NORMAL MODE

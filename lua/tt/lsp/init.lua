@@ -10,10 +10,16 @@ if initialized then
 end
 
 -- LSP settings
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
 	require("tt.lsp.mappings").setMappings(bufnr)
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border })
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border })
+	vim.lsp.completion.enable(true, client.id, bufnr, {
+		autotrigger = true,
+		convert = function(item)
+			return { abbr = item.label:gsub("%b()", "") }
+		end,
+	})
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

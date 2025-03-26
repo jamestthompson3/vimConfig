@@ -36,41 +36,41 @@ require("lazy").setup({
 			require("tt.plugin.conform")
 		end,
 	},
-	{
-		"saghen/blink.cmp",
-		version = "0.7.6",
-		opts = {
-			completion = {
-				documentation = {
-					auto_show = true,
-				},
-			},
-			appearance = {
-				kind_icons = {
-					Text = "␂ Text",
-					Method = "🜜  Method",
-					Function = "⎔ Func",
-					Constructor = "⌂ Constructor",
-					Variable = "⊷ Var",
-					Class = "⌻ Class",
-					Interface = "∮ Interface",
-					Module = "⌘ Module",
-					Property = " ∴ Property",
-					Unit = "⍚ Unit",
-					Value = "⋯ Value",
-					Enum = "⎆ Enum",
-					Keyword = "⚿  Keyword",
-					Snippet = "⮑  Snippet",
-					Color = "🜚 Color",
-					File = "𐂧 File",
-					Folder = "𐂽 Folder",
-					EnumMember = "⍆ EnumMember",
-					Constant = "🜛 Constant",
-					Struct = "⨊ Struct",
-				},
-			},
-		},
-	},
+	-- {
+	-- 	"saghen/blink.cmp",
+	-- 	version = "0.7.6",
+	-- 	opts = {
+	-- 		completion = {
+	-- 			documentation = {
+	-- 				auto_show = true,
+	-- 			},
+	-- 		},
+	-- 		appearance = {
+	-- 			kind_icons = {
+	-- 				Text = "␂ Text",
+	-- 				Method = "🜜  Method",
+	-- 				Function = "⎔ Func",
+	-- 				Constructor = "⌂ Constructor",
+	-- 				Variable = "⊷ Var",
+	-- 				Class = "⌻ Class",
+	-- 				Interface = "∮ Interface",
+	-- 				Module = "⌘ Module",
+	-- 				Property = " ∴ Property",
+	-- 				Unit = "⍚ Unit",
+	-- 				Value = "⋯ Value",
+	-- 				Enum = "⎆ Enum",
+	-- 				Keyword = "⚿  Keyword",
+	-- 				Snippet = "⮑  Snippet",
+	-- 				Color = "🜚 Color",
+	-- 				File = "𐂧 File",
+	-- 				Folder = "𐂽 Folder",
+	-- 				EnumMember = "⍆ EnumMember",
+	-- 				Constant = "🜛 Constant",
+	-- 				Struct = "⨊ Struct",
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 	-- {
 	--   "supermaven-inc/supermaven-nvim",
 	--   config = function()
