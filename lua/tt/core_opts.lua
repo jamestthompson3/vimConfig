@@ -33,7 +33,6 @@ api.nvim_command([[command! Ftc let @+=expand("%")]]) -- filename to clipboard
 api.nvim_command([[command! Restore lua require'tt.tools'.restoreFile() ]])
 api.nvim_command([[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]])
 api.nvim_command([[command! -bang SearchBuffers lua require'tt.tools'.grepBufs(<q-args>)]])
-api.nvim_command([[command! Cheat lua require'tt.tools'.cheatsheet()]])
 
 -- Global Vim functions
 api.nvim_command([[

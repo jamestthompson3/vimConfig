@@ -3,7 +3,6 @@ local buf_map = require("tt.nvim_utils").keys.buf_nnoremap
 local git = require("tt.git")
 local api = vim.api
 local fn = vim.fn
-local lazy_load = require("tt.nvim_utils").vim_util.lazy_load
 require("tt.navigation")
 
 local sessionPath = globals.home .. globals.file_separator .. "sessions" .. globals.file_separator
@@ -16,26 +15,16 @@ function M.openQuickfix()
 	api.nvim_command(string.format("cclose|%dcwindow", qfheight))
 end
 
-function M.cheatsheet()
-	NavigationFloatingWin()
-	api.nvim_command([[ term ]])
-	api.nvim_input("icht<CR>")
-	-- api.nvim_feedkeys("cht", 'i', false)
-end
-
 function M.splashscreen()
 	local curr_buf = api.nvim_get_current_buf()
 	local args = vim.fn.argc()
 	local offset = api.nvim_buf_get_offset(curr_buf, 1)
-	local currDir = globals.cwd()
 	if args == 0 and offset <= 1 then
 		api.nvim_create_buf(false, true)
 		api.nvim_command([[ silent! r ~/vim/skeletons/start.screen ]])
-		-- nvim.command(string.format("chdir %s", currDir))
 		vim.bo[0].bufhidden = "wipe"
 		vim.bo[0].buflisted = false
 		vim.bo[0].matchpairs = ""
-		vim.opt.laststatus = 0
 		api.nvim_command([[setl relativenumber]])
 		api.nvim_command([[setl nocursorline]])
 		vim.wo[0].cursorcolumn = false
@@ -48,12 +37,8 @@ function M.splashscreen()
 	end
 end
 
-function M.openTerminalDrawer(floating)
-	if floating == 1 then
-		NavigationFloatingWin()
-	else
-		api.nvim_command([[ copen ]])
-	end
+function M.openTerminalDrawer()
+	api.nvim_command([[ copen ]])
 	api.nvim_command([[ term ]])
 	api.nvim_input("i")
 end
@@ -106,7 +91,6 @@ end
 -- Session Management
 function M.createSessionName()
 	local sessionName = git.branch()
-	local currDir = globals.cwd()
 	if not sessionName == "" or sessionName == "master" then
 		return "default" --currDir
 	else
@@ -158,29 +142,27 @@ function M.profile()
 	end
 end
 
-M.kind_symbols = function()
-	return {
-		Text = "␂ Text",
-		Method = "🜜  Method",
-		Function = "⎔ Func",
-		Constructor = "⌂ Constructor",
-		Variable = "⊷ Var",
-		Class = "⌻ Class",
-		Interface = "∮ Interface",
-		Module = "⌘ Module",
-		Property = " ∴ Property",
-		Unit = "⍚ Unit",
-		Value = "⋯ Value",
-		Enum = "⎆ Enum",
-		Keyword = "⚿  Keyword",
-		Snippet = "⮑  Snippet",
-		Color = "🜚 Color",
-		File = "𐂧 File",
-		Folder = "𐂽 Folder",
-		EnumMember = "⍆ EnumMember",
-		Constant = "🜛 Constant",
-		Struct = "⨊ Struct",
-	}
-end
+M.kind_symbols = {
+	Text = "␂ Text",
+	Method = "🜜  Method",
+	Function = "⎔ Func",
+	Constructor = "⌂ Constructor",
+	Variable = "⊷ Var",
+	Class = "⌻ Class",
+	Interface = "∮ Interface",
+	Module = "⌘ Module",
+	Property = " ∴ Property",
+	Unit = "⍚ Unit",
+	Value = "⋯ Value",
+	Enum = "⎆ Enum",
+	Keyword = "⚿  Keyword",
+	Snippet = "⮑  Snippet",
+	Color = "🜚 Color",
+	File = "𐂧 File",
+	Folder = "𐂽 Folder",
+	EnumMember = "⍆ EnumMember",
+	Constant = "🜛 Constant",
+	Struct = "⨊ Struct",
+}
 
 return M
