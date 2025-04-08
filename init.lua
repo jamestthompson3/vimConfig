@@ -91,6 +91,12 @@ set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
 set.path = setPath()
+function FindFunc(cmdarg)
+	local cmd = "fd --color never --full-path --type f " .. cmdarg
+	return vim.fn.systemlist(cmd)
+end
+vim.o.findfunc = "v:lua.FindFunc"
+
 set.completeopt = "menuone,noselect,popup,fuzzy"
 set.completefuzzycollect = "keyword,files,whole_line"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
