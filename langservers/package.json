@@ -11,9 +11,9 @@
     "import-sort-parser-babylon": "6.0.0",
     "import-sort-parser-typescript": "6.0.0",
     "import-sort-style-renke": "6.0.0",
-    "prettier": "3.5.0",
-    "typescript": "5.7.3",
-    "typescript-language-server": "4.3.3",
+    "prettier": "3.5.3",
+    "typescript": "5.8.3",
+    "typescript-language-server": "4.3.4",
     "vscode-css-languageserver-bin": "1.4.0",
     "vscode-html-languageserver-bin": "1.4.0"
   },

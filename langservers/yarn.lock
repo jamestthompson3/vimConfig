@@ -2571,9 +2571,9 @@ __metadata:
     import-sort-parser-babylon: "npm:6.0.0"
     import-sort-parser-typescript: "npm:6.0.0"
     import-sort-style-renke: "npm:6.0.0"
-    prettier: "npm:3.5.0"
-    typescript: "npm:5.7.3"
-    typescript-language-server: "npm:4.3.3"
+    prettier: "npm:3.5.3"
+    typescript: "npm:5.8.3"
+    typescript-language-server: "npm:4.3.4"
     vscode-css-languageserver-bin: "npm:1.4.0"
     vscode-html-languageserver-bin: "npm:1.4.0"
   languageName: unknown
@@ -3174,7 +3174,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.5.0, prettier@npm:^3.4.2":
+"prettier@npm:3.5.3":
+  version: 3.5.3
+  resolution: "prettier@npm:3.5.3"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 10c0/3880cb90b9dc0635819ab52ff571518c35bd7f15a6e80a2054c05dbc8a3aa6e74f135519e91197de63705bcb38388ded7e7230e2178432a1468005406238b877
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.4.2":
   version: 3.5.0
   resolution: "prettier@npm:3.5.0"
   bin:
@@ -3815,22 +3824,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript-language-server@npm:4.3.3":
-  version: 4.3.3
-  resolution: "typescript-language-server@npm:4.3.3"
+"typescript-language-server@npm:4.3.4":
+  version: 4.3.4
+  resolution: "typescript-language-server@npm:4.3.4"
   bin:
     typescript-language-server: lib/cli.mjs
-  checksum: 10c0/c4b599005f631438d46dc39dcdf148a816dcde98eece17e9888eae3558f2cf8004e53ee3853f88abb78bfa9b5428cf100b6f061c2463c435d2cfe5db0f9f57a1
+  checksum: 10c0/c6e24585d234bdfac593f0d93e0f644976807aef6defde87e3b7a22241be5b9289b1803fb1da7d318aef352190d6ed292b030c00f4caa6618fd8470fe3539dd4
   languageName: node
   linkType: hard
 
-"typescript@npm:5.7.3":
-  version: 5.7.3
-  resolution: "typescript@npm:5.7.3"
+"typescript@npm:5.8.3":
+  version: 5.8.3
+  resolution: "typescript@npm:5.8.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/b7580d716cf1824736cc6e628ab4cd8b51877408ba2be0869d2866da35ef8366dd6ae9eb9d0851470a39be17cbd61df1126f9e211d8799d764ea7431d5435afa
+  checksum: 10c0/5f8bb01196e542e64d44db3d16ee0e4063ce4f3e3966df6005f2588e86d91c03e1fb131c2581baf0fb65ee79669eea6e161cd448178986587e9f6844446dbb48
   languageName: node
   linkType: hard
 
@@ -3854,13 +3863,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>":
-  version: 5.7.3
-  resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=b45daf"
+"typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>":
+  version: 5.8.3
+  resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/3b56d6afa03d9f6172d0b9cdb10e6b1efc9abc1608efd7a3d2f38773d5d8cfb9bbc68dfb72f0a7de5e8db04fc847f4e4baeddcd5ad9c9feda072234f0d788896
+  checksum: 10c0/39117e346ff8ebd87ae1510b3a77d5d92dae5a89bde588c747d25da5c146603a99c8ee588c7ef80faaf123d89ed46f6dbd918d534d641083177d5fac38b8a1cb
   languageName: node
   linkType: hard
 

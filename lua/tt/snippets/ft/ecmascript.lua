@@ -3,6 +3,7 @@ vim.snippet.add("lco", "console.log('%c$1%o', 'color: $2;')")
 vim.snippet.add("d", "debugger")
 vim.snippet.add("fn", "function $1 ($2) {\n\t$3\n}")
 vim.snippet.add("efn", "export function $1 ($2) {\n\t$3\n}")
+vim.snippet.add("gei", 'document.getElementById("$1");')
 -- snippet("cn", fmt("const {} = ({}) => {{\n\t{}\n}}", { i(1), i(2), i(3) })),
 --   snippet("eaf", fmt("export async function {} ({}) {{\n\t{}\n}}", { i(1), i(2), i(3) })),
 --   -- express/prisma stuff
