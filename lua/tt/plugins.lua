@@ -26,6 +26,12 @@ require("lazy").setup({
 		end,
 	},
 	{ "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
+	"windwp/nvim-ts-autotag",
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = true,
+	},
 	{
 		"stevearc/conform.nvim",
 		opts = {},

@@ -3,12 +3,6 @@ local ui = require("tt.lsp.ui")
 local efm = require("tt.lsp.efm")
 local border = ui.border
 
-local initialized = false
-
-if initialized then
-	return
-end
-
 -- LSP settings
 local on_attach = function(client, bufnr)
 	require("tt.lsp.mappings").setMappings(bufnr)
@@ -274,5 +268,3 @@ vim.lsp.enable({
 	"ctags_lsp",
 	"pylsp",
 })
-
-initialized = true

@@ -83,9 +83,10 @@ set.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 
 set.mouse = "nv"
 set.foldopen = "search"
+set.smartindent = true
 set.fileformat = "unix"
 set.jumpoptions = "stack"
-set.diffopt = "hiddenoff,iwhiteall,algorithm:minimal,internal,closeoff,indent-heuristic,linematch:60"
+set.diffopt = "hiddenoff,iwhiteall,algorithm:minimal,internal,closeoff,indent-heuristic,linematch:60,inline:word"
 set.nrformats = "bin,hex,alpha"
 set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
@@ -134,6 +135,7 @@ set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Curso
 vim.cmd("colorscheme quiet-modified")
 require("tt.ui").darkMode()
 require("tt.core_opts")
+require("tt.lsp")
 require("tt.mappings")
 require("tt.autocmds")
 require("tt.snippets")
