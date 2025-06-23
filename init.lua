@@ -98,7 +98,8 @@ function FindFunc(cmdarg)
 end
 vim.o.findfunc = "v:lua.FindFunc"
 
-set.completeopt = "menuone,noselect,popup,fuzzy"
+set.completeopt = "menuone,noselect,popup,fuzzy,longest"
+-- set.complete = vim.o.complete .. ",o"
 set.completefuzzycollect = "keyword,files,whole_line"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"

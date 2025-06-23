@@ -12,7 +12,7 @@ function M.setMappings(bufnr)
 	bufmap("gd", vim.lsp.buf.definition, bufnr)
 	bufmap("gt", vim.lsp.buf.type_definition, bufnr)
 	bufmap("gs", ":vsplit|lua vim.lsp.buf.definition()<CR>", bufnr)
-  bufmap("<leader>k", vim.lsp.codelens.run)
+	bufmap("<leader>k", vim.lsp.codelens.run)
 	bufmap("<leader>i", vim.lsp.buf.implementation, bufnr)
 	bufmap("<leader>f", vim.lsp.buf.format, bufnr)
 end

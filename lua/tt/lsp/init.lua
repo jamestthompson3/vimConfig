@@ -169,6 +169,7 @@ vim.lsp.config.gopls = {
 	filetypes = { "go" },
 	cmd = { "gopls", "serve" },
 	on_attach = function(_, bufnr)
+		on_attach(bufnr)
 		if vim.g.autoformat == true then
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				buffer = bufnr,
