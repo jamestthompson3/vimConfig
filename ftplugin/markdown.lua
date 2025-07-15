@@ -1,7 +1,6 @@
 require("tt.navigation")
 local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
-local spawn = require('tt.nvim_utils').spawn
 local api = vim.api
 local M = {}
 local setWriterline = false
@@ -31,23 +30,23 @@ vim.wo.conceallevel = 0
 function M.asyncDocs()
 	local shortname = vim.fn.expand("%:t:r")
 	local fullname = api.nvim_buf_get_name(0)
-	spawn("pandoc", {
-		args = {
-			fullname,
-			"--from",
-			"gfm",
-			"--to=html5",
-			"-o",
-			string.format("%s.html", shortname),
-			"-s",
-			"--highlight-style",
-			"tango",
-			"-c",
-			"$NOTES_DIR/notes.css",
-		},
-	}, function()
-		print("FILE CONVERSION COMPLETE")
-	end)
+	
+	vim.fn.jobstart({
+		"pandoc",
+		fullname,
+		"--from", "gfm",
+		"--to=html5",
+		"-o", string.format("%s.html", shortname),
+		"-s",
+		"--highlight-style", "tango",
+		"-c", "$NOTES_DIR/notes.css",
+	}, {
+		on_exit = function(_, code)
+			if code == 0 then
+				print("FILE CONVERSION COMPLETE")
+			end
+		end,
+	})
 end
 
 function M.previewLinkedPage()

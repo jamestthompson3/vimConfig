@@ -1,9 +1,17 @@
 local M = {}
-local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
-local stb = require("tt.nvim_utils").vim_util.shell_to_buf
 local api = vim.api
 local fn = vim.fn
+local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local namespace = api.nvim_create_namespace("git_lens")
+
+local function shell_to_buf(opts)
+	local buf = api.nvim_create_buf(false, true)
+	local cmd = table.concat(opts, " ")
+	local result = vim.system({cmd}):wait()
+	local lines = vim.split(result.stdout or "", "\n")
+	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
+	return buf
+end
 
 local function cmd(cmd)
 	if is_windows then
@@ -19,8 +27,8 @@ function M.diff()
 	local project_root_path = sub_cmd:gsub("\n", "/")
 	local ext = fn.expand("%:e")
   -- TODO: maybe needed for worktrees?
-	-- local buf = stb({ "git", "show", "HEAD:" .. project_root_path .. fileName })
-	local buf = stb({ "git", "show", "HEAD:" .. fileName })
+	-- local buf = shell_to_buf({ "git", "show", "HEAD:" .. project_root_path .. fileName })
+	local buf = shell_to_buf({ "git", "show", "HEAD:" .. fileName })
 	api.nvim_command("wincmd v")
 	api.nvim_win_set_buf(0, buf)
 	api.nvim_command("set ft=" .. ext)
@@ -32,7 +40,7 @@ end
 
 function M.blame_file()
 	local fileName = fn.expand("%")
-	local buf = stb({ "git", "blame", fileName })
+	local buf = shell_to_buf({ "git", "blame", fileName })
 	api.nvim_command("40wincmd v")
 	api.nvim_command("wincmd r")
 	api.nvim_win_set_buf(0, buf)
@@ -73,16 +81,22 @@ function M.clear_blame()
 end
 
 function M.branch()
-	if is_windows then
-		return os.capture("git rev-parse --abbrev-ref HEAD 2> NUL"):gsub("\\n", "")
+	local command = is_windows 
+				 and {"git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "NUL"}
+				 or {"git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "/dev/null", "|", "tr", "-d", "'\n'"}
+  local result = vim.system(command):wait()
+	if result.code == 0 and result.stdout then
+		return is_windows and result.stdout:gsub("\\n", "") or result.stdout
 	else
-		return os.capture("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+		return ""
 	end
 end
 
 -- returns short status of changes
 function M.stat()
-	return os.capture(cmd("diff --shortstat"))
+	local command = cmd("diff --shortstat")
+	local result = vim.system({command}):wait()
+	return result.stdout or ""
 end
 
 local function listChangedFiles()
@@ -108,7 +122,7 @@ end
 
 function M.changedFiles()
 	api.nvim_command("tabnew")
-	local buf = stb({ "git", "diff", "--name-only", "--no-color" })
+	local buf = shell_to_buf({ "git", "diff", "--name-only", "--no-color" })
 	api.nvim_win_set_buf(0, buf)
 	buf_nnoremap({ "<CR>", jumpToDiff, { buffer = buf } })
 	buf_nnoremap({ "Q", ":tabclose<CR>", { buffer = buf } })

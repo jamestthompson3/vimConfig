@@ -64,11 +64,6 @@ function M.keys.map_cmd(mode, lhs, cmd_string, opts)
 	set_nore(mode, lhs, formatted_cmd, vim.tbl_extend("force", { silent = true }, opts or {}))
 end
 
-function M.keys.map_plug(mode, lhs, plug_string, opts)
-	formatted_cmd = ("<Plug>%s"):format(cmd_string)
-	set_nore(mode, lhs, formatted_cmd, vim.tbl_extend("force", { silent = true }, opts or {}))
-end
-
 function M.keys.map_no_cr(mode, lhs, cmd_string)
 	formatted_cmd = (":%s"):format(cmd_string)
 	set_nore(mode, lhs, formatted_cmd)
@@ -85,10 +80,6 @@ end
 
 function M.keys.nmap_cmd(lhs, cmd_string, opts)
 	M.keys.map_cmd("n", lhs, cmd_string, opts)
-end
-
-function M.keys.nmap_plug(lhs, cmd_string, opts)
-	M.keys.map_plug("n", lhs, cmd_string, opts)
 end
 
 function M.keys.xmap_cmd(lhs, cmd_string)
@@ -194,40 +185,6 @@ end
 
 M.vim_util = {}
 
-function M.vim_util.treesitter_sl()
-	local type_patterns = {
-		"class",
-		"function",
-		"method",
-		"interface",
-		"type_spec",
-		"table",
-		"if_statement",
-		"for_statement",
-		"for_in_statement",
-		"call_expression",
-		"comment",
-	}
-
-	if vim.o.ft == "json" then
-		type_patterns = { "object", "pair" }
-	end
-
-	local f = require("nvim-treesitter").statusline({
-		indicator_size = 30,
-		type_patterns = type_patterns,
-	})
-	if f == nil then
-		return ""
-	end
-	return string.format("%s", f)
-end
-
-function M.vim_util.lazy_load(plugin)
-	log("loading... " .. plugin)
-	vim.cmd([["packadd " .. plugin]])
-end
-
 function M.vim_util.create_augroups(definitions)
 	for group_name, definition in pairs(definitions) do
 		vim.api.nvim_create_augroup(group_name, { clear = true })
@@ -291,49 +248,8 @@ function string.endswith(self, str)
 end
 
 ---
--- SPAWN UTILS
+-- MISC UTILS
 ---
---
-local function safe_close(handle)
-	if not loop.is_closing(handle) then
-		loop.close(handle)
-	end
-end
-
-function M.spawn(cmd, opts, input, onexit)
-	local input = input or { stdout = function() end, stderr = function() end }
-	local handle, pid
-	local stdout = loop.new_pipe(false)
-	local stderr = loop.new_pipe(false)
-	handle, pid = loop.spawn(cmd, vim.tbl_extend("force", opts, { stdio = { stdout, stderr } }), function(code, signal)
-		if type(onexit) == "function" then
-			onexit(code, signal)
-		end
-		loop.read_stop(stdout)
-		loop.read_stop(stderr)
-		safe_close(handle)
-		safe_close(stdout)
-		safe_close(stderr)
-	end)
-	loop.read_start(stdout, input.stdout)
-	loop.read_start(stderr, input.stderr)
-end
-
---- MISC UTILS
-
--- capturs stdout as a string
-function os.capture(cmd, raw, nosub)
-	local f = assert(io.popen(cmd, "r"))
-	local s = assert(f:read("*a"))
-	f:close()
-	if raw then
-		return s
-	end
-	s = string.gsub(s, "^%s+", "")
-	s = string.gsub(s, "%s+$", "")
-	s = string.gsub(s, "[\n\r]+", " ")
-	return s
-end
 
 M.nodejs = {}
 

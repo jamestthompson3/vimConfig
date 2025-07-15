@@ -70,10 +70,11 @@ nmap({
 	end,
 })
 nmap({ "<leader>lt", tools.listTags })
+
 nmap({
 	"n",
 	function()
-		vim.cmd("normal! n")
+		pcall(vim.cmd, "normal! n")
 		require("tt.nvim_utils").hl_search_match(0.15)
 	end,
 	{ silent = true },
@@ -82,7 +83,7 @@ nmap({
 nmap({
 	"N",
 	function()
-		vim.cmd("normal! N")
+		pcall(vim.cmd, "normal! N")
 		require("tt.nvim_utils").hl_search_match(0.15)
 	end,
 	{ silent = true },
@@ -91,7 +92,7 @@ nmap({
 nmap({
 	"<Esc>",
 	function()
-		vim.cmd("nohlsearch")
+		pcall(vim.cmd, "nohlsearch")
 	end,
 	{ silent = true },
 })

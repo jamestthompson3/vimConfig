@@ -3,7 +3,6 @@ local buf_map = require("tt.nvim_utils").keys.buf_nnoremap
 local git = require("tt.git")
 local api = vim.api
 local fn = vim.fn
-require("tt.navigation")
 
 local sessionPath = globals.home .. globals.file_separator .. "sessions" .. globals.file_separator
 
