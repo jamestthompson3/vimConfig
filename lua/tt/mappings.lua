@@ -4,7 +4,6 @@ local tnore = require("tt.nvim_utils").keys.tnore
 local nmap = require("tt.nvim_utils").keys.nmap
 local nmap_cmd = require("tt.nvim_utils").keys.nmap_cmd
 local nmap_nocr = require("tt.nvim_utils").keys.nmap_nocr
-local nmap_call = require("tt.nvim_utils").keys.nmap_call
 local xmap = require("tt.nvim_utils").keys.xmap
 local xmap_cmd = require("tt.nvim_utils").keys.xmap_cmd
 local xnore = require("tt.nvim_utils").keys.xnore
@@ -71,9 +70,31 @@ nmap({
 	end,
 })
 nmap({ "<leader>lt", tools.listTags })
-nmap_call("n", "n:call HLNext(0.15)", { silent = true })
-nmap_call("<Esc>", ":nohlsearch", { silent = true })
-nmap_call("N", "N:call HLNext(0.15)", { silent = true })
+nmap({
+	"n",
+	function()
+		vim.cmd("normal! n")
+		require("tt.nvim_utils").hl_search_match(0.15)
+	end,
+	{ silent = true },
+})
+
+nmap({
+	"N",
+	function()
+		vim.cmd("normal! N")
+		require("tt.nvim_utils").hl_search_match(0.15)
+	end,
+	{ silent = true },
+})
+
+nmap({
+	"<Esc>",
+	function()
+		vim.cmd("nohlsearch")
+	end,
+	{ silent = true },
+})
 nmap_cmd("cc", "cclose")
 nmap_cmd("cl", "lclose")
 nmap_cmd("gl", "pc")

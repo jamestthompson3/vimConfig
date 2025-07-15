@@ -99,7 +99,7 @@ end
 vim.o.findfunc = "v:lua.FindFunc"
 
 set.completeopt = "menuone,noselect,popup,fuzzy,longest"
--- set.complete = vim.o.complete .. ",o"
+set.complete = vim.o.complete .. ",o"
 set.completefuzzycollect = "keyword,files,whole_line"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
@@ -140,6 +140,7 @@ require("tt.lsp")
 require("tt.mappings")
 require("tt.autocmds")
 require("tt.snippets")
+require("tt.filetypes")
 vim.opt.statusline =
 	"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
 local schedule = vim.schedule

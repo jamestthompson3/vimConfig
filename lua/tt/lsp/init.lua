@@ -19,6 +19,8 @@ end
 -- show documentation popups
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		local supports_resolve = client:supports_method(vim.lsp.protocol.Methods.completionItem_resolve)
 		local _, cancel_prev = nil, function() end
 		vim.api.nvim_create_autocmd("CompleteChanged", {
 			buffer = args.buf,
@@ -29,11 +31,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				if nil == completionItem then
 					return
 				end
+				if not supports_resolve then
+					return
+				end
 				_, cancel_prev = vim.lsp.buf_request(
 					args.buf,
 					vim.lsp.protocol.Methods.completionItem_resolve,
 					completionItem,
 					function(err, item, ctx)
+						if err then
+							return
+						end
 						if not item then
 							return
 						end

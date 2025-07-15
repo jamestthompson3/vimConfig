@@ -2,15 +2,11 @@ local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 
 if not is_windows then
-	if vim.fn.executable("fish") then
-		api.nvim_command("set shell=fish")
-	else
-		api.nvim_command("set shell=bash")
-	end
+	vim.o.shell = vim.fn.executable("fish") and "fish" or "bash"
 end
+
 api.nvim_command([[packadd cfilter]])
 
--- abbrevs
 -- Common mistakes
 iabbrev("retrun", "return")
 iabbrev("pritn", "print")
@@ -26,30 +22,40 @@ iabbrev("tehn", "then")
 iabbrev("hadnler", "handler")
 iabbrev("bunlde", "bundle")
 
-api.nvim_command([[command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")]])
-api.nvim_command([[command! Diff lua require'tt.git'.diff()]])
-api.nvim_command([[command! Changed lua require'tt.git'.changedFiles()]])
-api.nvim_command([[command! Ftc let @+=expand("%")]]) -- filename to clipboard
-api.nvim_command([[command! Restore lua require'tt.tools'.restoreFile() ]])
-api.nvim_command([[command! -nargs=1 -complete=command Redir silent call tools#redir(<q-args>)]])
-api.nvim_command([[command! -bang SearchBuffers lua require'tt.tools'.grepBufs(<q-args>)]])
+vim.api.nvim_create_user_command("Bs", function(opts)
+	vim.cmd('call tools#BufSel("' .. opts.args .. '")')
+end, { nargs = 1, complete = "buffer" })
+
+vim.api.nvim_create_user_command("Diff", function()
+	require("tt.git").diff()
+end, {})
+
+vim.api.nvim_create_user_command("Changed", function()
+	require("tt.git").changedFiles()
+end, {})
+
+vim.api.nvim_create_user_command("Restore", function()
+	require("tt.tools").restoreFile()
+end, {})
+
+vim.api.nvim_create_user_command("Redir", function(opts)
+	vim.cmd('silent call tools#redir("' .. opts.args .. '")')
+end, { nargs = 1, complete = "command" })
+
+vim.api.nvim_create_user_command("SearchBuffers", function(opts)
+	require("tt.tools").grepBufs(opts.args)
+end, { nargs = 1 })
 
 -- Global Vim functions
-api.nvim_command([[
-function! HLNext (blinktime) abort
-  let target_pat = '\c\%#'.@/
-  let ring = matchadd('DiffDelete', target_pat, 101)
-  redraw
-  exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
-  call matchdelete(ring)
-  redraw
+vim.api.nvim_exec2(
+	[[
+function! AS_HandleSwapfile(filename, swapname)
+    " if swapfile is older than file itself, just get rid of it
+    if getftime(v:swapname) < getftime(a:filename)
+        call delete(v:swapname)
+        let v:swapchoice = 'e'
+    endif
 endfunction
-
-function! AS_HandleSwapfile (filename, swapname)
- " if swapfile is older than file itself, just get rid of it
- if getftime(v:swapname) < getftime(a:filename)
-   call delete(v:swapname)
-   let v:swapchoice = 'e'
- endif
-endfunction
-]])
+]],
+	{ output = false }
+)
