@@ -20,7 +20,7 @@ local valid_modes = {
 	[" "] = "",
 }
 
-is_windows = loop.os_uname().version:match("Windows")
+local is_windows = loop.os_uname().version:match("Windows")
 -- set up globals based on current env
 local GLOBALS = {}
 
@@ -60,22 +60,18 @@ local function set_nore(mode, lhs, rhs, opts)
 end
 
 function M.keys.map_cmd(mode, lhs, cmd_string, opts)
-	formatted_cmd = ("<Cmd>%s<CR>"):format(cmd_string)
+	local formatted_cmd = ("<Cmd>%s<CR>"):format(cmd_string)
 	set_nore(mode, lhs, formatted_cmd, vim.tbl_extend("force", { silent = true }, opts or {}))
 end
 
 function M.keys.map_no_cr(mode, lhs, cmd_string)
-	formatted_cmd = (":%s"):format(cmd_string)
+	local formatted_cmd = (":%s"):format(cmd_string)
 	set_nore(mode, lhs, formatted_cmd)
 end
 
 function M.keys.map_call(mode, lhs, cmd_string, opts)
-	formatted_cmd = ("%s<CR>"):format(cmd_string)
+	local formatted_cmd = ("%s<CR>"):format(cmd_string)
 	set_nore(mode, lhs, formatted_cmd, opts)
-end
-
-function M.keys.nmap_call(lhs, cmd_string, opts)
-	M.keys.map_call("n", lhs, cmd_string, opts)
 end
 
 function M.keys.nmap_cmd(lhs, cmd_string, opts)
@@ -160,29 +156,6 @@ function log(item)
 	print(vim.inspect(item))
 end
 
---- Check if a file or directory exists in this path
-function exists(file)
-	local ok, err, code = os.rename(file, file)
-	if not ok then
-		if code == 13 then
-			-- Permission denied, but it exists
-			return true
-		end
-	end
-	return ok, err
-end
-
---- Check if a directory exists in this path
-function isdir(path)
-	-- "/" works on both Unix and Windows
-	return exists(path .. "/")
-end
-
-function getPath(str)
-	local s = str:gsub("%-", "")
-	return s:match("(.*[/\\])")
-end
-
 M.vim_util = {}
 
 function M.vim_util.create_augroups(definitions)
@@ -230,21 +203,10 @@ end
 function M.vim_util.shell_to_buf(opts)
 	local buf = api.nvim_create_buf(false, true)
 	local cmd = table.concat(opts, " ")
-	local lines = vim.split(os.capture(cmd, true), "\n")
+	local result = vim.system({ cmd }):wait()
+	local lines = vim.split(result.stdout or "", "\n")
 	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
 	return buf
-end
-
----
--- Things Lua should've had
----
-
-function string.startswith(s, n)
-	return s:sub(1, #n) == n
-end
-
-function string.endswith(self, str)
-	return self:sub(-#str) == str
 end
 
 ---
@@ -288,23 +250,6 @@ function M.vim_util.iabbrev(src, target, buffer)
 	else
 		api.nvim_command("iabbrev <buffer> " .. src .. " " .. target)
 	end
-end
-
-function augroup(name, commands)
-	vim.cmd("augroup " .. name)
-	vim.cmd("autocmd!")
-	for _, c in ipairs(commands) do
-		vim.cmd(
-			string.format(
-				"autocmd %s %s %s %s",
-				table.concat(c.events, ","),
-				table.concat(c.targets or {}, ","),
-				table.concat(c.modifiers or {}, " "),
-				c.command
-			)
-		)
-	end
-	vim.cmd("augroup END")
 end
 
 function M.hl_search_match(blinktime)

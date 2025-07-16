@@ -4,7 +4,7 @@ local git = require("tt.git")
 local api = vim.api
 local fn = vim.fn
 
-local sessionPath = globals.home .. globals.file_separator .. "sessions" .. globals.file_separator
+local sessionPath = vim.fs.joinpath(globals.home, "sessions")
 
 local M = {}
 

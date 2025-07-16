@@ -70,29 +70,6 @@ local autocmds = {
 		} },
 		{ { "FocusGained" }, { command = "checktime" } },
 	},
-	ft = {
-		{ "FileType", { pattern = "netrw", command = "au BufLeave netrw close" } },
-		{
-			"FileType",
-			{
-				pattern = "dirvish",
-				callback = function()
-					buf_nnoremap({ "D", require("tt.tools").deleteFile, { silent = true } })
-					buf_nnoremap({ "r", require("tt.tools").renameFile })
-					buf_nnoremap({ "<leader>n", ":e %" })
-				end,
-			},
-		},
-		{
-			"FileType",
-			{
-				pattern = "netrw",
-				callback = function()
-					buf_nnoremap({ "q", ":close<CR>" })
-				end,
-			},
-		},
-	},
 	bufs = {
 		{
 			"BufReadPost",

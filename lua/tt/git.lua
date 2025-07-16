@@ -2,16 +2,8 @@ local M = {}
 local api = vim.api
 local fn = vim.fn
 local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
+local shell_to_buf = require("tt.nvim_utils").vim_util.shell_to_buf
 local namespace = api.nvim_create_namespace("git_lens")
-
-local function shell_to_buf(opts)
-	local buf = api.nvim_create_buf(false, true)
-	local cmd = table.concat(opts, " ")
-	local result = vim.system({cmd}):wait()
-	local lines = vim.split(result.stdout or "", "\n")
-	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
-	return buf
-end
 
 local function cmd(cmd)
 	if is_windows then
@@ -23,11 +15,7 @@ end
 
 function M.diff()
 	local fileName = fn.expand("%")
-	local sub_cmd = fn.system("git rev-parse --show-toplevel")
-	local project_root_path = sub_cmd:gsub("\n", "/")
 	local ext = fn.expand("%:e")
-  -- TODO: maybe needed for worktrees?
-	-- local buf = shell_to_buf({ "git", "show", "HEAD:" .. project_root_path .. fileName })
 	local buf = shell_to_buf({ "git", "show", "HEAD:" .. fileName })
 	api.nvim_command("wincmd v")
 	api.nvim_win_set_buf(0, buf)
@@ -81,10 +69,9 @@ function M.clear_blame()
 end
 
 function M.branch()
-	local command = is_windows 
-				 and {"git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "NUL"}
-				 or {"git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "/dev/null", "|", "tr", "-d", "'\n'"}
-  local result = vim.system(command):wait()
+	local command = is_windows and { "git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "NUL" }
+		or { "git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "/dev/null", "|", "tr", "-d", "'\n'" }
+	local result = vim.system(command):wait()
 	if result.code == 0 and result.stdout then
 		return is_windows and result.stdout:gsub("\\n", "") or result.stdout
 	else
@@ -95,7 +82,7 @@ end
 -- returns short status of changes
 function M.stat()
 	local command = cmd("diff --shortstat")
-	local result = vim.system({command}):wait()
+	local result = vim.system({ command }):wait()
 	return result.stdout or ""
 end
 
