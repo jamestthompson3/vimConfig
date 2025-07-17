@@ -1,9 +1,7 @@
-require("tt.navigation")
 local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 local M = {}
-local setWriterline = false
 
 api.nvim_command("match Callout '@w+.?w+'")
 
@@ -13,13 +11,6 @@ function M.composer()
 	vim.wo[0].wrap = true
 	vim.wo[0].linebreak = true
 	vim.wo[0].spell = true
-	-- vim.bo[0].textwidth = 120
-	if setWriterline then
-		return
-	else
-		-- api.nvim_command([[ set statusline+=\ %{wordcount().words}\ words ]])
-		setWriterline = true
-	end
 end
 
 function M.createFile() end
@@ -30,16 +21,20 @@ vim.wo.conceallevel = 0
 function M.asyncDocs()
 	local shortname = vim.fn.expand("%:t:r")
 	local fullname = api.nvim_buf_get_name(0)
-	
+
 	vim.fn.jobstart({
 		"pandoc",
 		fullname,
-		"--from", "gfm",
+		"--from",
+		"gfm",
 		"--to=html5",
-		"-o", string.format("%s.html", shortname),
+		"-o",
+		string.format("%s.html", shortname),
 		"-s",
-		"--highlight-style", "tango",
-		"-c", "$NOTES_DIR/notes.css",
+		"--highlight-style",
+		"tango",
+		"-c",
+		"$NOTES_DIR/notes.css",
 	}, {
 		on_exit = function(_, code)
 			if code == 0 then
@@ -50,8 +45,8 @@ function M.asyncDocs()
 end
 
 function M.previewLinkedPage()
-	local width = api.nvim_get_option_value("columns")
-	local height = api.nvim_get_option_value("lines")
+	local width = api.nvim_get_option_value("columns", {})
+	local height = api.nvim_get_option_value("lines", {})
 	-- if the editor is big enough
 	if width > 150 or height > 35 then
 		-- fzf's window height is 3/4 of the max height, but not more than 30
