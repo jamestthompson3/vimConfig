@@ -200,10 +200,9 @@ function M.vim_util.get_diagnostics()
 	end
 end
 
-function M.vim_util.shell_to_buf(opts)
+function M.vim_util.shell_to_buf(cmd)
 	local buf = api.nvim_create_buf(false, true)
-	local cmd = table.concat(opts, " ")
-	local result = vim.system({ cmd }):wait()
+	local result = vim.system(cmd):wait()
 	local lines = vim.split(result.stdout or "", "\n")
 	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
 	return buf

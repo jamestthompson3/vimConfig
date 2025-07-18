@@ -18,9 +18,9 @@ function M.diff()
 	local ext = fn.expand("%:e")
 	local buf = shell_to_buf({ "git", "show", "HEAD:" .. fileName })
 	api.nvim_command("wincmd v")
+	api.nvim_command("wincmd h")
 	api.nvim_win_set_buf(0, buf)
 	api.nvim_command("set ft=" .. ext)
-	api.nvim_command("wincmd h")
 	api.nvim_command("diffthis")
 	api.nvim_command("wincmd l")
 	api.nvim_command("diffthis")
@@ -47,18 +47,49 @@ function M.blame()
 	api.nvim_buf_clear_namespace(0, 99, 0, -1)
 	local currFile = fn.expand("%")
 	local line = api.nvim_win_get_cursor(0)
-	local blame = fn.system(string.format("git blame -c -L %d,%d %s", line[1], line[1], currFile))
+
+	local blame_result = vim.system({
+		"git",
+		"blame",
+		"-c",
+		"-L",
+		string.format("%d,%d", line[1], line[1]),
+		currFile,
+	}, { text = true }):wait()
+
+	if blame_result.code ~= 0 or not blame_result.stdout then
+		return
+	end
+
+	local blame = blame_result.stdout:gsub("\n", "")
+	-- Filter out any FNM messages that might have leaked through
+	if blame:match("Using Node") or blame:match("fnm:") then
+		return
+	end
+
 	local hash = vim.split(blame, "%s")[1]
-	local cmd = string.format("git show %s ", hash) .. "--format='%an, %ar • %s'"
+	local text
+
 	if hash == "00000000" then
 		text = "Not Committed Yet"
 	else
-		text = fn.system(cmd)
-		text = vim.split(text, "\n")[1]
-		if text:find("fatal") then
+		local show_result = vim.system({
+			"git",
+			"show",
+			hash,
+			"--format=%an, %ar • %s",
+		}, { text = true }):wait()
+
+		if show_result.code ~= 0 or not show_result.stdout then
 			text = "Not Committed Yet"
+		else
+			text = vim.split(show_result.stdout, "\n")[1]
+			if text:find("fatal") or text:match("Using Node") or text:match("fnm:") then
+				text = "Not Committed Yet"
+			end
 		end
 	end
+
 	api.nvim_buf_set_extmark(0, namespace, line[1] - 1, line[2], {
 		virt_text = { { string.format("%s", text), "GitLens" } },
 	})
@@ -69,11 +100,19 @@ function M.clear_blame()
 end
 
 function M.branch()
-	local command = is_windows and { "git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "NUL" }
-		or { "git", "rev-parse", "--abbrev-ref", "HEAD", "2>", "/dev/null", "|", "tr", "-d", "'\n'" }
+	local command = {}
+	if is_windows then
+		command = { "git", "rev-parse", "--abbrev-ref", "HEAD" }
+	else
+		command = { "git", "rev-parse", "--abbrev-ref", "HEAD" }
+	end
 	local result = vim.system(command):wait()
 	if result.code == 0 and result.stdout then
-		return is_windows and result.stdout:gsub("\\n", "") or result.stdout
+		if is_windows then
+			return result.stdout:gsub("\\n", "")
+		else
+			return result.stdout:gsub("\n", "")
+		end
 	else
 		return ""
 	end
@@ -109,7 +148,9 @@ end
 
 function M.changedFiles()
 	api.nvim_command("tabnew")
-	local buf = shell_to_buf({ "git", "diff", "--name-only", "--no-color" })
+	local files = listChangedFiles()
+	local buf = api.nvim_create_buf(false, true)
+	api.nvim_buf_set_lines(buf, 0, -1, true, files)
 	api.nvim_win_set_buf(0, buf)
 	buf_nnoremap({ "<CR>", jumpToDiff, { buffer = buf } })
 	buf_nnoremap({ "Q", ":tabclose<CR>", { buffer = buf } })
