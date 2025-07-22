@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "@astrojs/language-server": "2.15.4",
     "@biomejs/biome": "1.9.4",
     "@fsouza/prettierd": "0.26.1",
     "eslint_d": "14.3.0",
@@ -17,5 +18,5 @@
     "vscode-css-languageserver-bin": "1.4.0",
     "vscode-html-languageserver-bin": "1.4.0"
   },
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "yarn@4.9.2"
 }

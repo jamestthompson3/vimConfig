@@ -6,7 +6,7 @@ require("conform").setup({
 		javascriptreact = { "prettier" },
 		typescript = { "prettier" },
 		go = { "gofmt" },
-		astro = { "prettier" },
+		astro = { "prettier_astro" },
 		typescriptreact = { "prettier" },
 		html = { "prettier_html" },
 		lua = { "stylua" },

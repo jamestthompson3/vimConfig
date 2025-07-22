@@ -243,6 +243,19 @@ function M.nodejs.find_node_executable(binaryName)
 	return executable
 end
 
+function M.nodejs.get_node_lib(lib)
+	local f = fn.getcwd() .. "/node_modules/" .. lib
+	if "" == fn.glob(f) then
+		local sub_cmd = fn.system("git rev-parse --show-toplevel")
+		local project_root_path = sub_cmd:gsub("\n", "")
+		f = project_root_path .. "/node_modules/" .. lib
+	end
+	if "" == fn.glob(f) then
+		return ""
+	end
+	return f
+end
+
 function M.vim_util.iabbrev(src, target, buffer)
 	if buffer == nil then
 		api.nvim_command("iabbrev " .. src .. " " .. target)

@@ -238,10 +238,27 @@ vim.lsp.config.clangd = {
 	on_attach = on_attach,
 }
 
+vim.lsp.config.astrols = {
+	cmd = { node.find_node_executable("astro-ls"), "--stdio" },
+	on_attach = function(client, bufnr)
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+		on_attach(client, bufnr)
+	end,
+	filetypes = {
+		"astro",
+	},
+	init_options = {
+		typescript = {
+			tsdk = node.get_node_lib("typescript/lib"),
+		},
+	},
+	root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+}
+
 vim.lsp.config.ts_ls = {
 	filetypes = {
 		"javascript",
-		"astro",
 		"javascriptreact",
 		"javascript.jsx",
 		"typescript",
@@ -301,6 +318,7 @@ vim.lsp.config.pylsp = {
 efm.setup()
 vim.lsp.enable({
 	"ts_ls",
+	"astrols",
 	"bashls",
 	"gopls",
 	"rust_analyzer",
