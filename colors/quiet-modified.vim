@@ -112,7 +112,7 @@ if &background ==# 'dark'
   hi VisualNOS guifg=NONE guibg=#303030 gui=NONE cterm=NONE
   hi WarningMsg guifg=#2CF180 guibg=NONE gui=NONE cterm=NONE
   hi WildMenu guifg=#00afff guibg=#000000 gui=bold cterm=bold
-  hi Comment guifg=#707070 guibg=NONE gui=bold cterm=bold
+  hi Comment guifg=#707070 guibg=NONE gui=NONE cterm=NONE
   hi Constant guifg=#2CF180 guibg=NONE gui=NONE cterm=NONE
   hi Error guifg=#ff005f guibg=#000000 gui=bold,reverse cterm=bold,reverse
   hi Identifier guifg=#2CF180 guibg=NONE gui=NONE cterm=NONE
