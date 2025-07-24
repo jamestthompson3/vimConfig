@@ -89,9 +89,9 @@ function M.init()
 
 	ts_config.setup({
 		ensure_installed = supported_langs,
-		autotag = {
-			enable = true,
-		},
+		-- autotag = {
+		-- 	enable = true,
+		-- },
 		matchup = {
 			enable = true,
 		},

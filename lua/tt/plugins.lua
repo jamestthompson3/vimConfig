@@ -20,13 +20,30 @@ require("lazy").setup({
 		end,
 	},
 	{
+		"saghen/blink.cmp",
+		version = "1.*",
+		opts = {
+			fuzzy = { implementation = "prefer_rust" },
+		},
+		opts_extend = { "sources.default" },
+	},
+	{
 		"stevearc/oil.nvim",
 		config = function()
 			require("oil").setup()
 		end,
 	},
 	{ "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
-	"windwp/nvim-ts-autotag",
+	{
+		"windwp/nvim-ts-autotag",
+		config = function()
+			require("nvim-ts-autotag").setup({
+				aliases = {
+					["astro"] = "html",
+				},
+			})
+		end,
+	},
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
