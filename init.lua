@@ -99,7 +99,7 @@ end
 vim.o.findfunc = "v:lua.FindFunc"
 
 set.completeopt = "menuone,noselect,popup,fuzzy,popup"
-set.complete = vim.o.complete .. ",o"
+set.complete = vim.o.complete .. ",o,F"
 set.completefuzzycollect = "keyword,files,whole_line"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
