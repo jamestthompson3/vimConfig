@@ -111,7 +111,7 @@ set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
 set.laststatus = 2
 
-in_wsl = os.getenv("WSL_DISTRO_NAME") ~= nil
+local in_wsl = os.getenv("WSL_DISTRO_NAME") ~= nil
 
 if in_wsl then
 	vim.g.clipboard = {

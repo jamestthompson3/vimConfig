@@ -101,7 +101,7 @@ if &background ==# 'dark'
   hi SpellCap guifg=#0087d7 guibg=NONE guisp=#0087d7 gui=undercurl cterm=underline
   hi SpellLocal guifg=#d787d7 guibg=NONE guisp=#d787d7 gui=undercurl cterm=underline
   hi SpellRare guifg=#00afaf guibg=NONE guisp=#00afaf gui=undercurl cterm=underline
-  hi StatusLine guifg=#000000 guibg=#2CF180 gui=bold cterm=bold
+  hi StatusLine guifg=#000000 guibg=#2CF180 gui=none cterm=none
   hi StatusLineNC guifg=#707070 guibg=#000000 gui=reverse cterm=reverse
   hi TabLine guifg=#707070 guibg=#000000 gui=reverse cterm=reverse
   hi TabLineFill guifg=#2CF180 guibg=NONE gui=NONE cterm=NONE

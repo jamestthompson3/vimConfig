@@ -6,8 +6,6 @@ local border = ui.border
 -- LSP settings
 local on_attach = function(client, bufnr)
 	require("tt.lsp.mappings").setMappings(bufnr)
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border })
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border })
 	-- vim.lsp.completion.enable(true, client.id, bufnr, {
 	--   autotrigger = true,
 	--   convert = function(item)
@@ -63,7 +61,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 	signs = true,
 	border,
 })
-vim.diagnostic.config({ jump = { float = true } })
+vim.diagnostic.config({
+	jump = {
+		on_jump = function(diagnostics, bufnr)
+			vim.diagnostic.open_float({
+				bufnr,
+				namespace = diagnostics.namespace,
+				severity = diagnostics.severity,
+			})
+		end,
+	},
+})
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local bufnr = args.buf

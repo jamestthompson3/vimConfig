@@ -6,6 +6,8 @@ require("conform").setup({
 		javascriptreact = { "prettier" },
 		typescript = { "prettier" },
 		go = { "gofmt" },
+		css = { "prettier_css" },
+		scss = { "prettier_css" },
 		astro = { "prettier_astro" },
 		typescriptreact = { "prettier" },
 		html = { "prettier_html" },
@@ -17,6 +19,10 @@ require("conform").setup({
 		},
 		prettier_html = {
 			command = string.format("%s --parser html", node.find_node_executable("prettier")),
+		},
+		prettier_css = {
+			command = node.find_node_executable("prettier"),
+			args = { "--write", "$FILENAME", "--parser", "css" },
 		},
 	},
 	format_on_save = function()
