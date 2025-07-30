@@ -49,6 +49,7 @@ function M.bootstrap()
 		vim.lsp.start(vim.lsp.config.biome)
 	end
 	if vim.fs.root(0, eslint_roots) then
+		require("tt.lsp.efm")
 		vim.lsp.start(vim.lsp.config.efm)
 	end
 

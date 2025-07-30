@@ -2,6 +2,7 @@ vim.loader.enable()
 -- This needs to be set before plugins so that plugin init codes can read the mapleader key
 vim.g.mapleader = " "
 require("tt.plugins")
+vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/site/pack/*")
 local git = require("tt.git")
 local globals = require("tt.nvim_utils").GLOBALS
 
@@ -141,6 +142,7 @@ require("tt.mappings")
 require("tt.autocmds")
 require("tt.snippets")
 require("tt.filetypes")
+require("tt.format")
 vim.opt.statusline =
 	"%f %#Search#%{&mod?'[+]':''}%* %{luaeval('require\"tt.nvim_utils\".vim_util.get_diagnostics()')} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
 local schedule = vim.schedule

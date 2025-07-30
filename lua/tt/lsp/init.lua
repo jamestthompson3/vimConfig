@@ -6,55 +6,50 @@ local border = ui.border
 -- LSP settings
 local on_attach = function(client, bufnr)
 	require("tt.lsp.mappings").setMappings(bufnr)
-	-- vim.lsp.completion.enable(true, client.id, bufnr, {
-	--   autotrigger = true,
-	--   convert = function(item)
-	--     return { abbr = item.label:gsub("%b()", "") }
-	--   end,
-	-- })
+	if client.server_capabilities.completionProvider then
+		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+	end
+	if client.server_capabilities.definitionProvider then
+		vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
+	end
+	-- show documentation popups
+	local supports_resolve = client:supports_method(vim.lsp.protocol.Methods.completionItem_resolve)
+	local _, cancel_prev = nil, function() end
+	vim.api.nvim_create_autocmd("CompleteChanged", {
+		buffer = bufnr,
+		callback = function()
+			cancel_prev()
+			local info = vim.fn.complete_info({ "selected" })
+			local completionItem = vim.tbl_get(vim.v.completed_item, "user_data", "nvim", "lsp", "completion_item")
+			if nil == completionItem then
+				return
+			end
+			if not supports_resolve then
+				return
+			end
+			_, cancel_prev = vim.lsp.buf_request(
+				bufnr,
+				vim.lsp.protocol.Methods.completionItem_resolve,
+				completionItem,
+				function(err, item, ctx)
+					if err then
+						return
+					end
+					if not item then
+						return
+					end
+					local docs = (item.documentation or {}).value
+					local win = vim.api.nvim__complete_set(info["selected"], { info = docs })
+					if win.winid and vim.api.nvim_win_is_valid(win.winid) then
+						vim.treesitter.start(win.bufnr, "markdown")
+						vim.wo[win.winid].conceallevel = 3
+					end
+				end
+			)
+		end,
+	})
 end
 
--- show documentation popups
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		local supports_resolve = client:supports_method(vim.lsp.protocol.Methods.completionItem_resolve)
-		local _, cancel_prev = nil, function() end
-		vim.api.nvim_create_autocmd("CompleteChanged", {
-			buffer = args.buf,
-			callback = function()
-				cancel_prev()
-				local info = vim.fn.complete_info({ "selected" })
-				local completionItem = vim.tbl_get(vim.v.completed_item, "user_data", "nvim", "lsp", "completion_item")
-				if nil == completionItem then
-					return
-				end
-				if not supports_resolve then
-					return
-				end
-				_, cancel_prev = vim.lsp.buf_request(
-					args.buf,
-					vim.lsp.protocol.Methods.completionItem_resolve,
-					completionItem,
-					function(err, item, ctx)
-						if err then
-							return
-						end
-						if not item then
-							return
-						end
-						local docs = (item.documentation or {}).value
-						local win = vim.api.nvim__complete_set(info["selected"], { info = docs })
-						if win.winid and vim.api.nvim_win_is_valid(win.winid) then
-							vim.treesitter.start(win.bufnr, "markdown")
-							vim.wo[win.winid].conceallevel = 3
-						end
-					end
-				)
-			end,
-		})
-	end,
-})
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	underline = false,
 	virtual_text = false,
@@ -71,18 +66,6 @@ vim.diagnostic.config({
 			})
 		end,
 	},
-})
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local bufnr = args.buf
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if client.server_capabilities.completionProvider then
-			vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-		end
-		if client.server_capabilities.definitionProvider then
-			vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
-		end
-	end,
 })
 
 ui.diagnosticSigns()
@@ -247,7 +230,7 @@ vim.lsp.config.clangd = {
 }
 
 vim.lsp.config.astrols = {
-	cmd = { node.find_node_executable("astro-ls"), "--stdio" },
+	cmd = { node.get_node_bin("astro-ls"), "--stdio" },
 	on_attach = function(client, bufnr)
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
@@ -323,7 +306,6 @@ vim.lsp.config.pylsp = {
 		},
 	},
 }
-efm.setup()
 vim.lsp.enable({
 	"ts_ls",
 	"astrols",

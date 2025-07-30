@@ -273,6 +273,8 @@ if s:t_Co >= 256
     hi CursorIM ctermfg=16 ctermbg=154 cterm=NONE
     hi ToolbarLine ctermfg=NONE ctermbg=16 cterm=NONE
     hi ToolbarButton ctermfg=253 ctermbg=16 cterm=bold
+    " Custom
+    hi GitLens guifg=orange guibg=none 
   else
     " Light background
     hi Normal ctermfg=16 ctermbg=188 cterm=NONE

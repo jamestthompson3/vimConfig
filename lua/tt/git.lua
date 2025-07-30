@@ -47,51 +47,22 @@ function M.blame()
 	api.nvim_buf_clear_namespace(0, 99, 0, -1)
 	local currFile = fn.expand("%")
 	local line = api.nvim_win_get_cursor(0)
-
-	local blame_result = vim.system({
+	local log_result = vim.system({
 		"git",
-		"blame",
-		"-c",
+		"log",
+		"-1",
+		"--format=%an, %ar • %s",
 		"-L",
-		string.format("%d,%d", line[1], line[1]),
-		currFile,
+		string.format("%d,%d:%s", line[1], line[1], currFile),
 	}, { text = true }):wait()
-
-	if blame_result.code ~= 0 or not blame_result.stdout then
-		return
+	if log_result.code ~= 0 or not log_result.stdout then
+		return "Not Committed Yet"
 	end
 
-	local blame = blame_result.stdout:gsub("\n", "")
-	-- Filter out any FNM messages that might have leaked through
-	if blame:match("Using Node") or blame:match("fnm:") then
-		return
-	end
-
-	local hash = vim.split(blame, "%s")[1]
-	local text
-
-	if hash == "00000000" then
-		text = "Not Committed Yet"
-	else
-		local show_result = vim.system({
-			"git",
-			"show",
-			hash,
-			"--format=%an, %ar • %s",
-		}, { text = true }):wait()
-
-		if show_result.code ~= 0 or not show_result.stdout then
-			text = "Not Committed Yet"
-		else
-			text = vim.split(show_result.stdout, "\n")[1]
-			if text:find("fatal") or text:match("Using Node") or text:match("fnm:") then
-				text = "Not Committed Yet"
-			end
-		end
-	end
+	text = vim.split(log_result.stdout, "\n")
 
 	api.nvim_buf_set_extmark(0, namespace, line[1] - 1, line[2], {
-		virt_text = { { string.format("%s", text), "GitLens" } },
+		virt_text = { { string.format("%s", text[1]), "GitLens" } },
 	})
 end
 

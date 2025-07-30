@@ -1,61 +1,15 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.uv.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
+local function gh(pkg)
+	return "https://github.com/" .. pkg
 end
-vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-	{
-		"echasnovski/mini.surround",
-		version = false,
-		config = function()
-			require("mini.surround").setup()
-		end,
-	},
-	{
-		"saghen/blink.cmp",
-		version = "1.*",
-		opts = {
-			fuzzy = { implementation = "prefer_rust" },
-		},
-		opts_extend = { "sources.default" },
-	},
-	{
-		"stevearc/oil.nvim",
-		config = function()
-			require("oil").setup()
-		end,
-	},
-	{ "ludovicchabant/vim-gutentags", lazy = true, event = "VimEnter" },
-	{
-		"windwp/nvim-ts-autotag",
-		config = function()
-			require("nvim-ts-autotag").setup({
-				aliases = {
-					["astro"] = "html",
-				},
-			})
-		end,
-	},
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = true,
-	},
-	{
-		"stevearc/conform.nvim",
-		opts = {},
-		config = function()
-			require("tt.plugin.conform")
-		end,
-	},
+vim.pack.add({
+	gh("echasnovski/mini.surround"),
+	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1.*") },
+	gh("stevearc/oil.nvim"),
+	-- gh("ludovicchabant/vim-gutentags"),
+	-- , lazy = true, event = "VimEnter"
+	gh("windwp/nvim-ts-autotag"),
+	gh("windwp/nvim-autopairs"),
 	-- {
 	--   "supermaven-inc/supermaven-nvim",
 	--   config = function()
@@ -67,49 +21,47 @@ require("lazy").setup({
 	--     })
 	--   end,
 	-- },
-	{
-		"ibhagwan/fzf-lua",
-		config = function()
-			require("tt.plugin.find").init()
-		end,
-	},
-	{ "prisma/vim-prisma", lazy = true, ft = { "prisma" } },
-	{
-		"nvim-treesitter/nvim-treesitter",
-		config = function()
-			require("tt.plugin.treesitter").init()
-		end,
-		ft = require("tt.plugin.treesitter").supported_langs,
-		dependencies = {
-			{ "nvim-treesitter/nvim-treesitter-context" },
-		},
-	},
+	gh("ibhagwan/fzf-lua"),
+	-- gh("stevearc/profile.nvim"),
+	gh("prisma/vim-prisma"),
+	gh("nvim-treesitter/nvim-treesitter"),
+	gh("nvim-treesitter/nvim-treesitter-context"),
+	gh("norcalli/nvim-colorizer.lua"),
+	gh("reedes/vim-wordy"),
+})
 
-	{ "norcalli/nvim-colorizer.lua", ft = { "html", "css", "vim" } },
-	{ "reedes/vim-wordy", lazy = true, ft = { "txt", "md", "markdown", "text" } },
-}, {
-	-- defaults = { lazy = true },
-	performance = {
-		cache = {
-			enabled = true,
-		},
-		rtp = {
-			disabled_plugins = {
-				"gzip",
-				"matchit",
-				"matchparen",
-				"netrwPlugin",
-				"rplugin",
-				"tarPlugin",
-				"tohtml",
-				"tutor",
-				"zipPlugin",
-				"getscript",
-				"vimball",
-				"logiPat",
-				"rrhelper",
-				"python_provider",
-			},
-		},
+local disabled_plugins = {
+	"gzip",
+	"matchparen",
+	"netrwPlugin",
+	"rplugin",
+	"tarPlugin",
+	"tohtml",
+	"tutor",
+	"zipPlugin",
+	"getscript",
+	"vimball",
+	"logiPat",
+	"rrhelper",
+	"python_provider",
+}
+
+table.foreach(disabled_plugins, function(_, p)
+	local loaded = "loaded_" .. p
+	vim.g[loaded] = 1
+end)
+
+-- load immediately
+require("tt.plugin.find").init()
+require("tt.plugin.treesitter").init()
+require("oil").setup()
+require("mini.surround").setup()
+require("nvim-autopairs").setup()
+require("nvim-ts-autotag").setup({
+	aliases = {
+		["astro"] = "html",
 	},
+})
+require("blink.cmp").setup({
+	fuzzy = { implementation = "prefer_rust" },
 })
