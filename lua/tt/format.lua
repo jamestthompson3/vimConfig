@@ -1,12 +1,14 @@
 local node = require("tt.nvim_utils").nodejs
 
 local prettierBin
+local biomeBin
 local formatters
 
 local formatters_by_ft = {
-	javascript = "prettier",
-	javascriptreact = "prettier",
-	typescript = "prettier",
+	javascript = { "prettier", "biome" },
+	javascriptreact = { "prettier", "biome" },
+	typescript = { "prettier", "biome" },
+	typescriptreact = { "prettier", "biome" },
 	g = "gofmt",
 	c = "clangfmt",
 	cpp = "clangfmt",
@@ -15,11 +17,33 @@ local formatters_by_ft = {
 	scss = "prettier_css",
 	rust = "rustfmt",
 	astro = "prettier_astro",
-	typescriptreact = "prettier",
 	html = "prettier_html",
 	json = "prettier_json",
 	lua = "stylua",
 }
+
+local function biomeCheck()
+	local biome_roots = {
+		"biome.json",
+		"biome.jsonc",
+	}
+	return vim.fs.root(0, biome_roots)
+end
+
+local function prettierCheck()
+	local prettier_roots = {
+		".prettierrc",
+		".prettierrc.json",
+		".prettierrc.js",
+		".prettierrc.yml",
+		".prettierrc.yaml",
+		".prettierrc.json5",
+		".prettierrc.mjs",
+		".prettierrc.cjs",
+		".prettierrc.toml",
+	}
+	return vim.fs.root(0, prettier_roots)
+end
 
 local function setup_formatters()
 	if formatters then
@@ -27,13 +51,15 @@ local function setup_formatters()
 	end
 
 	prettierBin = node.find_node_executable("prettier")
+	biomeBin = node.find_node_executable("biome")
 
 	local function makePrettierFormatter(parser)
 		return { prettierBin, "--stdin-filepath", "$FILENAME", "--parser", parser }
 	end
 
 	formatters = {
-		prettier = { command = { prettierBin, "--stdin-filepath", "$FILENAME" } },
+		prettier = { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck },
+		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
 		prettier_json = { command = makePrettierFormatter("json") },
 		prettier_html = { command = makePrettierFormatter("html") },
 		stylua = {
@@ -47,17 +73,8 @@ local function setup_formatters()
 	}
 end
 
--- Format function
-local function format_buffer()
-	setup_formatters()
-	local filetype = vim.bo.filetype
-	local formatter = formatters_by_ft[filetype]
-
-	local buf = vim.api.nvim_buf_get_name(0)
-	if not formatters[formatter] then
-		return
-	end
-	local cmd = formatters[formatter].command
+local function runFormat(buf, formatter)
+	local cmd = formatter.command
 	if not cmd then
 		return
 	end
@@ -89,6 +106,29 @@ local function format_buffer()
 	else
 		vim.notify("Formatter failed: " .. result, vim.log.levels.ERROR)
 	end
+end
+
+-- Format function
+local function format_buffer()
+	setup_formatters()
+	local filetype = vim.bo.filetype
+	local formatterList = formatters_by_ft[filetype]
+
+	local buf = vim.api.nvim_buf_get_name(0)
+	if vim.islist(formatterList) then
+		for _, formatter in pairs(formatterList) do
+			local f = formatters[formatter]
+			if f.condition ~= nil then
+				if f.condition() then
+					runFormat(buf, f)
+				end
+			end
+		end
+	end
+	if not formatters[formatterList] then
+		return
+	end
+	runFormat(buf, formatters[formatterList])
 end
 
 -- Format on save

@@ -220,12 +220,18 @@ function M.nodejs.get_node_bin(bin)
 end
 
 function M.nodejs.find_node_executable(binaryName)
-	local executable = fn.getcwd() .. "/node_modules/.bin/" .. binaryName
 	local normalized_bin_name
+	local executable = ""
 	if is_windows then
 		normalized_bin_name = binaryName .. ".cmd"
 	else
 		normalized_bin_name = binaryName
+	end
+	if vim.g.nodeDir ~= nil then
+		executable = vim.g.nodeDir .. "/node_modules/.bin/" .. normalized_bin_name
+	end
+	if 0 == fn.executable(executable) then
+		executable = fn.getcwd() .. "/node_modules/.bin/" .. normalized_bin_name
 	end
 	if 0 == fn.executable(executable) then
 		local sub_cmd = fn.system("git rev-parse --show-toplevel")
