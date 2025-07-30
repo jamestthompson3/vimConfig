@@ -25,10 +25,6 @@ local eslint_roots = {
 	"eslint.config.mts",
 	"eslint.config.cts",
 }
-local biome_roots = {
-	"biome.json",
-	"biome.jsonc",
-}
 
 function M.bootstrap()
 	if vim.bo.readonly ~= true then
@@ -45,9 +41,6 @@ function M.bootstrap()
 	api.nvim_command([[command! Run lua require'tt.ft.ecma'.run_yarn()]])
 
 	-- optionally enable formatters/linters
-	if vim.fs.root(0, biome_roots) then
-		vim.lsp.start(vim.lsp.config.biome)
-	end
 	if vim.fs.root(0, eslint_roots) then
 		require("tt.lsp.efm")
 		vim.lsp.start(vim.lsp.config.efm)

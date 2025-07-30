@@ -1,5 +1,6 @@
 local M = {}
 vim.cmd("hi link TreesitterContext Pmenu")
+vim.cmd("hi link DiagnosticUnnecessary WildMenu")
 
 function M.darkMode()
 	vim.cmd("hi Pmenu guifg=#ebdbb2 guibg=#504945")

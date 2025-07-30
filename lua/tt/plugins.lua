@@ -10,17 +10,6 @@ vim.pack.add({
 	-- , lazy = true, event = "VimEnter"
 	gh("windwp/nvim-ts-autotag"),
 	gh("windwp/nvim-autopairs"),
-	-- {
-	--   "supermaven-inc/supermaven-nvim",
-	--   config = function()
-	--     require("supermaven-nvim").setup({
-	--       color = {
-	--         suggestion_color = "#BADA55",
-	--         cterm = 244
-	--       }
-	--     })
-	--   end,
-	-- },
 	gh("ibhagwan/fzf-lua"),
 	-- gh("stevearc/profile.nvim"),
 	gh("prisma/vim-prisma"),
@@ -51,17 +40,32 @@ table.foreach(disabled_plugins, function(_, p)
 	vim.g[loaded] = 1
 end)
 
--- load immediately
-require("tt.plugin.find").init()
-require("tt.plugin.treesitter").init()
-require("oil").setup()
-require("mini.surround").setup()
-require("nvim-autopairs").setup()
-require("nvim-ts-autotag").setup({
-	aliases = {
-		["astro"] = "html",
-	},
+local lazy_load = vim.api.nvim_create_augroup("Plugins", { clear = true })
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+	group = lazy_load,
+	pattern = "*",
+	callback = function()
+		require("nvim-autopairs").setup()
+		require("blink.cmp").setup({
+			fuzzy = { implementation = "prefer_rust" },
+		})
+		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "InsertEnter" })
+	end,
 })
-require("blink.cmp").setup({
-	fuzzy = { implementation = "prefer_rust" },
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = lazy_load,
+	pattern = "*",
+	callback = function()
+		require("tt.plugin.find").init()
+		require("tt.plugin.treesitter").init()
+		require("mini.surround").setup()
+		require("nvim-ts-autotag").setup({
+			aliases = {
+				["astro"] = "html",
+			},
+		})
+		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "BufReadPost" })
+	end,
 })

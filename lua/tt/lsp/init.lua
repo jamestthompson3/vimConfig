@@ -1,9 +1,14 @@
 local node = require("tt.nvim_utils").nodejs
-local ui = require("tt.lsp.ui")
-local efm = require("tt.lsp.efm")
-local border = ui.border
 
--- LSP settings
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.semanticTokens.multilineTokenSupport = true
+-- capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+vim.lsp.config("*", {
+	root_markers = { ".git", "root_marker" },
+	capabilities = capabilities,
+})
 local on_attach = function(client, bufnr)
 	require("tt.lsp.mappings").setMappings(bufnr)
 	if client.server_capabilities.completionProvider then
@@ -31,7 +36,7 @@ local on_attach = function(client, bufnr)
 				bufnr,
 				vim.lsp.protocol.Methods.completionItem_resolve,
 				completionItem,
-				function(err, item, ctx)
+				function(err, item)
 					if err then
 						return
 					end
@@ -50,11 +55,316 @@ local on_attach = function(client, bufnr)
 	})
 end
 
+local servers = {
+	lua_ls = {
+		filetypes = { "lua" },
+		setup = function()
+			vim.lsp.config.lua_ls = {
+				root_markers = {
+					".luarc.json",
+					".luarc.jsonc",
+					".luacheckrc",
+					".stylua.toml",
+					"stylua.toml",
+					"selene.toml",
+					"selene.yml",
+				},
+				filetypes = { "lua" },
+				on_attach = on_attach,
+				on_init = function(client)
+					if client.workspace_folders then
+						local path = client.workspace_folders[1].name
+						if
+							path ~= vim.fn.stdpath("config")
+							and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+						then
+							return
+						end
+					end
+
+					client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+						runtime = {
+							version = "LuaJIT",
+							path = {
+								"lua/?.lua",
+								"lua/?/init.lua",
+							},
+						},
+						workspace = {
+							checkThirdParty = false,
+							library = {
+								vim.env.VIMRUNTIME,
+								-- Depending on the usage, you might want to add additional paths
+								-- here.
+								-- '${3rd}/luv/library'
+								-- '${3rd}/busted/library'
+							},
+						},
+					})
+				end,
+				settings = {
+					Lua = {},
+				},
+				cmd = { "lua-language-server" },
+			}
+		end,
+	},
+	html = {
+		filetypes = { "html", "templ" },
+		setup = function()
+			vim.lsp.config.html = {
+				filetypes = { "html", "templ" },
+				on_attach = function(client, bufnr)
+					on_attach(client, bufnr)
+				end,
+				init_options = {
+					documentFormatting = false,
+				},
+				cmd = { node.get_node_bin("html-languageserver"), "--stdio" },
+			}
+		end,
+	},
+	sqls = {
+		filetypes = { "sql", "mysql" },
+		setup = function()
+			vim.lsp.config.sqls = {
+				cmd = { "sqls" },
+				filetypes = { "sql", "mysql" },
+				on_attach = function(client, bufnr)
+					require("sqls").on_aa_attach(client, bufnr)
+				end,
+			}
+		end,
+	},
+	biome = {
+		condition = function()
+			local biome_roots = {
+				"biome.json",
+				"biome.jsonc",
+			}
+			return vim.fs.root(0, biome_roots)
+		end,
+		filetypes = {
+			"astro",
+			"css",
+			"graphql",
+			"javascript",
+			"javascriptreact",
+			"json",
+			"jsonc",
+			"svelte",
+			"typescript",
+			"typescript.tsx",
+			"typescriptreact",
+			"vue",
+		},
+		setup = function()
+			vim.lsp.config.biome = {
+				cmd = { node.get_node_bin("biome"), "lsp-proxy" },
+				root_markers = {
+					"biome.json",
+					"biome.jsonc",
+				},
+				filetypes = {
+					"astro",
+					"css",
+					"graphql",
+					"javascript",
+					"javascriptreact",
+					"json",
+					"jsonc",
+					"svelte",
+					"typescript",
+					"typescript.tsx",
+					"typescriptreact",
+					"vue",
+				},
+				on_attach = function(_, bufnr)
+					if vim.g.autoformat == true then
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({
+									filter = function(client)
+										return client.name ~= "ts_ls"
+									end,
+								})
+							end,
+						})
+					end
+				end,
+			}
+		end,
+	},
+	rust_analyzer = {
+		filetypes = { "rust" },
+		setup = function()
+			vim.lsp.config.rust_analyzer = {
+				on_attach = on_attach,
+				cmd = { "rust-analyzer" },
+				filetypes = { "rust" },
+				checkOnSave = {
+					enabled = true,
+					command = "clippy",
+				},
+			}
+		end,
+	},
+	gopls = {
+		filetypes = { "go" },
+		setup = function()
+			vim.lsp.config.gopls = {
+				filetypes = { "go" },
+				cmd = { "gopls", "serve" },
+				on_attach = function(_, bufnr)
+					on_attach(bufnr)
+					if vim.g.autoformat == true then
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format()
+							end,
+						})
+					end
+				end,
+				analyses = {
+					unusedparams = true,
+					staticcheck = true,
+				},
+			}
+		end,
+	},
+	bashls = {
+		filetypes = { "bash" },
+		setup = function()
+			vim.lsp.config.bashls = {
+				on_attach = on_attach,
+				cmd = { node.get_node_bin("bash-language-server"), "start" },
+			}
+		end,
+	},
+	clangd = {
+		filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+		setup = function()
+			vim.lsp.config.clangd = {
+				cmd = { "clangd" },
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+				on_attach = on_attach,
+			}
+		end,
+	},
+	astrols = {
+		filetypes = {
+			"astro",
+		},
+		setup = function()
+			vim.lsp.config.astrols = {
+				cmd = { node.get_node_bin("astro-ls"), "--stdio" },
+				on_attach = function(client, bufnr)
+					client.server_capabilities.documentFormattingProvider = false
+					client.server_capabilities.documentRangeFormattingProvider = false
+					on_attach(client, bufnr)
+				end,
+				filetypes = {
+					"astro",
+				},
+				init_options = {
+					typescript = {
+						tsdk = node.get_node_lib("typescript/lib"),
+					},
+				},
+				root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+			}
+		end,
+	},
+	ts_ls = {
+		filetypes = {
+			"javascript",
+			"javascriptreact",
+			"javascript.jsx",
+			"typescript",
+			"typescriptreact",
+			"typescript.tsx",
+		},
+		setup = function()
+			vim.lsp.config.ts_ls = {
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"javascript.jsx",
+					"typescript",
+					"typescriptreact",
+					"typescript.tsx",
+				},
+				on_attach = function(client, bufnr)
+					client.server_capabilities.documentFormattingProvider = false
+					client.server_capabilities.documentRangeFormattingProvider = false
+					on_attach(client, bufnr)
+				end,
+				capabilities = capabilities,
+				cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
+				init_options = { hostInfo = "neovim" },
+				root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+				single_file_support = true,
+			}
+		end,
+	},
+	ctags_lsp = {
+		filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+		setup = function()
+			vim.lsp.config.ctags_lsp = {
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+				cmd = { "ctags-lsp" },
+				on_attach = on_attach,
+			}
+		end,
+	},
+	pylsp = {
+		filetypes = { "python" },
+		setup = function()
+			vim.lsp.config.pylsp = {
+				filetypes = { "python" },
+				cmd = { "pylsp" },
+				root_markers = {
+					"pyproject.toml",
+					"setup.py",
+					"setup.cfg",
+					"requirements.txt",
+					"Pipfile",
+					".git",
+				},
+				single_file_support = true,
+				settings = {
+					pylsp = {
+						plugins = {
+							-- formatter options
+							black = { enabled = true },
+							autopep8 = { enabled = false },
+							yapf = { enabled = false },
+							-- linter options
+							pylint = { enabled = true, executable = "pylint" },
+							pyflakes = { enabled = false },
+							pycodestyle = { enabled = false },
+							-- type checker
+							pylsp_mypy = { enabled = true },
+							-- auto-completion options
+							jedi_completion = { fuzzy = true },
+							-- import sorting
+							pyls_isort = { enabled = true },
+						},
+					},
+				},
+			}
+		end,
+	},
+}
+
+-- LSP settings
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	underline = false,
 	virtual_text = false,
 	signs = true,
-	border,
 })
 vim.diagnostic.config({
 	jump = {
@@ -66,256 +376,43 @@ vim.diagnostic.config({
 			})
 		end,
 	},
-})
-
-ui.diagnosticSigns()
-local capabilities = vim.lsp.protocol.make_client_capabilities()
--- local capabilities = require('cmp_nvim_lsp').default_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.semanticTokens.multilineTokenSupport = true
--- capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-vim.lsp.config("*", {
-	root_markers = { ".git", "root_marker" },
-	capabilities = capabilities,
-})
-
--- individual langserver setup
-vim.lsp.config.lua_ls = {
-	root_markers = {
-		".luarc.json",
-		".luarc.jsonc",
-		".luacheckrc",
-		".stylua.toml",
-		"stylua.toml",
-		"selene.toml",
-		"selene.yml",
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "❌",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.HINT] = "",
+		},
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "DiagnosticError",
+			[vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+			[vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+			[vim.diagnostic.severity.HINT] = "DiagnosticHint",
+		},
 	},
-	filetypes = { "lua" },
-	on_attach = on_attach,
-	on_init = function(client)
-		if client.workspace_folders then
-			local path = client.workspace_folders[1].name
-			if
-				path ~= vim.fn.stdpath("config")
-				and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
-			then
-				return
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(args)
+		-- A guard to prevent setting up the same server multiple times
+		local ft_setup_done = vim.b[args.buf].ft_setup_done or {}
+		if ft_setup_done[args.match] then
+			return
+		end
+
+		for name, server in pairs(servers) do
+			if vim.tbl_contains(server.filetypes, args.match) then
+				if server.condition ~= nil then
+					if server.condition() then
+						server.setup()
+					end
+				else
+					server.setup()
+				end
+				ft_setup_done[args.match] = true
+				vim.lsp.start(vim.lsp.config[name])
 			end
 		end
-
-		client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-			runtime = {
-				version = "LuaJIT",
-				path = {
-					"lua/?.lua",
-					"lua/?/init.lua",
-				},
-			},
-			workspace = {
-				checkThirdParty = false,
-				library = {
-					vim.env.VIMRUNTIME,
-					-- Depending on the usage, you might want to add additional paths
-					-- here.
-					-- '${3rd}/luv/library'
-					-- '${3rd}/busted/library'
-				},
-			},
-		})
+		vim.b[args.buf].ft_setup_done = ft_setup_done
 	end,
-	settings = {
-		Lua = {},
-	},
-	cmd = { "lua-language-server" },
-}
-vim.lsp.config.sqls = {
-	cmd = { "sqls" },
-	filetypes = { "sql", "mysql" },
-	on_attach = function(client, bufnr)
-		require("sqls").on_aa_attach(client, bufnr)
-	end,
-}
-vim.lsp.config.html = {
-	filetypes = { "html", "templ" },
-	on_attach = function(client, bufnr)
-		on_attach(client, bufnr)
-	end,
-	init_options = {
-		documentFormatting = false,
-	},
-	cmd = { node.get_node_bin("html-languageserver"), "--stdio" },
-}
--- vim.lsp.config.css.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- 	cmd = { node.get_node_bin("css-languageserver"), "--stdio" },
--- })
---
-vim.lsp.config.biome = {
-	cmd = { node.get_node_bin("biome"), "lsp-proxy" },
-	root_markers = {
-		"biome.json",
-		"biome.jsonc",
-	},
-	filetypes = {
-		"astro",
-		"css",
-		"graphql",
-		"javascript",
-		"javascriptreact",
-		"json",
-		"jsonc",
-		"svelte",
-		"typescript",
-		"typescript.tsx",
-		"typescriptreact",
-		"vue",
-	},
-	on_attach = function(_, bufnr)
-		if vim.g.autoformat == true then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.buf.format({
-						filter = function(client)
-							return client.name ~= "ts_ls"
-						end,
-					})
-				end,
-			})
-		end
-	end,
-}
-vim.lsp.config.rust_analyzer = {
-	on_attach = on_attach,
-	cmd = { "rust-analyzer" },
-	filetypes = { "rust" },
-	-- init_options = {
-	-- 	documentFormatting = true,
-	-- },
-	checkOnSave = {
-		enabled = true,
-		command = "clippy",
-	},
-}
-vim.lsp.config.gopls = {
-	filetypes = { "go" },
-	cmd = { "gopls", "serve" },
-	on_attach = function(_, bufnr)
-		on_attach(bufnr)
-		if vim.g.autoformat == true then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.buf.format()
-				end,
-			})
-		end
-	end,
-	analyses = {
-		unusedparams = true,
-		staticcheck = true,
-	},
-}
-
-vim.lsp.config.bashls = {
-	on_attach = on_attach,
-	cmd = { node.get_node_bin("bash-language-server"), "start" },
-}
-
-vim.lsp.config.clangd = {
-	cmd = { "clangd" },
-	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-	on_attach = on_attach,
-}
-
-vim.lsp.config.astrols = {
-	cmd = { node.get_node_bin("astro-ls"), "--stdio" },
-	on_attach = function(client, bufnr)
-		client.server_capabilities.documentFormattingProvider = false
-		client.server_capabilities.documentRangeFormattingProvider = false
-		on_attach(client, bufnr)
-	end,
-	filetypes = {
-		"astro",
-	},
-	init_options = {
-		typescript = {
-			tsdk = node.get_node_lib("typescript/lib"),
-		},
-	},
-	root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
-}
-
-vim.lsp.config.ts_ls = {
-	filetypes = {
-		"javascript",
-		"javascriptreact",
-		"javascript.jsx",
-		"typescript",
-		"typescriptreact",
-		"typescript.tsx",
-	},
-	on_attach = function(client, bufnr)
-		client.server_capabilities.documentFormattingProvider = false
-		client.server_capabilities.documentRangeFormattingProvider = false
-		on_attach(client, bufnr)
-	end,
-	capabilities = capabilities,
-	cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
-	init_options = { hostInfo = "neovim" },
-	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
-	single_file_support = true,
-}
-
-vim.lsp.config.ctags_lsp = {
-	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-	cmd = { "ctags-lsp" },
-	on_attach = on_attach,
-}
-vim.lsp.config.pylsp = {
-	filetypes = { "python" },
-	cmd = { "pylsp" },
-	root_markers = {
-		"pyproject.toml",
-		"setup.py",
-		"setup.cfg",
-		"requirements.txt",
-		"Pipfile",
-		".git",
-	},
-	single_file_support = true,
-	settings = {
-		pylsp = {
-			plugins = {
-				-- formatter options
-				black = { enabled = true },
-				autopep8 = { enabled = false },
-				yapf = { enabled = false },
-				-- linter options
-				pylint = { enabled = true, executable = "pylint" },
-				pyflakes = { enabled = false },
-				pycodestyle = { enabled = false },
-				-- type checker
-				pylsp_mypy = { enabled = true },
-				-- auto-completion options
-				jedi_completion = { fuzzy = true },
-				-- import sorting
-				pyls_isort = { enabled = true },
-			},
-		},
-	},
-}
-vim.lsp.enable({
-	"ts_ls",
-	"astrols",
-	"bashls",
-	"gopls",
-	"rust_analyzer",
-	"clangd",
-	"sqls",
-	"html",
-	"lua_ls",
-	"ctags_lsp",
-	"pylsp",
 })

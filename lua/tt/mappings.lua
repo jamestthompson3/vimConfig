@@ -92,13 +92,16 @@ nmap({
 	end,
 	{ silent = true },
 })
+nmap({"-", function()
+	require("oil").setup()
+	require("oil").open()
+end, silent = true})
 nmap_cmd("cc", "cclose")
 nmap_cmd("cl", "lclose")
 nmap_cmd("<leader><tab>", "bn")
 nmap_cmd("<leader>h", "call tools#switchSourceHeader()")
 nmap_cmd("<leader>-", 'let @+ = expand("%")')
 nmap_cmd("<F7>", 'so "%"')
-nmap_cmd("-", "Oil")
 nmap_nocr("S", "%s//g<LEFT><LEFT>")
 -- nmap_nocr(",", "find<space>")
 nmap_nocr("g_", "g//#<Left><Left><C-R><C-W><CR>:")
