@@ -17,7 +17,7 @@ local formatters_by_ft = {
 	css = "prettier_css",
 	scss = "prettier_css",
 	rust = "rustfmt",
-	astro = "prettier_astro",
+	astro = "prettier",
 	html = "prettier_html",
 	json = "prettier_json",
 	lua = "stylua",
@@ -117,11 +117,32 @@ local function format_buffer()
 	runFormat(buf, formatters[formatterList])
 end
 
--- Format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*" },
 	callback = format_buffer,
 })
 
--- Manual format command
-vim.api.nvim_create_user_command("Format", format_buffer, {})
+vim.api.nvim_create_user_command("FormatInfo", function()
+	setup_formatters()
+	local filetype = vim.bo.filetype
+	local formatterList = formatters_by_ft[filetype]
+	local formattersToRun = {}
+
+	if vim.islist(formatterList) then
+		for _, formatter in pairs(formatterList) do
+			local f = formatters[formatter]
+			if f.condition ~= nil then
+				if f.condition() then
+					table.insert(formattersToRun, formatter)
+				end
+			end
+		end
+	end
+	if not formatters[formatterList] then
+		log("No formatters found with: " .. formatterList)
+		return
+	else
+		table.insert(formattersToRun, formatterList)
+	end
+	log("Running > " .. vim.iter(formattersToRun):join(","))
+end, {})
