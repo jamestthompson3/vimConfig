@@ -4,7 +4,7 @@ vim.cmd("hi link DiagnosticUnnecessary WildMenu")
 
 function M.darkMode()
 	vim.cmd("hi Pmenu guifg=#ebdbb2 guibg=#504945")
-	vim.cmd("hi Comment guifg=#ff5fff")
+	vim.cmd("hi Comment guifg=#00d7d7")
 	vim.cmd("hi PmenuSel guifg=#504945 guibg=#83a598")
 	vim.cmd("hi PmenuMatch gui=bold guifg=none guibg=none")
 	vim.cmd("hi PmenuMatchSel gui=bold guifg=none guibg=none")
