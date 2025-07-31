@@ -410,7 +410,9 @@ vim.api.nvim_create_autocmd("FileType", {
 					server.setup()
 				end
 				ft_setup_done[args.match] = true
-				vim.lsp.start(vim.lsp.config[name])
+				if vim.lsp.config[name] then
+					vim.lsp.start(vim.lsp.config[name])
+				end
 			end
 		end
 		vim.b[args.buf].ft_setup_done = ft_setup_done

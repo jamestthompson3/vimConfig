@@ -1,30 +1,10 @@
 local node = require("tt.nvim_utils").nodejs
+local constants = require("tt.constants")
+local job_runner = require("tt.job_runner")
 
 local fn = vim.fn
-local api = vim.api
 
 local M = {}
-
-local prettier_roots = {
-	".prettierrc",
-	".prettierrc.json",
-	".prettierrc.js",
-	".prettierrc.yml",
-	".prettierrc.yaml",
-	".prettierrc.json5",
-	".prettierrc.mjs",
-	".prettierrc.cjs",
-	".prettierrc.toml",
-}
-
-local eslint_roots = {
-	"eslint.config.js",
-	"eslint.config.mjs",
-	"eslint.config.cjs",
-	"eslint.config.ts",
-	"eslint.config.mts",
-	"eslint.config.cts",
-}
 
 function M.bootstrap()
 	if vim.bo.readonly ~= true then
@@ -35,18 +15,18 @@ function M.bootstrap()
 	vim.bo.define = "class\\s"
 	vim.wo.foldlevel = 99
 
-	api.nvim_command([[command! Sort lua require'tt.ft.ecma'.import_sort(true)]])
-	api.nvim_command([[command! Eslint lua require'tt.ft.ecma'.linter_d()]])
-	api.nvim_command([[command! Lint lua require'tt.ft.ecma'.lint_project()]])
-	api.nvim_command([[command! Run lua require'tt.ft.ecma'.run_yarn()]])
+	vim.api.nvim_create_user_command("Sort", function() require'tt.ft.ecma'.import_sort(true) end, {})
+	vim.api.nvim_create_user_command("Eslint", function() require'tt.ft.ecma'.linter_d() end, {})
+	vim.api.nvim_create_user_command("Lint", function() require'tt.ft.ecma'.lint_project() end, {})
+	vim.api.nvim_create_user_command("Run", function() require'tt.ft.ecma'.run_yarn() end, {})
 
 	-- optionally enable formatters/linters
-	if vim.fs.root(0, eslint_roots) then
+	if vim.fs.root(0, constants.eslint_roots) then
 		require("tt.lsp.efm")
 		vim.lsp.start(vim.lsp.config.efm)
 	end
 
-	if vim.fs.root(0, prettier_roots) then
+	if vim.fs.root(0, constants.prettier_roots) then
 		vim.b.autoformat = true
 	end
 end
@@ -57,35 +37,25 @@ function M.import_sort(async, cb)
 
 	if fn.executable(executable_path) then
 		if true == async then
-			vim.fn.jobstart({
+			job_runner.run_job({
 				executable_path,
 				path,
 				"--write",
 			}, {
-				stdout_buffered = true,
-				stderr_buffered = true,
-				on_stdout = function(_, data)
-					if #data > 0 and data[1] ~= "" then
-						vim.schedule(function()
-							print(vim.inspect(data))
-						end)
-					end
+				on_stdout = function(line)
+					vim.schedule(function()
+						print(line)
+					end)
 				end,
-				on_stderr = function(_, data)
-					if #data > 0 and data[1] ~= "" then
-						vim.schedule(function()
-							for _, line in ipairs(data) do
-								if line ~= "" then
-									error("IMPORT_SORT: " .. line)
-								end
-							end
-						end)
-					end
+				on_stderr = function(line)
+					vim.schedule(function()
+						error("IMPORT_SORT: " .. line)
+					end)
 				end,
-				on_exit = function(_, code)
+				on_exit = function(code)
 					if code == 0 then
 						vim.schedule(function()
-							vim.api.nvim_command([[checktime]])
+							vim.cmd.checktime()
 							if cb ~= nil then
 								cb()
 							end
@@ -94,8 +64,8 @@ function M.import_sort(async, cb)
 				end,
 			})
 		else
-			fn.system(executable_path .. " " .. path .. " " .. "--write")
-			vim.api.nvim_command([[checktime]])
+			vim.system({ executable_path, path, "--write" }):wait()
+			vim.cmd.checktime()
 			if cb ~= nil then
 				cb()
 			end
@@ -107,9 +77,8 @@ end
 
 function M.lint_project()
 	local executable_path = node.find_node_executable("eslint_d")
-	local linterResults = {}
 
-	vim.fn.jobstart({
+	job_runner.run_job({
 		executable_path,
 		".",
 		"--ext",
@@ -119,34 +88,15 @@ function M.lint_project()
 		"compact",
 		"--fix",
 	}, {
-		stdout_buffered = true,
-		stderr_buffered = true,
-		on_stdout = function(_, data)
-			if #data > 0 and data[1] ~= "" then
-				for _, line in ipairs(data) do
-					if line ~= "" then
-						table.insert(linterResults, line)
-					end
-				end
-			end
-		end,
-		on_stderr = function(_, data)
-			if #data > 0 and data[1] ~= "" then
-				for _, line in ipairs(data) do
-					if line ~= "" then
-						table.insert(linterResults, line)
-					end
-				end
-			end
-		end,
-		on_exit = function(_, _)
+		collect_output = true,
+		on_exit = function(_, results)
 			vim.schedule(function()
 				fn.setloclist(fn.winnr(), {}, " ", {
 					title = "eslint -- errors",
-					lines = linterResults,
+					lines = results,
 					efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
 				})
-				api.nvim_command([[lwindow]])
+				vim.cmd.lwindow()
 			end)
 		end,
 	})
@@ -155,44 +105,24 @@ end
 function M.linter_d()
 	local path = fn.fnameescape(fn.expand("%:p"))
 	local executable_path = node.find_node_executable("eslint_d")
-	local linterResults = {}
 
-	vim.fn.jobstart({
+	job_runner.run_job({
 		executable_path,
 		path,
 		"-f",
 		"compact",
 		"--fix",
 	}, {
-		stdout_buffered = true,
-		stderr_buffered = true,
-		on_stdout = function(_, data)
-			if #data > 0 and data[1] ~= "" then
-				for _, line in ipairs(data) do
-					if line ~= "" then
-						table.insert(linterResults, line)
-					end
-				end
-			end
-		end,
-		on_stderr = function(_, data)
-			if #data > 0 and data[1] ~= "" then
-				for _, line in ipairs(data) do
-					if line ~= "" then
-						table.insert(linterResults, line)
-					end
-				end
-			end
-		end,
-		on_exit = function(_, _)
+		collect_output = true,
+		on_exit = function(_, results)
 			vim.schedule(function()
-				vim.api.nvim_command([[checktime]])
+				vim.cmd.checktime()
 				fn.setloclist(fn.winnr(), {}, " ", {
 					title = "eslint -- errors",
-					lines = linterResults,
+					lines = results,
 					efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
 				})
-				api.nvim_command([[lwindow]])
+				vim.cmd.lwindow()
 				vim.lsp.buf_attach_client(0, 1)
 			end)
 		end,

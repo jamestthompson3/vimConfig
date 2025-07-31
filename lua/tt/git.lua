@@ -17,23 +17,23 @@ function M.diff()
 	local fileName = fn.expand("%")
 	local ext = fn.expand("%:e")
 	local buf = shell_to_buf({ "git", "show", "HEAD:" .. fileName })
-	api.nvim_command("wincmd v")
-	api.nvim_command("wincmd h")
+	vim.cmd.wincmd("v")
+	vim.cmd.wincmd("h")
 	api.nvim_win_set_buf(0, buf)
-	api.nvim_command("set ft=" .. ext)
-	api.nvim_command("diffthis")
-	api.nvim_command("wincmd l")
-	api.nvim_command("diffthis")
+	vim.bo.filetype = ext
+	vim.cmd.diffthis()
+	vim.cmd.wincmd("l")
+	vim.cmd.diffthis()
 end
 
 function M.blame_file()
 	local fileName = fn.expand("%")
 	local buf = shell_to_buf({ "git", "blame", fileName })
-	api.nvim_command("40wincmd v")
-	api.nvim_command("wincmd r")
+	vim.cmd("40wincmd v")
+	vim.cmd.wincmd("r")
 	api.nvim_win_set_buf(0, buf)
-	api.nvim_command("set ft=fugitiveblame")
-	api.nvim_command("wincmd h")
+	vim.bo.filetype = "fugitiveblame"
+	vim.cmd.wincmd("h")
 end
 
 function M.blame()
@@ -97,15 +97,20 @@ function M.stat()
 end
 
 local function listChangedFiles()
-	return fn.systemlist("git diff --name-only --no-color")
+	local result = vim.system({ "git", "diff", "--name-only", "--no-color" }):wait()
+	if result.code == 0 and result.stdout then
+		return vim.split(vim.trim(result.stdout), "\n")
+	else
+		return {}
+	end
 end
 
 local function jumpToDiff()
-	api.nvim_command("silent only")
-	api.nvim_command("vsplit <cfile>")
+	vim.cmd("silent only")
+	vim.cmd("vsplit <cfile>")
 	M.diff()
-	api.nvim_command("wincmd h")
-	api.nvim_command("wincmd h")
+	vim.cmd.wincmd("h")
+	vim.cmd.wincmd("h")
 end
 
 function M.QfFiles()
@@ -118,7 +123,7 @@ function M.QfFiles()
 end
 
 function M.changedFiles()
-	api.nvim_command("tabnew")
+	vim.cmd.tabnew()
 	local files = listChangedFiles()
 	local buf = api.nvim_create_buf(false, true)
 	api.nvim_buf_set_lines(buf, 0, -1, true, files)

@@ -3,7 +3,7 @@ local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 local M = {}
 
-api.nvim_command("match Callout '@w+.?w+'")
+vim.fn.matchadd("Callout", "@w+.?w+")
 
 iabbrev("<expr> dateheader", vim.fn.strftime("%Y %b %d"), true)
 
@@ -72,12 +72,12 @@ function M.previewLinkedPage()
 			style = "minimal",
 		}
 		api.nvim_open_win(buf, true, opts)
-		api.nvim_command(string.format("read %s.md", filename))
+		vim.cmd(string.format("read %s.md", filename))
 		api.nvim_buf_set_keymap(buf, "n", "q", ":close<CR>", {})
 	end
 end
 
-api.nvim_command([[command! Compose lua require'tt.ft.markdown'.composer()]])
+vim.api.nvim_create_user_command("Compose", function() require'tt.ft.markdown'.composer() end, {})
 
 buf_nnoremap({ "nj", "gj" })
 buf_nnoremap({ "k", "gk" })

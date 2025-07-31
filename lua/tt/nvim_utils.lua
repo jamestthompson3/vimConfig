@@ -20,7 +20,7 @@ local valid_modes = {
 	[" "] = "",
 }
 
-local is_windows = loop.os_uname().version:match("Windows")
+local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
 -- set up globals based on current env
 local GLOBALS = {}
 
@@ -35,14 +35,12 @@ if is_windows then
 		end
 	end
 	GLOBALS.python_host = "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
-	GLOBALS.file_separator = "\\"
 else
 	GLOBALS.home = os.getenv("HOME")
 	GLOBALS.cwd = function()
 		return os.getenv("PWD")
 	end
 	GLOBALS.python_host = "/opt/homebrew/bin/python3"
-	GLOBALS.file_separator = "/"
 end
 
 M.GLOBALS = GLOBALS
@@ -234,9 +232,11 @@ function M.nodejs.find_node_executable(binaryName)
 		executable = fn.getcwd() .. "/node_modules/.bin/" .. normalized_bin_name
 	end
 	if 0 == fn.executable(executable) then
-		local sub_cmd = fn.system("git rev-parse --show-toplevel")
-		local project_root_path = sub_cmd:gsub("\n", "")
-		executable = project_root_path .. "/node_modules/.bin/" .. normalized_bin_name
+		local result = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
+		if result.code == 0 then
+			local project_root_path = vim.trim(result.stdout)
+			executable = vim.fs.normalize(project_root_path .. "/node_modules/.bin/" .. normalized_bin_name)
+		end
 	end
 
 	if 0 == fn.executable(executable) then
@@ -252,9 +252,11 @@ end
 function M.nodejs.get_node_lib(lib)
 	local f = fn.getcwd() .. "/node_modules/" .. lib
 	if "" == fn.glob(f) then
-		local sub_cmd = fn.system("git rev-parse --show-toplevel")
-		local project_root_path = sub_cmd:gsub("\n", "")
-		f = project_root_path .. "/node_modules/" .. lib
+		local result = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
+		if result.code == 0 then
+			local project_root_path = vim.trim(result.stdout)
+			f = vim.fs.normalize(project_root_path .. "/node_modules/" .. lib)
+		end
 	end
 	if "" == fn.glob(f) then
 		return ""
@@ -264,9 +266,9 @@ end
 
 function M.vim_util.iabbrev(src, target, buffer)
 	if buffer == nil then
-		api.nvim_command("iabbrev " .. src .. " " .. target)
+		vim.cmd.iabbrev({ args = { src, target } })
 	else
-		api.nvim_command("iabbrev <buffer> " .. src .. " " .. target)
+		vim.cmd.iabbrev({ args = { "<buffer>", src, target } })
 	end
 end
 

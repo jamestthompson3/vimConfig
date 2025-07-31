@@ -1,4 +1,5 @@
 local node = require("tt.nvim_utils").nodejs
+local constants = require("tt.constants")
 
 local prettierBin
 local biomeBin
@@ -23,26 +24,11 @@ local formatters_by_ft = {
 }
 
 local function biomeCheck()
-	local biome_roots = {
-		"biome.json",
-		"biome.jsonc",
-	}
-	return vim.fs.root(0, biome_roots)
+	return vim.fs.root(0, constants.biome_roots)
 end
 
 local function prettierCheck()
-	local prettier_roots = {
-		".prettierrc",
-		".prettierrc.json",
-		".prettierrc.js",
-		".prettierrc.yml",
-		".prettierrc.yaml",
-		".prettierrc.json5",
-		".prettierrc.mjs",
-		".prettierrc.cjs",
-		".prettierrc.toml",
-	}
-	return vim.fs.root(0, prettier_roots)
+	return vim.fs.root(0, constants.prettier_roots)
 end
 
 local function setup_formatters()
@@ -93,18 +79,18 @@ local function runFormat(buf, formatter)
 	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 	local input = table.concat(lines, "\n")
 
-	local result = vim.fn.system(cmd, input)
-	local exit_code = vim.v.shell_error
+	local result = vim.system(cmd, { stdin = input }):wait()
+	local exit_code = result.code
 
 	if exit_code == 0 then
-		local output_lines = vim.split(result, "\n")
+		local output_lines = vim.split(result.stdout, "\n")
 		-- Remove trailing empty line if present
 		if output_lines[#output_lines] == "" then
 			table.remove(output_lines)
 		end
 		vim.api.nvim_buf_set_lines(0, 0, -1, false, output_lines)
 	else
-		vim.notify("Formatter failed: " .. result, vim.log.levels.ERROR)
+		vim.notify("Formatter failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
 	end
 end
 

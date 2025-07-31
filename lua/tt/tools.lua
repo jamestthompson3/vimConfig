@@ -11,7 +11,7 @@ local M = {}
 function M.openQuickfix()
 	local qflen = fn.len(fn.getqflist())
 	local qfheight = math.min(10, qflen)
-	api.nvim_command(string.format("cclose|%dcwindow", qfheight))
+	vim.cmd(string.format("cclose|%dcwindow", qfheight))
 end
 
 function M.splashscreen()
@@ -20,15 +20,15 @@ function M.splashscreen()
 	local offset = api.nvim_buf_get_offset(curr_buf, 1)
 	if args == 0 and offset <= 1 then
 		api.nvim_create_buf(false, true)
-		api.nvim_command([[ silent! r ~/vim/skeletons/start.screen ]])
+		vim.cmd([[ silent! r ~/vim/skeletons/start.screen ]])
 		vim.bo[0].bufhidden = "wipe"
 		vim.bo[0].buflisted = false
 		vim.bo[0].matchpairs = ""
-		api.nvim_command([[setl relativenumber]])
-		api.nvim_command([[setl nocursorline]])
+		vim.opt_local.relativenumber = true
+		vim.opt_local.cursorline = false
 		vim.wo[0].cursorcolumn = false
 		M.simpleMRU()
-		api.nvim_command([[:34]])
+		vim.cmd([[:34]])
 		buf_map({ "<CR>", "gf", { noremap = true } })
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
@@ -37,14 +37,14 @@ function M.splashscreen()
 end
 
 function M.openTerminalDrawer()
-	api.nvim_command([[ copen ]])
-	api.nvim_command([[ term ]])
+	vim.cmd.copen()
+	vim.cmd.term()
 	api.nvim_input("i")
 end
 
 function M.restoreFile()
 	local cmd = "git restore " .. fn.expand("%")
-	api.nvim_command("!" .. cmd)
+	vim.cmd("!" .. cmd)
 end
 
 function M.renameFile()
@@ -63,28 +63,28 @@ end
 
 function M.winMove(key)
 	local currentWindow = fn.winnr()
-	api.nvim_command("wincmd " .. key)
+	vim.cmd.wincmd(key)
 	if fn.winnr() == currentWindow then
 		if key == "j" or key == "k" then
-			api.nvim_command("wincmd s")
+			vim.cmd.wincmd("s")
 		else
-			api.nvim_command("wincmd v")
+			vim.cmd.wincmd("v")
 		end
-		api.nvim_command("wincmd " .. key)
+		vim.cmd.wincmd(key)
 	end
 end
 
 function M.removeWhitespace()
 	if 1 == vim.g.remove_whitespace then
 		api.nvim_exec("normal mz", false)
-		api.nvim_command("%s/\\s\\+$//ge")
+		vim.cmd("%s/\\s\\+$//ge")
 		api.nvim_exec("normal `z", false)
 	end
 end
 
 function M.grepBufs(term)
 	local cmd = string.format("silent bufdo vimgrepadd %s %", term)
-	api.nvim_command(cmd)
+	vim.cmd(cmd)
 end
 
 -- Session Management
@@ -100,13 +100,13 @@ end
 function M.saveSession()
 	local sessionName = M.createSessionName()
 	local cmd = string.format("mks! %s%s.vim", sessionPath, sessionName)
-	api.nvim_command(cmd)
+	vim.cmd(cmd)
 end
 
 function M.sourceSession()
 	local sessionName = M.createSessionName()
 	local cmd = string.format("so %s%s.vim", sessionPath, sessionName)
-	api.nvim_command(cmd)
+	vim.cmd(cmd)
 end
 
 function M.simpleMRU()
@@ -117,27 +117,27 @@ function M.simpleMRU()
 	end, files)
 	for _, file in ipairs(filteredFiles) do
 		local fname = vim.fn.fnamemodify(file, ":.")
-		api.nvim_command(string.format('call append(line("$") -1, "%s")', vim.trim(fname)))
+		vim.fn.append(vim.fn.line("$") - 1, vim.trim(fname))
 	end
-	api.nvim_command([[:1]])
+	vim.cmd([[:1]])
 end
 
 function M.listTags()
 	local cword = fn.expand("<cword>")
-	api.nvim_command("ltag " .. cword)
-	api.nvim_command([[ lwindow ]])
+	vim.cmd.ltag(cword)
+	vim.cmd.lwindow()
 end
 
 function M.profile()
 	if vim.g.profiler_running ~= nil then
-		api.nvim_command("profile pause")
+		vim.cmd("profile pause")
 		vim.g.profiler_running = nil
-		api.nvim_command("noautocmd qall!")
+		vim.cmd("noautocmd qall!")
 	else
 		vim.g.profiler_running = 1
-		api.nvim_command("profile start profile.log")
-		api.nvim_command("profile func *")
-		api.nvim_command("profile file *")
+		vim.cmd("profile start profile.log")
+		vim.cmd("profile func *")
+		vim.cmd("profile file *")
 	end
 end
 

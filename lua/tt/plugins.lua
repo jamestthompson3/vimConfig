@@ -11,7 +11,6 @@ vim.pack.add({
 	gh("windwp/nvim-ts-autotag"),
 	gh("windwp/nvim-autopairs"),
 	gh("ibhagwan/fzf-lua"),
-	-- gh("stevearc/profile.nvim"),
 	gh("prisma/vim-prisma"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
@@ -41,6 +40,7 @@ table.foreach(disabled_plugins, function(_, p)
 end)
 
 local lazy_load = vim.api.nvim_create_augroup("Plugins", { clear = true })
+require("tt.plugin.find").init()
 
 vim.api.nvim_create_autocmd("InsertEnter", {
 	group = lazy_load,
@@ -58,7 +58,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	group = lazy_load,
 	pattern = "*",
 	callback = function()
-		require("tt.plugin.find").init()
 		require("tt.plugin.treesitter").init()
 		require("mini.surround").setup()
 		require("nvim-ts-autotag").setup({

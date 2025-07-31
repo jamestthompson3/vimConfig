@@ -5,7 +5,7 @@ if not is_windows then
 	vim.o.shell = vim.fn.executable("fish") and "fish" or "bash"
 end
 
-api.nvim_command([[packadd cfilter]])
+vim.cmd.packadd("cfilter")
 
 -- Common mistakes
 iabbrev("retrun", "return")
