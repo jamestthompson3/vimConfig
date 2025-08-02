@@ -11,6 +11,9 @@ vim.lsp.config("*", {
 })
 local on_attach = function(client, bufnr)
 	require("tt.lsp.mappings").setMappings(bufnr)
+	if not client then
+		return
+	end
 	if client.server_capabilities.completionProvider then
 		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 	end
@@ -216,8 +219,8 @@ local servers = {
 			vim.lsp.config.gopls = {
 				filetypes = { "go" },
 				cmd = { "gopls", "serve" },
-				on_attach = function(_, bufnr)
-					on_attach(bufnr)
+				on_attach = function(client, bufnr)
+					on_attach(client, bufnr)
 					if vim.g.autoformat == true then
 						vim.api.nvim_create_autocmd("BufWritePre", {
 							buffer = bufnr,
