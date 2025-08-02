@@ -15,7 +15,7 @@ local autocmds = {
 			"TextYankPost",
 			{
 				callback = function()
-					require("vim.highlight").on_yank({ higroup = "Search", timeout = 100 })
+					vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
 				end,
 			},
 		},
