@@ -67,3 +67,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "BufReadPost" })
 	end,
 })
+
+vim.api.nvim_create_user_command("Update", function()
+	vim.pack.update()
+end, {})

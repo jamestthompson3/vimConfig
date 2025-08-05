@@ -30,7 +30,7 @@ function M.bootstrap()
 
 	-- optionally enable formatters/linters
 	if vim.fs.root(0, constants.eslint_roots) then
-		require("tt.lsp.efm")
+		require("tt.lsp.efm").init()
 		vim.lsp.start(vim.lsp.config.efm)
 	end
 

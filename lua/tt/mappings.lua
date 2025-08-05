@@ -92,10 +92,14 @@ nmap({
 	end,
 	{ silent = true },
 })
-nmap({"-", function()
-	require("oil").setup()
-	require("oil").open()
-end, silent = true})
+nmap({
+	"-",
+	function()
+		require("oil").setup()
+		require("oil").open()
+	end,
+	silent = true,
+})
 nmap_cmd("cc", "cclose")
 nmap_cmd("cl", "lclose")
 nmap_cmd("<leader><tab>", "bn")
@@ -107,7 +111,6 @@ nmap_nocr("S", "%s//g<LEFT><LEFT>")
 nmap_nocr("g_", "g//#<Left><Left><C-R><C-W><CR>:")
 -- nmap_nocr("<leader>.", "Bs<space>")
 nmap_nocr("<C-f>", "silent grep!<space>")
-nmap_cmd("ts", "FzfLua lsp_workspace_symbols")
 -- VISUAL MODE
 xnore("<leader>y", '"+y')
 xnore("<leader>d", '"+d')
