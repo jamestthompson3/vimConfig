@@ -48,6 +48,7 @@ vim.g.gutentags_cache_dir = "~/.cache/"
 vim.g.gutentags_project_root = { ".git", "root_marker" }
 vim.g.gutentags_add_default_project_roots = 1
 vim.g.gutentags_generate_on_empty_buffer = 1
+vim.g.gutentags_ctags_exclude_wildignore = 0
 
 local set = vim.o
 set.hidden = true
@@ -58,6 +59,8 @@ set.lazyredraw = true
 set.splitright = true
 set.modeline = false
 set.wildignorecase = true
+set.wildignore =
+	"*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot"
 set.expandtab = true
 set.shiftround = true
 set.ignorecase = true

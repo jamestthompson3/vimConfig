@@ -6,12 +6,11 @@ vim.pack.add({
 	gh("echasnovski/mini.surround"),
 	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1.*") },
 	gh("stevearc/oil.nvim"),
-	-- gh("ludovicchabant/vim-gutentags"),
+	gh("ludovicchabant/vim-gutentags"),
 	-- , lazy = true, event = "VimEnter"
 	gh("windwp/nvim-ts-autotag"),
 	gh("windwp/nvim-autopairs"),
 	gh("ibhagwan/fzf-lua"),
-	gh("prisma/vim-prisma"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("norcalli/nvim-colorizer.lua"),
@@ -60,6 +59,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	callback = function()
 		require("tt.plugin.treesitter").init()
 		require("mini.surround").setup()
+		vim.cmd("packadd vim-gutentags")
 		require("nvim-ts-autotag").setup({
 			aliases = {
 				["astro"] = "html",
