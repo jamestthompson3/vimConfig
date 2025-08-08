@@ -225,13 +225,22 @@ function M.nodejs.find_node_executable(binaryName)
 	else
 		normalized_bin_name = binaryName
 	end
+
+	local function is_executable(path)
+		local stat = vim.uv.fs_stat(path)
+		if not stat then
+			return false
+		end
+		return vim.fn.executable(path)
+	end
+
 	if vim.g.nodeDir ~= nil then
 		executable = vim.g.nodeDir .. "/node_modules/.bin/" .. normalized_bin_name
 	end
-	if 0 == fn.executable(executable) then
+	if not is_executable(executable) then
 		executable = fn.getcwd() .. "/node_modules/.bin/" .. normalized_bin_name
 	end
-	if 0 == fn.executable(executable) then
+	if not is_executable(executable) then
 		local result = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
 		if result.code == 0 then
 			local project_root_path = vim.trim(result.stdout)
@@ -239,11 +248,10 @@ function M.nodejs.find_node_executable(binaryName)
 		end
 	end
 
-	if 0 == fn.executable(executable) then
+	if not is_executable(executable) then
 		executable = M.nodejs.get_node_bin(normalized_bin_name)
 	end
-	if 0 == fn.executable(executable) then
-		-- log("Could not find " .. executable)
+	if not is_executable(executable) then
 		return ""
 	end
 	return executable

@@ -1,4 +1,4 @@
-require("tt.snippets.ft.lua")
+require("tt.snippets.ft.lua").init()
 vim.opt_local.includeexpr = "substitute(v:fname,'\\.','/','g')"
 vim.keymap.set("n", "<leader>f", "<cmd>!stylua %<CR>", { silent = true, buffer = true })
 vim.opt_local.suffixesadd:prepend(".lua")

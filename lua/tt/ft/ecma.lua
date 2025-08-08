@@ -8,17 +8,25 @@ local M = {}
 
 function M.bootstrap()
 	if vim.bo.readonly ~= true then
-		require("tt.snippets.ft.ecmascript")
+		require("tt.snippets.ft.ecmascript").init()
 	end
 	vim.bo.suffixesadd = ".js,.jsx,.ts,.tsx"
 	vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
 	vim.bo.define = "class\\s"
 	vim.wo.foldlevel = 99
 
-	vim.api.nvim_create_user_command("Sort", function() require'tt.ft.ecma'.import_sort(true) end, {})
-	vim.api.nvim_create_user_command("Eslint", function() require'tt.ft.ecma'.linter_d() end, {})
-	vim.api.nvim_create_user_command("Lint", function() require'tt.ft.ecma'.lint_project() end, {})
-	vim.api.nvim_create_user_command("Run", function() require'tt.ft.ecma'.run_yarn() end, {})
+	vim.api.nvim_create_user_command("Sort", function()
+		require("tt.ft.ecma").import_sort(true)
+	end, {})
+	vim.api.nvim_create_user_command("Eslint", function()
+		require("tt.ft.ecma").linter_d()
+	end, {})
+	vim.api.nvim_create_user_command("Lint", function()
+		require("tt.ft.ecma").lint_project()
+	end, {})
+	vim.api.nvim_create_user_command("Run", function()
+		require("tt.ft.ecma").run_yarn()
+	end, {})
 
 	-- optionally enable formatters/linters
 	if vim.fs.root(0, constants.eslint_roots) then

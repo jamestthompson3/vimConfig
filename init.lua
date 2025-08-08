@@ -44,7 +44,7 @@ vim.g.markdown_fenced_languages = {
 }
 
 vim.g.gutentags_file_list_command = "fd --type f --hidden -E .git"
-vim.g.gutentags_cache_dir = "~/.cache/"
+vim.g.gutentags_cache_dir = vim.fn.expand("~/.cache/")
 vim.g.gutentags_project_root = { ".git", "root_marker" }
 vim.g.gutentags_add_default_project_roots = 1
 vim.g.gutentags_generate_on_empty_buffer = 1

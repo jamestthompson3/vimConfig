@@ -137,6 +137,12 @@ vim.api.nvim_create_user_command("FormatInfo", function()
 				end
 			end
 		end
+		log("Running > " .. vim.iter(formattersToRun):join(","))
+		for _, formatter in pairs(formattersToRun) do
+			local f = formatters[formatter]
+			log("   Command: " .. vim.iter(f.command):join(" "))
+		end
+		return
 	end
 	if not formatters[formatterList] then
 		log("No formatters found with: " .. formatterList)
@@ -145,4 +151,8 @@ vim.api.nvim_create_user_command("FormatInfo", function()
 		table.insert(formattersToRun, formatterList)
 	end
 	log("Running > " .. vim.iter(formattersToRun):join(","))
+	for _, formatter in pairs(formattersToRun) do
+		local f = formatters[formatter]
+		log("   Command: " .. vim.iter(f.command):join(" "))
+	end
 end, {})

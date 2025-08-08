@@ -1,5 +1,5 @@
 local g = vim.g
-local bootstrap = require("tt.ft.ecma").bootstrap
+local bootstrap = require("tt.ft.ecma").bootstrap()
 
 -- For andymass/vim-matchup plugin
 if vim.g.loaded_matchup then

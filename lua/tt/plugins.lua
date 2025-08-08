@@ -19,7 +19,6 @@ vim.pack.add({
 
 local disabled_plugins = {
 	"gzip",
-	"matchparen",
 	"netrwPlugin",
 	"rplugin",
 	"tarPlugin",

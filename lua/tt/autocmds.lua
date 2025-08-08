@@ -1,11 +1,8 @@
 local utils = require("tt.nvim_utils")
 local create_augroups = utils.vim_util.create_augroups
-local node = utils.nodejs
 local keys = utils.keys
 local buf_nnoremap = keys.buf_nnoremap
 local git = require("tt.git")
-
-local fn = vim.fn
 
 local autocmds = {
 	load_core = {
@@ -40,28 +37,6 @@ local autocmds = {
 				end,
 			},
 		},
-		{
-			"BufWritePost",
-			{
-				pattern = "*.eta",
-				callback = function()
-					local path = fn.fnameescape(fn.expand("%:p"))
-					local exec_path = node.find_node_executable("prettier")
-					if fn.executable(exec_path) then
-						vim.fn.jobstart({ exec_path, path, "--parser", "html", "--write" }, {
-							stdout_buffered = true,
-							stderr_buffered = true,
-							on_exit = function(_, code)
-								if code == 0 then
-									vim.cmd("checktime")
-								end
-							end,
-						})
-					end
-				end,
-			},
-		},
-
 		{ "QuickFixCmdPost", { pattern = "[^l]*", nested = true, callback = require("tt.tools").openQuickfix } },
 		{ { "CursorMoved", "CursorMovedI" }, {
 			callback = function()
