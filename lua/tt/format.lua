@@ -54,7 +54,7 @@ local function setup_formatters()
 		rustfmt = {
 			command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" },
 		},
-		clangfmt = { command = { "clang-format" } },
+		clangfmt = { command = { "clang-format", "-assume-filename", "$FILENAME" } },
 		prettier_css = { command = makePrettierFormatter("css") },
 	}
 end
