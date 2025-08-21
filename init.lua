@@ -67,6 +67,7 @@ set.ignorecase = true
 set.smartcase = true
 set.undofile = true
 set.magic = true
+set.autocomplete = true
 set.relativenumber = true
 set.tags = "" -- let gutentags handle this
 set.mopt = "hit-enter,history:500"

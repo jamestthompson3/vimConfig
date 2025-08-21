@@ -4,10 +4,8 @@ end
 
 vim.pack.add({
 	gh("echasnovski/mini.surround"),
-	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1.*") },
 	gh("stevearc/oil.nvim"),
 	gh("ludovicchabant/vim-gutentags"),
-	-- , lazy = true, event = "VimEnter"
 	gh("windwp/nvim-ts-autotag"),
 	gh("windwp/nvim-autopairs"),
 	gh("ibhagwan/fzf-lua"),
@@ -45,9 +43,6 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 	pattern = "*",
 	callback = function()
 		require("nvim-autopairs").setup()
-		require("blink.cmp").setup({
-			fuzzy = { implementation = "prefer_rust" },
-		})
 		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "InsertEnter" })
 	end,
 })
