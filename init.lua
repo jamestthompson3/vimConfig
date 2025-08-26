@@ -67,7 +67,6 @@ set.ignorecase = true
 set.smartcase = true
 set.undofile = true
 set.magic = true
--- set.autocomplete = true
 set.relativenumber = true
 set.tags = "" -- let gutentags handle this
 set.mopt = "hit-enter,history:500"
@@ -103,8 +102,9 @@ function FindFunc(cmdarg)
 end
 vim.o.findfunc = "v:lua.FindFunc"
 
-set.completeopt = "menuone,noselect,popup,fuzzy,popup"
-set.complete = vim.o.complete .. ",o,F"
+set.completeopt = "menuone,noselect,popup,fuzzy"
+set.autocomplete = true
+set.complete = ".,w,b,u,o,F"
 set.completefuzzycollect = "keyword,files,whole_line"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"

@@ -182,20 +182,7 @@ local servers = {
 					"typescriptreact",
 					"vue",
 				},
-				on_attach = function(_, bufnr)
-					if vim.g.autoformat == true then
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							buffer = bufnr,
-							callback = function()
-								vim.lsp.buf.format({
-									filter = function(client)
-										return client.name ~= "ts_ls"
-									end,
-								})
-							end,
-						})
-					end
-				end,
+				on_attach = on_attach,
 			}
 		end,
 	},
@@ -219,17 +206,7 @@ local servers = {
 			vim.lsp.config.gopls = {
 				filetypes = { "go" },
 				cmd = { "gopls", "serve" },
-				on_attach = function(client, bufnr)
-					on_attach(client, bufnr)
-					if vim.g.autoformat == true then
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							buffer = bufnr,
-							callback = function()
-								vim.lsp.buf.format()
-							end,
-						})
-					end
-				end,
+				on_attach = on_attach,
 				analyses = {
 					unusedparams = true,
 					staticcheck = true,
