@@ -74,14 +74,6 @@ function M.winMove(key)
 	end
 end
 
-function M.removeWhitespace()
-	if 1 == vim.g.remove_whitespace then
-		api.nvim_exec("normal mz", false)
-		vim.cmd("%s/\\s\\+$//ge")
-		api.nvim_exec("normal `z", false)
-	end
-end
-
 function M.grepBufs(term)
 	local cmd = string.format("silent bufdo vimgrepadd %s %", term)
 	vim.cmd(cmd)

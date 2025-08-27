@@ -6,10 +6,7 @@ require("tt.plugins")
 local globals = require("tt.nvim_utils").GLOBALS
 
 vim.g.did_install_default_menus = 1
-vim.g.remove_whitespace = 1
 vim.g.python3_host_prog = globals.python_host
-vim.g.autoformat = true
-vim.g.loaded_netrwPlugin = 1
 vim.g.markdown_fenced_languages = {
 	"html",
 	"typescript",
@@ -31,39 +28,32 @@ vim.g.gutentags_generate_on_empty_buffer = 1
 vim.g.gutentags_ctags_exclude_wildignore = 0
 
 local set = vim.o
-set.hidden = true
 set.exrc = true
 set.secure = true
 set.title = true
-set.lazyredraw = true
 set.splitright = true
 set.modeline = false
 set.wildignorecase = true
 set.wildignore =
-	"*/lib/*,*/locale/*,*/flow-typed/*,*/node_modules/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot"
+	"*/node_modules/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot"
 set.expandtab = true
 set.shiftround = true
 set.ignorecase = true
 set.smartcase = true
 set.undofile = true
-set.magic = true
 set.relativenumber = true
 set.tags = "" -- let gutentags handle this
 set.foldenable = false
 set.undolevels = 1000
 set.ttimeoutlen = 20
 set.shiftwidth = 2
-set.softtabstop = 2
-set.tabstop = 2
+set.softtabstop = -1
 set.synmaxcol = 200
 set.cmdheight = 2
-set.updatetime = 200
 set.splitkeep = "topline"
 set.conceallevel = 2
-set.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
+set.showbreak = string.rep(".", 3) -- Make it so that long lines wrap smartly
 
-set.mouse = "nv"
-set.foldopen = "search"
 set.smartindent = true
 set.fileformat = "unix"
 set.jumpoptions = "stack"
@@ -84,7 +74,6 @@ set.foldmethod = "expr"
 set.foldexpr = "nvim_treesitter#foldexpr()"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
-set.laststatus = 2
 
 local in_wsl = os.getenv("WSL_DISTRO_NAME") ~= nil
 
@@ -98,7 +87,6 @@ if in_wsl then
 end
 
 -- UI OPTS
-set.termguicolors = true
 set.wrap = false
 set.cursorline = true
 set.fillchars = "stlnc:»,vert:║,fold:·"

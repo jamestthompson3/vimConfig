@@ -53,10 +53,13 @@ function M.init()
 
 	vim.keymap.set("n", ",", ":find<space>")
 	vim.keymap.set("c", "<C-y>", function()
+		local keys
 		if is_cmdline_type_find() then
-			local keys = vim.api.nvim_replace_termcodes("<home><s-right><c-w>edit<end><CR>", true, true, true)
-			vim.fn.feedkeys(keys, "c")
+			keys = vim.api.nvim_replace_termcodes("<home><s-right><c-w>edit<end><CR>", true, true, true)
+		else
+			keys = vim.api.nvim_replace_termcodes("<CR>", true, true, true)
 		end
+		vim.fn.feedkeys(keys, "c")
 	end)
 	vim.keymap.set("c", "<C-v>", function()
 		if is_cmdline_type_find() then
@@ -71,6 +74,18 @@ function M.init()
 		end
 	end)
 	vim.keymap.set("n", "<leader> .", ":buffers<CR>")
+
+	-- temp move elsewhere
+	vim.keymap.set("n", "<space>c", function()
+		vim.ui.input({}, function(c)
+			if c and c ~= "" then
+				vim.cmd("noswapfile vnew")
+				vim.bo.buftype = "nofile"
+				vim.bo.bufhidden = "wipe"
+				vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.fn.systemlist(c))
+			end
+		end)
+	end)
 end
 
 return M
