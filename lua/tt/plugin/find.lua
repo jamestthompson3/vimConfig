@@ -73,7 +73,7 @@ function M.init()
 			vim.fn.feedkeys(keys, "c")
 		end
 	end)
-	vim.keymap.set("n", "<leader> .", ":buffers<CR>")
+	vim.keymap.set("n", "<leader>.", ":buffers<CR>")
 
 	-- temp move elsewhere
 	vim.keymap.set("n", "<space>c", function()

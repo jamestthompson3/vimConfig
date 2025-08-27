@@ -26,20 +26,9 @@ local GLOBALS = {}
 
 if is_windows then
 	GLOBALS.home = os.getenv("HOMEPATH")
-	GLOBALS.cwd = function()
-		local env_var = os.getenv("PWD")
-		if env_var ~= nil then
-			return env_var
-		else
-			return os.capture("echo %CD%")
-		end
-	end
 	GLOBALS.python_host = "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
 else
 	GLOBALS.home = os.getenv("HOME")
-	GLOBALS.cwd = function()
-		return os.getenv("PWD")
-	end
 	GLOBALS.python_host = "/opt/homebrew/bin/python3"
 end
 

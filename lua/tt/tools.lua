@@ -1,10 +1,9 @@
-local globals = require("tt.nvim_utils").GLOBALS
 local buf_map = require("tt.nvim_utils").keys.buf_nnoremap
 local git = require("tt.git")
 local api = vim.api
 local fn = vim.fn
 
-local sessionPath = vim.fs.joinpath(globals.home, "sessions")
+local sessionPath = vim.fs.joinpath(vim.uv.os_homedir(), "sessions")
 
 local M = {}
 
@@ -74,11 +73,6 @@ function M.winMove(key)
 	end
 end
 
-function M.grepBufs(term)
-	local cmd = string.format("silent bufdo vimgrepadd %s %", term)
-	vim.cmd(cmd)
-end
-
 -- Session Management
 function M.createSessionName()
 	local sessionName = git.branch()
@@ -103,7 +97,7 @@ end
 
 function M.simpleMRU()
 	local files = vim.v.oldfiles
-	local cwd = globals.cwd()
+	local cwd = vim.fn.getcwd(0)
 	local filteredFiles = vim.tbl_filter(function(file)
 		return vim.startswith(file, cwd) and vim.fn.filereadable(file) == 1 and not string.find(file, "COMMIT_MESSAGE")
 	end, files)
@@ -112,12 +106,6 @@ function M.simpleMRU()
 		vim.fn.append(vim.fn.line("$") - 1, vim.trim(fname))
 	end
 	vim.cmd([[:1]])
-end
-
-function M.listTags()
-	local cword = fn.expand("<cword>")
-	vim.cmd.ltag(cword)
-	vim.cmd.lwindow()
 end
 
 function M.profile()
@@ -132,28 +120,5 @@ function M.profile()
 		vim.cmd("profile file *")
 	end
 end
-
-M.kind_symbols = {
-	Text = "␂ Text",
-	Method = "🜜  Method",
-	Function = "⎔ Func",
-	Constructor = "⌂ Constructor",
-	Variable = "⊷ Var",
-	Class = "⌻ Class",
-	Interface = "∮ Interface",
-	Module = "⌘ Module",
-	Property = " ∴ Property",
-	Unit = "⍚ Unit",
-	Value = "⋯ Value",
-	Enum = "⎆ Enum",
-	Keyword = "⚿  Keyword",
-	Snippet = "⮑  Snippet",
-	Color = "🜚 Color",
-	File = "𐂧 File",
-	Folder = "𐂽 Folder",
-	EnumMember = "⍆ EnumMember",
-	Constant = "🜛 Constant",
-	Struct = "⨊ Struct",
-}
 
 return M
