@@ -18,7 +18,7 @@ local on_attach = function(client, bufnr)
 		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 	end
 	if client.server_capabilities.definitionProvider then
-		vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
+		-- vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
 	end
 	-- show documentation popups
 	local supports_resolve = client:supports_method(vim.lsp.protocol.Methods.completionItem_resolve)
@@ -299,44 +299,44 @@ local servers = {
 			}
 		end,
 	},
-	pylsp = {
-		filetypes = { "python" },
-		setup = function()
-			vim.lsp.config.pylsp = {
-				filetypes = { "python" },
-				cmd = { "pylsp" },
-				root_markers = {
-					"pyproject.toml",
-					"setup.py",
-					"setup.cfg",
-					"requirements.txt",
-					"Pipfile",
-					".git",
-				},
-				single_file_support = true,
-				settings = {
-					pylsp = {
-						plugins = {
-							-- formatter options
-							black = { enabled = true },
-							autopep8 = { enabled = false },
-							yapf = { enabled = false },
-							-- linter options
-							pylint = { enabled = true, executable = "pylint" },
-							pyflakes = { enabled = false },
-							pycodestyle = { enabled = false },
-							-- type checker
-							pylsp_mypy = { enabled = true },
-							-- auto-completion options
-							jedi_completion = { fuzzy = true },
-							-- import sorting
-							pyls_isort = { enabled = true },
-						},
-					},
-				},
-			}
-		end,
-	},
+	-- pylsp = {
+	-- 	filetypes = { "python" },
+	-- 	setup = function()
+	-- 		vim.lsp.config.pylsp = {
+	-- 			filetypes = { "python" },
+	-- 			cmd = { "pylsp" },
+	-- 			root_markers = {
+	-- 				"pyproject.toml",
+	-- 				"setup.py",
+	-- 				"setup.cfg",
+	-- 				"requirements.txt",
+	-- 				"Pipfile",
+	-- 				".git",
+	-- 			},
+	-- 			single_file_support = true,
+	-- 			settings = {
+	-- 				pylsp = {
+	-- 					plugins = {
+	-- 						-- formatter options
+	-- 						black = { enabled = true },
+	-- 						autopep8 = { enabled = false },
+	-- 						yapf = { enabled = false },
+	-- 						-- linter options
+	-- 						pylint = { enabled = true, executable = "pylint" },
+	-- 						pyflakes = { enabled = false },
+	-- 						pycodestyle = { enabled = false },
+	-- 						-- type checker
+	-- 						pylsp_mypy = { enabled = true },
+	-- 						-- auto-completion options
+	-- 						jedi_completion = { fuzzy = true },
+	-- 						-- import sorting
+	-- 						pyls_isort = { enabled = true },
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
 }
 
 -- LSP settings

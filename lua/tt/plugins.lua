@@ -8,7 +8,7 @@ vim.pack.add({
 	gh("ludovicchabant/vim-gutentags"),
 	gh("windwp/nvim-ts-autotag"),
 	gh("windwp/nvim-autopairs"),
-	gh("ibhagwan/fzf-lua"),
+	-- gh("ibhagwan/fzf-lua"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("norcalli/nvim-colorizer.lua"),

@@ -1,29 +1,9 @@
 vim.loader.enable()
 -- This needs to be set before plugins so that plugin init codes can read the mapleader key
 vim.g.mapleader = " "
-require("tt.plugins")
 vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/site/pack/*")
-local git = require("tt.git")
+require("tt.plugins")
 local globals = require("tt.nvim_utils").GLOBALS
-
-local setPath = function()
-	-- If we aren't using git, then we should still put a root marker in the current dir so that we
-	-- can index tags with gutentags, and maybe do other stuff.
-	if git.branch() == "" and globals.cwd() ~= globals.home and vim.o.ft ~= "gitcommit" then
-		vim.uv.fs_open("root_marker", vim.uv.constants.O_CREAT, 438, function(err)
-			if err then
-				vim.notify("ERR", err)
-			end
-		end)
-	end
-	-- TODO: make the list of dirs we don't index configurable
-	if globals.cwd() ~= globals.home then
-		return ".,"
-			.. table.concat(vim.fn.systemlist("fd . --type d --hidden -E .git -E .yarn"), ","):gsub("%./", "")
-			.. ","
-			.. table.concat(vim.fn.systemlist("fd --type f --max-depth 1"), ","):gsub("%./", "") -- grab both the dirs and the top level filesystem
-	end
-end
 
 vim.g.did_install_default_menus = 1
 vim.g.remove_whitespace = 1
@@ -69,7 +49,6 @@ set.undofile = true
 set.magic = true
 set.relativenumber = true
 set.tags = "" -- let gutentags handle this
-set.mopt = "hit-enter,history:500"
 set.foldenable = false
 set.undolevels = 1000
 set.ttimeoutlen = 20
@@ -79,8 +58,6 @@ set.tabstop = 2
 set.synmaxcol = 200
 set.cmdheight = 2
 set.updatetime = 200
--- auto break at 100 chars
--- set.textwidth = 100
 set.splitkeep = "topline"
 set.conceallevel = 2
 set.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
@@ -95,13 +72,6 @@ set.nrformats = "bin,hex,alpha"
 set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
-set.path = setPath()
-function FindFunc(cmdarg)
-	local cmd = "fd --color never --full-path --type f " .. cmdarg
-	return vim.fn.systemlist(cmd)
-end
-vim.o.findfunc = "v:lua.FindFunc"
-
 set.completeopt = "menuone,noselect,popup,fuzzy"
 set.autocomplete = true
 set.complete = ".,w,b,u,o,F"
