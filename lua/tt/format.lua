@@ -21,6 +21,7 @@ local formatters_by_ft = {
 	html = "prettier_html",
 	json = "prettier_json",
 	lua = "stylua",
+	-- yaml = "yamlfmt",
 }
 
 local function biomeCheck()
@@ -44,6 +45,15 @@ local function setup_formatters()
 	end
 
 	formatters = {
+		-- remove_whitepsace = {
+		-- 	exec = function()
+		-- 		if 1 == vim.g.remove_whitespace then
+		-- 			vim.nvim_exec("normal mz", false)
+		-- 			vim.cmd("%s/\\s\\+$//ge")
+		-- 			vim.nvim_exec("normal `z", false)
+		-- 		end
+		-- 	end,
+		-- },
 		prettier = { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck },
 		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
 		prettier_json = { command = makePrettierFormatter("json") },
@@ -56,6 +66,7 @@ local function setup_formatters()
 		},
 		clangfmt = { command = { "clang-format", "-assume-filename", "$FILENAME" } },
 		prettier_css = { command = makePrettierFormatter("css") },
+		yamlfmt = { command = { "yamlfmt", "-in" } },
 	}
 end
 
