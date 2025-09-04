@@ -248,17 +248,17 @@ end
 
 function M.nodejs.get_node_lib(lib)
 	local f = fn.getcwd() .. "/node_modules/" .. lib
-	if "" == fn.glob(f) then
+	if not vim.uv.fs_stat(f) then
 		local result = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
 		if result.code == 0 then
 			local project_root_path = vim.trim(result.stdout)
 			f = vim.fs.normalize(project_root_path .. "/node_modules/" .. lib)
 		end
 	end
-	if "" == fn.glob(f) then
-		return ""
+	if vim.uv.fs_stat(f) then
+		return f
 	end
-	return f
+	return ""
 end
 
 function M.vim_util.iabbrev(src, target, buffer)

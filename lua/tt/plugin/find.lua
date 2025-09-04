@@ -1,18 +1,5 @@
 local M = {}
 function M.init()
-	-- local fzf = require("fzf-lua")
-	-- fzf.setup({
-	-- 	"max-perf",
-	-- 	winopts = { preview = { hidden = true } },
-	-- })
-	-- vim.keymap.set("n", ",", function()
-	-- 	fzf.files({
-	-- 		fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
-	-- 	})
-	-- end)
-	-- vim.keymap.set("n", "ts", "FzfLua lsp_workspace_symbols")
-	-- vim.keymap.set("n", "<leader>.", require("fzf-lua").buffers)
-	--
 	function _G.RgFindFiles(cmdarg)
 		local fnames = vim.fn.systemlist({ "fd", "--color", "never", "--type", "f", "--hidden" })
 		if #cmdarg == 0 then
@@ -27,7 +14,7 @@ function M.init()
 	local function is_cmdline_type_find()
 		local cmdline_cmd = vim.fn.split(vim.fn.getcmdline(), " ")[1]
 
-		return cmdline_cmd == "find" or cmdline_cmd == "fin"
+		return cmdline_cmd == "find" or cmdline_cmd == "fin" or cmdline_cmd == "sf"
 	end
 
 	vim.api.nvim_create_autocmd({ "CmdlineChanged", "CmdlineLeave" }, {
@@ -73,7 +60,7 @@ function M.init()
 			vim.fn.feedkeys(keys, "c")
 		end
 	end)
-	vim.keymap.set("n", "<leader>.", ":buffers<CR>")
+	vim.keymap.set("n", "<leader>.", ":b<space>")
 
 	-- temp move elsewhere
 	vim.keymap.set("n", "<space>c", function()
