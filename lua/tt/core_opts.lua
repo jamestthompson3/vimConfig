@@ -22,10 +22,6 @@ iabbrev("tehn", "then")
 iabbrev("hadnler", "handler")
 iabbrev("bunlde", "bundle")
 
-vim.api.nvim_create_user_command("Bs", function(opts)
-	vim.cmd('call tools#BufSel("' .. opts.args .. '")')
-end, { nargs = 1, complete = "buffer" })
-
 vim.api.nvim_create_user_command("Diff", function()
 	require("tt.git").diff()
 end, {})

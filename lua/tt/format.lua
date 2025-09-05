@@ -21,6 +21,7 @@ local formatters_by_ft = {
 	html = "prettier_html",
 	json = "prettier_json",
 	lua = "stylua",
+	fish = "fish_indent",
 	-- yaml = "yamlfmt",
 }
 
@@ -67,6 +68,7 @@ local function setup_formatters()
 		clangfmt = { command = { "clang-format", "-assume-filename", "$FILENAME" } },
 		prettier_css = { command = makePrettierFormatter("css") },
 		yamlfmt = { command = { "yamlfmt", "-in" } },
+		fish_indent = { command = { "fish_indent" } },
 	}
 end
 
@@ -106,32 +108,27 @@ local function runFormat(buf, formatter)
 end
 
 -- Format function
-local function format_buffer()
-	setup_formatters()
-	local filetype = vim.bo.filetype
-	local formatterList = formatters_by_ft[filetype]
-
-	local buf = vim.api.nvim_buf_get_name(0)
-	if vim.islist(formatterList) then
-		for _, formatter in pairs(formatterList) do
-			local f = formatters[formatter]
-			if f.condition ~= nil then
-				if f.condition() then
-					runFormat(buf, f)
-				end
-			end
-		end
-	end
-	if not formatters[formatterList] then
-		return
-	end
-	runFormat(buf, formatters[formatterList])
-end
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*" },
-	callback = format_buffer,
-})
+-- local function format_buffer()
+-- 	setup_formatters()
+-- 	local filetype = vim.bo.filetype
+-- 	local formatterList = formatters_by_ft[filetype]
+--
+-- 	local buf = vim.api.nvim_buf_get_name(0)
+-- 	if vim.islist(formatterList) then
+-- 		for _, formatter in pairs(formatterList) do
+-- 			local f = formatters[formatter]
+-- 			if f.condition ~= nil then
+-- 				if f.condition() then
+-- 					runFormat(buf, f)
+-- 				end
+-- 			end
+-- 		end
+-- 	end
+-- 	if not formatters[formatterList] then
+-- 		return
+-- 	end
+-- 	runFormat(buf, formatters[formatterList])
+-- end
 
 vim.api.nvim_create_user_command("FormatInfo", function()
 	setup_formatters()

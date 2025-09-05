@@ -145,15 +145,6 @@ end
 
 M.vim_util = {}
 
-function M.vim_util.create_augroups(definitions)
-	for group_name, definition in pairs(definitions) do
-		vim.api.nvim_create_augroup(group_name, { clear = true })
-		for _, def in ipairs(definition) do
-			vim.api.nvim_create_autocmd(def[1], def[2])
-		end
-	end
-end
-
 function M.vim_util.get_lsp_clients()
 	local lsp = vim.lsp
 	if vim.tbl_isempty(lsp.get_clients({ bufnr = 0 })) then

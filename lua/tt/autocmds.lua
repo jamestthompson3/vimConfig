@@ -1,62 +1,72 @@
-local utils = require("tt.nvim_utils")
-local create_augroups = utils.vim_util.create_augroups
-local keys = utils.keys
-local buf_nnoremap = keys.buf_nnoremap
 local git = require("tt.git")
 
-local autocmds = {
-	load_core = {
-		{ "VimEnter", { callback = require("tt.tools").openQuickfix } },
-		{ "SwapExists", { command = "call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)" } },
-		{
-			"TextYankPost",
-			{
-				callback = function()
-					vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
-				end,
-			},
-		},
-		{ "BufNewFile", { pattern = "*.html", command = "0r ~/vim/skeletons/skeleton.html" } },
-		{ "BufNewFile", { pattern = "*.md", command = "0r ~/vim/skeletons/skeleton.md" } },
-		{ "VimLeavePre", { callback = require("tt.tools").saveSession } },
-		{ "VimResume", { command = "checktime" } },
-		{
-			"BufWritePost",
-			{
-				pattern = "*.fish",
-				callback = function()
-					vim.fn.jobstart({ "fish_indent", "-w", vim.fn.expand("%") }, {
-						stdout_buffered = true,
-						stderr_buffered = true,
-						on_exit = function(_, code)
-							if code == 0 then
-								vim.cmd("checktime")
-							end
-						end,
-					})
-				end,
-			},
-		},
-		{ "QuickFixCmdPost", { pattern = "[^l]*", nested = true, callback = require("tt.tools").openQuickfix } },
-		{ { "CursorMoved", "CursorMovedI" }, {
-			callback = function()
-				git.clear_blame()
-			end,
-		} },
-		{ { "FocusGained" }, { command = "checktime" } },
-	},
-	bufs = {
-		{
-			"BufReadPost",
-			{
-				pattern = "quickfix",
-				callback = function()
-					buf_nnoremap({ "ra", ":ReplaceAll<CR>", { silent = true } })
-					buf_nnoremap({ "R", ":Cfilter!<space>" })
-					buf_nnoremap({ "K", ":Cfilter<space>" })
-				end,
-			},
-		},
-	},
-}
-create_augroups(autocmds)
+local load_core = vim.api.nvim_create_augroup("load_core", { clear = true })
+local bufs = vim.api.nvim_create_augroup("bufs", { clear = true })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+	group = load_core,
+	callback = require("tt.tools").openQuickfix,
+})
+
+vim.api.nvim_create_autocmd("SwapExists", {
+	group = load_core,
+	command = "call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)",
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = load_core,
+	callback = function()
+		vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufNewFile", {
+	group = load_core,
+	pattern = "*.html",
+	command = "0r ~/vim/skeletons/skeleton.html",
+})
+
+vim.api.nvim_create_autocmd("BufNewFile", {
+	group = load_core,
+	pattern = "*.md",
+	command = "0r ~/vim/skeletons/skeleton.md",
+})
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+	group = load_core,
+	callback = require("tt.tools").saveSession,
+})
+
+vim.api.nvim_create_autocmd("VimResume", {
+	group = load_core,
+	command = "checktime",
+})
+
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+	group = load_core,
+	pattern = "[^l]*",
+	nested = true,
+	callback = require("tt.tools").openQuickfix,
+})
+
+vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+	group = load_core,
+	callback = function()
+		git.clear_blame()
+	end,
+})
+
+vim.api.nvim_create_autocmd("FocusGained", {
+	group = load_core,
+	command = "checktime",
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = bufs,
+	pattern = "quickfix",
+	callback = function()
+		vim.keymap.set("n", "ra", ":ReplaceAll<CR>", { buffer = true, silent = true })
+		vim.keymap.set("n", "R", ":Cfilter!<space>", { buffer = true })
+		vim.keymap.set("n", "K", ":Cfilter<space>", { buffer = true })
+	end,
+})
