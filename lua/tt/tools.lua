@@ -85,13 +85,13 @@ end
 
 function M.saveSession()
 	local sessionName = M.createSessionName()
-	local cmd = string.format("mks! %s%s.vim", sessionPath, sessionName)
+	local cmd = string.format("mks! %s/%s.vim", sessionPath, sessionName)
 	vim.cmd(cmd)
 end
 
 function M.sourceSession()
 	local sessionName = M.createSessionName()
-	local cmd = string.format("so %s%s.vim", sessionPath, sessionName)
+	local cmd = string.format("so %s/%s.vim", sessionPath, sessionName)
 	vim.cmd(cmd)
 end
 
