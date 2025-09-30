@@ -78,6 +78,7 @@ local function runFormat(buf, formatter)
 		return
 	end
 
+	local input = ""
 	if vim.tbl_contains(cmd, "$FILENAME") then
 		cmd = vim.tbl_map(function(v)
 			if v == "$FILENAME" then
@@ -86,11 +87,9 @@ local function runFormat(buf, formatter)
 			return v
 		end, cmd)
 	else
-		table.insert(cmd, buf)
+		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+		input = table.concat(lines, "\n")
 	end
-
-	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-	local input = table.concat(lines, "\n")
 
 	local result = vim.system(cmd, { stdin = input }):wait()
 	local exit_code = result.code
