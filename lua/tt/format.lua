@@ -8,8 +8,8 @@ local formatters
 local formatters_by_ft = {
 	javascript = { "prettier", "biome" },
 	javascriptreact = { "prettier", "biome" },
-	typescript = { "prettier", "biome" },
-	typescriptreact = { "prettier", "biome" },
+	typescript = { "prettier_ts", "biome" },
+	typescriptreact = { "prettier_ts", "biome" },
 	g = "gofmt",
 	c = "clangfmt",
 	cpp = "clangfmt",
@@ -42,7 +42,7 @@ local function setup_formatters()
 	biomeBin = node.find_node_executable("biome")
 
 	local function makePrettierFormatter(parser)
-		return { prettierBin, "--stdin-filepath", "$FILENAME", "--parser", parser }
+		return { command = { prettierBin, "--parser", parser }, condition = prettierCheck }
 	end
 
 	formatters = {
@@ -55,10 +55,12 @@ local function setup_formatters()
 		-- 		end
 		-- 	end,
 		-- },
-		prettier = { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck },
+		prettier = { command = { prettierBin }, condition = prettierCheck },
+		prettier_ts = makePrettierFormatter("typescript"),
 		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
-		prettier_json = { command = makePrettierFormatter("json") },
-		prettier_html = { command = makePrettierFormatter("html") },
+		prettier_json = makePrettierFormatter("json"),
+		prettier_html = makePrettierFormatter("html"),
+		prettier_css = makePrettierFormatter("css"),
 		stylua = {
 			command = { "stylua", "-" },
 		},
@@ -66,7 +68,6 @@ local function setup_formatters()
 			command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" },
 		},
 		clangfmt = { command = { "clang-format", "-assume-filename", "$FILENAME" } },
-		prettier_css = { command = makePrettierFormatter("css") },
 		yamlfmt = { command = { "yamlfmt", "-in" } },
 		fish_indent = { command = { "fish_indent" } },
 	}
