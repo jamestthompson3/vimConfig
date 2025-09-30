@@ -60,7 +60,7 @@ local function setup_formatters()
 		prettier_json = { command = makePrettierFormatter("json") },
 		prettier_html = { command = makePrettierFormatter("html") },
 		stylua = {
-			command = { "stylua", "--stdin-filepath", "$FILENAME", "-" },
+			command = { "stylua", "-" },
 		},
 		rustfmt = {
 			command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" },
