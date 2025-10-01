@@ -10,7 +10,7 @@ local formatters_by_ft = {
 	javascriptreact = { "prettier", "biome" },
 	typescript = { "prettier_ts", "biome" },
 	typescriptreact = { "prettier_ts", "biome" },
-	g = "gofmt",
+	go = "gofmt",
 	c = "clangfmt",
 	cpp = "clangfmt",
 	objcpp = "clangfmt",
@@ -55,6 +55,7 @@ local function setup_formatters()
 		-- 		end
 		-- 	end,
 		-- },
+		gofmt = { command = { "gofmt", "-s", "$FILENAME" } },
 		prettier = { command = { prettierBin }, condition = prettierCheck },
 		prettier_ts = makePrettierFormatter("typescript"),
 		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
