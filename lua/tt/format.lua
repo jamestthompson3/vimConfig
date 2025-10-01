@@ -55,9 +55,10 @@ local function setup_formatters()
 		-- 		end
 		-- 	end,
 		-- },
-		gofmt = { command = { "gofmt", "-s", "$FILENAME" } },
+		gofmt = { command = { "gofmt", "-s" } },
 		prettier = { command = { prettierBin }, condition = prettierCheck },
 		prettier_ts = makePrettierFormatter("typescript"),
+		stylint = { command = { node.find_node_executable("stylint"), "--fix" } },
 		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
 		prettier_json = makePrettierFormatter("json"),
 		prettier_html = makePrettierFormatter("html"),
