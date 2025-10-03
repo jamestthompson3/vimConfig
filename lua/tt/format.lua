@@ -17,7 +17,7 @@ local formatters_by_ft = {
 	css = "prettier_css",
 	scss = "prettier_css",
 	rust = "rustfmt",
-	astro = "prettier",
+	astro = "prettier_astro",
 	html = "prettier_html",
 	json = "prettier_json",
 	lua = "stylua",
@@ -59,10 +59,11 @@ local function setup_formatters()
 		prettier = { command = { prettierBin }, condition = prettierCheck },
 		prettier_ts = makePrettierFormatter("typescript"),
 		stylint = { command = { node.find_node_executable("stylint"), "--fix" } },
-		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
+		biome = { command = { biomeBin, "format" }, condition = biomeCheck },
 		prettier_json = makePrettierFormatter("json"),
 		prettier_html = makePrettierFormatter("html"),
 		prettier_css = makePrettierFormatter("css"),
+		prettier_astro = makePrettierFormatter("astro"),
 		stylua = {
 			command = { "stylua", "-" },
 		},
@@ -76,6 +77,9 @@ local function setup_formatters()
 end
 
 local function runFormat(buf, formatter)
+	if vim.g.autoformat == false then
+		return
+	end
 	local cmd = formatter.command
 	if not cmd then
 		return
@@ -89,10 +93,9 @@ local function runFormat(buf, formatter)
 			end
 			return v
 		end, cmd)
-	else
-		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-		input = table.concat(lines, "\n")
 	end
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	input = table.concat(lines, "\n")
 
 	local result = vim.system(cmd, { stdin = input }):wait()
 	local exit_code = result.code
