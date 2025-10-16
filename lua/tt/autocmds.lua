@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 			vim.cmd("hi PmenuMatch gui=bold guifg=#8b0000 guibg=NONE")
 			vim.cmd("hi PmenuMatchSel gui=bold guifg=#8b0000 guibg=NONE")
 			vim.cmd("hi StatusLine guifg=#0c2919 guibg=#a8d4c3")
+			vim.cmd("hi Cursor gui=none guifg=#000000 guibg=#ff5f00")
 			vim.cmd("hi @markup.raw guibg=NONE")
 			vim.cmd("hi link @commment.block Pmenu")
 		else
