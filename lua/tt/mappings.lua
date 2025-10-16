@@ -8,7 +8,6 @@ local xmap = require("tt.nvim_utils").keys.xmap
 local xmap_cmd = require("tt.nvim_utils").keys.xmap_cmd
 local xnore = require("tt.nvim_utils").keys.xnore
 local vnore = require("tt.nvim_utils").keys.vnore
-local cmap = require("tt.nvim_utils").keys.cmap
 
 local tools = require("tt.tools")
 local git = require("tt.git")

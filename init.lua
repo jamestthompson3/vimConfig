@@ -62,7 +62,6 @@ set.diffopt = "hiddenoff,iwhiteall,algorithm:minimal,internal,closeoff,indent-he
 set.nrformats = "bin,hex,alpha"
 set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
-set.messagesopt = "history:500,wait:200"
 set.inccommand = "split"
 set.completeopt = "menuone,noselect,popup,fuzzy"
 set.autocomplete = true
@@ -100,7 +99,6 @@ set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-IncSearch"
 vim.cmd("colorscheme quiet-modified")
 set.background = "light"
-require("tt.ui").lightMode()
 require("tt.core_opts")
 require("tt.lsp")
 require("tt.mappings")
