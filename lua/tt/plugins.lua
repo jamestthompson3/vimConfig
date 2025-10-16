@@ -5,7 +5,7 @@ end
 vim.pack.add({
 	gh("echasnovski/mini.surround"),
 	gh("stevearc/oil.nvim"),
-	-- gh("ludovicchabant/vim-gutentags"),
+	gh("ludovicchabant/vim-gutentags"),
 	gh("windwp/nvim-ts-autotag"),
 	gh("windwp/nvim-autopairs"),
 	gh("ibhagwan/fzf-lua"),
@@ -53,7 +53,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	callback = function()
 		require("tt.plugin.treesitter").init()
 		require("mini.surround").setup()
-		-- vim.cmd("packadd vim-gutentags")
+		vim.cmd("packadd vim-gutentags")
 		require("nvim-ts-autotag").setup({
 			aliases = {
 				["astro"] = "html",

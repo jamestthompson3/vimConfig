@@ -17,6 +17,12 @@ local on_attach = function(client, bufnr)
 	if client.server_capabilities.completionProvider then
 		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 	end
+	vim.lsp.completion.enable(true, client.id, bufnr, {
+		autotrigger = true,
+		convert = function(item)
+			return { abbr = item.label:gsub("%b()", "") }
+		end,
+	})
 	if client.server_capabilities.definitionProvider then
 		-- vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
 	end
@@ -289,16 +295,16 @@ local servers = {
 			}
 		end,
 	},
-	ctags_lsp = {
-		filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-		setup = function()
-			vim.lsp.config.ctags_lsp = {
-				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-				cmd = { "ctags-lsp" },
-				on_attach = on_attach,
-			}
-		end,
-	},
+	-- ctags_lsp = {
+	-- 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+	-- 	setup = function()
+	-- 		vim.lsp.config.ctags_lsp = {
+	-- 			filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+	-- 			cmd = { "ctags-lsp" },
+	-- 			on_attach = on_attach,
+	-- 		}
+	-- 	end,
+	-- },
 	-- pylsp = {
 	-- 	filetypes = { "python" },
 	-- 	setup = function()

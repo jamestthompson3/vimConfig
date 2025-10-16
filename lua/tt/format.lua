@@ -63,7 +63,7 @@ local function setup_formatters()
 		prettier_json = makePrettierFormatter("json"),
 		prettier_html = makePrettierFormatter("html"),
 		prettier_css = makePrettierFormatter("css"),
-		prettier_astro = makePrettierFormatter("astro"),
+		prettier_astro = { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck },
 		stylua = {
 			command = { "stylua", "-" },
 		},
