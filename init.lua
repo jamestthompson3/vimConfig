@@ -99,7 +99,8 @@ set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-IncSearch"
 vim.cmd("colorscheme quiet-modified")
-require("tt.ui").darkMode()
+set.background = "light"
+require("tt.ui").lightMode()
 require("tt.core_opts")
 require("tt.lsp")
 require("tt.mappings")
