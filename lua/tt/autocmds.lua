@@ -22,15 +22,18 @@ vim.api.nvim_create_autocmd("VimEnter", {
 			vim.cmd("hi @markup.raw guibg=NONE")
 			vim.cmd("hi link @commment.block Pmenu")
 		else
-			vim.cmd("hi Comment guifg=#0a1a4a guibg=#c8d8f0")
+			vim.cmd("hi @comment.block.c guifg=#0a1a4a guibg=#c8d8f0")
+			vim.cmd("hi Comment guifg=#43105d guibg=#c897ff")
 			vim.cmd("hi Pmenu guifg=#1a1a1a guibg=#e8e8e8")
 			vim.cmd("hi PmenuSel guifg=#0a1a4a guibg=#c8d8f0")
 			vim.cmd("hi PmenuMatchSel guifg=#8b0000 guibg=NONE gui=bold")
 			vim.cmd("hi LineNr guifg=#4f4f4f")
 			vim.cmd("hi Cursor gui=none guifg=#3a3a00 guibg=#dab862")
 			vim.cmd("hi DiagnosticHint guifg=#0c2919 guibg=#c8e8d8")
+			vim.cmd("hi DiagnosticInfo guibg=DarkCyan guifg=White")
 			vim.cmd("hi DiagnosticUnderlineHint guisp=#0c2919")
 			vim.cmd("hi @comment.note guifg=#0a3a3a guibg=#c8e8e8")
+			vim.cmd("hi link @markup.raw.block.markdown NormalFloat")
 			vim.cmd("hi link @commment.block Pmenu")
 		end
 	end,
@@ -58,6 +61,22 @@ vim.api.nvim_create_autocmd("BufNewFile", {
 	group = load_core,
 	pattern = "*.md",
 	command = "0r ~/vim/skeletons/skeleton.md",
+})
+
+vim.api.nvim_create_autocmd("BufWriteCmd", {
+	group = bufs,
+	pattern = "*.todo",
+	callback = function()
+		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+		for _, line in pairs(lines) do
+			local result = vim.system({ "todo.sh", "add" }, { stdin = line }):wait()
+			local exit_code = result.code
+			if exit_code ~= 0 then
+				vim.notify("command failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
+			end
+		end
+		vim.cmd.bdelete({ bang = true })
+	end,
 })
 
 vim.api.nvim_create_autocmd("VimLeavePre", {
