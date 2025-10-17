@@ -112,6 +112,8 @@ if &background ==# 'dark'
   hi VisualNOS guifg=NONE guibg=#303030 gui=NONE cterm=NONE
   hi WarningMsg guifg=#fffff guibg=NONE gui=NONE cterm=NONE
   hi WildMenu guifg=#00afff guibg=#282828 gui=bold cterm=bold
+  hi NormalFloat guifg=#fffff guibg=#1c1c1c gui=NONE cterm=NONE
+  hi FloatBorder guifg=#707070 guibg=#1c1c1c gui=NONE cterm=NONE
   hi Comment guifg=#707070 guibg=NONE gui=NONE cterm=NONE
   hi Constant guifg=#fffff guibg=NONE gui=NONE cterm=NONE
   hi Error guifg=#ff005f guibg=#282828 gui=bold,reverse cterm=bold,reverse
@@ -188,6 +190,8 @@ else
   hi VisualNOS guifg=NONE guibg=#eeeeee gui=NONE cterm=NONE
   hi WarningMsg guifg=#282828 guibg=NONE gui=NONE cterm=NONE
   hi WildMenu guifg=#282828 guibg=#eeeeee gui=bold cterm=bold
+  hi NormalFloat guifg=#282828 guibg=#f0f0f0 gui=NONE cterm=NONE
+  hi FloatBorder guifg=#a8a8a8 guibg=#f0f0f0 gui=NONE cterm=NONE
   hi Comment guifg=#0c2919 guibg=#a8d4c3 gui=NONE cterm=NONE
   hi Constant guifg=#282828 guibg=NONE gui=NONE cterm=NONE
   hi Error guifg=#af0000 guibg=#ffcdd2 gui=bold cterm=bold
@@ -273,6 +277,8 @@ if s:t_Co >= 256
     hi CursorIM ctermfg=16 ctermbg=154 cterm=NONE
     hi ToolbarLine ctermfg=NONE ctermbg=16 cterm=NONE
     hi ToolbarButton ctermfg=253 ctermbg=16 cterm=bold
+    hi NormalFloat ctermfg=253 ctermbg=234 cterm=NONE
+    hi FloatBorder ctermfg=242 ctermbg=234 cterm=NONE
     " Custom
     hi link GitLens Comment
   else
@@ -344,6 +350,8 @@ if s:t_Co >= 256
     hi CursorIM ctermfg=16 ctermbg=154 cterm=NONE
     hi ToolbarLine ctermfg=NONE ctermbg=188 cterm=NONE
     hi ToolbarButton ctermfg=16 ctermbg=188 cterm=bold
+    hi NormalFloat ctermfg=16 ctermbg=254 cterm=NONE
+    hi FloatBorder ctermfg=248 ctermbg=254 cterm=NONE
   endif
   unlet s:t_Co
   finish
