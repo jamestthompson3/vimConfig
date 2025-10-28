@@ -126,6 +126,8 @@ local function format_buffer()
 				if f.condition() then
 					runFormat(buf, f)
 				end
+			else
+				runFormat(buf, f)
 			end
 		end
 	end

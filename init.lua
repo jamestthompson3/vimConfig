@@ -22,7 +22,7 @@ vim.g.markdown_fenced_languages = {
 
 vim.g.gutentags_file_list_command = "fd --type f --hidden -E .git"
 vim.g.gutentags_cache_dir = vim.fn.expand("~/.cache/")
-vim.g.gutentags_project_root = { ".git", "root_marker" }
+vim.g.gutentags_project_root = { ".git" }
 vim.g.gutentags_add_default_project_roots = 0
 vim.g.gutentags_generate_on_empty_buffer = 1
 vim.g.gutentags_ctags_exclude_wildignore = 1
@@ -98,7 +98,7 @@ set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-Cursor"
 vim.cmd("colorscheme quiet-modified")
-set.background = "light"
+set.background = "dark"
 require("tt.core_opts")
 require("tt.lsp")
 require("tt.mappings")
