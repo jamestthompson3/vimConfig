@@ -2,7 +2,7 @@ local M = {}
 
 function M.run_job(cmd, opts)
 	opts = opts or {}
-	
+
 	local results = {}
 	local default_opts = {
 		stdout_buffered = true,
@@ -47,7 +47,7 @@ function M.run_job(cmd, opts)
 			end
 		end,
 	}
-	
+
 	local job_opts = vim.tbl_extend("force", default_opts, opts)
 	return vim.fn.jobstart(cmd, job_opts)
 end

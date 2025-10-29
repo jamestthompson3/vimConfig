@@ -2,7 +2,6 @@
 local vim = vim or {}
 local api = vim.api
 local fn = vim.fn
-local loop = vim.uv
 
 local M = {}
 
@@ -77,8 +76,8 @@ function M.keys.vmap_nocr(lhs, cmd_string)
 	M.keys.map_no_cr("v", lhs, cmd_string)
 end
 
-function M.keys.nnore(lhs, rhs)
-	set_nore("n", lhs, rhs)
+function M.keys.nnore(lhs, rhs, opts)
+	set_nore("n", lhs, rhs, opts)
 end
 
 function M.keys.inore(lhs, rhs)

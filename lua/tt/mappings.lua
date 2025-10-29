@@ -62,7 +62,7 @@ nmap({ "<leader>b", git.blame })
 nmap({
 	"<leader>d",
 	function()
-		tools.openTerminalDrawer(0)
+		tools.openTerminalDrawer()
 	end,
 })
 
@@ -96,6 +96,35 @@ nmap({
 	function()
 		require("oil").setup()
 		require("oil").open()
+	end,
+	silent = true,
+})
+nmap({
+	"<leader>a",
+	function()
+		vim.cmd("argadd %")
+		vim.cmd("argdedupe")
+	end,
+	silent = true,
+})
+nmap({
+	"<leader>1",
+	function()
+		vim.cmd("silent! 1argument")
+	end,
+	silent = true,
+})
+nmap({
+	"<leader>2",
+	function()
+		vim.cmd("silent! 2argument")
+	end,
+	silent = true,
+})
+nmap({
+	"<leader>3",
+	function()
+		vim.cmd("silent! 3argument")
 	end,
 	silent = true,
 })

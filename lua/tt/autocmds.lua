@@ -79,6 +79,11 @@ vim.api.nvim_create_autocmd("BufWriteCmd", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("VimResized", {
+	desc = "Automatically resize splits, when terminal window is moved",
+	command = "wincmd =",
+})
+
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	group = load_core,
 	callback = require("tt.tools").saveSession,
