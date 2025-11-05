@@ -1,7 +1,6 @@
 local M = {}
 local api = vim.api
 local fn = vim.fn
-local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local shell_to_buf = require("tt.nvim_utils").vim_util.shell_to_buf
 local namespace = api.nvim_create_namespace("git_lens")
 
@@ -128,8 +127,8 @@ function M.changedFiles()
 	local buf = api.nvim_create_buf(false, true)
 	api.nvim_buf_set_lines(buf, 0, -1, true, files)
 	api.nvim_win_set_buf(0, buf)
-	buf_nnoremap({ "<CR>", jumpToDiff, { buffer = buf } })
-	buf_nnoremap({ "Q", ":tabclose<CR>", { buffer = buf } })
+	vim.keymap.set("n", "<CR>", jumpToDiff, { buffer = buf })
+	vim.keymap.set("n", "Q", ":tabclose<CR>", { buffer = buf })
 end
 
 return M

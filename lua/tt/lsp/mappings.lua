@@ -1,19 +1,18 @@
-local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
-
 local M = {}
 
-local function bufmap(rhs, lhs, bufnr)
-	buf_nnoremap({ rhs, lhs, { buffer = bufnr } })
+local function bufmap(mode, lhs, rhs, bufnr)
+	vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
 end
+
 function M.setMappings(bufnr)
-	bufmap("ge", function()
+	bufmap("n", "ge", function()
 		vim.diagnostic.open_float(0, { scope = "cursor" })
 	end, bufnr)
-	bufmap("gd", vim.lsp.buf.definition, bufnr)
-	bufmap("gs", ":vsplit|lua vim.lsp.buf.definition()<CR>", bufnr)
-	bufmap("<leader>k", vim.lsp.codelens.run)
-	bufmap("<leader>i", vim.lsp.buf.implementation, bufnr)
-	bufmap("<leader>f", vim.lsp.buf.format, bufnr)
+	bufmap("n", "gd", vim.lsp.buf.definition, bufnr)
+	bufmap("n", "gs", ":vsplit|lua vim.lsp.buf.definition()<CR>", bufnr)
+	bufmap("n", "<leader>k", vim.lsp.codelens.run, bufnr)
+	bufmap("n", "<leader>i", vim.lsp.buf.implementation, bufnr)
+	bufmap("n", "<leader>f", vim.lsp.buf.format, bufnr)
 end
 
 return M

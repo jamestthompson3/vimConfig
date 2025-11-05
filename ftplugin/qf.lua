@@ -1,4 +1,2 @@
-local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
-
-buf_nnoremap({"<Left>", ":call quickfixed#history(0)<CR>"})
-buf_nnoremap({"<Right>", ":call quickfixed#history(1)<CR>"})
+vim.keymap.set("n", "<Left>", ":call quickfixed#history(0)<CR>", { buffer = true })
+vim.keymap.set("n", "<Right>", ":call quickfixed#history(1)<CR>", { buffer = true })

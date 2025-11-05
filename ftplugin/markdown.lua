@@ -1,4 +1,3 @@
-local buf_nnoremap = require("tt.nvim_utils").keys.buf_nnoremap
 local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 local M = {}
@@ -79,9 +78,9 @@ end
 
 vim.api.nvim_create_user_command("Compose", function() require'tt.ft.markdown'.composer() end, {})
 
-buf_nnoremap({ "nj", "gj" })
-buf_nnoremap({ "k", "gk" })
-buf_nnoremap({ "gh", M.previewLinkedPage })
-buf_nnoremap({ "<leader>r", M.asyncDocs })
+vim.keymap.set("n", "j", "gj", { buffer = true })
+vim.keymap.set("n", "k", "gk", { buffer = true })
+vim.keymap.set("n", "gh", M.previewLinkedPage, { buffer = true })
+vim.keymap.set("n", "<leader>r", M.asyncDocs, { buffer = true })
 
 return M

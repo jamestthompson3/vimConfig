@@ -1,4 +1,3 @@
-local buf_map = require("tt.nvim_utils").keys.buf_nnoremap
 local git = require("tt.git")
 local api = vim.api
 local fn = vim.fn
@@ -28,7 +27,7 @@ function M.splashscreen()
 		vim.wo[0].cursorcolumn = false
 		M.simpleMRU()
 		vim.cmd([[:34]])
-		buf_map({ "<CR>", "gf", { noremap = true } })
+		vim.keymap.set("n", "<CR>", "gf", { buffer = true, noremap = true })
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
 	else
