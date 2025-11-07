@@ -36,6 +36,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
 			vim.cmd("hi link @markup.raw.block.markdown NormalFloat")
 			vim.cmd("hi link @commment.block Pmenu")
 		end
+		local proj = require("tt.project")
+		proj.setup()
+		proj.add_current_project()
 	end,
 })
 
