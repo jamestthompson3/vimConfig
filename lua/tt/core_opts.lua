@@ -38,6 +38,10 @@ vim.api.nvim_create_user_command("Redir", function(opts)
 	vim.cmd('silent call tools#redir("' .. opts.args .. '")')
 end, { nargs = 1, complete = "command" })
 
+vim.api.nvim_create_user_command("Sesh", function(opts)
+	require("tt.tools").saveSession(opts.args)
+end, { nargs = 1 })
+
 -- Global Vim functions
 vim.api.nvim_exec2(
 	[[

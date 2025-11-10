@@ -73,23 +73,36 @@ function M.winMove(key)
 end
 
 -- Session Management
-function M.createSessionName()
-	local sessionName = git.branch()
-	if not sessionName == "" or sessionName == "master" then
-		return "default" --currDir
-	else
-		return sessionName:gsub("/", "-")
+function M.createSessionName(custom_name)
+	local cleared = ""
+	if custom_name and custom_name ~= "" then
+		cleared = custom_name:gsub("/", "-"):gsub("%s+", "_")
 	end
+
+	local git_root = vim.fs.root(0, ".git")
+	local project_name
+	if git_root then
+		project_name = vim.fn.fnamemodify(git_root, ":t")
+	else
+		project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+	end
+	local branch_name = git.branch()
+	if branch_name == "" or branch_name == "master" or branch_name == "main" then
+		branch_name = "default"
+	else
+		branch_name = branch_name:gsub("/", "-")
+	end
+	return string.format("%s_%s_%s", project_name, branch_name, cleared)
 end
 
-function M.saveSession()
-	local sessionName = M.createSessionName()
+function M.saveSession(session_name)
+	local sessionName = M.createSessionName(session_name)
 	local cmd = string.format("mks! %s/%s.vim", sessionPath, sessionName)
 	vim.cmd(cmd)
 end
 
-function M.sourceSession()
-	local sessionName = M.createSessionName()
+function M.sourceSession(session_name)
+	local sessionName = M.createSessionName(session_name)
 	local cmd = string.format("so %s/%s.vim", sessionPath, sessionName)
 	vim.cmd(cmd)
 end

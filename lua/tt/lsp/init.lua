@@ -133,6 +133,16 @@ local servers = {
 			}
 		end,
 	},
+	zls = {
+		filetypes = { "zig" },
+		setup = function()
+			vim.lsp.config.zls = {
+				filetypes = { "zig", "zon" },
+				on_attach = on_attach,
+				cmd = { "zls" },
+			}
+		end,
+	},
 	sqls = {
 		filetypes = { "sql", "mysql" },
 		setup = function()
