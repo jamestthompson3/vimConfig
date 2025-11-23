@@ -59,7 +59,7 @@ local function setup_formatters()
 		prettier = { command = { prettierBin }, condition = prettierCheck },
 		prettier_ts = makePrettierFormatter("typescript"),
 		stylint = { command = { node.find_node_executable("stylelint"), "--fix" } },
-		biome = { command = { biomeBin, "format" }, condition = biomeCheck },
+		biome = { command = { biomeBin, "format", "$FILENAME", "--write" }, condition = biomeCheck },
 		prettier_json = makePrettierFormatter("json"),
 		prettier_html = makePrettierFormatter("html"),
 		prettier_css = makePrettierFormatter("css"),
