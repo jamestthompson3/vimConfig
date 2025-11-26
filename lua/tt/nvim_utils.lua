@@ -143,6 +143,11 @@ function M.nodejs.get_node_lib(lib)
 	if vim.uv.fs_stat(f) then
 		return f
 	end
+	-- Fallback to langservers
+	local langservers_path = fn.stdpath("config") .. "/langservers/node_modules/" .. lib
+	if vim.uv.fs_stat(langservers_path) then
+		return langservers_path
+	end
 	return ""
 end
 

@@ -19,6 +19,7 @@ M.eslint_roots = {
 	"eslint.config.ts",
 	"eslint.config.mts",
 	"eslint.config.cts",
+	".eslintrc",
 }
 
 M.biome_roots = {

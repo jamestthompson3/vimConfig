@@ -303,7 +303,12 @@ local servers = {
 				end,
 				capabilities = capabilities,
 				cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
-				init_options = { hostInfo = "neovim" },
+				init_options = {
+					hostInfo = "neovim",
+					tsserver = {
+						path = node.get_node_lib("typescript/lib"),
+					},
+				},
 				root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 				single_file_support = true,
 			}

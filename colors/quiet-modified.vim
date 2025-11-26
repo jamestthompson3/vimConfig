@@ -50,7 +50,6 @@ hi! link Typedef Type
 hi! link lCursor Cursor
 hi! link debugBreakpoint ModeMsg
 hi! link debugPC CursorLine
-hi! link TreesitterContext Pmenu
 hi! link DiagnosticUnnecessary WildMenu
 
 

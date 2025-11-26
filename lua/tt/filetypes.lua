@@ -1,4 +1,3 @@
--- File type detection using the new filetype.lua system
 vim.filetype.add({
 	pattern = {
 		-- Nginx
@@ -17,7 +16,6 @@ vim.filetype.add({
 		[".*%.dock"] = "dockerfile",
 
 		-- Web Development
-		[".*%.tsx"] = { "typescript", { commentstring = "//%s" } },
 		[".*%.svelte"] = "html",
 		[".*%.pcss"] = "css",
 

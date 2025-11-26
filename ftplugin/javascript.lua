@@ -1,5 +1,5 @@
 local g = vim.g
-local bootstrap = require("tt.ft.ecma").bootstrap
+require("tt.ft.ecma").bootstrap()
 
 g.jsx_ext_required = 0
 g.javascript_plugin_jsdoc = 1
@@ -41,4 +41,3 @@ table.insert(efm, "%Z%p^,%A%f:%l,%C%m")
 -- Ignore everything else
 table.insert(efm, "%-G%.%#")
 vim.bo.errorformat = table.concat(efm, "")
-bootstrap()

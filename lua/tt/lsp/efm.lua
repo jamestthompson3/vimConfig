@@ -17,6 +17,15 @@ function M.init()
 		}
 		vim.lsp.config.efm = {
 			cmd = { "efm-langserver" },
+			filetypes = {
+				"javascript",
+				"typescript",
+				"javascriptreact",
+				"typescriptreact",
+				"scss",
+				"css",
+				"json",
+			},
 			settings = {
 				rootMarkers = { "package.json", ".git" },
 				languages = {
