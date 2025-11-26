@@ -50,6 +50,9 @@ hi! link Typedef Type
 hi! link lCursor Cursor
 hi! link debugBreakpoint ModeMsg
 hi! link debugPC CursorLine
+hi! link TreesitterContext Pmenu
+hi! link DiagnosticUnnecessary WildMenu
+
 
 if &background ==# 'dark'
   if (has('termguicolors') && &termguicolors) || has('gui_running')
@@ -281,6 +284,27 @@ if s:t_Co >= 256
     hi FloatBorder ctermfg=242 ctermbg=234 cterm=NONE
     " Custom
     hi link GitLens Comment
+  " -----------------------------------------------------------------------------
+  " Dark mode overrides
+  " -----------------------------------------------------------------------------
+  " Comments: inverted green tint for high visibility
+  hi Comment guifg=#0c2919 guibg=#a8d4c3
+
+  " Popup menu: muted blue-grey
+  hi Pmenu guifg=#1a1a5a guibg=#d0d5e0
+  hi PmenuSel guifg=#0c2919 guibg=#a8d4c3
+  hi PmenuMatch gui=bold guifg=#8b0000 guibg=NONE
+  hi PmenuMatchSel gui=bold guifg=#8b0000 guibg=NONE
+
+  " Statusline: match comment style
+  hi StatusLine guifg=#0c2919 guibg=#a8d4c3
+
+  " Cursor: orange for visibility
+  hi Cursor gui=none guifg=#000000 guibg=#ff5f00
+
+  " Treesitter/markup
+  hi @markup.raw guibg=NONE
+  hi! link @comment.block Pmenu
   else
     " Light background
     hi Normal ctermfg=16 ctermbg=188 cterm=NONE
@@ -352,6 +376,33 @@ if s:t_Co >= 256
     hi ToolbarButton ctermfg=16 ctermbg=188 cterm=bold
     hi NormalFloat ctermfg=16 ctermbg=254 cterm=NONE
     hi FloatBorder ctermfg=248 ctermbg=254 cterm=NONE
+  " -----------------------------------------------------------------------------
+  " Light mode overrides
+  " -----------------------------------------------------------------------------
+  " Comments: purple tint
+  hi Comment guifg=#43105d guibg=#c897ff
+  hi @comment.block.c guifg=#0a1a4a guibg=#c8d8f0
+
+  " Popup menu: subtle grey
+  hi Pmenu guifg=#1a1a1a guibg=#e8e8e8
+  hi PmenuSel guifg=#0a1a4a guibg=#c8d8f0
+  hi PmenuMatchSel guifg=#8b0000 guibg=NONE gui=bold
+
+  " Line numbers: darker for readability
+  hi LineNr guifg=#4f4f4f
+
+  " Cursor: amber/gold
+  hi Cursor gui=none guifg=#3a3a00 guibg=#dab862
+
+  " Diagnostics
+  hi DiagnosticHint guifg=#0c2919 guibg=#c8e8d8
+  hi DiagnosticInfo guibg=DarkCyan guifg=White
+  hi DiagnosticUnderlineHint guisp=#0c2919
+
+  " Treesitter/markup
+  hi @comment.note guifg=#0a3a3a guibg=#c8e8e8
+  hi! link @markup.raw.block.markdown NormalFloat
+  hi! link @comment.block Pmenu
   endif
   unlet s:t_Co
   finish
@@ -781,4 +832,3 @@ endif
 " Term colors: light0 light1 light2 light3 light4 light5 light6 light7
 " Term colors: light8 light9 light10 light11 light12 light13 light14 light15
 " Background: any
-" vim: et ts=8 sw=2 sts=2

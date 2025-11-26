@@ -26,6 +26,10 @@ local on_attach = function(client, bufnr)
 	if client.server_capabilities.definitionProvider then
 		-- vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
 	end
+	-- Enable inlay hints if supported
+	if client.server_capabilities.inlayHintProvider then
+		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+	end
 	-- show documentation popups
 	local supports_resolve = client:supports_method(vim.lsp.protocol.Methods.completionItem_resolve)
 	local _, cancel_prev = nil, function() end

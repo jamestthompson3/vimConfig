@@ -54,6 +54,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		require("tt.plugin.treesitter").init()
 		require("mini.surround").setup()
 		vim.cmd("packadd vim-gutentags")
+		require("oil").setup({
+			view_options = {
+				show_hidden = true,
+			},
+		})
 		require("nvim-ts-autotag").setup({
 			aliases = {
 				["astro"] = "html",

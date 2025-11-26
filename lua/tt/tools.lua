@@ -74,11 +74,6 @@ end
 
 -- Session Management
 function M.createSessionName(custom_name)
-	local cleared = ""
-	if custom_name and custom_name ~= "" then
-		cleared = custom_name:gsub("/", "-"):gsub("%s+", "_")
-	end
-
 	local git_root = vim.fs.root(0, ".git")
 	local project_name
 	if git_root then
@@ -92,10 +87,20 @@ function M.createSessionName(custom_name)
 	else
 		branch_name = branch_name:gsub("/", "-")
 	end
-	return string.format("%s_%s_%s", project_name, branch_name, cleared)
+
+	if custom_name and custom_name ~= "" then
+		local cleared = custom_name:gsub("/", "-"):gsub("%s+", "_")
+		return string.format("%s_%s_%s", project_name, branch_name, cleared)
+	else
+		return string.format("%s_%s", project_name, branch_name)
+	end
 end
 
 function M.saveSession(session_name)
+	-- When called as autocmd callback, session_name is an event table
+	if type(session_name) == "table" then
+		session_name = nil
+	end
 	local sessionName = M.createSessionName(session_name)
 	local cmd = string.format("mks! %s/%s.vim", sessionPath, sessionName)
 	vim.cmd(cmd)
@@ -103,8 +108,14 @@ end
 
 function M.sourceSession(session_name)
 	local sessionName = M.createSessionName(session_name)
-	local cmd = string.format("so %s/%s.vim", sessionPath, sessionName)
-	vim.cmd(cmd)
+	local sessionFile = string.format("%s/%s.vim", sessionPath, sessionName)
+	if vim.fn.filereadable(sessionFile) == 1 then
+		vim.cmd("so " .. sessionFile)
+	else
+		-- Session doesn't exist, create it
+		M.saveSession(session_name)
+		vim.notify("Created new session: " .. sessionName, vim.log.levels.INFO)
+	end
 end
 
 function M.simpleMRU()

@@ -22,9 +22,9 @@ M.supported_langs = {
 	"typescript",
 	"tsx",
 }
-local lines = vim.fn.line("$")
 
 function M.init()
+	local lines = vim.fn.line("$")
 	local ts_config = require("nvim-treesitter.configs")
 	if lines > 30000 then -- skip some settings for large files
 		require("nvim-treesitter.configs").setup({ highlight = { enable = false } })
@@ -33,7 +33,7 @@ function M.init()
 	require("treesitter-context").setup({
 		enable = true,
 		max_lines = -1,
-		mulitwindow = true,
+		multiwindow = true,
 		trim_scope = "outer",
 	})
 

@@ -61,7 +61,6 @@ vim.keymap.set("n", "<Esc>", function()
 end, { silent = true })
 
 vim.keymap.set("n", "-", function()
-	require("oil").setup()
 	require("oil").open()
 end, { silent = true })
 

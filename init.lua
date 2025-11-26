@@ -13,7 +13,7 @@ vim.g.markdown_fenced_languages = {
 	"markdown",
 	"javascript",
 	"js=javascript",
-	"ts=typscript",
+	"ts=typescript",
 	"rust",
 	"css",
 	"vim",
@@ -98,7 +98,6 @@ set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-Cursor"
 vim.cmd("colorscheme quiet-modified")
-set.background = "dark"
 require("tt.core_opts")
 require("tt.lsp")
 require("tt.mappings")
