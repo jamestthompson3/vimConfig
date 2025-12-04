@@ -263,6 +263,7 @@ local servers = {
 				on_attach = function(client, bufnr)
 					client.server_capabilities.documentFormattingProvider = false
 					client.server_capabilities.documentRangeFormattingProvider = false
+					require("ts-error-translator").setup()
 					on_attach(client, bufnr)
 				end,
 				filetypes = {
@@ -299,6 +300,7 @@ local servers = {
 				on_attach = function(client, bufnr)
 					client.server_capabilities.documentFormattingProvider = false
 					client.server_capabilities.documentRangeFormattingProvider = false
+					require("ts-error-translator").setup()
 					on_attach(client, bufnr)
 				end,
 				capabilities = capabilities,

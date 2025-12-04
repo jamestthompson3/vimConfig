@@ -9,6 +9,7 @@ vim.pack.add({
 	gh("windwp/nvim-ts-autotag"),
 	gh("windwp/nvim-autopairs"),
 	gh("ibhagwan/fzf-lua"),
+	gh("dmmulroy/ts-error-translator.nvim"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("norcalli/nvim-colorizer.lua"),

@@ -10,10 +10,11 @@ function M.init()
 			lintIgnoreExitCode = true,
 		}
 		local stylint = {
-			lintCommand = node.find_node_executable("stylelint") .. " --no-color --formatter compact --stdin",
+			lintCommand = node.find_node_executable("stylelint")
+				.. " --no-color --formatter compact --stdin --stdin-filename ${INPUT}",
 			lintStdin = true,
 			lintFormats = { "%.%#: line %l, col %c, %trror - %m", "%.%#: line %l, col %c, %tarning - %m" },
-			rootMarkers = { ".stylelintrc" },
+			rootMarkers = { ".stylelintrc", "package.json" },
 		}
 		vim.lsp.config.efm = {
 			cmd = { "efm-langserver" },
