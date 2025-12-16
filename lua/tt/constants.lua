@@ -10,6 +10,10 @@ M.prettier_roots = {
 	".prettierrc.mjs",
 	".prettierrc.cjs",
 	".prettierrc.toml",
+	"prettier.config.js",
+	"prettier.config.mjs",
+	"prettier.config.cjs",
+	"prettier.config.ts",
 }
 
 M.eslint_roots = {
