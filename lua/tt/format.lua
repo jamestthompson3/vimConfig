@@ -8,18 +8,18 @@ local formatters
 local formatters_by_ft = {
 	javascript = { "prettier", "biome" },
 	javascriptreact = { "prettier", "biome" },
-	typescript = { "prettier_ts", "biome" },
-	typescriptreact = { "prettier_ts", "biome" },
+	typescript = { "prettier", "biome" },
+	typescriptreact = { "prettier", "biome" },
 	go = "gofmt",
 	c = "clangfmt",
 	cpp = "clangfmt",
 	objcpp = "clangfmt",
-	css = "prettier_css",
-	scss = { "prettier_css", "stylint" },
+	css = "prettier",
+	scss = { "prettier", "stylint" },
 	rust = "rustfmt",
-	astro = "prettier_astro",
-	html = "prettier_html",
-	json = "prettier_json",
+	astro = "prettier",
+	html = "prettier",
+	json = "prettier",
 	lua = "stylua",
 	fish = "fish_indent",
 	-- yaml = "yamlfmt",
@@ -41,8 +41,8 @@ local function setup_formatters()
 	prettierBin = node.find_node_executable("prettier")
 	biomeBin = node.find_node_executable("biome")
 
-	local function makePrettierFormatter(parser)
-		return { command = { prettierBin, "--parser", parser }, condition = prettierCheck }
+	local function makePrettierFormatter()
+		return { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck }
 	end
 
 	formatters = {
@@ -56,14 +56,9 @@ local function setup_formatters()
 		-- 	end,
 		-- },
 		gofmt = { command = { "gofmt", "-s" } },
-		prettier = { command = { prettierBin }, condition = prettierCheck },
-		prettier_ts = makePrettierFormatter("typescript"),
+		prettier = makePrettierFormatter(),
 		stylint = { command = { node.find_node_executable("stylelint"), "--fix" } },
 		biome = { command = { biomeBin, "format", "$FILENAME", "--write" }, condition = biomeCheck },
-		prettier_json = makePrettierFormatter("json"),
-		prettier_html = makePrettierFormatter("html"),
-		prettier_css = makePrettierFormatter("css"),
-		prettier_astro = { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck },
 		stylua = {
 			command = { "stylua", "-" },
 		},
@@ -157,10 +152,10 @@ vim.api.nvim_create_user_command("FormatInfo", function()
 				end
 			end
 		end
-		log("Running > " .. vim.iter(formattersToRun):join(","))
+		log(vim.iter(formattersToRun):join(",") .. " > ")
 		for _, formatter in pairs(formattersToRun) do
 			local f = formatters[formatter]
-			log("   Command: " .. vim.iter(f.command):join(" "))
+			log("   " .. vim.iter(f.command):join(" "))
 		end
 		return
 	end
