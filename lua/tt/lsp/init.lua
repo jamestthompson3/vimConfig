@@ -1,14 +1,36 @@
 local node = require("tt.nvim_utils").nodejs
 
+-- LSP Progress tracking for statusline
+local M = {}
+local progress_tokens = {}
+
+function M.get_progress()
+	local messages = {}
+	for _, info in pairs(progress_tokens) do
+		if info.message then
+			table.insert(messages, info.message)
+		elseif info.title then
+			table.insert(messages, info.title)
+		end
+	end
+	if #messages == 0 then
+		return ""
+	end
+	return " " .. table.concat(messages, ", ")
+end
+
+-- Store module globally for statusline access
+_G.lsp_progress = M
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
--- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.semanticTokens.multilineTokenSupport = true
--- capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+
 vim.lsp.config("*", {
 	root_markers = { ".git", "root_marker" },
 	capabilities = capabilities,
 })
+
 local on_attach = function(client, bufnr)
 	require("tt.lsp.mappings").setMappings(bufnr)
 	if not client then
@@ -29,6 +51,10 @@ local on_attach = function(client, bufnr)
 	-- Enable inlay hints if supported
 	if client.server_capabilities.inlayHintProvider then
 		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+	end
+	-- Enable on-type formatting if supported
+	if client.server_capabilities.documentOnTypeFormattingProvider then
+		vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
 	end
 	-- show documentation popups
 	local supports_resolve = client:supports_method(vim.lsp.protocol.Methods.completionItem_resolve)
@@ -68,6 +94,7 @@ local on_attach = function(client, bufnr)
 	})
 end
 
+-- LSP server configurations with lazy loading
 local servers = {
 	lua_ls = {
 		filetypes = { "lua" },
@@ -94,7 +121,6 @@ local servers = {
 							return
 						end
 					end
-
 					client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
 						runtime = {
 							version = "LuaJIT",
@@ -107,10 +133,6 @@ local servers = {
 							checkThirdParty = false,
 							library = {
 								vim.env.VIMRUNTIME,
-								-- Depending on the usage, you might want to add additional paths
-								-- here.
-								-- '${3rd}/luv/library'
-								-- '${3rd}/busted/library'
 							},
 						},
 					})
@@ -127,9 +149,7 @@ local servers = {
 		setup = function()
 			vim.lsp.config.html = {
 				filetypes = { "html", "templ" },
-				on_attach = function(client, bufnr)
-					on_attach(client, bufnr)
-				end,
+				on_attach = on_attach,
 				init_options = {
 					documentFormatting = false,
 				},
@@ -138,7 +158,7 @@ local servers = {
 		end,
 	},
 	zls = {
-		filetypes = { "zig" },
+		filetypes = { "zig", "zon" },
 		setup = function()
 			vim.lsp.config.zls = {
 				filetypes = { "zig", "zon" },
@@ -160,13 +180,6 @@ local servers = {
 		end,
 	},
 	biome = {
-		condition = function()
-			local biome_roots = {
-				"biome.json",
-				"biome.jsonc",
-			}
-			return vim.fs.root(0, biome_roots)
-		end,
 		filetypes = {
 			"astro",
 			"css",
@@ -181,6 +194,9 @@ local servers = {
 			"typescriptreact",
 			"vue",
 		},
+		condition = function()
+			return vim.fs.root(0, { "biome.json", "biome.jsonc" })
+		end,
 		setup = function()
 			vim.lsp.config.biome = {
 				cmd = { node.get_node_bin("biome"), "lsp-proxy" },
@@ -235,9 +251,10 @@ local servers = {
 		end,
 	},
 	bashls = {
-		filetypes = { "bash" },
+		filetypes = { "bash", "sh" },
 		setup = function()
 			vim.lsp.config.bashls = {
+				filetypes = { "bash", "sh" },
 				on_attach = on_attach,
 				cmd = { node.get_node_bin("bash-language-server"), "start" },
 			}
@@ -253,12 +270,10 @@ local servers = {
 			}
 		end,
 	},
-	astrols = {
-		filetypes = {
-			"astro",
-		},
+	astro = {
+		filetypes = { "astro" },
 		setup = function()
-			vim.lsp.config.astrols = {
+			vim.lsp.config.astro = {
 				cmd = { node.get_node_bin("astro-ls"), "--stdio" },
 				on_attach = function(client, bufnr)
 					client.server_capabilities.documentFormattingProvider = false
@@ -266,9 +281,7 @@ local servers = {
 					require("ts-error-translator").setup()
 					on_attach(client, bufnr)
 				end,
-				filetypes = {
-					"astro",
-				},
+				filetypes = { "astro" },
 				init_options = {
 					typescript = {
 						tsdk = node.get_node_lib("typescript/lib"),
@@ -316,64 +329,12 @@ local servers = {
 			}
 		end,
 	},
-	-- ctags_lsp = {
-	-- 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-	-- 	setup = function()
-	-- 		vim.lsp.config.ctags_lsp = {
-	-- 			filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-	-- 			cmd = { "ctags-lsp" },
-	-- 			on_attach = on_attach,
-	-- 		}
-	-- 	end,
-	-- },
-	-- pylsp = {
-	-- 	filetypes = { "python" },
-	-- 	setup = function()
-	-- 		vim.lsp.config.pylsp = {
-	-- 			filetypes = { "python" },
-	-- 			cmd = { "pylsp" },
-	-- 			root_markers = {
-	-- 				"pyproject.toml",
-	-- 				"setup.py",
-	-- 				"setup.cfg",
-	-- 				"requirements.txt",
-	-- 				"Pipfile",
-	-- 				".git",
-	-- 			},
-	-- 			single_file_support = true,
-	-- 			settings = {
-	-- 				pylsp = {
-	-- 					plugins = {
-	-- 						-- formatter options
-	-- 						black = { enabled = true },
-	-- 						autopep8 = { enabled = false },
-	-- 						yapf = { enabled = false },
-	-- 						-- linter options
-	-- 						pylint = { enabled = true, executable = "pylint" },
-	-- 						pyflakes = { enabled = false },
-	-- 						pycodestyle = { enabled = false },
-	-- 						-- type checker
-	-- 						pylsp_mypy = { enabled = true },
-	-- 						-- auto-completion options
-	-- 						jedi_completion = { fuzzy = true },
-	-- 						-- import sorting
-	-- 						pyls_isort = { enabled = true },
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		}
-	-- 	end,
-	-- },
 }
 
 -- LSP settings
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.diagnostic.config({
 	underline = false,
 	virtual_text = false,
-	signs = true,
-})
-vim.diagnostic.config({
 	jump = {
 		on_jump = function(diagnostics, bufnr)
 			vim.diagnostic.open_float({
@@ -399,9 +360,10 @@ vim.diagnostic.config({
 	},
 })
 
+-- Lazy load LSP servers on FileType
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
-		-- A guard to prevent setting up the same server multiple times
+		-- Guard to prevent setting up the same server multiple times per buffer
 		local ft_setup_done = vim.b[args.buf].ft_setup_done or {}
 		if ft_setup_done[args.match] then
 			return
@@ -409,19 +371,89 @@ vim.api.nvim_create_autocmd("FileType", {
 
 		for name, server in pairs(servers) do
 			if vim.tbl_contains(server.filetypes, args.match) then
+				local should_setup = true
 				if server.condition ~= nil then
-					if server.condition() then
-						server.setup()
-					end
-				else
-					server.setup()
+					should_setup = server.condition()
 				end
-				ft_setup_done[args.match] = true
-				if vim.lsp.config[name] then
-					vim.lsp.start(vim.lsp.config[name])
+				if should_setup then
+					server.setup()
+					ft_setup_done[args.match] = true
+					if vim.lsp.config[name] then
+						vim.lsp.start(vim.lsp.config[name])
+					end
 				end
 			end
 		end
 		vim.b[args.buf].ft_setup_done = ft_setup_done
+	end,
+})
+
+-- Re-trigger FileType for initial buffer after VimEnter (handles startup file)
+vim.api.nvim_create_autocmd("VimEnter", {
+	once = true,
+	callback = function()
+		local bufnr = vim.api.nvim_get_current_buf()
+		local ft = vim.bo[bufnr].filetype
+		if ft and ft ~= "" then
+			vim.api.nvim_exec_autocmds("FileType", { buffer = bufnr })
+		end
+	end,
+})
+
+-- Track LSP progress for statusline
+vim.api.nvim_create_autocmd("LspProgress", {
+	callback = function(args)
+		local client_id = args.data.client_id
+		local params = args.data.params
+		local token = params.token
+		local value = params.value
+		local key = client_id .. "-" .. tostring(token)
+
+		if value.kind == "begin" then
+			progress_tokens[key] = { title = value.title, message = value.message }
+		elseif value.kind == "report" then
+			if progress_tokens[key] then
+				progress_tokens[key].message = value.message or value.title or progress_tokens[key].title
+			end
+		elseif value.kind == "end" then
+			progress_tokens[key] = nil
+		end
+		vim.cmd.redrawstatus()
+	end,
+})
+
+-- When server finishes progress (e.g., lua_ls finishes indexing), request diagnostics
+vim.api.nvim_create_autocmd("LspProgress", {
+	pattern = "end",
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client then
+			return
+		end
+		for bufnr in pairs(client.attached_buffers) do
+			-- For pull diagnostics servers, request refresh
+			if client:supports_method("textDocument/diagnostic") then
+				vim.lsp.diagnostic._refresh(bufnr, client.id)
+			else
+				-- For push diagnostics servers, re-send didOpen to trigger diagnostics
+				if client:supports_method("textDocument/didOpen") then
+					client:notify("textDocument/didOpen", {
+						textDocument = {
+							uri = vim.uri_from_bufnr(bufnr),
+							languageId = vim.bo[bufnr].filetype,
+							version = vim.lsp.util.buf_versions[bufnr] or 0,
+							text = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n"),
+						},
+					})
+				end
+			end
+		end
+	end,
+})
+
+-- Force sign column redraw when diagnostics change
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+	callback = function(args)
+		vim.api.nvim__redraw({ buf = args.buf, valid = false, statuscolumn = true })
 	end,
 })

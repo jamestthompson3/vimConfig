@@ -51,27 +51,6 @@ function M.vim_util.get_lsp_clients()
 	return table.concat(clients, " • ")
 end
 
-function M.vim_util.get_diagnostics()
-	local diags = vim.diagnostic.get(0)
-	local warnings = 0
-	local errors = 0
-	if diags == nil then
-		return ""
-	end
-	for _, diag in ipairs(diags) do
-		if diag.severity == 1 then
-			errors = errors + 1
-		elseif diag.severity == 2 then
-			warnings = warnings + 1
-		end
-	end
-	if errors == 0 and warnings == 0 then
-		return ""
-	else
-		return "(" .. errors .. "E" .. " • " .. warnings .. "W)"
-	end
-end
-
 function M.vim_util.shell_to_buf(cmd)
 	local buf = api.nvim_create_buf(false, true)
 	local result = vim.system(cmd):wait()

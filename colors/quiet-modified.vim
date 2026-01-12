@@ -103,7 +103,7 @@ if &background ==# 'dark'
   hi SpellCap guifg=#0087d7 guibg=NONE guisp=#0087d7 gui=undercurl cterm=underline
   hi SpellLocal guifg=#d787d7 guibg=NONE guisp=#d787d7 gui=undercurl cterm=underline
   hi SpellRare guifg=#00afaf guibg=NONE guisp=#00afaf gui=undercurl cterm=underline
-  hi StatusLine guifg=#282828 guibg=#fffff gui=none cterm=none
+  hi StatusLine guibg=#282828 guifg=#fffff gui=none cterm=none
   hi StatusLineNC guifg=#707070 guibg=#282828 gui=reverse cterm=reverse
   hi TabLine guifg=#707070 guibg=#282828 gui=reverse cterm=reverse
   hi TabLineFill guifg=#fffff guibg=NONE gui=NONE cterm=NONE
@@ -296,7 +296,7 @@ if s:t_Co >= 256
   hi PmenuMatchSel gui=bold guifg=#8b0000 guibg=NONE
 
   " Statusline: match comment style
-  hi StatusLine guifg=#0c2919 guibg=#a8d4c3
+  "hi StatusLine guifg=#0c2919 guibg=#a8d4c3
 
   " Cursor: orange for visibility
   hi Cursor gui=none guifg=#000000 guibg=#ff5f00

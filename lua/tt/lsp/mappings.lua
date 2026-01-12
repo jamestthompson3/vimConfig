@@ -16,6 +16,11 @@ function M.setMappings(bufnr)
 	bufmap("n", "<leader>th", function()
 		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
 	end, bufnr, "Toggle inlay hints")
+	bufmap("n", "<leader>wd", vim.lsp.buf.workspace_diagnostics, bufnr, "Workspace diagnostics")
+	bufmap("n", "<leader>tl", function()
+		vim.lsp.linked_editing_range.enable(not vim.lsp.linked_editing_range.is_enabled(bufnr), bufnr)
+	end, bufnr, "Toggle linked editing")
+	bufmap("i", "<C-s>", vim.lsp.buf.signature_help, bufnr, "Signature help")
 end
 
 return M
