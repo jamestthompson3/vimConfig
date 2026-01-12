@@ -58,7 +58,7 @@ local function setup_formatters()
 		gofmt = { command = { "gofmt", "-s" } },
 		prettier = makePrettierFormatter(),
 		stylint = { command = { node.find_node_executable("stylelint"), "--fix" } },
-		biome = { command = { biomeBin, "format", "$FILENAME", "--write" }, condition = biomeCheck },
+		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
 		stylua = {
 			command = { "stylua", "-" },
 		},
