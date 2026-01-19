@@ -1,27 +1,5 @@
 local node = require("tt.nvim_utils").nodejs
 
--- LSP Progress tracking for statusline
-local M = {}
-local progress_tokens = {}
-
-function M.get_progress()
-	local messages = {}
-	for _, info in pairs(progress_tokens) do
-		if info.message then
-			table.insert(messages, info.message)
-		elseif info.title then
-			table.insert(messages, info.title)
-		end
-	end
-	if #messages == 0 then
-		return ""
-	end
-	return " " .. table.concat(messages, ", ")
-end
-
--- Store module globally for statusline access
-_G.lsp_progress = M
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.semanticTokens.multilineTokenSupport = true
@@ -400,25 +378,24 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	end,
 })
 
--- Track LSP progress for statusline
+-- Set buffer busy status during LSP progress
 vim.api.nvim_create_autocmd("LspProgress", {
 	callback = function(args)
-		local client_id = args.data.client_id
-		local params = args.data.params
-		local token = params.token
-		local value = params.value
-		local key = client_id .. "-" .. tostring(token)
+		local value = args.data.params.value
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client then
+			return
+		end
 
-		if value.kind == "begin" then
-			progress_tokens[key] = { title = value.title, message = value.message }
-		elseif value.kind == "report" then
-			if progress_tokens[key] then
-				progress_tokens[key].message = value.message or value.title or progress_tokens[key].title
+		if value.kind == "begin" or value.kind == "report" then
+			for bufnr in pairs(client.attached_buffers) do
+				vim.bo[bufnr].busy = 1
 			end
 		elseif value.kind == "end" then
-			progress_tokens[key] = nil
+			for bufnr in pairs(client.attached_buffers) do
+				vim.bo[bufnr].busy = 0
+			end
 		end
-		vim.cmd.redrawstatus()
 	end,
 })
 

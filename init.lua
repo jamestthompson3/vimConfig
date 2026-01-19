@@ -63,7 +63,7 @@ set.nrformats = "bin,hex,alpha"
 set.grepprg = "rg --smart-case --vimgrep --block-buffered"
 set.virtualedit = "block"
 set.inccommand = "split"
-set.completeopt = "menuone,noselect,popup,fuzzy"
+set.completeopt = "menuone,noselect,popup,fuzzy,nearest"
 set.autocomplete = true
 set.complete = ".,w,b,u,o,F"
 set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
@@ -93,7 +93,6 @@ set.fillchars = "stlnc:»,vert:║,fold:·"
 set.number = true
 set.pumblend = 5
 set.pumheight = 15
-set.pumborder = "single"
 set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-Cursor"
@@ -106,7 +105,7 @@ require("tt.snippets")
 require("tt.filetypes")
 require("tt.format")
 vim.opt.statusline =
-	"%f %#Search#%{&mod?'[+]':''}%* %{%luaeval('vim.diagnostic.status()')%}%#Comment#%{luaeval('lsp_progress.get_progress()')}%* %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
+	"%f %#Search#%{&mod?'[+]':''}%* %{%luaeval('vim.diagnostic.status()')%} %{&busy>0?'◐':''} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
 local schedule = vim.schedule
 schedule(function()
 	require("tt.tools").splashscreen()

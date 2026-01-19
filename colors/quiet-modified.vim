@@ -290,7 +290,7 @@ if s:t_Co >= 256
   hi Comment guifg=#0c2919 guibg=#a8d4c3
 
   " Popup menu: muted blue-grey
-  hi Pmenu guifg=#1a1a5a guibg=#d0d5e0
+  hi Pmenu guibg=#1a1a5a guifg=#d0d5e0
   hi PmenuSel guifg=#0c2919 guibg=#a8d4c3
   hi PmenuMatch gui=bold guifg=#8b0000 guibg=NONE
   hi PmenuMatchSel gui=bold guifg=#8b0000 guibg=NONE

@@ -31,10 +31,9 @@ local disabled_plugins = {
 	"python_provider",
 }
 
-table.foreach(disabled_plugins, function(_, p)
-	local loaded = "loaded_" .. p
-	vim.g[loaded] = 1
-end)
+for _, p in ipairs(disabled_plugins) do
+	vim.g["loaded_" .. p] = 1
+end
 
 local lazy_load = vim.api.nvim_create_augroup("Plugins", { clear = true })
 require("tt.plugin.find").init()
