@@ -27,7 +27,7 @@ function M.splashscreen()
 		vim.wo[0].cursorcolumn = false
 		M.simpleMRU()
 		vim.cmd([[:34]])
-		vim.keymap.set("n", "<CR>", "gf", { buffer = true, noremap = true })
+		vim.keymap.set("n", "<CR>", ":e<cfile><CR>", { buffer = true, noremap = true })
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
 	else

@@ -70,7 +70,7 @@ function M.nodejs.get_node_bin(bin)
 	return fn.stdpath("config") .. "/langservers/node_modules/.bin/" .. bin
 end
 
-function M.nodejs.find_node_executable(binaryName)
+function M.nodejs.find_node_executable(binaryName, bufnr)
 	local normalized_bin_name
 	local executable = ""
 	if is_windows then
@@ -87,12 +87,34 @@ function M.nodejs.find_node_executable(binaryName)
 		return vim.fn.executable(path)
 	end
 
+	-- 1. Check vim.g.nodeDir override
 	if vim.g.nodeDir ~= nil then
 		executable = vim.g.nodeDir .. "/node_modules/.bin/" .. normalized_bin_name
 	end
+
+	-- 2. Walk up from the file's directory to find nearest node_modules
+	if not is_executable(executable) then
+		local buf = bufnr or 0
+		local bufname = vim.api.nvim_buf_get_name(buf)
+		if bufname and bufname ~= "" then
+			local file_dir = vim.fn.fnamemodify(bufname, ":h")
+			local found = vim.fs.find("node_modules", {
+				path = file_dir,
+				upward = true,
+				type = "directory",
+			})
+			if found and #found > 0 then
+				executable = found[1] .. "/.bin/" .. normalized_bin_name
+			end
+		end
+	end
+
+	-- 3. Check cwd
 	if not is_executable(executable) then
 		executable = fn.getcwd() .. "/node_modules/.bin/" .. normalized_bin_name
 	end
+
+	-- 4. Check git root
 	if not is_executable(executable) then
 		local result = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
 		if result.code == 0 then
@@ -101,6 +123,7 @@ function M.nodejs.find_node_executable(binaryName)
 		end
 	end
 
+	-- 5. Fallback to langservers
 	if not is_executable(executable) then
 		executable = M.nodejs.get_node_bin(normalized_bin_name)
 	end

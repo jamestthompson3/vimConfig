@@ -1,10 +1,6 @@
 local node = require("tt.nvim_utils").nodejs
 local constants = require("tt.constants")
 
-local prettierBin
-local biomeBin
-local formatters
-
 local formatters_by_ft = {
 	javascript = { "prettier", "biome" },
 	javascriptreact = { "prettier", "biome" },
@@ -33,38 +29,20 @@ local function prettierCheck()
 	return vim.fs.root(0, constants.prettier_roots)
 end
 
-local function setup_formatters()
-	if formatters then
-		return
-	end
+-- Build formatters dynamically per-buffer to resolve node binaries relative to the file
+local function get_formatters(bufnr)
+	bufnr = bufnr or 0
+	local prettierBin = node.find_node_executable("prettier", bufnr)
+	local biomeBin = node.find_node_executable("biome", bufnr)
+	local stylelintBin = node.find_node_executable("stylelint", bufnr)
 
-	prettierBin = node.find_node_executable("prettier")
-	biomeBin = node.find_node_executable("biome")
-
-	local function makePrettierFormatter()
-		return { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck }
-	end
-
-	formatters = {
-		-- remove_whitepsace = {
-		-- 	exec = function()
-		-- 		if 1 == vim.g.remove_whitespace then
-		-- 			vim.nvim_exec("normal mz", false)
-		-- 			vim.cmd("%s/\\s\\+$//ge")
-		-- 			vim.nvim_exec("normal `z", false)
-		-- 		end
-		-- 	end,
-		-- },
+	return {
 		gofmt = { command = { "gofmt", "-s" } },
-		prettier = makePrettierFormatter(),
-		stylint = { command = { node.find_node_executable("stylelint"), "--fix" } },
+		prettier = { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck },
+		stylint = { command = { stylelintBin, "--fix" } },
 		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
-		stylua = {
-			command = { "stylua", "-" },
-		},
-		rustfmt = {
-			command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" },
-		},
+		stylua = { command = { "stylua", "-" } },
+		rustfmt = { command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" } },
 		clangfmt = { command = { "clang-format", "-assume-filename", "$FILENAME" } },
 		yamlfmt = { command = { "yamlfmt", "-in" } },
 		fish_indent = { command = { "fish_indent" } },
@@ -109,9 +87,9 @@ end
 
 -- Format function
 local function format_buffer()
-	setup_formatters()
 	local filetype = vim.bo.filetype
 	local formatterList = formatters_by_ft[filetype]
+	local formatters = get_formatters(0)
 
 	local buf = vim.api.nvim_buf_get_name(0)
 	if vim.islist(formatterList) then
@@ -125,6 +103,7 @@ local function format_buffer()
 				runFormat(buf, f)
 			end
 		end
+		return
 	end
 	if not formatters[formatterList] then
 		return
@@ -138,9 +117,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 vim.api.nvim_create_user_command("FormatInfo", function()
-	setup_formatters()
 	local filetype = vim.bo.filetype
 	local formatterList = formatters_by_ft[filetype]
+	local formatters = get_formatters(0)
 	local formattersToRun = {}
 
 	if vim.islist(formatterList) then
