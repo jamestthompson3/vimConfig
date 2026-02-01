@@ -25,6 +25,7 @@ vim.keymap.set(
 	":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>",
 	{ noremap = true, silent = true }
 )
+
 vim.keymap.set("n", "<leader>e", ":e <C-R>=expand('%:p:h') . '/'<CR>", { noremap = true, silent = false })
 vim.keymap.set("n", "<C-J>", function()
 	tools.winMove("j")
@@ -84,6 +85,7 @@ end, { silent = true })
 vim.keymap.set("n", "cc", vim.cmd.cclose, { noremap = true, silent = true })
 vim.keymap.set("n", "cl", vim.cmd.lclose, { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>h", "<Cmd>call tools#switchSourceHeader()<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>m", ":make<CR>", { noremap = true })
 vim.keymap.set("n", "<leader>-", '<Cmd>let @+ = expand("%")<CR>', { noremap = true, silent = true })
 vim.keymap.set("n", "<F7>", '<Cmd>so "%"<CR>', { noremap = true, silent = true })
 
