@@ -75,11 +75,12 @@ local function runFormat(buf, formatter)
 
 	if exit_code == 0 then
 		local output_lines = vim.split(result.stdout, "\n")
-		-- Remove trailing empty line if present
 		if output_lines[#output_lines] == "" then
 			table.remove(output_lines)
 		end
-		vim.api.nvim_buf_set_lines(0, 0, -1, false, output_lines)
+		if table.concat(output_lines, "\n") ~= input then
+			vim.api.nvim_buf_set_lines(0, 0, -1, false, output_lines)
+		end
 	else
 		vim.notify("Formatter failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
 	end

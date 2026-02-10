@@ -3,7 +3,7 @@ local function gh(pkg)
 end
 
 vim.pack.add({
-	gh("echasnovski/mini.surround"),
+	gh("nvim-mini/mini.surround"),
 	gh("stevearc/oil.nvim"),
 	gh("ludovicchabant/vim-gutentags"),
 	gh("windwp/nvim-ts-autotag"),

@@ -1,7 +1,6 @@
 vim.loader.enable()
 -- This needs to be set before plugins so that plugin init codes can read the mapleader key
 vim.g.mapleader = " "
-vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/site/pack/*")
 require("tt.plugins")
 local globals = require("tt.nvim_utils").GLOBALS
 
@@ -71,7 +70,7 @@ set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\
 set.foldlevelstart = 99
 set.foldlevel = 1
 set.foldmethod = "expr"
-set.foldexpr = "nvim_treesitter#foldexpr()"
+set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
 
