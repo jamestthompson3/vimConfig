@@ -26,10 +26,10 @@ local on_attach = function(client, bufnr)
 	if client.server_capabilities.definitionProvider then
 		-- vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
 	end
-	-- Enable inlay hints if supported
-	if client.server_capabilities.inlayHintProvider then
-		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-	end
+	-- -- Enable inlay hints if supported
+	-- if client.server_capabilities.inlayHintProvider then
+	-- 	vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+	-- end
 	-- Enable on-type formatting if supported
 	if client.server_capabilities.documentOnTypeFormattingProvider then
 		vim.lsp.on_type_formatting.enable(true, { client_id = client.id })

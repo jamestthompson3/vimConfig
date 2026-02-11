@@ -9,6 +9,12 @@ function M.init()
 			lintFormats = { "%f:%l:%c: %m" },
 			lintIgnoreExitCode = true,
 		}
+		local clang_tidy = {
+			lintCommand = "clang-tidy --quiet ${INPUT}",
+			lintStdin = false,
+			lintFormats = { "%f:%l:%c: %trror: %m", "%f:%l:%c: %tarning: %m", "%f:%l:%c: %tote: %m" },
+			rootMarkers = { ".clang-tidy", "compile_commands.json", ".git" },
+		}
 		local stylint = {
 			lintCommand = node.find_node_executable("stylelint")
 				.. " --no-color --formatter compact --stdin --stdin-filename ${INPUT}",
@@ -26,6 +32,8 @@ function M.init()
 				"scss",
 				"css",
 				"json",
+				"c",
+				"cpp",
 			},
 			settings = {
 				rootMarkers = { "package.json", ".git" },
@@ -42,6 +50,8 @@ function M.init()
 							lintStdin = true,
 						},
 					},
+					c = { clang_tidy },
+					cpp = { clang_tidy },
 				},
 			},
 		}
