@@ -79,7 +79,17 @@ local function runFormat(buf, formatter)
 			table.remove(output_lines)
 		end
 		if table.concat(output_lines, "\n") ~= input then
+			local marks = {}
+			for _, m in ipairs(vim.fn.getmarklist("%")) do
+				marks[#marks + 1] = { mark = m.mark:sub(2), pos = m.pos }
+			end
 			vim.api.nvim_buf_set_lines(0, 0, -1, false, output_lines)
+			local line_count = vim.api.nvim_buf_line_count(0)
+			for _, m in ipairs(marks) do
+				if m.pos[2] <= line_count then
+					vim.api.nvim_buf_set_mark(0, m.mark, m.pos[2], m.pos[3], {})
+				end
+			end
 		end
 	else
 		vim.notify("Formatter failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
