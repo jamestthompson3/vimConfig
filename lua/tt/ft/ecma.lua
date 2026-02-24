@@ -24,9 +24,6 @@ function M.bootstrap()
 	vim.api.nvim_create_user_command("Lint", function()
 		require("tt.ft.ecma").lint_project()
 	end, {})
-	vim.api.nvim_create_user_command("Run", function()
-		require("tt.ft.ecma").run_yarn()
-	end, {})
 
 	-- optionally enable formatters/linters
 	if vim.fs.root(0, constants.eslint_roots) then
@@ -135,18 +132,6 @@ function M.linter_d()
 			end)
 		end,
 	})
-end
-
-function M.sort_and_lint()
-	M.import_sort(true, M.linter_d)
-end
-
-function M.run_yarn()
-	local function getscripts()
-		local vals = vim.system({ "jq", ".scripts | keys", "package.json", "-a" }):wait()
-		result = vim.json.decode(vals.stdout)
-		return result
-	end
 end
 
 return M

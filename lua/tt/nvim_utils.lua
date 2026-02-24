@@ -5,20 +5,6 @@ local fn = vim.fn
 
 local M = {}
 
-local valid_modes = {
-	n = "n",
-	v = "v",
-	x = "x",
-	i = "i",
-	o = "o",
-	t = "t",
-	c = "c",
-	s = "s",
-	-- :map! and :map
-	["!"] = "!",
-	[" "] = "",
-}
-
 local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
 -- set up globals based on current env
 local GLOBALS = {}

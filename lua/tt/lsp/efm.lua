@@ -10,7 +10,7 @@ function M.init()
 			lintIgnoreExitCode = true,
 		}
 		local clang_tidy = {
-			lintCommand = "clang-tidy --quiet ${INPUT}",
+			lintCommand = "/opt/homebrew/opt/llvm/bin/clang-tidy --quiet ${INPUT}",
 			lintStdin = false,
 			lintFormats = { "%f:%l:%c: %trror: %m", "%f:%l:%c: %tarning: %m", "%f:%l:%c: %tote: %m" },
 			rootMarkers = { ".clang-tidy", "compile_commands.json", ".git" },

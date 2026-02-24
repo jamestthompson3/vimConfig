@@ -4,10 +4,14 @@ function M.init()
 	fzf.register_ui_select()
 	fzf.setup({
 		"max-perf",
+		fzf_bin = "sk",
 		winopts = { preview = { hidden = true } },
-		fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
+		files = { line_query = false },
+		fzf_opts = { ["--algo"] = "frizbee" },
+		-- fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
 	})
-	vim.keymap.set("n", ",", "<Cmd>FzfLua global<CR>")
+	vim.keymap.set("n", ",", "<Cmd>FzfLua files<CR>")
+	vim.keymap.set("n", "<leader>.", "<Cmd>FzfLua buffers<CR>")
 	-- function _G.RgFindFiles(cmdarg)
 	-- 	local fnames = vim.fn.systemlist({ "fd", "--color", "never", "--type", "f", "--hidden" })
 	-- 	if #cmdarg == 0 then

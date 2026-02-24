@@ -45,20 +45,6 @@ function M.restoreFile()
 	vim.cmd("!" .. cmd)
 end
 
-function M.renameFile()
-	local oldName = api.nvim_get_current_line()
-	local input_cmd = string.format("input('Rename: ', '%s', 'file')", oldName)
-	local newName = api.nvim_eval(input_cmd)
-	os.rename(oldName, newName)
-	api.nvim_input("R")
-end
-
-function M.deleteFile()
-	local fileName = api.nvim_get_current_line()
-	os.remove(fileName)
-	api.nvim_input("R")
-end
-
 function M.winMove(key)
 	local currentWindow = fn.winnr()
 	vim.cmd.wincmd(key)

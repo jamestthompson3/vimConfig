@@ -4,14 +4,6 @@ local fn = vim.fn
 local shell_to_buf = require("tt.nvim_utils").vim_util.shell_to_buf
 local namespace = api.nvim_create_namespace("git_lens")
 
-local function cmd(cmd)
-	if is_windows then
-		return "git " .. cmd .. " 2> NUL | tr -d '\n'"
-	else
-		return "git " .. cmd .. " 2> /dev/null | tr -d '\n'"
-	end
-end
-
 function M.diff()
 	local fileName = fn.expand("%")
 	local ext = fn.expand("%:e")
@@ -88,13 +80,6 @@ function M.branch()
 	end
 end
 
--- returns short status of changes
-function M.stat()
-	local command = cmd("diff --shortstat")
-	local result = vim.system({ command }):wait()
-	return result.stdout or ""
-end
-
 local function listChangedFiles()
 	local result = vim.system({ "git", "diff", "--name-only", "--no-color" }):wait()
 	if result.code == 0 and result.stdout then
@@ -110,15 +95,6 @@ local function jumpToDiff()
 	M.diff()
 	vim.cmd.wincmd("h")
 	vim.cmd.wincmd("h")
-end
-
-function M.QfFiles()
-	local files = listChangedFiles()
-	local qfFiles = {}
-	for _, file in ipairs(files) do
-		table.insert(qfFiles, { filename = file, lnum = 1 })
-	end
-	fn.setqflist(qfFiles, "r")
 end
 
 function M.changedFiles()
