@@ -81,7 +81,10 @@ local function runFormat(buf, formatter)
 		if table.concat(output_lines, "\n") ~= input then
 			local marks = {}
 			for _, m in ipairs(vim.fn.getmarklist("%")) do
-				marks[#marks + 1] = { mark = m.mark:sub(2), pos = m.pos }
+				local name = m.mark:sub(2)
+				if name:match("^%a$") then
+					marks[#marks + 1] = { mark = name, pos = m.pos }
+				end
 			end
 			vim.api.nvim_buf_set_lines(0, 0, -1, false, output_lines)
 			local line_count = vim.api.nvim_buf_line_count(0)
