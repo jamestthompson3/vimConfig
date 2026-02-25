@@ -83,6 +83,39 @@ if in_wsl then
 		paste = { ["+"] = { "nvim_paste" }, ["*"] = { "nvim_paste" } },
 		cache_enabled = true,
 	}
+else
+	-- Native Linux clipboard: prefer wl-clipboard for Wayland, fallback to xclip for X11
+	local has_wl_copy = vim.fn.executable("wl-copy") == 1
+	local has_wl_paste = vim.fn.executable("wl-paste") == 1
+	local has_xclip = vim.fn.executable("xclip") == 1
+
+	if has_wl_copy and has_wl_paste then
+		vim.g.clipboard = {
+			name = "wl-clipboard",
+			copy = {
+				["+"] = { "wl-copy", "--type", "text/plain" },
+				["*"] = { "wl-copy", "--primary", "--type", "text/plain" },
+			},
+			paste = {
+				["+"] = { "wl-paste", "--no-newline" },
+				["*"] = { "wl-paste", "--no-newline", "--primary" },
+			},
+			cache_enabled = true,
+		}
+	elseif has_xclip then
+		vim.g.clipboard = {
+			name = "xclip",
+			copy = {
+				["+"] = { "xclip", "-selection", "clipboard" },
+				["*"] = { "xclip", "-selection", "primary" },
+			},
+			paste = {
+				["+"] = { "xclip", "-selection", "clipboard", "-o" },
+				["*"] = { "xclip", "-selection", "primary", "-o" },
+			},
+			cache_enabled = true,
+		}
+	end
 end
 
 -- UI OPTS
