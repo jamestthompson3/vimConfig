@@ -28,7 +28,6 @@ vim.g.gutentags_ctags_exclude_wildignore = 1
 
 local set = vim.o
 set.exrc = true
-set.secure = true
 set.title = true
 set.splitright = true
 set.modeline = false
@@ -136,9 +135,13 @@ require("tt.autocmds")
 require("tt.snippets")
 require("tt.filetypes")
 require("tt.format")
-vim.opt.statusline =
-	"%f %#Search#%{&mod?'[+]':''}%* %{%luaeval('vim.diagnostic.status()')%} %{&busy>0?'◐':''} %=%r%=%{luaeval('require\"tt.nvim_utils\".vim_util.get_lsp_clients()')}"
+vim.o.statusline =
+	"%<%f %h%w%m%r %{%v:lua.vim.diagnostic.status()%} %{&busy?'◐':''} %= %{v:lua.require'tt.nvim_utils'.vim_util.get_lsp_clients()}"
 local schedule = vim.schedule
 schedule(function()
 	require("tt.tools").splashscreen()
+end)
+-- Experimental: Nvim 0.12 ui2 (avoids "Press ENTER" prompts, highlights cmdline as you type)
+pcall(function()
+	require("vim._core.ui2").enable()
 end)

@@ -93,6 +93,10 @@ vim.keymap.set("n", "S", ":%s//g<LEFT><LEFT>", { noremap = true })
 vim.keymap.set("n", "g_", ":g//#<Left><Left><C-R><C-W><CR>:", { noremap = true })
 vim.keymap.set("n", "<C-f>", ":silent grep!<space>", { noremap = true })
 
+vim.api.nvim_create_user_command("Fqf", function(opts)
+	tools.files_to_qf(opts.args)
+end, { nargs = 1 })
+
 -- VISUAL MODE
 vim.keymap.set("x", "<leader>y", '"+y', { noremap = true })
 vim.keymap.set("x", "<leader>d", '"+d', { noremap = true })

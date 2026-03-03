@@ -102,10 +102,9 @@ function M.nodejs.find_node_executable(binaryName, bufnr)
 
 	-- 4. Check git root
 	if not is_executable(executable) then
-		local result = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
-		if result.code == 0 then
-			local project_root_path = vim.trim(result.stdout)
-			executable = vim.fs.normalize(project_root_path .. "/node_modules/.bin/" .. normalized_bin_name)
+		local git_root = vim.fs.root(0, ".git")
+		if git_root then
+			executable = vim.fs.normalize(git_root .. "/node_modules/.bin/" .. normalized_bin_name)
 		end
 	end
 
@@ -122,10 +121,9 @@ end
 function M.nodejs.get_node_lib(lib)
 	local f = fn.getcwd() .. "/node_modules/" .. lib
 	if not vim.uv.fs_stat(f) then
-		local result = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
-		if result.code == 0 then
-			local project_root_path = vim.trim(result.stdout)
-			f = vim.fs.normalize(project_root_path .. "/node_modules/" .. lib)
+		local git_root = vim.fs.root(0, ".git")
+		if git_root then
+			f = vim.fs.normalize(git_root .. "/node_modules/" .. lib)
 		end
 	end
 	if vim.uv.fs_stat(f) then

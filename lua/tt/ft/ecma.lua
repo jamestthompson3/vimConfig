@@ -1,6 +1,5 @@
 local node = require("tt.nvim_utils").nodejs
 local constants = require("tt.constants")
-local job_runner = require("tt.job_runner")
 
 local fn = vim.fn
 
@@ -40,50 +39,37 @@ function M.import_sort(async, cb)
 	local path = fn.fnameescape(fn.expand("%:p"))
 	local executable_path = node.find_node_executable("import-sort")
 
-	if fn.executable(executable_path) then
-		if true == async then
-			job_runner.run_job({
-				executable_path,
-				path,
-				"--write",
-			}, {
-				on_stdout = function(line)
-					vim.schedule(function()
-						print(line)
-					end)
-				end,
-				on_stderr = function(line)
-					vim.schedule(function()
-						error("IMPORT_SORT: " .. line)
-					end)
-				end,
-				on_exit = function(code)
-					if code == 0 then
-						vim.schedule(function()
-							vim.cmd.checktime()
-							if cb ~= nil then
-								cb()
-							end
-						end)
+	if fn.executable(executable_path) ~= 1 then
+		vim.notify("Cannot find import-sort executable", vim.log.levels.ERROR)
+		return
+	end
+
+	if async then
+		vim.system({ executable_path, path, "--write" }, { text = true }, function(result)
+			vim.schedule(function()
+				if result.code == 0 then
+					vim.cmd.checktime()
+					if cb then
+						cb()
 					end
-				end,
-			})
-		else
-			vim.system({ executable_path, path, "--write" }):wait()
-			vim.cmd.checktime()
-			if cb ~= nil then
-				cb()
-			end
-		end
+				else
+					vim.notify("IMPORT_SORT: " .. (result.stderr or ""), vim.log.levels.ERROR)
+				end
+			end)
+		end)
 	else
-		error("Cannot find import-sort executable")
+		vim.system({ executable_path, path, "--write" }):wait()
+		vim.cmd.checktime()
+		if cb then
+			cb()
+		end
 	end
 end
 
 function M.lint_project()
 	local executable_path = node.find_node_executable("eslint_d")
 
-	job_runner.run_job({
+	vim.system({
 		executable_path,
 		".",
 		"--ext",
@@ -92,46 +78,47 @@ function M.lint_project()
 		"-f",
 		"compact",
 		"--fix",
-	}, {
-		collect_output = true,
-		on_exit = function(_, results)
-			vim.schedule(function()
-				fn.setloclist(fn.winnr(), {}, " ", {
-					title = "eslint -- errors",
-					lines = results,
-					efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
-				})
-				vim.cmd.lwindow()
-			end)
-		end,
-	})
+	}, { text = true }, function(result)
+		vim.schedule(function()
+			local lines = {}
+			if result.stdout then
+				lines = vim.split(result.stdout, "\n", { trimempty = true })
+			end
+			fn.setloclist(fn.winnr(), {}, " ", {
+				title = "eslint -- errors",
+				lines = lines,
+				efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
+			})
+			vim.cmd.lwindow()
+		end)
+	end)
 end
 
 function M.linter_d()
 	local path = fn.fnameescape(fn.expand("%:p"))
 	local executable_path = node.find_node_executable("eslint_d")
 
-	job_runner.run_job({
+	vim.system({
 		executable_path,
 		path,
 		"-f",
 		"compact",
 		"--fix",
-	}, {
-		collect_output = true,
-		on_exit = function(_, results)
-			vim.schedule(function()
-				vim.cmd.checktime()
-				fn.setloclist(fn.winnr(), {}, " ", {
-					title = "eslint -- errors",
-					lines = results,
-					efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
-				})
-				vim.cmd.lwindow()
-				vim.lsp.buf_attach_client(0, 1)
-			end)
-		end,
-	})
+	}, { text = true }, function(result)
+		vim.schedule(function()
+			vim.cmd.checktime()
+			local lines = {}
+			if result.stdout then
+				lines = vim.split(result.stdout, "\n", { trimempty = true })
+			end
+			fn.setloclist(fn.winnr(), {}, " ", {
+				title = "eslint -- errors",
+				lines = lines,
+				efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
+			})
+			vim.cmd.lwindow()
+		end)
+	end)
 end
 
 return M

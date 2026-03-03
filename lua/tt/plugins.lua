@@ -12,7 +12,7 @@ vim.pack.add({
 	gh("dmmulroy/ts-error-translator.nvim"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
-	gh("norcalli/nvim-colorizer.lua"),
+	gh("catgoose/nvim-colorizer.lua"),
 	gh("reedes/vim-wordy"),
 })
 
@@ -24,11 +24,6 @@ local disabled_plugins = {
 	"tohtml",
 	"tutor",
 	"zipPlugin",
-	"getscript",
-	"vimball",
-	"logiPat",
-	"rrhelper",
-	"python_provider",
 }
 
 for _, p in ipairs(disabled_plugins) do
@@ -63,6 +58,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 			aliases = {
 				["astro"] = "html",
 			},
+		})
+		require("colorizer").setup({
+			filetypes = { "c", "cpp", "css", "scss", "html", "javascript", "typescript", "lua" },
 		})
 		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "BufReadPost" })
 	end,

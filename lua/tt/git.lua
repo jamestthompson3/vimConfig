@@ -4,17 +4,21 @@ local fn = vim.fn
 local shell_to_buf = require("tt.nvim_utils").vim_util.shell_to_buf
 local namespace = api.nvim_create_namespace("git_lens")
 
-function M.diff()
-	local fileName = fn.expand("%")
-	local ext = fn.expand("%:e")
-	local buf = shell_to_buf({ "git", "show", "HEAD:" .. fileName })
-	vim.cmd.wincmd("v")
-	vim.cmd.wincmd("h")
-	api.nvim_win_set_buf(0, buf)
-	vim.bo.filetype = ext
-	vim.cmd.diffthis()
-	vim.cmd.wincmd("l")
-	vim.cmd.diffthis()
+function M.diff(file)
+	vim.cmd.packadd("nvim.difftool")
+	local relpath = file or fn.expand("%")
+	local fullpath = fn.fnamemodify(relpath, ":p")
+	local ext = fn.fnamemodify(relpath, ":e")
+	local tmpfile = fn.tempname() .. "." .. ext
+	local result = vim.system({ "git", "show", "HEAD:" .. relpath }, { text = true }):wait()
+	if result.code ~= 0 then
+		vim.notify("Not in git or no HEAD version", vim.log.levels.WARN)
+		return
+	end
+	local f = io.open(tmpfile, "w")
+	f:write(result.stdout)
+	f:close()
+	require("difftool").open(tmpfile, fullpath)
 end
 
 function M.blame_file()
@@ -62,22 +66,11 @@ function M.clear_blame()
 end
 
 function M.branch()
-	local command = {}
-	if is_windows then
-		command = { "git", "rev-parse", "--abbrev-ref", "HEAD" }
-	else
-		command = { "git", "rev-parse", "--abbrev-ref", "HEAD" }
-	end
-	local result = vim.system(command):wait()
+	local result = vim.system({ "git", "rev-parse", "--abbrev-ref", "HEAD" }):wait()
 	if result.code == 0 and result.stdout then
-		if is_windows then
-			return result.stdout:gsub("\\n", "")
-		else
-			return result.stdout:gsub("\n", "")
-		end
-	else
-		return ""
+		return vim.trim(result.stdout)
 	end
+	return ""
 end
 
 local function listChangedFiles()
@@ -90,11 +83,7 @@ local function listChangedFiles()
 end
 
 local function jumpToDiff()
-	vim.cmd("silent only")
-	vim.cmd("vsplit <cfile>")
-	M.diff()
-	vim.cmd.wincmd("h")
-	vim.cmd.wincmd("h")
+	M.diff(fn.expand("<cfile>"))
 end
 
 function M.changedFiles()

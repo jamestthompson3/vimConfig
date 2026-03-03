@@ -47,9 +47,6 @@ function M.init()
 		indent = {
 			enable = true,
 		},
-		incremental_selection = {
-			enable = true,
-		},
 		highlight = {
 			enable = true,
 		},

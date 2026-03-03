@@ -117,6 +117,19 @@ function M.simpleMRU()
 	vim.cmd([[:1]])
 end
 
+function M.files_to_qf(filename)
+	local files = vim.fn.systemlist({ "fd", "--type", "f", "--hidden", "-E", ".git", "-g", filename })
+	if #files == 0 then
+		vim.notify("No files found: " .. filename, vim.log.levels.WARN)
+		return
+	end
+	local items = vim.tbl_map(function(file)
+		return { filename = file, lnum = 1 }
+	end, files)
+	vim.fn.setqflist({}, " ", { title = filename, items = items })
+	M.openQuickfix()
+end
+
 function M.profile()
 	if vim.g.profiler_running ~= nil then
 		vim.cmd("profile pause")
