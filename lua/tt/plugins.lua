@@ -61,6 +61,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		})
 		require("colorizer").setup({
 			filetypes = { "c", "cpp", "css", "scss", "html", "javascript", "typescript", "lua" },
+			parsers = { css = true },
 		})
 		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "BufReadPost" })
 	end,
