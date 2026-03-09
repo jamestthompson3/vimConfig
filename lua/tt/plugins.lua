@@ -6,15 +6,20 @@ vim.pack.add({
 	gh("nvim-mini/mini.surround"),
 	gh("stevearc/oil.nvim"),
 	gh("ludovicchabant/vim-gutentags"),
-	gh("windwp/nvim-ts-autotag"),
+	-- gh("windwp/nvim-ts-autotag"), -- deferred below
 	gh("windwp/nvim-autopairs"),
-	gh("ibhagwan/fzf-lua"),
+	-- gh("ibhagwan/fzf-lua"),
 	gh("dmmulroy/ts-error-translator.nvim"),
-	gh("nvim-treesitter/nvim-treesitter"),
-	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("catgoose/nvim-colorizer.lua"),
 	gh("reedes/vim-wordy"),
 })
+
+-- Deferred: installed by vim.pack but not added at startup to avoid eager loading
+local deferred_plugins = {
+	gh("nvim-treesitter/nvim-treesitter"),
+	gh("nvim-treesitter/nvim-treesitter-context"),
+	gh("windwp/nvim-ts-autotag"),
+}
 
 local disabled_plugins = {
 	"gzip",
@@ -46,7 +51,12 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	group = lazy_load,
 	pattern = "*",
 	callback = function()
+		vim.cmd.packadd("nvim-treesitter")
+		vim.cmd.packadd("nvim-treesitter-context")
+		vim.cmd.packadd("nvim-ts-autotag")
 		require("tt.plugin.treesitter").init()
+		vim.o.foldmethod = "expr"
+		vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 		require("mini.surround").setup()
 		vim.cmd("packadd vim-gutentags")
 		require("oil").setup({
@@ -68,5 +78,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 vim.api.nvim_create_user_command("Update", function()
+	vim.pack.add(deferred_plugins)
 	vim.pack.update()
 end, {})

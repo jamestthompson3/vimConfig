@@ -68,8 +68,7 @@ set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart = 99
 set.foldlevel = 1
-set.foldmethod = "expr"
-set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+set.foldmethod = "indent"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
 
