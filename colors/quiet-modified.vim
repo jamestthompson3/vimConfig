@@ -283,6 +283,7 @@ if s:t_Co >= 256
     hi FloatBorder ctermfg=242 ctermbg=234 cterm=NONE
     " Custom
     hi link GitLens Comment
+    hi @nospell.markdown_inline guifg=gray
   " -----------------------------------------------------------------------------
   " Dark mode overrides
   " -----------------------------------------------------------------------------
