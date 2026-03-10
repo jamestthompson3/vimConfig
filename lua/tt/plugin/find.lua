@@ -14,7 +14,7 @@ function M.init()
 	-- vim.keymap.set("n", "<leader>.", "<Cmd>FzfLua buffers<CR>")
 
 	--remove longest if autoinsert feels annoying
-	vim.opt.wildmode = "noselect:longest:lastused"
+	vim.opt.wildmode = "noselect:lastused"
 	vim.api.nvim_create_autocmd("CmdlineChanged", {
 		pattern = ":",
 		callback = function()

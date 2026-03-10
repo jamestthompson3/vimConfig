@@ -113,7 +113,7 @@ if &background ==# 'dark'
   hi Visual guifg=#0a3a0a guibg=#c8e8c8 gui=NONE cterm=NONE
   hi VisualNOS guifg=NONE guibg=#303030 gui=NONE cterm=NONE
   hi WarningMsg guifg=#fffff guibg=NONE gui=NONE cterm=NONE
-  hi WildMenu guifg=#00afff guibg=#282828 gui=bold cterm=bold
+  hi WildMenu guifg=#000000 guibg=#ffaf00 gui=NONE cterm=NONE
   hi NormalFloat guifg=#fffff guibg=#1c1c1c gui=NONE cterm=NONE
   hi FloatBorder guifg=#707070 guibg=#1c1c1c gui=NONE cterm=NONE
   hi Comment guifg=#707070 guibg=NONE gui=NONE cterm=NONE
@@ -191,7 +191,7 @@ else
   hi Visual guifg=#005f87 guibg=#c8e3f0 gui=NONE cterm=NONE
   hi VisualNOS guifg=NONE guibg=#eeeeee gui=NONE cterm=NONE
   hi WarningMsg guifg=#282828 guibg=NONE gui=NONE cterm=NONE
-  hi WildMenu guifg=#282828 guibg=#eeeeee gui=bold cterm=bold
+  hi WildMenu guifg=#ffffff guibg=#d78700 gui=NONE cterm=NONE
   hi NormalFloat guifg=#282828 guibg=#f0f0f0 gui=NONE cterm=NONE
   hi FloatBorder guifg=#a8a8a8 guibg=#f0f0f0 gui=NONE cterm=NONE
   hi Comment guifg=#0c2919 guibg=#a8d4c3 gui=NONE cterm=NONE
@@ -290,21 +290,27 @@ if s:t_Co >= 256
   " Comments: inverted green tint for high visibility
   hi Comment guifg=#0c2919 guibg=#a8d4c3
 
-  " Popup menu: muted blue-grey
-  hi Pmenu guibg=#1a1a5a guifg=#d0d5e0
-  hi PmenuSel guifg=#0c2919 guibg=#a8d4c3
-  hi PmenuMatch gui=bold guifg=#8b0000 guibg=NONE
-  hi PmenuMatchSel gui=bold guifg=#8b0000 guibg=NONE
+  " Popup menu: wildcharm style
+  hi Pmenu guifg=NONE guibg=#303030 gui=NONE cterm=NONE
+  hi PmenuSel guifg=NONE guibg=#585858 gui=NONE cterm=NONE
+  hi PmenuMatch guifg=#d787d7 guibg=#303030 gui=NONE cterm=NONE
+  hi PmenuMatchSel guifg=#d787d7 guibg=#585858 gui=NONE cterm=NONE
+  hi PmenuSbar guifg=NONE guibg=NONE gui=NONE cterm=NONE
+  hi PmenuThumb guifg=NONE guibg=#d0d0d0 gui=NONE cterm=NONE
+  hi PmenuExtra guifg=#767676 guibg=#303030 gui=NONE cterm=NONE
+  hi PmenuExtraSel guifg=#767676 guibg=#585858 gui=NONE cterm=NONE
+  hi PmenuKind guifg=#ff5f87 guibg=#303030 gui=NONE cterm=NONE
+  hi PmenuKindSel guifg=#ff5f87 guibg=#585858 gui=NONE cterm=NONE
 
-  " Statusline: match comment style
-  "hi StatusLine guifg=#0c2919 guibg=#a8d4c3
+  " WildMenu: wildcharm style
+  hi WildMenu guifg=#000000 guibg=#ffaf00 gui=NONE cterm=NONE
 
   " Cursor: orange for visibility
   hi Cursor gui=none guifg=#000000 guibg=#ff5f00
 
   " Treesitter/markup
   hi @markup.raw guibg=NONE
-  hi! link @comment.block Pmenu
+  hi @comment.block guibg=DarkCyan
   else
     " Light background
     hi Normal ctermfg=16 ctermbg=188 cterm=NONE
@@ -383,10 +389,17 @@ if s:t_Co >= 256
   hi Comment guifg=#43105d guibg=#c897ff
   hi @comment.block.c guifg=#0a1a4a guibg=#c8d8f0
 
-  " Popup menu: subtle grey
-  hi Pmenu guifg=#1a1a1a guibg=#e8e8e8
-  hi PmenuSel guifg=#0a1a4a guibg=#c8d8f0
-  hi PmenuMatchSel guifg=#8b0000 guibg=NONE gui=bold
+  " Popup menu: wildcharm style
+  hi Pmenu guifg=NONE guibg=#e4e4e4 gui=NONE cterm=NONE
+  hi PmenuSel guifg=NONE guibg=#d0d0d0 gui=NONE cterm=NONE
+  hi PmenuMatch guifg=#870087 guibg=#e4e4e4 gui=NONE cterm=NONE
+  hi PmenuMatchSel guifg=#870087 guibg=#d0d0d0 gui=NONE cterm=NONE
+  hi PmenuSbar guifg=NONE guibg=NONE gui=NONE cterm=NONE
+  hi PmenuThumb guifg=NONE guibg=#808080 gui=NONE cterm=NONE
+  hi PmenuExtra guifg=#808080 guibg=#e4e4e4 gui=NONE cterm=NONE
+  hi PmenuExtraSel guifg=#808080 guibg=#d0d0d0 gui=NONE cterm=NONE
+  hi PmenuKind guifg=#d70000 guibg=#e4e4e4 gui=NONE cterm=NONE
+  hi PmenuKindSel guifg=#d70000 guibg=#d0d0d0 gui=NONE cterm=NONE
 
   " Line numbers: darker for readability
   hi LineNr guifg=#4f4f4f
