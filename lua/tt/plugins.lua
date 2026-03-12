@@ -6,9 +6,7 @@ vim.pack.add({
 	gh("nvim-mini/mini.surround"),
 	gh("stevearc/oil.nvim"),
 	gh("ludovicchabant/vim-gutentags"),
-	-- gh("windwp/nvim-ts-autotag"), -- deferred below
 	gh("windwp/nvim-autopairs"),
-	-- gh("ibhagwan/fzf-lua"),
 	gh("dmmulroy/ts-error-translator.nvim"),
 	gh("catgoose/nvim-colorizer.lua"),
 	gh("reedes/vim-wordy"),
