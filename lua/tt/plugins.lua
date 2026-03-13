@@ -3,21 +3,21 @@ local function gh(pkg)
 end
 
 vim.pack.add({
+	gh("dmmulroy/ts-error-translator.nvim"),
+	gh("reedes/vim-wordy"),
+})
+
+-- Installed by vim.pack but loaded later via packadd
+vim.pack.add({
 	gh("nvim-mini/mini.surround"),
 	gh("stevearc/oil.nvim"),
 	gh("ludovicchabant/vim-gutentags"),
 	gh("windwp/nvim-autopairs"),
-	gh("dmmulroy/ts-error-translator.nvim"),
 	gh("catgoose/nvim-colorizer.lua"),
-	gh("reedes/vim-wordy"),
-})
-
--- Deferred: installed by vim.pack but not added at startup to avoid eager loading
-local deferred_plugins = {
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("windwp/nvim-ts-autotag"),
-}
+}, { load = function() end })
 
 local disabled_plugins = {
 	"gzip",
@@ -38,16 +38,16 @@ require("tt.plugin.find").init()
 
 vim.api.nvim_create_autocmd("InsertEnter", {
 	group = lazy_load,
-	pattern = "*",
+	once = true,
 	callback = function()
+		vim.cmd.packadd("nvim-autopairs")
 		require("nvim-autopairs").setup()
-		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "InsertEnter" })
 	end,
 })
 
 vim.api.nvim_create_autocmd("BufReadPost", {
 	group = lazy_load,
-	pattern = "*",
+	once = true,
 	callback = function()
 		vim.cmd.packadd("nvim-treesitter")
 		vim.cmd.packadd("nvim-treesitter-context")
@@ -55,8 +55,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		require("tt.plugin.treesitter").init()
 		vim.o.foldmethod = "expr"
 		vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		vim.cmd.packadd("mini.surround")
 		require("mini.surround").setup()
-		vim.cmd("packadd vim-gutentags")
+		vim.cmd.packadd("vim-gutentags")
+		vim.cmd.packadd("oil.nvim")
 		require("oil").setup({
 			view_options = {
 				show_hidden = true,
@@ -67,15 +69,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 				["astro"] = "html",
 			},
 		})
+		vim.cmd.packadd("nvim-colorizer.lua")
 		require("colorizer").setup({
 			filetypes = { "c", "cpp", "css", "scss", "html", "javascript", "typescript", "lua" },
 			parsers = { css = true },
 		})
-		vim.api.nvim_clear_autocmds({ group = "Plugins", event = "BufReadPost" })
 	end,
 })
 
 vim.api.nvim_create_user_command("Update", function()
-	vim.pack.add(deferred_plugins)
 	vim.pack.update()
 end, {})
