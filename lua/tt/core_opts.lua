@@ -1,5 +1,4 @@
 local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
-local api = vim.api
 
 if not is_windows then
 	vim.o.shell = vim.fn.executable("fish") and "fish" or "bash"
@@ -35,23 +34,13 @@ vim.api.nvim_create_user_command("Restore", function()
 end, {})
 
 vim.api.nvim_create_user_command("Redir", function(opts)
-	vim.cmd('silent call tools#redir("' .. opts.args .. '")')
+	require("tt.tools").redir(opts.args)
 end, { nargs = 1, complete = "command" })
 
 vim.api.nvim_create_user_command("Sesh", function(opts)
 	require("tt.tools").saveSession(opts.args)
 end, { nargs = 1 })
 
--- Global Vim functions
-vim.api.nvim_exec2(
-	[[
-function! AS_HandleSwapfile(filename, swapname)
-    " if swapfile is older than file itself, just get rid of it
-    if getftime(v:swapname) < getftime(a:filename)
-        call delete(v:swapname)
-        let v:swapchoice = 'e'
-    endif
-endfunction
-]],
-	{ output = false }
-)
+vim.api.nvim_create_user_command("Fqf", function(opts)
+	tools.files_to_qf(opts.args)
+end, { nargs = 1 })

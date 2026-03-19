@@ -15,7 +15,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 vim.api.nvim_create_autocmd("SwapExists", {
 	group = load_core,
-	command = "call AS_HandleSwapfile(expand('<afile>:p'), v:swapname)",
+	callback = function()
+		if vim.fn.getftime(vim.v.swapname) < vim.fn.getftime(vim.fn.expand("<afile>:p")) then
+			vim.fn.delete(vim.v.swapname)
+			vim.v.swapchoice = "e"
+		end
+	end,
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {

@@ -1,0 +1,48 @@
+{
+  "plugins": {
+    "mini.surround": {
+      "rev": "d205d1741d1fcc1f3117b4e839bf00f74ad72fa2",
+      "src": "https://github.com/nvim-mini/mini.surround"
+    },
+    "nvim-autopairs": {
+      "rev": "59bce2eef357189c3305e25bc6dd2d138c1683f5",
+      "src": "https://github.com/windwp/nvim-autopairs"
+    },
+    "nvim-colorizer.lua": {
+      "rev": "ef211089af881bea206c7aa3f2693a81feee7e90",
+      "src": "https://github.com/catgoose/nvim-colorizer.lua"
+    },
+    "nvim-treesitter": {
+      "rev": "42fc28ba918343ebfd5565147a42a26580579482",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "nvim-treesitter-context": {
+      "rev": "9a8e39993e3b895601bf8227124a48ea8268149e",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
+    },
+    "nvim-ts-autotag": {
+      "rev": "8e1c0a389f20bf7f5b0dd0e00306c1247bda2595",
+      "src": "https://github.com/windwp/nvim-ts-autotag"
+    },
+    "oil.nvim": {
+      "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "ts-error-translator.nvim": {
+      "rev": "558abff11b9e8f4cefc0de09df780c56841c7a4b",
+      "src": "https://github.com/dmmulroy/ts-error-translator.nvim"
+    },
+    "vim-gutentags": {
+      "rev": "aa47c5e",
+      "src": "https://github.com/ludovicchabant/vim-gutentags"
+    },
+    "vim-prisma": {
+      "rev": "95c5b25066efb34c75bce78698baa371fe0ee7c2",
+      "src": "git@github.com:prisma/vim-prisma"
+    },
+    "vim-wordy": {
+      "rev": "590927f57277666e032702b26e4e0c82717cc3cb",
+      "src": "https://github.com/reedes/vim-wordy"
+    }
+  }
+}

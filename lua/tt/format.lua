@@ -134,33 +134,27 @@ vim.api.nvim_create_user_command("FormatInfo", function()
 	local filetype = vim.bo.filetype
 	local formatterList = formatters_by_ft[filetype]
 	local formatters = get_formatters(0)
-	local formattersToRun = {}
+	local lines = { "FormatInfo for " .. filetype }
 
-	if vim.islist(formatterList) then
-		for _, formatter in pairs(formatterList) do
-			local f = formatters[formatter]
-			if f.condition ~= nil then
-				if f.condition() then
-					table.insert(formattersToRun, formatter)
-				end
-			end
-		end
-		log(vim.iter(formattersToRun):join(",") .. " > ")
-		for _, formatter in pairs(formattersToRun) do
-			local f = formatters[formatter]
-			log("   " .. vim.iter(f.command):join(" "))
-		end
+	if not formatterList then
+		lines[#lines + 1] = "  No formatters configured"
+		vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
 		return
 	end
-	if not formatters[formatterList] then
-		log("No formatters found with: " .. formatterList)
-		return
-	else
-		table.insert(formattersToRun, formatterList)
+
+	local candidates = vim.islist(formatterList) and formatterList or { formatterList }
+	for _, name in ipairs(candidates) do
+		local f = formatters[name]
+		if not f then
+			lines[#lines + 1] = string.format("  ✗ %s (unknown)", name)
+		else
+			local active = f.condition == nil or f.condition()
+			local bin = f.command[1]
+			local found = vim.fn.executable(bin) == 1
+			local status = active and (found and "✓" or "✗ not found") or "○ skipped"
+			lines[#lines + 1] = string.format("  %s %s", status, name)
+			lines[#lines + 1] = string.format("      %s", table.concat(f.command, " "))
+		end
 	end
-	log("Running > " .. vim.iter(formattersToRun):join(","))
-	for _, formatter in pairs(formattersToRun) do
-		local f = formatters[formatter]
-		log("   Command: " .. vim.iter(f.command):join(" "))
-	end
+	vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
 end, {})

@@ -27,7 +27,7 @@ function M.splashscreen()
 		vim.wo[0].cursorcolumn = false
 		M.simpleMRU()
 		vim.cmd([[:34]])
-		vim.keymap.set("n", "<CR>", ":e<cWORD><CR>", { buffer = true, noremap = true })
+		vim.keymap.set("n", "<CR>", ":e<cWORD><CR>", { buffer = true, noremap = true, silent = true })
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
 	else
@@ -128,6 +128,58 @@ function M.files_to_qf(filename)
 	end, files)
 	vim.fn.setqflist({}, " ", { title = filename, items = items })
 	M.openQuickfix()
+end
+
+function M.switchSourceHeader()
+	local ext = fn.expand("%:e")
+	local base = fn.expand("%:t:r")
+	local dir = fn.expand("%:p:h")
+	local targets
+	if ext == "h" or ext == "hpp" then
+		targets = { "c", "cpp", "m", "mm" }
+	else
+		targets = { "h", "hpp" }
+	end
+	-- Try same directory first
+	for _, t in ipairs(targets) do
+		local candidate = dir .. "/" .. base .. "." .. t
+		if vim.uv.fs_stat(candidate) then
+			vim.cmd.edit(candidate)
+			return
+		end
+	end
+	-- Fall back to searching the project
+	local root = vim.fs.root(0, { ".git", "Makefile", "CMakeLists.txt" }) or fn.getcwd()
+	for _, t in ipairs(targets) do
+		local found = vim.fs.find(base .. "." .. t, { path = root, type = "file" })
+		if #found > 0 then
+			vim.cmd.edit(found[1])
+			return
+		end
+	end
+	vim.notify("No match for " .. base .. ".{" .. table.concat(targets, ",") .. "}", vim.log.levels.WARN)
+end
+
+function M.redir(cmd)
+	for win = 1, fn.winnr("$") do
+		if fn.getwinvar(win, "scratch") == 1 then
+			vim.cmd(win .. "windo close")
+		end
+	end
+	local output
+	if cmd:match("^!") then
+		output = fn.system(cmd:sub(2))
+	else
+		output = vim.api.nvim_exec2(cmd, { output = true }).output
+	end
+	vim.cmd("vnew")
+	vim.w.scratch = 1
+	vim.bo.buftype = "nofile"
+	vim.bo.bufhidden = "wipe"
+	vim.bo.buflisted = false
+	vim.bo.swapfile = false
+	vim.keymap.set("n", "q", "<C-w>c", { buffer = true })
+	api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output, "\n"))
 end
 
 function M.profile()

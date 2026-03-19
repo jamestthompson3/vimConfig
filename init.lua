@@ -1,24 +1,9 @@
-vim.loader.enable()
 -- This needs to be set before plugins so that plugin init codes can read the mapleader key
 vim.g.mapleader = " "
 require("tt.plugins")
 local globals = require("tt.nvim_utils").GLOBALS
 
-vim.g.did_install_default_menus = 1
 vim.g.python3_host_prog = globals.python_host
-vim.g.markdown_fenced_languages = {
-	"html",
-	"typescript",
-	"markdown",
-	"javascript",
-	"js=javascript",
-	"ts=typescript",
-	"rust",
-	"css",
-	"vim",
-	"lua",
-}
-
 vim.g.gutentags_file_list_command = "fd --type f --hidden -E .git"
 vim.g.gutentags_cache_dir = vim.fn.expand("~/.cache/")
 vim.g.gutentags_project_root = { ".git" }
@@ -44,11 +29,9 @@ set.tags = "" -- let gutentags handle this
 set.foldenable = false
 set.undolevels = 1000
 set.ttimeoutlen = 20
-set.termguicolors = true
 set.shiftwidth = 2
 set.softtabstop = 2
 set.tabstop = 2
-set.synmaxcol = 200
 set.cmdheight = 2
 set.splitkeep = "topline"
 set.conceallevel = 2
@@ -69,7 +52,6 @@ set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart = 99
 set.foldlevel = 1
-set.foldmethod = "indent"
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
 
