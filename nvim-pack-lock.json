@@ -9,7 +9,7 @@
       "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-colorizer.lua": {
-      "rev": "ef211089af881bea206c7aa3f2693a81feee7e90",
+      "rev": "85a5e83cd4daa258cf95c3204e277991d6fbe747",
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
     },
     "nvim-treesitter": {
@@ -17,7 +17,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-context": {
-      "rev": "9a8e39993e3b895601bf8227124a48ea8268149e",
+      "rev": "adf4b6b0420b7be6c717ef0ac7993183d6c201b1",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
     },
     "nvim-ts-autotag": {

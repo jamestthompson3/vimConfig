@@ -11,7 +11,6 @@ vim.pack.add({
 vim.pack.add({
 	gh("nvim-mini/mini.surround"),
 	gh("stevearc/oil.nvim"),
-	gh("ludovicchabant/vim-gutentags"),
 	gh("windwp/nvim-autopairs"),
 	gh("catgoose/nvim-colorizer.lua"),
 	gh("nvim-treesitter/nvim-treesitter"),
@@ -57,7 +56,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 		vim.cmd.packadd("mini.surround")
 		require("mini.surround").setup()
-		vim.cmd.packadd("vim-gutentags")
 		vim.cmd.packadd("oil.nvim")
 		require("oil").setup({
 			view_options = {

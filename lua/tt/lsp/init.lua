@@ -4,28 +4,44 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.semanticTokens.multilineTokenSupport = true
 
-local on_attach = function(client, bufnr)
-	require("tt.lsp.mappings").setMappings(bufnr)
-	vim.lsp.completion.enable(true, client.id, bufnr, {
-		autotrigger = false,
-		convert = function(item)
-			return { abbr = item.label:gsub("%b()", "") }
-		end,
-	})
-	if client.server_capabilities.codeLensProvider then
-		vim.lsp.codelens.enable(true, { bufnr = bufnr })
-	end
-	if client.server_capabilities.documentOnTypeFormattingProvider then
-		vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
-	end
-end
+local ts_clients = { ts_ls = true, astro = true }
 
-local function ts_on_attach(client, bufnr)
-	client.server_capabilities.documentFormattingProvider = false
-	client.server_capabilities.documentRangeFormattingProvider = false
-	require("ts-error-translator").setup()
-	on_attach(client, bufnr)
-end
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client then
+			return
+		end
+		local bufnr = args.buf
+
+		if ts_clients[client.name] then
+			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.documentRangeFormattingProvider = false
+			require("ts-error-translator").setup()
+		end
+
+		if client.name == "sqls" then
+			require("sqls").on_aa_attach(client, bufnr)
+		end
+
+		require("tt.lsp.mappings").setMappings(bufnr)
+		vim.lsp.completion.enable(true, client.id, bufnr, {
+			autotrigger = false,
+			convert = function(item)
+				return { abbr = item.label:gsub("%b()", "") }
+			end,
+		})
+		if client.server_capabilities.codeLensProvider then
+			vim.lsp.codelens.enable(true, { bufnr = bufnr })
+		end
+		if client.server_capabilities.documentOnTypeFormattingProvider then
+			vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
+		end
+		if client.server_capabilities.colorProvider then
+			vim.lsp.document_color.enable(true, { bufnr = bufnr })
+		end
+	end,
+})
 
 vim.lsp.config("*", {
 	root_markers = { ".git", "root_marker" },
@@ -43,7 +59,6 @@ vim.lsp.config.lua_ls = {
 		"selene.yml",
 	},
 	filetypes = { "lua" },
-	on_attach = on_attach,
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
@@ -78,12 +93,10 @@ vim.lsp.config.lua_ls = {
 
 vim.lsp.config.zls = {
 	filetypes = { "zig", "zon" },
-	on_attach = on_attach,
 	cmd = { "zls" },
 }
 
 vim.lsp.config.rust_analyzer = {
-	on_attach = on_attach,
 	cmd = { "rust-analyzer" },
 	filetypes = { "rust" },
 	checkOnSave = {
@@ -95,7 +108,6 @@ vim.lsp.config.rust_analyzer = {
 vim.lsp.config.gopls = {
 	filetypes = { "go" },
 	cmd = { "gopls", "serve" },
-	on_attach = on_attach,
 	analyses = {
 		unusedparams = true,
 		staticcheck = true,
@@ -105,7 +117,6 @@ vim.lsp.config.gopls = {
 vim.lsp.config.clangd = {
 	cmd = { "clangd" },
 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-	on_attach = on_attach,
 }
 
 -- Node-based servers deferred to avoid fs lookups at startup
@@ -121,7 +132,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	callback = function()
 		vim.lsp.config.html = {
 			filetypes = { "html", "templ" },
-			on_attach = on_attach,
 			init_options = { documentFormatting = false },
 			cmd = { node.get_node_bin("html-languageserver"), "--stdio" },
 		}
@@ -129,9 +139,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.lsp.config.sqls = {
 			cmd = { "sqls" },
 			filetypes = { "sql", "mysql" },
-			on_attach = function(client, bufnr)
-				require("sqls").on_aa_attach(client, bufnr)
-			end,
 		}
 
 		vim.lsp.config.biome = {
@@ -142,18 +149,15 @@ vim.api.nvim_create_autocmd("FileType", {
 				"json", "jsonc", "svelte", "typescript", "typescript.tsx",
 				"typescriptreact", "vue",
 			},
-			on_attach = on_attach,
 		}
 
 		vim.lsp.config.bashls = {
 			filetypes = { "bash", "sh" },
-			on_attach = on_attach,
 			cmd = { node.get_node_bin("bash-language-server"), "start" },
 		}
 
 		vim.lsp.config.astro = {
 			cmd = { node.get_node_bin("astro-ls"), "--stdio" },
-			on_attach = ts_on_attach,
 			filetypes = { "astro" },
 			init_options = {
 				typescript = { tsdk = node.get_node_lib("typescript/lib") },
@@ -166,7 +170,6 @@ vim.api.nvim_create_autocmd("FileType", {
 				"javascript", "javascriptreact", "javascript.jsx",
 				"typescript", "typescriptreact", "typescript.tsx",
 			},
-			on_attach = ts_on_attach,
 			cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
 			init_options = {
 				hostInfo = "neovim",

@@ -4,12 +4,6 @@ require("tt.plugins")
 local globals = require("tt.nvim_utils").GLOBALS
 
 vim.g.python3_host_prog = globals.python_host
-vim.g.gutentags_file_list_command = "fd --type f --hidden -E .git"
-vim.g.gutentags_cache_dir = vim.fn.expand("~/.cache/")
-vim.g.gutentags_project_root = { ".git" }
-vim.g.gutentags_add_default_project_roots = 0
-vim.g.gutentags_generate_on_empty_buffer = 1
-vim.g.gutentags_ctags_exclude_wildignore = 1
 
 local set = vim.o
 set.exrc = true
@@ -25,7 +19,6 @@ set.ignorecase = true
 set.smartcase = true
 set.undofile = true
 set.relativenumber = true
-set.tags = "" -- let gutentags handle this
 set.foldenable = false
 set.undolevels = 1000
 set.ttimeoutlen = 20
@@ -55,48 +48,13 @@ set.foldlevel = 1
 set.shortmess = vim.o.shortmess .. "s"
 set.undodir = globals.home .. "/.cache/Vim/undofile"
 
-local in_wsl = os.getenv("WSL_DISTRO_NAME") ~= nil
-
-if in_wsl then
+if os.getenv("WSL_DISTRO_NAME") then
 	vim.g.clipboard = {
 		name = "wsl clipboard",
 		copy = { ["+"] = { "clip.exe" }, ["*"] = { "clip.exe" } },
 		paste = { ["+"] = { "nvim_paste" }, ["*"] = { "nvim_paste" } },
 		cache_enabled = true,
 	}
-else
-	-- Native Linux clipboard: prefer wl-clipboard for Wayland, fallback to xclip for X11
-	local has_wl_copy = vim.fn.executable("wl-copy") == 1
-	local has_wl_paste = vim.fn.executable("wl-paste") == 1
-	local has_xclip = vim.fn.executable("xclip") == 1
-
-	if has_wl_copy and has_wl_paste then
-		vim.g.clipboard = {
-			name = "wl-clipboard",
-			copy = {
-				["+"] = { "wl-copy", "--type", "text/plain" },
-				["*"] = { "wl-copy", "--primary", "--type", "text/plain" },
-			},
-			paste = {
-				["+"] = { "wl-paste", "--no-newline" },
-				["*"] = { "wl-paste", "--no-newline", "--primary" },
-			},
-			cache_enabled = true,
-		}
-	elseif has_xclip then
-		vim.g.clipboard = {
-			name = "xclip",
-			copy = {
-				["+"] = { "xclip", "-selection", "clipboard" },
-				["*"] = { "xclip", "-selection", "primary" },
-			},
-			paste = {
-				["+"] = { "xclip", "-selection", "clipboard", "-o" },
-				["*"] = { "xclip", "-selection", "primary", "-o" },
-			},
-			cache_enabled = true,
-		}
-	end
 end
 
 -- UI OPTS

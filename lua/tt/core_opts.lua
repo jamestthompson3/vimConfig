@@ -1,7 +1,9 @@
-local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
+local nvim_utils = require("tt.nvim_utils")
+local iabbrev = nvim_utils.vim_util.iabbrev
+local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
 
 if not is_windows then
-	vim.o.shell = vim.fn.executable("fish") and "fish" or "bash"
+	vim.o.shell = vim.fn.executable("fish") == 1 and "fish" or "bash"
 end
 
 vim.cmd.packadd("cfilter")
