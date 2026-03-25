@@ -13,7 +13,10 @@ vim.pack.add({
 	gh("stevearc/oil.nvim"),
 	gh("windwp/nvim-autopairs"),
 	gh("catgoose/nvim-colorizer.lua"),
-	gh("nvim-treesitter/nvim-treesitter"),
+	{
+		src = gh("nvim-treesitter/nvim-treesitter"),
+		version = "main",
+	},
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("windwp/nvim-ts-autotag"),
 }, { load = function() end })

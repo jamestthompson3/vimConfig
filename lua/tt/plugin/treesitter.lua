@@ -21,35 +21,23 @@ M.supported_langs = {
 	"svelte",
 	"typescript",
 	"tsx",
+	"markdown",
+	"markdown_inline",
 }
 
 function M.init()
 	local lines = vim.fn.line("$")
-	local ts_config = require("nvim-treesitter.configs")
-	if lines > 30000 then -- skip some settings for large files
-		require("nvim-treesitter.configs").setup({ highlight = { enable = false } })
+	if lines > 30000 then
 		return
 	end
+
+	require("nvim-treesitter").install(M.supported_langs)
+
 	require("treesitter-context").setup({
 		enable = true,
 		max_lines = -1,
 		multiwindow = true,
 		trim_scope = "outer",
-	})
-
-	ts_config.setup({
-		ensure_installed = M.supported_langs,
-		matchup = {
-			enable = true,
-		},
-		auto_install = true,
-		disable = { "prisma" }, -- langs where the plugin is better
-		indent = {
-			enable = true,
-		},
-		highlight = {
-			enable = true,
-		},
 	})
 end
 
