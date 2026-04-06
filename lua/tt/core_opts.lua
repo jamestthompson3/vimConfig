@@ -44,5 +44,5 @@ vim.api.nvim_create_user_command("Sesh", function(opts)
 end, { nargs = 1 })
 
 vim.api.nvim_create_user_command("Fqf", function(opts)
-	tools.files_to_qf(opts.args)
+	require("tt.tools").files_to_qf(opts.args)
 end, { nargs = 1 })

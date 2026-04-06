@@ -1,6 +1,5 @@
 local tools = require("tt.tools")
 local git = require("tt.git")
-
 -- INSERT MODE
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("i", "<C-T>", "<C-X><C-]>")
