@@ -5,12 +5,18 @@ end
 vim.pack.add({
 	gh("dmmulroy/ts-error-translator.nvim"),
 	gh("reedes/vim-wordy"),
+	gh("stevearc/oil.nvim"),
+})
+
+require("oil").setup({
+	view_options = {
+		show_hidden = true,
+	},
 })
 
 -- Installed by vim.pack but loaded later via packadd
 vim.pack.add({
 	gh("nvim-mini/mini.surround"),
-	gh("stevearc/oil.nvim"),
 	gh("windwp/nvim-autopairs"),
 	gh("catgoose/nvim-colorizer.lua"),
 	{
@@ -59,12 +65,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 		vim.cmd.packadd("mini.surround")
 		require("mini.surround").setup()
-		vim.cmd.packadd("oil.nvim")
-		require("oil").setup({
-			view_options = {
-				show_hidden = true,
-			},
-		})
 		require("nvim-ts-autotag").setup({
 			aliases = {
 				["astro"] = "html",
