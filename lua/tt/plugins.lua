@@ -19,10 +19,6 @@ vim.pack.add({
 	gh("nvim-mini/mini.surround"),
 	gh("windwp/nvim-autopairs"),
 	gh("catgoose/nvim-colorizer.lua"),
-	{
-		src = gh("nvim-treesitter/nvim-treesitter"),
-		version = "main",
-	},
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("windwp/nvim-ts-autotag"),
 }, { load = function() end })
@@ -57,7 +53,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	group = lazy_load,
 	once = true,
 	callback = function()
-		vim.cmd.packadd("nvim-treesitter")
 		vim.cmd.packadd("nvim-treesitter-context")
 		vim.cmd.packadd("nvim-ts-autotag")
 		require("tt.plugin.treesitter").init()

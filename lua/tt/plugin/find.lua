@@ -1,18 +1,5 @@
 local M = {}
 function M.init()
-	-- local fzf = require("fzf-lua")
-	-- fzf.register_ui_select()
-	-- fzf.setup({
-	-- 	"max-perf",
-	-- 	fzf_bin = "sk",
-	-- 	winopts = { preview = { hidden = true } },
-	-- 	files = { line_query = false },
-	-- 	fzf_opts = { ["--algo"] = "frizbee" },
-	-- 	-- fzf_opts = { ["--scheme"] = "path", ["--tiebreak"] = "index" },
-	-- })
-	-- vim.keymap.set("n", ",", "<Cmd>FzfLua files<CR>")
-	-- vim.keymap.set("n", "<leader>.", "<Cmd>FzfLua buffers<CR>")
-
 	vim.opt.wildmode = "noselect:lastused"
 	vim.api.nvim_create_autocmd("CmdlineChanged", {
 		pattern = ":",

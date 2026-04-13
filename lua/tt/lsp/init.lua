@@ -123,11 +123,25 @@ vim.lsp.config.clangd = {
 vim.api.nvim_create_autocmd("FileType", {
 	once = true,
 	pattern = {
-		"html", "templ", "sql", "mysql",
-		"astro", "css", "graphql", "javascript", "javascriptreact",
-		"json", "jsonc", "svelte", "typescript", "typescriptreact",
-		"typescript.tsx", "javascript.jsx", "vue",
-		"bash", "sh",
+		"html",
+		"templ",
+		"sql",
+		"mysql",
+		"astro",
+		"css",
+		"graphql",
+		"javascript",
+		"javascriptreact",
+		"json",
+		"jsonc",
+		"svelte",
+		"typescript",
+		"typescriptreact",
+		"typescript.tsx",
+		"javascript.jsx",
+		"vue",
+		"bash",
+		"sh",
 	},
 	callback = function()
 		vim.lsp.config.html = {
@@ -145,9 +159,18 @@ vim.api.nvim_create_autocmd("FileType", {
 			cmd = { node.get_node_bin("biome"), "lsp-proxy" },
 			root_markers = { "biome.json", "biome.jsonc" },
 			filetypes = {
-				"astro", "css", "graphql", "javascript", "javascriptreact",
-				"json", "jsonc", "svelte", "typescript", "typescript.tsx",
-				"typescriptreact", "vue",
+				"astro",
+				"css",
+				"graphql",
+				"javascript",
+				"javascriptreact",
+				"json",
+				"jsonc",
+				"svelte",
+				"typescript",
+				"typescript.tsx",
+				"typescriptreact",
+				"vue",
 			},
 		}
 
@@ -167,8 +190,12 @@ vim.api.nvim_create_autocmd("FileType", {
 
 		vim.lsp.config.ts_ls = {
 			filetypes = {
-				"javascript", "javascriptreact", "javascript.jsx",
-				"typescript", "typescriptreact", "typescript.tsx",
+				"javascript",
+				"javascriptreact",
+				"javascript.jsx",
+				"typescript",
+				"typescriptreact",
+				"typescript.tsx",
 			},
 			cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
 			init_options = {
@@ -206,10 +233,10 @@ vim.diagnostic.config({
 	},
 	signs = {
 		text = {
-			[vim.diagnostic.severity.ERROR] = "❌",
-			[vim.diagnostic.severity.WARN] = "",
-			[vim.diagnostic.severity.INFO] = "",
-			[vim.diagnostic.severity.HINT] = "",
+			[vim.diagnostic.severity.ERROR] = "●",
+			[vim.diagnostic.severity.WARN] = "●",
+			[vim.diagnostic.severity.INFO] = "●",
+			[vim.diagnostic.severity.HINT] = "●",
 		},
 		numhl = {
 			[vim.diagnostic.severity.ERROR] = "DiagnosticError",
