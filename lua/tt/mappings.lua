@@ -43,16 +43,6 @@ vim.keymap.set("n", "<leader>d", function()
 	tools.openTerminalDrawer()
 end)
 
-vim.keymap.set("n", "n", function()
-	pcall(vim.cmd, "normal! n")
-	require("tt.nvim_utils").hl_search_match()
-end, { silent = true })
-
-vim.keymap.set("n", "N", function()
-	pcall(vim.cmd, "normal! N")
-	require("tt.nvim_utils").hl_search_match()
-end, { silent = true })
-
 vim.keymap.set("n", "-", function()
 	require("oil").open()
 end, { silent = true })

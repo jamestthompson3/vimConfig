@@ -1,9 +1,11 @@
 -- This needs to be set before plugins so that plugin init codes can read the mapleader key
 vim.g.mapleader = " "
 require("tt.plugins")
-local globals = require("tt.nvim_utils").GLOBALS
 
-vim.g.python3_host_prog = globals.python_host
+local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
+vim.g.python3_host_prog = is_windows
+	and "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
+	or "/opt/homebrew/bin/python3"
 
 local set = vim.o
 set.exrc = true
@@ -46,7 +48,7 @@ set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\
 set.foldlevelstart = 99
 set.foldlevel = 1
 set.shortmess = vim.o.shortmess .. "s"
-set.undodir = globals.home .. "/.cache/Vim/undofile"
+set.undodir = vim.uv.os_homedir() .. "/.cache/Vim/undofile"
 
 if os.getenv("WSL_DISTRO_NAME") then
 	vim.g.clipboard = {

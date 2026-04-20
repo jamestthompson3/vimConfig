@@ -1,7 +1,6 @@
 local M = {}
 local api = vim.api
 local fn = vim.fn
-local shell_to_buf = require("tt.nvim_utils").vim_util.shell_to_buf
 local namespace = api.nvim_create_namespace("git_lens")
 
 function M.diff(file)
@@ -23,7 +22,10 @@ end
 
 function M.blame_file()
 	local fileName = fn.expand("%")
-	local buf = shell_to_buf({ "git", "blame", fileName })
+	local buf = api.nvim_create_buf(false, true)
+	local result = vim.system({ "git", "blame", fileName }):wait()
+	local lines = vim.split(result.stdout or "", "\n")
+	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
 	vim.cmd("40wincmd v")
 	vim.cmd.wincmd("r")
 	api.nvim_win_set_buf(0, buf)

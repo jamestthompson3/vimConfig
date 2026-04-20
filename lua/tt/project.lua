@@ -56,8 +56,7 @@ function M.add_current_project()
 	local projects = read_projects()
 	table.insert(projects, git_root)
 
-	if write_projects(projects) then
-	else
+	if not write_projects(projects) then
 		vim.notify("Failed to write projects file", vim.log.levels.ERROR)
 	end
 end

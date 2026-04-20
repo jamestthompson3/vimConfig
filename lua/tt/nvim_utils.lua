@@ -1,23 +1,9 @@
---- NVIM SPECIFIC SHORTCUTS
 local vim = vim or {}
-local api = vim.api
 local fn = vim.fn
 
 local M = {}
 
 local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
--- set up globals based on current env
-local GLOBALS = {}
-
-if is_windows then
-	GLOBALS.home = os.getenv("HOMEPATH")
-	GLOBALS.python_host = "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
-else
-	GLOBALS.home = os.getenv("HOME")
-	GLOBALS.python_host = "/opt/homebrew/bin/python3"
-end
-
-M.GLOBALS = GLOBALS
 
 function log(item)
 	print(vim.inspect(item))
@@ -35,14 +21,6 @@ function M.vim_util.get_lsp_clients()
 		table.insert(clients, client.name)
 	end
 	return table.concat(clients, " • ")
-end
-
-function M.vim_util.shell_to_buf(cmd)
-	local buf = api.nvim_create_buf(false, true)
-	local result = vim.system(cmd):wait()
-	local lines = vim.split(result.stdout or "", "\n")
-	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
-	return buf
 end
 
 ---
@@ -135,25 +113,6 @@ function M.nodejs.get_node_lib(lib)
 		return langservers_path
 	end
 	return ""
-end
-
-function M.vim_util.iabbrev(src, target, buffer)
-	if buffer == nil then
-		vim.cmd.iabbrev({ args = { src, target } })
-	else
-		vim.cmd.iabbrev({ args = { "<buffer>", src, target } })
-	end
-end
-
-local search_ns = vim.api.nvim_create_namespace("search_hl")
-
-function M.hl_search_match()
-	local pos = vim.api.nvim_win_get_cursor(0)
-	local end_pos = vim.fn.searchpos(vim.fn.getreg("/"), "cenW")
-	if end_pos[1] == 0 then
-		return
-	end
-	vim.hl.range(0, search_ns, "DiffDelete", { pos[1] - 1, pos[2] }, { end_pos[1] - 1, end_pos[2] }, { timeout = 150 })
 end
 
 return M

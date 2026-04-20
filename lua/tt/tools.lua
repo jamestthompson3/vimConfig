@@ -30,7 +30,6 @@ function M.splashscreen()
 		vim.keymap.set("n", "<CR>", ":e<cWORD><CR>", { buffer = true, noremap = true, silent = true })
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
-	else
 	end
 end
 

@@ -1,18 +1,15 @@
-local iabbrev = require("tt.nvim_utils").vim_util.iabbrev
 local api = vim.api
 local M = {}
 
 vim.fn.matchadd("Callout", "@w+.?w+")
 
-iabbrev("<expr> dateheader", vim.fn.strftime("%Y %b %d"), true)
+vim.cmd.iabbrev({ args = { "<buffer>", "<expr> dateheader", vim.fn.strftime("%Y %b %d") } })
 
 function M.composer()
 	vim.wo[0].wrap = true
 	vim.wo[0].linebreak = true
 	vim.wo[0].spell = true
 end
-
-function M.createFile() end
 
 vim.wo.foldlevel = 1
 vim.wo.conceallevel = 0

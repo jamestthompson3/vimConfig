@@ -1,5 +1,3 @@
-local nvim_utils = require("tt.nvim_utils")
-local iabbrev = nvim_utils.vim_util.iabbrev
 local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
 
 if not is_windows then
@@ -9,19 +7,19 @@ end
 vim.cmd.packadd("cfilter")
 
 -- Common mistakes
-iabbrev("retrun", "return")
-iabbrev("pritn", "print")
-iabbrev("cosnt", "const")
-iabbrev("imoprt", "import")
-iabbrev("imprt", "import")
-iabbrev("iomprt", "import")
-iabbrev("improt", "import")
-iabbrev("slef", "self")
-iabbrev("sapn", "span")
-iabbrev("teh", "the")
-iabbrev("tehn", "then")
-iabbrev("hadnler", "handler")
-iabbrev("bunlde", "bundle")
+vim.cmd.iabbrev({ args = { "retrun", "return" } })
+vim.cmd.iabbrev({ args = { "pritn", "print" } })
+vim.cmd.iabbrev({ args = { "cosnt", "const" } })
+vim.cmd.iabbrev({ args = { "imoprt", "import" } })
+vim.cmd.iabbrev({ args = { "imprt", "import" } })
+vim.cmd.iabbrev({ args = { "iomprt", "import" } })
+vim.cmd.iabbrev({ args = { "improt", "import" } })
+vim.cmd.iabbrev({ args = { "slef", "self" } })
+vim.cmd.iabbrev({ args = { "sapn", "span" } })
+vim.cmd.iabbrev({ args = { "teh", "the" } })
+vim.cmd.iabbrev({ args = { "tehn", "then" } })
+vim.cmd.iabbrev({ args = { "hadnler", "handler" } })
+vim.cmd.iabbrev({ args = { "bunlde", "bundle" } })
 
 vim.api.nvim_create_user_command("Diff", function()
 	require("tt.git").diff()
