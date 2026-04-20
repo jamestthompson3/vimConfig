@@ -1,5 +1,3 @@
-local node = require("tt.nvim_utils").nodejs
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.semanticTokens.multilineTokenSupport = true
@@ -48,177 +46,20 @@ vim.lsp.config("*", {
 	capabilities = capabilities,
 })
 
-vim.lsp.config.lua_ls = {
-	root_markers = {
-		".luarc.json",
-		".luarc.jsonc",
-		".luacheckrc",
-		".stylua.toml",
-		"stylua.toml",
-		"selene.toml",
-		"selene.yml",
-	},
-	filetypes = { "lua" },
-	on_init = function(client)
-		if client.workspace_folders then
-			local path = client.workspace_folders[1].name
-			if
-				path ~= vim.fn.stdpath("config")
-				and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
-			then
-				return
-			end
-		end
-		client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-			runtime = {
-				version = "LuaJIT",
-				path = {
-					"lua/?.lua",
-					"lua/?/init.lua",
-				},
-			},
-			workspace = {
-				checkThirdParty = false,
-				library = {
-					vim.env.VIMRUNTIME,
-				},
-			},
-		})
-	end,
-	settings = {
-		Lua = {},
-	},
-	cmd = { "lua-language-server" },
-}
-
-vim.lsp.config.zls = {
-	filetypes = { "zig", "zon" },
-	cmd = { "zls" },
-}
-
-vim.lsp.config.rust_analyzer = {
-	cmd = { "rust-analyzer" },
-	filetypes = { "rust" },
-	checkOnSave = {
-		enabled = true,
-		command = "clippy",
-	},
-}
-
-vim.lsp.config.gopls = {
-	filetypes = { "go" },
-	cmd = { "gopls", "serve" },
-	analyses = {
-		unusedparams = true,
-		staticcheck = true,
-	},
-}
-
-vim.lsp.config.clangd = {
-	cmd = { "clangd" },
-	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-}
-
--- Node-based servers deferred to avoid fs lookups at startup
-vim.api.nvim_create_autocmd("FileType", {
-	once = true,
-	pattern = {
-		"html",
-		"templ",
-		"sql",
-		"mysql",
-		"astro",
-		"css",
-		"graphql",
-		"javascript",
-		"javascriptreact",
-		"json",
-		"jsonc",
-		"svelte",
-		"typescript",
-		"typescriptreact",
-		"typescript.tsx",
-		"javascript.jsx",
-		"vue",
-		"bash",
-		"sh",
-	},
-	callback = function()
-		vim.lsp.config.html = {
-			filetypes = { "html", "templ" },
-			init_options = { documentFormatting = false },
-			cmd = { node.get_node_bin("html-languageserver"), "--stdio" },
-		}
-
-		vim.lsp.config.sqls = {
-			cmd = { "sqls" },
-			filetypes = { "sql", "mysql" },
-		}
-
-		vim.lsp.config.biome = {
-			cmd = { node.get_node_bin("biome"), "lsp-proxy" },
-			root_markers = { "biome.json", "biome.jsonc" },
-			filetypes = {
-				"astro",
-				"css",
-				"graphql",
-				"javascript",
-				"javascriptreact",
-				"json",
-				"jsonc",
-				"svelte",
-				"typescript",
-				"typescript.tsx",
-				"typescriptreact",
-				"vue",
-			},
-		}
-
-		vim.lsp.config.bashls = {
-			filetypes = { "bash", "sh" },
-			cmd = { node.get_node_bin("bash-language-server"), "start" },
-		}
-
-		vim.lsp.config.astro = {
-			cmd = { node.get_node_bin("astro-ls"), "--stdio" },
-			filetypes = { "astro" },
-			init_options = {
-				typescript = { tsdk = node.get_node_lib("typescript/lib") },
-			},
-			root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
-		}
-
-		vim.lsp.config.ts_ls = {
-			filetypes = {
-				"javascript",
-				"javascriptreact",
-				"javascript.jsx",
-				"typescript",
-				"typescriptreact",
-				"typescript.tsx",
-			},
-			cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
-			init_options = {
-				hostInfo = "neovim",
-				tsserver = { path = node.get_node_lib("typescript/lib") },
-			},
-			root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
-			single_file_support = true,
-		}
-
-		vim.lsp.enable({ "html", "sqls", "biome", "bashls", "astro", "ts_ls" })
-	end,
-})
-
 vim.lsp.enable({
 	"lua_ls",
 	"zls",
 	"rust_analyzer",
 	"gopls",
 	"clangd",
+	"html",
+	"sqls",
+	"biome",
+	"bashls",
+	"astro",
+	"ts_ls",
 })
 
--- LSP settings
 vim.diagnostic.config({
 	underline = false,
 	virtual_text = false,
@@ -277,11 +118,9 @@ vim.api.nvim_create_autocmd("LspProgress", {
 			return
 		end
 		for bufnr in pairs(client.attached_buffers) do
-			-- For pull diagnostics servers, request refresh
 			if client:supports_method("textDocument/diagnostic") then
 				vim.lsp.diagnostic._refresh(bufnr, client.id)
 			else
-				-- For push diagnostics servers, re-send didOpen to trigger diagnostics
 				if client:supports_method("textDocument/didOpen") then
 					client:notify("textDocument/didOpen", {
 						textDocument = {

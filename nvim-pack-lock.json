@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "classlayout.nvim": {
+      "rev": "534d4cb6a8f1666b3f69c8540760a869aff651a3",
+      "src": "https://github.com/J-Cowsert/classlayout.nvim"
+    },
     "mini.surround": {
       "rev": "2715e04bea3ec9244f15b421dc5b18c0fe326210",
       "src": "https://github.com/nvim-mini/mini.surround"
@@ -17,7 +21,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
     },
     "nvim-ts-autotag": {
-      "rev": "8e1c0a389f20bf7f5b0dd0e00306c1247bda2595",
+      "rev": "88c1453db4ba7dd24131086fe51fdf74e587d275",
       "src": "https://github.com/windwp/nvim-ts-autotag"
     },
     "oil.nvim": {

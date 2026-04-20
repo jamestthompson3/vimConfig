@@ -145,15 +145,15 @@ function M.vim_util.iabbrev(src, target, buffer)
 	end
 end
 
-function M.hl_search_match(blinktime)
-	-- Get the pattern that matches the cursor position and last search pattern
-	local pattern = [[\c\%#]] .. vim.fn.getreg("/")
-	local match_id = vim.fn.matchadd("DiffDelete", pattern, 101)
-	vim.cmd("redraw")
-	vim.defer_fn(function()
-		pcall(vim.fn.matchdelete, match_id)
-		vim.cmd("redraw")
-	end, blinktime * 1000)
+local search_ns = vim.api.nvim_create_namespace("search_hl")
+
+function M.hl_search_match()
+	local pos = vim.api.nvim_win_get_cursor(0)
+	local end_pos = vim.fn.searchpos(vim.fn.getreg("/"), "cenW")
+	if end_pos[1] == 0 then
+		return
+	end
+	vim.hl.range(0, search_ns, "DiffDelete", { pos[1] - 1, pos[2] }, { end_pos[1] - 1, end_pos[2] }, { timeout = 150 })
 end
 
 return M

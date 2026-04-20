@@ -21,6 +21,7 @@ vim.pack.add({
 	gh("catgoose/nvim-colorizer.lua"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("windwp/nvim-ts-autotag"),
+	gh("J-Cowsert/classlayout.nvim"),
 }, { load = function() end })
 
 local disabled_plugins = {
@@ -28,7 +29,6 @@ local disabled_plugins = {
 	"netrwPlugin",
 	"rplugin",
 	"tarPlugin",
-	"tohtml",
 	"tutor",
 	"zipPlugin",
 }
@@ -46,6 +46,16 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 	callback = function()
 		vim.cmd.packadd("nvim-autopairs")
 		require("nvim-autopairs").setup()
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = lazy_load,
+	pattern = { "c", "cpp", "objc", "objcpp" },
+	once = true,
+	callback = function()
+		vim.cmd.packadd("classlayout.nvim")
+		require("classlayout").setup({ keymap = false, compiler = "clang" })
 	end,
 })
 

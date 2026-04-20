@@ -45,12 +45,12 @@ end)
 
 vim.keymap.set("n", "n", function()
 	pcall(vim.cmd, "normal! n")
-	require("tt.nvim_utils").hl_search_match(0.15)
+	require("tt.nvim_utils").hl_search_match()
 end, { silent = true })
 
 vim.keymap.set("n", "N", function()
 	pcall(vim.cmd, "normal! N")
-	require("tt.nvim_utils").hl_search_match(0.15)
+	require("tt.nvim_utils").hl_search_match()
 end, { silent = true })
 
 vim.keymap.set("n", "-", function()
