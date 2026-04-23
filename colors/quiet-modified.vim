@@ -31,6 +31,7 @@ hi! link Debug Special
 hi! link Delimiter Special
 hi! link Exception Statement
 hi! link Float Constant
+hi! link FloatTitle DiffChange
 hi! link Function Identifier
 hi! link Include PreProc
 hi! link Keyword Statement

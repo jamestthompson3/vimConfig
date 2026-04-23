@@ -15,7 +15,6 @@ local function setup_highlights()
 	end
 	hi("PickNormal", { link = "NormalFloat" })
 	hi("PickBorder", { link = "FloatBorder" })
-	hi("PickPrompt", { link = "DiffChange" })
 	hi("PickSel", { link = "PmenuSel" })
 	hi("PickPointer", { link = "WildMenu" })
 	hi("PickMatch", { link = "PmenuMatch" })
@@ -30,7 +29,7 @@ function M.open(items, opts)
 
 	setup_highlights()
 
-	local prompt_str = opts.prompt or "> "
+	local title = opts.prompt and (" " .. opts.prompt .. " ") or ""
 	local on_choice = opts.on_choice or function() end
 	local on_cancel = opts.on_cancel
 
@@ -73,6 +72,8 @@ function M.open(items, opts)
 		col = win_col,
 		style = "minimal",
 		border = "rounded",
+		title = title,
+		title_pos = "center",
 	})
 	vim.wo[win].wrap = false
 	vim.wo[win].cursorline = false
@@ -181,7 +182,7 @@ function M.open(items, opts)
 		end
 
 		vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, {
-			virt_text = { { prompt_str, "PickPrompt" }, { " ", "Normal" } },
+			virt_text = { { " ", "Normal" } },
 			virt_text_pos = "inline",
 			right_gravity = false,
 		})

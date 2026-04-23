@@ -25,7 +25,7 @@ function M.init()
 
 	vim.api.nvim_create_user_command("F", function()
 		pick.open(get_file_list(), {
-			prompt = "F",
+			prompt = "Files",
 			on_choice = function(file, _, action)
 				vim.cmd(action .. " " .. vim.fn.fnameescape(file))
 			end,
@@ -43,9 +43,49 @@ function M.init()
 			end
 		end
 		pick.open(bufs, {
-			prompt = "B",
+			prompt = "Buffers",
 			on_choice = function(buf_name, _, action)
 				vim.cmd(action .. " " .. vim.fn.fnameescape(buf_name))
+			end,
+		})
+	end, {})
+
+	vim.api.nvim_create_user_command("Marks", function()
+		local marks = {}
+		local buf_marks = vim.fn.getmarklist("%")
+		local global_marks = vim.fn.getmarklist()
+
+		for _, m in ipairs(buf_marks) do
+			local mark = m.mark:sub(2)
+			if mark:match("[a-z]") then
+				local lnum = m.pos[2]
+				local lines = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)
+				local text = lines[1] and vim.trim(lines[1]) or ""
+				table.insert(marks, { display = mark .. "  " .. lnum .. ": " .. text, mark = mark })
+			end
+		end
+
+		for _, m in ipairs(global_marks) do
+			local mark = m.mark:sub(2)
+			if mark:match("[A-Z]") then
+				local file = vim.fn.fnamemodify(m.file or "", ":~:.")
+				local lnum = m.pos[2]
+				table.insert(marks, { display = mark .. "  " .. file .. ":" .. lnum, mark = mark })
+			end
+		end
+
+		if #marks == 0 then
+			vim.notify("No marks set", vim.log.levels.INFO)
+			return
+		end
+
+		pick.open(marks, {
+			prompt = "Marks",
+			format_item = function(item)
+				return item.display
+			end,
+			on_choice = function(item, _, action)
+				vim.cmd(action .. " | normal! `" .. item.mark)
 			end,
 		})
 	end, {})
