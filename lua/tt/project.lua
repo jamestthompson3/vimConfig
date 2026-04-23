@@ -97,7 +97,7 @@ function M.show_projects()
 		return
 	end
 	vim.ui.select(projects, {
-		prompt = "Select Project:",
+		prompt = "Projects",
 	}, function(choice)
 		if choice ~= nil then
 			vim.cmd("cd " .. vim.fn.fnameescape(choice))

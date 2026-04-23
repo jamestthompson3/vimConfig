@@ -4,7 +4,7 @@ require("tt.plugins")
 
 local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
 vim.g.python3_host_prog = is_windows
-	and "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
+		and "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
 	or "/opt/homebrew/bin/python3"
 
 local set = vim.o
@@ -27,7 +27,7 @@ set.ttimeoutlen = 20
 set.shiftwidth = 2
 set.softtabstop = 2
 set.tabstop = 2
-set.cmdheight = 2
+set.cmdheight = 1
 set.splitkeep = "topline"
 set.conceallevel = 2
 set.showbreak = string.rep(".", 3) -- Make it so that long lines wrap smartly

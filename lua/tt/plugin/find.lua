@@ -15,93 +15,46 @@ function M.init()
 		return fd_cache
 	end
 
-	-- Invalidate cache on directory change or when writing files
 	vim.api.nvim_create_autocmd({ "DirChanged", "BufWritePost" }, {
 		callback = function()
 			fd_cache = nil
 		end,
 	})
 
-	local function fuzzy_find_files(arglead)
-		local fnames = get_file_list()
-		if #arglead == 0 then
-			return fnames
-		end
-		return vim.fn.matchfuzzy(fnames, arglead)
-	end
+	local pick = require("tt.pick")
 
-	local function is_cmdline_type_find()
-		local cmdline_cmd = vim.fn.split(vim.fn.getcmdline(), " ")[1]
-		return cmdline_cmd == "F"
-	end
+	vim.api.nvim_create_user_command("F", function()
+		pick.open(get_file_list(), {
+			prompt = "F",
+			on_choice = function(file, _, action)
+				vim.cmd(action .. " " .. vim.fn.fnameescape(file))
+			end,
+		})
+	end, {})
 
-	local function open_find_completion(cmd)
-		local cmdline = vim.fn.getcmdline()
-		local query = cmdline:match("^%S+%s+(.+)$") or ""
-		local matches = fuzzy_find_files(query)
-		local file = matches and matches[1]
-		if file then
-			vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-c>", true, true, true), "n")
-			vim.schedule(function()
-				vim.cmd(cmd .. " " .. vim.fn.fnameescape(file))
-			end)
-		end
-	end
-
-	vim.api.nvim_create_user_command("F", function(opts)
-		local matches = fuzzy_find_files(opts.args)
-		if matches and matches[1] then
-			vim.cmd("edit " .. vim.fn.fnameescape(matches[1]))
-		end
-	end, {
-		nargs = "?",
-		complete = function(_, cmdline)
-			local query = cmdline:match("^%S+%s+(.*)$") or ""
-			return fuzzy_find_files(query)
-		end,
-	})
-
-	vim.keymap.set("c", "<C-y>", function()
-		if is_cmdline_type_find() then
-			open_find_completion("edit")
-		else
-			vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, true, true), "c")
-		end
-	end)
-	vim.keymap.set("c", "<C-v>", function()
-		if is_cmdline_type_find() then
-			open_find_completion("vsplit")
-		end
-	end)
-	vim.keymap.set("c", "<C-s>", function()
-		if is_cmdline_type_find() then
-			open_find_completion("split")
-		end
-	end)
-	vim.api.nvim_create_user_command("B", function(opts)
-		vim.cmd("buffer " .. vim.fn.fnameescape(opts.args))
-	end, {
-		nargs = 1,
-		complete = function(arglead)
-			local bufs = {}
-			for _, b in ipairs(vim.api.nvim_list_bufs()) do
-				if vim.bo[b].buflisted then
-					local name = vim.api.nvim_buf_get_name(b)
-					if name ~= "" then
-						table.insert(bufs, vim.fn.fnamemodify(name, ":."))
-					end
+	vim.api.nvim_create_user_command("B", function()
+		local bufs = {}
+		for _, b in ipairs(vim.api.nvim_list_bufs()) do
+			if vim.bo[b].buflisted then
+				local name = vim.api.nvim_buf_get_name(b)
+				if name ~= "" then
+					table.insert(bufs, vim.fn.fnamemodify(name, ":."))
 				end
 			end
-			if #arglead == 0 then
-				return bufs
-			end
-			return vim.fn.matchfuzzy(bufs, arglead)
-		end,
-	})
-	vim.keymap.set("n", "<leader>.", ":B<space>")
-	vim.keymap.set("n", ",", ":F<space>")
+		end
+		pick.open(bufs, {
+			prompt = "B",
+			on_choice = function(buf_name, _, action)
+				vim.cmd(action .. " " .. vim.fn.fnameescape(buf_name))
+			end,
+		})
+	end, {})
 
-	-- temp move elsewhere
+	vim.keymap.set("n", "<leader>.", "<cmd>B<cr>")
+	vim.keymap.set("n", ",", "<cmd>F<cr>")
+
+	vim.ui.select = pick.select
+
 	vim.keymap.set("n", "<space>c", function()
 		vim.ui.input({}, function(c)
 			if c and c ~= "" then
