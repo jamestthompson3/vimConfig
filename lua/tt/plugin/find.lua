@@ -17,7 +17,9 @@ function M.init()
 
 	-- Invalidate cache on directory change or when writing files
 	vim.api.nvim_create_autocmd({ "DirChanged", "BufWritePost" }, {
-		callback = get_file_list,
+		callback = function()
+			fd_cache = nil
+		end,
 	})
 
 	local function fuzzy_find_files(arglead)
