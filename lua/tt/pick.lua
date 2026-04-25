@@ -122,7 +122,7 @@ function M.open(items, opts)
 			return
 		end
 
-		local pointer = ">"
+		local pointer = " "
 		local indent_n = #pointer + 1
 		local prefix = (" "):rep(indent_n)
 		local lm = list_max()
