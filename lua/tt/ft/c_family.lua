@@ -21,8 +21,9 @@ function M.bootstrap(opts)
 
 	local ext = vim.fn.expand("%:e")
 	local header_exts = opts.header_exts or { "h" }
+	local use_pragma = opts.pragma_once == true or (opts.pragma_once == nil and ext ~= "h")
 	if vim.tbl_contains(header_exts, ext) and vim.fn.line("$") == 1 and vim.fn.getline(1) == "" then
-		if opts.pragma_once then
+		if use_pragma then
 			vim.api.nvim_buf_set_lines(0, 0, 0, false, {
 				"#pragma once",
 				"",
