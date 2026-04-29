@@ -18,10 +18,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			require("ts-error-translator").setup()
 		end
 
-		if client.name == "sqls" then
-			require("sqls").on_aa_attach(client, bufnr)
-		end
-
 		require("tt.lsp.mappings").setMappings(bufnr)
 		vim.lsp.completion.enable(true, client.id, bufnr, {
 			autotrigger = false,
