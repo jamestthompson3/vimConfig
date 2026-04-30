@@ -15,7 +15,7 @@ function M.init()
 		return fd_cache
 	end
 
-	vim.api.nvim_create_autocmd({ "DirChanged", "BufWritePost" }, {
+	vim.api.nvim_create_autocmd({ "DirChanged", "BufNew" }, {
 		callback = function()
 			fd_cache = nil
 		end,

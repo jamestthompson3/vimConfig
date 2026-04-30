@@ -130,7 +130,21 @@ function M.files_to_qf(filename)
 end
 
 function M.switchSourceHeader()
-	local ext = fn.expand("%:e")
+	local client = vim.lsp.get_clients({ bufnr = 0, name = "clangd" })[1]
+	if client then
+		local params = { uri = vim.uri_from_bufnr(0) }
+		client:request("textDocument/switchSourceHeader", params, function(err, uri)
+			if not err and uri and uri ~= "" then
+				vim.cmd.edit(vim.uri_to_fname(uri))
+			else
+				vim.notify("clangd: no alternate file found", vim.log.levels.WARN)
+			end
+		end)
+		return
+	end
+
+	local file = fn.expand("%")
+	local ext = vim.fs.ext(file)
 	local base = fn.expand("%:t:r")
 	local dir = fn.expand("%:p:h")
 	local targets
@@ -139,7 +153,6 @@ function M.switchSourceHeader()
 	else
 		targets = { "h", "hpp" }
 	end
-	-- Try same directory first
 	for _, t in ipairs(targets) do
 		local candidate = dir .. "/" .. base .. "." .. t
 		if vim.uv.fs_stat(candidate) then
@@ -147,7 +160,6 @@ function M.switchSourceHeader()
 			return
 		end
 	end
-	-- Fall back to searching the project
 	local root = vim.fs.root(0, { ".git", "Makefile", "CMakeLists.txt" }) or fn.getcwd()
 	for _, t in ipairs(targets) do
 		local found = vim.fs.find(base .. "." .. t, { path = root, type = "file" })

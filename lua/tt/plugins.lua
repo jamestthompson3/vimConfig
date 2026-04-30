@@ -66,8 +66,15 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		vim.cmd.packadd("nvim-treesitter-context")
 		vim.cmd.packadd("nvim-ts-autotag")
 		require("tt.plugin.treesitter").init()
-		vim.o.foldmethod = "expr"
-		vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		vim.wo[0].foldmethod = "expr"
+		vim.wo[0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		vim.api.nvim_create_autocmd("BufReadPost", {
+			group = lazy_load,
+			callback = function()
+				vim.wo[0].foldmethod = "expr"
+				vim.wo[0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+			end,
+		})
 		vim.cmd.packadd("mini.surround")
 		require("mini.surround").setup()
 		require("nvim-ts-autotag").setup({

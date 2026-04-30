@@ -2,11 +2,6 @@
 vim.g.mapleader = " "
 require("tt.plugins")
 
-local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
-vim.g.python3_host_prog = is_windows
-		and "C:\\Users\\taylor.thompson\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
-	or "/opt/homebrew/bin/python3"
-
 local set = vim.o
 set.exrc = true
 set.title = true
