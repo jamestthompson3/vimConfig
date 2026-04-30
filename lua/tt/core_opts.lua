@@ -19,6 +19,7 @@ vim.cmd.iabbrev({ args = { "sapn", "span" } })
 vim.cmd.iabbrev({ args = { "teh", "the" } })
 vim.cmd.iabbrev({ args = { "tehn", "then" } })
 vim.cmd.iabbrev({ args = { "hadnler", "handler" } })
+vim.cmd.iabbrev({ args = { "typdef", "typedef" } })
 vim.cmd.iabbrev({ args = { "bunlde", "bundle" } })
 
 vim.api.nvim_create_user_command("Diff", function()
