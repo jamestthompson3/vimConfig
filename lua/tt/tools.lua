@@ -193,6 +193,16 @@ function M.redir(cmd)
 	api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output, "\n"))
 end
 
+function M.scratch()
+	vim.cmd("vnew")
+	vim.w.scratch = 1
+	vim.bo.buftype = "nofile"
+	vim.bo.bufhidden = "wipe"
+	vim.bo.buflisted = false
+	vim.bo.swapfile = false
+	vim.keymap.set("n", "q", "<C-w>c", { buffer = true })
+end
+
 function M.profile()
 	if vim.g.profiler_running ~= nil then
 		vim.cmd("profile pause")

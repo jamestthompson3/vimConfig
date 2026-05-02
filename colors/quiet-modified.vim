@@ -106,9 +106,9 @@ if &background ==# 'dark'
   hi SpellRare guifg=#00afaf guibg=NONE guisp=#00afaf gui=undercurl cterm=underline
   hi StatusLine guibg=#282828 guifg=#fffff gui=none cterm=none
   hi StatusLineNC guifg=#707070 guibg=#282828 gui=reverse cterm=reverse
-  hi TabLine guifg=#707070 guibg=#282828 gui=reverse cterm=reverse
+  hi TabLine guifg=#707070 guibg=#000000 gui=none cterm=none
   hi TabLineFill guifg=#fffff guibg=NONE gui=NONE cterm=NONE
-  hi TabLineSel guifg=#282828 guibg=#fffff gui=bold cterm=bold
+  hi TabLineSel guifg=#00afaf guibg=#000000 gui=none cterm=none
   hi Title guifg=NONE guibg=NONE gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE
   hi VertSplit guifg=#707070 guibg=#282828 gui=NONE cterm=NONE
   hi Visual guifg=#0a3a0a guibg=#c8e8c8 gui=NONE cterm=NONE
