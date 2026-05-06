@@ -11,7 +11,6 @@ function M.bootstrap(opts)
 	end, { buffer = true, silent = true })
 
 	if opts.efm ~= false then
-		require("tt.lsp.efm").init()
 		vim.lsp.start(vim.lsp.config.efm)
 	end
 

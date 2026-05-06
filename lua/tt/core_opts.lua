@@ -24,7 +24,7 @@ vim.cmd.iabbrev({ args = { "bunlde", "bundle" } })
 
 vim.o.tabline = "%{%v:lua.require'tt.core_opts'.tabline()%}"
 
-function _G.tabline_label(bufnr)
+local function tabline_label(bufnr)
 	local title = vim.b[bufnr].term_title
 	if title then
 		return title

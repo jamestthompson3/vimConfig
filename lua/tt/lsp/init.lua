@@ -60,12 +60,8 @@ vim.diagnostic.config({
 	underline = false,
 	virtual_text = false,
 	jump = {
-		on_jump = function(diagnostics, bufnr)
-			vim.diagnostic.open_float({
-				bufnr,
-				namespace = diagnostics.namespace,
-				severity = diagnostics.severity,
-			})
+		on_jump = function()
+			vim.diagnostic.open_float({ scope = "cursor" })
 		end,
 	},
 	signs = {
@@ -84,7 +80,8 @@ vim.diagnostic.config({
 	},
 })
 
--- Set buffer busy status during LSP progress
+-- Set buffer busy status during LSP progress (refcounted across servers)
+local busy_count = {}
 vim.api.nvim_create_autocmd("LspProgress", {
 	callback = function(args)
 		local value = args.data.params.value
@@ -95,11 +92,15 @@ vim.api.nvim_create_autocmd("LspProgress", {
 
 		if value.kind == "begin" or value.kind == "report" then
 			for bufnr in pairs(client.attached_buffers) do
+				busy_count[bufnr] = (busy_count[bufnr] or 0) + (value.kind == "begin" and 1 or 0)
 				vim.bo[bufnr].busy = 1
 			end
 		elseif value.kind == "end" then
 			for bufnr in pairs(client.attached_buffers) do
-				vim.bo[bufnr].busy = 0
+				busy_count[bufnr] = math.max(0, (busy_count[bufnr] or 1) - 1)
+				if busy_count[bufnr] == 0 then
+					vim.bo[bufnr].busy = 0
+				end
 			end
 		end
 	end,
