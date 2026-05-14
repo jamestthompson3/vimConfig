@@ -32,21 +32,36 @@ end
 -- Build formatters dynamically per-buffer to resolve node binaries relative to the file
 local function get_formatters(bufnr)
 	bufnr = bufnr or 0
-	local prettierBin = node.find_node_executable("prettier", bufnr)
-	local biomeBin = node.find_node_executable("biome", bufnr)
-	local stylelintBin = node.find_node_executable("stylelint", bufnr)
 
 	return {
 		gofmt = { command = { "gofmt", "-s" } },
-		prettier = { command = { prettierBin, "--stdin-filepath", "$FILENAME" }, condition = prettierCheck },
-		stylint = { command = { stylelintBin, "--fix" } },
-		biome = { command = { biomeBin, "format", "--stdin-file-path", "$FILENAME" }, condition = biomeCheck },
+		prettier = {
+			command = function()
+				return { node.find_node_executable("prettier", bufnr), "--stdin-filepath", "$FILENAME" }
+			end,
+			condition = prettierCheck,
+		},
+		stylint = {
+			command = function()
+				return { node.find_node_executable("stylelint", bufnr), "--fix" }
+			end,
+		},
+		biome = {
+			command = function()
+				return { node.find_node_executable("biome", bufnr), "format", "--stdin-file-path", "$FILENAME" }
+			end,
+			condition = biomeCheck,
+		},
 		stylua = { command = { "stylua", "-" } },
 		rustfmt = { command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" } },
 		clangfmt = { command = { "clang-format", "-assume-filename", "$FILENAME" } },
 		yamlfmt = { command = { "yamlfmt", "-in" } },
 		fish_indent = { command = { "fish_indent" } },
 	}
+end
+
+local function resolve_command(f)
+	return type(f.command) == "function" and f.command() or f.command
 end
 
 local formatting = false
@@ -127,8 +142,11 @@ local function format_buffer()
 	local chain = {}
 	for _, name in ipairs(candidates) do
 		local f = formatters[name]
-		if f and f.command and (f.condition == nil or f.condition()) then
-			chain[#chain + 1] = f
+		if f and (f.condition == nil or f.condition()) then
+			local cmd = resolve_command(f)
+			if cmd and cmd[1] ~= "" then
+				chain[#chain + 1] = { command = cmd }
+			end
 		end
 	end
 
@@ -161,11 +179,12 @@ vim.api.nvim_create_user_command("FormatInfo", function()
 			lines[#lines + 1] = string.format("  ✗ %s (unknown)", name)
 		else
 			local active = f.condition == nil or f.condition()
-			local bin = f.command[1]
+			local cmd = resolve_command(f)
+			local bin = cmd[1]
 			local found = vim.fn.executable(bin) == 1
 			local status = active and (found and "✓" or "✗ not found") or "○ skipped"
 			lines[#lines + 1] = string.format("  %s %s", status, name)
-			lines[#lines + 1] = string.format("      %s", table.concat(f.command, " "))
+			lines[#lines + 1] = string.format("      %s", table.concat(cmd, " "))
 		end
 	end
 	vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
