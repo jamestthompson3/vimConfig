@@ -57,6 +57,10 @@ vim.api.nvim_create_user_command("Changed", function()
 	require("tt.git").changedFiles()
 end, {})
 
+vim.api.nvim_create_user_command("Diff", function()
+	require("tt.git").diff()
+end, {})
+
 vim.api.nvim_create_user_command("Restore", function()
 	require("tt.tools").restoreFile()
 end, {})
@@ -67,6 +71,10 @@ end, { nargs = 1, complete = "command" })
 
 vim.api.nvim_create_user_command("Scratch", function()
 	require("tt.tools").scratch()
+end, {})
+
+vim.api.nvim_create_user_command("Update", function()
+	vim.pack.update()
 end, {})
 
 vim.api.nvim_create_user_command("Fqf", function(opts)
