@@ -23,10 +23,10 @@ vim.api.nvim_create_autocmd("SwapExists", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
+vim.api.nvim_create_autocmd({ "TextYankPost", "TextPutPost" }, {
 	group = load_core,
 	callback = function()
-		vim.hl.on_yank({ higroup = "Search", timeout = 100 })
+		vim.hl.hl_op({ timeout = 100 })
 	end,
 })
 

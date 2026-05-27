@@ -41,8 +41,8 @@ function M.asyncDocs()
 end
 
 function M.previewLinkedPage()
-	local width = api.nvim_get_option_value("columns", {})
-	local height = api.nvim_get_option_value("lines", {})
+	local width = vim.o.columns
+	local height = vim.o.lines
 	-- if the editor is big enough
 	if width > 150 or height > 35 then
 		-- fzf's window height is 3/4 of the max height, but not more than 30
