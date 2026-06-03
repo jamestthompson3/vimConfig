@@ -57,10 +57,6 @@ vim.api.nvim_create_user_command("Changed", function()
 	require("tt.git").changedFiles()
 end, {})
 
-vim.api.nvim_create_user_command("Diff", function()
-	require("tt.git").diff()
-end, {})
-
 vim.api.nvim_create_user_command("Restore", function()
 	require("tt.tools").restoreFile()
 end, {})

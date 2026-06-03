@@ -44,7 +44,7 @@ set.foldlevelstart = 99
 set.foldlevel = 1
 set.foldmethod = "expr"
 set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-set.shortmess = vim.o.shortmess .. "s"
+set.shortmess = vim.o.shortmess .. "su"
 set.undodir = vim.uv.os_homedir() .. "/.cache/Vim/undofile"
 
 if os.getenv("WSL_DISTRO_NAME") then
