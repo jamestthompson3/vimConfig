@@ -3,6 +3,20 @@ local api = vim.api
 local fn = vim.fn
 local namespace = api.nvim_create_namespace("git_lens")
 
+local function teardown(work_buf, head_buf)
+	for _, w in ipairs(api.nvim_tabpage_list_wins(0)) do
+		if api.nvim_win_get_buf(w) == work_buf then
+			api.nvim_set_current_win(w)
+			break
+		end
+	end
+	vim.cmd("diffoff!")
+	vim.cmd("only")
+	if head_buf and api.nvim_buf_is_valid(head_buf) then
+		pcall(api.nvim_buf_delete, head_buf, { force = true })
+	end
+end
+
 function M.diff(file)
 	vim.cmd.packadd("nvim.difftool")
 	local relpath = file or fn.expand("%")
@@ -17,7 +31,26 @@ function M.diff(file)
 	local f = io.open(tmpfile, "w")
 	f:write(result.stdout)
 	f:close()
+
 	require("difftool").open(tmpfile, fullpath)
+
+	local work_buf = fn.bufnr(fullpath)
+	local head_buf = fn.bufnr(tmpfile)
+	if head_buf ~= -1 then
+		-- make the HEAD snapshot obviously disposable + unsaveable
+		vim.bo[head_buf].buftype = "nofile"
+		vim.bo[head_buf].bufhidden = "wipe"
+		vim.bo[head_buf].modifiable = false
+		vim.bo[head_buf].readonly = true
+		pcall(api.nvim_buf_set_name, head_buf, "HEAD:" .. relpath)
+	end
+	for _, b in ipairs({ work_buf, head_buf }) do
+		if b ~= -1 then
+			vim.keymap.set("n", "q", function()
+				teardown(work_buf, head_buf)
+			end, { buffer = b, desc = "Close diff, return to working file" })
+		end
+	end
 end
 
 function M.blame_file()
