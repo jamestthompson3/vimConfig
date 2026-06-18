@@ -3,7 +3,7 @@ local M = {}
 function M.setMappings(bufnr)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
 	vim.keymap.set("n", "ge", function()
-		vim.diagnostic.open_float(0, { scope = "cursor" })
+		vim.diagnostic.open_float({ scope = "cursor" })
 	end, { buffer = bufnr, desc = "Show diagnostic" })
 	vim.keymap.set("n", "gs", function()
 		vim.cmd.vsplit()

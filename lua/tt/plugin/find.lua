@@ -7,17 +7,31 @@ function M.init()
 			vim.fn.wildtrigger()
 		end,
 	})
+	local rg_args = { "rg", "--color", "never", "--files", "--hidden", "-g", "!.git" }
+
 	local fd_cache = nil
+	-- Prewarm asynchronously so the blocking path below is rarely hit on keypress
+	local function refresh_file_list()
+		vim.system(rg_args, { text = true }, function(obj)
+			if obj.code == 0 then
+				fd_cache = vim.split(obj.stdout, "\n", { trimempty = true })
+			end
+		end)
+	end
+
 	local function get_file_list()
 		if not fd_cache then
-			fd_cache = vim.fn.systemlist({ "rg", "--color", "never", "--files", "--hidden", "-g", "!.git" })
+			-- Cache not ready yet (first open before prewarm finishes): block once
+			fd_cache = vim.fn.systemlist(rg_args)
 		end
 		return fd_cache
 	end
 
-	vim.api.nvim_create_autocmd({ "DirChanged", "BufNew" }, {
+	refresh_file_list()
+	vim.api.nvim_create_autocmd("DirChanged", {
 		callback = function()
 			fd_cache = nil
+			refresh_file_list()
 		end,
 	})
 
