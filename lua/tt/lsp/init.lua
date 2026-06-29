@@ -3,6 +3,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.semanticTokens.multilineTokenSupport = true
 
 local ts_clients = { ts_ls = true, astro = true }
+local ts_translator_setup = false
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -15,7 +16,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if ts_clients[client.name] then
 			client.server_capabilities.documentFormattingProvider = false
 			client.server_capabilities.documentRangeFormattingProvider = false
-			require("ts-error-translator").setup()
+			if not ts_translator_setup then
+				require("ts-error-translator").setup()
+				ts_translator_setup = true
+			end
 		end
 
 		require("tt.lsp.mappings").setMappings(bufnr)

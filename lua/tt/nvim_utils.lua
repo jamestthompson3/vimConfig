@@ -5,7 +5,7 @@ local M = {}
 
 local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
 
-function log(item)
+function _G.log(item)
 	print(vim.inspect(item))
 end
 
@@ -48,7 +48,7 @@ function M.nodejs.find_node_executable(binaryName, bufnr)
 		if not stat then
 			return false
 		end
-		return vim.fn.executable(path)
+		return vim.fn.executable(path) == 1
 	end
 
 	-- 1. Check vim.g.nodeDir override

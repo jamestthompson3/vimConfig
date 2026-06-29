@@ -74,7 +74,7 @@ function M.blame()
 	if ft == "bin" then
 		return
 	end
-	api.nvim_buf_clear_namespace(0, 99, 0, -1)
+	api.nvim_buf_clear_namespace(0, namespace, 0, -1)
 	local currFile = fn.expand("%")
 	local line = api.nvim_win_get_cursor(0)
 	local log_result = vim.system({
@@ -89,7 +89,7 @@ function M.blame()
 		return "Not Committed Yet"
 	end
 
-	text = vim.split(log_result.stdout, "\n")
+	local text = vim.split(log_result.stdout, "\n")
 
 	api.nvim_buf_set_extmark(0, namespace, line[1] - 1, line[2], {
 		virt_text = { { string.format("%s", text[1]), "GitLens" } },
