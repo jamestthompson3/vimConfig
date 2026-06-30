@@ -51,6 +51,7 @@ vim.lsp.enable({
 	"zls",
 	"rust_analyzer",
 	"gopls",
+	"marksman",
 	"clangd",
 	"html",
 	"sqls",
