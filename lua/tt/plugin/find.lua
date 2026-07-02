@@ -104,7 +104,45 @@ function M.init()
 		})
 	end, {})
 
-	vim.keymap.set("n", "<leader>.", "<cmd>B<cr>")
+	vim.api.nvim_create_user_command("Recent", function()
+		local cur = vim.api.nvim_get_current_buf()
+		local infos = {}
+		for _, info in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+			if info.name ~= "" and info.bufnr ~= cur then
+				table.insert(infos, info)
+			end
+		end
+		table.sort(infos, function(a, b)
+			return a.lastused > b.lastused
+		end)
+
+		local items = {}
+		for _, info in ipairs(infos) do
+			table.insert(items, { text = vim.fn.fnamemodify(info.name, ":."), value = info.bufnr })
+		end
+		if #items == 0 then
+			vim.notify("No recent buffers", vim.log.levels.INFO)
+			return
+		end
+
+		pick.numbered(items, {
+			prompt = "Recent",
+			on_choice = function(bufnr, action)
+				if action == "edit" then
+					vim.cmd("buffer " .. bufnr)
+				else
+					vim.cmd(action .. " | buffer " .. bufnr)
+				end
+			end,
+			on_delete = function(bufnr)
+				if not pcall(vim.cmd, "bdelete " .. bufnr) then
+					vim.notify("Can't delete buffer (unsaved changes?)", vim.log.levels.WARN)
+				end
+			end,
+		})
+	end, {})
+
+	vim.keymap.set("n", "<leader>.", "<cmd>Recent<cr>")
 	vim.keymap.set("n", ",", "<cmd>F<cr>")
 
 	vim.ui.select = pick.select

@@ -336,6 +336,166 @@ function M.open(items, opts)
 	end)()
 end
 
+-- A normal-mode, numbered list picker. Unlike M.open (fuzzy, insert-mode),
+-- this shows a fixed list where 1-9 and 0 jump directly to an item, <CR>
+-- opens the item under the cursor, and `dd` removes an item from the list.
+--   items: { { text = <string>, value = <any> }, ... }
+--   opts.on_choice(value, action)  -- action is "edit" | "split" | "vsplit"
+--   opts.on_delete(value, idx)     -- called before the item is removed
+function M.numbered(items, opts)
+	opts = opts or {}
+	setup_highlights()
+
+	local on_choice = opts.on_choice or function() end
+	local on_delete = opts.on_delete
+	local title = opts.prompt and (" " .. opts.prompt .. " ") or ""
+
+	local buf = vim.api.nvim_create_buf(false, true)
+	vim.bo[buf].buftype = "nofile"
+	vim.bo[buf].bufhidden = "wipe"
+
+	local saved_win = vim.api.nvim_get_current_win()
+	local win
+	local closed = false
+	local sized = false
+
+	local function label(i)
+		if i <= 9 then
+			return tostring(i)
+		elseif i == 10 then
+			return "0"
+		end
+		return nil
+	end
+
+	local function render()
+		if closed then
+			return
+		end
+		local lines = {}
+		local width = vim.fn.strdisplaywidth(title)
+		for i, item in ipairs(items) do
+			local key = label(i)
+			local prefix = key and (" " .. key .. "  ") or "    "
+			lines[i] = prefix .. item.text
+			width = math.max(width, vim.fn.strdisplaywidth(lines[i]))
+		end
+		if #lines == 0 then
+			lines = { "  (empty)" }
+		end
+
+		vim.bo[buf].modifiable = true
+		vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+		vim.bo[buf].modifiable = false
+
+		-- Size the window once, from the initial list, and keep it fixed so
+		-- deleting an item (dd) doesn't shrink the float underneath the cursor.
+		if not sized and win and vim.api.nvim_win_is_valid(win) then
+			sized = true
+			local max_w = math.floor(vim.o.columns * 0.7)
+			width = math.max(20, math.min(width + 2, max_w))
+			local height = math.max(1, math.min(#items, math.floor(vim.o.lines * (opts.height or 0.4))))
+			pcall(vim.api.nvim_win_set_config, win, {
+				relative = "editor",
+				width = width,
+				height = height,
+				row = math.floor((vim.o.lines - height) / 2),
+				col = math.floor((vim.o.columns - width) / 2),
+			})
+		end
+
+		vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
+		for i = 1, #items do
+			if label(i) then
+				pcall(vim.api.nvim_buf_set_extmark, buf, ns, i - 1, 1, {
+					end_col = 2,
+					hl_group = "PickPointer",
+					hl_mode = "combine",
+				})
+			end
+		end
+	end
+
+	local function close()
+		if closed then
+			return
+		end
+		closed = true
+		if win and vim.api.nvim_win_is_valid(win) then
+			vim.api.nvim_win_close(win, true)
+		end
+		pcall(vim.api.nvim_set_current_win, saved_win)
+	end
+
+	local function choose(i, action)
+		local item = items[i]
+		if not item then
+			return
+		end
+		close()
+		on_choice(item.value, action or "edit")
+	end
+
+	win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = 20,
+		height = 1,
+		row = 0,
+		col = 0,
+		style = "minimal",
+		border = "rounded",
+		title = title,
+		title_pos = "center",
+	})
+	vim.wo[win].wrap = false
+	vim.wo[win].cursorline = true
+	vim.api.nvim_set_option_value(
+		"winhighlight",
+		"Normal:PickNormal,FloatBorder:PickBorder,CursorLine:PickSel",
+		{ scope = "local", win = win }
+	)
+	render()
+
+	local o = { buffer = buf, nowait = true, silent = true }
+	for i = 1, 10 do
+		vim.keymap.set("n", label(i), function()
+			choose(i)
+		end, o)
+	end
+	local function cursor_row()
+		return vim.api.nvim_win_get_cursor(win)[1]
+	end
+	vim.keymap.set("n", "<CR>", function()
+		choose(cursor_row())
+	end, o)
+	vim.keymap.set("n", "<C-s>", function()
+		choose(cursor_row(), "split")
+	end, o)
+	vim.keymap.set("n", "<C-v>", function()
+		choose(cursor_row(), "vsplit")
+	end, o)
+	vim.keymap.set("n", "dd", function()
+		local i = cursor_row()
+		if not items[i] then
+			return
+		end
+		if on_delete then
+			on_delete(items[i].value, i)
+		end
+		table.remove(items, i)
+		if #items == 0 then
+			close()
+			return
+		end
+		render()
+		pcall(vim.api.nvim_win_set_cursor, win, { math.min(i, #items), 0 })
+	end, o)
+	vim.keymap.set("n", "q", close, o)
+	vim.keymap.set("n", "<Esc>", close, o)
+
+	vim.api.nvim_create_autocmd("WinLeave", { buffer = buf, once = true, callback = close })
+end
+
 function M.select(items, opts, on_choice)
 	opts = opts or {}
 	M.open(items, {
