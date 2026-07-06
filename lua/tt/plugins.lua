@@ -6,11 +6,32 @@ vim.pack.add({
 	gh("dmmulroy/ts-error-translator.nvim"),
 	gh("reedes/vim-wordy"),
 	gh("stevearc/oil.nvim"),
+	gh("OXY2DEV/markview.nvim"),
+	-- Kept only as a parser installer / query provider (`:TSInstall`, `:TSUpdate`).
+	-- The `main` branch does not auto-enable highlighting; we call
+	-- vim.treesitter.start() ourselves, so nothing here forces its highlighter on.
+	{ src = gh("nvim-treesitter/nvim-treesitter"), version = "main" },
 })
 
 require("oil").setup({
 	view_options = {
 		show_hidden = true,
+	},
+})
+
+-- markview does its own internal filetype-gated lazy loading (it only attaches
+-- to buffers matching its `preview.filetypes`), so it must be loaded eagerly
+-- and configured up front.
+require("markview").setup({
+	markdown = {
+		code_blocks = {
+			enable = false,
+		},
+	},
+	markdown_inline = {
+		code_blocks = {
+			enable = false,
+		},
 	},
 })
 
@@ -80,4 +101,3 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		})
 	end,
 })
-

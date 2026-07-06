@@ -73,11 +73,13 @@ function M.previewLinkedPage()
 	end
 end
 
-vim.api.nvim_create_user_command("Compose", function() M.composer() end, {})
+vim.api.nvim_create_user_command("Compose", function()
+	M.composer()
+end, {})
 
 vim.keymap.set("n", "j", "gj", { buffer = true })
 vim.keymap.set("n", "k", "gk", { buffer = true })
-vim.keymap.set("n", "gh", M.previewLinkedPage, { buffer = true })
+-- vim.keymap.set("n", "gh", M.previewLinkedPage, { buffer = true })
 vim.keymap.set("n", "<leader>r", M.asyncDocs, { buffer = true })
 
 return M

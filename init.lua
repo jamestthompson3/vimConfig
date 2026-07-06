@@ -63,6 +63,7 @@ set.fillchars = "stlnc:»,vert:║,fold:·"
 set.number = true
 set.pumblend = 5
 set.pumheight = 15
+set.winborder = "rounded"
 set.scrolloff = 1
 set.sidescrolloff = 5
 set.guicursor = "n-ci-c-o:blinkon175-blinkoff175-Cursor/lCursor,i-ci:ver25-Cursor,v-ve:blinkon175-blinkoff175-Cursor"
