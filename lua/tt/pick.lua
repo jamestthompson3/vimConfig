@@ -40,12 +40,15 @@ function M.open(items, opts)
 	end
 
 	local input = ""
-	local last_rendered_input = nil
 	local matches = {}
+	local pos_cache = {}
 	local idx = 0
 	local offset = 0
 	local closed = false
 	local co, augroup, saved_view, saved_win
+	local filter_timer = (vim.uv or vim.loop).new_timer()
+	local debounce = opts.debounce or 50
+	local result_limit = opts.limit or 200
 
 	local win_width = math.floor(vim.o.columns * 0.7)
 	local win_col = math.floor((vim.o.columns - win_width) / 2)
@@ -83,14 +86,7 @@ function M.open(items, opts)
 		{ scope = "local", win = win }
 	)
 
-	local function all_matches()
-		local m = {}
-		for i, item in ipairs(norm) do
-			m[i] = { item.id, {}, 0 }
-		end
-		return m
-	end
-	matches = all_matches()
+	matches = norm
 	idx = #matches > 0 and 1 or 0
 
 	local function clamp()
@@ -130,15 +126,36 @@ function M.open(items, opts)
 		update_offset()
 
 		local lines = { input }
-		local all_pos = {}
+		local vis = {}
 		for i = 1 + offset, math.min(#matches, lm + offset) do
-			local m = matches[i]
-			lines[#lines + 1] = prefix .. norm[m[1]].text
-			all_pos[#all_pos + 1] = m[2]
+			lines[#lines + 1] = prefix .. matches[i].text
+			vis[#vis + 1] = matches[i]
 		end
 		local match_count = #lines - 1
 
-		last_rendered_input = input
+		-- Compute highlight positions only for the visible rows, keyed back to
+		-- each item by id (Vim's fuzzy fns return copies, so table identity
+		-- can't be used) and cached across renders (reset on requery).
+		-- Navigating within an already-seen window costs no extra fuzzy calls;
+		-- scrolling only pays for the newly revealed rows.
+		local all_pos = {}
+		if #input > 0 then
+			local missing = {}
+			for _, item in ipairs(vis) do
+				if pos_cache[item.id] == nil then
+					missing[#missing + 1] = item
+				end
+			end
+			if #missing > 0 then
+				local r = vim.fn.matchfuzzypos(missing, input, { key = "text" })
+				for i, item in ipairs(r[1]) do
+					pos_cache[item.id] = r[2][i]
+				end
+			end
+			for i = 1, #vis do
+				all_pos[i] = pos_cache[vis[i].id] or {}
+			end
+		end
 
 		vim._with({ noautocmd = true }, function()
 			vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
@@ -186,8 +203,11 @@ function M.open(items, opts)
 			virt_text_pos = "inline",
 			right_gravity = false,
 		})
+		-- When a query hits the result cap we can't know the true match total,
+		-- so show it as "N+" rather than a misleading exact figure.
+		local shown = (#input > 0 and #matches >= result_limit) and (result_limit .. "+") or tostring(#matches)
 		vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, {
-			virt_text = { { ("(%d/%d)"):format(#matches, #norm), "Comment" } },
+			virt_text = { { ("(%s/%d)"):format(shown, #norm), "Comment" } },
 			virt_text_pos = "right_align",
 			hl_mode = "combine",
 		})
@@ -198,29 +218,41 @@ function M.open(items, opts)
 		end)
 	end
 
+	local function recompute()
+		if closed then
+			return
+		end
+		pos_cache = {}
+		if #input == 0 then
+			matches = norm
+		else
+			-- Cap to the top-ranked matches: sorting the full match set of a
+			-- broad query (tens of thousands of items) dominates the cost, and
+			-- nobody scrolls a 65k list -- you refine the query instead. Also
+			-- use matchfuzzy over matchfuzzypos so we don't build a discarded
+			-- position array per match; positions for the few visible rows are
+			-- computed lazily in render().
+			matches = vim.fn.matchfuzzy(norm, input, { key = "text", limit = result_limit })
+		end
+
+		idx = #matches > 0 and 1 or 0
+		offset = 0
+		render()
+	end
+
 	local function filter()
 		if closed then
 			return
 		end
 		local new_input = vim.api.nvim_get_current_line()
-		if new_input == last_rendered_input then
+		if new_input == input then
 			return
 		end
 		input = new_input
-
-		if #input == 0 then
-			matches = all_matches()
-		else
-			local r = vim.fn.matchfuzzypos(norm, input, { key = "text" })
-			matches = {}
-			for i = 1, #r[1] do
-				matches[i] = { r[1][i].id, r[2][i], r[3][i] }
-			end
-		end
-
-		idx = #matches > 0 and 1 or 0
-		offset = 0
-		vim.schedule(render)
+		-- Debounce: coalesce bursts of keystrokes so the (on large lists,
+		-- expensive) fuzzy match runs once typing settles rather than per key.
+		filter_timer:stop()
+		filter_timer:start(debounce, 0, vim.schedule_wrap(recompute))
 	end
 
 	local function try_resume(action)
@@ -308,6 +340,10 @@ function M.open(items, opts)
 
 		vim.schedule(function()
 			pcall(vim.api.nvim_del_augroup_by_id, augroup)
+			pcall(function()
+				filter_timer:stop()
+				filter_timer:close()
+			end)
 
 			if active_co == co or active_co == nil then
 				active_co = nil
@@ -321,12 +357,12 @@ function M.open(items, opts)
 
 			vim.defer_fn(function()
 				if result ~= CANCEL then
+					-- matches may hold copies (fuzzy fns copy dict items), so map
+					-- back to the original item by id to hand out the real value.
 					local m = matches[idx]
-					if m then
-						local item = norm[m[1]]
-						if item then
-							on_choice(item.value, item.id, action_name[result] or "edit")
-						end
+					local item = m and norm[m.id]
+					if item then
+						on_choice(item.value, item.id, action_name[result] or "edit")
 					end
 				elseif on_cancel then
 					on_cancel()
