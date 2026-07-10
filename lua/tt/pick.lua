@@ -410,10 +410,28 @@ function M.numbered(items, opts)
 		end
 		local lines = {}
 		local width = vim.fn.strdisplaywidth(title)
+		-- When items carry a `hint` (e.g. a containing dir), left-align the
+		-- primary text into a column so the eye scans one edge, then trail the
+		-- hint dimmed. `hint_cols` records byte ranges for the Comment extmarks.
+		local name_w = 0
+		for _, item in ipairs(items) do
+			if item.hint then
+				name_w = math.max(name_w, vim.fn.strdisplaywidth(item.text))
+			end
+		end
+		local hint_cols = {}
 		for i, item in ipairs(items) do
 			local key = label(i)
 			local prefix = key and (" " .. key .. "  ") or "    "
-			lines[i] = prefix .. item.text
+			local line = prefix .. item.text
+			if item.hint then
+				local pad = name_w - vim.fn.strdisplaywidth(item.text) + 2
+				line = line .. (" "):rep(pad)
+				hint_cols[i] = { start = #line }
+				line = line .. item.hint
+				hint_cols[i].stop = #line
+			end
+			lines[i] = line
 			width = math.max(width, vim.fn.strdisplaywidth(lines[i]))
 		end
 		if #lines == 0 then
@@ -446,6 +464,13 @@ function M.numbered(items, opts)
 				pcall(vim.api.nvim_buf_set_extmark, buf, ns, i - 1, 1, {
 					end_col = 2,
 					hl_group = "PickPointer",
+					hl_mode = "combine",
+				})
+			end
+			if hint_cols[i] then
+				pcall(vim.api.nvim_buf_set_extmark, buf, ns, i - 1, hint_cols[i].start, {
+					end_col = hint_cols[i].stop,
+					hl_group = "Comment",
 					hl_mode = "combine",
 				})
 			end

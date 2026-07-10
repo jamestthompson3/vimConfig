@@ -118,7 +118,14 @@ function M.init()
 
 		local items = {}
 		for _, info in ipairs(infos) do
-			table.insert(items, { text = vim.fn.fnamemodify(info.name, ":."), value = info.bufnr })
+			local rel = vim.fn.fnamemodify(info.name, ":.")
+			local dir = vim.fn.fnamemodify(rel, ":h")
+			-- filename first (scannable column), containing dir dimmed alongside
+			table.insert(items, {
+				text = vim.fn.fnamemodify(rel, ":t"),
+				hint = dir ~= "." and dir or nil,
+				value = info.bufnr,
+			})
 		end
 		if #items == 0 then
 			vim.notify("No recent buffers", vim.log.levels.INFO)

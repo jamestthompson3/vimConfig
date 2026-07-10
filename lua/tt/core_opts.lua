@@ -69,10 +69,6 @@ vim.api.nvim_create_user_command("Scratch", function()
 	require("tt.tools").scratch()
 end, {})
 
-vim.api.nvim_create_user_command("Update", function()
-	vim.pack.update()
-end, {})
-
 vim.api.nvim_create_user_command("Fqf", function(opts)
 	require("tt.tools").files_to_qf(opts.args)
 end, { nargs = 1 })
