@@ -60,6 +60,7 @@ end
 
 local lazy_load = vim.api.nvim_create_augroup("Plugins", { clear = true })
 require("tt.plugin.find").init()
+require("tt.plugin.acp").init()
 
 vim.api.nvim_create_autocmd("InsertEnter", {
 	group = lazy_load,

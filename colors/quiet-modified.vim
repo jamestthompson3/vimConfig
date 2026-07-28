@@ -292,25 +292,55 @@ if s:t_Co >= 256
   " draws its own background over the text (e.g. markview.nvim's code block
   " tint, folds, or floating windows). Kept below full saturation so alerts
   " (errors/diagnostics/todos) still read as more urgent than prose.
-  hi Comment guifg=#7ec9a8 guibg=NONE
+  hi Comment guifg=#b0be78 guibg=NONE
 
-  " Popup menu: wildcharm style
-  hi Pmenu guifg=NONE guibg=#303030 gui=NONE cterm=NONE
-  hi PmenuSel guifg=NONE guibg=#585858 gui=NONE cterm=NONE
-  hi PmenuMatch guifg=#d787d7 guibg=#303030 gui=NONE cterm=NONE
-  hi PmenuMatchSel guifg=#d787d7 guibg=#585858 gui=NONE cterm=NONE
-  hi PmenuSbar guifg=NONE guibg=NONE gui=NONE cterm=NONE
+  " Popup menu: distinct from editor bg (#121212) so the menu clearly floats
+  hi Pmenu guifg=#dadada guibg=#3a3828 gui=NONE cterm=NONE
+  hi PmenuSel guifg=#000000 guibg=#c8b898 gui=NONE cterm=NONE
+  hi PmenuMatch guifg=#d7875f guibg=#3a3828 gui=NONE cterm=NONE
+  hi PmenuMatchSel guifg=#874500 guibg=#c8b898 gui=bold cterm=bold
+  hi PmenuSbar guifg=NONE guibg=#4e4e4e gui=NONE cterm=NONE
   hi PmenuThumb guifg=NONE guibg=#d0d0d0 gui=NONE cterm=NONE
-  hi PmenuExtra guifg=#767676 guibg=#303030 gui=NONE cterm=NONE
-  hi PmenuExtraSel guifg=#767676 guibg=#585858 gui=NONE cterm=NONE
-  hi PmenuKind guifg=#ff5f87 guibg=#303030 gui=NONE cterm=NONE
-  hi PmenuKindSel guifg=#ff5f87 guibg=#585858 gui=NONE cterm=NONE
+  hi PmenuExtra guifg=#767676 guibg=#3a3828 gui=NONE cterm=NONE
+  hi PmenuExtraSel guifg=#1c1c1c guibg=#c8b898 gui=NONE cterm=NONE
+  hi PmenuKind guifg=#d7875f guibg=#3a3828 gui=NONE cterm=NONE
+  hi PmenuKindSel guifg=#874500 guibg=#c8b898 gui=NONE cterm=NONE
 
-  " WildMenu: wildcharm style
-  hi WildMenu guifg=#000000 guibg=#ffaf00 gui=NONE cterm=NONE
+  " WildMenu
+  hi WildMenu guifg=#000000 guibg=#d7875f gui=NONE cterm=NONE
 
-  " Cursor: orange for visibility
-  hi Cursor gui=none guifg=#000000 guibg=#ff5f00
+  " Search
+  hi Search guifg=#000000 guibg=#c8b898 gui=NONE cterm=NONE
+  hi CurSearch guifg=#000000 guibg=#d7875f gui=NONE cterm=NONE
+  hi IncSearch guifg=#000000 guibg=#d7875f gui=NONE cterm=NONE
+
+  " Visual
+  hi Visual guifg=NONE guibg=#4a4030 gui=NONE cterm=NONE
+
+  " MatchParen
+  hi MatchParen guifg=#d7875f guibg=NONE gui=bold cterm=bold
+
+  " QuickFixLine
+  hi QuickFixLine guifg=#000000 guibg=#c8b898 gui=NONE cterm=NONE
+
+  " Diff: warm tones (DiffDelete already uses #d7875f in base)
+  hi DiffAdd guifg=#7ec9a8 guibg=#2a3828 gui=NONE cterm=NONE
+  hi DiffChange guifg=#767676 guibg=#3a3828 gui=NONE cterm=NONE
+  hi DiffDelete guifg=#d7875f guibg=#3a2820 gui=NONE cterm=NONE
+  hi DiffText guifg=#d7875f guibg=#3a3828 gui=NONE cterm=NONE
+
+  " Todo
+  hi Todo guifg=#000000 guibg=#d7875f gui=bold cterm=bold
+
+  " Float
+  hi NormalFloat guifg=#dadada guibg=#302e20 gui=NONE cterm=NONE
+  hi FloatBorder guifg=#8a8070 guibg=#302e20 gui=NONE cterm=NONE
+
+  " SpellBad
+  hi SpellBad guifg=#d7875f guibg=NONE guisp=#d7875f gui=undercurl cterm=underline
+
+  " Cursor
+  hi Cursor gui=none guifg=#000000 guibg=#d7875f
 
   " Treesitter/markup
   hi @markup.raw guibg=NONE
@@ -395,26 +425,59 @@ if s:t_Co >= 256
   " draws its own background over the text (e.g. markview.nvim's code block
   " tint, folds, or floating windows). Kept below full saturation so alerts
   " (errors/diagnostics/todos) still read as more urgent than prose.
-  hi Comment guifg=#5c3f6b guibg=NONE
+  hi Comment guifg=#3a5f18 guibg=NONE
   hi @comment.block.c guifg=#0a1a4a guibg=#c8d8f0
 
   " Popup menu: wildcharm style
-  hi Pmenu guifg=NONE guibg=#e4e4e4 gui=NONE cterm=NONE
-  hi PmenuSel guifg=NONE guibg=#d0d0d0 gui=NONE cterm=NONE
-  hi PmenuMatch guifg=#870087 guibg=#e4e4e4 gui=NONE cterm=NONE
-  hi PmenuMatchSel guifg=#870087 guibg=#d0d0d0 gui=NONE cterm=NONE
+  hi Pmenu guifg=NONE guibg=#e8e4d8 gui=NONE cterm=NONE
+  hi PmenuSel guifg=#1c1c1c guibg=#ddd4be gui=NONE cterm=NONE
+  hi PmenuMatch guifg=#af5f00 guibg=#e8e4d8 gui=NONE cterm=NONE
+  hi PmenuMatchSel guifg=#6b3a00 guibg=#ddd4be gui=NONE cterm=NONE
   hi PmenuSbar guifg=NONE guibg=NONE gui=NONE cterm=NONE
   hi PmenuThumb guifg=NONE guibg=#808080 gui=NONE cterm=NONE
-  hi PmenuExtra guifg=#808080 guibg=#e4e4e4 gui=NONE cterm=NONE
-  hi PmenuExtraSel guifg=#808080 guibg=#d0d0d0 gui=NONE cterm=NONE
-  hi PmenuKind guifg=#d70000 guibg=#e4e4e4 gui=NONE cterm=NONE
-  hi PmenuKindSel guifg=#d70000 guibg=#d0d0d0 gui=NONE cterm=NONE
+  hi PmenuExtra guifg=#808080 guibg=#e8e4d8 gui=NONE cterm=NONE
+  hi PmenuExtraSel guifg=#808080 guibg=#ddd4be gui=NONE cterm=NONE
+  hi PmenuKind guifg=#af5f00 guibg=#e8e4d8 gui=NONE cterm=NONE
+  hi PmenuKindSel guifg=#6b3a00 guibg=#ddd4be gui=NONE cterm=NONE
 
   " Line numbers: darker for readability
   hi LineNr guifg=#4f4f4f
 
+  " Search
+  hi Search guifg=#1c1c1c guibg=#ddd4be gui=NONE cterm=NONE
+  hi CurSearch guifg=#1c1c1c guibg=#af5f00 gui=NONE cterm=NONE
+  hi IncSearch guifg=#1c1c1c guibg=#af5f00 gui=NONE cterm=NONE
+
+  " Visual
+  hi Visual guifg=NONE guibg=#ddd4be gui=NONE cterm=NONE
+
+  " MatchParen
+  hi MatchParen guifg=#6b3a00 guibg=#e8e4d8 gui=bold cterm=bold
+
+  " WildMenu
+  hi WildMenu guifg=#1c1c1c guibg=#af5f00 gui=NONE cterm=NONE
+
+  " QuickFixLine
+  hi QuickFixLine guifg=#6b3a00 guibg=#e8e4d8 gui=NONE cterm=NONE
+
+  " Diff: warm tones
+  hi DiffAdd guifg=#3a5f3a guibg=#e0e8d0 gui=NONE cterm=NONE
+  hi DiffChange guifg=#5a5040 guibg=#e8e4d8 gui=NONE cterm=NONE
+  hi DiffDelete guifg=#6b3a00 guibg=#f0e0d0 gui=NONE cterm=NONE
+  hi DiffText guifg=#6b3a00 guibg=#ddd4be gui=NONE cterm=NONE
+
+  " Todo
+  hi Todo guifg=#1c1c1c guibg=#af5f00 gui=bold cterm=bold
+
+  " Float
+  hi NormalFloat guifg=#282828 guibg=#f0ece0 gui=NONE cterm=NONE
+  hi FloatBorder guifg=#8a8070 guibg=#f0ece0 gui=NONE cterm=NONE
+
+  " SpellBad
+  hi SpellBad guifg=#874500 guibg=NONE guisp=#874500 gui=undercurl cterm=underline
+
   " Cursor: amber/gold
-  hi Cursor gui=none guifg=#3a3a00 guibg=#dab862
+  hi Cursor gui=none guifg=#3a3a00 guibg=#af5f00
 
   " Diagnostics
   hi DiagnosticHint guifg=#0c2919 guibg=#c8e8d8

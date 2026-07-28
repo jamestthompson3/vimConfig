@@ -1,0 +1,290 @@
+*acp.txt*	Drive Claude Code from neovim over the Agent Client Protocol
+
+		    ╔═╗ ╔═╗ ╔═╗   Claude Code, in buffers
+		    ║A║ ║C║ ║P║   no terminal, no API key
+		    ╚═╝ ╚═╝ ╚═╝
+
+Author:  Taylor Thompson
+Source:  lua/tt/plugin/acp.lua
+
+==============================================================================
+CONTENTS						*acp* *acp-contents*
+
+	1. Introduction .................... |acp-intro|
+	2. Requirements .................... |acp-requirements|
+	3. Commands ........................ |acp-commands|
+	4. Mappings ........................ |acp-mappings|
+	5. The chat buffer ................. |acp-chat-buffer|
+	   Slash commands .................. |acp-slash-commands|
+	6. Context & capture ............... |acp-context|
+	7. Persistence ..................... |acp-persistence|
+	8. Process lifecycle ............... |acp-lifecycle|
+	9. Troubleshooting ................. |acp-troubleshooting|
+
+==============================================================================
+1. INTRODUCTION						*acp-intro*
+
+neovim is an ACP (Agent Client Protocol) *client*. It speaks JSON-RPC to the
+@zed-industries/claude-code-acp bridge, which wraps the Claude Code CLI. Chats
+live in ordinary buffers; the agent's file edits arrive as real buffer writes
+you can |u|ndo.
+
+It runs on your Claude Pro/Max subscription (the bridge uses your `claude`
+login), so there is no per-token API billing. Keep ANTHROPIC_API_KEY OUT of
+neovim's environment or billing silently switches to the API; |:AgentStatus|
+and a startup warning help you notice.
+
+One bridge subprocess serves many sessions; one ACP session backs each chat
+buffer. The bridge is spawned lazily on your first send.
+
+==============================================================================
+2. REQUIREMENTS						*acp-requirements*
+
+- Neovim 0.11+ (uses vim.system, vim.fs, vim.pack-era APIs).
+- `npx` on PATH (Node). The bridge is fetched on first use via
+  `npx -y @zed-industries/claude-code-acp`.
+- A logged-in Claude Code CLI: run `claude /login` (or `claude setup-token`)
+  once in a terminal.
+
+==============================================================================
+3. COMMANDS						*acp-commands*
+
+							*:Agent*
+:Agent			Open a new chat buffer in a right split. See
+			|acp-chat-buffer|.
+
+							*:AgentChats*
+:AgentChats		Pick a live chat with |vim.ui.select| and jump to it.
+			Shows project, idle/busy state and the first message.
+			Chats are unlisted, so this is the way to find them.
+
+							*:AgentRef*
+:AgentRef		Attach the current buffer to a chat as context, then
+			drop you in that chat's input. See |acp-context|.
+
+							*:AgentSend*
+:[range]AgentSend	Attach a selection (or [range]) as context, labelled
+			`file:line`. Usually triggered by the visual mapping
+			|acp-mappings|.
+
+							*:AgentSave*
+:AgentSave [name]	Save Claude's last answer to a file. A bare [name] is
+:AgentSave! [name]	written under ~/notes/; an absolute or ~-path is used
+			as given; with no [name] it opens a scratch buffer you
+			can |:w| yourself. With [!], saves the whole transcript
+			(user + Claude turns) instead of just the last answer.
+
+							*:AgentPersist*
+:AgentPersist		Save the current chat to disk so it can be reopened and
+			resumed after nvim restarts. See |acp-persistence|.
+
+							*:AgentSessions*
+:AgentSessions		Pick a saved session to reopen; restores the transcript
+			and reconnects (resumes) its agent session. See
+			|acp-persistence|.
+
+							*:AgentAccept*
+:AgentAccept		Toggle accept-edits for the current chat. When on,
+			tool-permission requests are auto-approved (no prompt).
+			See |acp-chat-buffer|.
+
+							*:AgentVerbose*
+:AgentVerbose		Toggle the full step-by-step trace for the current
+			chat. Off (default) collapses each completed turn to the
+			question, a dim "N tool calls" line, and the final
+			answer; on shows every message, thought, tool and plan.
+			See |acp-chat-buffer|.
+
+							*:AgentStatus*
+:AgentStatus		Report the tracked bridge (job + pid) and session
+			count, and list every running bridge process so you
+			can spot orphans. See |acp-lifecycle|.
+
+							*:AgentStop*
+:AgentStop		Terminate the bridge subprocess this instance spawned.
+
+							*:AgentLog*
+:AgentLog		Open the bridge's recent stderr (a bounded ring) in a
+			scratch buffer. The bridge is chatty, so its stderr is
+			NOT echoed to |:messages| by default -- this is how you
+			read it when needed.
+
+							*:AgentDebug*
+:AgentDebug		Toggle live echo of the bridge's stderr to
+			|:messages|. Off by default. Equivalent to setting
+			`require("tt.plugin.acp").debug = true`.
+
+							*:AgentPing*
+:AgentPing		Transport smoke test: opens a scratch buffer and
+			streams a one-word reply. Use to check auth + the
+			bridge in isolation.
+
+==============================================================================
+4. MAPPINGS						*acp-mappings*
+
+Global (normal mode unless noted): ~
+
+	<leader>aa	New chat		|:Agent|
+	<leader>ac	Pick a live chat	|:AgentChats|
+	<leader>ar	Attach current buffer	|:AgentRef|
+	<leader>ap	Persist the current chat	|:AgentPersist|
+	<leader>al	Load a saved session	|:AgentSessions|
+	<leader>av	Toggle verbose trace	|:AgentVerbose|
+	<leader>as	Attach selection (visual mode)	|:AgentSend|
+
+Inside a chat buffer (buffer-local): ~
+						*acp-chat-mappings*
+	:w		Send the message (write-to-send)
+	<C-c>		Cancel the in-flight turn
+	Q		Cancel the in-flight turn
+	ga		Toggle accept-edits	|:AgentAccept|
+	gV		Toggle verbose tools	|:AgentVerbose|
+
+<CR> is left unmapped, so it inserts a newline; messages can be multi-line.
+
+==============================================================================
+5. THE CHAT BUFFER					*acp-chat-buffer*
+
+A chat is an unlisted, soft-wrapping scratch buffer named `acp://...`. Because
+it is unlisted it stays out of |:ls| and |:bnext|; reach chats with
+|:AgentChats|.
+
+Composing and sending ~
+Type your message under the trailing `## You` header and send it by saving the
+buffer with |:w|. The buffer is 'buftype' "acwrite", so :w is routed to the
+agent, not to a file. If you :q with unsent text, Vim warns as usual; use :q! to
+discard.
+
+Slash commands ~
+						*acp-slash-commands*
+A message beginning with `/` runs a Claude Code slash command -- there is no
+separate mechanism, it is just sent as the message. This covers built-ins
+(`/compact`, `/context`, `/init`, `/review`, `/security-review`, `/pr-comments`,
+`/insights`) and every skill you have (`/task`, `/nag`, `/note-format`,
+`/address-pr-comments`, ...), so your whole todo/PR/notes workflow is available
+in-chat.
+
+Typing `/` at the start of a message pops a completion menu of the available
+commands (omni-completion, also on <C-x><C-o>), sourced from what the agent
+advertises -- so it grows automatically as you add skills. The list is known
+after a chat's first turn and cached, so new chats offer it immediately.
+
+To compact: send `/compact` (optionally `/compact <instructions>`). It compacts
+the agent's context (the resumed Claude session), which is what saves tokens;
+your chat buffer transcript is left intact.
+
+Streaming and rendering ~
+Claude's reply streams into the buffer under `## Claude`. While a turn is in
+flight you see it live -- intermediate messages, thoughts (`> 💭` blockquote), a
+plan checklist, and tool activity.
+
+Once a turn completes it COLLAPSES so the actionable result isn't buried in
+narration: the question, a single dim line >
+	› 6 tool calls
+<(failures noted, e.g. `, 1 failed`), and the final answer as the sole
+`## Claude` block. Toggle |:AgentVerbose| (gV) to expand a chat back to the full
+step-by-step trace.
+
+A horizontal rule (`---`) separates each turn and the input region.
+
+While the agent is working, markview rendering is paused (you see raw markdown)
+so it isn't repainting the buffer on every streamed delta; it re-renders when the
+turn finishes -- which doubles as an at-a-glance "the agent is done" cue.
+
+Cancelling ~
+Press <C-c> or Q to abort the current turn (sends session/cancel).
+
+Permissions & accept-edits ~
+When the agent wants to edit a file or run a command it asks for permission in a
+floating numbered picker whose title is the requested action; press 1 (Always
+Allow), 2 (Allow), or 3 (Reject). <Esc> or q dismisses as cancelled. Choosing
+"Always Allow", or toggling accept-edits with ga / |:AgentAccept|, auto-approves
+further requests in that chat. Edits appear in their real buffers and are
+|u|ndoable.
+
+==============================================================================
+6. CONTEXT & CAPTURE					*acp-context*
+
+Attach code as context so the agent sees exactly what you mean:
+
+- |:AgentRef| (<leader>ar) queues the whole current buffer.
+- |:AgentSend| / <leader>as (visual) queues the selection, labelled
+  `file:line`.
+
+Queued items show as a `### 📎 attached` block above the input and travel with
+your next message as embedded resource blocks (they appear as `> 📎 ...` in the
+sent turn). Attaching also names the chat after the file, e.g.
+`acp://src/audio/player.ts`, so it is identifiable in |:AgentChats|.
+
+Reads honour your editor state: when the agent reads a file you have open, it
+gets the LIVE buffer contents, including unsaved edits.
+
+Saving answers ~
+|:AgentSave| turns a reply into a reference. With a name it writes under
+~/notes/; with [!] it saves the whole transcript; with no argument it opens a
+scratch buffer for you to :w where you like.
+
+==============================================================================
+7. PERSISTENCE						*acp-persistence*
+
+Chat sessions can be saved to disk and reopened after nvim restarts -- both the
+transcript and the live agent session (so you can keep going with full context).
+
+Saving is manual: |:AgentPersist| (<leader>ap) writes the current chat to
+`stdpath("state")/acp/<sessionId>.json` -- the transcript plus the sessionId,
+cwd, and flags. Only a chat that has sent at least one turn (so it has a
+sessionId) can be saved.
+
+Reopening is manual: |:AgentSessions| (<leader>al) lists saved sessions (newest
+first, by project and time) in the numbered picker. Choosing one recreates the
+buffer, renders the saved transcript, and calls `session/load` to reconnect the
+Claude session -- verified to recall earlier context across a full restart.
+Resume relies on Claude Code's own per-project session store, so it needs the
+same cwd (persisted in the record) and that Claude hasn't expired the session.
+
+Files are never pruned automatically; delete `stdpath("state")/acp/*.json` to
+clean up.
+
+==============================================================================
+8. PROCESS LIFECYCLE					*acp-lifecycle*
+
+The bridge is spawned on first send and terminated automatically on VimLeave
+(the whole `npx → node` tree is reaped). A hard kill of neovim (SIGKILL, crash)
+cannot be caught and may leave the bridge running.
+
+To find and reap survivors:
+
+- |:AgentStatus| lists the tracked bridge and every running bridge process.
+- |:AgentStop| terminates the bridge this instance spawned.
+- From a shell: >
+	pgrep -fl claude-code-acp    " list
+	pkill  -f  claude-code-acp    " kill all
+<
+==============================================================================
+9. TROUBLESHOOTING					*acp-troubleshooting*
+
+Bridge won't start / nothing streams ~
+Confirm `claude` is logged in (`claude /login`) and that
+`npx @zed-industries/claude-code-acp` runs by hand. Run |:AgentPing|.
+
+Billing looks like API usage ~
+Ensure ANTHROPIC_API_KEY is empty in neovim's environment; the plugin warns at
+spawn if it is set.
+
+Agent sees stale file contents ~
+It reads the live buffer only if the file is loaded; otherwise it reads disk.
+Open the file (or :w it) to sync.
+
+Permission prompt never appears ~
+The chat is probably in accept-edits mode (ga toggles it; watch for the
+"accept-edits on/off" notification).
+
+Orphaned bridge processes ~
+See |acp-lifecycle|.
+
+Bridge noise in :messages ~
+The bridge's stderr is silenced by default; only intentional notifications
+appear. Read recent stderr with |:AgentLog|, or turn on live echo with
+|:AgentDebug|.
+
+ vim:tw=78:ts=8:noet:ft=help:norl:

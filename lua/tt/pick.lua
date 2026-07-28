@@ -384,6 +384,7 @@ function M.numbered(items, opts)
 
 	local on_choice = opts.on_choice or function() end
 	local on_delete = opts.on_delete
+	local on_cancel = opts.on_cancel
 	local title = opts.prompt and (" " .. opts.prompt .. " ") or ""
 
 	local buf = vim.api.nvim_create_buf(false, true)
@@ -393,6 +394,7 @@ function M.numbered(items, opts)
 	local saved_win = vim.api.nvim_get_current_win()
 	local win
 	local closed = false
+	local chosen = false
 	local sized = false
 
 	local function label(i)
@@ -486,6 +488,9 @@ function M.numbered(items, opts)
 			vim.api.nvim_win_close(win, true)
 		end
 		pcall(vim.api.nvim_set_current_win, saved_win)
+		if not chosen and on_cancel then
+			on_cancel()
+		end
 	end
 
 	local function choose(i, action)
@@ -493,6 +498,7 @@ function M.numbered(items, opts)
 		if not item then
 			return
 		end
+		chosen = true
 		close()
 		on_choice(item.value, action or "edit")
 	end

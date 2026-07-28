@@ -8,13 +8,17 @@ set.title = true
 set.splitright = true
 set.modeline = false
 set.wildignorecase = true
-set.wildignore =
-	"*/node_modules/*,*.png,*.PNG,*.jpg,*.jpeg,*.JPG,*.JPEG,*.pdf,*.exe,*.o,*.obj,*.dll,*.DS_Store,*.ttf,*.otf,*.woff,*.woff2,*.eot"
+set.wildignore = {
+	"*/node_modules/*", "*.png", "*.PNG", "*.jpg", "*.jpeg", "*.JPG", "*.JPEG",
+	"*.pdf", "*.exe", "*.o", "*.obj", "*.dll", "*.DS_Store", "*.ttf", "*.otf",
+	"*.woff", "*.woff2", "*.eot",
+}
 set.expandtab = true
 set.shiftround = true
 set.ignorecase = true
 set.smartcase = true
 set.undofile = true
+set.autoread = true -- filesystem watchers detect external changes in real-time
 set.relativenumber = true
 set.foldenable = false
 set.undolevels = 1000
@@ -29,16 +33,19 @@ set.showbreak = string.rep(".", 3) -- Make it so that long lines wrap smartly
 
 set.smartindent = true
 set.fileformat = "unix"
-set.jumpoptions = "stack,view"
-set.diffopt = "hiddenoff,iwhite,algorithm:histogram,internal,closeoff,indent-heuristic,linematch:60,inline:word"
-set.nrformats = "bin,hex,alpha"
+set.jumpoptions = { "stack", "view" }
+set.diffopt = {
+	"hiddenoff", "iwhite", "algorithm:histogram", "internal", "closeoff",
+	"indent-heuristic", "linematch:60", "inline:word",
+}
+set.nrformats = { "bin", "hex", "alpha" }
 set.grepprg = "rg --smart-case --vimgrep --hidden"
 set.virtualedit = "block"
 set.inccommand = "split"
-set.completeopt = "menuone,noselect,popup,nearest"
+set.completeopt = { "menuone", "noselect", "popup", "nearest" }
 set.autocomplete = true
-set.complete = ".,w,b,o"
-set.listchars = "tab:░░,trail:·,space:·,extends:»,precedes:«,nbsp:⣿"
+set.complete = { ".", "w", "b", "o" }
+set.listchars = { tab = "░░", trail = "·", space = "·", extends = "»", precedes = "«", nbsp = "⣿" }
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart = 99
 set.foldlevel = 1
@@ -47,7 +54,7 @@ set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 set.shortmess = vim.o.shortmess .. "su"
 set.undodir = vim.uv.os_homedir() .. "/.cache/Vim/undofile"
 
-if os.getenv("WSL_DISTRO_NAME") then
+if require("tt.platform").is_wsl then
 	vim.g.clipboard = {
 		name = "wsl clipboard",
 		copy = { ["+"] = { "clip.exe" }, ["*"] = { "clip.exe" } },
@@ -59,7 +66,7 @@ end
 -- UI OPTS
 set.wrap = false
 set.cursorline = true
-set.fillchars = "stlnc:»,vert:║,fold:·"
+set.fillchars = { stlnc = "»", vert = "║", fold = "·" }
 set.number = true
 set.pumblend = 5
 set.pumheight = 15

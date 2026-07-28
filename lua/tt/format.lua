@@ -64,8 +64,6 @@ local function resolve_command(f)
 	return type(f.command) == "function" and f.command() or f.command
 end
 
-local formatting = false
-
 local function apply_format(bufnr, input, result)
 	if result.code ~= 0 then
 		vim.notify("Formatter failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
@@ -94,39 +92,12 @@ local function apply_format(bufnr, input, result)
 	end
 end
 
-local function run_chain(bufnr, filepath, chain, i)
-	if i > #chain then
-		if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].modified then
-			formatting = true
-			vim.api.nvim_buf_call(bufnr, function()
-				vim.cmd.update({ mods = { silent = true } })
-			end)
-			formatting = false
-		end
-		return
-	end
-
-	local formatter = chain[i]
-	local cmd = vim.tbl_map(function(v)
-		return v == "$FILENAME" and filepath or v
-	end, formatter.command)
-
-	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-	local input = table.concat(lines, "\n")
-
-	vim.system(cmd, { stdin = input }, function(result)
-		vim.schedule(function()
-			if not vim.api.nvim_buf_is_valid(bufnr) then
-				return
-			end
-			apply_format(bufnr, input, result)
-			run_chain(bufnr, filepath, chain, i + 1)
-		end)
-	end)
-end
-
+-- Runs the formatter chain synchronously in BufWritePre so the pending write
+-- picks up the formatted buffer directly. This avoids the format-after-write
+-- double-write and the race where edits made during an async format got
+-- clobbered.
 local function format_buffer()
-	if formatting or vim.g.autoformat == false then
+	if vim.g.autoformat == false then
 		return
 	end
 	local bufnr = vim.api.nvim_get_current_buf()
@@ -139,23 +110,26 @@ local function format_buffer()
 	local candidates = vim.islist(formatterList) and formatterList or { formatterList }
 	local filepath = vim.api.nvim_buf_get_name(bufnr)
 
-	local chain = {}
 	for _, name in ipairs(candidates) do
 		local f = formatters[name]
 		if f and (f.condition == nil or f.condition()) then
 			local cmd = resolve_command(f)
 			if cmd and cmd[1] ~= "" then
-				chain[#chain + 1] = { command = cmd }
+				cmd = vim.tbl_map(function(v)
+					return v == "$FILENAME" and filepath or v
+				end, cmd)
+				local input = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+				local result = vim.system(cmd, { stdin = input }):wait()
+				if not vim.api.nvim_buf_is_valid(bufnr) then
+					return
+				end
+				apply_format(bufnr, input, result)
 			end
 		end
 	end
-
-	if #chain > 0 then
-		run_chain(bufnr, filepath, chain, 1)
-	end
 end
 
-vim.api.nvim_create_autocmd("BufWritePost", {
+vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*" },
 	callback = format_buffer,
 })

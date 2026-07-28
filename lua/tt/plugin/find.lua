@@ -37,14 +37,37 @@ function M.init()
 
 	local pick = require("tt.pick")
 
-	vim.api.nvim_create_user_command("F", function()
-		pick.open(get_file_list(), {
-			prompt = "Files",
+	vim.api.nvim_create_user_command("F", function(cmd)
+		local dir = cmd.args ~= "" and cmd.args or nil
+		local files
+		if dir then
+			files = vim.fn.systemlist(vim.list_extend(vim.list_slice(rg_args), { dir }))
+		else
+			files = get_file_list()
+		end
+		local format_item
+		if dir then
+			-- Strip the directory prefix so the picker shows shorter, scannable names.
+			-- Normalize: ensure exactly one trailing slash for a clean prefix.
+			local prefix = dir:gsub("/+$", "") .. "/"
+			format_item = function(file)
+				if vim.startswith(file, prefix) then
+					return file:sub(#prefix + 1)
+				end
+				return file
+			end
+		end
+		pick.open(files, {
+			prompt = dir and ("Files: " .. dir) or "Files",
+			format_item = format_item,
 			on_choice = function(file, _, action)
 				vim.cmd(action .. " " .. vim.fn.fnameescape(file))
 			end,
 		})
-	end, {})
+	end, {
+		nargs = "?",
+		complete = "dir",
+	})
 
 	vim.api.nvim_create_user_command("B", function()
 		local bufs = {}

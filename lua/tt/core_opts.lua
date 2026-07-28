@@ -1,4 +1,4 @@
-local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
+local is_windows = require("tt.platform").is_windows
 
 if not is_windows then
 	vim.o.shell = vim.fn.executable("fish") == 1 and "fish" or "bash"

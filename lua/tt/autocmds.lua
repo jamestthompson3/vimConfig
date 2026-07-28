@@ -47,13 +47,42 @@ vim.api.nvim_create_autocmd("BufWriteCmd", {
 	pattern = "*.todo",
 	callback = function()
 		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+		local expand = {}
 		for _, line in pairs(lines) do
+			line = vim.trim(line)
+			if line == "" then
+				goto continue
+			end
+
+			-- `!foo`  -> capture as a @nag (interrupt inbox)
+			-- `?foo`  -> hand to pi to turn into a properly tagged task
+			-- `foo`   -> straight into todo.txt as written
+			local prefix, rest = line:sub(1, 1), vim.trim(line:sub(2))
+			if prefix == "!" and rest ~= "" then
+				line = rest .. " @nag"
+			elseif prefix == "?" and rest ~= "" then
+				table.insert(expand, rest)
+				goto continue
+			end
+
 			local result = vim.system({ "todo.sh", "add" }, { stdin = line }):wait()
 			local exit_code = result.code
 			if exit_code ~= 0 then
 				vim.notify("command failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
 			end
+
+			::continue::
 		end
+
+		if #expand > 0 then
+			require("tt.plugin.acp").send(
+				"Turn each of these rough notes into a well-formed todo.txt task and add it with "
+					.. "the todo_add tool. Follow the todo-conventions skill; ask me before inventing a "
+					.. "+project.\n\n- "
+					.. table.concat(expand, "\n- ")
+			)
+		end
+
 		vim.cmd.bdelete({ bang = true })
 	end,
 })
@@ -68,11 +97,6 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 	callback = require("tt.tools").saveSession,
 })
 
-vim.api.nvim_create_autocmd("VimResume", {
-	group = load_core,
-	command = "checktime",
-})
-
 vim.api.nvim_create_autocmd("QuickFixCmdPost", {
 	group = load_core,
 	pattern = "[^l]*",
@@ -85,11 +109,6 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 	callback = function()
 		git.clear_blame()
 	end,
-})
-
-vim.api.nvim_create_autocmd("FocusGained", {
-	group = load_core,
-	command = "checktime",
 })
 
 vim.api.nvim_create_autocmd("BufReadPost", {

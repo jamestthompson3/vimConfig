@@ -1,9 +1,8 @@
-local vim = vim or {}
 local fn = vim.fn
 
 local M = {}
 
-local is_windows = vim.uv.os_uname().sysname == "Windows_NT"
+local is_windows = require("tt.platform").is_windows
 
 function _G.log(item)
 	print(vim.inspect(item))
