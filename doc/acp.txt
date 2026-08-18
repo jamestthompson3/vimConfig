@@ -150,10 +150,16 @@ it is unlisted it stays out of |:ls| and |:bnext|; reach chats with
 |:AgentChats|.
 
 Composing and sending ~
-Type your message under the trailing `## You` header and send it by saving the
+Type your message under the trailing `❯ You` prompt and send it by saving the
 buffer with |:w|. The buffer is 'buftype' "acwrite", so :w is routed to the
 agent, not to a file. If you :q with unsent text, Vim warns as usual; use :q! to
 discard.
+
+Navigating ~
+Turns are markdown headers (`## You` / `## Claude`), so the bundled markdown
+ftplugin's motions work: `[[` / `]]` jump to the previous / next header and `gO`
+lists a table of contents. The input prompt (`❯ You`) is deliberately not a
+header, so a single `[[` from the input jumps straight to the last reply.
 
 Slash commands ~
 						*acp-slash-commands*

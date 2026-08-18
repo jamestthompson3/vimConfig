@@ -52,7 +52,7 @@ set.foldlevel = 1
 set.foldmethod = "expr"
 set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 set.shortmess = vim.o.shortmess .. "su"
-set.undodir = vim.uv.os_homedir() .. "/.cache/Vim/undofile"
+set.undodir = "~/.cache/Vim/undofile" -- vim.o expands ~ and $ENV (Nvim 0.13)
 
 if require("tt.platform").is_wsl then
 	vim.g.clipboard = {
@@ -64,6 +64,7 @@ if require("tt.platform").is_wsl then
 end
 
 -- UI OPTS
+set.termguicolors = true
 set.wrap = false
 set.cursorline = true
 set.fillchars = { stlnc = "»", vert = "║", fold = "·" }

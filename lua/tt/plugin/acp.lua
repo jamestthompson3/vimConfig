@@ -373,6 +373,10 @@ local last_chat_buf = nil -- most-recently-used chat, for context attach / save
 local command_cache = {}
 
 local USER_HEADER = "## You"
+-- The trailing input prompt. Deliberately NOT a `#` heading, so markdown header
+-- motions ([[ / ]] / gO) skip it and `[[` from the input lands directly on the
+-- last `## Claude` (the reply). read_input() anchors on this exact line.
+local INPUT_MARKER = "❯ You"
 
 -- Fulfil the forward declarations the fs/permission handlers depend on.
 -- Resolve symlinks so the agent's path (e.g. /private/var on macOS) matches a
@@ -575,7 +579,7 @@ local function render(chat)
 			end
 			push("")
 		end
-		push(USER_HEADER)
+		push(INPUT_MARKER)
 		push("")
 		push("")
 	end
@@ -712,7 +716,7 @@ local function read_input(chat)
 	local lines = vim.api.nvim_buf_get_lines(chat.buf, 0, -1, false)
 	local start
 	for i = #lines, 1, -1 do
-		if lines[i] == USER_HEADER then
+		if lines[i] == INPUT_MARKER then
 			start = i
 			break
 		end
@@ -1130,7 +1134,8 @@ function M.info()
 	else
 		lines[#lines + 1] = "tracked bridge: none (not spawned)"
 	end
-	local procs = vim.fn.systemlist({ "pgrep", "-fl", "claude-code-acp" })
+	local pgrep = vim.system({ "pgrep", "-fl", "claude-code-acp" }, { text = true }):wait()
+	local procs = vim.split(vim.trim(pgrep.stdout or ""), "\n", { trimempty = true })
 	lines[#lines + 1] = "running bridge processes:"
 	if #procs == 0 then
 		lines[#lines + 1] = "  (none)"
@@ -1411,23 +1416,6 @@ function M.init()
 		M.ping()
 	end, { desc = "ACP smoke test: ping Claude Code over the bridge" })
 
-	local map = vim.keymap.set
-	map("n", "<leader>aa", M.new_chat, { desc = "agent: new chat" })
-	map("n", "<leader>ac", M.list_chats, { desc = "agent: pick chat" })
-	map("n", "<leader>ar", M.ref_buffer, { desc = "agent: attach buffer" })
-	map("n", "<leader>ap", M.persist, { desc = "agent: persist chat" })
-	map("n", "<leader>al", M.sessions, { desc = "agent: load saved session" })
-	map("n", "<leader>av", function()
-		local chat = M.current_chat()
-		if chat then
-			M.toggle_verbose(chat)
-		end
-	end, { desc = "agent: toggle verbose tools" })
-	map("v", "<leader>as", function()
-		-- leave visual mode first so '< and '> are set
-		vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "x", false)
-		M.send_selection()
-	end, { desc = "agent: attach selection" })
 end
 
 return M

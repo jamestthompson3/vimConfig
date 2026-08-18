@@ -22,7 +22,8 @@ function M.init()
 	local function get_file_list()
 		if not fd_cache then
 			-- Cache not ready yet (first open before prewarm finishes): block once
-			fd_cache = vim.fn.systemlist(rg_args)
+			local out = vim.system(rg_args, { text = true }):wait().stdout or ""
+			fd_cache = vim.split(out, "\n", { trimempty = true })
 		end
 		return fd_cache
 	end
@@ -41,7 +42,8 @@ function M.init()
 		local dir = cmd.args ~= "" and cmd.args or nil
 		local files
 		if dir then
-			files = vim.fn.systemlist(vim.list_extend(vim.list_slice(rg_args), { dir }))
+			local result = vim.system(vim.list_extend(vim.list_slice(rg_args), { dir }), { text = true }):wait()
+			files = vim.split(result.stdout or "", "\n", { trimempty = true })
 		else
 			files = get_file_list()
 		end

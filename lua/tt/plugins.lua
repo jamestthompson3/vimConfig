@@ -5,19 +5,26 @@ end
 vim.pack.add({
 	gh("dmmulroy/ts-error-translator.nvim"),
 	gh("reedes/vim-wordy"),
-	gh("stevearc/oil.nvim"),
 	gh("OXY2DEV/markview.nvim"),
 	-- Kept only as a parser installer / query provider (`:TSInstall`, `:TSUpdate`).
 	-- The `main` branch does not auto-enable highlighting; we call
-	-- vim.treesitter.start() ourselves, so nothing here forces its highlighter on.
+	-- vim.treesitter.start() ourselves (see below), so nothing here forces its
+	-- highlighter on.
 	{ src = gh("nvim-treesitter/nvim-treesitter"), version = "main" },
 })
 
-require("oil").setup({
-	view_options = {
-		show_hidden = true,
-	},
+-- nvim-treesitter (main) only installs parsers; starting the highlighter is
+-- ours to do. pcall so filetypes without an installed parser fall back to
+-- regex 'syntax' silently instead of erroring.
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("treesitter_highlight", { clear = true }),
+	callback = function(ev)
+		pcall(vim.treesitter.start, ev.buf)
+	end,
 })
+
+-- Buffer-local create/rename/delete on the builtin |dir| browser (`a`/`r`/`dd`).
+require("tt.dir").setup()
 
 -- markview does its own internal filetype-gated lazy loading (it only attaches
 -- to buffers matching its `preview.filetypes`), so it must be loaded eagerly
@@ -61,6 +68,7 @@ end
 local lazy_load = vim.api.nvim_create_augroup("Plugins", { clear = true })
 require("tt.plugin.find").init()
 require("tt.plugin.acp").init()
+require("tt.plugin.pr").init()
 
 vim.api.nvim_create_autocmd("InsertEnter", {
 	group = lazy_load,

@@ -11,15 +11,15 @@ end
 M.vim_util = {}
 
 function M.vim_util.get_lsp_clients()
-	local lsp = vim.lsp
-	if vim.tbl_isempty(lsp.get_clients({ bufnr = 0 })) then
+	local clients = vim.lsp.get_clients({ bufnr = 0 })
+	if vim.tbl_isempty(clients) then
 		return ""
 	end
-	local clients = {}
-	for _, client in ipairs(lsp.get_clients({ bufnr = 0 })) do
-		table.insert(clients, client.name)
+	local names = {}
+	for _, client in ipairs(clients) do
+		table.insert(names, client.name)
 	end
-	return table.concat(clients, " • ")
+	return table.concat(names, " • ")
 end
 
 ---

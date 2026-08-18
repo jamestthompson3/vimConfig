@@ -117,7 +117,8 @@ function M.simpleMRU()
 end
 
 function M.files_to_qf(filename)
-	local files = vim.fn.systemlist({ "fd", "--type", "f", "--hidden", "-E", ".git", "-g", filename })
+	local result = vim.system({ "fd", "--type", "f", "--hidden", "-E", ".git", "-g", filename }, { text = true }):wait()
+	local files = vim.split(vim.trim(result.stdout or ""), "\n", { trimempty = true })
 	if #files == 0 then
 		vim.notify("No files found: " .. filename, vim.log.levels.WARN)
 		return

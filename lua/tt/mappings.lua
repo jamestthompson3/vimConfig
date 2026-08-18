@@ -48,9 +48,9 @@ vim.keymap.set("n", "<leader>d", function()
 	tools.openTerminalDrawer()
 end)
 
-vim.keymap.set("n", "-", function()
-	require("oil").open()
-end, { silent = true })
+-- Native |dir| browser: open the parent directory of the current file/dir
+-- (same behavior as oil's `-`, including {count}- to go up multiple levels).
+vim.keymap.set("n", "-", "<Plug>(nvim-dir-up)", { silent = true, desc = "Open parent directory" })
 
 vim.keymap.set("n", "<leader>a", function()
 	vim.cmd("argadd %")

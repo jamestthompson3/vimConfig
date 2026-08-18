@@ -85,7 +85,9 @@ vim.diagnostic.config({
 	},
 })
 
--- Set buffer busy status during LSP progress (refcounted across servers)
+-- Set buffer busy status during LSP progress (refcounted across servers), and
+-- on progress "end" (e.g. lua_ls finishes indexing) pull fresh diagnostics for
+-- the client's buffers.
 local busy_count = {}
 vim.api.nvim_create_autocmd("LspProgress", {
 	callback = function(args)
@@ -106,24 +108,14 @@ vim.api.nvim_create_autocmd("LspProgress", {
 				if busy_count[bufnr] == 0 then
 					vim.bo[bufnr].busy = 0
 				end
-			end
-		end
-	end,
-})
-
--- When server finishes progress (e.g., lua_ls finishes indexing), request diagnostics
-vim.api.nvim_create_autocmd("LspProgress", {
-	pattern = "end",
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if not client then
-			return
-		end
-		for bufnr in pairs(client.attached_buffers) do
-			if client:supports_method("textDocument/diagnostic") then
-				vim.lsp.diagnostic._refresh(bufnr, client.id)
-			else
-				if client:supports_method("textDocument/didOpen") then
+				if client:supports_method("textDocument/diagnostic") then
+					-- Re-pull document diagnostics (nil handler -> the default
+					-- textDocument/diagnostic handler applies them). Replaces the
+					-- removed private vim.lsp.diagnostic._refresh().
+					client:request("textDocument/diagnostic", {
+						textDocument = { uri = vim.uri_from_bufnr(bufnr) },
+					}, nil, bufnr)
+				elseif client:supports_method("textDocument/didOpen") then
 					client:notify("textDocument/didOpen", {
 						textDocument = {
 							uri = vim.uri_from_bufnr(bufnr),
