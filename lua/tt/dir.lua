@@ -53,9 +53,9 @@ function M.create()
 		end
 		local path = vim.fs.joinpath(dir, input)
 		if input:sub(-1) == "/" then
-			vim.fn.mkdir(path, "p")
+			vim.fs.mkdir(path, { parents = true })
 		else
-			vim.fn.mkdir(vim.fs.dirname(path), "p")
+			vim.fs.mkdir(vim.fs.dirname(path), { parents = true })
 			if not vim.uv.fs_stat(path) then
 				local fd = vim.uv.fs_open(path, "w", tonumber("644", 8))
 				if fd then
@@ -78,7 +78,7 @@ function M.rename()
 			return
 		end
 		local dst = vim.fs.joinpath(current_dir(), input)
-		vim.fn.mkdir(vim.fs.dirname(dst), "p")
+		vim.fs.mkdir(vim.fs.dirname(dst), { parents = true })
 		local ok, err = vim.uv.fs_rename(src, dst)
 		if not ok then
 			vim.notify("dir: rename failed: " .. tostring(err), vim.log.levels.ERROR)
@@ -113,7 +113,7 @@ function M.setup()
 			local function map(lhs, fn, desc)
 				vim.keymap.set("n", lhs, fn, { buffer = ev.buf, silent = true, nowait = true, desc = desc })
 			end
-			map("a", M.create, "dir: create file/dir")
+			map("o", M.create, "dir: create file/dir")
 			map("r", M.rename, "dir: rename entry")
 			map("dd", M.delete, "dir: delete entry")
 		end,

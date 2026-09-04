@@ -36,6 +36,7 @@ end
 function M.openTerminalDrawer()
 	vim.cmd.copen()
 	vim.cmd.term()
+	vim.wo.winpinned = true
 	api.nvim_input("i")
 end
 

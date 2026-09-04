@@ -58,7 +58,6 @@ local disabled_plugins = {
 	"rplugin",
 	"tarPlugin",
 	"tutor",
-	"zipPlugin",
 }
 
 for _, p in ipairs(disabled_plugins) do

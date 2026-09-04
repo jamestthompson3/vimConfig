@@ -283,7 +283,7 @@ if s:t_Co >= 256
     hi NormalFloat ctermfg=253 ctermbg=234 cterm=NONE
     hi FloatBorder ctermfg=242 ctermbg=234 cterm=NONE
     " Custom
-    hi link GitLens Comment
+    hi GitLens guifg=#7a8ba8 guibg=NONE gui=italic cterm=italic
     hi @nospell.markdown_inline guifg=gray
   " -----------------------------------------------------------------------------
   " Dark mode overrides

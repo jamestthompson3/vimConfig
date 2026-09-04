@@ -6,6 +6,8 @@ end
 
 vim.cmd.packadd("cfilter")
 
+vim.ui.select = require("tt.pick").select
+
 -- Common mistakes
 vim.cmd.iabbrev({ args = { "retrun", "return" } })
 vim.cmd.iabbrev({ args = { "pritn", "print" } })
