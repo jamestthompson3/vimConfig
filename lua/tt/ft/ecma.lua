@@ -65,25 +65,17 @@ function M.import_sort(async, cb)
 	end
 end
 
-function M.lint_project()
+-- Run eslint_d with `argv`, then feed its "compact" output into the location
+-- list. `reload` re-reads the buffer after an on-disk `--fix` of the file.
+local function run_eslint(argv, reload)
 	local executable_path = node.find_node_executable("eslint_d")
-
-	vim.system({
-		executable_path,
-		".",
-		"--ext",
-		".js,.ts,.tsx,.jsx",
-		"--max-warnings=0",
-		"-f",
-		"compact",
-		"--fix",
-	}, { text = true }, function(result)
+	vim.system(vim.list_extend({ executable_path }, argv), { text = true }, function(result)
 		vim.schedule(function()
-			local lines = {}
-			if result.stdout then
-				lines = vim.split(result.stdout, "\n", { trimempty = true })
+			if reload then
+				vim.cmd.checktime()
 			end
-			fn.setloclist(fn.winnr(), {}, " ", {
+			local lines = result.stdout and vim.split(result.stdout, "\n", { trimempty = true }) or {}
+			fn.setloclist(0, {}, " ", {
 				title = "eslint -- errors",
 				lines = lines,
 				efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
@@ -93,31 +85,12 @@ function M.lint_project()
 	end)
 end
 
-function M.linter_d()
-	local path = fn.fnameescape(fn.expand("%:p"))
-	local executable_path = node.find_node_executable("eslint_d")
+function M.lint_project()
+	run_eslint({ ".", "--ext", ".js,.ts,.tsx,.jsx", "--max-warnings=0", "-f", "compact", "--fix" }, false)
+end
 
-	vim.system({
-		executable_path,
-		path,
-		"-f",
-		"compact",
-		"--fix",
-	}, { text = true }, function(result)
-		vim.schedule(function()
-			vim.cmd.checktime()
-			local lines = {}
-			if result.stdout then
-				lines = vim.split(result.stdout, "\n", { trimempty = true })
-			end
-			fn.setloclist(fn.winnr(), {}, " ", {
-				title = "eslint -- errors",
-				lines = lines,
-				efm = "%f: line %l\\, col %c\\, %m,%-G%.%#",
-			})
-			vim.cmd.lwindow()
-		end)
-	end)
+function M.linter_d()
+	run_eslint({ fn.fnameescape(fn.expand("%:p")), "-f", "compact", "--fix" }, true)
 end
 
 return M

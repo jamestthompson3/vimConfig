@@ -651,13 +651,7 @@ end
 
 ----------------------------------------------------------------- chat window
 
-local function win_for_buf(buf)
-	for _, win in ipairs(vim.api.nvim_list_wins()) do
-		if vim.api.nvim_win_get_buf(win) == buf then
-			return win
-		end
-	end
-end
+local win_for_buf = require("tt.nvim_utils").vim_util.win_for_buf
 
 --- Put the cursor at the end of the input region. Enters insert mode only when
 --- `enter_insert` is set (opening/attaching), not e.g. after a response -- so
@@ -1047,7 +1041,7 @@ function M.save(opts)
 		if not path:match("^/") then -- bare name -> stash under ~/notes
 			path = vim.fs.normalize("~/notes/" .. path)
 		end
-		vim.fn.mkdir(vim.fs.dirname(path), "p")
+		vim.fs.mkdir(vim.fs.dirname(path), { parents = true })
 		vim.fn.writefile(lines, path)
 		vim.cmd("split " .. vim.fn.fnameescape(path))
 		vim.notify("acp: saved → " .. path)
@@ -1166,7 +1160,7 @@ end
 
 local function session_dir()
 	local dir = vim.fs.normalize(vim.fn.stdpath("state") .. "/acp")
-	vim.fn.mkdir(dir, "p")
+	vim.fs.mkdir(dir, { parents = true })
 	return dir
 end
 
@@ -1234,14 +1228,17 @@ end
 
 --- Pick a saved session and reopen it.
 function M.sessions()
-	local files = vim.fn.glob(session_dir() .. "/*.json", false, true)
+	local dir = session_dir()
 	local recs = {}
-	for _, f in ipairs(files) do
-		local ok, data = pcall(function()
-			return vim.json.decode(table.concat(vim.fn.readfile(f), "\n"))
-		end)
-		if ok and type(data) == "table" and data.sessionId then
-			recs[#recs + 1] = data
+	for name, ty in vim.fs.dir(dir) do
+		if ty == "file" and name:match("%.json$") then
+			local f = vim.fs.joinpath(dir, name)
+			local ok, data = pcall(function()
+				return vim.json.decode(table.concat(vim.fn.readfile(f), "\n"))
+			end)
+			if ok and type(data) == "table" and data.sessionId then
+				recs[#recs + 1] = data
+			end
 		end
 	end
 	if #recs == 0 then

@@ -9,20 +9,25 @@ vim.cmd.packadd("cfilter")
 vim.ui.select = require("tt.pick").select
 
 -- Common mistakes
-vim.cmd.iabbrev({ args = { "retrun", "return" } })
-vim.cmd.iabbrev({ args = { "pritn", "print" } })
-vim.cmd.iabbrev({ args = { "cosnt", "const" } })
-vim.cmd.iabbrev({ args = { "imoprt", "import" } })
-vim.cmd.iabbrev({ args = { "imprt", "import" } })
-vim.cmd.iabbrev({ args = { "iomprt", "import" } })
-vim.cmd.iabbrev({ args = { "improt", "import" } })
-vim.cmd.iabbrev({ args = { "slef", "self" } })
-vim.cmd.iabbrev({ args = { "sapn", "span" } })
-vim.cmd.iabbrev({ args = { "teh", "the" } })
-vim.cmd.iabbrev({ args = { "tehn", "then" } })
-vim.cmd.iabbrev({ args = { "hadnler", "handler" } })
-vim.cmd.iabbrev({ args = { "typdef", "typedef" } })
-vim.cmd.iabbrev({ args = { "bunlde", "bundle" } })
+local typos = {
+	retrun = "return",
+	pritn = "print",
+	cosnt = "const",
+	imoprt = "import",
+	imprt = "import",
+	iomprt = "import",
+	improt = "import",
+	slef = "self",
+	sapn = "span",
+	teh = "the",
+	tehn = "then",
+	hadnler = "handler",
+	typdef = "typedef",
+	bunlde = "bundle",
+}
+for wrong, right in pairs(typos) do
+	vim.cmd.iabbrev({ args = { wrong, right } })
+end
 
 vim.o.tabline = "%{%v:lua.require'tt.core_opts'.tabline()%}"
 

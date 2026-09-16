@@ -3,7 +3,7 @@
 -- buffer editor like oil -- just three buffer-local actions on `FileType
 -- directory`:
 --
---   a   create a file (or a directory, if the name ends in `/`)
+--   o   create a file (or a directory, if the name ends in `/`)
 --   r   rename the entry under the cursor (can move into a subdir)
 --   dd  delete the entry under the cursor (recursive for directories)
 --
@@ -42,6 +42,58 @@ local function reload(select_name)
 	end
 	if select_name and select_name ~= "" then
 		vim.fn.search("\\V" .. vim.fn.escape(select_name, "\\"), "cw")
+	end
+end
+
+-- Repoint open buffers to a moved path, Oil-style, so they keep their content
+-- and unsaved edits instead of going stale. A real file buffer is re-read from
+-- the new path so a later ":w" does not raise E13. "nvim_buf_set_name" keeps the
+-- old name as a throwaway buffer, so remove it.
+local function rename_buffers(src, dst)
+	src, dst = vim.fs.normalize(src), vim.fs.normalize(dst)
+	local prefix = src .. "/"
+	for _, buf in ipairs(api.nvim_list_bufs()) do
+		if api.nvim_buf_is_valid(buf) then
+			local name = vim.fs.normalize(api.nvim_buf_get_name(buf))
+			local newname
+			if name == src then
+				newname = dst
+			elseif vim.startswith(name, prefix) then
+				newname = dst .. name:sub(#src + 1)
+			end
+			if newname then
+				local loaded = api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == ""
+				local lines = loaded and vim.bo[buf].modified and api.nvim_buf_get_lines(buf, 0, -1, false) or nil
+				pcall(api.nvim_buf_set_name, buf, newname)
+				for _, other in ipairs(api.nvim_list_bufs()) do
+					if other ~= buf and vim.fs.normalize(api.nvim_buf_get_name(other)) == name and not api.nvim_buf_is_loaded(other) then
+						pcall(api.nvim_buf_delete, other, { force = true })
+					end
+				end
+				if loaded then
+					api.nvim_buf_call(buf, function()
+						vim.cmd("silent! keepalt keepjumps edit!")
+					end)
+					if lines then
+						api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+					end
+				end
+			end
+		end
+	end
+end
+
+-- Drop buffers whose path no longer exists on disk.
+local function wipe_buffers(path)
+	path = vim.fs.normalize(path)
+	local prefix = path .. "/"
+	for _, buf in ipairs(api.nvim_list_bufs()) do
+		if api.nvim_buf_is_valid(buf) then
+			local name = vim.fs.normalize(api.nvim_buf_get_name(buf))
+			if name == path or vim.startswith(name, prefix) then
+				pcall(api.nvim_buf_delete, buf, { force = true })
+			end
+		end
 	end
 end
 
@@ -84,6 +136,7 @@ function M.rename()
 			vim.notify("dir: rename failed: " .. tostring(err), vim.log.levels.ERROR)
 			return
 		end
+		rename_buffers(src, dst)
 		reload(vim.fs.basename((input:gsub("/+$", ""))))
 	end)
 end
@@ -101,6 +154,7 @@ function M.delete()
 		vim.notify("dir: failed to delete " .. name, vim.log.levels.ERROR)
 		return
 	end
+	wipe_buffers(path)
 	reload()
 end
 

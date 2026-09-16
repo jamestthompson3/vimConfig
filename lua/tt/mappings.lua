@@ -20,18 +20,11 @@ vim.keymap.set("n", "g.", '/\\V\\C<C-r>"<CR>cgn<C-a><Esc>')
 vim.keymap.set("n", "z/", ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set hls<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>e", ":e <C-R>=expand('%:p:h') . '/'<CR>")
-vim.keymap.set("n", "<C-J>", function()
-	tools.winMove("j")
-end)
-vim.keymap.set("n", "<C-L>", function()
-	tools.winMove("l")
-end)
-vim.keymap.set("n", "<C-H>", function()
-	tools.winMove("h")
-end)
-vim.keymap.set("n", "<C-K>", function()
-	tools.winMove("k")
-end)
+for _, dir in ipairs({ "h", "j", "k", "l" }) do
+	vim.keymap.set("n", "<C-" .. dir:upper() .. ">", function()
+		tools.winMove(dir)
+	end)
+end
 vim.keymap.set("n", "<C-S>", function()
 	vim.cmd("tabnew|te")
 	vim.api.nvim_input("a")
@@ -57,17 +50,11 @@ vim.keymap.set("n", "<leader>a", function()
 	vim.cmd("argdedupe")
 end, { silent = true })
 
-vim.keymap.set("n", "<leader>1", function()
-	vim.cmd("silent! 1argument")
-end, { silent = true })
-
-vim.keymap.set("n", "<leader>2", function()
-	vim.cmd("silent! 2argument")
-end, { silent = true })
-
-vim.keymap.set("n", "<leader>3", function()
-	vim.cmd("silent! 3argument")
-end, { silent = true })
+for i = 1, 3 do
+	vim.keymap.set("n", "<leader>" .. i, function()
+		vim.cmd("silent! " .. i .. "argument")
+	end, { silent = true })
+end
 
 vim.keymap.set("n", "cc", vim.cmd.cclose, { silent = true })
 vim.keymap.set("n", "cl", vim.cmd.lclose, { silent = true })

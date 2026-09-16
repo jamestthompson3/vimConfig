@@ -1,19 +1,23 @@
 local M = {}
+
+local function stamp()
+	return vim.fn.strftime("%Y%m%d%H%M")
+end
+
 M.init = function()
-	vim.snippet.add(
-		"twh",
-		"content-type: wikitext\ncreated: "
-			.. vim.fn.strftime("%Y%M%d%H%M")
+	vim.snippet.add("twh", function()
+		local ts = stamp()
+		local name = vim.fn.expand("%:t:r")
+		return "content-type: wikitext\ncreated: "
+			.. ts
 			.. "\ntitle: "
-			.. vim.fn.expand("%:t:r")
+			.. name
 			.. "\nmodified: "
-			.. vim.fn.strftime("%Y%M%d%H%M")
+			.. ts
 			.. "\nid: "
-			.. vim.fn.expand("%:t:r")
+			.. name
 			.. "\ntags: [$2]\n\n"
-	)
-	vim.snippet.add("dtt", vim.fn.strftime("%Y%M%d%H%M"))
+	end)
+	vim.snippet.add("dtt", stamp)
 end
 return M
-
--- Note: Original snippet used the current timestamp and filename, which can be manually added

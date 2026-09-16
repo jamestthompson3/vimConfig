@@ -15,13 +15,14 @@ function M.bootstrap(opts)
 	end
 
 	if opts.extra_path then
-		vim.o.path = vim.o.path .. opts.extra_path
+		vim.opt_local.path:append(opts.extra_path)
 	end
 
 	local ext = vim.fn.expand("%:e")
 	local header_exts = opts.header_exts or { "h" }
 	local use_pragma = opts.pragma_once == true or (opts.pragma_once == nil and ext ~= "h")
-	if vim.tbl_contains(header_exts, ext) and vim.fn.line("$") == 1 and vim.fn.getline(1) == "" then
+	local empty = vim.api.nvim_buf_line_count(0) == 1 and vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] == ""
+	if vim.tbl_contains(header_exts, ext) and empty then
 		if use_pragma then
 			vim.api.nvim_buf_set_lines(0, 0, 0, false, {
 				"#pragma once",

@@ -5,19 +5,14 @@ local projects_file = vim.fn.expand("~/.nvim-projects")
 
 local function read_projects()
 	local projects = {}
-	local file = io.open(projects_file, "r")
-
-	if file then
-		for line in file:lines() do
-			-- Trim whitespace and skip empty lines
-			line = line:match("^%s*(.-)%s*$")
+	if vim.fn.filereadable(projects_file) == 1 then
+		for _, line in ipairs(vim.fn.readfile(projects_file)) do
+			line = vim.trim(line)
 			if line ~= "" then
 				table.insert(projects, line)
 			end
 		end
-		file:close()
 	end
-
 	return projects
 end
 
@@ -33,16 +28,8 @@ local function write_projects(projects)
 		end
 	end
 
-	local file = io.open(projects_file, "w")
-	if file then
-		for _, project in ipairs(unique_projects) do
-			file:write(project .. "\n")
-		end
-		file:close()
-		return true
-	end
-
-	return false
+	local ok, ret = pcall(vim.fn.writefile, unique_projects, projects_file)
+	return ok and ret == 0
 end
 
 function M.add_current_project()

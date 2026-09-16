@@ -10,6 +10,15 @@ end
 
 M.vim_util = {}
 
+-- Return the first window displaying `buf`, or nil.
+function M.vim_util.win_for_buf(buf)
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if vim.api.nvim_win_get_buf(win) == buf then
+			return win
+		end
+	end
+end
+
 function M.vim_util.get_lsp_clients()
 	local clients = vim.lsp.get_clients({ bufnr = 0 })
 	if vim.tbl_isempty(clients) then

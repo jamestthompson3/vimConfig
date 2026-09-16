@@ -5,7 +5,7 @@ local ns = vim.api.nvim_create_namespace("tt_pick")
 local ACCEPT, CANCEL, SPLIT, VSPLIT = 0, 1, 2, 3
 local action_name = { [ACCEPT] = "edit", [SPLIT] = "split", [VSPLIT] = "vsplit" }
 
-local active_co = nil
+local active_task = nil
 local picker_count = 0
 
 local function setup_highlights()
@@ -23,8 +23,8 @@ end
 function M.open(items, opts)
 	opts = opts or {}
 
-	if active_co and coroutine.status(active_co) == "suspended" then
-		coroutine.resume(active_co, CANCEL)
+	if active_task and not active_task:completed() then
+		active_task:close()
 	end
 
 	setup_highlights()
@@ -45,8 +45,8 @@ function M.open(items, opts)
 	local idx = 0
 	local offset = 0
 	local closed = false
-	local co, augroup, saved_view, saved_win
-	local filter_timer = (vim.uv or vim.loop).new_timer()
+	local augroup, saved_view, saved_win
+	local resolve, filter_task
 	local debounce = opts.debounce or 50
 	local result_limit = opts.limit or 200
 
@@ -251,13 +251,21 @@ function M.open(items, opts)
 		input = new_input
 		-- Debounce: coalesce bursts of keystrokes so the (on large lists,
 		-- expensive) fuzzy match runs once typing settles rather than per key.
-		filter_timer:stop()
-		filter_timer:start(debounce, 0, vim.schedule_wrap(recompute))
+		-- Each task supersedes the previous; close() cancels the pending sleep.
+		if filter_task and not filter_task:completed() then
+			filter_task:close()
+		end
+		filter_task = vim.async.run(function()
+			vim.async.sleep(debounce)
+			recompute()
+		end)
 	end
 
 	local function try_resume(action)
-		if co and coroutine.status(co) == "suspended" then
-			coroutine.resume(co, action)
+		if resolve then
+			local done = resolve
+			resolve = nil
+			done(action)
 		end
 	end
 
@@ -299,7 +307,11 @@ function M.open(items, opts)
 	picker_count = picker_count + 1
 	local my_id = picker_count
 
-	coroutine.wrap(function()
+	-- The picker runs as a vim.async task: setup happens synchronously up to the
+	-- await, then the task suspends until a keymap/ModeChanged resolves it with
+	-- an action (or a newer picker closes it). on_complete cleans up for both the
+	-- resolved and the superseded (err = "closed") paths.
+	local task = vim.async.run(function()
 		saved_view = vim.fn.winsaveview()
 		saved_win = vim.api.nvim_get_current_win()
 
@@ -332,21 +344,30 @@ function M.open(items, opts)
 			callback = render,
 		})
 
-		co = coroutine.running()
-		active_co = co
-		local result = coroutine.yield()
+		return vim.async.await(function(done)
+			resolve = done
+		end)
+	end)
+	active_task = task
 
+	task:on_complete(function(err, result)
 		closed = true
+		resolve = nil
+		-- A superseding close() reports err = "closed"; treat it as a cancel.
+		if err then
+			result = CANCEL
+		end
 
 		vim.schedule(function()
 			pcall(vim.api.nvim_del_augroup_by_id, augroup)
-			pcall(function()
-				filter_timer:stop()
-				filter_timer:close()
-			end)
+			if filter_task and not filter_task:completed() then
+				pcall(function()
+					filter_task:close()
+				end)
+			end
 
-			if active_co == co or active_co == nil then
-				active_co = nil
+			if active_task == task or active_task == nil then
+				active_task = nil
 				vim.cmd.stopinsert()
 				if vim.api.nvim_win_is_valid(win) then
 					vim.api.nvim_win_close(win, true)
@@ -369,7 +390,7 @@ function M.open(items, opts)
 				end
 			end, 10)
 		end)
-	end)()
+	end)
 end
 
 -- A normal-mode, numbered list picker. Unlike M.open (fuzzy, insert-mode),

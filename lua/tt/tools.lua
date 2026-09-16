@@ -41,8 +41,16 @@ function M.openTerminalDrawer()
 end
 
 function M.restoreFile()
-	local cmd = "git restore " .. fn.expand("%")
-	vim.cmd("!" .. cmd)
+	local file = fn.expand("%")
+	vim.system({ "git", "restore", file }, { text = true }, function(result)
+		vim.schedule(function()
+			if result.code == 0 then
+				vim.cmd.checktime()
+			else
+				vim.notify("git restore: " .. (result.stderr or ""), vim.log.levels.ERROR)
+			end
+		end)
+	end)
 end
 
 function M.winMove(key)

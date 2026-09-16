@@ -1,7 +1,7 @@
 local M = {}
 
 function M.init()
-	local lines = vim.fn.line("$")
+	local lines = vim.api.nvim_buf_line_count(0)
 	if lines > 30000 then
 		return
 	end

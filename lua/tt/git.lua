@@ -28,9 +28,7 @@ function M.diff(file)
 		vim.notify("Not in git or no HEAD version", vim.log.levels.WARN)
 		return
 	end
-	local f = io.open(tmpfile, "w")
-	f:write(result.stdout)
-	f:close()
+	vim.fn.writefile(vim.split(result.stdout, "\n"), tmpfile)
 
 	require("difftool").open(tmpfile, fullpath)
 
