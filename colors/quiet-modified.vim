@@ -311,7 +311,8 @@ if s:t_Co >= 256
 
   " Search
   hi Search guifg=#000000 guibg=#c8b898 gui=NONE cterm=NONE
-  hi CurSearch guifg=#000000 guibg=#d7875f gui=NONE cterm=NONE
+  " Distinct from Cursor (#d7875f) so the cursor stays visible on the current match
+  hi CurSearch guifg=#000000 guibg=#ff5faf gui=bold cterm=bold
   hi IncSearch guifg=#000000 guibg=#d7875f gui=NONE cterm=NONE
 
   " Visual
@@ -445,7 +446,8 @@ if s:t_Co >= 256
 
   " Search
   hi Search guifg=#1c1c1c guibg=#ddd4be gui=NONE cterm=NONE
-  hi CurSearch guifg=#1c1c1c guibg=#af5f00 gui=NONE cterm=NONE
+  " Distinct from Cursor (#af5f00) so the cursor stays visible on the current match
+  hi CurSearch guifg=#1c1c1c guibg=#ff87d7 gui=bold cterm=bold
   hi IncSearch guifg=#1c1c1c guibg=#af5f00 gui=NONE cterm=NONE
 
   " Visual

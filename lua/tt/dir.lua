@@ -159,8 +159,10 @@ function M.delete()
 end
 
 function M.setup()
+	local group = vim.api.nvim_create_augroup("tt_dir_actions", { clear = true })
+
 	vim.api.nvim_create_autocmd("FileType", {
-		group = vim.api.nvim_create_augroup("tt_dir_actions", { clear = true }),
+		group = group,
 		pattern = "directory",
 		callback = function(ev)
 			-- The listing is read-only, so overriding a/r/d costs nothing.
@@ -170,6 +172,18 @@ function M.setup()
 			map("o", M.create, "dir: create file/dir")
 			map("r", M.rename, "dir: rename entry")
 			map("dd", M.delete, "dir: delete entry")
+		end,
+	})
+
+	-- The builtin browser sets "buflisted" true on every render (including
+	-- reloads), so listings pollute the buffer list. DirReadPost fires after
+	-- each render with the listing buffer current, so unlist it there.
+	vim.api.nvim_create_autocmd("User", {
+		group = group,
+		pattern = "DirReadPost",
+		desc = "dir: keep directory listings out of the buffer list",
+		callback = function()
+			vim.bo.buflisted = false
 		end,
 	})
 end
