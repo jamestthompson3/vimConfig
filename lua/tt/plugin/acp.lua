@@ -651,7 +651,8 @@ end
 
 ----------------------------------------------------------------- chat window
 
-local win_for_buf = require("tt.nvim_utils").vim_util.win_for_buf
+local vim_util = require("tt.nvim_utils").vim_util
+local win_for_buf = vim_util.win_for_buf
 
 --- Put the cursor at the end of the input region. Enters insert mode only when
 --- `enter_insert` is set (opening/attaching), not e.g. after a response -- so
@@ -1046,12 +1047,8 @@ function M.save(opts)
 		vim.cmd("split " .. vim.fn.fnameescape(path))
 		vim.notify("acp: saved → " .. path)
 	else
-		-- Scratch reference buffer; user decides whether to :w it.
-		vim.cmd("botright split")
-		vim.cmd("enew")
-		vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-		vim.bo.filetype = "markdown"
-		vim.bo.bufhidden = "hide"
+		-- Scratch reference buffer; user decides whether to :w it (buftype "").
+		vim_util.scratch_split(lines, { buftype = "", bufhidden = "hide", filetype = "markdown" })
 	end
 end
 
@@ -1148,12 +1145,7 @@ function M.show_log()
 		vim.notify("acp: no bridge log yet")
 		return
 	end
-	vim.cmd("botright split")
-	vim.cmd("enew")
-	vim.api.nvim_buf_set_lines(0, 0, -1, false, log)
-	vim.bo.buftype = "nofile"
-	vim.bo.bufhidden = "wipe"
-	vim.bo.filetype = "log"
+	vim_util.scratch_split(log, { filetype = "log" })
 end
 
 ----------------------------------------------------------------- persistence
@@ -1323,22 +1315,8 @@ end
 ---------------------------------------------------------------------- wiring
 
 function M.init()
-	-- Chat buffers wrap (soft, at word boundaries, with hanging indent) wherever
-	-- they're shown. wrap is window-local, so key off the buffer flag on display.
-	vim.api.nvim_create_autocmd("BufWinEnter", {
-		group = vim.api.nvim_create_augroup("acp_chat_win", { clear = true }),
-		callback = function(ev)
-			if not vim.b[ev.buf].acp_chat then
-				return
-			end
-			local win = vim.fn.bufwinid(ev.buf)
-			if win ~= -1 then
-				vim.wo[win].wrap = true
-				vim.wo[win].linebreak = true
-				vim.wo[win].breakindent = true
-			end
-		end,
-	})
+	-- Soft-wrap chat buffers wherever they're shown.
+	vim_util.soft_wrap_on_flag("acp_chat", "acp_chat_win")
 
 	-- Make sure the bridge dies with nvim (covers the clean-exit path
 	-- explicitly; a SIGKILL of nvim still can't be caught -- use :AgentStatus

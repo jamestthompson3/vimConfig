@@ -3,7 +3,7 @@ local biome_roots = require("tt.constants").biome_roots
 
 return {
 	cmd = { node.get_node_bin("biome"), "lsp-proxy" },
-	root_markers = biome_roots,
+	-- root_dir (not root_markers): only attach when a biome config is present.
 	root_dir = function(bufnr, on_dir)
 		local root = vim.fs.root(bufnr, biome_roots)
 		if root then

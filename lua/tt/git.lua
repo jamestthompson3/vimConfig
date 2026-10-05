@@ -23,32 +23,35 @@ function M.diff(file)
 	local fullpath = fn.fnamemodify(relpath, ":p")
 	local ext = fn.fnamemodify(relpath, ":e")
 	local tmpfile = fn.tempname() .. "." .. ext
-	local result = vim.system({ "git", "show", "HEAD:" .. relpath }, { text = true }):wait()
-	if result.code ~= 0 then
-		vim.notify("Not in git or no HEAD version", vim.log.levels.WARN)
-		return
-	end
-	vim.fn.writefile(vim.split(result.stdout, "\n"), tmpfile)
+	vim.system({ "git", "show", "HEAD:" .. relpath }, { text = true }, function(result)
+		vim.schedule(function()
+			if result.code ~= 0 then
+				vim.notify("Not in git or no HEAD version", vim.log.levels.WARN)
+				return
+			end
+			vim.fn.writefile(vim.split(result.stdout, "\n"), tmpfile)
 
-	require("difftool").open(tmpfile, fullpath)
+			require("difftool").open(tmpfile, fullpath)
 
-	local work_buf = fn.bufnr(fullpath)
-	local head_buf = fn.bufnr(tmpfile)
-	if head_buf ~= -1 then
-		-- make the HEAD snapshot obviously disposable + unsaveable
-		vim.bo[head_buf].buftype = "nofile"
-		vim.bo[head_buf].bufhidden = "wipe"
-		vim.bo[head_buf].modifiable = false
-		vim.bo[head_buf].readonly = true
-		pcall(api.nvim_buf_set_name, head_buf, "HEAD:" .. relpath)
-	end
-	for _, b in ipairs({ work_buf, head_buf }) do
-		if b ~= -1 then
-			vim.keymap.set("n", "q", function()
-				teardown(work_buf, head_buf)
-			end, { buffer = b, desc = "Close diff, return to working file" })
-		end
-	end
+			local work_buf = fn.bufnr(fullpath)
+			local head_buf = fn.bufnr(tmpfile)
+			if head_buf ~= -1 then
+				-- make the HEAD snapshot obviously disposable + unsaveable
+				vim.bo[head_buf].buftype = "nofile"
+				vim.bo[head_buf].bufhidden = "wipe"
+				vim.bo[head_buf].modifiable = false
+				vim.bo[head_buf].readonly = true
+				pcall(api.nvim_buf_set_name, head_buf, "HEAD:" .. relpath)
+			end
+			for _, b in ipairs({ work_buf, head_buf }) do
+				if b ~= -1 then
+					vim.keymap.set("n", "q", function()
+						teardown(work_buf, head_buf)
+					end, { buffer = b, desc = "Close diff, return to working file" })
+				end
+			end
+		end)
+	end)
 end
 
 function M.blame_file()
@@ -66,32 +69,39 @@ end
 
 function M.blame()
 	local ft = fn.expand("%:h:t")
-	if ft == "" then
-		return
-	end
-	if ft == "bin" then
+	if ft == "" or ft == "bin" then
 		return
 	end
 	api.nvim_buf_clear_namespace(0, namespace, 0, -1)
+	local buf = api.nvim_get_current_buf()
 	local currFile = fn.expand("%")
 	local line = api.nvim_win_get_cursor(0)
-	local log_result = vim.system({
+	vim.system({
 		"git",
 		"log",
 		"-1",
 		"--format=%an, %ar • %s",
 		"-L",
 		string.format("%d,%d:%s", line[1], line[1], currFile),
-	}, { text = true }):wait()
-	if log_result.code ~= 0 or not log_result.stdout then
-		return "Not Committed Yet"
-	end
-
-	local text = vim.split(log_result.stdout, "\n")
-
-	api.nvim_buf_set_extmark(0, namespace, line[1] - 1, line[2], {
-		virt_text = { { string.format("%s", text[1]), "GitLens" } },
-	})
+	}, { text = true }, function(result)
+		if result.code ~= 0 or not result.stdout or result.stdout == "" then
+			return
+		end
+		local text = vim.split(result.stdout, "\n")
+		vim.schedule(function()
+			-- The cursor may have moved (which also clears the blame) before git
+			-- returned; only draw if we're still on the line we asked about.
+			if not api.nvim_buf_is_valid(buf) or api.nvim_get_current_buf() ~= buf then
+				return
+			end
+			if api.nvim_win_get_cursor(0)[1] ~= line[1] then
+				return
+			end
+			api.nvim_buf_set_extmark(buf, namespace, line[1] - 1, line[2], {
+				virt_text = { { text[1], "GitLens" } },
+			})
+		end)
+	end)
 end
 
 function M.clear_blame()

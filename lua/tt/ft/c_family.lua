@@ -1,18 +1,19 @@
 local M = {}
 
+-- The builtin ftplugin/c.vim runs AFTER ours (it is last in 'runtimepath') and
+-- clobbers these: `define&` resets 'define', and `fo+=croql` re-adds r/o. Call
+-- this from after/ftplugin/{c,cpp,objc,objcpp}.lua so the values actually stick.
+function M.apply_after()
+	vim.opt_local.formatoptions:remove({ "r", "o" })
+	vim.bo.define = [[^\(#\s*define\|[a-z]*\s*const\s*[a-z]*\)]]
+end
+
 function M.bootstrap(opts)
 	vim.b.source_ft = opts.source_ft
-
-	vim.opt_local.formatoptions:remove({ "r", "o" })
-	vim.bo.define = "^(#s*define|[a-z]*s*consts*[a-z]*)"
 
 	vim.keymap.set("n", "<leader>h", function()
 		require("tt.tools").switchSourceHeader()
 	end, { buffer = true, silent = true })
-
-	if opts.efm ~= false then
-		vim.lsp.start(vim.lsp.config.efm)
-	end
 
 	if opts.extra_path then
 		vim.opt_local.path:append(opts.extra_path)

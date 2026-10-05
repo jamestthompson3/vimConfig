@@ -15,5 +15,5 @@ return {
 		tsserver = { path = node.get_node_lib("typescript/lib") },
 	},
 	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
-	single_file_support = true,
+	workspace_required = false,
 }

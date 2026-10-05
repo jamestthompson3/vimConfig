@@ -1,1 +1,1 @@
-vim.o.spell = true
+vim.opt_local.spell = true

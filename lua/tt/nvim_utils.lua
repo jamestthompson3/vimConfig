@@ -19,16 +19,60 @@ function M.vim_util.win_for_buf(buf)
 	end
 end
 
-function M.vim_util.get_lsp_clients()
-	local clients = vim.lsp.get_clients({ bufnr = 0 })
-	if vim.tbl_isempty(clients) then
-		return ""
-	end
+-- Recompute the cached client list for `bufnr`. Called from LspAttach/LspDetach
+-- so the statusline reads a buffer var instead of scanning clients each redraw.
+function M.vim_util.refresh_lsp_clients(bufnr)
+	bufnr = bufnr or 0
 	local names = {}
-	for _, client in ipairs(clients) do
-		table.insert(names, client.name)
+	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+		names[#names + 1] = client.name
 	end
-	return table.concat(names, " • ")
+	vim.b[bufnr].lsp_clients_str = table.concat(names, " • ")
+end
+
+function M.vim_util.get_lsp_clients()
+	return vim.b.lsp_clients_str or ""
+end
+
+-- Soft-wrap (word boundaries, hanging indent) any window that displays a buffer
+-- flagged with buffer-var `flag`. wrap is window-local, so key off BufWinEnter.
+function M.vim_util.soft_wrap_on_flag(flag, group_name)
+	vim.api.nvim_create_autocmd("BufWinEnter", {
+		group = vim.api.nvim_create_augroup(group_name, { clear = true }),
+		callback = function(ev)
+			if not vim.b[ev.buf][flag] then
+				return
+			end
+			local win = vim.fn.bufwinid(ev.buf)
+			if win ~= -1 then
+				vim.wo[win].wrap = true
+				vim.wo[win].linebreak = true
+				vim.wo[win].breakindent = true
+			end
+		end,
+	})
+end
+
+-- Open `lines` in a bottom-split scratch buffer. opts: filetype, buftype
+-- (default "nofile"), bufhidden (default "wipe"), modifiable, name. Returns buf.
+function M.vim_util.scratch_split(lines, opts)
+	opts = opts or {}
+	vim.cmd("botright split")
+	vim.cmd("enew")
+	local buf = vim.api.nvim_get_current_buf()
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+	vim.bo[buf].buftype = opts.buftype or "nofile"
+	vim.bo[buf].bufhidden = opts.bufhidden or "wipe"
+	if opts.filetype then
+		vim.bo[buf].filetype = opts.filetype
+	end
+	if opts.name then
+		pcall(vim.api.nvim_buf_set_name, buf, opts.name)
+	end
+	if opts.modifiable == false then
+		vim.bo[buf].modifiable = false
+	end
+	return buf
 end
 
 ---

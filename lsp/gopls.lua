@@ -1,11 +1,11 @@
 return {
 	filetypes = { "go" },
-	cmd = { "gopls", "serve" },
+	cmd = { "gopls" },
 	settings = {
 		gopls = {
+			staticcheck = true,
 			analyses = {
 				unusedparams = true,
-				staticcheck = true,
 			},
 		},
 	},

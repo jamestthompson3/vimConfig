@@ -6,11 +6,6 @@ g.javascript_plugin_jsdoc = 1
 g.javascript_plugin_ngdoc = 1
 g.javascript_plugin_flow = 1
 g.vim_json_syntax_conceal = 0
--- changes const thing = require("thing-lib")
--- to import thing from \"thing-lib" -> the backlash isn't included in the
--- transform, I just need it for vim comments
--- TODO: do this with snippets?
--- let @i = 'ceimportf=cf(from f)x'
 
 vim.bo.makeprg = "node %"
 

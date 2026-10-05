@@ -177,8 +177,6 @@ function M.init()
 	vim.keymap.set("n", "<leader>.", "<cmd>Recent<cr>")
 	vim.keymap.set("n", ",", "<cmd>F<cr>")
 
-	vim.ui.select = pick.select
-
 	vim.keymap.set("n", "<space>c", function()
 		vim.ui.input({}, function(c)
 			if c and c ~= "" then

@@ -24,11 +24,8 @@ function M.bootstrap()
 		require("tt.ft.ecma").lint_project()
 	end, {})
 
-	-- optionally enable formatters/linters
-	if vim.fs.root(0, constants.eslint_roots) then
-		vim.lsp.start(vim.lsp.config.efm)
-	end
-
+	-- efm (eslint_d) now autostarts via vim.lsp.enable("efm"); it only lints when
+	-- an eslint config is present (gated by eslintd.rootMarkers in lsp/efm.lua).
 	if vim.fs.root(0, constants.prettier_roots) then
 		vim.b.autoformat = true
 	end

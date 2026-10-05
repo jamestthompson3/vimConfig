@@ -213,6 +213,67 @@ function M.scratch()
 	vim.keymap.set("n", "q", "<C-w>c", { buffer = true })
 end
 
+-- A reminder popup for the `S` key: how to do the old `:%s///g` edits with the
+-- native multicursor (|multicursor|, Nvim 0.13). Read-only float; q/<Esc> close.
+function M.multicursorHelp()
+	local lines = {
+		"",
+		"  Multi-cursor — the native way to do :%s///g",
+		"",
+		"  Every match of a search:",
+		"    /pat<CR>   then  zqgn     a cursor at each match",
+		"                     gv       select them all (optional)",
+		"                     then edit; every cursor applies",
+		"",
+		"  This identifier, everywhere:",
+		"    *          then  zqgn",
+		"",
+		"  Each word in a visual selection:",
+		"    V{motion}  then  zqw",
+		"",
+		"  Manage cursors:",
+		"    Q      toggle a cursor here       q=   follow mode",
+		"    <C-L>  clear all cursors          gQ   restore last set",
+		"",
+		"  Still want :s ?  press  :       close: q / <Esc>",
+		"",
+	}
+	local width = 0
+	for _, l in ipairs(lines) do
+		width = math.max(width, fn.strdisplaywidth(l))
+	end
+	width = width + 2
+	local height = #lines
+	local buf = api.nvim_create_buf(false, true)
+	api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+	local ns = api.nvim_create_namespace("tt_mc_help")
+	api.nvim_buf_set_extmark(buf, ns, 1, 0, { end_row = 2, hl_group = "Title", hl_eol = true })
+	api.nvim_buf_set_extmark(buf, ns, #lines - 2, 0, { end_row = #lines - 1, hl_group = "Comment", hl_eol = true })
+	vim.bo[buf].modifiable = false
+	vim.bo[buf].bufhidden = "wipe"
+	local win = api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = width,
+		height = height,
+		row = math.floor((vim.o.lines - height) / 2),
+		col = math.floor((vim.o.columns - width) / 2),
+		style = "minimal",
+		border = "rounded",
+		title = " multi-cursor ",
+		title_pos = "center",
+	})
+	vim.wo[win].cursorline = false
+	local function close()
+		if api.nvim_win_is_valid(win) then
+			api.nvim_win_close(win, true)
+		end
+	end
+	for _, key in ipairs({ "q", "<Esc>", "<CR>" }) do
+		vim.keymap.set("n", key, close, { buffer = buf, nowait = true, silent = true })
+	end
+	api.nvim_create_autocmd("BufLeave", { buffer = buf, once = true, callback = close })
+end
+
 function M.profile()
 	if vim.g.profiler_running ~= nil then
 		vim.cmd("profile pause")

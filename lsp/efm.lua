@@ -5,6 +5,9 @@ local eslintd = {
 	lintStdin = true,
 	lintFormats = { "%f:%l:%c: %m" },
 	lintIgnoreExitCode = true,
+	-- Only lint when the project has an eslint config (replaces the old
+	-- per-ftplugin `vim.fs.root(eslint_roots)` gate before vim.lsp.start).
+	rootMarkers = require("tt.constants").eslint_roots,
 }
 local clang_tidy = {
 	lintCommand = "/opt/homebrew/opt/llvm/bin/clang-tidy --quiet ${INPUT}",

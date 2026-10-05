@@ -86,8 +86,7 @@ require("tt.filetypes")
 require("tt.format")
 vim.o.statusline =
 	"%<%f %h%w%m%r %{%v:lua.vim.diagnostic.status()%} %{&busy?'◐':''} %= %{v:lua.require'tt.nvim_utils'.vim_util.get_lsp_clients()}"
-local schedule = vim.schedule
-schedule(function()
+vim.schedule(function()
 	require("tt.tools").splashscreen()
 end)
 -- Experimental: Nvim 0.12 ui2 (avoids "Press ENTER" prompts, highlights cmdline as you type)

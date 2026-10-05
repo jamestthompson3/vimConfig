@@ -21,7 +21,7 @@ vim.keymap.set("n", "z/", ":let @/='\\<<C-R>=expand(\"<cword>\")<CR>\\>'<CR>:set
 
 vim.keymap.set("n", "<leader>e", ":e <C-R>=expand('%:p:h') . '/'<CR>")
 for _, dir in ipairs({ "h", "j", "k", "l" }) do
-	vim.keymap.set("n", "<C-" .. dir:upper() .. ">", function()
+	vim.keymap.set("n", "<C-w>" .. dir, function()
 		tools.winMove(dir)
 	end)
 end
@@ -65,7 +65,7 @@ vim.keymap.set("n", "<leader>m", ":make<CR>")
 vim.keymap.set("n", "<leader>-", '<Cmd>let @+ = expand("%")<CR>', { silent = true })
 vim.keymap.set("n", "<F7>", '<Cmd>so "%"<CR>', { silent = true })
 
-vim.keymap.set("n", "S", ":%s//g<LEFT><LEFT>")
+vim.keymap.set("n", "S", tools.multicursorHelp, { desc = "Multi-cursor substitute reminder" })
 vim.keymap.set("n", "g_", ":g//#<Left><Left><C-R><C-W><CR>:")
 vim.keymap.set("n", "<C-f>", ":silent grep!<space>")
 

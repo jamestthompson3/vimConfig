@@ -1,34 +1,22 @@
 vim.filetype.add({
 	pattern = {
-		-- Nginx
-		["[nN]ginx.*%.conf"] = "nginx",
-		["*/etc/nginx/*"] = "nginx",
-		["*/usr/local/nginx/conf/*"] = "nginx",
-		["*/nginx/.*%.conf"] = "nginx",
-		[".*%.nginx"] = "nginx",
-
-		-- Objective-C/C++
+		-- Objective-C/C++ (builtin detects .m as matlab, .mm as nroff)
 		[".*%.mm"] = "objc",
 		[".*%.m"] = "objc",
 
-		-- Dockerfile
-		["[Dd]ockerfile.*"] = "dockerfile",
+		-- Dockerfile (.dock extension is not builtin)
 		[".*%.dock"] = "dockerfile",
 
-		-- Web Development
+		-- Web Development (.svelte -> html on purpose; builtin gives svelte)
 		[".*%.svelte"] = "html",
 		[".*%.pcss"] = "css",
 
-		-- Configuration files
+		-- Configuration files (builtin detects these as jsonc, not json)
 		[".*%.eslintrc"] = "json",
 		[".*%.babelrc"] = "json",
-		[".*%.prettierrc"] = "json",
 		[".*%.huskyrc"] = "json",
-		[".*%.swcrc"] = "json",
-		["%.swcrc"] = "json",
 
-		-- Others
-		[".*%.bat"] = "dosbatch",
+		-- Others (builtin detects .sys as bat, .wiki as mediawiki)
 		[".*%.sys"] = "dosbatch",
 		[".*%.wiki"] = "wiki",
 	},

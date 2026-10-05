@@ -38,6 +38,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client.server_capabilities.colorProvider then
 			vim.lsp.document_color.enable(true, { bufnr = bufnr })
 		end
+		require("tt.nvim_utils").vim_util.refresh_lsp_clients(bufnr)
+	end,
+})
+
+vim.api.nvim_create_autocmd("LspDetach", {
+	callback = function(args)
+		-- Defer so the detaching client is gone from the client list.
+		vim.schedule(function()
+			if vim.api.nvim_buf_is_valid(args.buf) then
+				require("tt.nvim_utils").vim_util.refresh_lsp_clients(args.buf)
+			end
+		end)
 	end,
 })
 
@@ -59,6 +71,7 @@ vim.lsp.enable({
 	"bashls",
 	"astro",
 	"ts_ls",
+	"efm",
 })
 
 vim.diagnostic.config({
