@@ -108,6 +108,58 @@ function M.clear_blame()
 	api.nvim_buf_clear_namespace(0, namespace, 0, -1)
 end
 
+-- Open the current file on the remote (GitHub) at the cursor line, or at the
+-- selected range in visual mode. The URL is also copied to the + register so
+-- it can be shared. Relies on the `git-open --blob --line` extension.
+function M.open()
+	local file = fn.expand("%:p")
+	if file == "" then
+		vim.notify("No file to open", vim.log.levels.WARN)
+		return
+	end
+	local dir = fn.fnamemodify(file, ":h")
+
+	local toplevel = vim.system({ "git", "-C", dir, "rev-parse", "--show-toplevel" }, { text = true }):wait()
+	if toplevel.code ~= 0 then
+		vim.notify("Not in a git repository", vim.log.levels.WARN)
+		return
+	end
+	-- path from repo root, which is what `git-open --blob` expects
+	local relpath = file:sub(#vim.trim(toplevel.stdout) + 2)
+
+	local line
+	local mode = api.nvim_get_mode().mode
+	if mode == "v" or mode == "V" or mode == "\22" then
+		-- visual: use the selection start/end lines
+		local lo = fn.line("v")
+		local hi = fn.line(".")
+		if lo > hi then
+			lo, hi = hi, lo
+		end
+		line = lo == hi and tostring(lo) or string.format("%d-%d", lo, hi)
+		api.nvim_feedkeys(api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+	else
+		line = tostring(api.nvim_win_get_cursor(0)[1])
+	end
+
+	vim.system(
+		{ "git-open", "--print", "--blob=" .. relpath, "--line=" .. line },
+		{ cwd = dir, text = true },
+		function(result)
+			vim.schedule(function()
+				if result.code ~= 0 then
+					vim.notify(vim.trim(result.stderr or "git-open failed"), vim.log.levels.ERROR)
+					return
+				end
+				local url = vim.trim(result.stdout)
+				fn.setreg("+", url)
+				vim.ui.open(url)
+				vim.notify(url)
+			end)
+		end
+	)
+end
+
 function M.branch()
 	local result = vim.system({ "git", "rev-parse", "--abbrev-ref", "HEAD" }):wait()
 	if result.code == 0 and result.stdout then
