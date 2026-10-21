@@ -73,22 +73,17 @@ local function apply_format(bufnr, input, result)
 	if output_lines[#output_lines] == "" then
 		table.remove(output_lines)
 	end
-	if table.concat(output_lines, "\n") == input then
+	local output = table.concat(output_lines, "\n")
+	if output == input then
 		return
 	end
-	local marks = {}
-	for _, m in ipairs(vim.fn.getmarklist("%")) do
-		local name = m.mark:sub(2)
-		if name:match("^%a$") then
-			marks[#marks + 1] = { mark = name, pos = m.pos }
-		end
-	end
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output_lines)
-	local line_count = vim.api.nvim_buf_line_count(bufnr)
-	for _, m in ipairs(marks) do
-		if m.pos[2] <= line_count then
-			vim.api.nvim_buf_set_mark(bufnr, m.mark, m.pos[2], m.pos[3], {})
-		end
+	-- Replace only the changed hunks, so marks, extmarks and folds outside them stay.
+	local hunks = vim.text.diff(input .. "\n", output .. "\n", { result_type = "indices" })
+	for i = #hunks, 1, -1 do
+		local start_a, count_a, start_b, count_b = unpack(hunks[i])
+		local first = count_a == 0 and start_a or start_a - 1
+		local new_lines = vim.list_slice(output_lines, start_b, start_b + count_b - 1)
+		vim.api.nvim_buf_set_lines(bufnr, first, first + count_a, false, new_lines)
 	end
 end
 
@@ -97,10 +92,14 @@ end
 -- double-write and the race where edits made during an async format got
 -- clobbered.
 local function format_buffer()
-	if vim.g.autoformat == false then
+	local bufnr = vim.api.nvim_get_current_buf()
+	local enabled = vim.b[bufnr].autoformat
+	if enabled == nil then
+		enabled = vim.g.autoformat
+	end
+	if enabled == false then
 		return
 	end
-	local bufnr = vim.api.nvim_get_current_buf()
 	local filetype = vim.bo[bufnr].filetype
 	local formatterList = formatters_by_ft[filetype]
 	if not formatterList then

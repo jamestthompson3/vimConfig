@@ -3,8 +3,6 @@ local function gh(pkg)
 end
 
 vim.pack.add({
-	gh("dmmulroy/ts-error-translator.nvim"),
-	gh("reedes/vim-wordy"),
 	gh("OXY2DEV/markview.nvim"),
 	-- Kept only as a parser installer / query provider (`:TSInstall`, `:TSUpdate`).
 	-- The `main` branch does not auto-enable highlighting; we call
@@ -31,15 +29,22 @@ require("tt.dir").setup()
 -- and configured up front.
 require("markview").setup({
 	markdown = {
-		code_blocks = {
-			enable = false,
-		},
+		block_quotes = { enable = false },
+		headings = { enable = false },
+		horizontal_rules = { enable = false },
+		list_items = { enable = false },
+		metadata_minus = { enable = false },
+		metadata_plus = { enable = false },
+		reference_definitions = { enable = false },
 	},
-	markdown_inline = {
-		code_blocks = {
-			enable = false,
-		},
-	},
+	markdown_inline = { enable = false },
+	asciidoc = { enable = false },
+	asciidoc_inline = { enable = false },
+	comment = { enable = false },
+	html = { enable = false },
+	latex = { enable = false },
+	typst = { enable = false },
+	yaml = { enable = false },
 })
 
 -- Installed by vim.pack but loaded later via packadd
@@ -50,7 +55,21 @@ vim.pack.add({
 	gh("nvim-treesitter/nvim-treesitter-context"),
 	gh("windwp/nvim-ts-autotag"),
 	gh("J-Cowsert/classlayout.nvim"),
+	gh("dmmulroy/ts-error-translator.nvim"),
+	gh("reedes/vim-wordy"),
 }, { load = function() end })
+
+-- vim-wordy: load on the first use of one of its commands.
+local wordy_cmds = { "Wordy", "NoWordy", "NextWordy", "PrevWordy" }
+for _, name in ipairs(wordy_cmds) do
+	vim.api.nvim_create_user_command(name, function(opts)
+		for _, n in ipairs(wordy_cmds) do
+			vim.api.nvim_del_user_command(n)
+		end
+		vim.cmd.packadd("vim-wordy")
+		vim.cmd(name .. " " .. opts.args)
+	end, { nargs = "*" })
+end
 
 local disabled_plugins = {
 	"gzip",

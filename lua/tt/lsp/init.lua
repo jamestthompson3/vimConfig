@@ -1,7 +1,3 @@
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.semanticTokens.multilineTokenSupport = true
-
 local ts_clients = { ts_ls = true, astro = true }
 local ts_translator_setup = false
 
@@ -17,6 +13,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			client.server_capabilities.documentFormattingProvider = false
 			client.server_capabilities.documentRangeFormattingProvider = false
 			if not ts_translator_setup then
+				vim.cmd.packadd("ts-error-translator.nvim")
 				require("ts-error-translator").setup()
 				ts_translator_setup = true
 			end
@@ -38,6 +35,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client.server_capabilities.colorProvider then
 			vim.lsp.document_color.enable(true, { bufnr = bufnr })
 		end
+		if client:supports_method("textDocument/foldingRange", bufnr) then
+			for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+				vim.wo[win][0].foldexpr = vim.lsp.foldexpr
+				vim.wo[win][0].foldtext = vim.lsp.foldtext
+			end
+		end
 		require("tt.nvim_utils").vim_util.refresh_lsp_clients(bufnr)
 	end,
 })
@@ -55,7 +58,6 @@ vim.api.nvim_create_autocmd("LspDetach", {
 
 vim.lsp.config("*", {
 	root_markers = { ".git", "root_marker" },
-	capabilities = capabilities,
 })
 
 vim.lsp.enable({
@@ -128,15 +130,6 @@ vim.api.nvim_create_autocmd("LspProgress", {
 					client:request("textDocument/diagnostic", {
 						textDocument = { uri = vim.uri_from_bufnr(bufnr) },
 					}, nil, bufnr)
-				elseif client:supports_method("textDocument/didOpen") then
-					client:notify("textDocument/didOpen", {
-						textDocument = {
-							uri = vim.uri_from_bufnr(bufnr),
-							languageId = vim.bo[bufnr].filetype,
-							version = vim.lsp.util.buf_versions[bufnr] or 0,
-							text = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n"),
-						},
-					})
 				end
 			end
 		end

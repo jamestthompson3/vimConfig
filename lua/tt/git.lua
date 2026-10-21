@@ -56,15 +56,21 @@ end
 
 function M.blame_file()
 	local fileName = fn.expand("%")
-	local buf = api.nvim_create_buf(false, true)
-	local result = vim.system({ "git", "blame", fileName }):wait()
-	local lines = vim.split(result.stdout or "", "\n")
-	api.nvim_buf_set_lines(buf, 0, -1, true, lines)
-	vim.cmd("40wincmd v")
-	vim.cmd.wincmd("r")
-	api.nvim_win_set_buf(0, buf)
-	vim.bo.filetype = "fugitiveblame"
-	vim.cmd.wincmd("h")
+	vim.system({ "git", "blame", fileName }, { text = true }, function(result)
+		vim.schedule(function()
+			if result.code ~= 0 then
+				vim.notify("git blame: " .. (result.stderr or ""), vim.log.levels.ERROR)
+				return
+			end
+			local buf = api.nvim_create_buf(false, true)
+			api.nvim_buf_set_lines(buf, 0, -1, true, vim.split(result.stdout, "\n"))
+			vim.cmd("40wincmd v")
+			vim.cmd.wincmd("r")
+			api.nvim_win_set_buf(0, buf)
+			vim.bo.filetype = "fugitiveblame"
+			vim.cmd.wincmd("h")
+		end)
+	end)
 end
 
 function M.blame()
@@ -100,12 +106,17 @@ function M.blame()
 			api.nvim_buf_set_extmark(buf, namespace, line[1] - 1, line[2], {
 				virt_text = { { text[1], "GitLens" } },
 			})
+			api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+				group = api.nvim_create_augroup("git_blame_clear", { clear = true }),
+				once = true,
+				callback = function()
+					if api.nvim_buf_is_valid(buf) then
+						api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
+					end
+				end,
+			})
 		end)
 	end)
-end
-
-function M.clear_blame()
-	api.nvim_buf_clear_namespace(0, namespace, 0, -1)
 end
 
 -- Open the current file on the remote (GitHub) at the cursor line, or at the

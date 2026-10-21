@@ -12,7 +12,7 @@ function M.bootstrap()
 	vim.bo.suffixesadd = ".js,.jsx,.ts,.tsx"
 	vim.bo.include = "^\\s*[^/]\\+\\(from\\|require(['\"]\\)"
 	vim.bo.define = "class\\s"
-	vim.wo.foldlevel = 99
+	vim.wo[0][0].foldlevel = 99
 
 	vim.api.nvim_create_user_command("Sort", function()
 		require("tt.ft.ecma").import_sort(true)

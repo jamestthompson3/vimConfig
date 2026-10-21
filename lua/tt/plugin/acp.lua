@@ -652,7 +652,9 @@ end
 ----------------------------------------------------------------- chat window
 
 local vim_util = require("tt.nvim_utils").vim_util
-local win_for_buf = vim_util.win_for_buf
+local function win_for_buf(buf)
+	return vim.fn.win_findbuf(buf)[1]
+end
 
 --- Put the cursor at the end of the input region. Enters insert mode only when
 --- `enter_insert` is set (opening/attaching), not e.g. after a response -- so

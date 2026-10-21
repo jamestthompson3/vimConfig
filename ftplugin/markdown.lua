@@ -1,9 +1,13 @@
 local api = vim.api
 local M = {}
 
-vim.fn.matchadd("Callout", [[\v\@\w+\.?\w+]])
+if not vim.w.callout_match then
+	vim.w.callout_match = vim.fn.matchadd("Callout", [[\v\@\w+\.?\w+]])
+end
 
-vim.cmd.iabbrev({ args = { "<buffer>", "<expr> dateheader", vim.fn.strftime("%Y %b %d") } })
+vim.keymap.set("ia", "dateheader", function()
+	return os.date("%Y %b %d")
+end, { buffer = true, expr = true })
 
 function M.composer()
 	vim.wo[0].wrap = true
@@ -11,14 +15,14 @@ function M.composer()
 	vim.opt_local.spell = true
 end
 
-vim.wo.foldlevel = 1
-vim.wo.conceallevel = 0
+vim.wo[0][0].foldlevel = 1
+vim.wo[0][0].conceallevel = 0
 
 function M.asyncDocs()
 	local shortname = vim.fn.expand("%:t:r")
 	local fullname = api.nvim_buf_get_name(0)
 
-	vim.fn.jobstart({
+	vim.system({
 		"pandoc",
 		fullname,
 		"--from",
@@ -30,14 +34,16 @@ function M.asyncDocs()
 		"--highlight-style",
 		"tango",
 		"-c",
-		"$NOTES_DIR/notes.css",
-	}, {
-		on_exit = function(_, code)
-			if code == 0 then
-				print("FILE CONVERSION COMPLETE")
+		vim.fs.normalize(vim.fs.joinpath(vim.env.NOTES_DIR or "~/notes", "notes.css")),
+	}, { text = true }, function(result)
+		vim.schedule(function()
+			if result.code == 0 then
+				vim.notify("pandoc: wrote " .. shortname .. ".html")
+			else
+				vim.notify("pandoc: " .. (result.stderr or ""), vim.log.levels.ERROR)
 			end
-		end,
-	})
+		end)
+	end)
 end
 
 vim.api.nvim_create_user_command("Compose", function()

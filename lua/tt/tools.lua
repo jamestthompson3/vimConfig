@@ -1,4 +1,5 @@
 local git = require("tt.git")
+local term_shell = require("tt.platform").term_shell
 local api = vim.api
 local fn = vim.fn
 
@@ -7,8 +8,7 @@ local sessionPath = vim.fs.joinpath(vim.uv.os_homedir(), "sessions")
 local M = {}
 
 function M.openQuickfix()
-	local qflen = fn.len(fn.getqflist())
-	local qfheight = math.min(10, qflen)
+	local qfheight = math.min(10, fn.getqflist({ size = 0 }).size)
 	vim.cmd(string.format("cclose|%dcwindow", qfheight))
 end
 
@@ -33,11 +33,16 @@ function M.splashscreen()
 	end
 end
 
+function M.terminal()
+	api.nvim_win_set_buf(0, api.nvim_create_buf(true, false))
+	fn.jobstart({ term_shell or vim.o.shell }, { term = true })
+	vim.cmd.startinsert()
+end
+
 function M.openTerminalDrawer()
 	vim.cmd.copen()
-	vim.cmd.term()
+	M.terminal()
 	vim.wo.winpinned = true
-	api.nvim_input("i")
 end
 
 function M.restoreFile()
@@ -118,10 +123,11 @@ function M.simpleMRU()
 	local filteredFiles = vim.tbl_filter(function(file)
 		return vim.startswith(file, cwd) and vim.fn.filereadable(file) == 1 and not string.find(file, "COMMIT_MESSAGE")
 	end, files)
-	for _, file in ipairs(filteredFiles) do
-		local fname = vim.fn.fnamemodify(file, ":.")
-		vim.fn.append(vim.fn.line("$") - 1, vim.trim(fname))
-	end
+	local names = vim.tbl_map(function(file)
+		return vim.trim(vim.fn.fnamemodify(file, ":."))
+	end, filteredFiles)
+	local last = api.nvim_buf_line_count(0) - 1
+	api.nvim_buf_set_lines(0, last, last, false, names)
 	vim.cmd([[:1]])
 end
 
@@ -187,20 +193,19 @@ function M.redir(cmd)
 			vim.cmd(win .. "windo close")
 		end
 	end
-	local output
-	if cmd:match("^!") then
-		output = fn.system(cmd:sub(2))
-	else
-		output = vim.api.nvim_exec2(cmd, { output = true }).output
+	local function show(output)
+		M.scratch()
+		api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output, "\n"))
 	end
-	vim.cmd("vnew")
-	vim.w.scratch = 1
-	vim.bo.buftype = "nofile"
-	vim.bo.bufhidden = "wipe"
-	vim.bo.buflisted = false
-	vim.bo.swapfile = false
-	vim.keymap.set("n", "q", "<C-w>c", { buffer = true })
-	api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output, "\n"))
+	if cmd:match("^!") then
+		vim.system({ vim.o.shell, vim.o.shellcmdflag, cmd:sub(2) }, { text = true }, function(result)
+			vim.schedule(function()
+				show((result.stdout or "") .. (result.stderr or ""))
+			end)
+		end)
+	else
+		show(api.nvim_exec2(cmd, { output = true }).output)
+	end
 end
 
 function M.scratch()
@@ -268,9 +273,7 @@ function M.multicursorHelp()
 			api.nvim_win_close(win, true)
 		end
 	end
-	for _, key in ipairs({ "q", "<Esc>", "<CR>" }) do
-		vim.keymap.set("n", key, close, { buffer = buf, nowait = true, silent = true })
-	end
+	vim.keymap.set("n", { "q", "<Esc>", "<CR>" }, close, { buffer = buf, nowait = true, silent = true })
 	api.nvim_create_autocmd("BufLeave", { buffer = buf, once = true, callback = close })
 end
 

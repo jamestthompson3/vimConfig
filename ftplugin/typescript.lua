@@ -2,10 +2,7 @@ vim.bo.formatoptions = vim.bo.formatoptions .. "o"
 require("tt.ft.ecma").bootstrap()
 require("tt.snippets.ft.typescript").init()
 vim.api.nvim_create_user_command("ShowFuncs", function()
-	if vim.b.showfunc == true then
-		vim.cmd("hi! link @lsp.type.function.typescript Identifier")
-	else
-		vim.cmd("hi! link @lsp.type.function.typescript @comment.block.c")
-		vim.b.showfunc = true
-	end
+	vim.b.showfunc = not vim.b.showfunc
+	local link = vim.b.showfunc and "@comment.block.c" or "Identifier"
+	vim.api.nvim_set_hl(0, "@lsp.type.function.typescript", { link = link })
 end, {})

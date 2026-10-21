@@ -1,5 +1,6 @@
+local snippets = require("tt.snippets")
 local M = {}
 M.init = function()
-	vim.snippet.add("ien", "if err != nil {\n\t$1\n}")
+	snippets.add("ien", "if err != nil {\n\t$1\n}")
 end
 return M

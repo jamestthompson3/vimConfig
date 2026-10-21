@@ -4,20 +4,7 @@ local M = {}
 
 local is_windows = require("tt.platform").is_windows
 
-function _G.log(item)
-	print(vim.inspect(item))
-end
-
 M.vim_util = {}
-
--- Return the first window displaying `buf`, or nil.
-function M.vim_util.win_for_buf(buf)
-	for _, win in ipairs(vim.api.nvim_list_wins()) do
-		if vim.api.nvim_win_get_buf(win) == buf then
-			return win
-		end
-	end
-end
 
 -- Recompute the cached client list for `bufnr`. Called from LspAttach/LspDetach
 -- so the statusline reads a buffer var instead of scanning clients each redraw.
@@ -43,12 +30,9 @@ function M.vim_util.soft_wrap_on_flag(flag, group_name)
 			if not vim.b[ev.buf][flag] then
 				return
 			end
-			local win = vim.fn.bufwinid(ev.buf)
-			if win ~= -1 then
-				vim.wo[win].wrap = true
-				vim.wo[win].linebreak = true
-				vim.wo[win].breakindent = true
-			end
+			vim.wo[ev.win].wrap = true
+			vim.wo[ev.win].linebreak = true
+			vim.wo[ev.win].breakindent = true
 		end,
 	})
 end
@@ -86,7 +70,7 @@ function M.nodejs.get_node_bin(bin)
 	return fn.stdpath("config") .. "/langservers/node_modules/.bin/" .. bin
 end
 
-function M.nodejs.find_node_executable(binaryName, bufnr)
+local function lookup_node_executable(binaryName, bufnr)
 	local normalized_bin_name
 	local executable = ""
 	if is_windows then
@@ -132,7 +116,7 @@ function M.nodejs.find_node_executable(binaryName, bufnr)
 
 	-- 4. Check git root
 	if not is_executable(executable) then
-		local git_root = vim.fs.root(0, ".git")
+		local git_root = vim.fs.root(bufnr or 0, ".git")
 		if git_root then
 			executable = vim.fs.normalize(git_root .. "/node_modules/.bin/" .. normalized_bin_name)
 		end
@@ -144,6 +128,21 @@ function M.nodejs.find_node_executable(binaryName, bufnr)
 	end
 	if not is_executable(executable) then
 		return ""
+	end
+	return executable
+end
+
+local node_executable_cache = {}
+
+function M.nodejs.find_node_executable(binaryName, bufnr)
+	local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr or 0))
+	local key = table.concat({ binaryName, dir, fn.getcwd(), vim.g.nodeDir or "" }, "\0")
+	local executable = node_executable_cache[key]
+	if not executable then
+		executable = lookup_node_executable(binaryName, bufnr)
+		if executable ~= "" then
+			node_executable_cache[key] = executable
+		end
 	end
 	return executable
 end

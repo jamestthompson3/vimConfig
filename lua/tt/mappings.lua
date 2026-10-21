@@ -26,8 +26,8 @@ for _, dir in ipairs({ "h", "j", "k", "l" }) do
 	end)
 end
 vim.keymap.set("n", "<C-S>", function()
-	vim.cmd("tabnew|te")
-	vim.api.nvim_input("a")
+	vim.cmd.tabnew()
+	tools.terminal()
 end)
 vim.keymap.set("n", "ssb", tools.sourceSession)
 vim.keymap.set("n", "<F1>", tools.profile)
@@ -73,8 +73,7 @@ vim.keymap.set("n", "<C-f>", ":silent grep!<space>")
 -- VISUAL MODE
 vim.keymap.set("x", "<leader>y", '"+y')
 vim.keymap.set("x", "<leader>d", '"+d')
--- Don't trash current register when pasting in visual mode
-vim.keymap.set("x", "p", "p:if v:register == '\"'<Bar>let @@=@0<Bar>endif<cr>")
+vim.keymap.set("x", "p", "P")
 vim.keymap.set("x", "I", "(mode()=~#'[vV]'?'<C-v>^o^I':'I')", { expr = true })
 vim.keymap.set("x", "A", "(mode()=~#'[vV]'?'<C-v>0o$A':'A')", { expr = true })
 vim.keymap.set("v", "<up>", ":m '<-2<cr>gv=gv")

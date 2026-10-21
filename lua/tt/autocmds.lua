@@ -1,5 +1,3 @@
-local git = require("tt.git")
-
 local load_core = vim.api.nvim_create_augroup("load_core", { clear = true })
 local bufs = vim.api.nvim_create_augroup("bufs", { clear = true })
 
@@ -102,23 +100,6 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
 	pattern = "[^l]*",
 	nested = true,
 	callback = require("tt.tools").openQuickfix,
-})
-
-vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-	group = load_core,
-	callback = function()
-		git.clear_blame()
-	end,
-})
-
-vim.api.nvim_create_autocmd("BufReadPost", {
-	group = bufs,
-	pattern = "quickfix",
-	callback = function()
-		vim.keymap.set("n", "ra", ":ReplaceAll<CR>", { buffer = true, silent = true })
-		vim.keymap.set("n", "R", ":Cfilter!<space>", { buffer = true })
-		vim.keymap.set("n", "K", ":Cfilter<space>", { buffer = true })
-	end,
 })
 
 vim.api.nvim_create_autocmd("TermClose", {

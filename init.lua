@@ -18,21 +18,18 @@ set.shiftround = true
 set.ignorecase = true
 set.smartcase = true
 set.undofile = true
-set.autoread = true -- filesystem watchers detect external changes in real-time
 set.relativenumber = true
 set.foldenable = false
-set.undolevels = 1000
 set.ttimeoutlen = 20
 set.shiftwidth = 2
 set.softtabstop = 2
 set.tabstop = 2
-set.cmdheight = 1
 set.splitkeep = "topline"
 set.conceallevel = 2
 set.showbreak = string.rep(".", 3) -- Make it so that long lines wrap smartly
 
 set.smartindent = true
-set.fileformat = "unix"
+set.fileformats = { "unix", "dos" }
 set.jumpoptions = { "stack", "view" }
 set.diffopt = {
 	"hiddenoff", "iwhite", "algorithm:histogram", "internal", "closeoff",
@@ -48,9 +45,8 @@ set.complete = { ".", "w", "b", "o" }
 set.listchars = { tab = "░░", trail = "·", space = "·", extends = "»", precedes = "«", nbsp = "⣿" }
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart = 99
-set.foldlevel = 1
 set.foldmethod = "expr"
-set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+set.foldexpr = vim.treesitter.foldexpr
 set.shortmess = vim.o.shortmess .. "su"
 set.undodir = "~/.cache/Vim/undofile" -- vim.o expands ~ and $ENV (Nvim 0.13)
 

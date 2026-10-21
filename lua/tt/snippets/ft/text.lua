@@ -1,3 +1,4 @@
+local snippets = require("tt.snippets")
 local M = {}
 
 local function stamp()
@@ -5,7 +6,7 @@ local function stamp()
 end
 
 M.init = function()
-	vim.snippet.add("twh", function()
+	snippets.add("twh", function()
 		local ts = stamp()
 		local name = vim.fn.expand("%:t:r")
 		return "content-type: wikitext\ncreated: "
@@ -18,6 +19,6 @@ M.init = function()
 			.. name
 			.. "\ntags: [$2]\n\n"
 	end)
-	vim.snippet.add("dtt", stamp)
+	snippets.add("dtt", stamp)
 end
 return M

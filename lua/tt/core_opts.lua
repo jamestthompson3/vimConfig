@@ -1,10 +1,10 @@
 local is_windows = require("tt.platform").is_windows
 
+-- fish is only for :terminal (see tt.platform.term_shell). sh starts faster for
+-- :! and system(), and does not print interactive shell output into the result.
 if not is_windows then
-	vim.o.shell = vim.fn.executable("fish") == 1 and "fish" or "bash"
+	vim.o.shell = "sh"
 end
-
-vim.cmd.packadd("cfilter")
 
 vim.ui.select = require("tt.pick").select
 
@@ -26,17 +26,14 @@ local typos = {
 	bunlde = "bundle",
 }
 for wrong, right in pairs(typos) do
-	vim.cmd.iabbrev({ args = { wrong, right } })
+	vim.keymap.set("ia", wrong, right)
 end
 
 vim.o.tabline = "%{%v:lua.require'tt.core_opts'.tabline()%}"
 
 local function tabline_label(bufnr)
-	local title = vim.b[bufnr].term_title
-	if title then
-		return title
-	end
-	return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":t")
+	local label = vim.b[bufnr].term_title or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":t")
+	return (label:gsub("%%", "%%%%"))
 end
 
 local M = {}
