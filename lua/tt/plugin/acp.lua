@@ -32,11 +32,35 @@ M.debug = false
 -- The ACP bridge. `sh -c` wrapper guarantees CLAUDECODE / CLAUDE_CODE_ENTRYPOINT
 -- are unset (the bridge refuses to launch nested inside a Claude Code session);
 -- harmless when they were never set.
-local BRIDGE_CMD = {
+local DEFAULT_BRIDGE_CMD = {
 	"sh",
 	"-c",
 	"unset CLAUDECODE CLAUDE_CODE_ENTRYPOINT; exec npx -y @zed-industries/claude-code-acp",
 }
+
+-- Nothing here is Claude-specific below the bridge: the transport, session and
+-- update handling are plain ACP. Any agent that speaks ACP v1 on stdio works.
+-- Override with `vim.g.acp_bridge_cmd` (a list, argv-style), e.g.
+--
+--   vim.g.acp_bridge_cmd = { "goose", "acp" }
+--
+-- Note: pi does NOT speak ACP -- its `--mode rpc` is a different, pi-specific
+-- JSONL protocol -- so it cannot be used here without an ACP shim.
+local function bridge_cmd()
+	local override = vim.g.acp_bridge_cmd
+	if type(override) == "table" and #override > 0 then
+		return override
+	elseif type(override) == "string" and override ~= "" then
+		return { "sh", "-c", override }
+	end
+	return DEFAULT_BRIDGE_CMD
+end
+
+--- True when the active bridge is the Claude Code one (gates Claude-only bits).
+local function bridge_is_claude()
+	return vim.g.acp_bridge_cmd == nil
+end
+
 local PROTOCOL_VERSION = 1
 
 ---@class AcpClient
@@ -238,12 +262,12 @@ local function ensure_spawned()
 	if client and client.job > 0 then
 		return client
 	end
-	if vim.env.ANTHROPIC_API_KEY and vim.env.ANTHROPIC_API_KEY ~= "" then
+	if bridge_is_claude() and vim.env.ANTHROPIC_API_KEY and vim.env.ANTHROPIC_API_KEY ~= "" then
 		vim.notify("acp: ANTHROPIC_API_KEY is set -- Claude Code will bill the API, not your subscription", vim.log.levels.WARN)
 	end
 
 	client = { job = 0, stdout = "", next_id = 1, pending = {}, initialized = false, init_caps = nil, sessions = {}, stderr_log = {} }
-	local job = vim.fn.jobstart(BRIDGE_CMD, {
+	local job = vim.fn.jobstart(bridge_cmd(), {
 		on_stdout = on_stdout,
 		on_stderr = function(_, data)
 			-- Keep a bounded ring of stderr for :AgentLog; only surface it to
@@ -1127,7 +1151,10 @@ function M.info()
 	else
 		lines[#lines + 1] = "tracked bridge: none (not spawned)"
 	end
-	local pgrep = vim.system({ "pgrep", "-fl", "claude-code-acp" }, { text = true }):wait()
+	-- Match on whatever the configured bridge actually runs, not just Claude's.
+	local cmd = bridge_cmd()
+	local pat = (vim.g.acp_bridge_cmd == nil) and "claude-code-acp" or (cmd[#cmd] or "")
+	local pgrep = vim.system({ "pgrep", "-fl", pat }, { text = true }):wait()
 	local procs = vim.split(vim.trim(pgrep.stdout or ""), "\n", { trimempty = true })
 	lines[#lines + 1] = "running bridge processes:"
 	if #procs == 0 then

@@ -15,7 +15,8 @@ local formatters_by_ft = {
 	rust = "rustfmt",
 	astro = "prettier",
 	html = "prettier",
-	json = "prettier",
+	json = { "prettier", "biome", "jq" },
+	jsonc = { "prettier", "biome" },
 	lua = "stylua",
 	fish = "fish_indent",
 	-- yaml = "yamlfmt",
@@ -51,6 +52,12 @@ local function get_formatters(bufnr)
 				return { node.find_node_executable("biome", bufnr), "format", "--stdin-file-path", "$FILENAME" }
 			end,
 			condition = biomeCheck,
+		},
+		jq = {
+			command = { "jq", "." },
+			condition = function()
+				return not prettierCheck() and not biomeCheck()
+			end,
 		},
 		stylua = { command = { "stylua", "-" } },
 		rustfmt = { command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" } },
