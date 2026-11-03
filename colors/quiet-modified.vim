@@ -288,10 +288,7 @@ if s:t_Co >= 256
   " -----------------------------------------------------------------------------
   " Dark mode overrides
   " -----------------------------------------------------------------------------
-  " Comments: muted green, fg only so it stays legible when something else
-  " draws its own background over the text (e.g. markview.nvim's code block
-  " tint, folds, or floating windows). Kept below full saturation so alerts
-  " (errors/diagnostics/todos) still read as more urgent than prose.
+  " Keep comments legible on fold and floating-window backgrounds.
   hi Comment guifg=#b0be78 guibg=NONE
 
   " Popup menu: distinct from editor bg (#121212) so the menu clearly floats
@@ -422,10 +419,7 @@ if s:t_Co >= 256
   " -----------------------------------------------------------------------------
   " Light mode overrides
   " -----------------------------------------------------------------------------
-  " Comments: muted purple, fg only so it stays legible when something else
-  " draws its own background over the text (e.g. markview.nvim's code block
-  " tint, folds, or floating windows). Kept below full saturation so alerts
-  " (errors/diagnostics/todos) still read as more urgent than prose.
+  " Keep comments legible on fold and floating-window backgrounds.
   hi Comment guifg=#3a5f18 guibg=NONE
   hi @comment.block.c guifg=#0a1a4a guibg=#c8d8f0
 

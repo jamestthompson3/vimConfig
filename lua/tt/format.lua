@@ -1,171 +1,266 @@
 local node = require("tt.nvim_utils").nodejs
 local constants = require("tt.constants")
+local M = {}
 
+-- Each stage contains alternatives. Run one formatter per stage.
+local web = { { "prettierd", "prettier", "biome" } }
 local formatters_by_ft = {
-	javascript = { "prettier", "biome" },
-	javascriptreact = { "prettier", "biome" },
-	typescript = { "prettier", "biome" },
-	typescriptreact = { "prettier", "biome" },
-	go = "gofmt",
-	c = "clangfmt",
-	cpp = "clangfmt",
-	objcpp = "clangfmt",
-	css = "prettier",
-	scss = { "prettier", "stylint" },
-	rust = "rustfmt",
-	astro = "prettier",
-	html = "prettier",
-	json = { "prettier", "biome", "jq" },
-	jsonc = { "prettier", "biome" },
-	lua = "stylua",
-	fish = "fish_indent",
-	-- yaml = "yamlfmt",
+	javascript = web,
+	javascriptreact = web,
+	typescript = web,
+	typescriptreact = web,
+	json = { { "prettierd", "prettier", "biome", "jq" } },
+	jsonc = web,
+	css = { { "prettierd", "prettier" } },
+	scss = { { "prettierd", "prettier" }, { "stylelint" } },
+	astro = { { "prettierd", "prettier" } },
+	html = { { "prettierd", "prettier" } },
+	go = { { "gofmt" } },
+	rust = { { "rustfmt" } },
+	lua = { { "stylua" } },
+	c = { { "clangfmt" } },
+	cpp = { { "clangfmt" } },
+	objc = { { "clangfmt" } },
+	objcpp = { { "clangfmt" } },
+	fish = { { "fish_indent" } },
 }
 
-local function biomeCheck()
-	return vim.fs.root(0, constants.biome_roots)
+local function manifest_editions(path)
+	local section, package_edition, workspace_edition, inherited = "", nil, nil, false
+	for _, line in ipairs(vim.fn.readfile(path)) do
+		section = line:match("^%s*%[([^%]]+)%]") or section
+		local edition = line:match([=[^%s*edition%s*=%s*["'](%d+)["']]=])
+		if section == "package" then
+			package_edition = edition or package_edition
+			inherited = inherited
+				or line:match("^%s*edition%.workspace%s*=%s*true") ~= nil
+				or line:match("^%s*edition%s*=%s*{.*workspace%s*=%s*true") ~= nil
+		elseif section == "package.edition" then
+			inherited = inherited or line:match("^%s*workspace%s*=%s*true") ~= nil
+		elseif section == "workspace.package" then
+			workspace_edition = edition or workspace_edition
+		end
+	end
+	return package_edition, workspace_edition, inherited
 end
 
-local function prettierCheck()
-	return vim.fs.root(0, constants.prettier_roots)
+local function rust_edition(buf, dir)
+	local override = vim.b[buf].rust_edition or vim.g.rust_edition
+	if override then
+		return tostring(override)
+	end
+	local manifests = vim.fs.find("Cargo.toml", { path = dir, upward = true, limit = math.huge })
+	for i, path in ipairs(manifests) do
+		local package_edition, workspace_edition, inherited = manifest_editions(path)
+		if i == 1 then
+			if package_edition then
+				return package_edition
+			end
+			if not inherited then
+				return "2015" -- Cargo uses edition 2015 when package.edition is absent.
+			end
+		end
+		if workspace_edition then
+			return workspace_edition
+		end
+	end
 end
 
--- Build formatters dynamically per-buffer to resolve node binaries relative to the file
-local function get_formatters(bufnr)
-	bufnr = bufnr or 0
-
+local function definitions(buf)
+	local file = vim.api.nvim_buf_get_name(buf)
+	local dir = node.directory(buf)
+	local prettier_root = vim.fs.root(buf, constants.prettier_roots)
+	local biome_root = vim.fs.root(buf, constants.biome_roots)
+	local function tool(name, cmd, cwd, active)
+		return { name = name, cmd = cmd, cwd = cwd or dir, active = active ~= false }
+	end
 	return {
-		gofmt = { command = { "gofmt", "-s" } },
-		prettier = {
-			command = function()
-				return { node.find_node_executable("prettier", bufnr), "--stdin-filepath", "$FILENAME" }
-			end,
-			condition = prettierCheck,
-		},
-		stylint = {
-			command = function()
-				return { node.find_node_executable("stylelint", bufnr), "--fix" }
-			end,
-		},
-		biome = {
-			command = function()
-				return { node.find_node_executable("biome", bufnr), "format", "--stdin-file-path", "$FILENAME" }
-			end,
-			condition = biomeCheck,
-		},
-		jq = {
-			command = { "jq", "." },
-			condition = function()
-				return not prettierCheck() and not biomeCheck()
-			end,
-		},
-		stylua = { command = { "stylua", "-" } },
-		rustfmt = { command = { "rustfmt", "$FILENAME", "--emit=stdout", "-q" } },
-		clangfmt = { command = { "clang-format", "-assume-filename", "$FILENAME" } },
-		yamlfmt = { command = { "yamlfmt", "-in" } },
-		fish_indent = { command = { "fish_indent" } },
+		prettierd = function()
+			return tool(
+				"prettierd",
+				{ node.find_node_executable("prettierd", buf), file },
+				prettier_root,
+				prettier_root ~= nil and vim.g.format_prettierd ~= false
+			)
+		end,
+		prettier = function()
+			return tool(
+				"prettier",
+				{ node.find_node_executable("prettier", buf), "--stdin-filepath", file },
+				prettier_root,
+				prettier_root ~= nil
+			)
+		end,
+		biome = function()
+			return tool(
+				"biome",
+				{ node.find_node_executable("biome", buf), "format", "--stdin-file-path", file },
+				biome_root,
+				biome_root ~= nil
+			)
+		end,
+		stylelint = function()
+			return tool(
+				"stylelint",
+				{ node.find_node_executable("stylelint", buf), "--fix", "--stdin", "--stdin-filename", file }
+			)
+		end,
+		jq = function()
+			return tool("jq", { "jq", "." }, nil, not prettier_root and not biome_root)
+		end,
+		gofmt = function()
+			return tool("gofmt", { "gofmt", "-s" })
+		end,
+		stylua = function()
+			return tool("stylua", { "stylua", "--stdin-filepath", file, "--search-parent-directories", "-" })
+		end,
+		rustfmt = function()
+			local cmd = { "rustfmt", "--emit=stdout", "-q" }
+			local config_root = vim.fs.root(buf, { "rustfmt.toml", ".rustfmt.toml" })
+			if config_root then
+				vim.list_extend(cmd, { "--config-path", config_root })
+			end
+			local edition = rust_edition(buf, dir)
+			if edition then
+				vim.list_extend(cmd, { "--edition", edition })
+			end
+			return tool("rustfmt", cmd)
+		end,
+		clangfmt = function()
+			return tool("clangfmt", { "clang-format", "-assume-filename", file })
+		end,
+		fish_indent = function()
+			return tool("fish_indent", { "fish_indent" })
+		end,
 	}
 end
 
-local function resolve_command(f)
-	return type(f.command) == "function" and f.command() or f.command
+function M.plan(buf)
+	buf = buf or vim.api.nvim_get_current_buf()
+	local configured = formatters_by_ft[vim.bo[buf].filetype]
+	if not configured then
+		return {}, {}
+	end
+	local defs, stages, info = definitions(buf), {}, {}
+	for _, alternatives in ipairs(configured) do
+		local selected
+		for _, name in ipairs(alternatives) do
+			local tool = defs[name]()
+			local found = tool.cmd[1] ~= "" and vim.fn.executable(tool.cmd[1]) == 1
+			local status = not tool.active and "skipped"
+				or not found and "not found"
+				or selected and "fallback"
+				or "selected"
+			info[#info + 1] = { tool = tool, status = status }
+			if status == "selected" then
+				selected = tool
+			end
+		end
+		if selected then
+			stages[#stages + 1] = selected
+		end
+	end
+	return stages, info
 end
 
-local function apply_format(bufnr, input, result)
-	if result.code ~= 0 then
-		vim.notify("Formatter failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
-		return
+local function output_lines(output)
+	local lines = vim.split(output, "\n", { plain = true })
+	if lines[#lines] == "" then
+		table.remove(lines)
 	end
-	local output_lines = vim.split(result.stdout, "\n")
-	if output_lines[#output_lines] == "" then
-		table.remove(output_lines)
-	end
-	local output = table.concat(output_lines, "\n")
+	return #lines > 0 and lines or { "" }
+end
+
+local function apply_format(buf, input, lines)
+	local output = table.concat(lines, "\n")
 	if output == input then
 		return
 	end
-	-- Replace only the changed hunks, so marks, extmarks and folds outside them stay.
 	local hunks = vim.text.diff(input .. "\n", output .. "\n", { result_type = "indices" })
 	for i = #hunks, 1, -1 do
 		local start_a, count_a, start_b, count_b = unpack(hunks[i])
 		local first = count_a == 0 and start_a or start_a - 1
-		local new_lines = vim.list_slice(output_lines, start_b, start_b + count_b - 1)
-		vim.api.nvim_buf_set_lines(bufnr, first, first + count_a, false, new_lines)
+		vim.api.nvim_buf_set_lines(
+			buf,
+			first,
+			first + count_a,
+			false,
+			vim.list_slice(lines, start_b, start_b + count_b - 1)
+		)
 	end
 end
 
--- Runs the formatter chain synchronously in BufWritePre so the pending write
--- picks up the formatted buffer directly. This avoids the format-after-write
--- double-write and the race where edits made during an async format got
--- clobbered.
-local function format_buffer()
-	local bufnr = vim.api.nvim_get_current_buf()
-	local enabled = vim.b[bufnr].autoformat
+local function run_formatter(tool, input, timeout)
+	local ok, result = pcall(function()
+		return vim.system(tool.cmd, { stdin = input, text = true, cwd = tool.cwd }):wait(timeout)
+	end)
+	if not ok then
+		return nil, tostring(result)
+	end
+	if result.code ~= 0 then
+		local err = result.code == 124 and "timed out" or vim.trim(result.stderr or "")
+		return nil, err
+	end
+	return result.stdout or ""
+end
+
+-- wait() processes events, so buffer edits can occur before it returns.
+function M.format(buf)
+	buf = buf or vim.api.nvim_get_current_buf()
+	local enabled = vim.b[buf].autoformat
 	if enabled == nil then
 		enabled = vim.g.autoformat
 	end
-	if enabled == false then
-		return
+	if enabled == false or vim.bo[buf].buftype ~= "" or not vim.bo[buf].modifiable then
+		return true
 	end
-	local filetype = vim.bo[bufnr].filetype
-	local formatterList = formatters_by_ft[filetype]
-	if not formatterList then
-		return
+	local plan = M.plan(buf)
+	if #plan == 0 then
+		return true
 	end
-	local formatters = get_formatters(bufnr)
-	local candidates = vim.islist(formatterList) and formatterList or { formatterList }
-	local filepath = vim.api.nvim_buf_get_name(bufnr)
-
-	for _, name in ipairs(candidates) do
-		local f = formatters[name]
-		if f and (f.condition == nil or f.condition()) then
-			local cmd = resolve_command(f)
-			if cmd and cmd[1] ~= "" then
-				cmd = vim.tbl_map(function(v)
-					return v == "$FILENAME" and filepath or v
-				end, cmd)
-				local input = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
-				local result = vim.system(cmd, { stdin = input }):wait()
-				if not vim.api.nvim_buf_is_valid(bufnr) then
-					return
-				end
-				apply_format(bufnr, input, result)
-			end
+	local tick = vim.api.nvim_buf_get_changedtick(buf)
+	local input = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+	local output = input .. "\n"
+	local timeout = vim.b[buf].format_timeout_ms or vim.g.format_timeout_ms or 2000
+	for _, tool in ipairs(plan) do
+		local formatted, err = run_formatter(tool, output, timeout)
+		if err then
+			return false, ("%s: %s (save cancelled; buffer unchanged)"):format(tool.name, err)
 		end
+		output = formatted
 	end
+	if not vim.api.nvim_buf_is_valid(buf) or vim.api.nvim_buf_get_changedtick(buf) ~= tick then
+		return false, "Buffer changed during formatting; save cancelled"
+	end
+	apply_format(buf, input, output_lines(output))
+	return true
 end
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*" },
-	callback = format_buffer,
+	group = vim.api.nvim_create_augroup("tt_format", { clear = true }),
+	callback = function(ev)
+		local ok, err = M.format(ev.buf)
+		if not ok then
+			error(err, 0)
+		end
+	end,
 })
 
 vim.api.nvim_create_user_command("FormatInfo", function()
-	local filetype = vim.bo.filetype
-	local formatterList = formatters_by_ft[filetype]
-	local formatters = get_formatters(0)
-	local lines = { "FormatInfo for " .. filetype }
-
-	if not formatterList then
+	local _, info = M.plan(vim.api.nvim_get_current_buf())
+	local lines = { "FormatInfo for " .. vim.bo.filetype }
+	for _, entry in ipairs(info) do
+		lines[#lines + 1] = ("  %s: %s\n    %s\n    cwd: %s"):format(
+			entry.tool.name,
+			entry.status,
+			table.concat(entry.tool.cmd, " "),
+			entry.tool.cwd
+		)
+	end
+	if #info == 0 then
 		lines[#lines + 1] = "  No formatters configured"
-		vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
-		return
 	end
-
-	local candidates = vim.islist(formatterList) and formatterList or { formatterList }
-	for _, name in ipairs(candidates) do
-		local f = formatters[name]
-		if not f then
-			lines[#lines + 1] = string.format("  ✗ %s (unknown)", name)
-		else
-			local active = f.condition == nil or f.condition()
-			local cmd = resolve_command(f)
-			local bin = cmd[1]
-			local found = vim.fn.executable(bin) == 1
-			local status = active and (found and "✓" or "✗ not found") or "○ skipped"
-			lines[#lines + 1] = string.format("  %s %s", status, name)
-			lines[#lines + 1] = string.format("      %s", table.concat(cmd, " "))
-		end
-	end
-	vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
+	vim.notify(table.concat(lines, "\n"))
 end, {})
+
+return M

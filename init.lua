@@ -1,4 +1,6 @@
--- This needs to be set before plugins so that plugin init codes can read the mapleader key
+vim.loader.enable()
+
+-- Set the leader before plugins read it.
 vim.g.mapleader = " "
 require("tt.plugins")
 
@@ -9,9 +11,24 @@ set.splitright = true
 set.modeline = false
 set.wildignorecase = true
 set.wildignore = {
-	"*/node_modules/*", "*.png", "*.PNG", "*.jpg", "*.jpeg", "*.JPG", "*.JPEG",
-	"*.pdf", "*.exe", "*.o", "*.obj", "*.dll", "*.DS_Store", "*.ttf", "*.otf",
-	"*.woff", "*.woff2", "*.eot",
+	"*/node_modules/*",
+	"*.png",
+	"*.PNG",
+	"*.jpg",
+	"*.jpeg",
+	"*.JPG",
+	"*.JPEG",
+	"*.pdf",
+	"*.exe",
+	"*.o",
+	"*.obj",
+	"*.dll",
+	"*.DS_Store",
+	"*.ttf",
+	"*.otf",
+	"*.woff",
+	"*.woff2",
+	"*.eot",
 }
 set.expandtab = true
 set.shiftround = true
@@ -26,14 +43,20 @@ set.softtabstop = 2
 set.tabstop = 2
 set.splitkeep = "topline"
 set.conceallevel = 2
-set.showbreak = string.rep(".", 3) -- Make it so that long lines wrap smartly
+set.showbreak = string.rep(".", 3)
 
 set.smartindent = true
 set.fileformats = { "unix", "dos" }
 set.jumpoptions = { "stack", "view" }
 set.diffopt = {
-	"hiddenoff", "iwhite", "algorithm:histogram", "internal", "closeoff",
-	"indent-heuristic", "linematch:60", "inline:word",
+	"hiddenoff",
+	"iwhite",
+	"algorithm:histogram",
+	"internal",
+	"closeoff",
+	"indent-heuristic",
+	"linematch:60",
+	"inline:word",
 }
 set.nrformats = { "bin", "hex", "alpha" }
 set.grepprg = "rg --smart-case --vimgrep --hidden"
@@ -46,9 +69,9 @@ set.listchars = { tab = "░░", trail = "·", space = "·", extends = "»", pr
 set.formatlistpat = "^\\s*\\[({]\\?\\([0-9]\\+\\|[a-zA-Z]\\+\\)[\\]:.)}]\\s\\+\\|^\\s*[-–+o*•]\\s\\+"
 set.foldlevelstart = 99
 set.foldmethod = "expr"
-set.foldexpr = vim.treesitter.foldexpr
+set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 set.shortmess = vim.o.shortmess .. "su"
-set.undodir = "~/.cache/Vim/undofile" -- vim.o expands ~ and $ENV (Nvim 0.13)
+set.undodir = "~/.cache/Vim/undofile"
 
 if require("tt.platform").is_wsl then
 	vim.g.clipboard = {
@@ -59,7 +82,6 @@ if require("tt.platform").is_wsl then
 	}
 end
 
--- UI OPTS
 set.termguicolors = true
 set.wrap = false
 set.cursorline = true
@@ -85,7 +107,4 @@ vim.o.statusline =
 vim.schedule(function()
 	require("tt.tools").splashscreen()
 end)
--- Experimental: Nvim 0.12 ui2 (avoids "Press ENTER" prompts, highlights cmdline as you type)
-vim.npcall(function()
-	require("vim._core.ui2").enable()
-end)
+require("tt.compat").enable_ui2()

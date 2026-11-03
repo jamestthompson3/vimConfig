@@ -7,69 +7,46 @@ function M.init()
 			vim.fn.wildtrigger()
 		end,
 	})
-	local rg_args = { "rg", "--color", "never", "--files", "--hidden", "-g", "!.git" }
-
-	local fd_cache = nil
-	-- Prewarm asynchronously so the blocking path below is rarely hit on keypress
-	local function refresh_file_list()
-		vim.system(rg_args, { text = true }, function(obj)
-			if obj.code == 0 then
-				fd_cache = vim.split(obj.stdout, "\n", { trimempty = true })
-			end
-		end)
-	end
-
-	local function get_file_list()
-		if not fd_cache then
-			-- Cache not ready yet (first open before prewarm finishes): block once
-			local out = vim.system(rg_args, { text = true }):wait().stdout or ""
-			fd_cache = vim.split(out, "\n", { trimempty = true })
-		end
-		return fd_cache
-	end
-
-	refresh_file_list()
-	vim.api.nvim_create_autocmd("DirChanged", {
-		callback = function()
-			fd_cache = nil
-			refresh_file_list()
-		end,
-	})
-
+	local files = require("tt.files")
+	files.setup()
 	local pick = require("tt.pick")
+	local request_id = 0
 
 	vim.api.nvim_create_user_command("F", function(cmd)
-		local dir = cmd.args ~= "" and cmd.args or nil
-		local files
-		if dir then
-			local result = vim.system(vim.list_extend(vim.list_slice(rg_args), { dir }), { text = true }):wait()
-			files = vim.split(result.stdout or "", "\n", { trimempty = true })
-		else
-			files = get_file_list()
+		local cwd = vim.fn.getcwd()
+		local dir = vim.fs.abspath(cmd.args ~= "" and cmd.args or cwd)
+		local win, buf = vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf()
+		request_id = request_id + 1
+		local id = request_id
+		if cmd.bang then
+			files.invalidate()
 		end
-		local format_item
-		if dir then
-			-- Strip the directory prefix so the picker shows shorter, scannable names.
-			-- Normalize: ensure exactly one trailing slash for a clean prefix.
-			local prefix = dir:gsub("/+$", "") .. "/"
-			format_item = function(file)
-				if vim.startswith(file, prefix) then
-					return file:sub(#prefix + 1)
-				end
-				return file
+		files.get(dir, function(items, err)
+			if
+				id ~= request_id
+				or not vim.api.nvim_win_is_valid(win)
+				or vim.api.nvim_get_current_win() ~= win
+				or vim.api.nvim_get_current_buf() ~= buf
+				or vim.fn.getcwd() ~= cwd
+			then
+				return
 			end
-		end
-		pick.open(files, {
-			prompt = dir and ("Files: " .. dir) or "Files",
-			format_item = format_item,
-			on_choice = function(file, _, action)
-				vim.cmd(action .. " " .. vim.fn.fnameescape(file))
-			end,
-		})
-	end, {
-		nargs = "?",
-		complete = "dir",
-	})
+			if err then
+				vim.notify("Files: " .. err, vim.log.levels.ERROR)
+				return
+			end
+			local prefix = dir:gsub("/+$", "") .. "/"
+			pick.open(items, {
+				prompt = cmd.args ~= "" and ("Files: " .. cmd.args) or "Files",
+				format_item = function(file)
+					return file:sub(#prefix + 1)
+				end,
+				on_choice = function(file, _, action)
+					vim.cmd(action .. " " .. vim.fn.fnameescape(file))
+				end,
+			})
+		end)
+	end, { nargs = "?", bang = true, complete = "dir", desc = "Find files (! refreshes cache)" })
 
 	vim.api.nvim_create_user_command("B", function()
 		local bufs = {}

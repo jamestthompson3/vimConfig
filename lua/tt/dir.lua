@@ -1,15 +1,5 @@
--- Small file-management helpers for the builtin |dir| browser (the read-only
--- listing you get from `:edit <dir>` / the `-` mapping). Not a filesystem-as-a-
--- buffer editor like oil -- just three buffer-local actions on `FileType
--- directory`:
---
---   o   create a file (or a directory, if the name ends in `/`)
---   r   rename the entry under the cursor (can move into a subdir)
---   dd  delete the entry under the cursor (recursive for directories)
---
--- The listing buffer's *name* is the directory it shows; each line is an entry's
--- basename with a trailing `/` for directories. The builtin encodes newlines in
--- names as NUL, so we decode them back.
+-- The directory buffer name is its path. Each line is an entry name.
+-- The browser encodes newlines in entry names as NUL.
 
 local M = {}
 local api = vim.api
@@ -32,23 +22,16 @@ local function entry_under_cursor()
 	return name, is_dir
 end
 
--- Re-list the directory (same primitive the `R` mapping uses), then park the
--- cursor on `select_name` when given.
 local function reload(select_name)
-	if not pcall(function()
-		require("nvim.dir")._reload(0)
-	end) then
-		pcall(vim.cmd.edit)
-	end
+	vim.api.nvim_exec_autocmds("User", { pattern = "TTFilesChanged" })
+	require("tt.compat").reload_directory(vim.api.nvim_get_current_buf())
 	if select_name and select_name ~= "" then
 		vim.fn.search("\\V" .. vim.fn.escape(select_name, "\\"), "cw")
 	end
 end
 
--- Repoint open buffers to a moved path, Oil-style, so they keep their content
--- and unsaved edits instead of going stale. A real file buffer is re-read from
--- the new path so a later ":w" does not raise E13. "nvim_buf_set_name" keeps the
--- old name as a throwaway buffer, so remove it.
+-- Reload file metadata after a rename to prevent E13 on save.
+-- nvim_buf_set_name can create an unloaded buffer for the old path.
 local function rename_buffers(src, dst)
 	src, dst = vim.fs.normalize(src), vim.fs.normalize(dst)
 	local prefix = src .. "/"
@@ -66,7 +49,11 @@ local function rename_buffers(src, dst)
 				local lines = loaded and vim.bo[buf].modified and api.nvim_buf_get_lines(buf, 0, -1, false) or nil
 				pcall(api.nvim_buf_set_name, buf, newname)
 				for _, other in ipairs(api.nvim_list_bufs()) do
-					if other ~= buf and vim.fs.normalize(api.nvim_buf_get_name(other)) == name and not api.nvim_buf_is_loaded(other) then
+					if
+						other ~= buf
+						and vim.fs.normalize(api.nvim_buf_get_name(other)) == name
+						and not api.nvim_buf_is_loaded(other)
+					then
 						pcall(api.nvim_buf_delete, other, { force = true })
 					end
 				end
@@ -83,7 +70,6 @@ local function rename_buffers(src, dst)
 	end
 end
 
--- Drop buffers whose path no longer exists on disk.
 local function wipe_buffers(path)
 	path = vim.fs.normalize(path)
 	local prefix = path .. "/"
@@ -165,9 +151,8 @@ function M.setup()
 		group = group,
 		pattern = "directory",
 		callback = function(ev)
-			-- The listing is read-only, so overriding a/r/d costs nothing.
 			local function map(lhs, fn, desc)
-				vim.keymap.set("n", lhs, fn, { buffer = ev.buf, silent = true, nowait = true, desc = desc })
+				vim.keymap.set("n", lhs, fn, { buf = ev.buf, silent = true, nowait = true, desc = desc })
 			end
 			map("o", M.create, "dir: create file/dir")
 			map("r", M.rename, "dir: rename entry")
@@ -175,9 +160,7 @@ function M.setup()
 		end,
 	})
 
-	-- The builtin browser sets "buflisted" true on every render (including
-	-- reloads), so listings pollute the buffer list. DirReadPost fires after
-	-- each render with the listing buffer current, so unlist it there.
+	-- The browser sets 'buflisted' on each render, including reloads.
 	vim.api.nvim_create_autocmd("User", {
 		group = group,
 		pattern = "DirReadPost",

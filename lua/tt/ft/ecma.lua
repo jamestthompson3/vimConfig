@@ -14,25 +14,23 @@ function M.bootstrap()
 	vim.bo.define = "class\\s"
 	vim.wo[0][0].foldlevel = 99
 
-	vim.api.nvim_create_user_command("Sort", function()
+	vim.api.nvim_buf_create_user_command(0, "Sort", function()
 		require("tt.ft.ecma").import_sort(true)
 	end, {})
-	vim.api.nvim_create_user_command("Eslint", function()
+	vim.api.nvim_buf_create_user_command(0, "Eslint", function()
 		require("tt.ft.ecma").linter_d()
 	end, {})
-	vim.api.nvim_create_user_command("Lint", function()
+	vim.api.nvim_buf_create_user_command(0, "Lint", function()
 		require("tt.ft.ecma").lint_project()
 	end, {})
 
-	-- efm (eslint_d) now autostarts via vim.lsp.enable("efm"); it only lints when
-	-- an eslint config is present (gated by eslintd.rootMarkers in lsp/efm.lua).
 	if vim.fs.root(0, constants.prettier_roots) then
 		vim.b.autoformat = true
 	end
 end
 
 function M.import_sort(async, cb)
-	local path = fn.fnameescape(fn.expand("%:p"))
+	local path = fn.expand("%:p")
 	local executable_path = node.find_node_executable("import-sort")
 
 	if fn.executable(executable_path) ~= 1 then
@@ -62,10 +60,13 @@ function M.import_sort(async, cb)
 	end
 end
 
--- Run eslint_d with `argv`, then feed its "compact" output into the location
--- list. `reload` re-reads the buffer after an on-disk `--fix` of the file.
+-- eslint_d --fix writes to disk. Use checktime to reload changed files.
 local function run_eslint(argv, reload)
 	local executable_path = node.find_node_executable("eslint_d")
+	if executable_path == "" then
+		vim.notify("Cannot find eslint_d executable", vim.log.levels.ERROR)
+		return
+	end
 	vim.system(vim.list_extend({ executable_path }, argv), { text = true }, function(result)
 		vim.schedule(function()
 			if reload then
@@ -87,7 +88,7 @@ function M.lint_project()
 end
 
 function M.linter_d()
-	run_eslint({ fn.fnameescape(fn.expand("%:p")), "-f", "compact", "--fix" }, true)
+	run_eslint({ fn.expand("%:p"), "-f", "compact", "--fix" }, true)
 end
 
 return M

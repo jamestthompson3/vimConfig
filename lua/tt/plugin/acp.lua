@@ -1,27 +1,4 @@
--- acp.lua - drive Claude Code from inside neovim over the Agent Client Protocol.
---
--- Neovim is the ACP *client*. We spawn the @zed-industries/claude-code-acp
--- bridge as a long-lived subprocess and speak newline-delimited JSON-RPC 2.0 to
--- it over stdio. The bridge wraps the Claude Code CLI and authenticates from the
--- local `claude` login (keychain) -- i.e. your Pro/Max subscription, no API key.
---
--- One bridge process serves many sessions; one session backs each chat buffer.
---
---   Phase 1  transport + `:AgentPing`
---   Phase 2  chat buffer: `:Agent`, model-driven renderer, send/cancel  <-- here
---
--- Protocol shapes are pinned against the real bridge (v0.16.2, protocol 1):
---   initialize     -> { protocolVersion, agentCapabilities, authMethods, ... }
---   session/new    -> { sessionId, models, modes }
---   session/prompt -> streams session/update notifications, ends { stopReason }
---   session/cancel -> notification { sessionId }
---   session/update -> { sessionId, update = { sessionUpdate = "...", ... } }
---     agent_message_chunk       update.content = { type="text", text }
---     agent_thought_chunk       update.content = { type="text", text }
---     tool_call                 { toolCallId, title, kind, status }
---     tool_call_update          { toolCallId, status?, title? }
---     plan                      { entries = { { content, priority, status } } }
---     available_commands_update { availableCommands = { { name, description } } }
+-- pi-acp translates ACP v1 into the installed pi executable's RPC protocol.
 
 local M = {}
 
@@ -29,23 +6,9 @@ local M = {}
 -- (the bridge is chatty); recent stderr is always kept for |:AgentLog|.
 M.debug = false
 
--- The ACP bridge. `sh -c` wrapper guarantees CLAUDECODE / CLAUDE_CODE_ENTRYPOINT
--- are unset (the bridge refuses to launch nested inside a Claude Code session);
--- harmless when they were never set.
-local DEFAULT_BRIDGE_CMD = {
-	"sh",
-	"-c",
-	"unset CLAUDECODE CLAUDE_CODE_ENTRYPOINT; exec npx -y @zed-industries/claude-code-acp",
-}
+local DEFAULT_BRIDGE_CMD = { "npx", "--yes", "pi-acp@0.0.34" }
 
--- Nothing here is Claude-specific below the bridge: the transport, session and
--- update handling are plain ACP. Any agent that speaks ACP v1 on stdio works.
--- Override with `vim.g.acp_bridge_cmd` (a list, argv-style), e.g.
---
---   vim.g.acp_bridge_cmd = { "goose", "acp" }
---
--- Note: pi does NOT speak ACP -- its `--mode rpc` is a different, pi-specific
--- JSONL protocol -- so it cannot be used here without an ACP shim.
+-- g:acp_bridge_cmd must run an ACP server, not pi --mode rpc directly.
 local function bridge_cmd()
 	local override = vim.g.acp_bridge_cmd
 	if type(override) == "table" and #override > 0 then
@@ -56,12 +19,19 @@ local function bridge_cmd()
 	return DEFAULT_BRIDGE_CMD
 end
 
---- True when the active bridge is the Claude Code one (gates Claude-only bits).
-local function bridge_is_claude()
-	return vim.g.acp_bridge_cmd == nil
-end
-
 local PROTOCOL_VERSION = 1
+local RESPONSE_FORMAT = [[Response formatting for this Neovim ACP chat:
+This interface displays plain text without Markdown rendering.
+Use short paragraphs and blank lines; brief plain-text section labels are fine.
+Use simple "-" bullets or numbered steps, and keep lists shallow.
+Inline backticks and fenced code blocks are fine for code, commands, and exact data.
+Do not use Markdown or ASCII tables; use labeled bullet lists for comparisons.
+Avoid decorative bold/italics, heading markup, HTML layouts, images, LaTeX,
+footnotes, reference links, box-drawing diagrams, and decorative icons.
+Write links as readable labels followed by plain URLs.
+Apply these rules to explanatory replies, not file contents or exact code,
+data, or quotations required by the task.
+Perform the user's request; do not acknowledge or discuss these formatting instructions.]]
 
 ---@class AcpClient
 ---@field job integer
@@ -74,6 +44,20 @@ local PROTOCOL_VERSION = 1
 
 ---@type AcpClient|nil
 local client = nil
+local bridge_log = {}
+
+local function bridge_exited(c, code)
+	if client == c then
+		client = nil
+	end
+	local pending = c.pending
+	c.pending = {}
+	for _, cb in pairs(pending) do
+		vim.schedule(function()
+			cb(nil, { code = -32000, message = "ACP bridge exited (" .. tostring(code) .. "); see :AgentLog" })
+		end)
+	end
+end
 
 --------------------------------------------------------------------- transport
 
@@ -262,20 +246,31 @@ local function ensure_spawned()
 	if client and client.job > 0 then
 		return client
 	end
-	if bridge_is_claude() and vim.env.ANTHROPIC_API_KEY and vim.env.ANTHROPIC_API_KEY ~= "" then
-		vim.notify("acp: ANTHROPIC_API_KEY is set -- Claude Code will bill the API, not your subscription", vim.log.levels.WARN)
-	end
-
-	client = { job = 0, stdout = "", next_id = 1, pending = {}, initialized = false, init_caps = nil, sessions = {}, stderr_log = {} }
+	local c = {
+		job = 0,
+		stdout = "",
+		next_id = 1,
+		pending = {},
+		initialized = false,
+		init_caps = nil,
+		sessions = {},
+		stderr_log = {},
+	}
+	client = c
+	bridge_log = c.stderr_log
 	local job = vim.fn.jobstart(bridge_cmd(), {
-		on_stdout = on_stdout,
+		on_stdout = function(job_id, data)
+			if client == c then
+				on_stdout(job_id, data)
+			end
+		end,
 		on_stderr = function(_, data)
 			-- Keep a bounded ring of stderr for :AgentLog; only surface it to
 			-- :messages when M.debug is on, so the bridge doesn't spam you.
-			if not client then
+			if client ~= c then
 				return
 			end
-			local log = client.stderr_log
+			local log = c.stderr_log
 			for _, line in ipairs(data) do
 				if line ~= "" then
 					log[#log + 1] = line
@@ -290,8 +285,8 @@ local function ensure_spawned()
 				end
 			end
 		end,
-		on_exit = function()
-			client = nil
+		on_exit = function(_, code)
+			bridge_exited(c, code)
 		end,
 	})
 	if job <= 0 then
@@ -306,10 +301,11 @@ end
 local function ensure_initialized(cb)
 	local c = ensure_spawned()
 	if not c then
+		cb(nil)
 		return
 	end
 	if c.initialized then
-		cb()
+		cb(c)
 		return
 	end
 	request("initialize", {
@@ -320,16 +316,21 @@ local function ensure_initialized(cb)
 			vim.schedule(function()
 				vim.notify("acp initialize failed: " .. vim.inspect(err), vim.log.levels.ERROR)
 			end)
+			cb(nil)
 			return
 		end
 		c.initialized = true
 		c.init_caps = result and result.agentCapabilities
-		cb()
+		cb(c)
 	end)
 end
 
 local function new_session(cwd, on_update, cb)
-	ensure_initialized(function()
+	ensure_initialized(function(c)
+		if not c then
+			cb(nil, nil)
+			return
+		end
 		request("session/new", { cwd = cwd, mcpServers = {} }, function(result, err)
 			if err or not (result and result.sessionId) then
 				vim.schedule(function()
@@ -352,7 +353,11 @@ end
 --- dropped (we already restored the transcript from disk) and only new activity
 --- renders. Requires the original `cwd`.
 local function load_session(sessionId, cwd, on_update, cb)
-	ensure_initialized(function()
+	ensure_initialized(function(c)
+		if not c then
+			cb(nil, nil)
+			return
+		end
 		request("session/load", { sessionId = sessionId, cwd = cwd, mcpServers = {} }, function(result, err)
 			if err then
 				vim.schedule(function()
@@ -396,11 +401,26 @@ local last_chat_buf = nil -- most-recently-used chat, for context attach / save
 -- so a new chat can complete `/commands` before its own first turn arrives.
 local command_cache = {}
 
-local USER_HEADER = "## You"
--- The trailing input prompt. Deliberately NOT a `#` heading, so markdown header
--- motions ([[ / ]] / gO) skip it and `[[` from the input lands directly on the
--- last `## Claude` (the reply). read_input() anchors on this exact line.
-local INPUT_MARKER = "❯ You"
+local chat_view = require("tt.plugin.acp_view")
+local chat_highlights = require("tt.plugin.acp_highlights")
+local INPUT_MARKER = chat_view.input_marker
+local view_ns = vim.api.nvim_create_namespace("tt_acp_view")
+
+local ping_running = false
+---@param chat? table
+local function another_running(chat)
+	if ping_running then
+		vim.notify("acp: wait for the active ping before switching agent sessions", vim.log.levels.WARN)
+		return true
+	end
+	for _, other in pairs(chats) do
+		if other ~= chat and vim.api.nvim_buf_is_valid(other.buf) and other.status == "busy" then
+			vim.notify("acp: finish or cancel the active turn before switching agent sessions", vim.log.levels.WARN)
+			return true
+		end
+	end
+	return false
+end
 
 -- Fulfil the forward declarations the fs/permission handlers depend on.
 -- Resolve symlinks so the agent's path (e.g. /private/var on macOS) matches a
@@ -437,182 +457,26 @@ local function accrue(chat, kind, delta)
 	end
 end
 
-local TOOL_ICON = { pending = "○", in_progress = "◐", completed = "●", failed = "✗" }
-local PLAN_MARK = { pending = "[ ]", in_progress = "[~]", completed = "[x]" }
-
---- Render the whole buffer from the model. Model is source of truth, so this is
---- idempotent and safe to call on every streamed delta.
 local function render(chat)
 	local buf = chat.buf
 	if not vim.api.nvim_buf_is_valid(buf) then
 		return
 	end
-	local lines = {}
-	local function push(s)
-		lines[#lines + 1] = s
-	end
-	local function push_text(text)
-		for _, l in ipairs(vim.split(text, "\n", { plain = true })) do
-			push(l)
-		end
-	end
-
-	local es = chat.entries
-	local function render_user(e)
-		push(USER_HEADER)
-		push("")
-		for _, label in ipairs(e.refs or {}) do
-			push("> 📎 " .. label)
-		end
-		if e.refs and #e.refs > 0 then
-			push("")
-		end
-		push_text(e.text)
-		push("")
-	end
-	local function render_assistant(e)
-		push("## Claude")
-		push("")
-		push_text(e.text)
-		push("")
-	end
-	local function render_thought(e)
-		push("> 💭 _thinking_")
-		for _, l in ipairs(vim.split(e.text, "\n", { plain = true })) do
-			push("> " .. l)
-		end
-		push("")
-	end
-	local function render_tool(e)
-		local icon = TOOL_ICON[e.status] or "○"
-		local kind = e.tool_kind and (" `" .. e.tool_kind .. "`") or ""
-		push(string.format("%s **%s**%s", icon, e.title or "tool", kind))
-		push("")
-	end
-	local function render_plan(e)
-		push("### Plan")
-		for _, item in ipairs(e.entries or {}) do
-			push(string.format("- %s %s", PLAN_MARK[item.status] or "[ ]", item.content or ""))
-		end
-		push("")
-	end
-	local function render_tool_summary(count, failed)
-		local note = failed > 0 and string.format(", %d failed", failed) or ""
-		push(string.format("› _%d tool call%s%s_", count, count == 1 and "" or "s", note))
-		push("")
-	end
-	-- A horizontal rule (blank-padded so markview renders it as a divider, not a
-	-- setext heading) delimiting turns and the input region.
-	local function separator()
-		push("---")
-		push("")
-	end
-
-	-- Group entries by turn. A completed turn (older than the active one, or the
-	-- active one once idle) collapses in quiet mode to: the question, one dim
-	-- "N tool calls" line, and the final answer -- so the interleaved narration
-	-- and tool chatter don't bury what's actionable. The in-flight turn, and any
-	-- turn in verbose mode, render every step live.
-	local wrote = false
-	local i = 1
-	while i <= #es do
-		local t = es[i].turn
-		local j = i
-		while j <= #es and es[j].turn == t do
-			j = j + 1
-		end
-		if wrote then
-			separator()
-		end
-		local complete = (chat.status ~= "busy") or (t ~= nil and t < chat.turn)
-		local final_assist
-		for k = j - 1, i, -1 do
-			if es[k].kind == "assistant" then
-				final_assist = k
-				break
-			end
-		end
-
-		if chat.verbose or not complete then
-			local k = i
-			while k < j do
-				local e = es[k]
-				if e.kind == "user" then
-					render_user(e)
-					k = k + 1
-				elseif e.kind == "assistant" then
-					render_assistant(e)
-					k = k + 1
-				elseif e.kind == "thought" then
-					render_thought(e)
-					k = k + 1
-				elseif e.kind == "plan" then
-					render_plan(e)
-					k = k + 1
-				elseif e.kind == "tool" and chat.verbose then
-					render_tool(e)
-					k = k + 1
-				elseif e.kind == "tool" then
-					local count, failed = 0, 0
-					while k < j and es[k].kind == "tool" do
-						count = count + 1
-						if es[k].status == "failed" then
-							failed = failed + 1
-						end
-						k = k + 1
-					end
-					render_tool_summary(count, failed)
-				else
-					k = k + 1
-				end
-			end
-		else
-			local count, failed = 0, 0
-			for k = i, j - 1 do
-				local e = es[k]
-				if e.kind == "user" then
-					render_user(e)
-				elseif e.kind == "tool" then
-					count = count + 1
-					if e.status == "failed" then
-						failed = failed + 1
-					end
-				end
-			end
-			if count > 0 then
-				render_tool_summary(count, failed)
-			end
-			if final_assist then
-				render_assistant(es[final_assist])
-			end
-		end
-		wrote = true
-		i = j
-	end
-
-	if chat.status == "busy" then
-		push("_working… (`<C-c>` to cancel)_")
-	else
-		if wrote then
-			separator()
-		end
-		if chat.pending_refs and #chat.pending_refs > 0 then
-			push("### 📎 attached")
-			for _, r in ipairs(chat.pending_refs) do
-				push("- " .. r.label)
-			end
-			push("")
-		end
-		push(INPUT_MARKER)
-		push("")
-		push("")
-	end
-
+	local lines, layout = chat_view.lines(chat)
 	vim.bo[buf].modifiable = true
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+	vim.api.nvim_buf_clear_namespace(buf, view_ns, 0, -1)
+	chat.messages = layout.messages
+	for _, message in ipairs(chat.messages) do
+		message.mark = vim.api.nvim_buf_set_extmark(buf, view_ns, message.row - 1, 0, { right_gravity = true })
+	end
+	chat.input_mark = nil
+	if layout.input_row then
+		chat.input_mark = vim.api.nvim_buf_set_extmark(buf, view_ns, layout.input_row - 1, 0, { right_gravity = true })
+	end
+	chat_highlights.apply(buf, layout.highlights)
 	vim.bo[buf].modifiable = chat.status ~= "busy"
-	-- Our own renders shouldn't leave the buffer "dirty" (avoids E37 on quit);
-	-- only your unsent typing marks it modified again.
+	-- Transcript updates must not trigger an unsaved-buffer warning.
 	vim.bo[buf].modified = false
 end
 
@@ -627,49 +491,77 @@ local function schedule_render(chat)
 	end)
 end
 
---- Apply one session/update to the chat model.
-local function apply_update(chat, u)
-	local su = u.sessionUpdate
-	if su == "agent_message_chunk" and u.content then
-		accrue(chat, "assistant", u.content.text or "")
-	elseif su == "agent_thought_chunk" and u.content then
-		accrue(chat, "thought", u.content.text or "")
-	elseif su == "tool_call" then
-		-- The bridge emits tool_call twice per id (placeholder, then resolved);
-		-- upsert so it's one entry, not a duplicate line.
-		local e = u.toolCallId and chat.tool_index[u.toolCallId]
-		if e then
-			e.title = u.title or e.title
-			e.tool_kind = u.kind or e.tool_kind
-			e.status = u.status or e.status
-		else
-			e = { kind = "tool", id = u.toolCallId, title = u.title, tool_kind = u.kind, status = u.status or "pending", turn = chat.turn }
-			chat.entries[#chat.entries + 1] = e
-			if u.toolCallId then
-				chat.tool_index[u.toolCallId] = e
-			end
-		end
-	elseif su == "tool_call_update" then
-		local e = u.toolCallId and chat.tool_index[u.toolCallId]
-		if e then
-			if u.status then
-				e.status = u.status
-			end
-			if u.title then
-				e.title = u.title
-			end
-		end
-	elseif su == "plan" then
-		if not chat.plan then
-			chat.plan = { kind = "plan", entries = {}, turn = chat.turn }
-			chat.entries[#chat.entries + 1] = chat.plan
-		end
-		chat.plan.entries = u.entries or {}
-	elseif su == "available_commands_update" then
-		chat.commands = u.availableCommands
-		if u.availableCommands and #u.availableCommands > 0 then
-			command_cache = u.availableCommands
-		end
+local text_kinds = { agent_message_chunk = "assistant", agent_thought_chunk = "thought" }
+local function update_text(chat, update)
+	if update.content then
+		accrue(chat, text_kinds[update.sessionUpdate], update.content.text or "")
+	end
+end
+
+local function upsert_tool(chat, update)
+	-- The bridge can send tool_call twice for one ID. Keep one entry per ID.
+	local entry = update.toolCallId and chat.tool_index[update.toolCallId]
+	if entry then
+		entry.title = update.title or entry.title
+		entry.tool_kind = update.kind or entry.tool_kind
+		entry.status = update.status or entry.status
+		return
+	end
+	entry = {
+		kind = "tool",
+		id = update.toolCallId,
+		title = update.title,
+		tool_kind = update.kind,
+		status = update.status or "pending",
+		turn = chat.turn,
+	}
+	chat.entries[#chat.entries + 1] = entry
+	if update.toolCallId then
+		chat.tool_index[update.toolCallId] = entry
+	end
+end
+
+local function update_tool(chat, update)
+	local entry = update.toolCallId and chat.tool_index[update.toolCallId]
+	if not entry then
+		return
+	end
+	if update.status then
+		entry.status = update.status
+	end
+	if update.title then
+		entry.title = update.title
+	end
+end
+
+local function update_plan(chat, update)
+	if not chat.plan then
+		chat.plan = { kind = "plan", entries = {}, turn = chat.turn }
+		chat.entries[#chat.entries + 1] = chat.plan
+	end
+	chat.plan.entries = update.entries or {}
+end
+
+local function update_commands(chat, update)
+	chat.commands = update.availableCommands
+	if update.availableCommands and #update.availableCommands > 0 then
+		command_cache = update.availableCommands
+	end
+end
+
+local update_handlers = {
+	agent_message_chunk = update_text,
+	agent_thought_chunk = update_text,
+	tool_call = upsert_tool,
+	tool_call_update = update_tool,
+	plan = update_plan,
+	available_commands_update = update_commands,
+}
+
+local function apply_update(chat, update)
+	local handler = update_handlers[update.sessionUpdate]
+	if handler then
+		handler(chat, update)
 	end
 end
 
@@ -732,40 +624,113 @@ function M.complete(findstart, base)
 	return items
 end
 
---- Extract the text the user typed in the trailing input region.
-local function read_input(chat)
-	local lines = vim.api.nvim_buf_get_lines(chat.buf, 0, -1, false)
-	local start
-	for i = #lines, 1, -1 do
-		if lines[i] == INPUT_MARKER then
-			start = i
-			break
-		end
+local function marked_row(chat, mark)
+	if not mark then
+		return
 	end
-	if not start then
+	local position = vim.api.nvim_buf_get_extmark_by_id(chat.buf, view_ns, mark, {})
+	if #position > 0 then
+		return position[1] + 1
+	end
+end
+
+--- The input anchor must not match prompt-like text in a message or draft.
+local function read_input(chat)
+	local row = marked_row(chat, chat.input_mark)
+	if not row or vim.api.nvim_buf_get_lines(chat.buf, row - 1, row, false)[1] ~= INPUT_MARKER then
 		return ""
 	end
-	local body = {}
-	for i = start + 1, #lines do
-		body[#body + 1] = lines[i]
-	end
+	local body = vim.api.nvim_buf_get_lines(chat.buf, row, -1, false)
 	return (table.concat(body, "\n"):gsub("^%s+", ""):gsub("%s+$", ""))
 end
 
---- Toggle markview rendering for a chat buffer around a turn: disabled while the
---- agent streams (no repaint jank on the frequent full-buffer re-renders),
---- re-enabled when the turn ends (also a visible "agent is done" cue). No-ops if
---- markview isn't present or attached.
-local function markview_render(buf, on)
-	pcall(function()
-		require("markview.actions")[on and "enable" or "disable"](buf)
+local function neighboring_row(rows, row, direction)
+	if direction < 0 then
+		for i = #rows, 1, -1 do
+			if rows[i] < row then
+				return rows[i]
+			end
+		end
+	else
+		for _, candidate in ipairs(rows) do
+			if candidate > row then
+				return candidate
+			end
+		end
+	end
+end
+
+function M.jump_message(chat, direction)
+	local rows = {}
+	for _, message in ipairs(chat.messages) do
+		local row = marked_row(chat, message.mark)
+		if row then
+			rows[#rows + 1] = row
+		end
+	end
+	local row = vim.api.nvim_win_get_cursor(0)[1]
+	for _ = 1, vim.v.count1 do
+		local next_row = neighboring_row(rows, row, direction)
+		if not next_row then
+			break
+		end
+		row = next_row
+	end
+	vim.api.nvim_win_set_cursor(0, { row, 0 })
+end
+
+function M.message_menu(chat)
+	if #chat.messages == 0 then
+		return
+	end
+	local win = vim.api.nvim_get_current_win()
+	local messages, labels = chat.messages, {}
+	for _, message in ipairs(messages) do
+		local text = message.entry.text
+		local preview = text:sub(1, vim.str_byteindex(text, "utf-32", 80, false)):gsub("%s+", " ")
+		labels[#labels + 1] = message.role .. ": " .. preview
+	end
+	vim.ui.select(labels, { prompt = "Messages:" }, function(_, index)
+		local message = index and messages[index]
+		if not message or not vim.api.nvim_win_is_valid(win) or vim.api.nvim_win_get_buf(win) ~= chat.buf then
+			return
+		end
+		for _, current in ipairs(chat.messages) do
+			if current.entry == message.entry then
+				local row = marked_row(chat, current.mark)
+				if row then
+					vim.api.nvim_win_set_cursor(win, { row, 0 })
+				end
+				return
+			end
+		end
 	end)
+end
+
+local function refresh_files()
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_is_loaded(buf) then
+			local opts = vim.bo[buf]
+			local autoread = opts.autoread
+			if autoread == nil then
+				autoread = vim.o.autoread
+			end
+			if autoread and not opts.modified and opts.buftype == "" then
+				-- A buffer number prevents :checktime from waiting for the next input.
+				vim.cmd("silent! checktime " .. buf)
+			end
+		end
+	end
 end
 
 --- Send the current input as a prompt (creating the session on first use).
 function M.submit(chat)
 	if chat.status == "busy" then
 		vim.notify("acp: turn in progress", vim.log.levels.WARN)
+		return
+	end
+	-- pi-acp stops other pi processes when it creates or loads a session.
+	if another_running(chat) then
 		return
 	end
 	local text = read_input(chat)
@@ -784,6 +749,10 @@ function M.submit(chat)
 	if text ~= "" then
 		blocks[#blocks + 1] = { type = "text", text = text }
 	end
+	-- Slash-command arguments must stay exact for the adapter's command parser.
+	if text:sub(1, 1) ~= "/" then
+		blocks[#blocks + 1] = { type = "text", text = RESPONSE_FORMAT }
+	end
 	chat.pending_refs = {}
 
 	-- New turn: its entries are tagged with this id so render() can group and
@@ -794,38 +763,40 @@ function M.submit(chat)
 	chat.status = "busy"
 	last_chat_buf = chat.buf
 	render(chat)
-	markview_render(chat.buf, false) -- pause rendering; raw markdown = "working"
 
 	local function go()
 		send_prompt(chat.sessionId, blocks, function(stop)
 			vim.schedule(function()
 				chat.status = "idle"
+				refresh_files()
 				if stop and stop ~= "end_turn" then
-					chat.entries[#chat.entries + 1] = { kind = "assistant", text = "_[" .. stop .. "]_", turn = chat.turn }
+					chat.entries[#chat.entries + 1] = { kind = "status", text = "[" .. stop .. "]", turn = chat.turn }
 				end
 				render(chat)
-				markview_render(chat.buf, true) -- re-render; rendered = "done"
 				focus_input(chat)
 			end)
 		end)
 	end
 
-	if chat.sessionId then
+	local function on_update(u)
+		apply_update(chat, u)
+		schedule_render(chat)
+	end
+	local function ready(sessionId)
+		chat.sessionId = sessionId
+		if not sessionId then
+			chat.status = "idle"
+			render(chat)
+			return
+		end
 		go()
+	end
+	if chat.sessionId and client and client.sessions[chat.sessionId] then
+		go()
+	elseif chat.sessionId then
+		load_session(chat.sessionId, chat.root, on_update, ready)
 	else
-		new_session(chat.root, function(u)
-			apply_update(chat, u)
-			schedule_render(chat)
-		end, function(sessionId)
-			if not sessionId then
-				chat.status = "idle"
-				render(chat)
-				markview_render(chat.buf, true)
-				return
-			end
-			chat.sessionId = sessionId
-			go()
-		end)
+		new_session(chat.root, on_update, ready)
 	end
 end
 
@@ -878,28 +849,24 @@ function M.new_chat(root)
 	chats[buf] = chat
 	last_chat_buf = buf
 
-	-- acwrite (not nofile) so `:w` is handled by our BufWriteCmd instead of
-	-- being rejected with E382.
+	-- 'acwrite' permits BufWriteCmd; 'nofile' rejects :write with E382.
 	vim.bo[buf].buftype = "acwrite"
 	vim.bo[buf].bufhidden = "hide"
 	vim.bo[buf].swapfile = false
-	vim.bo[buf].filetype = "markdown"
 	vim.b[buf].acp_chat = true
 	vim.bo[buf].omnifunc = "v:lua.require'tt.plugin.acp'.complete"
 	pcall(vim.api.nvim_buf_set_name, buf, string.format("acp://%s/%d", vim.fs.basename(root), chat.id))
 
-	-- Send by saving the buffer (`:w`). <CR> is left free for newlines in your
-	-- message. Buffer-local BufWriteCmd rather than a name pattern, since the
-	-- acp:// buffer name gets path-normalized.
+	-- ACP buffer names are normalized. Match the buffer handle, not the name.
 	vim.api.nvim_create_autocmd("BufWriteCmd", {
-		buffer = buf,
+		buf = buf,
 		callback = function()
 			M.submit(chat)
 			vim.bo[buf].modified = false
 		end,
 	})
 
-	local opts = { buffer = buf, silent = true }
+	local opts = { buf = buf, silent = true }
 	vim.keymap.set("n", "<C-c>", function()
 		M.cancel(chat)
 	end, vim.tbl_extend("force", opts, { desc = "acp: cancel turn" }))
@@ -912,6 +879,15 @@ function M.new_chat(root)
 	vim.keymap.set("n", "gV", function()
 		M.toggle_verbose(chat)
 	end, vim.tbl_extend("force", opts, { desc = "acp: toggle verbose tools" }))
+	vim.keymap.set("n", "[[", function()
+		M.jump_message(chat, -1)
+	end, vim.tbl_extend("force", opts, { desc = "acp: previous message" }))
+	vim.keymap.set("n", "]]", function()
+		M.jump_message(chat, 1)
+	end, vim.tbl_extend("force", opts, { desc = "acp: next message" }))
+	vim.keymap.set("n", "gO", function()
+		M.message_menu(chat)
+	end, vim.tbl_extend("force", opts, { desc = "acp: message list" }))
 	-- Typing `/` at the start of a message pops the slash-command menu.
 	vim.keymap.set("i", "/", function()
 		local before = vim.api.nvim_get_current_line():sub(1, vim.fn.col(".") - 1)
@@ -920,6 +896,7 @@ function M.new_chat(root)
 
 	vim.cmd("botright vsplit")
 	vim.api.nvim_win_set_buf(0, buf)
+	vim.bo[buf].filetype = "acp"
 	render(chat)
 	focus_input(chat, true)
 	return chat
@@ -1031,19 +1008,6 @@ local function last_answer(chat)
 	end
 end
 
---- Flatten the conversation to clean markdown (user + assistant turns only).
-local function transcript_md(chat)
-	local out = {}
-	for _, e in ipairs(chat.entries) do
-		if e.kind == "user" then
-			out[#out + 1] = "## You\n\n" .. e.text
-		elseif e.kind == "assistant" then
-			out[#out + 1] = "## Claude\n\n" .. e.text
-		end
-	end
-	return table.concat(out, "\n\n")
-end
-
 --- Capture a chat's last answer (or whole transcript) into a buffer/file.
 ---@param opts { all: boolean|nil, path: string|nil }
 function M.save(opts)
@@ -1053,7 +1017,7 @@ function M.save(opts)
 		vim.notify("acp: no chat to save", vim.log.levels.WARN)
 		return
 	end
-	local content = opts.all and transcript_md(chat) or last_answer(chat)
+	local content = opts.all and chat_view.transcript(chat) or last_answer(chat)
 	if not content or content == "" then
 		vim.notify("acp: nothing to save yet", vim.log.levels.WARN)
 		return
@@ -1071,24 +1035,11 @@ function M.save(opts)
 		vim.fs.mkdir(vim.fs.dirname(path), { parents = true })
 		vim.fn.writefile(lines, path)
 		vim.cmd("split " .. vim.fn.fnameescape(path))
-		vim.notify("acp: saved → " .. path)
+		vim.notify("acp: saved: " .. path)
 	else
 		-- Scratch reference buffer; user decides whether to :w it (buftype "").
-		vim_util.scratch_split(lines, { buftype = "", bufhidden = "hide", filetype = "markdown" })
+		vim_util.scratch_split(lines, { buftype = "", bufhidden = "hide", filetype = "acp" })
 	end
-end
-
---- Send `text` as a one-shot prompt to the current/most-recent chat (or a new
---- one). Used by the *.todo write handler for `?`-prefixed rough notes.
-function M.send(text)
-	local chat = resolve_chat()
-	if chat then
-		show_chat(chat)
-	else
-		chat = M.new_chat()
-	end
-	vim.api.nvim_buf_set_lines(chat.buf, -1, -1, false, vim.split(text, "\n", { plain = true }))
-	M.submit(chat)
 end
 
 --- Pick a live chat and jump to it.
@@ -1109,7 +1060,7 @@ function M.list_chats()
 	vim.ui.select(items, {
 		prompt = "ACP chats:",
 		format_item = function(c)
-			local st = c.status == "busy" and "●" or "○"
+			local st = c.status == "busy" and "[busy]" or "[idle]"
 			local title = "(new)"
 			for _, e in ipairs(c.entries) do
 				if e.kind == "user" then
@@ -1129,9 +1080,11 @@ end
 
 --- Terminate the bridge subprocess (and thus all sessions). Called on quit.
 function M.shutdown()
-	if client and client.job and client.job > 0 then
-		pcall(vim.fn.jobstop, client.job)
-		pcall(vim.fn.jobwait, { client.job }, 1000)
+	local c = client
+	if c and c.job > 0 then
+		bridge_exited(c, "stopped")
+		pcall(vim.fn.jobstop, c.job)
+		pcall(vim.fn.jobwait, { c.job }, 1000)
 	end
 	client = nil
 end
@@ -1151,9 +1104,8 @@ function M.info()
 	else
 		lines[#lines + 1] = "tracked bridge: none (not spawned)"
 	end
-	-- Match on whatever the configured bridge actually runs, not just Claude's.
 	local cmd = bridge_cmd()
-	local pat = (vim.g.acp_bridge_cmd == nil) and "claude-code-acp" or (cmd[#cmd] or "")
+	local pat = (vim.g.acp_bridge_cmd == nil) and "pi-acp" or (cmd[#cmd] or "")
 	local pgrep = vim.system({ "pgrep", "-fl", pat }, { text = true }):wait()
 	local procs = vim.split(vim.trim(pgrep.stdout or ""), "\n", { trimempty = true })
 	lines[#lines + 1] = "running bridge processes:"
@@ -1169,7 +1121,7 @@ end
 
 --- Open the bridge's recent stderr in a scratch buffer (see M.debug for live).
 function M.show_log()
-	local log = (client and client.stderr_log) or {}
+	local log = bridge_log
 	if #log == 0 then
 		vim.notify("acp: no bridge log yet")
 		return
@@ -1199,7 +1151,8 @@ function M.persist(chat)
 		return
 	end
 	local rec = {
-		version = 1,
+		version = 2,
+		bridge = bridge_cmd(),
 		name = vim.api.nvim_buf_is_valid(chat.buf) and vim.api.nvim_buf_get_name(chat.buf) or nil,
 		root = chat.root,
 		sessionId = chat.sessionId,
@@ -1222,6 +1175,10 @@ end
 
 --- Recreate a chat from a saved record and resume its agent session.
 local function restore(rec)
+	local same_bridge = vim.deep_equal(rec.bridge, bridge_cmd())
+	if same_bridge and another_running() then
+		return
+	end
 	local chat = M.new_chat(rec.root)
 	chat.entries = rec.entries or {}
 	chat.turn = rec.turn or 0
@@ -1234,12 +1191,17 @@ local function restore(rec)
 		end
 	end
 	render(chat)
-	markview_render(chat.buf, true)
-	-- Reconnect the live Claude session so the conversation can continue.
+	-- A session ID from another agent cannot resume a pi session.
+	if not same_bridge then
+		chat.sessionId = nil
+		vim.notify("acp: transcript reopened; different bridge, so the next message starts a new session")
+		return chat
+	end
 	load_session(rec.sessionId, rec.root, function(u)
 		apply_update(chat, u)
 		schedule_render(chat)
 	end, function(sid)
+		chat.sessionId = sid
 		vim.schedule(function()
 			vim.notify(sid and "acp: session resumed" or "acp: reopened transcript (resume failed)")
 		end)
@@ -1282,7 +1244,7 @@ function M.sessions()
 		local age = rec.updated and os.date("%Y-%m-%d %H:%M", rec.updated) or "?"
 		items[#items + 1] = {
 			text = title,
-			hint = vim.fs.basename(rec.root or "") .. " · " .. age,
+			hint = vim.fs.basename(rec.root or "") .. " - " .. age,
 			value = rec,
 		}
 	end
@@ -1312,16 +1274,20 @@ local function buf_append(buf, delta)
 	vim.bo[buf].modifiable = false
 end
 
---- Phase 1 smoke test, kept for debugging the transport in isolation.
+--- Check transport and authentication with one prompt.
 function M.ping()
+	if another_running() then
+		return
+	end
 	vim.cmd("botright new")
 	local buf = vim.api.nvim_get_current_buf()
 	vim.bo[buf].buftype = "nofile"
 	vim.bo[buf].bufhidden = "wipe"
-	vim.bo[buf].filetype = "markdown"
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "# acp ping", "", "> connecting…", "" })
+	vim.bo[buf].filetype = "acp"
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "ACP ping", "", "Connecting...", "" })
 	vim.bo[buf].modifiable = false
 	local root = vim.fs.root(0, { ".git" }) or vim.uv.cwd()
+	ping_running = true
 	new_session(root, function(update)
 		vim.schedule(function()
 			local su = update.sessionUpdate
@@ -1331,11 +1297,13 @@ function M.ping()
 		end)
 	end, function(sessionId)
 		if not sessionId then
+			ping_running = false
 			return
 		end
 		send_prompt(sessionId, { { type = "text", text = "Reply with exactly the single word: PONG." } }, function(stop)
+			ping_running = false
 			vim.schedule(function()
-				buf_append(buf, "\n\n> _turn ended: " .. tostring(stop) .. "_")
+				buf_append(buf, "\n\n[turn ended: " .. tostring(stop) .. "]")
 			end)
 		end)
 	end)
@@ -1343,20 +1311,23 @@ end
 
 ---------------------------------------------------------------------- wiring
 
+-- Reapply chat window options when a buffer is shown in a different split.
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = vim.api.nvim_create_augroup("acp_chat_win", { clear = true }),
+	callback = function(ev)
+		if vim.b[ev.buf].acp_chat or vim.bo[ev.buf].filetype == "acp" then
+			chat_view.setup_window(ev.win)
+		end
+	end,
+})
+vim.api.nvim_create_autocmd("VimLeavePre", {
+	group = vim.api.nvim_create_augroup("acp_shutdown", { clear = true }),
+	callback = function()
+		M.shutdown()
+	end,
+})
+
 function M.init()
-	-- Soft-wrap chat buffers wherever they're shown.
-	vim_util.soft_wrap_on_flag("acp_chat", "acp_chat_win")
-
-	-- Make sure the bridge dies with nvim (covers the clean-exit path
-	-- explicitly; a SIGKILL of nvim still can't be caught -- use :AgentStatus
-	-- to find and :AgentStop to reap any survivor).
-	vim.api.nvim_create_autocmd("VimLeavePre", {
-		group = vim.api.nvim_create_augroup("acp_shutdown", { clear = true }),
-		callback = function()
-			M.shutdown()
-		end,
-	})
-
 	local cmd = vim.api.nvim_create_user_command
 
 	cmd("AgentStatus", function()
@@ -1418,8 +1389,7 @@ function M.init()
 
 	cmd("AgentPing", function()
 		M.ping()
-	end, { desc = "ACP smoke test: ping Claude Code over the bridge" })
-
+	end, { desc = "ACP smoke test: ping pi over the bridge" })
 end
 
 return M

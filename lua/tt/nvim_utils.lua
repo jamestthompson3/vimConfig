@@ -6,8 +6,7 @@ local is_windows = require("tt.platform").is_windows
 
 M.vim_util = {}
 
--- Recompute the cached client list for `bufnr`. Called from LspAttach/LspDetach
--- so the statusline reads a buffer var instead of scanning clients each redraw.
+-- Update on LSP events to prevent client searches during each statusline redraw.
 function M.vim_util.refresh_lsp_clients(bufnr)
 	bufnr = bufnr or 0
 	local names = {}
@@ -21,8 +20,7 @@ function M.vim_util.get_lsp_clients()
 	return vim.b.lsp_clients_str or ""
 end
 
--- Soft-wrap (word boundaries, hanging indent) any window that displays a buffer
--- flagged with buffer-var `flag`. wrap is window-local, so key off BufWinEnter.
+-- 'wrap' is window-local. Set it for each window that displays the buffer.
 function M.vim_util.soft_wrap_on_flag(flag, group_name)
 	vim.api.nvim_create_autocmd("BufWinEnter", {
 		group = vim.api.nvim_create_augroup(group_name, { clear = true }),
@@ -37,8 +35,6 @@ function M.vim_util.soft_wrap_on_flag(flag, group_name)
 	})
 end
 
--- Open `lines` in a bottom-split scratch buffer. opts: filetype, buftype
--- (default "nofile"), bufhidden (default "wipe"), modifiable, name. Returns buf.
 function M.vim_util.scratch_split(lines, opts)
 	opts = opts or {}
 	vim.cmd("botright split")
@@ -59,111 +55,79 @@ function M.vim_util.scratch_split(lines, opts)
 	return buf
 end
 
----
--- MISC UTILS
----
-
 M.nodejs = {}
 
--- find vim related node_modules
 function M.nodejs.get_node_bin(bin)
 	return fn.stdpath("config") .. "/langservers/node_modules/.bin/" .. bin
 end
 
-local function lookup_node_executable(binaryName, bufnr)
-	local normalized_bin_name
-	local executable = ""
-	if is_windows then
-		normalized_bin_name = binaryName .. ".cmd"
-	else
-		normalized_bin_name = binaryName
+---@param context? integer|string Buffer number or project directory.
+function M.nodejs.directory(context)
+	if type(context) == "string" and context ~= "" then
+		return vim.fs.abspath(context)
 	end
-
-	local function is_executable(path)
-		local stat = vim.uv.fs_stat(path)
-		if not stat then
-			return false
-		end
-		return vim.fn.executable(path) == 1
-	end
-
-	-- 1. Check vim.g.nodeDir override
-	if vim.g.nodeDir ~= nil then
-		executable = vim.g.nodeDir .. "/node_modules/.bin/" .. normalized_bin_name
-	end
-
-	-- 2. Walk up from the file's directory to find nearest node_modules
-	if not is_executable(executable) then
-		local buf = bufnr or 0
-		local bufname = vim.api.nvim_buf_get_name(buf)
-		if bufname and bufname ~= "" then
-			local file_dir = vim.fn.fnamemodify(bufname, ":h")
-			local found = vim.fs.find("node_modules", {
-				path = file_dir,
-				upward = true,
-				type = "directory",
-			})
-			if found and #found > 0 then
-				executable = found[1] .. "/.bin/" .. normalized_bin_name
-			end
-		end
-	end
-
-	-- 3. Check cwd
-	if not is_executable(executable) then
-		executable = fn.getcwd() .. "/node_modules/.bin/" .. normalized_bin_name
-	end
-
-	-- 4. Check git root
-	if not is_executable(executable) then
-		local git_root = vim.fs.root(bufnr or 0, ".git")
-		if git_root then
-			executable = vim.fs.normalize(git_root .. "/node_modules/.bin/" .. normalized_bin_name)
-		end
-	end
-
-	-- 5. Fallback to langservers
-	if not is_executable(executable) then
-		executable = M.nodejs.get_node_bin(normalized_bin_name)
-	end
-	if not is_executable(executable) then
-		return ""
-	end
-	return executable
+	local name = vim.api.nvim_buf_get_name(context or 0)
+	return name ~= "" and not name:match("^%a[%w+.-]*://") and vim.fs.dirname(name) or fn.getcwd()
 end
 
-local node_executable_cache = {}
-
-function M.nodejs.find_node_executable(binaryName, bufnr)
-	local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr or 0))
-	local key = table.concat({ binaryName, dir, fn.getcwd(), vim.g.nodeDir or "" }, "\0")
-	local executable = node_executable_cache[key]
-	if not executable then
-		executable = lookup_node_executable(binaryName, bufnr)
-		if executable ~= "" then
-			node_executable_cache[key] = executable
+local function find_node_path(relative, context, exists)
+	local function candidate(dir)
+		local path = vim.fs.joinpath(dir, "node_modules", relative)
+		return exists(path) and path or nil
+	end
+	if vim.g.nodeDir then
+		local path = candidate(vim.g.nodeDir)
+		if path then
+			return path
 		end
 	end
-	return executable
+	local dir = M.nodejs.directory(context)
+	while dir do
+		local path = candidate(dir)
+		if path then
+			return path
+		end
+		local parent = vim.fs.dirname(dir)
+		dir = parent ~= dir and parent or nil
+	end
+	return candidate(fn.stdpath("config") .. "/langservers") or ""
 end
 
-function M.nodejs.get_node_lib(lib)
-	local f = fn.getcwd() .. "/node_modules/" .. lib
-	if not vim.uv.fs_stat(f) then
-		local git_root = vim.fs.root(0, ".git")
-		if git_root then
-			f = vim.fs.normalize(git_root .. "/node_modules/" .. lib)
+-- Do not keep resolved paths. Package installation can change the nearest executable.
+function M.nodejs.find_node_executable(bin, context)
+	local name = is_windows and (bin .. ".cmd") or bin
+	local path = find_node_path(".bin/" .. name, context, function(p)
+		return fn.executable(p) == 1
+	end)
+	return path ~= "" and path or fn.exepath(name)
+end
+
+function M.nodejs.get_node_lib(lib, context)
+	return find_node_path(lib, context, function(p)
+		return vim.uv.fs_stat(p) ~= nil
+	end)
+end
+
+function M.nodejs.root_dir(markers, binary)
+	return function(buf, on_dir)
+		local root = vim.fs.root(buf, markers) or M.nodejs.directory(buf)
+		if not binary or M.nodejs.find_node_executable(binary, root) ~= "" then
+			on_dir(root)
 		end
 	end
-	if vim.uv.fs_stat(f) then
-		return f
+end
+
+function M.nodejs.lsp_cmd(bin, args)
+	return function(dispatchers, config)
+		local cwd = config.root_dir or config.cmd_cwd or fn.getcwd()
+		local executable = M.nodejs.find_node_executable(bin, cwd)
+		assert(executable ~= "", "Cannot find " .. bin .. "; install it in the project, langservers/, or PATH")
+		return vim.lsp.rpc.start(vim.list_extend({ executable }, args or {}), dispatchers, {
+			cwd = config.cmd_cwd or cwd,
+			env = config.cmd_env,
+			detached = config.detached,
+		})
 	end
-	-- Fallback to langservers
-	local langservers_path = fn.stdpath("config") .. "/langservers/node_modules/" .. lib
-	if vim.uv.fs_stat(langservers_path) then
-		return langservers_path
-	end
-	return ""
 end
 
 return M

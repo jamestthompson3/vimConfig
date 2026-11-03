@@ -3,53 +3,33 @@ local function gh(pkg)
 end
 
 vim.pack.add({
-	gh("OXY2DEV/markview.nvim"),
-	-- Kept only as a parser installer / query provider (`:TSInstall`, `:TSUpdate`).
-	-- The `main` branch does not auto-enable highlighting; we call
-	-- vim.treesitter.start() ourselves (see below), so nothing here forces its
-	-- highlighter on.
+	gh("nvim-mini/mini.surround"),
+	-- The main branch installs parsers but does not enable highlighting.
 	{ src = gh("nvim-treesitter/nvim-treesitter"), version = "main" },
 })
 
--- nvim-treesitter (main) only installs parsers; starting the highlighter is
--- ours to do. pcall so filetypes without an installed parser fall back to
--- regex 'syntax' silently instead of erroring.
+-- A parser can be absent. Keep syntax highlighting if Treesitter cannot start.
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("treesitter_highlight", { clear = true }),
 	callback = function(ev)
-		pcall(vim.treesitter.start, ev.buf)
+		if vim.bo[ev.buf].filetype ~= "acp" and not require("tt.buffer").is_large(ev.buf) then
+			pcall(vim.treesitter.start, ev.buf)
+		end
+	end,
+})
+vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+	group = vim.api.nvim_create_augroup("tt_large_highlight", { clear = true }),
+	callback = function(ev)
+		if require("tt.buffer").is_large(ev.buf) then
+			vim.treesitter.stop(ev.buf)
+		end
 	end,
 })
 
--- Buffer-local create/rename/delete on the builtin |dir| browser (`a`/`r`/`dd`).
 require("tt.dir").setup()
 
--- markview does its own internal filetype-gated lazy loading (it only attaches
--- to buffers matching its `preview.filetypes`), so it must be loaded eagerly
--- and configured up front.
-require("markview").setup({
-	markdown = {
-		block_quotes = { enable = false },
-		headings = { enable = false },
-		horizontal_rules = { enable = false },
-		list_items = { enable = false },
-		metadata_minus = { enable = false },
-		metadata_plus = { enable = false },
-		reference_definitions = { enable = false },
-	},
-	markdown_inline = { enable = false },
-	asciidoc = { enable = false },
-	asciidoc_inline = { enable = false },
-	comment = { enable = false },
-	html = { enable = false },
-	latex = { enable = false },
-	typst = { enable = false },
-	yaml = { enable = false },
-})
-
--- Installed by vim.pack but loaded later via packadd
+-- An empty load callback keeps these plugins off runtimepath until packadd.
 vim.pack.add({
-	gh("nvim-mini/mini.surround"),
 	gh("windwp/nvim-autopairs"),
 	gh("catgoose/nvim-colorizer.lua"),
 	gh("nvim-treesitter/nvim-treesitter-context"),
@@ -59,7 +39,6 @@ vim.pack.add({
 	gh("reedes/vim-wordy"),
 }, { load = function() end })
 
--- vim-wordy: load on the first use of one of its commands.
 local wordy_cmds = { "Wordy", "NoWordy", "NextWordy", "PrevWordy" }
 for _, name in ipairs(wordy_cmds) do
 	vim.api.nvim_create_user_command(name, function(opts)
@@ -83,10 +62,39 @@ for _, p in ipairs(disabled_plugins) do
 	vim.g["loaded_" .. p] = 1
 end
 
+-- Surround mappings must work before Insert mode is entered.
+require("mini.surround").setup()
 local lazy_load = vim.api.nvim_create_augroup("Plugins", { clear = true })
 require("tt.plugin.find").init()
-require("tt.plugin.acp").init()
-require("tt.plugin.pr").init()
+local lazy = require("tt.lazy")
+lazy.commands({
+	Agent = {},
+	AgentChats = {},
+	AgentStatus = {},
+	AgentStop = {},
+	AgentLog = {},
+	AgentDebug = {},
+	AgentAccept = {},
+	AgentVerbose = {},
+	AgentRef = {},
+	AgentPersist = {},
+	AgentSessions = {},
+	AgentPing = {},
+	AgentSend = { range = true },
+	AgentSave = { bang = true, nargs = "?", complete = "file" },
+}, function()
+	require("tt.plugin.acp").init()
+end)
+lazy.commands({
+	PrList = { nargs = "*" },
+	PrView = { nargs = "?" },
+	PrCheckout = { nargs = 1 },
+	PrDiff = { nargs = "?" },
+	PrMine = { nargs = "?" },
+	PrReviews = { nargs = "?" },
+}, function()
+	require("tt.plugin.pr").init()
+end)
 
 vim.api.nvim_create_autocmd("InsertEnter", {
 	group = lazy_load,
@@ -107,24 +115,64 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("BufReadPost", {
+local load_context = lazy.commands({ TSContext = { nargs = "*" } }, function()
+	vim.cmd.packadd("nvim-treesitter-context")
+	require("tt.plugin.treesitter").init()
+end)
+vim.api.nvim_create_autocmd("WinScrolled", {
 	group = lazy_load,
-	once = true,
-	callback = function()
-		vim.cmd.packadd("nvim-treesitter-context")
+	callback = function(ev)
+		local win = tonumber(ev.match)
+		if not win or not vim.api.nvim_win_is_valid(win) or vim.fn.line("w0", win) <= 1 then
+			return
+		end
+		local buf = vim.api.nvim_win_get_buf(win)
+		if
+			vim.bo[buf].buftype ~= ""
+			or vim.bo[buf].filetype == ""
+			or vim.bo[buf].filetype == "acp"
+			or require("tt.buffer").is_large(buf)
+		then
+			return
+		end
+		vim.api.nvim_win_call(win, load_context)
+		return true
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = lazy_load,
+	pattern = { "html", "xml", "javascriptreact", "typescriptreact", "astro", "svelte", "vue" },
+	callback = function(ev)
+		if require("tt.buffer").is_large(ev.buf) then
+			return
+		end
 		vim.cmd.packadd("nvim-ts-autotag")
-		require("tt.plugin.treesitter").init()
-		vim.cmd.packadd("mini.surround")
-		require("mini.surround").setup()
-		require("nvim-ts-autotag").setup({
-			aliases = {
-				["astro"] = "html",
-			},
-		})
+		require("nvim-ts-autotag").setup({ aliases = { astro = "html" } })
+		return true
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = lazy_load,
+	pattern = {
+		"c",
+		"cpp",
+		"css",
+		"scss",
+		"html",
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"lua",
+	},
+	callback = function(ev)
+		if require("tt.buffer").is_large(ev.buf) then
+			return
+		end
 		vim.cmd.packadd("nvim-colorizer.lua")
-		require("colorizer").setup({
-			filetypes = { "c", "cpp", "css", "scss", "html", "javascript", "typescript", "lua" },
-			parsers = { css = true },
-		})
+		require("tt.plugin.colorizer").setup()
+		return true
 	end,
 })

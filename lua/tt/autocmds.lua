@@ -11,16 +11,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("SwapExists", {
-	group = load_core,
-	callback = function()
-		if vim.fn.getftime(vim.v.swapname) < vim.fn.getftime(vim.fn.expand("<afile>:p")) then
-			vim.fn.delete(vim.v.swapname)
-			vim.v.swapchoice = "e"
-		end
-	end,
-})
-
 vim.api.nvim_create_autocmd({ "TextYankPost", "TextPutPost" }, {
 	group = load_core,
 	callback = function()
@@ -43,45 +33,8 @@ vim.api.nvim_create_autocmd("BufNewFile", {
 vim.api.nvim_create_autocmd("BufWriteCmd", {
 	group = bufs,
 	pattern = "*.todo",
-	callback = function()
-		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-		local expand = {}
-		for _, line in pairs(lines) do
-			line = vim.trim(line)
-			if line == "" then
-				goto continue
-			end
-
-			-- `!foo`  -> capture as a @nag (interrupt inbox)
-			-- `?foo`  -> hand to pi to turn into a properly tagged task
-			-- `foo`   -> straight into todo.txt as written
-			local prefix, rest = line:sub(1, 1), vim.trim(line:sub(2))
-			if prefix == "!" and rest ~= "" then
-				line = rest .. " @nag"
-			elseif prefix == "?" and rest ~= "" then
-				table.insert(expand, rest)
-				goto continue
-			end
-
-			local result = vim.system({ "todo.sh", "add" }, { stdin = line }):wait()
-			local exit_code = result.code
-			if exit_code ~= 0 then
-				vim.notify("command failed: " .. (result.stderr or result.stdout or ""), vim.log.levels.ERROR)
-			end
-
-			::continue::
-		end
-
-		if #expand > 0 then
-			require("tt.plugin.acp").send(
-				"Turn each of these rough notes into a well-formed todo.txt task and add it with "
-					.. "the todo_add tool. Follow the todo-conventions skill; ask me before inventing a "
-					.. "+project.\n\n- "
-					.. table.concat(expand, "\n- ")
-			)
-		end
-
-		vim.cmd.bdelete({ bang = true })
+	callback = function(ev)
+		require("tt.todo").submit(ev.buf)
 	end,
 })
 
@@ -104,8 +57,10 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
 
 vim.api.nvim_create_autocmd("TermClose", {
 	group = bufs,
-	callback = function()
-		vim.cmd.bdelete({ bang = true })
+	callback = function(ev)
+		if vim.v.event.status == 0 then
+			vim.api.nvim_buf_delete(ev.buf, { force = true })
+		end
 	end,
 })
 
@@ -113,12 +68,10 @@ vim.api.nvim_create_autocmd("TermRequest", {
 	group = load_core,
 	callback = function(ev)
 		if string.match(ev.data.sequence, "^\027]133;A") then
-			-- OSC 133: shell-prompt
+			-- OSC 133 A marks a shell prompt.
 			local lnum = ev.data.cursor[1]
 			vim.api.nvim_buf_set_extmark(ev.buf, vim.api.nvim_create_namespace("my.terminal.prompt"), lnum - 1, 0, {
-				-- Replace with sign text and highlight group of choice
 				sign_text = "∙",
-				-- sign_hl_group = 'SpecialChar',
 			})
 		end
 
@@ -129,7 +82,7 @@ vim.api.nvim_create_autocmd("TermRequest", {
 
 		local val, n = string.gsub(ev.data.sequence, "^\027]7;file://[^/]*", "")
 		if n > 0 then
-			-- OSC 7: dir-change
+			-- OSC 7 reports the current directory.
 			local dir = val
 			if vim.fn.isdirectory(dir) == 0 then
 				vim.notify("invalid dir: " .. dir)

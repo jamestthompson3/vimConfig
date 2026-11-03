@@ -1,7 +1,26 @@
 local ts_clients = { ts_ls = true, astro = true }
 local ts_translator_setup = false
+local group = vim.api.nvim_create_augroup("tt_lsp", { clear = true })
+local progress = require("tt.lsp.progress")
+local diagnostics = require("tt.lsp.diagnostics")
+
+local function update_folds(buf)
+	local folding = #vim.lsp.get_clients({ bufnr = buf, method = "textDocument/foldingRange" }) > 0
+	for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+		if require("tt.buffer").is_large(buf) then
+			vim.wo[win][0].foldexpr = "0"
+		elseif folding then
+			vim.wo[win][0].foldexpr = vim.lsp.foldexpr
+			vim.wo[win][0].foldtext = vim.lsp.foldtext
+		elseif vim.wo[win][0].foldexpr == vim.lsp.foldexpr or vim.wo[win][0].foldexpr == "0" then
+			vim.wo[win][0].foldexpr = vim.go.foldexpr
+			vim.wo[win][0].foldtext = vim.go.foldtext
+		end
+	end
+end
 
 vim.api.nvim_create_autocmd("LspAttach", {
+	group = group,
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		if not client then
@@ -26,31 +45,31 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				return { abbr = item.label:gsub("%b()", "") }
 			end,
 		})
-		if client.server_capabilities.codeLensProvider then
+		if client:supports_method("textDocument/codeLens", bufnr) then
 			vim.lsp.codelens.enable(true, { bufnr = bufnr })
 		end
-		if client.server_capabilities.documentOnTypeFormattingProvider then
+		if client:supports_method("textDocument/onTypeFormatting", bufnr) then
 			vim.lsp.on_type_formatting.enable(true, { client_id = client.id })
 		end
-		if client.server_capabilities.colorProvider then
-			vim.lsp.document_color.enable(true, { bufnr = bufnr })
+		if require("tt.buffer").is_large(bufnr) then
+			vim.lsp.document_color.enable(false, { bufnr = bufnr })
 		end
-		if client:supports_method("textDocument/foldingRange", bufnr) then
-			for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
-				vim.wo[win][0].foldexpr = vim.lsp.foldexpr
-				vim.wo[win][0].foldtext = vim.lsp.foldtext
-			end
-		end
+		update_folds(bufnr)
+		progress.sync(bufnr)
+		diagnostics.refresh(client.id)
 		require("tt.nvim_utils").vim_util.refresh_lsp_clients(bufnr)
 	end,
 })
 
 vim.api.nvim_create_autocmd("LspDetach", {
+	group = group,
 	callback = function(args)
-		-- Defer so the detaching client is gone from the client list.
+		progress.detach(args.data.client_id, args.buf)
+		-- LspDetach runs before the client is removed from the buffer.
 		vim.schedule(function()
 			if vim.api.nvim_buf_is_valid(args.buf) then
 				require("tt.nvim_utils").vim_util.refresh_lsp_clients(args.buf)
+				update_folds(args.buf)
 			end
 		end)
 	end,
@@ -100,45 +119,17 @@ vim.diagnostic.config({
 	},
 })
 
--- Set buffer busy status during LSP progress (refcounted across servers), and
--- on progress "end" (e.g. lua_ls finishes indexing) pull fresh diagnostics for
--- the client's buffers.
-local busy_count = {}
 vim.api.nvim_create_autocmd("LspProgress", {
-	callback = function(args)
-		local value = args.data.params.value
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if not client then
-			return
-		end
-
-		if value.kind == "begin" or value.kind == "report" then
-			for bufnr in pairs(client.attached_buffers) do
-				busy_count[bufnr] = (busy_count[bufnr] or 0) + (value.kind == "begin" and 1 or 0)
-				vim.bo[bufnr].busy = 1
-			end
-		elseif value.kind == "end" then
-			for bufnr in pairs(client.attached_buffers) do
-				busy_count[bufnr] = math.max(0, (busy_count[bufnr] or 1) - 1)
-				if busy_count[bufnr] == 0 then
-					vim.bo[bufnr].busy = 0
-				end
-				if client:supports_method("textDocument/diagnostic") then
-					-- Re-pull document diagnostics (nil handler -> the default
-					-- textDocument/diagnostic handler applies them). Replaces the
-					-- removed private vim.lsp.diagnostic._refresh().
-					client:request("textDocument/diagnostic", {
-						textDocument = { uri = vim.uri_from_bufnr(bufnr) },
-					}, nil, bufnr)
-				end
-			end
-		end
+	group = group,
+	callback = function(ev)
+		progress.update(ev)
+		diagnostics.on_progress(ev)
 	end,
 })
-
--- Force sign column redraw when diagnostics change
-vim.api.nvim_create_autocmd("DiagnosticChanged", {
-	callback = function(args)
-		vim.api.nvim__redraw({ buf = args.buf, valid = false, statuscolumn = true })
+vim.api.nvim_create_autocmd("DiagnosticChanged", { group = group, callback = diagnostics.redraw })
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = group,
+	callback = function(ev)
+		update_folds(ev.buf)
 	end,
 })

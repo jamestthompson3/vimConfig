@@ -6,6 +6,8 @@ local ACCEPT, CANCEL, SPLIT, VSPLIT = 0, 1, 2, 3
 local action_name = { [ACCEPT] = "edit", [SPLIT] = "split", [VSPLIT] = "vsplit" }
 
 local active_task = nil
+local active_origin = nil
+local noautocmd = require("tt.compat").noautocmd
 local picker_count = 0
 
 local function setup_highlights()
@@ -20,12 +22,23 @@ local function setup_highlights()
 	hi("PickMatch", { link = "PmenuMatch" })
 end
 
+local function normalize_items(items, opts)
+	local normalized = {}
+	for i, item in ipairs(items) do
+		local text = opts.format_item and opts.format_item(item) or type(item) == "string" and item or tostring(item)
+		normalized[i] = { id = i, text = text, value = item }
+	end
+	return normalized
+end
+
 function M.open(items, opts)
 	opts = opts or {}
 
+	local origin = active_origin or { win = vim.api.nvim_get_current_win(), view = vim.fn.winsaveview() }
 	if active_task and not active_task:completed() then
 		active_task:close()
 	end
+	active_origin = origin
 
 	setup_highlights()
 
@@ -33,13 +46,9 @@ function M.open(items, opts)
 	local on_choice = opts.on_choice or function() end
 	local on_cancel = opts.on_cancel
 
-	local norm = {}
-	for i, item in ipairs(items) do
-		local text = opts.format_item and opts.format_item(item) or type(item) == "string" and item or tostring(item)
-		norm[i] = { id = i, text = text, value = item }
-	end
+	local norm = normalize_items(items, opts)
 
-	local input = ""
+	local input, filtered_input = "", ""
 	local matches = {}
 	local pos_cache = {}
 	local idx = 0
@@ -50,10 +59,10 @@ function M.open(items, opts)
 	local debounce = opts.debounce or 50
 	local result_limit = opts.limit or 200
 
-	local win_width = math.floor(vim.o.columns * 0.7)
+	local win_width = math.max(1, math.min(vim.o.columns - 2, math.floor(vim.o.columns * 0.7)))
 	local win_col = math.floor((vim.o.columns - win_width) / 2)
 	local function max_h()
-		return math.ceil(vim.o.lines * (opts.height or 0.4))
+		return math.max(1, math.min(#items + 1, vim.o.lines - 2, math.ceil(vim.o.lines * (opts.height or 0.4))))
 	end
 	local function list_max()
 		return math.max(max_h() - 1, 1)
@@ -113,10 +122,36 @@ function M.open(items, opts)
 		offset = math.max(0, math.min(offset, #matches - lm))
 	end
 
+	-- matchfuzzypos returns copies. Cache positions by item ID.
+	local function match_positions(visible)
+		local positions = {}
+		if #input > 0 then
+			local missing = {}
+			for _, item in ipairs(visible) do
+				if pos_cache[item.id] == nil then
+					missing[#missing + 1] = item
+				end
+			end
+			if #missing > 0 then
+				local result = vim.fn.matchfuzzypos(missing, input, { key = "text" })
+				for i, item in ipairs(result[1]) do
+					pos_cache[item.id] = result[2][i]
+				end
+			end
+			for i, item in ipairs(visible) do
+				positions[i] = pos_cache[item.id] or {}
+			end
+		end
+		return positions
+	end
+
 	local function render()
-		if closed then
+		if closed or not vim.api.nvim_win_is_valid(win) then
 			return
 		end
+		win_width = math.max(1, math.min(vim.o.columns - 2, math.floor(vim.o.columns * 0.7)))
+		win_col = math.max(0, math.floor((vim.o.columns - win_width) / 2))
+		initial_h = max_h()
 
 		local pointer = " "
 		local indent_n = #pointer + 1
@@ -133,31 +168,9 @@ function M.open(items, opts)
 		end
 		local match_count = #lines - 1
 
-		-- Compute highlight positions only for the visible rows, keyed back to
-		-- each item by id (Vim's fuzzy fns return copies, so table identity
-		-- can't be used) and cached across renders (reset on requery).
-		-- Navigating within an already-seen window costs no extra fuzzy calls;
-		-- scrolling only pays for the newly revealed rows.
-		local all_pos = {}
-		if #input > 0 then
-			local missing = {}
-			for _, item in ipairs(vis) do
-				if pos_cache[item.id] == nil then
-					missing[#missing + 1] = item
-				end
-			end
-			if #missing > 0 then
-				local r = vim.fn.matchfuzzypos(missing, input, { key = "text" })
-				for i, item in ipairs(r[1]) do
-					pos_cache[item.id] = r[2][i]
-				end
-			end
-			for i = 1, #vis do
-				all_pos[i] = pos_cache[vis[i].id] or {}
-			end
-		end
+		local all_pos = match_positions(vis)
 
-		vim._with({ noautocmd = true }, function()
+		noautocmd(function()
 			vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 		end)
 
@@ -173,29 +186,30 @@ function M.open(items, opts)
 
 		for i = 1, match_count do
 			for _, c in ipairs(all_pos[i] or {}) do
-				pcall(vim.api.nvim_buf_set_extmark, buf, ns, i, indent_n + c, {
-					end_col = indent_n + c + 1,
+				local first = vim.fn.byteidx(vis[i].text, c)
+				local last = vim.fn.byteidx(vis[i].text, c + 1)
+				pcall(vim.api.nvim_buf_set_extmark, buf, ns, i, indent_n + first, {
+					end_col = indent_n + (last == -1 and #vis[i].text or last),
 					hl_group = "PickMatch",
 					hl_mode = "combine",
 				})
 			end
 		end
 
-		if idx > 0 and match_count > 0 then
+		if idx > 0 then
+			-- update_offset keeps the selected row within the visible rows.
 			local row = idx - offset
-			if row >= 1 and row <= match_count then
-				vim.api.nvim_buf_set_extmark(buf, ns, row, 0, {
-					virt_text = { { pointer, "PickPointer" } },
-					virt_text_pos = "overlay",
-					hl_mode = "combine",
-				})
-				vim.api.nvim_buf_set_extmark(buf, ns, row, 0, {
-					hl_group = "PickSel",
-					hl_eol = true,
-					end_row = row + 1,
-					hl_mode = "combine",
-				})
-			end
+			vim.api.nvim_buf_set_extmark(buf, ns, row, 0, {
+				virt_text = { { pointer, "PickPointer" } },
+				virt_text_pos = "overlay",
+				hl_mode = "combine",
+			})
+			vim.api.nvim_buf_set_extmark(buf, ns, row, 0, {
+				hl_group = "PickSel",
+				hl_eol = true,
+				end_row = row + 1,
+				hl_mode = "combine",
+			})
 		end
 
 		vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, {
@@ -203,8 +217,7 @@ function M.open(items, opts)
 			virt_text_pos = "inline",
 			right_gravity = false,
 		})
-		-- When a query hits the result cap we can't know the true match total,
-		-- so show it as "N+" rather than a misleading exact figure.
+		-- A limited search does not give the total match count.
 		local shown = (#input > 0 and #matches >= result_limit) and (result_limit .. "+") or tostring(#matches)
 		vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, {
 			virt_text = { { ("(%s/%d)"):format(shown, #norm), "Comment" } },
@@ -222,16 +235,11 @@ function M.open(items, opts)
 		if closed then
 			return
 		end
+		filtered_input = input
 		pos_cache = {}
 		if #input == 0 then
 			matches = norm
 		else
-			-- Cap to the top-ranked matches: sorting the full match set of a
-			-- broad query (tens of thousands of items) dominates the cost, and
-			-- nobody scrolls a 65k list -- you refine the query instead. Also
-			-- use matchfuzzy over matchfuzzypos so we don't build a discarded
-			-- position array per match; positions for the few visible rows are
-			-- computed lazily in render().
 			matches = vim.fn.matchfuzzy(norm, input, { key = "text", limit = result_limit })
 		end
 
@@ -249,9 +257,7 @@ function M.open(items, opts)
 			return
 		end
 		input = new_input
-		-- Debounce: coalesce bursts of keystrokes so the (on large lists,
-		-- expensive) fuzzy match runs once typing settles rather than per key.
-		-- Each task supersedes the previous; close() cancels the pending sleep.
+		-- Closing the previous task cancels its delay.
 		if filter_task and not filter_task:completed() then
 			filter_task:close()
 		end
@@ -261,7 +267,20 @@ function M.open(items, opts)
 		end)
 	end
 
+	local function flush_filter()
+		if filter_task and not filter_task:completed() then
+			filter_task:close()
+		end
+		input = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] or ""
+		if input ~= filtered_input then
+			recompute()
+		end
+	end
+
 	local function try_resume(action)
+		if action ~= CANCEL then
+			flush_filter()
+		end
 		if resolve then
 			local done = resolve
 			resolve = nil
@@ -270,7 +289,7 @@ function M.open(items, opts)
 	end
 
 	local function set_keymaps()
-		local o = { buffer = buf, nowait = true }
+		local o = { buf = buf, nowait = true }
 		vim.keymap.set("i", "<CR>", function()
 			try_resume(ACCEPT)
 		end, o)
@@ -280,21 +299,16 @@ function M.open(items, opts)
 		vim.keymap.set("i", "<Esc>", function()
 			try_resume(CANCEL)
 		end, o)
-		vim.keymap.set("i", "<Down>", function()
-			idx = idx + 1
+		local function move(delta)
+			flush_filter()
+			idx = idx + delta
 			render()
+		end
+		vim.keymap.set("i", { "<Down>", "<C-n>" }, function()
+			move(1)
 		end, o)
-		vim.keymap.set("i", "<Up>", function()
-			idx = idx - 1
-			render()
-		end, o)
-		vim.keymap.set("i", "<C-n>", function()
-			idx = idx + 1
-			render()
-		end, o)
-		vim.keymap.set("i", "<C-p>", function()
-			idx = idx - 1
-			render()
+		vim.keymap.set("i", { "<Up>", "<C-p>" }, function()
+			move(-1)
 		end, o)
 		vim.keymap.set("i", "<C-s>", function()
 			try_resume(SPLIT)
@@ -307,21 +321,14 @@ function M.open(items, opts)
 	picker_count = picker_count + 1
 	local my_id = picker_count
 
-	-- The picker runs as a vim.async task: setup happens synchronously up to the
-	-- await, then the task suspends until a keymap/ModeChanged resolves it with
-	-- an action (or a newer picker closes it). on_complete cleans up for both the
-	-- resolved and the superseded (err = "closed") paths.
 	local task = vim.async.run(function()
-		saved_view = vim.fn.winsaveview()
-		saved_win = vim.api.nvim_get_current_win()
+		saved_view, saved_win = origin.view, origin.win
 
 		set_keymaps()
 		render()
 
-		vim._with({ noautocmd = true }, function()
+		noautocmd(function()
 			vim.api.nvim_set_current_win(win)
-		end)
-		vim._with({ noautocmd = true }, function()
 			vim.cmd.startinsert({ bang = true })
 		end)
 
@@ -336,12 +343,19 @@ function M.open(items, opts)
 		})
 		vim.api.nvim_create_autocmd("TextChangedI", {
 			group = augroup,
-			buffer = buf,
+			buf = buf,
 			callback = filter,
 		})
 		vim.api.nvim_create_autocmd("VimResized", {
 			group = augroup,
 			callback = render,
+		})
+		vim.api.nvim_create_autocmd("BufWipeout", {
+			group = augroup,
+			buf = buf,
+			callback = function()
+				try_resume(CANCEL)
+			end,
 		})
 
 		return vim.async.await(function(done)
@@ -353,7 +367,7 @@ function M.open(items, opts)
 	task:on_complete(function(err, result)
 		closed = true
 		resolve = nil
-		-- A superseding close() reports err = "closed"; treat it as a cancel.
+		-- Task:close() completes with an error, not a picker action.
 		if err then
 			result = CANCEL
 		end
@@ -366,20 +380,21 @@ function M.open(items, opts)
 				end)
 			end
 
-			if active_task == task or active_task == nil then
-				active_task = nil
+			local restore = active_task == task
+			if restore then
+				active_task, active_origin = nil, nil
 				vim.cmd.stopinsert()
-				if vim.api.nvim_win_is_valid(win) then
-					vim.api.nvim_win_close(win, true)
-				end
+			end
+			if vim.api.nvim_win_is_valid(win) then
+				vim.api.nvim_win_close(win, true)
+			end
+			if restore then
 				pcall(vim.api.nvim_set_current_win, saved_win)
 				pcall(vim.fn.winrestview, saved_view)
 			end
 
 			vim.defer_fn(function()
 				if result ~= CANCEL then
-					-- matches may hold copies (fuzzy fns copy dict items), so map
-					-- back to the original item by id to hand out the real value.
 					local m = matches[idx]
 					local item = m and norm[m.id]
 					if item then
@@ -393,12 +408,6 @@ function M.open(items, opts)
 	end)
 end
 
--- A normal-mode, numbered list picker. Unlike M.open (fuzzy, insert-mode),
--- this shows a fixed list where 1-9 and 0 jump directly to an item, <CR>
--- opens the item under the cursor, and `dd` removes an item from the list.
---   items: { { text = <string>, value = <any> }, ... }
---   opts.on_choice(value, action)  -- action is "edit" | "split" | "vsplit"
---   opts.on_delete(value, idx)     -- called before the item is removed
 function M.numbered(items, opts)
 	opts = opts or {}
 	setup_highlights()
@@ -433,9 +442,6 @@ function M.numbered(items, opts)
 		end
 		local lines = {}
 		local width = vim.fn.strdisplaywidth(title)
-		-- When items carry a `hint` (e.g. a containing dir), left-align the
-		-- primary text into a column so the eye scans one edge, then trail the
-		-- hint dimmed. `hint_cols` records byte ranges for the Comment extmarks.
 		local name_w = 0
 		for _, item in ipairs(items) do
 			if item.hint then
@@ -465,8 +471,7 @@ function M.numbered(items, opts)
 		vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 		vim.bo[buf].modifiable = false
 
-		-- Size the window once, from the initial list, and keep it fixed so
-		-- deleting an item (dd) doesn't shrink the float underneath the cursor.
+		-- Keep the window size fixed so item removal does not move the cursor.
 		if not sized and win and vim.api.nvim_win_is_valid(win) then
 			sized = true
 			local max_w = math.floor(vim.o.columns * 0.7)
@@ -544,7 +549,7 @@ function M.numbered(items, opts)
 	)
 	render()
 
-	local o = { buffer = buf, nowait = true, silent = true }
+	local o = { buf = buf, nowait = true, silent = true }
 	for i = 1, 10 do
 		vim.keymap.set("n", label(i), function()
 			choose(i)
@@ -581,7 +586,7 @@ function M.numbered(items, opts)
 	vim.keymap.set("n", "q", close, o)
 	vim.keymap.set("n", "<Esc>", close, o)
 
-	vim.api.nvim_create_autocmd("WinLeave", { buffer = buf, once = true, callback = close })
+	vim.api.nvim_create_autocmd("WinLeave", { buf = buf, once = true, callback = close })
 end
 
 function M.select(items, opts, on_choice)

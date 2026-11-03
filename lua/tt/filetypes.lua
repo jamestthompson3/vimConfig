@@ -1,22 +1,20 @@
 vim.filetype.add({
 	pattern = {
-		-- Objective-C/C++ (builtin detects .m as matlab, .mm as nroff)
-		[".*%.mm"] = "objc",
+		-- Neovim detects .m as MATLAB and .mm as nroff.
+		[".*%.mm"] = "objcpp",
 		[".*%.m"] = "objc",
 
-		-- Dockerfile (.dock extension is not builtin)
 		[".*%.dock"] = "dockerfile",
 
-		-- Web Development (.svelte -> html on purpose; builtin gives svelte)
+		-- Use HTML tools for Svelte files.
 		[".*%.svelte"] = "html",
 		[".*%.pcss"] = "css",
 
-		-- Configuration files (builtin detects these as jsonc, not json)
+		-- Use JSON instead of Neovim's JSONC detection.
 		[".*%.eslintrc"] = "json",
 		[".*%.babelrc"] = "json",
 		[".*%.huskyrc"] = "json",
 
-		-- Others (builtin detects .sys as bat, .wiki as mediawiki)
 		[".*%.sys"] = "dosbatch",
 		[".*%.wiki"] = "wiki",
 	},

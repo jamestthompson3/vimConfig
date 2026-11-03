@@ -2,9 +2,7 @@ local node = require("tt.nvim_utils").nodejs
 
 local brew_clang_tidy = "/opt/homebrew/opt/llvm/bin/clang-tidy"
 
--- Resolve node binaries for the buffer that starts the client, not for the
--- buffer that was current when this file loaded.
-local function languages()
+local function languages(root)
 	local result = {}
 	local function add(fts, tool)
 		for _, ft in ipairs(fts) do
@@ -13,23 +11,22 @@ local function languages()
 		end
 	end
 
-	local eslint_d = node.find_node_executable("eslint_d")
+	local eslint_d = node.find_node_executable("eslint_d", root)
 	if eslint_d ~= "" then
 		add({ "javascript", "typescript", "javascriptreact", "typescriptreact" }, {
-			lintCommand = eslint_d .. " -f unix --stdin --stdin-filename ${INPUT}",
+			lintCommand = vim.fn.shellescape(eslint_d) .. " -f unix --stdin --stdin-filename ${INPUT}",
 			lintStdin = true,
 			lintFormats = { "%f:%l:%c: %m" },
 			lintIgnoreExitCode = true,
-			-- Only lint when the project has an eslint config (replaces the old
-			-- per-ftplugin `vim.fs.root(eslint_roots)` gate before vim.lsp.start).
 			rootMarkers = require("tt.constants").eslint_roots,
 		})
 	end
 
-	local stylelint = node.find_node_executable("stylelint")
+	local stylelint = node.find_node_executable("stylelint", root)
 	if stylelint ~= "" then
 		add({ "scss", "css" }, {
-			lintCommand = stylelint .. " --no-color --formatter compact --stdin --stdin-filename ${INPUT}",
+			lintCommand = vim.fn.shellescape(stylelint)
+				.. " --no-color --formatter compact --stdin --stdin-filename ${INPUT}",
 			lintStdin = true,
 			lintFormats = { "%.%#: line %l, col %c, %trror - %m", "%.%#: line %l, col %c, %tarning - %m" },
 			rootMarkers = { ".stylelintrc", "package.json" },
@@ -52,6 +49,7 @@ end
 
 return {
 	cmd = { "efm-langserver" },
+	root_dir = node.root_dir({ "package.json", ".git", "root_marker" }),
 	filetypes = {
 		"javascript",
 		"typescript",
@@ -68,6 +66,6 @@ return {
 		languages = {},
 	},
 	before_init = function(_, config)
-		config.settings.languages = languages()
+		config.settings.languages = languages(config.root_dir or config.cmd_cwd or vim.fn.getcwd())
 	end,
 }

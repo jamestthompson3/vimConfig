@@ -27,7 +27,7 @@ function M.splashscreen()
 		vim.wo[0].cursorcolumn = false
 		M.simpleMRU()
 		vim.cmd([[:34]])
-		vim.keymap.set("n", "<CR>", ":e<cWORD><CR>", { buffer = true, noremap = true, silent = true })
+		vim.keymap.set("n", "<CR>", ":e<cWORD><CR>", { buf = 0, noremap = true, silent = true })
 		vim.bo[0].modified = false
 		vim.bo[0].modifiable = false
 	end
@@ -71,7 +71,6 @@ function M.winMove(key)
 	end
 end
 
--- Session Management
 function M.createSessionName(custom_name)
 	local git_root = vim.fs.root(0, ".git")
 	local project_name
@@ -96,7 +95,7 @@ function M.createSessionName(custom_name)
 end
 
 function M.saveSession(session_name)
-	-- When called as autocmd callback, session_name is an event table
+	-- Autocommand callbacks pass an event table, not a session name.
 	if type(session_name) == "table" then
 		session_name = nil
 	end
@@ -111,7 +110,6 @@ function M.sourceSession(session_name)
 	if vim.fn.filereadable(sessionFile) == 1 then
 		vim.cmd("so " .. sessionFile)
 	else
-		-- Session doesn't exist, create it
 		M.saveSession(session_name)
 		vim.notify("Created new session: " .. sessionName, vim.log.levels.INFO)
 	end
@@ -148,10 +146,10 @@ end
 function M.switchSourceHeader()
 	local client = vim.lsp.get_clients({ bufnr = 0, name = "clangd" })[1]
 	if client then
-		local params = { uri = vim.uri_from_bufnr(0) }
+		local params = { uri = vim.uri.from_buf(0) }
 		client:request("textDocument/switchSourceHeader", params, function(err, uri)
 			if not err and uri and uri ~= "" then
-				vim.cmd.edit(vim.uri_to_fname(uri))
+				vim.cmd.edit(vim.uri.to_fname(uri))
 			else
 				vim.notify("clangd: no alternate file found", vim.log.levels.WARN)
 			end
@@ -215,11 +213,9 @@ function M.scratch()
 	vim.bo.bufhidden = "wipe"
 	vim.bo.buflisted = false
 	vim.bo.swapfile = false
-	vim.keymap.set("n", "q", "<C-w>c", { buffer = true })
+	vim.keymap.set("n", "q", "<C-w>c", { buf = 0 })
 end
 
--- A reminder popup for the `S` key: how to do the old `:%s///g` edits with the
--- native multicursor (|multicursor|, Nvim 0.13). Read-only float; q/<Esc> close.
 function M.multicursorHelp()
 	local lines = {
 		"",
@@ -273,8 +269,8 @@ function M.multicursorHelp()
 			api.nvim_win_close(win, true)
 		end
 	end
-	vim.keymap.set("n", { "q", "<Esc>", "<CR>" }, close, { buffer = buf, nowait = true, silent = true })
-	api.nvim_create_autocmd("BufLeave", { buffer = buf, once = true, callback = close })
+	vim.keymap.set("n", { "q", "<Esc>", "<CR>" }, close, { buf = buf, nowait = true, silent = true })
+	api.nvim_create_autocmd("BufLeave", { buf = buf, once = true, callback = close })
 end
 
 function M.profile()

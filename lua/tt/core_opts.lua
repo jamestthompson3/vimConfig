@@ -1,9 +1,8 @@
-local is_windows = require("tt.platform").is_windows
+local platform = require("tt.platform")
 
--- fish is only for :terminal (see tt.platform.term_shell). sh starts faster for
--- :! and system(), and does not print interactive shell output into the result.
-if not is_windows then
-	vim.o.shell = "sh"
+-- Built-in :terminal uses 'shell' when no command is given.
+if not platform.is_windows then
+	vim.o.shell = platform.term_shell or "sh"
 end
 
 vim.ui.select = require("tt.pick").select

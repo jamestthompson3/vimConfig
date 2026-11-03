@@ -1,14 +1,12 @@
 local M = {}
 
 function M.init()
-	local lines = vim.api.nvim_buf_line_count(0)
-	if lines > 30000 then
-		return
-	end
-
 	require("treesitter-context").setup({
 		enable = true,
-		max_lines = -1,
+		max_lines = 5,
+		on_attach = function(buf)
+			return not require("tt.buffer").is_large(buf)
+		end,
 		multiwindow = true,
 		trim_scope = "outer",
 	})

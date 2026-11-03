@@ -9,11 +9,17 @@ return {
 		"typescriptreact",
 		"typescript.tsx",
 	},
-	cmd = { node.find_node_executable("typescript-language-server"), "--stdio" },
-	init_options = {
-		hostInfo = "neovim",
-		tsserver = { path = node.get_node_lib("typescript/lib") },
-	},
-	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+	cmd = node.lsp_cmd("typescript-language-server", { "--stdio" }),
+	init_options = { hostInfo = "neovim" },
+	before_init = function(params, config)
+		local lib = node.get_node_lib("typescript/lib", config.root_dir or config.cmd_cwd or vim.fn.getcwd())
+		if lib ~= "" then
+			params.initializationOptions.tsserver = { path = vim.fs.joinpath(lib, "tsserver.js") }
+		end
+	end,
+	root_dir = node.root_dir(
+		{ "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+		"typescript-language-server"
+	),
 	workspace_required = false,
 }

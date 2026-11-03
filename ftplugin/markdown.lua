@@ -7,7 +7,7 @@ end
 
 vim.keymap.set("ia", "dateheader", function()
 	return os.date("%Y %b %d")
-end, { buffer = true, expr = true })
+end, { buf = 0, expr = true })
 
 function M.composer()
 	vim.wo[0].wrap = true
@@ -46,12 +46,12 @@ function M.asyncDocs()
 	end)
 end
 
-vim.api.nvim_create_user_command("Compose", function()
+vim.api.nvim_buf_create_user_command(0, "Compose", function()
 	M.composer()
 end, {})
 
-vim.keymap.set("n", "j", "gj", { buffer = true })
-vim.keymap.set("n", "k", "gk", { buffer = true })
-vim.keymap.set("n", "<leader>r", M.asyncDocs, { buffer = true })
+vim.keymap.set("n", "j", "gj", { buf = 0 })
+vim.keymap.set("n", "k", "gk", { buf = 0 })
+vim.keymap.set("n", "<leader>r", M.asyncDocs, { buf = 0 })
 
 return M

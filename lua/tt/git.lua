@@ -36,7 +36,6 @@ function M.diff(file)
 			local work_buf = fn.bufnr(fullpath)
 			local head_buf = fn.bufnr(tmpfile)
 			if head_buf ~= -1 then
-				-- make the HEAD snapshot obviously disposable + unsaveable
 				vim.bo[head_buf].buftype = "nofile"
 				vim.bo[head_buf].bufhidden = "wipe"
 				vim.bo[head_buf].modifiable = false
@@ -47,7 +46,7 @@ function M.diff(file)
 				if b ~= -1 then
 					vim.keymap.set("n", "q", function()
 						teardown(work_buf, head_buf)
-					end, { buffer = b, desc = "Close diff, return to working file" })
+					end, { buf = b, desc = "Close diff, return to working file" })
 				end
 			end
 		end)
@@ -95,8 +94,7 @@ function M.blame()
 		end
 		local text = vim.split(result.stdout, "\n")
 		vim.schedule(function()
-			-- The cursor may have moved (which also clears the blame) before git
-			-- returned; only draw if we're still on the line we asked about.
+			-- The cursor can move before Git returns. Discard results for other lines.
 			if not api.nvim_buf_is_valid(buf) or api.nvim_get_current_buf() ~= buf then
 				return
 			end
@@ -119,9 +117,7 @@ function M.blame()
 	end)
 end
 
--- Open the current file on the remote (GitHub) at the cursor line, or at the
--- selected range in visual mode. The URL is also copied to the + register so
--- it can be shared. Relies on the `git-open --blob --line` extension.
+-- Requires git-open with --blob and --line support.
 function M.open()
 	local file = fn.expand("%:p")
 	if file == "" then
@@ -135,13 +131,12 @@ function M.open()
 		vim.notify("Not in a git repository", vim.log.levels.WARN)
 		return
 	end
-	-- path from repo root, which is what `git-open --blob` expects
+	-- git-open requires a path relative to the repository root.
 	local relpath = file:sub(#vim.trim(toplevel.stdout) + 2)
 
 	local line
 	local mode = api.nvim_get_mode().mode
 	if mode == "v" or mode == "V" or mode == "\22" then
-		-- visual: use the selection start/end lines
 		local lo = fn.line("v")
 		local hi = fn.line(".")
 		if lo > hi then
@@ -198,8 +193,8 @@ function M.changedFiles()
 	local buf = api.nvim_create_buf(false, true)
 	api.nvim_buf_set_lines(buf, 0, -1, true, files)
 	api.nvim_win_set_buf(0, buf)
-	vim.keymap.set("n", "<CR>", jumpToDiff, { buffer = buf })
-	vim.keymap.set("n", "Q", ":tabclose<CR>", { buffer = buf })
+	vim.keymap.set("n", "<CR>", jumpToDiff, { buf = buf })
+	vim.keymap.set("n", "Q", ":tabclose<CR>", { buf = buf })
 end
 
 return M
