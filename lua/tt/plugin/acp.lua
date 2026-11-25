@@ -132,7 +132,9 @@ local function handle_fs_write(msg)
 		local buf = vim.fn.bufadd(p.path)
 		vim.fn.bufload(buf)
 		vim.bo[buf].modifiable = true
-		vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(p.content or "", "\n", { plain = true }))
+		-- A String keeps exact bytes: a trailing NL ends the last line instead of
+		-- adding a blank one (and skips the vim.split round-trip).
+		vim.api.nvim_buf_set_lines(buf, 0, -1, false, p.content or "")
 		-- noautocmd so format-on-save et al don't fight the agent's write.
 		vim.api.nvim_buf_call(buf, function()
 			vim.cmd("silent noautocmd keepalt write!")
@@ -381,6 +383,34 @@ local function send_prompt(sessionId, blocks, cb)
 			cb(err and nil or (result and result.stopReason))
 		end
 	end)
+end
+
+-- pi records a failed provider turn as an assistant message with
+-- stopReason "error" and the failure text in `errorMessage` (e.g. an expired
+-- AWS SSO session). pi-acp ends such turns with stopReason "end_turn" and no
+-- agent message, so without this check the chat looks like pi never replied.
+-- Read the tail of pi's own session file to surface the recorded error.
+local function provider_error(sessionId)
+	if not sessionId then
+		return nil
+	end
+	local agent_dir = vim.env.PI_CODING_AGENT_DIR or (vim.fn.expand("~") .. "/.pi/agent")
+	local path = vim.fn.glob(vim.fs.normalize(agent_dir) .. "/sessions/*/*_" .. sessionId .. ".jsonl")
+	local file = path ~= "" and io.open(path, "r")
+	if not file then
+		return nil
+	end
+	file:seek("end", -65536)
+	local tail = file:read("*a")
+	file:close()
+	local err
+	for line in tail:gmatch("[^\r\n]+") do
+		local ok, rec = pcall(vim.json.decode, line)
+		if ok and rec and rec.type == "message" and rec.message and rec.message.role == "assistant" then
+			err = rec.message.stopReason == "error" and rec.message.errorMessage or nil
+		end
+	end
+	return err
 end
 
 local function cancel(sessionId)
@@ -772,6 +802,16 @@ function M.submit(chat)
 				if stop and stop ~= "end_turn" then
 					chat.entries[#chat.entries + 1] = { kind = "status", text = "[" .. stop .. "]", turn = chat.turn }
 				end
+				-- pi-acp reports provider failures as a clean end_turn; recover the
+				-- real error from pi's session file so silent turns are explained.
+				if stop == "end_turn" then
+					local err = provider_error(chat.sessionId)
+					if err then
+						chat.entries[#chat.entries + 1] =
+							{ kind = "status", text = "[error] " .. err, turn = chat.turn }
+						vim.notify("acp: " .. err, vim.log.levels.ERROR)
+					end
+				end
 				render(chat)
 				focus_input(chat)
 			end)
@@ -820,6 +860,14 @@ function M.toggle_verbose(chat)
 	vim.notify("acp: verbose trace " .. (chat.verbose and "on" or "off"))
 end
 
+--- Toggle the live [thinking] trace. Completed turns and the saved
+--- transcript never include it either way.
+function M.toggle_thoughts(chat)
+	chat.show_thoughts = not chat.show_thoughts
+	render(chat)
+	vim.notify("acp: thoughts " .. (chat.show_thoughts and "shown" or "hidden"))
+end
+
 --- The chat owning the current buffer, if any.
 function M.current_chat()
 	return chats[vim.api.nvim_get_current_buf()]
@@ -838,6 +886,7 @@ function M.new_chat(root)
 		status = "idle",
 		accept_edits = false,
 		verbose = false,
+		show_thoughts = false,
 		turn = 0,
 		entries = {},
 		pending_refs = {},
@@ -879,6 +928,9 @@ function M.new_chat(root)
 	vim.keymap.set("n", "gV", function()
 		M.toggle_verbose(chat)
 	end, vim.tbl_extend("force", opts, { desc = "acp: toggle verbose tools" }))
+	vim.keymap.set("n", "gT", function()
+		M.toggle_thoughts(chat)
+	end, vim.tbl_extend("force", opts, { desc = "acp: toggle thinking trace" }))
 	vim.keymap.set("n", "[[", function()
 		M.jump_message(chat, -1)
 	end, vim.tbl_extend("force", opts, { desc = "acp: previous message" }))
@@ -1022,7 +1074,6 @@ function M.save(opts)
 		vim.notify("acp: nothing to save yet", vim.log.levels.WARN)
 		return
 	end
-	local lines = vim.split(content, "\n", { plain = true })
 
 	if opts.path and opts.path ~= "" then
 		local path = opts.path
@@ -1033,12 +1084,20 @@ function M.save(opts)
 			path = vim.fs.normalize("~/notes/" .. path)
 		end
 		vim.fs.mkdir(vim.fs.dirname(path), { parents = true })
-		vim.fn.writefile(lines, path)
+		-- writefile() appends NL per item, which would add a blank line when
+		-- the transcript already ends in a newline; write exact bytes instead.
+		local file = io.open(path, "w")
+		if not file then
+			vim.notify("acp: cannot write " .. path, vim.log.levels.ERROR)
+			return
+		end
+		file:write(content)
+		file:close()
 		vim.cmd("split " .. vim.fn.fnameescape(path))
 		vim.notify("acp: saved: " .. path)
 	else
 		-- Scratch reference buffer; user decides whether to :w it (buftype "").
-		vim_util.scratch_split(lines, { buftype = "", bufhidden = "hide", filetype = "acp" })
+		vim_util.scratch_split(vim.split(content, "\n", { plain = true }), { buftype = "", bufhidden = "hide", filetype = "acp" })
 	end
 end
 
@@ -1158,6 +1217,7 @@ function M.persist(chat)
 		sessionId = chat.sessionId,
 		accept_edits = chat.accept_edits,
 		verbose = chat.verbose,
+		show_thoughts = chat.show_thoughts,
 		turn = chat.turn,
 		updated = os.time(),
 		entries = chat.entries,
@@ -1184,6 +1244,7 @@ local function restore(rec)
 	chat.turn = rec.turn or 0
 	chat.accept_edits = rec.accept_edits or false
 	chat.verbose = rec.verbose or false
+	chat.show_thoughts = rec.show_thoughts == true
 	chat.sessionId = rec.sessionId
 	if rec.name then
 		if not pcall(vim.api.nvim_buf_set_name, chat.buf, rec.name) then

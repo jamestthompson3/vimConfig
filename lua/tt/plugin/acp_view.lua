@@ -49,7 +49,7 @@ local function entry_renderers(push, push_text, messages, highlight)
 			push("")
 		end,
 		status = function(entry)
-			push_text(entry.text, entry.text == "[error]" and "AcpFailure" or "AcpNotice")
+			push_text(entry.text, vim.startswith(entry.text, "[error]") and "AcpFailure" or "AcpNotice")
 			push("")
 		end,
 		thought = function(entry)
@@ -193,6 +193,9 @@ function M.lines(chat)
 		push("")
 	end
 	local renderers = entry_renderers(push, push_text, messages, highlight)
+	if not chat.show_thoughts then
+		renderers.thought = nil
+	end
 	local entries, first, wrote = chat.entries, 1, false
 	while first <= #entries do
 		local stop = turn_end(entries, first)

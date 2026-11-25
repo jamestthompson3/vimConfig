@@ -1,8 +1,6 @@
-*acp.txt*	Drive Claude Code from neovim over the Agent Client Protocol
+*acp.txt*	Drive pi from neovim over the Agent Client Protocol
 
-		    ╔═╗ ╔═╗ ╔═╗   Claude Code, in buffers
-		    ║A║ ║C║ ║P║   no terminal, no API key
-		    ╚═╝ ╚═╝ ╚═╝
+		    ACP - pi in plain-text buffers
 
 Author:  Taylor Thompson
 Source:  lua/tt/plugin/acp.lua
@@ -24,27 +22,34 @@ CONTENTS						*acp* *acp-contents*
 ==============================================================================
 1. INTRODUCTION						*acp-intro*
 
-neovim is an ACP (Agent Client Protocol) *client*. It speaks JSON-RPC to the
-@zed-industries/claude-code-acp bridge, which wraps the Claude Code CLI. Chats
-live in ordinary buffers; the agent's file edits arrive as real buffer writes
-you can |u|ndo.
+neovim is an ACP (Agent Client Protocol) *client*. It speaks JSON-RPC to
+pi-acp, which launches your installed `pi --mode rpc` and translates between
+the protocols. Raw pi RPC is NOT ACP and cannot replace the adapter directly.
 
-It runs on your Claude Pro/Max subscription (the bridge uses your `claude`
-login), so there is no per-token API billing. Keep ANTHROPIC_API_KEY OUT of
-neovim's environment or billing silently switches to the API; |:AgentStatus|
-and a startup warning help you notice.
+Chats live in ordinary buffers. Pi uses its own provider, model, credentials,
+skills, extensions and session storage. Configure those in interactive `pi`
+first; billing follows your selected pi provider, not a fixed subscription.
 
-One bridge subprocess serves many sessions; one ACP session backs each chat
-buffer. The bridge is spawned lazily on your first send.
+The adapter is spawned lazily on your first send. Each chat has its own session.
+Pi-acp stops other pi processes when creating/loading a session, then reloads
+sessions from pi's files as needed. The client allows one active turn or ping:
+finish or cancel it before sending from another chat or loading a saved session.
+You can still compose drafts and switch between chat buffers while pi works.
 
 ==============================================================================
 2. REQUIREMENTS						*acp-requirements*
 
-- Neovim 0.11+ (uses vim.system, vim.fs, vim.pack-era APIs).
-- `npx` on PATH (Node). The bridge is fetched on first use via
-  `npx -y @zed-industries/claude-code-acp`.
-- A logged-in Claude Code CLI: run `claude /login` (or `claude setup-token`)
-  once in a terminal.
+- Neovim 0.13 nightly, as required by this configuration.
+- Node.js 22.19+ and `npx` on PATH. The first send fetches the pinned adapter with
+  `npx --yes pi-acp@0.0.34`, so it needs network access.
+- A configured `pi` executable on PATH (adapter requires pi 0.81.0+). Run `pi`
+  in a terminal to choose a model and use `/login` if your provider needs it.
+
+Override the launch command before the first send, for example with a globally
+installed adapter: >lua
+	vim.g.acp_bridge_cmd = { "pi-acp" }
+<
+The override must start an ACP v1 server, NOT `pi --mode rpc` directly.
 
 ==============================================================================
 3. COMMANDS						*acp-commands*
@@ -68,11 +73,11 @@ buffer. The bridge is spawned lazily on your first send.
 			|acp-mappings|.
 
 							*:AgentSave*
-:AgentSave [name]	Save Claude's last answer to a file. A bare [name] is
+:AgentSave [name]	Save pi's last answer to a file. A bare [name] is
 :AgentSave! [name]	written under ~/notes/; an absolute or ~-path is used
 			as given; with no [name] it opens a scratch buffer you
 			can |:w| yourself. With [!], saves the whole transcript
-			(user + Claude turns) instead of just the last answer.
+			(user + pi turns) instead of just the last answer.
 
 							*:AgentPersist*
 :AgentPersist		Save the current chat to disk so it can be reopened and
@@ -139,36 +144,80 @@ Inside a chat buffer (buffer-local): ~
 	Q		Cancel the in-flight turn
 	ga		Toggle accept-edits	|:AgentAccept|
 	gV		Toggle verbose tools	|:AgentVerbose|
+	[[ / ]]		Previous / next message (counts supported)
+	gO		Pick a visible message
 
 <CR> is left unmapped, so it inserts a newline; messages can be multi-line.
 
 ==============================================================================
 5. THE CHAT BUFFER					*acp-chat-buffer*
 
-A chat is an unlisted, soft-wrapping scratch buffer named `acp://...`. Because
-it is unlisted it stays out of |:ls| and |:bnext|; reach chats with
+A chat is an unlisted, soft-wrapping buffer named `acp://...`. It uses the `acp`
+filetype: plain text, ASCII labels, no Markdown rendering, no concealment, and
+no line-number gutters. Pi's response text is kept verbatim, including code,
+Markdown and Unicode; only the interface labels and status tags are ASCII.
+
+Because chats are unlisted, they stay out of |:ls| and |:bnext|; reach them with
 |:AgentChats|.
 
+Response formatting ~
+Each ordinary message carries display instructions asking the agent to use short
+paragraphs, blank lines, plain section labels, simple bullets or numbered steps.
+Inline backticks and fenced code blocks are allowed. Markdown/ASCII tables,
+HTML layouts, decorative markup/icons, diagrams, LaTeX, images and footnotes are
+avoided; comparisons should use labeled lists, and links should use plain URLs.
+
+These instructions are repeated for ordinary prompts, including after resume or
+compaction. They do not appear in the buffer or exported transcript. Slash
+commands are forwarded unchanged rather than having extra arguments appended.
+This is agent guidance, not an output filter: responses and attachments remain
+verbatim, and required code/data/file formats are not rewritten by the client.
+
+Highlighting ~
+Native Neovim highlights color the generated labels and status tags, without
+parsing or concealing answer text. Literal `Pi:`, `Input>` or `[fail]` lines in
+an answer are not styled as interface elements. Colors refresh on colorscheme
+changes and use these overridable groups:
+
+	AcpUser / AcpAssistant	Message role labels
+	AcpInput		Input prompt
+	AcpPending / AcpRunning	Waiting and active tools/plan steps
+	AcpSuccess / AcpFailure	Success, failure and failed-tool counts
+	AcpAttachment		File references
+	AcpHeading		Plan and attachment headings
+	AcpMuted / AcpSeparator	Thoughts, summaries and dividers
+	AcpNotice		Cancellation and other turn-end notices
+
+Defaults link to standard theme groups (DiagnosticInfo, DiagnosticOk,
+DiagnosticError, DiagnosticWarn, Title, Comment and NonText). For example: >lua
+	vim.api.nvim_set_hl(0, "AcpInput", { link = "Title" })
+<
+No Markdown renderer or Treesitter parser is started for the chat.
+
 Composing and sending ~
-Type your message under the trailing `❯ You` prompt and send it by saving the
+Type your message under the trailing `Input>` prompt and send it by saving the
 buffer with |:w|. The buffer is 'buftype' "acwrite", so :w is routed to the
 agent, not to a file. If you :q with unsent text, Vim warns as usual; use :q! to
 discard.
 
 Navigating ~
-Turns are markdown headers (`## You` / `## Claude`), so the bundled markdown
-ftplugin's motions work: `[[` / `]]` jump to the previous / next header and `gO`
-lists a table of contents. The input prompt (`❯ You`) is deliberately not a
-header, so a single `[[` from the input jumps straight to the last reply.
+Messages have `You:` / `Pi:` labels. Buffer-local `[[` / `]]` jump to the
+previous / next message; counts work (for example `2[[`). `gO` opens a picker
+of visible messages. The input prompt is excluded from message navigation, so
+`[[` from the input goes straight to the last reply. Prompt-like or heading-like
+text inside a message is not treated as interface structure.
 
 Slash commands ~
 						*acp-slash-commands*
-A message beginning with `/` runs a Claude Code slash command -- there is no
-separate mechanism, it is just sent as the message. This covers built-ins
-(`/compact`, `/context`, `/init`, `/review`, `/security-review`, `/pr-comments`,
-`/insights`) and every skill you have (`/task`, `/nag`, `/note-format`,
-`/address-pr-comments`, ...), so your whole todo/PR/notes workflow is available
-in-chat.
+A message beginning with `/` is sent to pi-acp. Supported adapter commands
+include `/compact [instructions]`, `/autocompact on|off|toggle`, `/session`,
+`/name <name>` and `/export`. Prompt templates and enabled skills are also
+available; skill commands use `/skill:name`.
+
+The adapter does not advertise extension-only commands. Pi's interactive-only
+commands and UI do not all work over ACP: input/editor dialogs are cancelled,
+while select/confirm dialogs can use the permission picker. Choose the default
+model in interactive pi; this client has no model-selection UI.
 
 Typing `/` at the start of a message pops a completion menu of the available
 commands (omni-completion, also on <C-x><C-o>), sourced from what the agent
@@ -176,37 +225,59 @@ advertises -- so it grows automatically as you add skills. The list is known
 after a chat's first turn and cached, so new chats offer it immediately.
 
 To compact: send `/compact` (optionally `/compact <instructions>`). It compacts
-the agent's context (the resumed Claude session), which is what saves tokens;
+the agent's context (the resumed pi session), which is what saves tokens;
 your chat buffer transcript is left intact.
 
 Streaming and rendering ~
-Claude's reply streams into the buffer under `## Claude`. While a turn is in
-flight you see it live -- intermediate messages, thoughts (`> 💭` blockquote), a
-plan checklist, and tool activity.
+Replies stream under `Pi:`. An active turn ends with the status line
+`[working] Ctrl-C to cancel`; the buffer is read-only until the turn finishes.
+Thoughts use `[thinking]` and plans use plain checkbox rows.
 
-Once a turn completes it COLLAPSES so the actionable result isn't buried in
-narration: the question, a single dim line >
-	› 6 tool calls
-<(failures noted, e.g. `, 1 failed`), and the final answer as the sole
-`## Claude` block. Toggle |:AgentVerbose| (gV) to expand a chat back to the full
-step-by-step trace.
+Quiet mode keeps the question, a tools summary such as `[tools] 6 calls, 1 failed`,
+and the final answer. Toggle |:AgentVerbose| (gV) to show the full trace. Tool
+states use `[wait]`, `[run]`, `[ok]` and `[fail]` rather than icons or markup.
 
-A horizontal rule (`---`) separates each turn and the input region.
+A typical completed turn looks like: >
+	You:
 
-While the agent is working, markview rendering is paused (you see raw markdown)
-so it isn't repainting the buffer on every streamed delta; it re-renders when the
-turn finishes -- which doubles as an at-a-glance "the agent is done" cue.
+	Check the function.
+
+	[tools] 2 calls
+
+	Pi:
+
+	The function looks correct.
+
+	----------------
+
+	Input>
+<
+The divider separates turns and the input region. There is no rendering plugin
+or mode switch around streaming.
 
 Cancelling ~
-Press <C-c> or Q to abort the current turn (sends session/cancel).
+Press <C-c> or Q to abort the current turn (sends session/cancel). A plain
+`[cancelled]` status is shown without hiding the partial answer.
+
+Provider failures ~
+pi-acp reports a failed provider turn (bad credentials, expired AWS SSO,
+network error) as a clean end-of-turn, so the chat would otherwise look like
+pi never answered. After each turn the client checks pi's own session file
+(`~/.pi/agent/sessions/`, or $PI_CODING_AGENT_DIR); when pi recorded
+stopReason "error", the failure text is shown as an `[error]` status line and
+in |:messages|.
 
 Permissions & accept-edits ~
-When the agent wants to edit a file or run a command it asks for permission in a
-floating numbered picker whose title is the requested action; press 1 (Always
-Allow), 2 (Allow), or 3 (Reject). <Esc> or q dismisses as cancelled. Choosing
-"Always Allow", or toggling accept-edits with ga / |:AgentAccept|, auto-approves
-further requests in that chat. Edits appear in their real buffers and are
-|u|ndoable.
+Pi-acp does NOT request ACP permission for ordinary pi tools. Pi reads/writes
+files and runs commands locally under its own policies and extensions. Neither
+ga nor |:AgentAccept| is a permission guard for those tools.
+
+When an adapter does send an ACP permission request (including supported pi
+extension dialogs), options appear in a numbered picker. <Esc> or q cancels.
+Accept-edits auto-selects an allow option for subsequent ACP requests only.
+
+Pi does not delegate filesystem operations to Neovim. Its edits are disk writes,
+not individual editor API edits; do not assume per-edit undo integration.
 
 ==============================================================================
 6. CONTEXT & CAPTURE					*acp-context*
@@ -217,18 +288,21 @@ Attach code as context so the agent sees exactly what you mean:
 - |:AgentSend| / <leader>as (visual) queues the selection, labelled
   `file:line`.
 
-Queued items show as a `### 📎 attached` block above the input and travel with
-your next message as embedded resource blocks (they appear as `> 📎 ...` in the
-sent turn). Attaching also names the chat after the file, e.g.
+Queued items show under `Attached:` above the input, with `[file] path` labels.
+They travel with your next message as embedded resource blocks; sent messages
+also show their `[file]` labels. Attaching names the chat after the file, e.g.
 `acp://src/audio/player.ts`, so it is identifiable in |:AgentChats|.
 
-Reads honour your editor state: when the agent reads a file you have open, it
-gets the LIVE buffer contents, including unsaved edits.
+Pi reads files from disk, not from live Neovim buffers. Save before asking it to
+edit a file, or attach unsaved text explicitly with |:AgentRef| / |:AgentSend|.
+After a turn, |:checktime| reloads unmodified buffers when 'autoread' is enabled.
+Modified buffers are not overwritten; reconcile those changes manually.
 
 Saving answers ~
 |:AgentSave| turns a reply into a reference. With a name it writes under
-~/notes/; with [!] it saves the whole transcript; with no argument it opens a
-scratch buffer for you to :w where you like.
+~/notes/; with [!] it saves a plain-text `You:` / `Pi:` transcript; with no
+argument it opens an `acp` reference buffer for you to :w where you like.
+Saving the last answer alone leaves its text unchanged.
 
 ==============================================================================
 7. PERSISTENCE						*acp-persistence*
@@ -238,15 +312,20 @@ transcript and the live agent session (so you can keep going with full context).
 
 Saving is manual: |:AgentPersist| (<leader>ap) writes the current chat to
 `stdpath("state")/acp/<sessionId>.json` -- the transcript plus the sessionId,
-cwd, and flags. Only a chat that has sent at least one turn (so it has a
-sessionId) can be saved.
+cwd, flags and bridge command. Only a chat that has sent at least one turn
+(so it has a sessionId) can be saved.
 
 Reopening is manual: |:AgentSessions| (<leader>al) lists saved sessions (newest
 first, by project and time) in the numbered picker. Choosing one recreates the
-buffer, renders the saved transcript, and calls `session/load` to reconnect the
-Claude session -- verified to recall earlier context across a full restart.
-Resume relies on Claude Code's own per-project session store, so it needs the
-same cwd (persisted in the record) and that Claude hasn't expired the session.
+buffer and renders the saved transcript. If the saved bridge command matches,
+it calls `session/load` to reconnect the pi session. This needs pi's original
+session files and the adapter's mapping in ~/.pi/pi-acp/session-map.json.
+
+Older records without bridge metadata, including saved Claude chats, and records
+from another bridge reopen as transcripts only. A warning explains that the next
+message starts a fresh session; old transcript text is NOT imported into pi's
+context. Changing the bridge command (including its pinned version) also disables
+automatic resume of records saved with the previous command.
 
 Files are never pruned automatically; delete `stdpath("state")/acp/*.json` to
 clean up.
@@ -255,7 +334,7 @@ clean up.
 8. PROCESS LIFECYCLE					*acp-lifecycle*
 
 The bridge is spawned on first send and terminated automatically on VimLeave
-(the whole `npx → node` tree is reaped). A hard kill of neovim (SIGKILL, crash)
+(the `npx -> pi-acp -> pi` process tree is stopped). A hard kill (SIGKILL, crash)
 cannot be caught and may leave the bridge running.
 
 To find and reap survivors:
@@ -263,27 +342,29 @@ To find and reap survivors:
 - |:AgentStatus| lists the tracked bridge and every running bridge process.
 - |:AgentStop| terminates the bridge this instance spawned.
 - From a shell: >
-	pgrep -fl claude-code-acp    " list
-	pkill  -f  claude-code-acp    " kill all
+	pgrep -fl pi-acp    " list
+	pkill  -f  pi-acp    " kill all pi-acp adapters
 <
 ==============================================================================
 9. TROUBLESHOOTING					*acp-troubleshooting*
 
 Bridge won't start / nothing streams ~
-Confirm `claude` is logged in (`claude /login`) and that
-`npx @zed-industries/claude-code-acp` runs by hand. Run |:AgentPing|.
+Confirm `pi` is on PATH and works in a terminal with your selected provider.
+Check `npx --yes pi-acp@0.0.34` by hand and use |:AgentPing| / |:AgentLog|.
+If g:acp_bridge_cmd points at raw pi RPC, remove that override or point it at
+an ACP adapter instead. The first adapter fetch needs network access.
 
-Billing looks like API usage ~
-Ensure ANTHROPIC_API_KEY is empty in neovim's environment; the plugin warns at
-spawn if it is set.
+Authentication / billing ~
+Configure credentials with pi's `/login` or your provider's environment variables.
+Pi's provider settings determine billing; Claude Code login is not used.
 
 Agent sees stale file contents ~
-It reads the live buffer only if the file is loaded; otherwise it reads disk.
-Open the file (or :w it) to sync.
+Pi reads disk. Save the file first or attach its current unsaved contents with
+|:AgentRef|. Inspect modified buffers yourself after pi changes files on disk.
 
 Permission prompt never appears ~
-The chat is probably in accept-edits mode (ga toggles it; watch for the
-"accept-edits on/off" notification).
+Normal pi tools do not request ACP permission. The accept-edits toggle only
+affects requests the adapter actually sends; it does not sandbox pi.
 
 Orphaned bridge processes ~
 See |acp-lifecycle|.
